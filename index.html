@@ -49,34 +49,119 @@
     <!-- SCREEN 1: HOME -->
     <section id="home" class="screen active">
       <div class="hero">
-        <div class="container">
+        <!-- Ambient floating background bubbles -->
+        <div class="hero-bubble bubble-1" aria-hidden="true"></div>
+        <div class="hero-bubble bubble-2" aria-hidden="true"></div>
+        <div class="hero-bubble bubble-3" aria-hidden="true"></div>
+
+        <div class="container position-relative">
           <div class="row align-items-center g-4">
             <div class="col-lg-7">
-              <div class="eyebrow mb-3" data-i18n="heroEyebrow">প্রতিদিনের ছোট্ট বিরতি</div>
-              <h1 data-i18n="heroTitle">প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি</h1>
-              <p class="my-4" data-i18n="heroDesc">সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে ধীরে চলুন, আরাম করুন
-                এবং বর্তমান মুহূর্তে মনোযোগ দিন।</p>
-              <div class="d-flex flex-wrap gap-3">
-                <button class="btn btn-primary" onclick="go('library')" data-i18n="startBreathing">অনুশীলন শুরু করুন <i
-                    class="bi bi-arrow-right ms-1"></i></button>
-                <button class="btn btn-outline-primary"
+              <div class="hero-pill-badge mb-3">
+                <span class="badge-icon"><i class="bi bi-stars"></i></span>
+                <span class="badge-text" data-i18n="heroBadge">সহজ ও আনন্দদায়ক মাইন্ডফুলনেস ✨</span>
+              </div>
+              <h1 class="hero-title" data-i18n="heroTitle">প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি</h1>
+              <p class="hero-subtitle my-3" data-i18n="heroDesc">সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে ধীরে
+                চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।</p>
+
+              <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+                <button class="btn btn-primary btn-lg hero-cta-btn" onclick="go('library')">
+                  <span data-i18n="startBreathing">অনুশীলন শুরু করুন</span> <i
+                    class="bi bi-arrow-right-short fs-5 ms-1"></i>
+                </button>
+                <button class="btn btn-outline-primary btn-lg hero-secondary-btn"
                   onclick="document.getElementById('featured').scrollIntoView({behavior:'smooth'})"
                   data-i18n="explore">অনুশীলন দেখুন</button>
               </div>
-              <div class="d-flex gap-4 mt-4 small text-secondary"><span><i
-                    class="bi bi-check-circle-fill text-success me-1"></i><span data-i18n="noAccount">অ্যাকাউন্ট প্রয়োজন
-                    নেই</span></span><span><i class="bi bi-phone me-1"></i><span data-i18n="mobileReady">মোবাইল
-                    উপযোগী</span></span></div>
-            </div>
-            <div class="col-lg-5">
-              <div class="hero-art" aria-hidden="true">
-                <div class="orb">
-                  <div class="orb-core"><i class="bi bi-wind"></i></div>
+
+              <!-- Quick Vibe Selector -->
+              <!-- <div class="hero-vibe-wrap mt-4 pt-3">
+                <div class="hero-vibe-title small fw-bold text-secondary mb-2">
+                  <i class="bi bi-compass me-1 text-primary"></i><span data-i18n="heroVibePrompt">আজ আপনার লক্ষ্য কী?</span>
                 </div>
-                <div class="float-pill pill-one"><i class="bi bi-heart-pulse me-2 text-primary"></i><span
-                    data-i18n="gentlePractice">নরম ও স্বচ্ছন্দ অনুশীলন</span></div>
-                <div class="float-pill pill-two"><i class="bi bi-clock me-2 text-primary"></i>১ <span
-                    data-i18n="minutes">মিনিট</span></div>
+                <div class="hero-vibes d-flex flex-wrap gap-2">
+                  <button type="button" class="btn hero-vibe-chip" onclick="quickStartExercise('relax46')">
+                    <span class="vibe-emoji">🌿</span> <span data-i18n="vibeCalm">চাপ মুক্তি</span>
+                  </button>
+                  <button type="button" class="btn hero-vibe-chip" onclick="quickStartExercise('box')">
+                    <span class="vibe-emoji">🎯</span> <span data-i18n="vibeFocus">গভীর মনোযোগ</span>
+                  </button>
+                  <button type="button" class="btn hero-vibe-chip" onclick="quickStartExercise('diaphragmatic')">
+                    <span class="vibe-emoji">🌙</span> <span data-i18n="vibeSleep">ভালো ঘুম</span>
+                  </button>
+                  <button type="button" class="btn hero-vibe-chip" onclick="quickStartExercise('mindful')">
+                    <span class="vibe-emoji">⚡</span> <span data-i18n="vibeEnergy">সতেজ অনুভূতি</span>
+                  </button>
+                </div>
+              </div> -->
+
+              <div class="d-flex flex-wrap gap-4 mt-4 small text-secondary hero-perks">
+                <span class="d-flex align-items-center gap-1.5"><i
+                    class="bi bi-shield-check text-success fs-6"></i><span data-i18n="noAccount">অ্যাকাউন্ট প্রয়োজন
+                    নেই</span></span>
+                <span class="d-flex align-items-center gap-1.5"><i class="bi bi-phone text-primary fs-6"></i><span
+                    data-i18n="mobileReady">মোবাইল উপযোগী</span></span>
+                <span class="d-flex align-items-center gap-1.5"><i class="bi bi-award-fill text-warning fs-6"></i><span
+                    data-i18n="heroPillQuick">১ মিনিটে প্রশান্তি</span></span>
+              </div>
+            </div>
+
+            <div class="col-lg-5">
+              <div class="hero-art" id="heroArtWrap">
+                <div class="hero-buddy-wrap">
+                  <div class="hero-buddy-orb" id="heroBuddyOrb" onclick="tapHeroBuddy()" role="button" tabindex="0"
+                    aria-label="BreatheBuddy - Tap for a joyful breath">
+                    <!-- Glowing breath atmosphere -->
+                    <div class="buddy-aura" aria-hidden="true"></div>
+
+                    <!-- Orbiting dots -->
+                    <div class="buddy-orbit orbit-1" aria-hidden="true">
+                      <div class="orbit-particle p1"></div>
+                    </div>
+                    <div class="buddy-orbit orbit-2" aria-hidden="true">
+                      <div class="orbit-particle p2"></div>
+                    </div>
+
+                    <!-- Main Sphere -->
+                    <div class="buddy-sphere">
+                      <div class="buddy-shine" aria-hidden="true"></div>
+                      <!-- Cute Face SVG -->
+                      <svg class="buddy-face-svg" viewBox="0 0 100 80" width="86" height="70" aria-hidden="true">
+                        <g class="buddy-eye eye-left">
+                          <ellipse cx="32" cy="34" rx="4.5" ry="5.5" fill="#1e3a5f" />
+                          <circle cx="34" cy="32" r="1.8" fill="#ffffff" />
+                        </g>
+                        <g class="buddy-eye eye-right">
+                          <ellipse cx="68" cy="34" rx="4.5" ry="5.5" fill="#1e3a5f" />
+                          <circle cx="70" cy="32" r="1.8" fill="#ffffff" />
+                        </g>
+                        <ellipse cx="25" cy="42" rx="5" ry="3" fill="#f43f5e" opacity="0.38" />
+                        <ellipse cx="75" cy="42" rx="5" ry="3" fill="#f43f5e" opacity="0.38" />
+                        <path class="buddy-mouth" d="M42 42 Q50 51 58 42" stroke="#1e3a5f" stroke-width="3"
+                          stroke-linecap="round" fill="none" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- Live Inhale/Exhale Guide Pill -->
+                  <div class="hero-orb-caption text-center">
+                    <span class="hero-orb-guide-pill" id="heroOrbGuide" data-i18n="heroLiveBreathing">মৃদু শ্বাস
+                      নিন...</span>
+                    <div class="hero-tap-hint-text"><i class="bi bi-hand-index-thumb me-1"></i><span
+                        data-i18n="heroOrbTap">আমাকে ট্যাপ করুন!</span></div>
+                  </div>
+                </div>
+
+                <!-- Floating Playful Pills -->
+                <div class="float-pill pill-joy-1"><i class="bi bi-heart-pulse-fill text-danger me-1"></i> <span
+                    data-i18n="heroPillHeart">প্রশান্ত হৃদয়</span></div>
+                <div class="float-pill pill-joy-2"><i class="bi bi-clock-history text-primary me-1"></i> <span
+                    data-i18n="heroPillQuick">১ মিনিটে প্রশান্তি</span></div>
+                <div class="float-pill pill-joy-3"><i class="bi bi-flower1 text-success me-1"></i> <span
+                    data-i18n="gentlePractice">নরম ও স্বচ্ছন্দ</span></div>
+                <div class="float-pill pill-joy-4"><i class="bi bi-stars text-warning me-1"></i> <span
+                    data-i18n="heroPillStress">চাপ হ্রাস</span></div>
               </div>
             </div>
           </div>
@@ -184,7 +269,9 @@
               <div>
                 <div class="eyebrow mb-2" data-i18n="safetyEyebrow">চিকিৎসা ও সুস্থতা নির্দেশিকা</div>
                 <h2 class="section-title mb-2" data-i18n="safetyMainHeading">নিরাপদ শ্বাসের নির্দেশিকা ও সেলফ-চেক</h2>
-                <p class="section-sub mb-0" data-i18n="safetyMainDesc">শ্বাস-প্রশ্বাস সম্পূর্ণ প্রাকৃতিক হলেও সঠিক সচেতনতা ও নিরাপত্তা বজায় রাখা জরুরি। স্বাস্থ্যসম্মত ও আরামদায়ক অনুশীলনের জন্য এই নির্দেশিকাগুলো মেনে চলুন।</p>
+                <p class="section-sub mb-0" data-i18n="safetyMainDesc">শ্বাস-প্রশ্বাস সম্পূর্ণ প্রাকৃতিক হলেও সঠিক
+                  সচেতনতা ও নিরাপত্তা বজায় রাখা জরুরি। স্বাস্থ্যসম্মত ও আরামদায়ক অনুশীলনের জন্য এই নির্দেশিকাগুলো মেনে
+                  চলুন।</p>
               </div>
               <button class="btn btn-sm btn-outline-primary" onclick="showSafety()" data-i18n="readSafety">
                 <i class="bi bi-shield-check me-1"></i> সংক্ষিপ্ত নির্দেশিকা
@@ -193,17 +280,24 @@
 
             <!-- Safety Category Navigation Tabs -->
             <div class="safety-nav-pills d-flex flex-wrap gap-2 mb-4" id="safetyTabPills">
-              <button class="btn btn-sm btn-primary safety-tab-btn active" data-tab="rules" onclick="switchSafetyTab('rules')">
-                <i class="bi bi-shield-shaded me-1"></i> <span data-i18n="safetyTabRules">🛡️ ৩টি মূল নিরাপত্তা নিয়ম</span>
+              <button class="btn btn-sm btn-primary safety-tab-btn active" data-tab="rules"
+                onclick="switchSafetyTab('rules')">
+                <i class="bi bi-shield-shaded me-1"></i> <span data-i18n="safetyTabRules">🛡️ ৩টি মূল নিরাপত্তা
+                  নিয়ম</span>
               </button>
-              <button class="btn btn-sm btn-outline-primary safety-tab-btn" data-tab="checklist" onclick="switchSafetyTab('checklist')">
+              <button class="btn btn-sm btn-outline-primary safety-tab-btn" data-tab="checklist"
+                onclick="switchSafetyTab('checklist')">
                 <i class="bi bi-check2-square me-1"></i> <span data-i18n="safetyTabChecklist">✅ সেলফ-চেক চেকলিস্ট</span>
               </button>
-              <button class="btn btn-sm btn-outline-primary safety-tab-btn" data-tab="conditions" onclick="switchSafetyTab('conditions')">
-                <i class="bi bi-heart-pulse me-1"></i> <span data-i18n="safetyTabConditions">🩺 বিশেষ শারীরিক অবস্থা</span>
+              <button class="btn btn-sm btn-outline-primary safety-tab-btn" data-tab="conditions"
+                onclick="switchSafetyTab('conditions')">
+                <i class="bi bi-heart-pulse me-1"></i> <span data-i18n="safetyTabConditions">🩺 বিশেষ শারীরিক
+                  অবস্থা</span>
               </button>
-              <button class="btn btn-sm btn-outline-primary safety-tab-btn" data-tab="emergency" onclick="switchSafetyTab('emergency')">
-                <i class="bi bi-life-preserver me-1"></i> <span data-i18n="safetyTabEmergency">🆘 তাৎক্ষণিক স্থিরতা</span>
+              <button class="btn btn-sm btn-outline-primary safety-tab-btn" data-tab="emergency"
+                onclick="switchSafetyTab('emergency')">
+                <i class="bi bi-life-preserver me-1"></i> <span data-i18n="safetyTabEmergency">🆘 তাৎক্ষণিক
+                  স্থিরতা</span>
               </button>
             </div>
 
@@ -216,12 +310,17 @@
                     <div class="pillar-icon-box bg-success-subtle text-success">
                       <i class="bi bi-check-circle-fill fs-4"></i>
                     </div>
-                    <h3 class="h6 fw-bold mt-3 mb-2 text-dark" data-i18n="safetyPillar1Title">আরামদায়ক ভঙ্গি ও প্রস্তুতি</h3>
-                    <p class="small text-secondary mb-3" data-i18n="safetyPillar1Desc">নিরাপদ স্থানে সোজা হয়ে কিন্তু আরাম করে বসুন বা শুয়ে পড়ুন। কাঁধ ও চোয়াল শিথিল রাখুন।</p>
+                    <h3 class="h6 fw-bold mt-3 mb-2 text-dark" data-i18n="safetyPillar1Title">আরামদায়ক ভঙ্গি ও প্রস্তুতি
+                    </h3>
+                    <p class="small text-secondary mb-3" data-i18n="safetyPillar1Desc">নিরাপদ স্থানে সোজা হয়ে কিন্তু
+                      আরাম করে বসুন বা শুয়ে পড়ুন। কাঁধ ও চোয়াল শিথিল রাখুন।</p>
                     <ul class="pillar-list small ps-0 mb-0">
-                      <li><i class="bi bi-check2 text-success me-2"></i><span data-i18n="safetyPillar1Pt1">নাক দিয়ে ধীরে ও স্বাভাবিক শ্বাস নিন</span></li>
-                      <li><i class="bi bi-check2 text-success me-2"></i><span data-i18n="safetyPillar1Pt2">পেটের স্বাভাবিক ওঠা-নামা লক্ষ্য করুন</span></li>
-                      <li><i class="bi bi-check2 text-success me-2"></i><span data-i18n="safetyPillar1Pt3">চোখ বন্ধ বা দৃষ্টি নরম রাখুন</span></li>
+                      <li><i class="bi bi-check2 text-success me-2"></i><span data-i18n="safetyPillar1Pt1">নাক দিয়ে ধীরে
+                          ও স্বাভাবিক শ্বাস নিন</span></li>
+                      <li><i class="bi bi-check2 text-success me-2"></i><span data-i18n="safetyPillar1Pt2">পেটের
+                          স্বাভাবিক ওঠা-নামা লক্ষ্য করুন</span></li>
+                      <li><i class="bi bi-check2 text-success me-2"></i><span data-i18n="safetyPillar1Pt3">চোখ বন্ধ বা
+                          দৃষ্টি নরম রাখুন</span></li>
                     </ul>
                   </div>
                 </div>
@@ -233,11 +332,15 @@
                       <i class="bi bi-exclamation-triangle-fill fs-4"></i>
                     </div>
                     <h3 class="h6 fw-bold mt-3 mb-2 text-dark" data-i18n="safetyPillar2Title">কখনই জোর করবেন না</h3>
-                    <p class="small text-secondary mb-3" data-i18n="safetyPillar2Desc">শ্বাস ধরে রাখার কোনো ধাপে কষ্ট বা অস্বস্তি হলে তৎক্ষণাৎ ছেড়ে দিন এবং স্বাভাবিক শ্বাসে ফিরুন।</p>
+                    <p class="small text-secondary mb-3" data-i18n="safetyPillar2Desc">শ্বাস ধরে রাখার কোনো ধাপে কষ্ট বা
+                      অস্বস্তি হলে তৎক্ষণাৎ ছেড়ে দিন এবং স্বাভাবিক শ্বাসে ফিরুন।</p>
                     <ul class="pillar-list small ps-0 mb-0">
-                      <li><i class="bi bi-dash-circle text-warning-emphasis me-2"></i><span data-i18n="safetyPillar2Pt1">শ্বাস জোর করে অতিরিক্ত দীর্ঘ করবেন না</span></li>
-                      <li><i class="bi bi-dash-circle text-warning-emphasis me-2"></i><span data-i18n="safetyPillar2Pt2">ড্রাইভিং বা ভারী কাজের সময় করবেন না</span></li>
-                      <li><i class="bi bi-dash-circle text-warning-emphasis me-2"></i><span data-i18n="safetyPillar2Pt3">শরীরকে সবসময় নিজের গতিতে চলতে দিন</span></li>
+                      <li><i class="bi bi-dash-circle text-warning-emphasis me-2"></i><span
+                          data-i18n="safetyPillar2Pt1">শ্বাস জোর করে অতিরিক্ত দীর্ঘ করবেন না</span></li>
+                      <li><i class="bi bi-dash-circle text-warning-emphasis me-2"></i><span
+                          data-i18n="safetyPillar2Pt2">ড্রাইভিং বা ভারী কাজের সময় করবেন না</span></li>
+                      <li><i class="bi bi-dash-circle text-warning-emphasis me-2"></i><span
+                          data-i18n="safetyPillar2Pt3">শরীরকে সবসময় নিজের গতিতে চলতে দিন</span></li>
                     </ul>
                   </div>
                 </div>
@@ -248,12 +351,17 @@
                     <div class="pillar-icon-box bg-danger-subtle text-danger">
                       <i class="bi bi-x-octagon-fill fs-4"></i>
                     </div>
-                    <h3 class="h6 fw-bold mt-3 mb-2 text-dark" data-i18n="safetyPillar3Title">অবিলম্বে থামার লক্ষণসমূহ</h3>
-                    <p class="small text-secondary mb-3" data-i18n="safetyPillar3Desc">নিচের যেকোনো লক্ষণ দেখা দিলে অনুশীলন তৎক্ষণাৎ বন্ধ করুন এবং স্বাভাবিক শান্ত শ্বাসে ফিরুন।</p>
+                    <h3 class="h6 fw-bold mt-3 mb-2 text-dark" data-i18n="safetyPillar3Title">অবিলম্বে থামার লক্ষণসমূহ
+                    </h3>
+                    <p class="small text-secondary mb-3" data-i18n="safetyPillar3Desc">নিচের যেকোনো লক্ষণ দেখা দিলে
+                      অনুশীলন তৎক্ষণাৎ বন্ধ করুন এবং স্বাভাবিক শান্ত শ্বাসে ফিরুন।</p>
                     <ul class="pillar-list small ps-0 mb-0">
-                      <li><i class="bi bi-x-circle text-danger me-2"></i><span data-i18n="safetyPillar3Pt1">মাথা ঘোরা, ঝিমঝিম বা হালকা লাগা</span></li>
-                      <li><i class="bi bi-x-circle text-danger me-2"></i><span data-i18n="safetyPillar3Pt2">বুকে চাপ, ব্যথা বা বুক ধড়ফড় করা</span></li>
-                      <li><i class="bi bi-x-circle text-danger me-2"></i><span data-i18n="safetyPillar3Pt3">হাত-পা অসাড় বা অস্বাভাবিক শিহরণ</span></li>
+                      <li><i class="bi bi-x-circle text-danger me-2"></i><span data-i18n="safetyPillar3Pt1">মাথা ঘোরা,
+                          ঝিমঝিম বা হালকা লাগা</span></li>
+                      <li><i class="bi bi-x-circle text-danger me-2"></i><span data-i18n="safetyPillar3Pt2">বুকে চাপ,
+                          ব্যথা বা বুক ধড়ফড় করা</span></li>
+                      <li><i class="bi bi-x-circle text-danger me-2"></i><span data-i18n="safetyPillar3Pt3">হাত-পা অসাড়
+                          বা অস্বাভাবিক শিহরণ</span></li>
                     </ul>
                   </div>
                 </div>
@@ -266,58 +374,78 @@
                 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                   <div>
                     <h3 class="h6 fw-bold mb-1 text-dark" data-i18n="checkTitle">প্রি-সেশন নিরাপত্তা সেলফ-চেক</h3>
-                    <p class="small text-secondary mb-0" data-i18n="checkDesc">অনুশীলন শুরুর আগে মাত্র ২০ সেকেন্ডে নিচের ৩টি বিষয় নিশ্চিত করে নিন:</p>
+                    <p class="small text-secondary mb-0" data-i18n="checkDesc">অনুশীলন শুরুর আগে মাত্র ২০ সেকেন্ডে নিচের
+                      ৩টি বিষয় নিশ্চিত করে নিন:</p>
                   </div>
                   <div class="d-flex align-items-center gap-2">
-                    <span class="small fw-semibold text-secondary" data-i18n="checkProgressLabel">চেকলিস্ট অগ্রগতি:</span>
+                    <span class="small fw-semibold text-secondary" data-i18n="checkProgressLabel">চেকলিস্ট
+                      অগ্রগতি:</span>
                     <span class="badge bg-primary rounded-pill px-2.5 py-1" id="safetyCheckProgressCount">০/৩</span>
                   </div>
                 </div>
 
                 <div class="progress mb-4" style="height: 6px;">
-                  <div class="progress-bar bg-primary" id="safetyCheckProgressBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div class="progress-bar bg-primary" id="safetyCheckProgressBar" role="progressbar" style="width: 0%;"
+                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
                 <div class="checklist-items-wrap d-flex flex-column gap-3 mb-4">
-                  <label class="checklist-item d-flex align-items-start gap-3 p-3 rounded-3 bg-white border cursor-pointer">
-                    <input type="checkbox" class="form-check-input mt-1 flex-shrink-0" id="safetyCheck1" onchange="updateSafetyChecklist()">
+                  <label
+                    class="checklist-item d-flex align-items-start gap-3 p-3 rounded-3 bg-white border cursor-pointer">
+                    <input type="checkbox" class="form-check-input mt-1 flex-shrink-0" id="safetyCheck1"
+                      onchange="updateSafetyChecklist()">
                     <div>
-                      <strong class="d-block text-dark small mb-1" data-i18n="checkItem1">আমি একটি নিরাপদ, শান্ত ও আরামদায়ক স্থানে বসেছি বা শুয়েছি।</strong>
-                      <span class="text-muted" style="font-size: 0.8rem;">শারীরিক ভারসাম্য বজায় রাখতে শক্ত আসন বা বিছানা বেছে নিন।</span>
+                      <strong class="d-block text-dark small mb-1" data-i18n="checkItem1">আমি একটি নিরাপদ, শান্ত ও
+                        আরামদায়ক স্থানে বসেছি বা শুয়েছি।</strong>
+                      <span class="text-muted" style="font-size: 0.8rem;">শারীরিক ভারসাম্য বজায় রাখতে শক্ত আসন বা বিছানা
+                        বেছে নিন।</span>
                     </div>
                   </label>
 
-                  <label class="checklist-item d-flex align-items-start gap-3 p-3 rounded-3 bg-white border cursor-pointer">
-                    <input type="checkbox" class="form-check-input mt-1 flex-shrink-0" id="safetyCheck2" onchange="updateSafetyChecklist()">
+                  <label
+                    class="checklist-item d-flex align-items-start gap-3 p-3 rounded-3 bg-white border cursor-pointer">
+                    <input type="checkbox" class="form-check-input mt-1 flex-shrink-0" id="safetyCheck2"
+                      onchange="updateSafetyChecklist()">
                     <div>
-                      <strong class="d-block text-dark small mb-1" data-i18n="checkItem2">আমি গাড়ি চালাচ্ছি না, সাঁতার কাটছি না বা ঝুঁকিপূর্ণ কাজ করছি না।</strong>
-                      <span class="text-muted" style="font-size: 0.8rem;">কোনো ধরনের একাগ্রতামুখী বা বিপদসংকুল পরিস্থিতিতে গভীর শ্বাসচর্চা করবেন না।</span>
+                      <strong class="d-block text-dark small mb-1" data-i18n="checkItem2">আমি গাড়ি চালাচ্ছি না, সাঁতার
+                        কাটছি না বা ঝুঁকিপূর্ণ কাজ করছি না।</strong>
+                      <span class="text-muted" style="font-size: 0.8rem;">কোনো ধরনের একাগ্রতামুখী বা বিপদসংকুল
+                        পরিস্থিতিতে গভীর শ্বাসচর্চা করবেন না।</span>
                     </div>
                   </label>
 
-                  <label class="checklist-item d-flex align-items-start gap-3 p-3 rounded-3 bg-white border cursor-pointer">
-                    <input type="checkbox" class="form-check-input mt-1 flex-shrink-0" id="safetyCheck3" onchange="updateSafetyChecklist()">
+                  <label
+                    class="checklist-item d-flex align-items-start gap-3 p-3 rounded-3 bg-white border cursor-pointer">
+                    <input type="checkbox" class="form-check-input mt-1 flex-shrink-0" id="safetyCheck3"
+                      onchange="updateSafetyChecklist()">
                     <div>
-                      <strong class="d-block text-dark small mb-1" data-i18n="checkItem3">অস্বস্তি বা মাথা ঘোরা অনুভব করামাত্র আমি স্বাভাবিক শ্বাসে ফিরে যাব।</strong>
-                      <span class="text-muted" style="font-size: 0.8rem;">শরীরের সিগন্যালকে সর্বোচ্চ অগ্রাধিকার দিন, কখনই জোর করবেন না।</span>
+                      <strong class="d-block text-dark small mb-1" data-i18n="checkItem3">অস্বস্তি বা মাথা ঘোরা অনুভব
+                        করামাত্র আমি স্বাভাবিক শ্বাসে ফিরে যাব।</strong>
+                      <span class="text-muted" style="font-size: 0.8rem;">শরীরের সিগন্যালকে সর্বোচ্চ অগ্রাধিকার দিন,
+                        কখনই জোর করবেন না।</span>
                     </div>
                   </label>
                 </div>
 
                 <!-- Ready Status Banner -->
-                <div class="safety-ready-banner alert alert-success d-none mb-0 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3" id="safetyReadyBanner">
+                <div
+                  class="safety-ready-banner alert alert-success d-none mb-0 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3"
+                  id="safetyReadyBanner">
                   <div class="d-flex align-items-center gap-2">
                     <i class="bi bi-shield-fill-check fs-4 text-success flex-shrink-0"></i>
                     <div>
                       <strong class="d-block" data-i18n="checkReadyBadge">🎉 আপনি সম্পূর্ণ প্রস্তুত ও নিরাপদ!</strong>
-                      <span class="small text-secondary">আপনার প্রস্তুতি চমৎকার। স্বাচ্ছন্দ্যের সাথে অনুশীলন উপভোগ করুন।</span>
+                      <span class="small text-secondary">আপনার প্রস্তুতি চমৎকার। স্বাচ্ছন্দ্যের সাথে অনুশীলন উপভোগ
+                        করুন।</span>
                     </div>
                   </div>
                   <div class="d-flex gap-2">
-                    <button class="btn btn-sm btn-primary fw-bold px-3 py-2" onclick="go('library')" data-i18n="checkReadyBtn">
+                    <button class="btn btn-sm btn-primary fw-bold px-3 py-2" onclick="go('library')"
+                      data-i18n="checkReadyBtn">
                       অনুশীলন শুরু করুন <i class="bi bi-arrow-right ms-1"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary" onclick="resetSafetyCheck()" data-i18n="checkResetBtn">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="resetSafetyCheck()"
+                      data-i18n="checkResetBtn">
                       রিসেট
                     </button>
                   </div>
@@ -332,9 +460,12 @@
                   <div class="condition-card p-3 rounded-3 border bg-light h-100">
                     <div class="d-flex align-items-center gap-2 mb-2">
                       <i class="bi bi-lungs text-primary fs-5"></i>
-                      <h4 class="h6 fw-bold mb-0 text-dark" data-i18n="condAsthmaTitle">অ্যাজমা ও সিওপিডি (Asthma & COPD)</h4>
+                      <h4 class="h6 fw-bold mb-0 text-dark" data-i18n="condAsthmaTitle">অ্যাজমা ও সিওপিডি (Asthma &
+                        COPD)</h4>
                     </div>
-                    <p class="small text-secondary mb-0" data-i18n="condAsthmaDesc">দীর্ঘ শ্বাস ধরে রাখার ধাপগুলো এড়িয়ে চলুন। শুধুমাত্র ডায়াফ্রামেটিক ব্রিদিং বা ৪-৬ রিল্যাক্সিং ব্রিদিংয়ের মতো নরম ও মসৃণ শ্বাস অনুশীলন করুন। সবসময় প্রয়োজনীয় ইনহেলার কাছে রাখুন।</p>
+                    <p class="small text-secondary mb-0" data-i18n="condAsthmaDesc">দীর্ঘ শ্বাস ধরে রাখার ধাপগুলো এড়িয়ে
+                      চলুন। শুধুমাত্র ডায়াফ্রামেটিক ব্রিদিং বা ৪-৬ রিল্যাক্সিং ব্রিদিংয়ের মতো নরম ও মসৃণ শ্বাস অনুশীলন
+                      করুন। সবসময় প্রয়োজনীয় ইনহেলার কাছে রাখুন।</p>
                   </div>
                 </div>
 
@@ -342,9 +473,12 @@
                   <div class="condition-card p-3 rounded-3 border bg-light h-100">
                     <div class="d-flex align-items-center gap-2 mb-2">
                       <i class="bi bi-heart-pulse text-danger fs-5"></i>
-                      <h4 class="h6 fw-bold mb-0 text-dark" data-i18n="condHeartTitle">উচ্চ রক্তচাপ ও হৃদরোগ (Hypertension & Cardiac)</h4>
+                      <h4 class="h6 fw-bold mb-0 text-dark" data-i18n="condHeartTitle">উচ্চ রক্তচাপ ও হৃদরোগ
+                        (Hypertension & Cardiac)</h4>
                     </div>
-                    <p class="small text-secondary mb-0" data-i18n="condHeartDesc">শ্বাস ধরে রাখলে রক্তচাপের সাময়িক তারতম্য হতে পারে। বক্স ব্রিদিংয়ের শ্বাস ধারণ বাদ দিয়ে কেবল ৪ সেকেন্ড নেওয়া ও ৬ সেকেন্ড ছাড়ার ছন্দ অনুসরণ করুন।</p>
+                    <p class="small text-secondary mb-0" data-i18n="condHeartDesc">শ্বাস ধরে রাখলে রক্তচাপের সাময়িক
+                      তারতম্য হতে পারে। বক্স ব্রিদিংয়ের শ্বাস ধারণ বাদ দিয়ে কেবল ৪ সেকেন্ড নেওয়া ও ৬ সেকেন্ড ছাড়ার ছন্দ
+                      অনুসরণ করুন।</p>
                   </div>
                 </div>
 
@@ -354,7 +488,9 @@
                       <i class="bi bi-person-heart text-info fs-5"></i>
                       <h4 class="h6 fw-bold mb-0 text-dark" data-i18n="condPregnancyTitle">গর্ভাবস্থা (Pregnancy)</h4>
                     </div>
-                    <p class="small text-secondary mb-0" data-i18n="condPregnancyDesc">গর্ভাবস্থায় কোনো ধরনের তীব্র শ্বাস আটকানো নিষিদ্ধ। হালকা ডায়াফ্রামেটিক ব্রিদিং এবং প্রাকৃতিক মননশীল শ্বাস মা ও শিশুর জন্য নিরাপদ এবং মানসিক চাপ কমাতে জাদুকরী।</p>
+                    <p class="small text-secondary mb-0" data-i18n="condPregnancyDesc">গর্ভাবস্থায় কোনো ধরনের তীব্র
+                      শ্বাস আটকানো নিষিদ্ধ। হালকা ডায়াফ্রামেটিক ব্রিদিং এবং প্রাকৃতিক মননশীল শ্বাস মা ও শিশুর জন্য
+                      নিরাপদ এবং মানসিক চাপ কমাতে জাদুকরী।</p>
                   </div>
                 </div>
 
@@ -362,9 +498,12 @@
                   <div class="condition-card p-3 rounded-3 border bg-light h-100">
                     <div class="d-flex align-items-center gap-2 mb-2">
                       <i class="bi bi-wind text-warning-emphasis fs-5"></i>
-                      <h4 class="h6 fw-bold mb-0 text-dark" data-i18n="condPanicTitle">প্যানিক বা তীব্র উদ্বেগ (Panic & Hyperventilation)</h4>
+                      <h4 class="h6 fw-bold mb-0 text-dark" data-i18n="condPanicTitle">প্যানিক বা তীব্র উদ্বেগ (Panic &
+                        Hyperventilation)</h4>
                     </div>
-                    <p class="small text-secondary mb-0" data-i18n="condPanicDesc">উদ্বেগের সময় অতিরিক্ত বাতাস ভেতরে টানার প্রবণতা থাকে। শ্বাস নেওয়ার চেয়ে নিঃশ্বাস ধীরে ও লম্বা করে ছাড়ার দিকে মনোযোগ দিন। এটি স্নায়ুতন্ত্রকে শান্ত করে।</p>
+                    <p class="small text-secondary mb-0" data-i18n="condPanicDesc">উদ্বেগের সময় অতিরিক্ত বাতাস ভেতরে
+                      টানার প্রবণতা থাকে। শ্বাস নেওয়ার চেয়ে নিঃশ্বাস ধীরে ও লম্বা করে ছাড়ার দিকে মনোযোগ দিন। এটি
+                      স্নায়ুতন্ত্রকে শান্ত করে।</p>
                   </div>
                 </div>
               </div>
@@ -376,13 +515,17 @@
                 <div class="emergency-badge mx-auto mb-3">
                   <i class="bi bi-life-preserver text-danger fs-2"></i>
                 </div>
-                <h3 class="h5 fw-bold mb-2 text-dark" data-i18n="emergencyTitle">🆘 তাৎক্ষণিক স্থিরতা ও প্রশান্তি প্রোটোকল</h3>
+                <h3 class="h5 fw-bold mb-2 text-dark" data-i18n="emergencyTitle">🆘 তাৎক্ষণিক স্থিরতা ও প্রশান্তি
+                  প্রোটোকল</h3>
                 <p class="small text-secondary mb-4 mx-auto" style="max-width: 540px;" data-i18n="emergencyDesc">
-                  অনুশীলনে কোনো কারণে মাথা ঘুরলে বা অস্বস্তি লাগলে নিচের বোতামে চাপুন। এটি তৎক্ষণাৎ সেশন থামিয়ে শরীরকে শান্ত করবে:
+                  অনুশীলনে কোনো কারণে মাথা ঘুরলে বা অস্বস্তি লাগলে নিচের বোতামে চাপুন। এটি তৎক্ষণাৎ সেশন থামিয়ে শরীরকে
+                  শান্ত করবে:
                 </p>
 
-                <button class="btn btn-danger px-4 py-3 fw-bold rounded-3 shadow-sm mb-4" onclick="triggerSafetyReset()" id="emergencyResetBtn">
-                  <i class="bi bi-slash-circle me-1"></i> <span data-i18n="emergencyBtnText">তাৎক্ষণিক স্বাভাবিক শ্বাসে ফিরুন (ইমার্জেন্সি রিসেট)</span>
+                <button class="btn btn-danger px-4 py-3 fw-bold rounded-3 shadow-sm mb-4" onclick="triggerSafetyReset()"
+                  id="emergencyResetBtn">
+                  <i class="bi bi-slash-circle me-1"></i> <span data-i18n="emergencyBtnText">তাৎক্ষণিক স্বাভাবিক শ্বাসে
+                    ফিরুন (ইমার্জেন্সি রিসেট)</span>
                 </button>
 
                 <!-- Calming steps strip -->
@@ -390,25 +533,29 @@
                   <div class="col-sm-6 col-lg-3">
                     <div class="emergency-step-box p-3 rounded-3 border bg-white h-100">
                       <div class="step-num text-danger fw-bold mb-1">১ম ধাপ</div>
-                      <p class="small text-secondary mb-0" data-i18n="emergencyStep1">১. চোখ বন্ধ করুন এবং কেবল ধীরে ধীরে ফুসফুসের সব বাতাস ছেড়ে দিন।</p>
+                      <p class="small text-secondary mb-0" data-i18n="emergencyStep1">১. চোখ বন্ধ করুন এবং কেবল ধীরে
+                        ধীরে ফুসফুসের সব বাতাস ছেড়ে দিন।</p>
                     </div>
                   </div>
                   <div class="col-sm-6 col-lg-3">
                     <div class="emergency-step-box p-3 rounded-3 border bg-white h-100">
                       <div class="step-num text-danger fw-bold mb-1">২য় ধাপ</div>
-                      <p class="small text-secondary mb-0" data-i18n="emergencyStep2">২. দুই পা মেঝেতে শক্তভাবে স্পর্শ করান এবং পায়ের নিচে মাটির অস্তিত্ব অনুভব করুন।</p>
+                      <p class="small text-secondary mb-0" data-i18n="emergencyStep2">২. দুই পা মেঝেতে শক্তভাবে স্পর্শ
+                        করান এবং পায়ের নিচে মাটির অস্তিত্ব অনুভব করুন।</p>
                     </div>
                   </div>
                   <div class="col-sm-6 col-lg-3">
                     <div class="emergency-step-box p-3 rounded-3 border bg-white h-100">
                       <div class="step-num text-danger fw-bold mb-1">৩য় ধাপ</div>
-                      <p class="small text-secondary mb-0" data-i18n="emergencyStep3">৩. কোনো নির্দিষ্ট ছন্দ ছাড়া নিজের স্বাভাবিক গতিতে ৫টি শান্ত শ্বাস নিন।</p>
+                      <p class="small text-secondary mb-0" data-i18n="emergencyStep3">৩. কোনো নির্দিষ্ট ছন্দ ছাড়া নিজের
+                        স্বাভাবিক গতিতে ৫টি শান্ত শ্বাস নিন।</p>
                     </div>
                   </div>
                   <div class="col-sm-6 col-lg-3">
                     <div class="emergency-step-box p-3 rounded-3 border bg-white h-100">
                       <div class="step-num text-danger fw-bold mb-1">৪র্থ ধাপ</div>
-                      <p class="small text-secondary mb-0" data-i18n="emergencyStep4">৪. চোখ খুলে এক ঢোক পানি পান করুন এবং ১ মিনিট বিশ্রাম নিন।</p>
+                      <p class="small text-secondary mb-0" data-i18n="emergencyStep4">৪. চোখ খুলে এক ঢোক পানি পান করুন
+                        এবং ১ মিনিট বিশ্রাম নিন।</p>
                     </div>
                   </div>
                 </div>
@@ -418,7 +565,8 @@
             <!-- Footer Medical Disclaimer -->
             <div class="mt-4 pt-3 border-top d-flex align-items-center gap-2 small text-secondary">
               <i class="bi bi-info-circle text-primary flex-shrink-0"></i>
-              <span data-i18n="disclaimer">এই ওয়েবসাইট সাধারণ সুস্থতা ও শিথিলতার তথ্য দেয়; এটি চিকিৎসা বা পেশাদার স্বাস্থ্যসেবার বিকল্প নয়।</span>
+              <span data-i18n="disclaimer">এই ওয়েবসাইট সাধারণ সুস্থতা ও শিথিলতার তথ্য দেয়; এটি চিকিৎসা বা পেশাদার
+                স্বাস্থ্যসেবার বিকল্প নয়।</span>
             </div>
           </div>
         </div>
@@ -471,14 +619,16 @@
             <div class="level-selector-wrap mt-4 mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <label class="form-label fw-bold mb-0" data-i18n="levelSelectLabel">অনুশীলন স্তর (লেভেল)</label>
-                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-semibold" id="detailLevelBadge">লেভেল ২ · মাঝারি</span>
+                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-semibold"
+                  id="detailLevelBadge">লেভেল ২ · মাঝারি</span>
               </div>
               <div class="level-pill-group" role="group" aria-label="Exercise difficulty level" id="levelButtonGroup">
                 <button type="button" class="level-pill-btn" data-level="beginner" onclick="selectLevel('beginner')">
                   <span class="lvl-badge">L1</span>
                   <span class="lvl-text" data-i18n="levelBeginner">শুরুর জন্য</span>
                 </button>
-                <button type="button" class="level-pill-btn active" data-level="intermediate" onclick="selectLevel('intermediate')">
+                <button type="button" class="level-pill-btn active" data-level="intermediate"
+                  onclick="selectLevel('intermediate')">
                   <span class="lvl-badge">L2</span>
                   <span class="lvl-text" data-i18n="levelIntermediate">মাঝারি</span>
                 </button>
@@ -529,7 +679,8 @@
                   class="bi bi-arrow-left me-1"></i> বের হন</button>
               <div class="d-flex align-items-center gap-2">
                 <span id="sessionName"></span>
-                <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 small" id="sessionLevelBadge">লেভেল ২</span>
+                <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 small"
+                  id="sessionLevelBadge">লেভেল ২</span>
               </div>
               <span class="timer" id="remainingTime">01:00</span>
             </div>
@@ -614,10 +765,11 @@
 
           <!-- ANIMATED CHAMPION CUP & CELEBRATION STAGE -->
           <div class="trophy-stage-wrap text-center mb-4">
-            <div class="trophy-stage position-relative d-inline-block" id="trophyStage" onclick="celebrateAgain()" role="button" tabindex="0" aria-label="Celebration Trophy - Tap for celebration">
+            <div class="trophy-stage position-relative d-inline-block" id="trophyStage" onclick="celebrateAgain()"
+              role="button" tabindex="0" aria-label="Celebration Trophy - Tap for celebration">
               <!-- Radiance Aura Behind Cup -->
               <div class="trophy-aura" aria-hidden="true"></div>
-              
+
               <!-- Floating Twinkling Sparkles -->
               <div class="trophy-sparkle sp-1" aria-hidden="true"><i class="bi bi-star-fill"></i></div>
               <div class="trophy-sparkle sp-2" aria-hidden="true"><i class="bi bi-sparkle"></i></div>
@@ -626,76 +778,88 @@
 
               <!-- The Champion Trophy Cup (SVG vector with animated golden gradients & shine) -->
               <div class="champion-cup-box" id="championCupBox">
-                <svg class="champion-cup-svg" viewBox="0 0 160 170" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <svg class="champion-cup-svg" viewBox="0 0 160 170" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
                   <defs>
                     <linearGradient id="goldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#FFF8D6"/>
-                      <stop offset="30%" stop-color="#FCD34D"/>
-                      <stop offset="65%" stop-color="#F59E0B"/>
-                      <stop offset="100%" stop-color="#B45309"/>
+                      <stop offset="0%" stop-color="#FFF8D6" />
+                      <stop offset="30%" stop-color="#FCD34D" />
+                      <stop offset="65%" stop-color="#F59E0B" />
+                      <stop offset="100%" stop-color="#B45309" />
                     </linearGradient>
                     <linearGradient id="goldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color="#FEF3C7"/>
-                      <stop offset="45%" stop-color="#FBBF24"/>
-                      <stop offset="100%" stop-color="#92400E"/>
+                      <stop offset="0%" stop-color="#FEF3C7" />
+                      <stop offset="45%" stop-color="#FBBF24" />
+                      <stop offset="100%" stop-color="#92400E" />
                     </linearGradient>
                     <linearGradient id="cupStemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="#D97706"/>
-                      <stop offset="50%" stop-color="#FDE68A"/>
-                      <stop offset="100%" stop-color="#B45309"/>
+                      <stop offset="0%" stop-color="#D97706" />
+                      <stop offset="50%" stop-color="#FDE68A" />
+                      <stop offset="100%" stop-color="#B45309" />
                     </linearGradient>
                     <linearGradient id="cupBaseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color="#334155"/>
-                      <stop offset="40%" stop-color="#1E293B"/>
-                      <stop offset="100%" stop-color="#0F172A"/>
+                      <stop offset="0%" stop-color="#334155" />
+                      <stop offset="40%" stop-color="#1E293B" />
+                      <stop offset="100%" stop-color="#0F172A" />
                     </linearGradient>
                     <linearGradient id="goldSheen" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
-                      <stop offset="45%" stop-color="rgba(255,255,255,0.85)"/>
-                      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+                      <stop offset="45%" stop-color="rgba(255,255,255,0.85)" />
+                      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
                     </linearGradient>
                     <filter id="cupSoftShadow" x="-20%" y="-15%" width="140%" height="140%">
-                      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#D97706" flood-opacity="0.32"/>
+                      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#D97706" flood-opacity="0.32" />
                     </filter>
                   </defs>
 
                   <g filter="url(#cupSoftShadow)">
                     <!-- Base Pedestal Tier 2 -->
-                    <rect x="40" y="146" width="80" height="18" rx="4" fill="url(#cupBaseGrad)" stroke="#475569" stroke-width="1.2"/>
+                    <rect x="40" y="146" width="80" height="18" rx="4" fill="url(#cupBaseGrad)" stroke="#475569"
+                      stroke-width="1.2" />
                     <!-- Base Pedestal Tier 1 (Gold collar) -->
-                    <rect x="52" y="136" width="56" height="11" rx="2" fill="url(#goldGrad2)"/>
+                    <rect x="52" y="136" width="56" height="11" rx="2" fill="url(#goldGrad2)" />
                     <!-- Plaque with engraving -->
-                    <rect x="52" y="149" width="56" height="12" rx="2" fill="#0F172A" stroke="#FBBF24" stroke-width="0.75"/>
-                    <text x="80" y="158" font-size="6.8" font-weight="800" fill="#FDE68A" text-anchor="middle" letter-spacing="1">BREATHEWELL</text>
+                    <rect x="52" y="149" width="56" height="12" rx="2" fill="#0F172A" stroke="#FBBF24"
+                      stroke-width="0.75" />
+                    <text x="80" y="158" font-size="6.8" font-weight="800" fill="#FDE68A" text-anchor="middle"
+                      letter-spacing="1">BREATHEWELL</text>
 
                     <!-- Cup Stem -->
-                    <path d="M73 108 H87 V136 H73 Z" fill="url(#cupStemGrad)"/>
-                    <path d="M68 108 Q80 115 92 108 V113 Q80 120 68 113 Z" fill="url(#goldGrad2)"/>
-                    <ellipse cx="80" cy="136" rx="14" ry="3" fill="url(#goldGrad1)"/>
+                    <path d="M73 108 H87 V136 H73 Z" fill="url(#cupStemGrad)" />
+                    <path d="M68 108 Q80 115 92 108 V113 Q80 120 68 113 Z" fill="url(#goldGrad2)" />
+                    <ellipse cx="80" cy="136" rx="14" ry="3" fill="url(#goldGrad1)" />
 
                     <!-- Handles (Wing handles on both sides) -->
                     <!-- Left Handle -->
-                    <path d="M46 36 C20 36 16 76 46 90 C48 82 34 76 34 60 C34 46 45 44 48 44 Z" fill="url(#goldGrad2)"/>
-                    <path d="M46 38 C24 38 20 74 46 86 C47 80 36 74 36 60 C36 48 45 46 48 46 Z" fill="url(#goldGrad1)"/>
+                    <path d="M46 36 C20 36 16 76 46 90 C48 82 34 76 34 60 C34 46 45 44 48 44 Z"
+                      fill="url(#goldGrad2)" />
+                    <path d="M46 38 C24 38 20 74 46 86 C47 80 36 74 36 60 C36 48 45 46 48 46 Z"
+                      fill="url(#goldGrad1)" />
                     <!-- Right Handle -->
-                    <path d="M114 36 C140 36 144 76 114 90 C112 82 126 76 126 60 C126 46 115 44 112 44 Z" fill="url(#goldGrad2)"/>
-                    <path d="M114 38 C136 38 140 74 114 86 C113 80 124 74 124 60 C124 48 115 46 112 46 Z" fill="url(#goldGrad1)"/>
+                    <path d="M114 36 C140 36 144 76 114 90 C112 82 126 76 126 60 C126 46 115 44 112 44 Z"
+                      fill="url(#goldGrad2)" />
+                    <path d="M114 38 C136 38 140 74 114 86 C113 80 124 74 124 60 C124 48 115 46 112 46 Z"
+                      fill="url(#goldGrad1)" />
 
                     <!-- Main Cup Goblet Body -->
-                    <path d="M44 26 C44 26 42 78 80 110 C118 78 116 26 116 26 Z" fill="url(#goldGrad1)"/>
+                    <path d="M44 26 C44 26 42 78 80 110 C118 78 116 26 116 26 Z" fill="url(#goldGrad1)" />
 
                     <!-- Cup Rim & Opening -->
-                    <ellipse cx="80" cy="26" rx="36" ry="9" fill="url(#goldGrad2)"/>
-                    <ellipse cx="80" cy="26" rx="31" ry="6.5" fill="#78350F"/>
-                    <ellipse cx="80" cy="27" rx="28" ry="5" fill="#92400E"/>
+                    <ellipse cx="80" cy="26" rx="36" ry="9" fill="url(#goldGrad2)" />
+                    <ellipse cx="80" cy="26" rx="31" ry="6.5" fill="#78350F" />
+                    <ellipse cx="80" cy="27" rx="28" ry="5" fill="#92400E" />
 
                     <!-- Embossed Star in Circular Crest -->
-                    <circle cx="80" cy="60" r="16" fill="url(#goldGrad2)" stroke="#FFFBEB" stroke-width="1.2" opacity="0.9"/>
+                    <circle cx="80" cy="60" r="16" fill="url(#goldGrad2)" stroke="#FFFBEB" stroke-width="1.2"
+                      opacity="0.9" />
                     <!-- Star shape -->
-                    <path d="M80 49 L83.2 56.5 L91.3 57.3 L85.2 62.8 L86.9 70.8 L80 66.8 L73.1 70.8 L74.8 62.8 L68.7 57.3 L76.8 56.5 Z" fill="#FFFFFF" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.25))"/>
+                    <path
+                      d="M80 49 L83.2 56.5 L91.3 57.3 L85.2 62.8 L86.9 70.8 L80 66.8 L73.1 70.8 L74.8 62.8 L68.7 57.3 L76.8 56.5 Z"
+                      fill="#FFFFFF" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.25))" />
 
                     <!-- Shine Stripe Overlay across Cup -->
-                    <path class="cup-shine-path" d="M54 34 Q80 82 82 108" stroke="url(#goldSheen)" stroke-width="9" stroke-linecap="round" opacity="0.8"/>
+                    <path class="cup-shine-path" d="M54 34 Q80 82 82 108" stroke="url(#goldSheen)" stroke-width="9"
+                      stroke-linecap="round" opacity="0.8" />
                   </g>
                 </svg>
               </div>
@@ -708,8 +872,10 @@
                 <span id="achievementText" data-i18n="badgeMindfulMaster">মাইন্ডফুলনেস চ্যাম্পিয়ন</span>
               </div>
               <div class="mt-2">
-                <button type="button" class="btn btn-sm btn-light border shadow-sm rounded-pill tap-trophy-pill" onclick="celebrateAgain()" aria-label="Celebrate again">
-                  <i class="bi bi-magic text-warning me-1"></i> <span id="tapCupHint" data-i18n="tapCupConfetti">ট্রফিতে ট্যাপ করুন!</span>
+                <button type="button" class="btn btn-sm btn-light border shadow-sm rounded-pill tap-trophy-pill"
+                  onclick="celebrateAgain()" aria-label="Celebrate again">
+                  <i class="bi bi-magic text-warning me-1"></i> <span id="tapCupHint" data-i18n="tapCupConfetti">ট্রফিতে
+                    ট্যাপ করুন!</span>
                 </button>
               </div>
             </div>
@@ -722,31 +888,36 @@
           <div class="row g-3 text-start mb-4">
             <div class="col-6 col-md-4">
               <div class="info-panel">
-                <div class="small text-secondary mb-1"><i class="bi bi-wind text-primary me-1"></i><span data-i18n="summaryExercise">অনুশীলন</span></div>
+                <div class="small text-secondary mb-1"><i class="bi bi-wind text-primary me-1"></i><span
+                    data-i18n="summaryExercise">অনুশীলন</span></div>
                 <strong id="summaryName"></strong>
               </div>
             </div>
             <div class="col-6 col-md-4">
               <div class="info-panel">
-                <div class="small text-secondary mb-1"><i class="bi bi-bar-chart-steps text-info me-1"></i><span data-i18n="summaryLevel">অনুশীলনের স্তর</span></div>
+                <div class="small text-secondary mb-1"><i class="bi bi-bar-chart-steps text-info me-1"></i><span
+                    data-i18n="summaryLevel">অনুশীলনের স্তর</span></div>
                 <strong id="summaryLevel" class="text-primary"></strong>
               </div>
             </div>
             <div class="col-6 col-md-4">
               <div class="info-panel">
-                <div class="small text-secondary mb-1"><i class="bi bi-stopwatch text-warning me-1"></i><span data-i18n="summaryDuration">সময়</span></div>
+                <div class="small text-secondary mb-1"><i class="bi bi-stopwatch text-warning me-1"></i><span
+                    data-i18n="summaryDuration">সময়</span></div>
                 <strong id="summaryDuration"></strong>
               </div>
             </div>
             <div class="col-6 col-md-6">
               <div class="info-panel">
-                <div class="small text-secondary mb-1"><i class="bi bi-arrow-repeat text-success me-1"></i><span data-i18n="summaryCycles">সম্পূর্ণ চক্র</span></div>
+                <div class="small text-secondary mb-1"><i class="bi bi-arrow-repeat text-success me-1"></i><span
+                    data-i18n="summaryCycles">সম্পূর্ণ চক্র</span></div>
                 <strong id="summaryCycles"></strong>
               </div>
             </div>
             <div class="col-12 col-md-6">
               <div class="info-panel">
-                <div class="small text-secondary mb-1"><i class="bi bi-check-circle-fill text-success me-1"></i><span data-i18n="summaryStatus">অবস্থা</span></div>
+                <div class="small text-secondary mb-1"><i class="bi bi-check-circle-fill text-success me-1"></i><span
+                    data-i18n="summaryStatus">অবস্থা</span></div>
                 <strong class="text-success" data-i18n="completed">সম্পন্ন</strong>
               </div>
             </div>
@@ -760,7 +931,8 @@
               </span>
             </div>
             <h3 class="h6 fw-bold mb-1" data-i18n="moodCheckTitle">অনুশীলনের পর এখন কেমন অনুভূতি হচ্ছে?</h3>
-            <p class="small text-secondary mb-3" data-i18n="moodCheckSub">আপনার অনুভূতি চিহ্নিত করে মানসিক পরিবর্তনের পর্যবেক্ষণ রাখুন।</p>
+            <p class="small text-secondary mb-3" data-i18n="moodCheckSub">আপনার অনুভূতি চিহ্নিত করে মানসিক পরিবর্তনের
+              পর্যবেক্ষণ রাখুন।</p>
             <div class="mood-options d-flex justify-content-center gap-2 flex-wrap" id="moodOptions">
               <button type="button" class="btn mood-btn" data-mood="calm" onclick="selectMood('calm', this)">
                 <span class="mood-emoji">😌</span>
@@ -779,33 +951,40 @@
                 <span class="mood-label" data-i18n="moodSleepy">শিথিল ও তন্দ্রাচ্ছন্ন</span>
               </button>
             </div>
-            <div class="mood-feedback alert alert-primary d-none py-2 px-3 mt-3 mb-0 small rounded-3" id="moodFeedback"></div>
+            <div class="mood-feedback alert alert-primary d-none py-2 px-3 mt-3 mb-0 small rounded-3" id="moodFeedback">
+            </div>
           </div>
 
           <!-- Social Media Sharing Section -->
           <div class="social-share-card p-4 rounded-4 border bg-white mb-4 text-center">
             <div class="share-header mb-3">
-              <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-bold mb-2" data-i18n="shareBadge">আপনার অর্জন শেয়ার করুন</span>
+              <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-bold mb-2"
+                data-i18n="shareBadge">আপনার অর্জন শেয়ার করুন</span>
               <h3 class="h6 fw-bold mb-1" data-i18n="shareHeading">বন্ধুদের সাথে প্রশান্তি ও সুস্থতা শেয়ার করুন</h3>
-              <p class="small text-secondary mb-0" data-i18n="shareSub">আপনার সফল শ্বাস-প্রশ্বাস সেশনের অনুভূতি সোশ্যাল মিডিয়ায় ভাগ করে নিন।</p>
+              <p class="small text-secondary mb-0" data-i18n="shareSub">আপনার সফল শ্বাস-প্রশ্বাস সেশনের অনুভূতি সোশ্যাল
+                মিডিয়ায় ভাগ করে নিন।</p>
             </div>
             <div class="share-buttons-grid d-flex flex-wrap justify-content-center gap-2">
-              <button class="btn share-btn share-whatsapp" onclick="shareSession('whatsapp')" aria-label="Share on WhatsApp">
+              <button class="btn share-btn share-whatsapp" onclick="shareSession('whatsapp')"
+                aria-label="Share on WhatsApp">
                 <i class="bi bi-whatsapp"></i> <span>WhatsApp</span>
               </button>
               <button class="btn share-btn share-x" onclick="shareSession('twitter')" aria-label="Share on X">
                 <i class="bi bi-twitter-x"></i> <span>X (Twitter)</span>
               </button>
-              <button class="btn share-btn share-facebook" onclick="shareSession('facebook')" aria-label="Share on Facebook">
+              <button class="btn share-btn share-facebook" onclick="shareSession('facebook')"
+                aria-label="Share on Facebook">
                 <i class="bi bi-facebook"></i> <span>Facebook</span>
               </button>
-              <button class="btn share-btn share-linkedin" onclick="shareSession('linkedin')" aria-label="Share on LinkedIn">
+              <button class="btn share-btn share-linkedin" onclick="shareSession('linkedin')"
+                aria-label="Share on LinkedIn">
                 <i class="bi bi-linkedin"></i> <span>LinkedIn</span>
               </button>
               <button class="btn share-btn share-copy" onclick="shareSession('copy')" aria-label="Copy Link">
                 <i class="bi bi-link-45deg"></i> <span data-i18n="copyLinkBtn">লিঙ্ক কপি</span>
               </button>
-              <button class="btn share-btn share-native d-none" id="nativeShareSessionBtn" onclick="shareSession('native')" aria-label="More share options">
+              <button class="btn share-btn share-native d-none" id="nativeShareSessionBtn"
+                onclick="shareSession('native')" aria-label="More share options">
                 <i class="bi bi-share-fill"></i> <span data-i18n="moreShareBtn">আরও শেয়ার</span>
               </button>
             </div>
@@ -951,22 +1130,28 @@
                 </div>
 
                 <!-- Test Result Social Share Bar -->
-                <div class="test-share-bar p-3 rounded-3 border bg-white mb-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                <div
+                  class="test-share-bar p-3 rounded-3 border bg-white mb-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
                   <div class="d-flex align-items-center gap-2">
                     <i class="bi bi-share-fill text-primary"></i>
-                    <span class="small fw-bold text-dark" data-i18n="shareTestPrompt">আপনার টেস্ট রেজাল্ট শেয়ার করুন:</span>
+                    <span class="small fw-bold text-dark" data-i18n="shareTestPrompt">আপনার টেস্ট রেজাল্ট শেয়ার
+                      করুন:</span>
                   </div>
                   <div class="d-flex gap-2 flex-wrap">
-                    <button class="btn btn-sm btn-outline-success share-mini-btn" onclick="shareTestResult('whatsapp')" title="WhatsApp" aria-label="Share to WhatsApp">
+                    <button class="btn btn-sm btn-outline-success share-mini-btn" onclick="shareTestResult('whatsapp')"
+                      title="WhatsApp" aria-label="Share to WhatsApp">
                       <i class="bi bi-whatsapp me-1"></i> WhatsApp
                     </button>
-                    <button class="btn btn-sm btn-outline-dark share-mini-btn" onclick="shareTestResult('twitter')" title="X (Twitter)" aria-label="Share to X">
+                    <button class="btn btn-sm btn-outline-dark share-mini-btn" onclick="shareTestResult('twitter')"
+                      title="X (Twitter)" aria-label="Share to X">
                       <i class="bi bi-twitter-x me-1"></i> X
                     </button>
-                    <button class="btn btn-sm btn-outline-primary share-mini-btn" onclick="shareTestResult('facebook')" title="Facebook" aria-label="Share to Facebook">
+                    <button class="btn btn-sm btn-outline-primary share-mini-btn" onclick="shareTestResult('facebook')"
+                      title="Facebook" aria-label="Share to Facebook">
                       <i class="bi bi-facebook me-1"></i> Facebook
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary share-mini-btn" onclick="shareTestResult('copy')" title="Copy Link" aria-label="Copy share link">
+                    <button class="btn btn-sm btn-outline-secondary share-mini-btn" onclick="shareTestResult('copy')"
+                      title="Copy Link" aria-label="Copy share link">
                       <i class="bi bi-link-45deg me-1"></i> <span data-i18n="copyLinkMini">কপি</span>
                     </button>
                   </div>
@@ -1074,7 +1259,8 @@
         <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
         <span class="nav-label" data-i18n="navHome">হোম</span>
       </button>
-      <button type="button" class="mobile-nav-link" data-screen="library" onclick="go('library')" aria-label="Exercises">
+      <button type="button" class="mobile-nav-link" data-screen="library" onclick="go('library')"
+        aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
         <span class="nav-label" data-i18n="navExercises">অনুশীলন</span>
       </button>

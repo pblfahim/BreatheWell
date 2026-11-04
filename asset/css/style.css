@@ -134,36 +134,64 @@ main {
 
 .hero {
   position: relative;
-  padding: 76px 0 58px;
+  padding: 50px 0 50px;
   overflow: hidden;
-  background: radial-gradient(ellipse at 78% 48%, #d4efff 0%, transparent 36%),
-    radial-gradient(ellipse at 4% 10%, #fff 0%, transparent 42%),
-    linear-gradient(135deg, #f8fcff, #e5f3ff 75%, #eff9ff);
+  background: radial-gradient(ellipse at 85% 25%, rgba(186, 230, 253, 0.5) 0%, transparent 48%),
+    radial-gradient(ellipse at 12% 75%, rgba(254, 243, 199, 0.45) 0%, transparent 42%),
+    radial-gradient(ellipse at 50% 8%, rgba(224, 231, 255, 0.55) 0%, transparent 50%),
+    linear-gradient(135deg, #f8fcff 0%, #eaf5fe 60%, #f0fdf4 100%);
 }
 
-.hero:before,
-.hero:after {
-  content: "";
+/* Ambient Floating Background Bubbles */
+.hero-bubble {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(1px);
+  filter: blur(42px);
+  z-index: 0;
+  animation: heroFloatBubble 12s ease-in-out infinite alternate;
 }
 
-.hero:before {
-  width: 180px;
-  height: 180px;
-  background: rgba(93, 184, 235, .10);
-  right: -70px;
-  top: -65px;
+.hero-bubble.bubble-1 {
+  width: 290px;
+  height: 290px;
+  background: rgba(14, 165, 233, 0.13);
+  top: -60px;
+  right: 6%;
 }
 
-.hero:after {
-  width: 110px;
-  height: 110px;
-  background: rgba(23, 105, 170, .07);
-  left: 42%;
-  bottom: -65px;
+.hero-bubble.bubble-2 {
+  width: 230px;
+  height: 230px;
+  background: rgba(251, 191, 36, 0.14);
+  bottom: -40px;
+  left: 6%;
+  animation-duration: 16s;
+  animation-delay: -4s;
+}
+
+.hero-bubble.bubble-3 {
+  width: 190px;
+  height: 190px;
+  background: rgba(52, 211, 153, 0.12);
+  top: 42%;
+  left: 45%;
+  animation-duration: 14s;
+  animation-delay: -8s;
+}
+
+@keyframes heroFloatBubble {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(25px, -20px) scale(1.1);
+  }
+
+  100% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
 }
 
 .eyebrow {
@@ -174,90 +202,485 @@ main {
   font-size: .75rem;
 }
 
-.hero h1 {
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(14, 165, 233, 0.28);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.1);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0369a1;
+  backdrop-filter: blur(10px);
+  animation: heroBadgePop 0.6s ease both;
+}
+
+.hero-pill-badge .badge-icon {
+  display: inline-flex;
+  color: #f59e0b;
+  font-size: 0.95rem;
+  animation: sparkleTwinkle 2s ease-in-out infinite;
+}
+
+@keyframes heroBadgePop {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.92);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.hero h1,
+.hero-title {
   font-weight: 800;
   letter-spacing: -1.5px;
-  line-height: 1.12;
-  font-size: clamp(2.25rem, 5vw, 4rem);
-  max-width: 650px;
-  background: linear-gradient(100deg, #123d67 5%, #1769aa 58%, #2496c8);
+  line-height: 1.14;
+  font-size: clamp(2.35rem, 5vw, 4.15rem);
+  max-width: 660px;
+  background: linear-gradient(110deg, #0f2c4d 0%, #155e96 42%, #0284c7 82%, #0ea5e9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  margin-bottom: 0.8rem;
 }
 
-.hero p {
-  color: var(--muted);
-  font-size: 1.08rem;
-  line-height: 1.8;
-  max-width: 590px;
+.hero-subtitle {
+  color: #475569;
+  font-size: 1.12rem;
+  line-height: 1.75;
+  max-width: 580px;
 }
+
+.hero-cta-btn {
+  padding: 13px 28px !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.32) !important;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-cta-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(2, 132, 199, 0.42) !important;
+}
+
+.hero-cta-btn:active {
+  transform: scale(0.96);
+}
+
+.hero-secondary-btn {
+  padding: 13px 26px !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1.5px solid #bae6fd !important;
+  color: var(--blue-dark) !important;
+  backdrop-filter: blur(8px);
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.hero-secondary-btn:hover {
+  background: #ffffff !important;
+  border-color: var(--blue) !important;
+  color: var(--blue) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(23, 105, 170, 0.1);
+}
+
+/* Quick Vibe Chips Bar */
+.hero-vibe-wrap {
+  border-top: 1px dashed rgba(186, 230, 253, 0.8);
+  margin-top: 24px;
+}
+
+.hero-vibe-chip {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(203, 213, 225, 0.7);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.hero-vibe-chip:hover {
+  background: #ffffff;
+  border-color: var(--blue);
+  color: #0369a1;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.16);
+}
+
+.hero-vibe-chip:active {
+  transform: scale(0.95);
+}
+
+.vibe-emoji {
+  font-size: 1rem;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero-vibe-chip:hover .vibe-emoji {
+  transform: scale(1.28) rotate(8deg);
+}
+
+.hero-perks span {
+  font-weight: 500;
+  color: #475569;
+}
+
+/* ==========================================================================
+   BREATHEBUDDY ORB & ART
+   Interactive, Joyful Animated Breathing Companion
+   ========================================================================== */
 
 .hero-art {
-  min-height: 310px;
+  min-height: 360px;
   display: grid;
   place-items: center;
   position: relative;
   isolation: isolate;
+  user-select: none;
 }
 
-.hero-art .orb {
-  animation: heroBreathe 6s ease-in-out infinite;
-  box-shadow: 0 25px 85px rgba(23, 105, 170, .24), inset -12px -15px 35px rgba(23, 105, 170, .12);
-}
-
-.hero-art .orb:before {
-  animation: orbit 14s linear infinite;
-}
-
-.hero-art .orb:after {
-  animation: orbit 20s linear infinite reverse;
-}
-
-.orb {
-  width: 230px;
-  height: 230px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff 0, #c8ebff 35%, #68b9ec 100%);
-  box-shadow: 0 25px 75px rgba(23, 105, 170, .22);
+.hero-buddy-wrap {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
 }
 
-.orb:before,
-.orb:after {
-  content: "";
-  position: absolute;
-  border: 1px solid rgba(23, 105, 170, .16);
-  border-radius: 50%;
-  inset: -25px;
-}
-
-.orb:after {
-  inset: -52px;
-  border-color: rgba(23, 105, 170, .10);
-}
-
-.orb-core {
-  position: absolute;
-  inset: 28%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .62);
+.hero-buddy-orb {
+  width: 220px;
+  height: 220px;
+  position: relative;
   display: grid;
   place-items: center;
-  color: var(--blue);
-  font-size: 2.5rem;
-  box-shadow: inset 0 0 25px rgba(255, 255, 255, .9);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 
-@keyframes heroBreathe {
+.hero-buddy-orb:focus-visible {
+  outline: 3px solid var(--blue);
+  border-radius: 50%;
+}
+
+/* Pulsing Atmospheric Aura */
+.buddy-aura {
+  position: absolute;
+  inset: -25px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(14, 165, 233, 0.12) 50%, transparent 72%);
+  filter: blur(14px);
+  pointer-events: none;
+  animation: buddyAuraBreathe 6s ease-in-out infinite;
+}
+
+@keyframes buddyAuraBreathe {
 
   0%,
   100% {
-    transform: scale(.94);
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Orbiting Dashed Rings */
+.buddy-orbit {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.buddy-orbit.orbit-1 {
+  inset: -18px;
+  border: 1.5px dashed rgba(56, 189, 248, 0.35);
+  animation: orbit 18s linear infinite;
+}
+
+.buddy-orbit.orbit-2 {
+  inset: -42px;
+  border: 1px dotted rgba(14, 165, 233, 0.22);
+  animation: orbit 26s linear infinite reverse;
+}
+
+.orbit-particle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.orbit-particle.p1 {
+  top: 12px;
+  left: 20px;
+  width: 10px;
+  height: 10px;
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+.orbit-particle.p2 {
+  bottom: 14px;
+  right: 25px;
+  width: 8px;
+  height: 8px;
+  background: #fbbf24;
+  box-shadow: 0 0 8px #fbbf24;
+}
+
+/* Main Sphere Body with Soft 3D Lighting */
+.buddy-sphere {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #ffffff 0%, #e0f4ff 35%, #90d4fa 75%, #38b2ee 100%);
+  box-shadow: 0 25px 70px rgba(14, 165, 233, 0.28),
+    inset -12px -15px 30px rgba(3, 105, 161, 0.2),
+    inset 8px 8px 20px rgba(255, 255, 255, 0.85);
+  position: relative;
+  display: grid;
+  place-items: center;
+  animation: buddyBreathe 6s ease-in-out infinite;
+  transform-origin: center center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero-buddy-orb:hover .buddy-sphere {
+  transform: scale(1.06);
+}
+
+@keyframes buddyBreathe {
+
+  0%,
+  100% {
+    transform: scale(0.93);
+    box-shadow: 0 20px 50px rgba(14, 165, 233, 0.22);
   }
 
   50% {
     transform: scale(1.08);
+    box-shadow: 0 30px 80px rgba(14, 165, 233, 0.38), 0 0 25px rgba(56, 189, 248, 0.4);
+  }
+}
+
+.buddy-shine {
+  position: absolute;
+  top: 12%;
+  left: 18%;
+  width: 45px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  transform: rotate(-35deg);
+  pointer-events: none;
+}
+
+/* Cute Expressive Face */
+.buddy-face-svg {
+  position: relative;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.buddy-eye {
+  animation: eyeBlink 4.5s infinite;
+  transform-origin: center;
+}
+
+@keyframes eyeBlink {
+
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  96% {
+    transform: scaleY(0.1);
+  }
+}
+
+.buddy-mouth {
+  animation: mouthSmile 6s ease-in-out infinite;
+  transform-origin: 50px 42px;
+}
+
+@keyframes mouthSmile {
+
+  0%,
+  100% {
+    transform: scale(0.9);
+  }
+
+  50% {
+    transform: scale(1.18);
+  }
+}
+
+/* Playful Giggle Animation on Tap */
+.hero-buddy-orb.buddy-giggle .buddy-sphere {
+  animation: buddyGiggle 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+}
+
+@keyframes buddyGiggle {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(0.82, 1.18) translateY(-14px);
+  }
+
+  40% {
+    transform: scale(1.2, 0.84) translateY(8px);
+  }
+
+  60% {
+    transform: scale(0.94, 1.06) translateY(-5px);
+  }
+
+  80% {
+    transform: scale(1.04, 0.97);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Floating Inhale/Exhale Live Guide Pill */
+.hero-orb-caption {
+  margin-top: 16px;
+  z-index: 3;
+}
+
+.hero-orb-guide-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.12);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+  transition: all 0.35s ease;
+  user-select: none;
+}
+
+.hero-orb-guide-pill.exhaling {
+  border-color: #86efac;
+  color: #15803d;
+  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.14);
+}
+
+.hero-tap-hint-text {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* Floating Playful Pills around Buddy */
+.float-pill.pill-joy-1 {
+  top: 15px;
+  left: -20px;
+  animation-delay: 0s;
+}
+
+.float-pill.pill-joy-2 {
+  top: 25px;
+  right: -25px;
+  animation-delay: -1.8s;
+}
+
+.float-pill.pill-joy-3 {
+  bottom: 25px;
+  left: -15px;
+  animation-delay: -3.2s;
+}
+
+.float-pill.pill-joy-4 {
+  bottom: 35px;
+  right: -20px;
+  animation-delay: -4.5s;
+}
+
+.float-pill {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 14px;
+  padding: 8px 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+  z-index: 3;
+  backdrop-filter: blur(10px);
+  animation: floatCard 5s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.float-pill:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 28px rgba(14, 165, 233, 0.16);
+}
+
+/* Mini Floating Bubbles on Tap */
+.buddy-float-item {
+  position: absolute;
+  pointer-events: none;
+  font-size: 1.45rem;
+  z-index: 10;
+  animation: buddyFloatUp 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes buddyFloatUp {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(10px, -45px) scale(1.2);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-10px, -90px) scale(0.9);
   }
 }
 
@@ -267,31 +690,8 @@ main {
   }
 }
 
-.float-pill {
-  position: absolute;
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px 16px;
-  box-shadow: var(--shadow);
-  font-weight: 700;
-  color: var(--blue-dark);
-  z-index: 2;
-  animation: floatCard 5s ease-in-out infinite;
-}
-
-.pill-one {
-  top: 35px;
-  left: 3%;
-}
-
-.pill-two {
-  bottom: 35px;
-  right: 1%;
-  animation-delay: -2.2s;
-}
-
 @keyframes floatCard {
+
 
   0%,
   100% {
@@ -1152,10 +1552,13 @@ main {
 }
 
 @keyframes auraBreathe {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate(-50%, -50%) scale(0.92);
     opacity: 0.65;
   }
+
   50% {
     transform: translate(-50%, -50%) scale(1.18);
     opacity: 1;
@@ -1171,16 +1574,46 @@ main {
   animation: sparkleTwinkle 2.4s ease-in-out infinite;
 }
 
-.trophy-sparkle.sp-1 { top: 6px; left: -16px; font-size: 1.3rem; animation-delay: 0s; color: #fbbf24; }
-.trophy-sparkle.sp-2 { top: 20px; right: -20px; font-size: 1.5rem; animation-delay: 0.6s; color: #f59e0b; }
-.trophy-sparkle.sp-3 { bottom: 32px; left: -18px; font-size: 1.4rem; animation-delay: 1.2s; color: #fcd34d; }
-.trophy-sparkle.sp-4 { bottom: 38px; right: -16px; font-size: 1.2rem; animation-delay: 1.8s; color: #fbbf24; }
+.trophy-sparkle.sp-1 {
+  top: 6px;
+  left: -16px;
+  font-size: 1.3rem;
+  animation-delay: 0s;
+  color: #fbbf24;
+}
+
+.trophy-sparkle.sp-2 {
+  top: 20px;
+  right: -20px;
+  font-size: 1.5rem;
+  animation-delay: 0.6s;
+  color: #f59e0b;
+}
+
+.trophy-sparkle.sp-3 {
+  bottom: 32px;
+  left: -18px;
+  font-size: 1.4rem;
+  animation-delay: 1.2s;
+  color: #fcd34d;
+}
+
+.trophy-sparkle.sp-4 {
+  bottom: 38px;
+  right: -16px;
+  font-size: 1.2rem;
+  animation-delay: 1.8s;
+  color: #fbbf24;
+}
 
 @keyframes sparkleTwinkle {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.25;
     transform: scale(0.7) rotate(0deg);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.25) rotate(45deg);
@@ -1209,9 +1642,11 @@ main {
     opacity: 0;
     transform: scale(0.4) translateY(30px) rotate(-15deg);
   }
+
   70% {
     transform: scale(1.14) rotate(4deg);
   }
+
   100% {
     opacity: 1;
     transform: scale(1) translateY(0) rotate(0deg);
@@ -1219,12 +1654,16 @@ main {
 }
 
 @keyframes cupFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
+
   25% {
     transform: translateY(-8px) rotate(-1.5deg);
   }
+
   75% {
     transform: translateY(-3px) rotate(1.5deg);
   }
@@ -1235,12 +1674,29 @@ main {
 }
 
 @keyframes cupCheerBounce {
-  0% { transform: scale(1); }
-  20% { transform: scale(0.8) rotate(-9deg); }
-  45% { transform: scale(1.24) rotate(7deg); }
-  70% { transform: scale(0.95) rotate(-3deg); }
-  85% { transform: scale(1.06) rotate(1deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(0.8) rotate(-9deg);
+  }
+
+  45% {
+    transform: scale(1.24) rotate(7deg);
+  }
+
+  70% {
+    transform: scale(0.95) rotate(-3deg);
+  }
+
+  85% {
+    transform: scale(1.06) rotate(1deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 .champion-cup-svg {
@@ -1257,15 +1713,20 @@ main {
 }
 
 @keyframes shineSweep {
-  0%, 25% {
+
+  0%,
+  25% {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   50% {
     opacity: 0.95;
     transform: translateY(0);
   }
-  75%, 100% {
+
+  75%,
+  100% {
     opacity: 0;
     transform: translateY(10px);
   }
@@ -1293,8 +1754,13 @@ main {
 }
 
 @keyframes badgeGlow {
-  0% { box-shadow: 0 4px 14px rgba(245, 158, 11, 0.18); }
-  100% { box-shadow: 0 6px 22px rgba(245, 158, 11, 0.38); }
+  0% {
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.18);
+  }
+
+  100% {
+    box-shadow: 0 6px 22px rgba(245, 158, 11, 0.38);
+  }
 }
 
 .tap-trophy-pill {
@@ -1389,8 +1855,15 @@ main {
 }
 
 @keyframes moodFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Info Panel Interactive Polish */
@@ -1432,23 +1905,37 @@ footer {
   }
 
   .hero-art {
-    min-height: 260px;
+    min-height: 310px;
     margin-top: 20px;
   }
 
-  .orb {
-    width: 175px;
-    height: 175px;
+  .hero-buddy-orb {
+    width: 180px;
+    height: 180px;
   }
 
-  .pill-one {
-    left: 0;
-    top: 20px;
+  .float-pill.pill-joy-1 {
+    top: 5px;
+    left: 2%;
   }
 
-  .pill-two {
-    right: 0;
-    bottom: 20px;
+  .float-pill.pill-joy-2 {
+    top: 10px;
+    right: 2%;
+  }
+
+  .float-pill.pill-joy-3 {
+    display: none;
+  }
+
+  .float-pill.pill-joy-4 {
+    bottom: 15px;
+    right: 2%;
+  }
+
+  .hero-vibe-chip {
+    font-size: 0.82rem;
+    padding: 6px 14px;
   }
 
   .section {

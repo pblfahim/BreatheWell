@@ -6,6 +6,7 @@ const T = {
     navTest: "শ্বাসের পরীক্ষা",
     navSafety: "নিরাপত্তা",
     heroEyebrow: "প্রতিদিনের ছোট্ট বিরতি",
+    heroBadge: "সহজ ও আনন্দদায়ক মাইন্ডফুলনেস ✨",
     heroTitle: "প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি",
     heroDesc: "সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে ধীরে চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।",
     startBreathing: "অনুশীলন শুরু করুন",
@@ -14,6 +15,18 @@ const T = {
     mobileReady: "মোবাইল উপযোগী",
     gentlePractice: "নরম ও স্বচ্ছন্দ অনুশীলন",
     minutes: "মিনিট",
+    heroLiveBreathing: "মৃদু শ্বাস নিন...",
+    heroLiveExhale: "ধীরে শ্বাস ছাড়ুন...",
+    heroPillStress: "চাপ হ্রাস",
+    heroPillHeart: "প্রশান্ত হৃদয়",
+    heroPillQuick: "১ মিনিটে প্রশান্তি",
+    heroVibePrompt: "আজ আপনার লক্ষ্য কী?",
+    vibeCalm: "চাপ মুক্তি",
+    vibeFocus: "গভীর মনোযোগ",
+    vibeSleep: "ভালো ঘুম",
+    vibeEnergy: "সতেজ অনুভূতি",
+    heroOrbTap: "আমাকে ট্যাপ করুন!",
+    heroOrbSmile: "দারুণ! একটি গভীর শ্বাস নিন 😊",
     startSimple: "সহজভাবে শুরু করুন",
     featuredTitle: "আপনার অনুশীলন বেছে নিন",
     featuredDesc: "নিজের স্বাচ্ছন্দ্য অনুযায়ী একটি সহজ অনুশীলন নির্বাচন করুন।",
@@ -234,6 +247,7 @@ const T = {
     navTest: "Breath Test",
     navSafety: "Safety",
     heroEyebrow: "A small pause in your day",
+    heroBadge: "Simple & Joyful Mindfulness ✨",
     heroTitle: "Find your calm, one breath at a time",
     heroDesc: "Explore simple guided breathing practices to slow down, relax and bring your attention to the present moment.",
     startBreathing: "Start breathing",
@@ -242,6 +256,18 @@ const T = {
     mobileReady: "Mobile friendly",
     gentlePractice: "Gentle, comfortable practice",
     minutes: "minutes",
+    heroLiveBreathing: "Breathe in gently...",
+    heroLiveExhale: "Breathe out slowly...",
+    heroPillStress: "Stress Relief",
+    heroPillHeart: "Calm Heart Rate",
+    heroPillQuick: "Calm in 1 Min",
+    heroVibePrompt: "What is your goal right now?",
+    vibeCalm: "Relieve Stress",
+    vibeFocus: "Sharp Focus",
+    vibeSleep: "Better Sleep",
+    vibeEnergy: "Gentle Refresh",
+    heroOrbTap: "Tap me to breathe!",
+    heroOrbSmile: "Wonderful! Take a deep breath 😊",
     startSimple: "A simple place to begin",
     featuredTitle: "Choose your practice",
     featuredDesc: "Select a gentle exercise that feels comfortable for you.",
@@ -719,6 +745,7 @@ function setLang(next) {
       }
     }
   }
+  initHeroBreathGuide();
   loadTestHistory();
 }
 
@@ -795,6 +822,81 @@ function go(id) {
     loadTestHistory();
   }
   updateNavActive(id);
+}
+
+// Hero Playful Vibe & BreatheBuddy Interactions
+function quickStartExercise(id) {
+  const ex = exercises.find(e => e.id === id);
+  if (ex) {
+    selected = ex;
+    selectedLevel = 1;
+    showDetails(id);
+  } else {
+    go("library");
+  }
+}
+
+let heroBreathTimer = null;
+let heroIsInhale = true;
+
+function initHeroBreathGuide() {
+  const guideEl = $("heroOrbGuide");
+  if (!guideEl) return;
+  if (heroBreathTimer) clearInterval(heroBreathTimer);
+
+  heroIsInhale = true;
+  guideEl.textContent = tr("heroLiveBreathing");
+  guideEl.classList.remove("exhaling");
+
+  heroBreathTimer = setInterval(() => {
+    heroIsInhale = !heroIsInhale;
+    if (guideEl && !guideEl.dataset.customText) {
+      guideEl.textContent = heroIsInhale ? tr("heroLiveBreathing") : tr("heroLiveExhale");
+      guideEl.classList.toggle("exhaling", !heroIsInhale);
+    }
+  }, 3000);
+}
+
+function tapHeroBuddy() {
+  const orb = $("heroBuddyOrb");
+  if (orb) {
+    orb.classList.remove("buddy-giggle");
+    void orb.offsetWidth;
+    orb.classList.add("buddy-giggle");
+  }
+
+  spawnBuddyHearts();
+  playCelebrationChime();
+
+  const guideEl = $("heroOrbGuide");
+  if (guideEl) {
+    guideEl.dataset.customText = "true";
+    guideEl.textContent = tr("heroOrbSmile");
+    setTimeout(() => {
+      delete guideEl.dataset.customText;
+      if (guideEl) {
+        guideEl.textContent = heroIsInhale ? tr("heroLiveBreathing") : tr("heroLiveExhale");
+      }
+    }, 2400);
+  }
+}
+
+function spawnBuddyHearts() {
+  const wrap = $("heroArtWrap");
+  if (!wrap) return;
+  const icons = ["🌸", "✨", "💙", "💨", "⭐"];
+  for (let i = 0; i < 4; i++) {
+    const heart = document.createElement("span");
+    heart.className = "buddy-float-item";
+    heart.textContent = icons[Math.floor(Math.random() * icons.length)];
+    heart.style.left = (32 + Math.random() * 36) + "%";
+    heart.style.top = (28 + Math.random() * 32) + "%";
+    heart.style.animationDelay = (i * 0.1) + "s";
+    wrap.appendChild(heart);
+    setTimeout(() => {
+      if (heart.parentElement) heart.remove();
+    }, 1400);
+  }
 }
 
 function cardHTML(e) {
