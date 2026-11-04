@@ -681,6 +681,54 @@ if (langToggleBtn) {
   langToggleBtn.addEventListener("click", () => setLang(lang === "bn" ? "en" : "bn"));
 }
 
+function updateNavActive(screenId) {
+  const bottomNav = $("mobileBottomNav");
+  if (bottomNav) {
+    if (screenId === "session") {
+      bottomNav.classList.add("nav-hidden");
+    } else {
+      bottomNav.classList.remove("nav-hidden");
+    }
+
+    let targetTab = screenId;
+    if (screenId === "details" || screenId === "complete") {
+      targetTab = "library";
+    }
+
+    const links = bottomNav.querySelectorAll(".mobile-nav-link");
+    links.forEach(link => {
+      if (link.dataset.screen === targetTab) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.classList.remove("active");
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  // Also sync desktop navbar active class
+  const desktopLinks = document.querySelectorAll("#navMenu .nav-link");
+  desktopLinks.forEach(link => {
+    const fn = link.getAttribute("onclick") || "";
+    let matches = false;
+    if (screenId === "safety" && fn.includes("goToSafety")) {
+      matches = true;
+    } else if (screenId === "home" && fn.includes("go('home')")) {
+      matches = true;
+    } else if ((screenId === "library" || screenId === "details" || screenId === "complete") && fn.includes("go('library')")) {
+      matches = true;
+    } else if (screenId === "test" && fn.includes("go('test')")) {
+      matches = true;
+    }
+    if (matches) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+}
+
 function go(id) {
   if (run && id !== "session" && id !== "complete") {
     if (!confirm(tr("confirmStop"))) return;
@@ -700,6 +748,7 @@ function go(id) {
   if (id === 'test') {
     loadTestHistory();
   }
+  updateNavActive(id);
 }
 
 function cardHTML(e) {
@@ -957,6 +1006,7 @@ function triggerSafetyReset() {
 
 function goToSafety() {
   go('home');
+  updateNavActive('safety');
   setTimeout(() => {
     const el = $("safety");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -1673,3 +1723,24 @@ document.addEventListener("visibilitychange", () => {
 // Initialize on script load
 setLang(lang);
 renderCards();
+updateNavActive("home");
+
+// Auto-highlight Safety in bottom bar when scrolled to Safety on Home screen
+if ("IntersectionObserver" in window) {
+  const safetyObserver = new IntersectionObserver((entries) => {
+    const homeScreen = $("home");
+    if (!homeScreen || !homeScreen.classList.contains("active")) return;
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+        updateNavActive("safety");
+      } else if (!entry.isIntersecting) {
+        const rect = entry.boundingClientRect;
+        if (rect.top > 0) {
+          updateNavActive("home");
+        }
+      }
+    });
+  }, { threshold: [0.25] });
+  const safetyEl = $("safety");
+  if (safetyEl) safetyObserver.observe(safetyEl);
+}

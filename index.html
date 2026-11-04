@@ -932,6 +932,28 @@
           প্রশান্তি</span></span><span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
+  <!-- MOBILE BOTTOM APP DRAWER / NAVBAR (Native App Experience) -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" aria-hidden="true"></div>
+    <div class="mobile-nav-items">
+      <button type="button" class="mobile-nav-link active" data-screen="home" onclick="go('home')" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-i18n="navHome">হোম</span>
+      </button>
+      <button type="button" class="mobile-nav-link" data-screen="library" onclick="go('library')" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-i18n="navExercises">অনুশীলন</span>
+      </button>
+      <button type="button" class="mobile-nav-link" data-screen="test" onclick="go('test')" aria-label="Breath Test">
+        <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
+        <span class="nav-label" data-i18n="navTest">শ্বাসের পরীক্ষা</span>
+      </button>
+      <button type="button" class="mobile-nav-link" data-screen="safety" onclick="goToSafety()" aria-label="Safety">
+        <div class="nav-icon-wrap"><i class="bi bi-shield-check"></i></div>
+        <span class="nav-label" data-i18n="navSafety">নিরাপত্তা</span>
+      </button>
+    </div>
+  </nav>
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="appToast" class="toast border-0 shadow" role="status">
       <div class="toast-body d-flex justify-content-between align-items-center"><span id="toastText"></span><button
