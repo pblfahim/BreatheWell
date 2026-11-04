@@ -1596,6 +1596,148 @@ footer {
   transform: translateY(-1px);
 }
 
+/* ==========================================================================
+   SAFETY HUB & READINESS SYSTEM
+   ========================================================================== */
+
+.safety-hub {
+  background: #ffffff;
+  border: 1px solid #daeaf7;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(23, 105, 170, 0.05);
+}
+
+.safety-nav-pills {
+  background: #f0f6fc;
+  padding: 5px;
+  border-radius: 14px;
+  display: inline-flex;
+}
+
+.safety-tab-btn {
+  border-radius: 10px !important;
+  font-weight: 600;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.2s ease;
+}
+
+.safety-pillar-card {
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.safety-pillar-card:hover {
+  transform: translateY(-3px);
+}
+
+.pillar-safe {
+  background: linear-gradient(180deg, #f7fdfa 0%, #eefbf4 100%);
+  border-color: #bbf0d7;
+  box-shadow: 0 4px 18px rgba(20, 139, 114, 0.06);
+}
+
+.pillar-caution {
+  background: linear-gradient(180deg, #fffdf7 0%, #fef9ec 100%);
+  border-color: #fce7b0;
+  box-shadow: 0 4px 18px rgba(202, 138, 4, 0.06);
+}
+
+.pillar-danger {
+  background: linear-gradient(180deg, #fffafa 0%, #fef2f2 100%);
+  border-color: #fecaca;
+  box-shadow: 0 4px 18px rgba(239, 68, 68, 0.06);
+}
+
+.pillar-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+}
+
+.pillar-list {
+  list-style: none;
+  line-height: 1.7;
+}
+
+.pillar-list li {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.pillar-list li:last-child {
+  margin-bottom: 0;
+}
+
+.checklist-panel {
+  background: #fbfdff !important;
+  border-color: #dbeaf7 !important;
+}
+
+.checklist-item {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.checklist-item:hover {
+  border-color: var(--blue) !important;
+  background: #f0f7fe !important;
+  box-shadow: 0 4px 12px rgba(23, 105, 170, 0.08);
+}
+
+.checklist-item input:checked + div strong {
+  color: var(--blue) !important;
+}
+
+.safety-ready-banner {
+  border-radius: 14px;
+  animation: prepareThrob 3s ease-in-out infinite;
+}
+
+.condition-card {
+  background: #fbfdff !important;
+  border-color: #e2edf8 !important;
+  transition: all 0.2s ease;
+}
+
+.condition-card:hover {
+  border-color: var(--blue) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(23, 105, 170, 0.06);
+}
+
+.emergency-panel {
+  background: linear-gradient(180deg, #ffffff 0%, #fffbfb 100%);
+  border-color: #fecaca !important;
+}
+
+.emergency-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #fee2e2;
+  display: grid;
+  place-items: center;
+  animation: stagePulse 3s ease-in-out infinite;
+}
+
+.emergency-step-box {
+  background: #ffffff !important;
+  border-color: #fecaca !important;
+  transition: all 0.2s ease;
+}
+
+.emergency-step-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
+}
+
+
 
 
 

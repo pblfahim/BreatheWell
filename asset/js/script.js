@@ -83,6 +83,53 @@ const T = {
     safetyTitle: "নিরাপদ অনুশীলন",
     safetyShort: "আরামদায়কভাবে শ্বাস নিন। শ্বাস জোর করে টানবেন না বা ধরে রাখবেন না। মাথা ঘোরা, অস্বস্তি বা অস্বাভাবিক শ্বাসকষ্ট হলে সঙ্গে সঙ্গে থামুন।",
     readSafety: "সম্পূর্ণ নিরাপত্তা নির্দেশনা",
+    safetyEyebrow: "চিকিৎসা ও সুস্থতা নির্দেশিকা",
+    safetyMainHeading: "নিরাপদ শ্বাসের নির্দেশিকা ও সেলফ-চেক",
+    safetyMainDesc: "শ্বাস-প্রশ্বাস সম্পূর্ণ প্রাকৃতিক হলেও সঠিক সচেতনতা ও নিরাপত্তা বজায় রাখা জরুরি। স্বাস্থ্যসম্মত ও আরামদায়ক অনুশীলনের জন্য এই নির্দেশিকাগুলো মেনে চলুন।",
+    safetyTabRules: "🛡️ ৩টি মূল নিরাপত্তা নিয়ম",
+    safetyTabChecklist: "✅ সেলফ-চেক চেকলিস্ট",
+    safetyTabConditions: "🩺 বিশেষ শারীরিক অবস্থা",
+    safetyTabEmergency: "🆘 তাৎক্ষণিক স্থিরতা",
+    safetyPillar1Title: "আরামদায়ক ভঙ্গি ও প্রস্তুতি",
+    safetyPillar1Desc: "নিরাপদ স্থানে সোজা হয়ে কিন্তু আরাম করে বসুন বা শুয়ে পড়ুন। কাঁধ ও চোয়াল শিথিল রাখুন।",
+    safetyPillar1Pt1: "নাক দিয়ে ধীরে ও স্বাভাবিক শ্বাস নিন",
+    safetyPillar1Pt2: "পেটের স্বাভাবিক ওঠা-নামা লক্ষ্য করুন",
+    safetyPillar1Pt3: "চোখ বন্ধ বা দৃষ্টি নরম রাখুন",
+    safetyPillar2Title: "কখনই জোর করবেন না",
+    safetyPillar2Desc: "শ্বাস ধরে রাখার কোনো ধাপে কষ্ট বা অস্বস্তি হলে তৎক্ষণাৎ ছেড়ে দিন এবং স্বাভাবিক শ্বাসে ফিরুন।",
+    safetyPillar2Pt1: "শ্বাস জোর করে অতিরিক্ত দীর্ঘ করবেন না",
+    safetyPillar2Pt2: "ড্রাইভিং বা ভারী কাজের সময় করবেন না",
+    safetyPillar2Pt3: "শরীরকে সবসময় নিজের গতিতে চলতে দিন",
+    safetyPillar3Title: "অবিলম্বে থামার লক্ষণসমূহ",
+    safetyPillar3Desc: "নিচের যেকোনো লক্ষণ দেখা দিলে অনুশীলন তৎক্ষণাৎ বন্ধ করুন এবং স্বাভাবিক শান্ত শ্বাসে ফিরুন।",
+    safetyPillar3Pt1: "মাথা ঘোরা, ঝিমঝিম বা হালকা লাগা",
+    safetyPillar3Pt2: "বুকে চাপ, ব্যথা বা বুক ধড়ফড় করা",
+    safetyPillar3Pt3: "হাত-পা অসাড় বা অস্বাভাবিক শিহরণ",
+    checkTitle: "প্রি-সেশন নিরাপত্তা সেলফ-চেক",
+    checkDesc: "অনুশীলন শুরুর আগে মাত্র ২০ সেকেন্ডে নিচের ৩টি বিষয় নিশ্চিত করে নিন:",
+    checkProgressLabel: "চেকলিস্ট অগ্রগতি:",
+    checkItem1: "আমি একটি নিরাপদ, শান্ত ও আরামদায়ক স্থানে বসেছি বা শুয়েছি।",
+    checkItem2: "আমি গাড়ি চালাচ্ছি না, সাঁতার কাটছি না বা ঝুঁকিপূর্ণ কাজ করছি না।",
+    checkItem3: "অস্বস্তি বা মাথা ঘোরা অনুভব করামাত্র আমি স্বাভাবিক শ্বাসে ফিরে যাব।",
+    checkReadyBadge: "🎉 আপনি সম্পূর্ণ প্রস্তুত ও নিরাপদ!",
+    checkReadyBtn: "অনুশীলন শুরু করুন",
+    checkResetBtn: "রিসেট",
+    condAsthmaTitle: "অ্যাজমা ও সিওপিডি (Asthma & COPD)",
+    condAsthmaDesc: "দীর্ঘ শ্বাস ধরে রাখার ধাপগুলো এড়িয়ে চলুন। শুধুমাত্র ডায়াফ্রামেটিক ব্রিদিং বা ৪-৬ রিল্যাক্সিং ব্রিদিংয়ের মতো নরম ও মসৃণ শ্বাস অনুশীলন করুন। সবসময় প্রয়োজনীয় ইনহেলার কাছে রাখুন।",
+    condHeartTitle: "উচ্চ রক্তচাপ ও হৃদরোগ (Hypertension & Cardiac)",
+    condHeartDesc: "শ্বাস ধরে রাখলে রক্তচাপের সাময়িক তারতম্য হতে পারে। বক্স ব্রিদিংয়ের শ্বাস ধারণ বাদ দিয়ে কেবল ৪ সেকেন্ড নেওয়া ও ৬ সেকেন্ড ছাড়ার ছন্দ অনুসরণ করুন।",
+    condPregnancyTitle: "গর্ভাবস্থা (Pregnancy)",
+    condPregnancyDesc: "গর্ভাবস্থায় কোনো ধরনের তীব্র শ্বাস আটকানো নিষিদ্ধ। হালকা ডায়াফ্রামেটিক ব্রিদিং এবং প্রাকৃতিক মননশীল শ্বাস মা ও শিশুর জন্য নিরাপদ এবং মানসিক চাপ কমাতে জাদুকরী।",
+    condPanicTitle: "প্যানিক বা তীব্র উদ্বেগ (Panic & Hyperventilation)",
+    condPanicDesc: "উদ্বেগের সময় অতিরিক্ত বাতাস ভেতরে টানার প্রবণতা থাকে। শ্বাস নেওয়ার চেয়ে নিঃশ্বাস ধীরে ও লম্বা করে ছাড়ার দিকে মনোযোগ দিন। এটি স্নায়ুতন্ত্রকে শান্ত করে।",
+    emergencyTitle: "🆘 তাৎক্ষণিক স্থিরতা ও প্রশান্তি প্রোটোকল",
+    emergencyDesc: "অনুশীলনে কোনো কারণে মাথা ঘুরলে বা অস্বস্তি লাগলে নিচের বোতামে চাপুন। এটি তৎক্ষণাৎ সেশন থামিয়ে শরীরকে শান্ত করবে:",
+    emergencyBtnText: "তাৎক্ষণিক স্বাভাবিক শ্বাসে ফিরুন (ইমার্জেন্সি রিসেট)",
+    emergencyStep1: "১. চোখ বন্ধ করুন এবং কেবল ধীরে ধীরে ফুসফুসের সব বাতাস ছেড়ে দিন।",
+    emergencyStep2: "২. দুই পা মেঝেতে শক্তভাবে স্পর্শ করান এবং পায়ের নিচে মাটির অস্তিত্ব অনুভব করুন।",
+    emergencyStep3: "৩. কোনো নির্দিষ্ট ছন্দ ছাড়া নিজের স্বাভাবিক গতিতে ৫টি শান্ত শ্বাস নিন।",
+    emergencyStep4: "৪. চোখ খুলে এক ঢোক পানি পান করুন এবং ১ মিনিট বিশ্রাম নিন।",
+    emergencyToastMsg: "শান্ত হোন। সেশন বন্ধ করা হয়েছে। আরাম করে স্বাভাবিক শ্বাস নিন।",
     libraryEyebrow: "অনুশীলনের সংগ্রহ",
     libraryTitle: "আপনার শ্বাসের অনুশীলন বেছে নিন",
     libraryDesc: "প্রতিটি অনুশীলনের সময় ও নির্দেশনা দেখে নিজের উপযোগীটি নির্বাচন করুন।",
@@ -247,6 +294,53 @@ const T = {
     safetyTitle: "Practice safely",
     safetyShort: "Breathe comfortably. Do not force your breath or hold it unnecessarily. Stop immediately if you feel dizzy, uncomfortable or unusually short of breath.",
     readSafety: "Read full safety guidance",
+    safetyEyebrow: "Clinical & Wellness Standards",
+    safetyMainHeading: "Safety Guidelines & Pre-Check",
+    safetyMainDesc: "While breathwork is completely natural and restorative, practicing with awareness ensures a safe, comfortable, and grounding experience.",
+    safetyTabRules: "🛡️ 3 Golden Rules",
+    safetyTabChecklist: "✅ Readiness Checklist",
+    safetyTabConditions: "🩺 Health Conditions",
+    safetyTabEmergency: "🆘 Calming Reset",
+    safetyPillar1Title: "Comfortable Posture",
+    safetyPillar1Desc: "Sit upright yet relaxed, or lie down in a safe space. Keep jaw, neck, and shoulders loose.",
+    safetyPillar1Pt1: "Breathe gently and smoothly through your nose",
+    safetyPillar1Pt2: "Focus on natural abdominal expansion",
+    safetyPillar1Pt3: "Close eyes or maintain a soft downward gaze",
+    safetyPillar2Title: "Never Force the Breath",
+    safetyPillar2Desc: "If holding the breath feels strained or uncomfortable, release immediately and breathe naturally.",
+    safetyPillar2Pt1: "Do not force unnaturally deep or prolonged breaths",
+    safetyPillar2Pt2: "Never practice while driving or operating machinery",
+    safetyPillar2Pt3: "Respect your biological rhythm without judgment",
+    safetyPillar3Title: "When to Stop Immediately",
+    safetyPillar3Desc: "Stop the session immediately and return to natural breathing if you notice any of these signs:",
+    safetyPillar3Pt1: "Dizziness, vertigo, or sudden lightheadedness",
+    safetyPillar3Pt2: "Chest tightness, pain, or palpitations",
+    safetyPillar3Pt3: "Tingling sensations in fingers, toes, or face",
+    checkTitle: "Pre-Session Safety Self-Check",
+    checkDesc: "Take 20 seconds before starting to verify these 3 essential safety items:",
+    checkProgressLabel: "Checklist Progress:",
+    checkItem1: "I am seated or lying down comfortably in a safe, stable place.",
+    checkItem2: "I am not driving, in water, or operating any equipment.",
+    checkItem3: "I will stop immediately and breathe naturally if I feel any discomfort.",
+    checkReadyBadge: "🎉 You are fully ready and safe to practice!",
+    checkReadyBtn: "Start Practice Now",
+    checkResetBtn: "Reset",
+    condAsthmaTitle: "Asthma & Respiratory Conditions",
+    condAsthmaDesc: "Avoid prolonged breath holds. Focus on gentle diaphragmatic breathing or 4-6 relaxation. Keep prescribed inhalers nearby.",
+    condHeartTitle: "Hypertension & Cardiovascular Health",
+    condHeartDesc: "Holding your breath can transiently elevate blood pressure. Choose gentle exhalation rhythms (4-6 Relaxing) over breath-hold practices.",
+    condPregnancyTitle: "Pregnancy & Prenatal Breathing",
+    condPregnancyDesc: "Strictly avoid forceful breath holds or hyperventilation. Gentle diaphragmatic and natural mindful breathing are safe, relaxing, and soothing.",
+    condPanicTitle: "Panic & Hyperventilation Attacks",
+    condPanicDesc: "During anxiety spikes, resist gasping deep inhales. Focus on extending your exhalations slowly through pursed lips to calm your heart rate.",
+    emergencyTitle: "🆘 Instant Calming & Grounding Protocol",
+    emergencyDesc: "If you feel overwhelmed, breathless, or lightheaded, trigger this emergency calm reset to stop and ground yourself:",
+    emergencyBtnText: "Trigger Grounding & Calming Reset",
+    emergencyStep1: "1. Close your eyes and softly sigh out all the air from your lungs.",
+    emergencyStep2: "2. Plant both feet firmly on the ground and feel the solid surface beneath you.",
+    emergencyStep3: "3. Take 5 unforced, natural breaths at whatever pace feels easiest.",
+    emergencyStep4: "4. Open your eyes, sip some water, and rest quietly for a moment.",
+    emergencyToastMsg: "Stay calm. Session reset. Breathe naturally and ground yourself.",
     libraryEyebrow: "Practice collection",
     libraryTitle: "Choose a breathing exercise",
     libraryDesc: "Review each exercise's timing and instructions before choosing one.",
@@ -767,6 +861,106 @@ function showSafety() {
   if (modalEl) {
     bootstrap.Modal.getOrCreateInstance(modalEl).show();
   }
+}
+
+// ==========================================================================
+// SAFETY HUB & READINESS FUNCTIONALITY
+// ==========================================================================
+
+let activeSafetyTab = 'rules';
+
+function switchSafetyTab(tab) {
+  activeSafetyTab = tab;
+  const buttons = document.querySelectorAll('.safety-tab-btn');
+  buttons.forEach(btn => {
+    const isActive = btn.dataset.tab === tab;
+    btn.classList.toggle('active', isActive);
+    btn.classList.toggle('btn-primary', isActive);
+    btn.classList.toggle('btn-outline-primary', !isActive);
+  });
+
+  const views = {
+    rules: $('safetyViewRules'),
+    checklist: $('safetyViewChecklist'),
+    conditions: $('safetyViewConditions'),
+    emergency: $('safetyViewEmergency')
+  };
+
+  Object.keys(views).forEach(k => {
+    if (views[k]) {
+      views[k].classList.toggle('d-none', k !== tab);
+    }
+  });
+}
+
+function updateSafetyChecklist() {
+  const c1 = $('safetyCheck1')?.checked ? 1 : 0;
+  const c2 = $('safetyCheck2')?.checked ? 1 : 0;
+  const c3 = $('safetyCheck3')?.checked ? 1 : 0;
+  const total = c1 + c2 + c3;
+
+  const countBadge = $('safetyCheckProgressCount');
+  if (countBadge) {
+    countBadge.textContent = lang === 'bn' ? `${total}/৩` : `${total}/3`;
+  }
+
+  const progressBar = $('safetyCheckProgressBar');
+  if (progressBar) {
+    const pct = Math.round((total / 3) * 100);
+    progressBar.style.width = pct + '%';
+    progressBar.setAttribute('aria-valuenow', pct);
+    if (total === 3) {
+      progressBar.classList.remove('bg-primary');
+      progressBar.classList.add('bg-success');
+    } else {
+      progressBar.classList.remove('bg-success');
+      progressBar.classList.add('bg-primary');
+    }
+  }
+
+  const readyBanner = $('safetyReadyBanner');
+  if (readyBanner) {
+    readyBanner.classList.toggle('d-none', total < 3);
+  }
+}
+
+function resetSafetyCheck() {
+  const c1 = $('safetyCheck1');
+  const c2 = $('safetyCheck2');
+  const c3 = $('safetyCheck3');
+  if (c1) c1.checked = false;
+  if (c2) c2.checked = false;
+  if (c3) c3.checked = false;
+  updateSafetyChecklist();
+}
+
+function triggerSafetyReset() {
+  if (run) stopRun(false);
+  if (testRunning) stopCurrentTest();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  
+  toast(tr("emergencyToastMsg"));
+
+  const resetBtn = $('emergencyResetBtn');
+  if (resetBtn) {
+    resetBtn.classList.remove('btn-danger');
+    resetBtn.classList.add('btn-success');
+    const origHtml = resetBtn.innerHTML;
+    resetBtn.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> ${lang === 'bn' ? 'সেশন থামানো হয়েছে · স্বাভাবিক শ্বাস নিন' : 'Session Stopped · Breathe Gently'}`;
+    setTimeout(() => {
+      resetBtn.classList.remove('btn-success');
+      resetBtn.classList.add('btn-danger');
+      resetBtn.innerHTML = origHtml;
+    }, 4000);
+  }
+}
+
+function goToSafety() {
+  go('home');
+  setTimeout(() => {
+    const el = $("safety");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  }, 80);
 }
 
 function startSession() {
