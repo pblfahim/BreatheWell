@@ -1,259 +1,621 @@
 <!doctype html>
 <html lang="bn">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1769aa">
-  <meta name="description" content="BreatheWell — বাংলা ও ইংরেজিতে সহজ, নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলন।">
-  <title>BreatheWell | শ্বাসে প্রশান্তি</title>
+  <meta name="description"
+    content="BreatheWell — বাংলা ও ইংরেজিতে সহজ, নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলন ও সক্ষমতা পরীক্ষা।">
+  <title>BreatheWell | শ্বাসে প্রশান্তি ও সক্ষমতা পরীক্ষা</title>
   <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="asset/css/style.css">
 </head>
+
 <body class="bn">
-<a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল কনটেন্টে যান</a>
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container py-2">
-    <button class="navbar-brand brand border-0 bg-transparent p-0" onclick="go('home')" aria-label="BreatheWell home"><span class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell</button>
-    <div class="d-flex align-items-center gap-2 order-lg-3">
-      <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
-      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Open navigation"><span class="navbar-toggler-icon"></span></button>
-    </div>
-    <div class="collapse navbar-collapse order-lg-2" id="navMenu">
-      <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-        <li class="nav-item"><button class="nav-link btn" onclick="go('home')" data-i18n="navHome">হোম</button></li>
-        <li class="nav-item"><button class="nav-link btn" onclick="go('library')" data-i18n="navExercises">অনুশীলন</button></li>
-        <li class="nav-item"><a class="nav-link" href="#safety" onclick="go('home')" data-i18n="navSafety">নিরাপত্তা</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<main id="main">
-  <!-- SCREEN 1: HOME -->
-  <section id="home" class="screen active">
-    <div class="hero">
-      <div class="container">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-7">
-            <div class="eyebrow mb-3" data-i18n="heroEyebrow">প্রতিদিনের ছোট্ট বিরতি</div>
-            <h1 data-i18n="heroTitle">প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি</h1>
-            <p class="my-4" data-i18n="heroDesc">সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে ধীরে চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।</p>
-            <div class="d-flex flex-wrap gap-3">
-              <button class="btn btn-primary" onclick="go('library')" data-i18n="startBreathing">অনুশীলন শুরু করুন <i class="bi bi-arrow-right ms-1"></i></button>
-              <button class="btn btn-outline-primary" onclick="document.getElementById('featured').scrollIntoView({behavior:'smooth'})" data-i18n="explore">অনুশীলন দেখুন</button>
-            </div>
-            <div class="d-flex gap-4 mt-4 small text-secondary"><span><i class="bi bi-check-circle-fill text-success me-1"></i><span data-i18n="noAccount">অ্যাকাউন্ট প্রয়োজন নেই</span></span><span><i class="bi bi-phone me-1"></i><span data-i18n="mobileReady">মোবাইল উপযোগী</span></span></div>
-          </div>
-          <div class="col-lg-5">
-            <div class="hero-art" aria-hidden="true"><div class="orb"><div class="orb-core"><i class="bi bi-wind"></i></div></div><div class="float-pill pill-one"><i class="bi bi-heart-pulse me-2 text-primary"></i><span data-i18n="gentlePractice">নরম ও স্বচ্ছন্দ অনুশীলন</span></div><div class="float-pill pill-two"><i class="bi bi-clock me-2 text-primary"></i>৫ <span data-i18n="minutes">মিনিট</span></div></div>
-          </div>
-        </div>
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল
+    কনটেন্টে যান</a>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <button class="navbar-brand brand border-0 bg-transparent p-0" onclick="go('home')"
+        aria-label="BreatheWell home"><span class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell</button>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+          aria-label="Open navigation"><span class="navbar-toggler-icon"></span></button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><button class="nav-link btn" onclick="go('home')" data-i18n="navHome">হোম</button></li>
+          <li class="nav-item"><button class="nav-link btn" onclick="go('library')"
+              data-i18n="navExercises">অনুশীলন</button></li>
+          <li class="nav-item"><button class="nav-link btn" onclick="go('test')" data-i18n="navTest">শ্বাসের
+              পরীক্ষা</button></li>
+          <li class="nav-item"><a class="nav-link" href="#safety" onclick="go('home')"
+              data-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
       </div>
     </div>
-    <section class="section" id="featured">
-      <div class="container">
-        <!-- Section Header -->
-        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
-          <div>
-            <div class="eyebrow mb-2" data-i18n="exploreEyebrow">প্রয়োজন অনুযায়ী নির্বাচন</div>
-            <h2 class="section-title mb-2" data-i18n="exploreHeading">শ্বাসের অনুশীলন অন্বেষণ করুন</h2>
-            <p class="section-sub mb-0" data-i18n="exploreSub">আপনার বর্তমান শারীরিক ও মানসিক অবস্থা অনুযায়ী সঠিক কৌশলটি বেছে নিন। প্রতিটি অনুশীলনের রয়েছে সুনির্দিষ্ট বিজ্ঞানসম্মত উপকারিতা।</p>
-          </div>
-          <button class="btn btn-outline-primary" onclick="go('library')" data-i18n="allExercises">সব অনুশীলন <i class="bi bi-arrow-right ms-1"></i></button>
-        </div>
+  </nav>
 
-        <!-- Quick Goal Pills -->
-        <div class="explore-goals d-flex flex-wrap gap-2 mb-4" id="exploreGoalPills">
-          <button class="btn btn-sm btn-primary goal-pill" data-goal="all" data-i18n="goalAll">সব অনুশীলন (৪টি)</button>
-          <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="stress" data-i18n="goalStress">🌿 চাপ ও উদ্বেগ</button>
-          <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="focus" data-i18n="goalFocus">🎯 মনোযোগ ও ভারসাম্য</button>
-          <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="sleep" data-i18n="goalSleep">🌙 ঘুম ও বিশ্রাম</button>
-          <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="mindful" data-i18n="goalMindful">🧘 সচেতন উপস্থিতি</button>
-        </div>
-
-        <!-- Exercise Cards -->
-        <div class="row g-4" id="featuredCards"></div>
-
-        <!-- Science & Benefit Highlights Strip -->
-        <div class="row g-3 mt-4 pt-3">
-          <div class="col-md-4">
-            <div class="benefit-card h-100">
-              <div class="benefit-icon"><i class="bi bi-heart-pulse text-primary"></i></div>
-              <h3 class="h6 fw-bold mb-2 text-dark" data-i18n="benefit1Title">বিজ্ঞানসম্মত কার্যকারিতা</h3>
-              <p class="small text-secondary mb-0" data-i18n="benefit1Desc">ধীর শ্বাস হৃদস্পন্দন হ্রাস করে এবং প্যারাসিমপ্যাথেটিক স্নায়ুতন্ত্রকে উদ্দীপ্ত করে দ্রুত শান্ত অনুভূতি আনে।</p>
+  <main id="main">
+    <!-- SCREEN 1: HOME -->
+    <section id="home" class="screen active">
+      <div class="hero">
+        <div class="container">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+              <div class="eyebrow mb-3" data-i18n="heroEyebrow">প্রতিদিনের ছোট্ট বিরতি</div>
+              <h1 data-i18n="heroTitle">প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি</h1>
+              <p class="my-4" data-i18n="heroDesc">সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে ধীরে চলুন, আরাম করুন
+                এবং বর্তমান মুহূর্তে মনোযোগ দিন।</p>
+              <div class="d-flex flex-wrap gap-3">
+                <button class="btn btn-primary" onclick="go('library')" data-i18n="startBreathing">অনুশীলন শুরু করুন <i
+                    class="bi bi-arrow-right ms-1"></i></button>
+                <button class="btn btn-outline-primary"
+                  onclick="document.getElementById('featured').scrollIntoView({behavior:'smooth'})"
+                  data-i18n="explore">অনুশীলন দেখুন</button>
+              </div>
+              <div class="d-flex gap-4 mt-4 small text-secondary"><span><i
+                    class="bi bi-check-circle-fill text-success me-1"></i><span data-i18n="noAccount">অ্যাকাউন্ট প্রয়োজন
+                    নেই</span></span><span><i class="bi bi-phone me-1"></i><span data-i18n="mobileReady">মোবাইল
+                    উপযোগী</span></span></div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="benefit-card h-100">
-              <div class="benefit-icon"><i class="bi bi-lightning-charge text-primary"></i></div>
-              <h3 class="h6 fw-bold mb-2 text-dark" data-i18n="benefit2Title">৩-৫ মিনিটে ইতিবাচক পরিবর্তন</h3>
-              <p class="small text-secondary mb-0" data-i18n="benefit2Desc">মাত্র কয়েক মিনিটের সচেতন অনুশীলন মস্তিষ্কে স্থিরতা, সতেজতা ও মানসিক স্পষ্টতা ফিরিয়ে আনে।</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="benefit-card h-100">
-              <div class="benefit-icon"><i class="bi bi-shield-check text-primary"></i></div>
-              <h3 class="h6 fw-bold mb-2 text-dark" data-i18n="benefit3Title">১০০% নিরাপদ ও ব্যক্তিগত</h3>
-              <p class="small text-secondary mb-0" data-i18n="benefit3Desc">কোনো অ্যাকাউন্ট বা ট্র্যাকিং নেই। আপনার ব্রাউজারেই সরাসরি সম্পূর্ণ গোপনীয়তায় পরিচালিত হয়।</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section pt-0">
-      <div class="container">
-        <div class="row g-3">
-          <div class="col-md-4"><div class="info-panel"><div class="exercise-icon mb-3"><i class="bi bi-hand-index-thumb"></i></div><h3 class="h5 fw-bold" data-i18n="how1Title">১. একটি অনুশীলন বাছুন</h3><p class="text-secondary mb-0" data-i18n="how1Desc">আপনার জন্য আরামদায়ক একটি শ্বাসের প্যাটার্ন নির্বাচন করুন।</p></div></div>
-          <div class="col-md-4"><div class="info-panel"><div class="exercise-icon mb-3"><i class="bi bi-circle"></i></div><h3 class="h5 fw-bold" data-i18n="how2Title">২. নির্দেশনা অনুসরণ করুন</h3><p class="text-secondary mb-0" data-i18n="how2Desc">অ্যানিমেশন ও সময় দেখে স্বাভাবিকভাবে শ্বাস নিন ও ছাড়ুন।</p></div></div>
-          <div class="col-md-4"><div class="info-panel"><div class="exercise-icon mb-3"><i class="bi bi-cup-hot"></i></div><h3 class="h5 fw-bold" data-i18n="how3Title">৩. স্বাভাবিক শ্বাসে ফিরুন</h3><p class="text-secondary mb-0" data-i18n="how3Desc">শেষে কিছুক্ষণ বিশ্রাম নিন এবং নিজের অনুভূতি লক্ষ্য করুন।</p></div></div>
-        </div>
-      </div>
-    </section>
-    <section class="section pt-0" id="safety">
-      <div class="container"><div class="safety-panel d-flex gap-3 align-items-start"><i class="bi bi-shield-check fs-3 text-warning-emphasis"></i><div><h2 class="h5 fw-bold" data-i18n="safetyTitle">নিরাপদ অনুশীলন</h2><p class="mb-2" data-i18n="safetyShort">আরামদায়কভাবে শ্বাস নিন। শ্বাস জোর করে টানবেন না বা ধরে রাখবেন না। মাথা ঘোরা, অস্বস্তি বা অস্বাভাবিক শ্বাসকষ্ট হলে সঙ্গে সঙ্গে থামুন।</p><button class="btn btn-sm btn-outline-primary" onclick="showSafety()" data-i18n="readSafety">সম্পূর্ণ নিরাপত্তা নির্দেশনা</button></div></div></div>
-    </section>
-  </section>
-
-  <!-- SCREEN 2: LIBRARY -->
-  <section id="library" class="screen">
-    <div class="container">
-      <div class="page-head"><div class="eyebrow mb-2" data-i18n="libraryEyebrow">অনুশীলনের সংগ্রহ</div><h1 class="section-title" data-i18n="libraryTitle">আপনার শ্বাসের অনুশীলন বেছে নিন</h1><p class="section-sub" data-i18n="libraryDesc">প্রতিটি অনুশীলনের সময় ও নির্দেশনা দেখে নিজের উপযোগীটি নির্বাচন করুন।</p></div>
-      <div class="d-flex flex-wrap gap-2 mb-4" id="filters">
-        <button class="btn btn-primary btn-sm filter-btn" data-filter="all" data-i18n="filterAll">সব</button>
-        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="beginner" data-i18n="filterBeginner">শুরুর জন্য</button>
-        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="structured" data-i18n="filterStructured">নির্দিষ্ট ছন্দ</button>
-        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="mindful" data-i18n="filterMindful">মনোযোগ</button>
-      </div>
-      <div class="row g-3 pb-5" id="libraryCards"></div>
-    </div>
-  </section>
-
-  <!-- SCREEN 3: DETAILS -->
-  <section id="details" class="screen">
-    <div class="container pb-5">
-      <div class="page-head pb-2"><div class="breadcrumb"><button onclick="go('library')" data-i18n="libraryTitle">অনুশীলন</button> / <span data-i18n="detailsLabel">বিস্তারিত</span></div></div>
-      <div class="row g-4 align-items-stretch">
-        <div class="col-lg-5"><div class="detail-visual h-100"><div class="orb"><div class="orb-core"><i class="bi bi-wind"></i></div></div></div></div>
-        <div class="col-lg-7">
-          <div class="eyebrow mb-2" data-i18n="exerciseDetails">অনুশীলনের বিবরণ</div><h1 class="section-title mb-3" id="detailTitle"></h1><p class="text-secondary lh-lg" id="detailDesc"></p>
-          <h2 class="h6 fw-bold mt-4 mb-3" data-i18n="pattern">শ্বাসের প্যাটার্ন</h2><div class="row g-2 mb-4" id="detailPattern"></div>
-          <div class="row g-3 align-items-end">
-            <div class="col-sm-6"><label class="form-label fw-bold" for="durationSelect" data-i18n="sessionDuration">অনুশীলনের সময়</label><select id="durationSelect" class="form-select"><option value="180">৩ মিনিট</option><option value="300" selected>৫ মিনিট</option><option value="600">১০ মিনিট</option></select></div>
-            <div class="col-sm-6"><label class="form-label fw-bold" for="audioSelect" data-i18n="audioGuidance">অডিও নির্দেশনা</label><select id="audioSelect" class="form-select"><option value="off" data-i18n="audioOff">বন্ধ</option><option value="on" data-i18n="audioOn">চালু (সমর্থিত ব্রাউজারে)</option></select></div>
-          </div>
-          <div class="safety-panel mt-4"><strong><i class="bi bi-shield-check me-2"></i><span data-i18n="beforeStart">শুরু করার আগে</span></strong><p class="mb-0 mt-2 small" data-i18n="detailSafety">স্বাভাবিকভাবে শ্বাস নিন। কোনো ধাপ অস্বস্তিকর হলে থামুন এবং নিজের স্বাভাবিক শ্বাসে ফিরে যান।</p></div>
-          <button class="btn btn-primary w-100 mt-4" onclick="startSession()" data-i18n="startSession">অনুশীলন শুরু করুন <i class="bi bi-play-fill ms-1"></i></button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCREEN 4: SESSION -->
-  <section id="session" class="screen">
-    <div class="session-wrap">
-      <div class="container">
-        <div class="session-card">
-          <div class="session-top"><button class="btn btn-link text-decoration-none p-0" onclick="confirmStop()" data-i18n="exitSession"><i class="bi bi-arrow-left me-1"></i> বের হন</button><span id="sessionName"></span><span class="timer" id="remainingTime">05:00</span></div>
-          <div class="session-progress mt-3"><div id="progressBar"></div></div>
-          
-          <!-- ATTRACTIVE REDESIGNED BREATH STAGE -->
-          <div class="breath-stage" id="breathStage" aria-live="off">
-            <!-- Dynamic Atmosphere Halo & Waves -->
-            <div class="breath-aura" id="breathAura"></div>
-            <div class="breath-wave wave-3"></div>
-            <div class="breath-wave wave-2"></div>
-            <div class="breath-wave wave-1"></div>
-
-            <!-- SVG Circular Phase Cadence Ring -->
-            <svg class="breath-svg-track" viewBox="0 0 320 320" aria-hidden="true">
-              <defs>
-                <linearGradient id="phaseGradInhale" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#38bdf8" />
-                  <stop offset="100%" stop-color="#0284c7" />
-                </linearGradient>
-                <linearGradient id="phaseGradHold" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#5eead4" />
-                  <stop offset="100%" stop-color="#0d9488" />
-                </linearGradient>
-                <linearGradient id="phaseGradExhale" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#a5b4fc" />
-                  <stop offset="100%" stop-color="#3b82f6" />
-                </linearGradient>
-                <linearGradient id="phaseGradRest" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#34d399" />
-                  <stop offset="100%" stop-color="#059669" />
-                </linearGradient>
-              </defs>
-              <circle class="track-bg" cx="160" cy="160" r="142" />
-              <circle class="track-progress" id="phaseProgressRing" cx="160" cy="160" r="142" />
-            </svg>
-
-            <!-- Floating Harmonic Particles -->
-            <div class="breath-particles" aria-hidden="true">
-              <span class="particle p-top"></span>
-              <span class="particle p-right"></span>
-              <span class="particle p-bottom"></span>
-              <span class="particle p-left"></span>
-            </div>
-
-            <!-- Central Breathing Orb -->
-            <div class="breath-ring" id="breathRing">
-              <div class="orb-glass-glow"></div>
-              <div class="orb-inner-ripple"></div>
-              <div class="orb-center-content">
-                <div class="breath-icon-wrap mb-1"><i class="bi bi-wind" id="phaseIcon"></i></div>
-                <div class="breath-label" id="phaseLabel">প্রস্তুত</div>
-                <div class="phase-count" id="phaseCount">৩</div>
+            <div class="col-lg-5">
+              <div class="hero-art" aria-hidden="true">
+                <div class="orb">
+                  <div class="orb-core"><i class="bi bi-wind"></i></div>
+                </div>
+                <div class="float-pill pill-one"><i class="bi bi-heart-pulse me-2 text-primary"></i><span
+                    data-i18n="gentlePractice">নরম ও স্বচ্ছন্দ অনুশীলন</span></div>
+                <div class="float-pill pill-two"><i class="bi bi-clock me-2 text-primary"></i>৫ <span
+                    data-i18n="minutes">মিনিট</span></div>
               </div>
             </div>
           </div>
-
-          <div class="mb-3"><h2 class="h3 fw-bold mb-2" id="instructionText">আরাম করে বসুন</h2><p class="text-secondary mb-0" id="subInstruction">অনুশীলন শুরু হচ্ছে</p></div>
-          <div class="d-flex justify-content-center gap-3 mt-4">
-            <button class="control-btn primary" id="pauseBtn" onclick="togglePause()" aria-label="Pause"><i class="bi bi-pause-fill"></i></button>
-            <button class="control-btn" onclick="confirmStop()" aria-label="Stop"><i class="bi bi-stop-fill"></i></button>
+        </div>
+      </div>
+      <section class="section" id="featured">
+        <div class="container">
+          <!-- Section Header -->
+          <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+            <div>
+              <div class="eyebrow mb-2" data-i18n="exploreEyebrow">প্রয়োজন অনুযায়ী নির্বাচন</div>
+              <h2 class="section-title mb-2" data-i18n="exploreHeading">শ্বাসের অনুশীলন অন্বেষণ করুন</h2>
+              <p class="section-sub mb-0" data-i18n="exploreSub">আপনার বর্তমান শারীরিক ও মানসিক অবস্থা অনুযায়ী সঠিক
+                কৌশলটি বেছে নিন। প্রতিটি অনুশীলনের রয়েছে সুনির্দিষ্ট বিজ্ঞানসম্মত উপকারিতা।</p>
+            </div>
+            <button class="btn btn-outline-primary" onclick="go('library')" data-i18n="allExercises">সব অনুশীলন <i
+                class="bi bi-arrow-right ms-1"></i></button>
           </div>
-          <p class="small text-secondary mt-4 mb-0" data-i18n="sessionSafety">শ্বাস জোর করে নেবেন না। অস্বস্তি হলে থামুন।</p>
+
+          <!-- Quick Goal Pills -->
+          <div class="explore-goals d-flex flex-wrap gap-2 mb-4" id="exploreGoalPills">
+            <button class="btn btn-sm btn-primary goal-pill" data-goal="all" data-i18n="goalAll">সব অনুশীলন
+              (৪টি)</button>
+            <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="stress" data-i18n="goalStress">🌿 চাপ ও
+              উদ্বেগ</button>
+            <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="focus" data-i18n="goalFocus">🎯 মনোযোগ ও
+              ভারসাম্য</button>
+            <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="sleep" data-i18n="goalSleep">🌙 ঘুম ও
+              বিশ্রাম</button>
+            <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="mindful" data-i18n="goalMindful">🧘
+              সচেতন উপস্থিতি</button>
+          </div>
+
+          <!-- Exercise Cards -->
+          <div class="row g-4" id="featuredCards"></div>
+
+          <!-- Science & Benefit Highlights Strip -->
+          <div class="row g-3 mt-4 pt-3">
+            <div class="col-md-4">
+              <div class="benefit-card h-100">
+                <div class="benefit-icon"><i class="bi bi-heart-pulse text-primary"></i></div>
+                <h3 class="h6 fw-bold mb-2 text-dark" data-i18n="benefit1Title">বিজ্ঞানসম্মত কার্যকারিতা</h3>
+                <p class="small text-secondary mb-0" data-i18n="benefit1Desc">ধীর শ্বাস হৃদস্পন্দন হ্রাস করে এবং
+                  প্যারাসিমপ্যাথেটিক স্নায়ুতন্ত্রকে উদ্দীপ্ত করে দ্রুত শান্ত অনুভূতি আনে।</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="benefit-card h-100">
+                <div class="benefit-icon"><i class="bi bi-lightning-charge text-primary"></i></div>
+                <h3 class="h6 fw-bold mb-2 text-dark" data-i18n="benefit2Title">৩-৫ মিনিটে ইতিবাচক পরিবর্তন</h3>
+                <p class="small text-secondary mb-0" data-i18n="benefit2Desc">মাত্র কয়েক মিনিটের সচেতন অনুশীলন মস্তিষ্কে
+                  স্থিরতা, সতেজতা ও মানসিক স্পষ্টতা ফিরিয়ে আনে।</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="benefit-card h-100">
+                <div class="benefit-icon"><i class="bi bi-shield-check text-primary"></i></div>
+                <h3 class="h6 fw-bold mb-2 text-dark" data-i18n="benefit3Title">১০০% নিরাপদ ও ব্যক্তিগত</h3>
+                <p class="small text-secondary mb-0" data-i18n="benefit3Desc">কোনো অ্যাকাউন্ট বা ট্র্যাকিং নেই। আপনার
+                  ব্রাউজারেই সরাসরি সম্পূর্ণ গোপনীয়তায় পরিচালিত হয়।</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BREATH TEST TEASER SECTION -->
+      <section class="section pt-0" id="testTeaser">
+        <div class="container">
+          <div class="test-banner p-4 p-md-5 rounded-4 text-white position-relative overflow-hidden">
+            <div class="row align-items-center g-4 position-relative z-1">
+              <div class="col-lg-8">
+                <span class="badge bg-white text-primary fw-bold px-3 py-2 rounded-pill mb-3" data-i18n="testBadge">নতুন
+                  ফিচার: শ্বাসের সক্ষমতা টেস্ট</span>
+                <h2 class="display-6 fw-bold mb-3" data-i18n="testBannerTitle">আপনার শ্বাসের সক্ষমতা কতটুকু?</h2>
+                <p class="lead mb-4 text-white-50" data-i18n="testBannerDesc">BOLT (Body Oxygen Level Test) এর মাধ্যমে
+                  মাত্র ১ মিনিটে জেনে নিন আপনার ফুসফুসের দক্ষতা, কার্বন ডাই অক্সাইড সহনশীলতা ও মানসিক চাপের স্তর।</p>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                  <button class="btn btn-light text-primary fw-bold px-4 py-2 rounded-3 shadow-sm" onclick="go('test')"
+                    data-i18n="startTestBtn">
+                    <i class="bi bi-stopwatch me-1"></i> টেস্ট শুরু করুন
+                  </button>
+                  <div class="d-flex align-items-center gap-2 text-white-50 small">
+                    <i class="bi bi-shield-check"></i> <span data-i18n="testSafeNotice">১০০% নিরাপদ ও সহজ
+                      সেলফ-চেক</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 text-center">
+                <div class="test-banner-visual">
+                  <div class="pulse-ring"></div>
+                  <div class="test-badge-circle"><i class="bi bi-activity fs-1 text-primary"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section pt-0" id="safety">
+        <div class="container">
+          <div class="safety-panel d-flex gap-3 align-items-start"><i
+              class="bi bi-shield-check fs-3 text-warning-emphasis"></i>
+            <div>
+              <h2 class="h5 fw-bold" data-i18n="safetyTitle">নিরাপদ অনুশীলন</h2>
+              <p class="mb-2" data-i18n="safetyShort">আরামদায়কভাবে শ্বাস নিন। শ্বাস জোর করে টানবেন না বা ধরে রাখবেন না।
+                মাথা ঘোরা, অস্বস্তি বা অস্বাভাবিক শ্বাসকষ্ট হলে সঙ্গে সঙ্গে থামুন।</p><button
+                class="btn btn-sm btn-outline-primary" onclick="showSafety()" data-i18n="readSafety">সম্পূর্ণ নিরাপত্তা
+                নির্দেশনা</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- SCREEN 2: LIBRARY -->
+    <section id="library" class="screen">
+      <div class="container">
+        <div class="page-head">
+          <div class="eyebrow mb-2" data-i18n="libraryEyebrow">অনুশীলনের সংগ্রহ</div>
+          <h1 class="section-title" data-i18n="libraryTitle">আপনার শ্বাসের অনুশীলন বেছে নিন</h1>
+          <p class="section-sub" data-i18n="libraryDesc">প্রতিটি অনুশীলনের সময় ও নির্দেশনা দেখে নিজের উপযোগীটি নির্বাচন
+            করুন।</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mb-4" id="filters">
+          <button class="btn btn-primary btn-sm filter-btn" data-filter="all" data-i18n="filterAll">সব</button>
+          <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="beginner"
+            data-i18n="filterBeginner">শুরুর জন্য</button>
+          <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="structured"
+            data-i18n="filterStructured">নির্দিষ্ট ছন্দ</button>
+          <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="mindful"
+            data-i18n="filterMindful">মনোযোগ</button>
+        </div>
+        <div class="row g-3 pb-5" id="libraryCards"></div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: DETAILS -->
+    <section id="details" class="screen">
+      <div class="container pb-5">
+        <div class="page-head pb-2">
+          <div class="breadcrumb"><button onclick="go('library')" data-i18n="libraryTitle">অনুশীলন</button> / <span
+              data-i18n="detailsLabel">বিস্তারিত</span></div>
+        </div>
+        <div class="row g-4 align-items-stretch">
+          <div class="col-lg-5">
+            <div class="detail-visual h-100">
+              <div class="orb">
+                <div class="orb-core"><i class="bi bi-wind"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="eyebrow mb-2" data-i18n="exerciseDetails">অনুশীলনের বিবরণ</div>
+            <h1 class="section-title mb-3" id="detailTitle"></h1>
+            <p class="text-secondary lh-lg" id="detailDesc"></p>
+            <h2 class="h6 fw-bold mt-4 mb-3" data-i18n="pattern">শ্বাসের প্যাটার্ন</h2>
+            <div class="row g-2 mb-4" id="detailPattern"></div>
+            <div class="row g-3 align-items-end">
+              <div class="col-sm-6"><label class="form-label fw-bold" for="durationSelect"
+                  data-i18n="sessionDuration">অনুশীলনের সময়</label><select id="durationSelect" class="form-select">
+                  <option value="180">৩ মিনিট</option>
+                  <option value="300" selected>৫ মিনিট</option>
+                  <option value="600">১০ মিনিট</option>
+                </select></div>
+              <div class="col-sm-6"><label class="form-label fw-bold" for="audioSelect" data-i18n="audioGuidance">অডিও
+                  নির্দেশনা</label><select id="audioSelect" class="form-select">
+                  <option value="off" data-i18n="audioOff">বন্ধ</option>
+                  <option value="on" data-i18n="audioOn">চালু (সমর্থিত ব্রাউজারে)</option>
+                </select></div>
+            </div>
+            <div class="safety-panel mt-4"><strong><i class="bi bi-shield-check me-2"></i><span
+                  data-i18n="beforeStart">শুরু করার আগে</span></strong>
+              <p class="mb-0 mt-2 small" data-i18n="detailSafety">স্বাভাবিকভাবে শ্বাস নিন। কোনো ধাপ অস্বস্তিকর হলে থামুন
+                এবং নিজের স্বাভাবিক শ্বাসে ফিরে যান।</p>
+            </div>
+            <button class="btn btn-primary w-100 mt-4" onclick="startSession()" data-i18n="startSession">অনুশীলন শুরু
+              করুন <i class="bi bi-play-fill ms-1"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 4: SESSION -->
+    <section id="session" class="screen">
+      <div class="session-wrap">
+        <div class="container">
+          <div class="session-card">
+            <div class="session-top"><button class="btn btn-link text-decoration-none p-0" onclick="confirmStop()"
+                data-i18n="exitSession"><i class="bi bi-arrow-left me-1"></i> বের হন</button><span
+                id="sessionName"></span><span class="timer" id="remainingTime">05:00</span></div>
+            <div class="session-progress mt-3">
+              <div id="progressBar"></div>
+            </div>
+
+            <!-- ATTRACTIVE REDESIGNED BREATH STAGE -->
+            <div class="breath-stage" id="breathStage" aria-live="off">
+              <!-- Dynamic Atmosphere Halo & Waves -->
+              <div class="breath-aura" id="breathAura"></div>
+              <div class="breath-wave wave-3"></div>
+              <div class="breath-wave wave-2"></div>
+              <div class="breath-wave wave-1"></div>
+
+              <!-- SVG Circular Phase Cadence Ring -->
+              <svg class="breath-svg-track" viewBox="0 0 320 320" aria-hidden="true">
+                <defs>
+                  <linearGradient id="phaseGradInhale" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#38bdf8" />
+                    <stop offset="100%" stop-color="#0284c7" />
+                  </linearGradient>
+                  <linearGradient id="phaseGradHold" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#5eead4" />
+                    <stop offset="100%" stop-color="#0d9488" />
+                  </linearGradient>
+                  <linearGradient id="phaseGradExhale" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#a5b4fc" />
+                    <stop offset="100%" stop-color="#3b82f6" />
+                  </linearGradient>
+                  <linearGradient id="phaseGradRest" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#34d399" />
+                    <stop offset="100%" stop-color="#059669" />
+                  </linearGradient>
+                </defs>
+                <circle class="track-bg" cx="160" cy="160" r="142" />
+                <circle class="track-progress" id="phaseProgressRing" cx="160" cy="160" r="142" />
+              </svg>
+
+              <!-- Floating Harmonic Particles -->
+              <div class="breath-particles" aria-hidden="true">
+                <span class="particle p-top"></span>
+                <span class="particle p-right"></span>
+                <span class="particle p-bottom"></span>
+                <span class="particle p-left"></span>
+              </div>
+
+              <!-- Central Breathing Orb -->
+              <div class="breath-ring" id="breathRing">
+                <div class="orb-glass-glow"></div>
+                <div class="orb-inner-ripple"></div>
+                <div class="orb-center-content">
+                  <div class="breath-icon-wrap mb-1"><i class="bi bi-wind" id="phaseIcon"></i></div>
+                  <div class="breath-label" id="phaseLabel">প্রস্তুত</div>
+                  <div class="phase-count" id="phaseCount">৩</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <h2 class="h3 fw-bold mb-2" id="instructionText">আরাম করে বসুন</h2>
+              <p class="text-secondary mb-0" id="subInstruction">অনুশীলন শুরু হচ্ছে</p>
+            </div>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+              <button class="control-btn primary" id="pauseBtn" onclick="togglePause()" aria-label="Pause"><i
+                  class="bi bi-pause-fill"></i></button>
+              <button class="control-btn" onclick="confirmStop()" aria-label="Stop"><i
+                  class="bi bi-stop-fill"></i></button>
+            </div>
+            <p class="small text-secondary mt-4 mb-0" data-i18n="sessionSafety">শ্বাস জোর করে নেবেন না। অস্বস্তি হলে
+              থামুন।</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 5: COMPLETE -->
+    <section id="complete" class="screen">
+      <div class="container py-5">
+        <div class="session-card my-4">
+          <div class="completion-icon"><i class="bi bi-check2"></i></div>
+          <div class="eyebrow mb-2" data-i18n="wellDone">সম্পন্ন</div>
+          <h1 class="section-title mb-3" data-i18n="completeTitle">আপনার অনুশীলন সম্পন্ন হয়েছে!</h1>
+          <p class="text-secondary mb-4" data-i18n="completeDesc">এবার স্বাভাবিকভাবে শ্বাস নিন এবং কিছুক্ষণ বিশ্রাম
+            করুন।</p>
+          <div class="row g-3 text-start mb-4">
+            <div class="col-6">
+              <div class="info-panel">
+                <div class="small text-secondary" data-i18n="summaryExercise">অনুশীলন</div><strong
+                  id="summaryName"></strong>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="info-panel">
+                <div class="small text-secondary" data-i18n="summaryDuration">সময়</div><strong
+                  id="summaryDuration"></strong>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="info-panel">
+                <div class="small text-secondary" data-i18n="summaryCycles">সম্পূর্ণ চক্র</div><strong
+                  id="summaryCycles"></strong>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="info-panel">
+                <div class="small text-secondary" data-i18n="summaryStatus">অবস্থা</div><strong class="text-success"
+                  data-i18n="completed">সম্পন্ন</strong>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center"><button class="btn btn-primary"
+              onclick="startSession()" data-i18n="practiceAgain">আবার অনুশীলন করুন</button><button
+              class="btn btn-outline-primary" onclick="go('library')" data-i18n="otherExercises">অন্য অনুশীলন
+              দেখুন</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 6: BREATH TEST & ASSESSMENT -->
+    <section id="test" class="screen">
+      <div class="container py-4 pb-5">
+        <!-- Header -->
+        <div class="page-head pb-3">
+          <div class="breadcrumb mb-2"><button onclick="go('home')" data-i18n="navHome">হোম</button> / <span
+              data-i18n="navTest">শ্বাসের পরীক্ষা</span></div>
+          <div class="eyebrow mb-2" data-i18n="testEyebrow">রেসপিরেটরি ফিটনেস অ্যাসেসমেন্ট</div>
+          <h1 class="section-title mb-2" data-i18n="testMainTitle">আপনার শ্বাসের সক্ষমতা যাচাই করুন</h1>
+          <p class="section-sub mb-0" data-i18n="testMainDesc">বৈজ্ঞানিক BOLT টেস্ট ও রেসপিরেটরি রেট ট্র্যাকিং এর
+            মাধ্যমে আপনার ফুসফুসের কার্যকারিতা ও অক্সিজেন সহনশীলতা পরিমাপ করুন।</p>
+        </div>
+
+        <!-- Test Mode Switcher Tabs -->
+        <div class="d-flex flex-wrap gap-2 mb-4" id="testTypeTabs">
+          <button class="btn btn-primary btn-sm test-tab-btn" data-test="bolt" id="tabBoltBtn"
+            onclick="switchTestTab('bolt')">
+            <i class="bi bi-lungs me-1"></i> <span data-i18n="tabBoltTitle">BOLT সহনশীলতা টেস্ট</span>
+          </button>
+          <button class="btn btn-outline-primary btn-sm test-tab-btn" data-test="bpm" id="tabBpmBtn"
+            onclick="switchTestTab('bpm')">
+            <i class="bi bi-activity me-1"></i> <span data-i18n="tabBpmTitle">শ্বাসের গতি (BPM Counter)</span>
+          </button>
+        </div>
+
+        <div class="row g-4 align-items-start">
+          <!-- Main Interactive Test Card -->
+          <div class="col-lg-7">
+            <div class="test-panel p-4 p-md-5 rounded-4 bg-white shadow-sm border text-center position-relative">
+
+              <!-- Instructions & Interactive Stage -->
+              <div id="testInstructionView">
+                <div class="test-visual-badge mx-auto mb-3">
+                  <i class="bi bi-stopwatch text-primary fs-2" id="testModeIcon"></i>
+                </div>
+                <h2 class="h4 fw-bold mb-2" id="testInstructionTitle" data-i18n="boltStepHeader">কীভাবে টেস্ট করবেন?
+                </h2>
+                <p class="text-secondary small mb-4 mx-auto" style="max-width: 500px;" id="testInstructionBody"
+                  data-i18n="boltSteps">
+                  স্বাভাবিকভাবে নাক দিয়ে শ্বাস নিন এবং ছাড়ুন। এরপর নাক চেপে ধরে 'স্টার্ট' চাপুন। প্রথম শ্বাসের তাগিদ
+                  অনুভব করা মাত্র 'থামুন' চাপুন। জোর করে শ্বাস আটকে রাখবেন না।
+                </p>
+
+                <!-- Preparation & Countdown Area -->
+                <div class="test-countdown-box d-none my-4" id="testCountdownBox">
+                  <div class="test-count-circle mx-auto">
+                    <span id="testCountdownNum">3</span>
+                  </div>
+                  <div class="small text-muted mt-2" data-i18n="prepareToHold">স্বাভাবিক শ্বাস ছাড়ুন ও প্রস্তুত হন...
+                  </div>
+                </div>
+
+                <!-- Active Stopwatch & Stage -->
+                <div class="test-active-stage d-none my-4" id="testActiveStage">
+                  <div class="bolt-meter-wrap mx-auto position-relative">
+                    <div class="bolt-glow-ring"></div>
+                    <div class="bolt-timer-display" id="boltTimerDisplay">00.0s</div>
+                  </div>
+                  <div class="small text-muted mt-2" id="testStageNotice" data-i18n="tapWhenUrge">প্রথম শ্বাসের তাগিদে
+                    থামুন চাপুন</div>
+
+                  <!-- BPM Specific Tap Feedback -->
+                  <div class="bpm-counter-box d-none mt-3" id="bpmCounterBox">
+                    <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 rounded-pill">
+                      <span data-i18n="breathsRecorded">গণনাকৃত শ্বাস:</span> <strong id="bpmCountNum">0</strong>
+                    </span>
+                    <div class="small text-secondary mt-2" id="bpmCountdownText">বাকি সময়: ৩০ সেকেন্ড</div>
+                  </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="d-flex justify-content-center gap-3 mt-4" id="testControlArea">
+                  <button class="btn btn-primary px-4 py-3 fw-bold rounded-3 shadow-sm" id="startTestBtn"
+                    onclick="initiateTest()">
+                    <i class="bi bi-play-circle me-1"></i> <span data-i18n="startTestBtnText">টেস্ট শুরু করুন</span>
+                  </button>
+                  <button class="btn btn-danger px-4 py-3 fw-bold rounded-3 shadow-sm d-none" id="stopTestBtn"
+                    onclick="stopCurrentTest()">
+                    <i class="bi bi-stop-circle me-1"></i> <span data-i18n="stopTestBtnText">থামুন (শ্বাস নেওয়ার
+                      তাগিদ)</span>
+                  </button>
+                  <button class="btn btn-success px-4 py-3 fw-bold rounded-3 shadow-sm d-none" id="tapBpmBtn"
+                    onclick="recordBpmBreath()">
+                    <i class="bi bi-heart-pulse me-1"></i> <span data-i18n="tapBpmBtnText">১টি পূর্ণ শ্বাস নিলাম
+                      (ট্যাপ)</span>
+                  </button>
+                </div>
+
+                <div class="alert alert-warning small mt-4 mb-0 text-start d-flex gap-2 align-items-center">
+                  <i class="bi bi-exclamation-triangle fs-5 text-warning flex-shrink-0"></i>
+                  <span data-i18n="boltSafetyAlert">এটি কোনো সহনশীলতা পরীক্ষা নয়। অস্বস্তি বা মাথা ঘোরার আগেই টেস্ট
+                    সম্পন্ন করুন।</span>
+                </div>
+              </div>
+
+              <!-- Test Result View (Revealed after test) -->
+              <div id="testResultView" class="d-none text-start">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold"
+                    data-i18n="testCompleteBadge">টেস্ট সম্পন্ন হয়েছে</span>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="resetTest()"><i
+                      class="bi bi-arrow-clockwise me-1"></i><span data-i18n="retryTest">আবার পরীক্ষা
+                      করুন</span></button>
+                </div>
+
+                <div class="result-score-hero p-4 rounded-4 mb-4 text-center">
+                  <div class="result-score-number display-4 fw-bolder mb-1 text-primary" id="resultScoreNum">0s</div>
+                  <div class="h5 fw-bold mb-2" id="resultScoreGrade">সন্তোষজনক কার্যকারিতা</div>
+                  <p class="text-secondary small mb-0 mx-auto" style="max-width: 480px;" id="resultScoreDetail"></p>
+                </div>
+
+                <!-- Recommendation Card inside Results -->
+                <div class="personalized-recommendation p-4 rounded-4 border mb-4">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-stars text-primary fs-5"></i>
+                    <strong class="text-primary" data-i18n="recHeading">আপনার ফলাফলের ভিত্তিতে প্রস্তাবিত
+                      অনুশীলন</strong>
+                  </div>
+                  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mt-3">
+                    <div>
+                      <h3 class="h6 fw-bold mb-1" id="recExerciseTitle">ডায়াফ্রামেটিক ব্রিদিং</h3>
+                      <p class="text-secondary small mb-0" id="recExerciseReason">আপনার অক্সিজেন সহনশীলতা বাড়াতে এই
+                        অনুশীলন অত্যন্ত কার্যকরী।</p>
+                    </div>
+                    <button class="btn btn-primary fw-bold text-nowrap" id="startRecExerciseBtn"
+                      onclick="launchRecommendedExercise()">
+                      <i class="bi bi-play-fill me-1"></i> <span data-i18n="startRecExercise">অনুশীলন শুরু করুন</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Score Ranges Reference Guide -->
+                <div class="score-legend-box p-3 rounded-3 border bg-white small mb-3">
+                  <div class="fw-bold mb-2" data-i18n="scoreGuideTitle">স্কোর গাইড (BOLT স্কেল):</div>
+                  <div class="row g-2">
+                    <div class="col-6 col-md-3">
+                      <div class="p-2 rounded bg-danger-subtle text-danger text-center">
+                        <strong>&lt; ১০ সে</strong><br><small data-i18n="gradeLow">খুব কম</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="p-2 rounded bg-warning-subtle text-warning-emphasis text-center">
+                        <strong>১০–১৯ সে</strong><br><small data-i18n="gradeModerate">মাঝারি</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="p-2 rounded bg-info-subtle text-info-emphasis text-center">
+                        <strong>২০–২৯ সে</strong><br><small data-i18n="gradeGood">ভালো</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="p-2 rounded bg-success-subtle text-success text-center">
+                        <strong>৩০+ সে</strong><br><small data-i18n="gradeOptimal">চমৎকার</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Side: Test Science & Local History Tracker -->
+          <div class="col-lg-5">
+            <!-- Science Insight Card -->
+            <div class="info-panel p-4 rounded-4 bg-white border shadow-sm mb-4">
+              <h3 class="h6 fw-bold mb-3 d-flex align-items-center gap-2">
+                <i class="bi bi-journal-medical text-primary fs-5"></i>
+                <span data-i18n="scienceTitle">টেস্টের বৈজ্ঞানিক গুরুত্ব</span>
+              </h3>
+              <p class="small text-secondary lh-base mb-3" data-i18n="scienceDesc">
+                BOLT টেস্ট আপনার রক্তে কার্বন ডাই অক্সাইডের প্রতি মস্তিষ্কের শ্বাস নিয়ন্ত্রণ কেন্দ্রের সংবেদনশীলতা
+                পরিমাপ করে। স্কোর ২০ সেকেন্ডের বেশি হওয়া মানে শরীরের কোষে অক্সিজেন সরবরাহ ভালো এবং স্নায়ুতন্ত্র শান্ত
+                রয়েছে।
+              </p>
+              <ul class="small text-secondary ps-3 mb-0 lh-lg" id="scienceKeyPoints">
+                <li data-i18n="sciPt1">অক্সিজেন ব্যবহার ও ফুসফুসের ক্ষমতা বৃদ্ধি।</li>
+                <li data-i18n="sciPt2">মানসিক উদ্বেগ ও ঘুমের সমস্যা কমাতে সহায়ক।</li>
+                <li data-i18n="sciPt3">প্রতিদিন সকালে টেস্ট করে অগ্রগতি পর্যবেক্ষণ করা যায়।</li>
+              </ul>
+            </div>
+
+            <!-- History Tracker Card (localStorage) -->
+            <div class="info-panel p-4 rounded-4 bg-white border shadow-sm">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 d-flex align-items-center gap-2">
+                  <i class="bi bi-clock-history text-primary"></i>
+                  <span data-i18n="historyTitle">আপনার পূর্ববর্তী রেকর্ড</span>
+                </h3>
+                <button class="btn btn-sm btn-link text-danger p-0 text-decoration-none" onclick="clearTestHistory()"
+                  id="clearHistoryBtn" data-i18n="clearHistory">মুছে ফেলুন</button>
+              </div>
+              <div id="testHistoryList" class="test-history-container">
+                <p class="small text-muted mb-0" id="emptyHistoryMsg" data-i18n="noHistoryYet">এখনো কোনো টেস্টের রেকর্ড
+                  নেই। প্রথম টেস্টটি সম্পন্ন করুন!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAFETY MODAL -->
+    <div class="modal fade" id="safetyModal" tabindex="-1" aria-labelledby="safetyModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+          <div class="modal-header border-0">
+            <h2 class="modal-title fs-5 fw-bold" id="safetyModalTitle" data-i18n="safetyTitle">নিরাপদ অনুশীলন</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-0">
+            <ul class="small lh-lg mb-3" id="safetyList"></ul>
+            <div class="alert alert-warning small mb-0" data-i18n="disclaimer">এই ওয়েবসাইট সাধারণ সুস্থতা ও শিথিলতার
+              তথ্য দেয়; এটি চিকিৎসা বা পেশাদার স্বাস্থ্যসেবার বিকল্প নয়।</div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- SCREEN 5: COMPLETE -->
-  <section id="complete" class="screen">
-    <div class="container py-5">
-      <div class="session-card my-4">
-        <div class="completion-icon"><i class="bi bi-check2"></i></div>
-        <div class="eyebrow mb-2" data-i18n="wellDone">সম্পন্ন</div>
-        <h1 class="section-title mb-3" data-i18n="completeTitle">আপনার অনুশীলন সম্পন্ন হয়েছে!</h1>
-        <p class="text-secondary mb-4" data-i18n="completeDesc">এবার স্বাভাবিকভাবে শ্বাস নিন এবং কিছুক্ষণ বিশ্রাম করুন।</p>
-        <div class="row g-3 text-start mb-4">
-          <div class="col-6"><div class="info-panel"><div class="small text-secondary" data-i18n="summaryExercise">অনুশীলন</div><strong id="summaryName"></strong></div></div>
-          <div class="col-6"><div class="info-panel"><div class="small text-secondary" data-i18n="summaryDuration">সময়</div><strong id="summaryDuration"></strong></div></div>
-          <div class="col-6"><div class="info-panel"><div class="small text-secondary" data-i18n="summaryCycles">সম্পূর্ণ চক্র</div><strong id="summaryCycles"></strong></div></div>
-          <div class="col-6"><div class="info-panel"><div class="small text-secondary" data-i18n="summaryStatus">অবস্থা</div><strong class="text-success" data-i18n="completed">সম্পন্ন</strong></div></div>
-        </div>
-        <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center"><button class="btn btn-primary" onclick="startSession()" data-i18n="practiceAgain">আবার অনুশীলন করুন</button><button class="btn btn-outline-primary" onclick="go('library')" data-i18n="otherExercises">অন্য অনুশীলন দেখুন</button></div>
-      </div>
+  </main>
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2"><span><strong
+          class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু
+          প্রশান্তি</span></span><span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
-  </section>
-
-  <!-- SAFETY MODAL -->
-  <div class="modal fade" id="safetyModal" tabindex="-1" aria-labelledby="safetyModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 rounded-4">
-      <div class="modal-header border-0"><h2 class="modal-title fs-5 fw-bold" id="safetyModalTitle" data-i18n="safetyTitle">নিরাপদ অনুশীলন</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
-      <div class="modal-body pt-0"><ul class="small lh-lg mb-3" id="safetyList"></ul><div class="alert alert-warning small mb-0" data-i18n="disclaimer">এই ওয়েবসাইট সাধারণ সুস্থতা ও শিথিলতার তথ্য দেয়; এটি চিকিৎসা বা পেশাদার স্বাস্থ্যসেবার বিকল্প নয়।</div></div>
-    </div></div>
+  </footer>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="appToast" class="toast border-0 shadow" role="status">
+      <div class="toast-body d-flex justify-content-between align-items-center"><span id="toastText"></span><button
+          class="btn-close ms-3" data-bs-dismiss="toast"></button></div>
+    </div>
   </div>
-</main>
-<footer><div class="container d-flex flex-column flex-md-row justify-content-between gap-2"><span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু প্রশান্তি</span></span><span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span></div></footer>
-<div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="appToast" class="toast border-0 shadow" role="status"><div class="toast-body d-flex justify-content-between align-items-center"><span id="toastText"></span><button class="btn-close ms-3" data-bs-dismiss="toast"></button></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="asset/js/script.jt"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/script.jt"></script>
 </body>
+
 </html>

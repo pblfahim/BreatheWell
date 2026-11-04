@@ -3,6 +3,7 @@ const T = {
     skip: "মূল কনটেন্টে যান",
     navHome: "হোম",
     navExercises: "অনুশীলন",
+    navTest: "শ্বাসের পরীক্ষা",
     navSafety: "নিরাপত্তা",
     heroEyebrow: "প্রতিদিনের ছোট্ট বিরতি",
     heroTitle: "প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি",
@@ -34,6 +35,45 @@ const T = {
     benefit2Desc: "মাত্র কয়েক মিনিটের সচেতন অনুশীলন মস্তিষ্কে স্থিরতা, সতেজতা ও মানসিক স্পষ্টতা ফিরিয়ে আনে।",
     benefit3Title: "১০০% নিরাপদ ও ব্যক্তিগত",
     benefit3Desc: "কোনো অ্যাকাউন্ট বা ট্র্যাকিং নেই। আপনার ব্রাউজারেই সরাসরি সম্পূর্ণ গোপনীয়তায় পরিচালিত হয়।",
+    testBadge: "নতুন ফিচার: শ্বাসের সক্ষমতা টেস্ট",
+    testBannerTitle: "আপনার শ্বাসের সক্ষমতা কতটুকু?",
+    testBannerDesc: "BOLT (Body Oxygen Level Test) এর মাধ্যমে মাত্র ১ মিনিটে জেনে নিন আপনার ফুসফুসের দক্ষতা, কার্বন ডাই অক্সাইড সহনশীলতা ও মানসিক চাপের স্তর।",
+    startTestBtn: "টেস্ট শুরু করুন",
+    testSafeNotice: "১০০% নিরাপদ ও সহজ সেলফ-চেক",
+    testEyebrow: "রেসপিরেটরি ফিটনেস অ্যাসেসমেন্ট",
+    testMainTitle: "আপনার শ্বাসের সক্ষমতা যাচাই করুন",
+    testMainDesc: "বৈজ্ঞানিক BOLT টেস্ট ও রেসপিরেটরি রেট ট্র্যাকিং এর মাধ্যমে আপনার ফুসফুসের কার্যকারিতা ও অক্সিজেন সহনশীলতা পরিমাপ করুন।",
+    tabBoltTitle: "BOLT সহনশীলতা টেস্ট",
+    tabBpmTitle: "শ্বাসের গতি (BPM Counter)",
+    boltStepHeader: "কীভাবে টেস্ট করবেন?",
+    boltSteps: "স্বাভাবিকভাবে নাক দিয়ে শ্বাস নিন এবং ছাড়ুন। এরপর নাক চেপে ধরে 'স্টার্ট' চাপুন। প্রথম শ্বাসের তাগিদ অনুভব করা মাত্র 'থামুন' চাপুন। জোর করে শ্বাস আটকে রাখবেন না।",
+    bpmStepHeader: "শ্বাসের গতি পরিমাপ করুন",
+    bpmSteps: "আরামদায়কভাবে বসুন। স্বাভাবিকভাবে শ্বাস নিন। প্রতিবার শ্বাস নিয়ে ছাড়ার পর (১টি পূর্ণ শ্বাসচক্র) নিচের সবুজ বাটনে ট্যাপ করুন। ৩০ সেকেন্ড পর আপনার প্রতি মিনিটের গড় রেট নির্ধারিত হবে।",
+    prepareToHold: "স্বাভাবিক শ্বাস ছাড়ুন ও প্রস্তুত হন...",
+    tapWhenUrge: "প্রথম শ্বাসের তাগিদে থামুন চাপুন",
+    bpmActiveNotice: "প্রতি পূর্ণ শ্বাসচক্র শেষে নিচে ট্যাপ করুন",
+    breathsRecorded: "গণনাকৃত শ্বাস:",
+    startTestBtnText: "টেস্ট শুরু করুন",
+    stopTestBtnText: "থামুন (শ্বাস নেওয়ার তাগিদ)",
+    tapBpmBtnText: "১টি পূর্ণ শ্বাস নিলাম (ট্যাপ)",
+    boltSafetyAlert: "এটি কোনো সহনশীলতা পরীক্ষা নয়। অস্বস্তি বা মাথা ঘোরার আগেই টেস্ট সম্পন্ন করুন।",
+    testCompleteBadge: "টেস্ট সম্পন্ন হয়েছে",
+    retryTest: "আবার পরীক্ষা করুন",
+    recHeading: "আপনার ফলাফলের ভিত্তিতে প্রস্তাবিত অনুশীলন",
+    startRecExercise: "অনুশীলন শুরু করুন",
+    scoreGuideTitle: "স্কোর গাইড (BOLT স্কেল):",
+    gradeLow: "খুব কম",
+    gradeModerate: "মাঝারি",
+    gradeGood: "ভালো",
+    gradeOptimal: "চমৎকার",
+    scienceTitle: "টেস্টের বৈজ্ঞানিক গুরুত্ব",
+    scienceDesc: "BOLT টেস্ট আপনার রক্তে কার্বন ডাই অক্সাইডের প্রতি মস্তিষ্কের শ্বাস নিয়ন্ত্রণ কেন্দ্রের সংবেদনশীলতা পরিমাপ করে। স্কোর ২০ সেকেন্ডের বেশি হওয়া মানে শরীরের কোষে অক্সিজেন সরবরাহ ভালো এবং স্নায়ুতন্ত্র শান্ত রয়েছে।",
+    sciPt1: "অক্সিজেন ব্যবহার ও ফুসফুসের ক্ষমতা বৃদ্ধি।",
+    sciPt2: "মানসিক উদ্বেগ ও ঘুমের সমস্যা কমাতে সহায়ক।",
+    sciPt3: "প্রতিদিন সকালে টেস্ট করে অগ্রগতি পর্যবেক্ষণ করা যায়।",
+    historyTitle: "আপনার পূর্ববর্তী রেকর্ড",
+    clearHistory: "মুছে ফেলুন",
+    noHistoryYet: "এখনো কোনো টেস্টের রেকর্ড নেই। প্রথম টেস্টটি সম্পন্ন করুন!",
     how1Title: "১. একটি অনুশীলন বাছুন",
     how1Desc: "আপনার জন্য আরামদায়ক একটি শ্বাসের প্যাটার্ন নির্বাচন করুন।",
     how2Title: "২. নির্দেশনা অনুসরণ করুন",
@@ -109,6 +149,7 @@ const T = {
     skip: "Skip to content",
     navHome: "Home",
     navExercises: "Exercises",
+    navTest: "Breath Test",
     navSafety: "Safety",
     heroEyebrow: "A small pause in your day",
     heroTitle: "Find your calm, one breath at a time",
@@ -140,6 +181,45 @@ const T = {
     benefit2Desc: "Just a 3 to 5-minute session resets cognitive fatigue, restores calm, and enhances focus.",
     benefit3Title: "Zero Friction & 100% Private",
     benefit3Desc: "No signup, cookies or telemetry. Runs completely locally and privately in your browser.",
+    testBadge: "New Feature: Breath Fitness Test",
+    testBannerTitle: "How Healthy Is Your Breathing?",
+    testBannerDesc: "Take the 60-second BOLT (Body Oxygen Level Test) to measure your functional lung efficiency, CO2 tolerance, and nervous system state.",
+    startTestBtn: "Start Breath Test",
+    testSafeNotice: "100% safe & gentle self-check",
+    testEyebrow: "Respiratory Fitness Assessment",
+    testMainTitle: "Evaluate Your Breathing Performance",
+    testMainDesc: "Scientifically measure CO2 tolerance, lung efficiency, and resting respiration rate with immediate personalized guidance.",
+    tabBoltTitle: "BOLT Endurance Test",
+    tabBpmTitle: "Breathing Rate (BPM Counter)",
+    boltStepHeader: "How to perform the BOLT test",
+    boltSteps: "Take a normal breath in and out through your nose. Pinch your nose and tap 'Start'. Stop at the very first definite urge to breathe. Do NOT hold until gasping!",
+    bpmStepHeader: "Measure your resting breathing rate",
+    bpmSteps: "Sit comfortably. Each time you complete a natural breath cycle (inhale + exhale), tap the button below. We'll calculate your average resting breaths per minute over 30 seconds.",
+    prepareToHold: "Exhale normally and prepare...",
+    tapWhenUrge: "Tap stop at the first urge to breathe",
+    bpmActiveNotice: "Tap below after each full breath cycle",
+    breathsRecorded: "Recorded breaths:",
+    startTestBtnText: "Start Test",
+    stopTestBtnText: "Stop (First Urge to Breathe)",
+    tapBpmBtnText: "Completed 1 Breath Cycle",
+    boltSafetyAlert: "This is not a maximal breath-hold test. Stop as soon as you feel the first urge to breathe.",
+    testCompleteBadge: "Test Completed",
+    retryTest: "Test Again",
+    recHeading: "Personalized Exercise Recommendation",
+    startRecExercise: "Start Recommended Exercise",
+    scoreGuideTitle: "Score Guide (BOLT Scale):",
+    gradeLow: "Low",
+    gradeModerate: "Moderate",
+    gradeGood: "Good",
+    gradeOptimal: "Optimal",
+    scienceTitle: "The Science Behind This Test",
+    scienceDesc: "The BOLT score measures your chemoreceptors' sensitivity to carbon dioxide. Scores above 20 seconds signify efficient cellular oxygen delivery, open airways, and a calm autonomic nervous system.",
+    sciPt1: "Improves oxygen delivery and lung efficiency.",
+    sciPt2: "Reduces anxiety, breathlessness, and sleep disturbances.",
+    sciPt3: "Track daily baseline progress upon waking.",
+    historyTitle: "Your Test History",
+    clearHistory: "Clear History",
+    noHistoryYet: "No test records yet. Complete your first test to track your journey!",
     how1Title: "1. Choose an exercise",
     how1Desc: "Select a breathing pattern that feels comfortable for you.",
     how2Title: "2. Follow the guide",
@@ -321,6 +401,16 @@ let raf = null;
 let paused = false;
 let audioEnabled = false;
 
+// Breathing Test State
+let activeTestTab = 'bolt';
+let testRunning = false;
+let testStartTime = 0;
+let testInterval = null;
+let testCountInterval = null;
+let bpmTaps = 0;
+let bpmCountdown = 30;
+let recommendedExerciseId = 'relax46';
+
 const $ = id => document.getElementById(id);
 const tr = k => T[lang][k] ?? k;
 const exName = e => e.name[lang];
@@ -350,6 +440,7 @@ function setLang(next) {
   if (completeEl && completeEl.classList.contains("active")) {
     renderSummary(run?.completedCycles || 0, run?.elapsed || 0);
   }
+  loadTestHistory();
 }
 
 const langToggleBtn = $("langToggle");
@@ -362,6 +453,9 @@ function go(id) {
     if (!confirm(tr("confirmStop"))) return;
     stopRun(false);
   }
+  if (testRunning && id !== "test") {
+    stopCurrentTest();
+  }
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   const target = $(id);
   if (target) target.classList.add("active");
@@ -369,6 +463,9 @@ function go(id) {
   const nav = $("navMenu");
   if (nav && nav.classList.contains("show")) {
     bootstrap.Collapse.getOrCreateInstance(nav).hide();
+  }
+  if (id === 'test') {
+    loadTestHistory();
   }
 }
 
@@ -769,6 +866,316 @@ function toast(message) {
   const appToast = $("appToast");
   if (toastText) toastText.textContent = message;
   if (appToast) bootstrap.Toast.getOrCreateInstance(appToast).show();
+}
+
+// ==========================================================================
+// BREATHING ASSESSMENT / TEST LOGIC
+// ==========================================================================
+
+function switchTestTab(tab) {
+  if (testRunning) stopCurrentTest();
+  activeTestTab = tab;
+  const boltBtn = $("tabBoltBtn");
+  const bpmBtn = $("tabBpmBtn");
+  if (boltBtn && bpmBtn) {
+    boltBtn.classList.toggle("btn-primary", tab === 'bolt');
+    boltBtn.classList.toggle("btn-outline-primary", tab !== 'bolt');
+    bpmBtn.classList.toggle("btn-primary", tab === 'bpm');
+    bpmBtn.classList.toggle("btn-outline-primary", tab !== 'bpm');
+  }
+
+  const iconEl = $("testModeIcon");
+  const titleEl = $("testInstructionTitle");
+  const bodyEl = $("testInstructionBody");
+  const noticeEl = $("testStageNotice");
+  const bpmBox = $("bpmCounterBox");
+
+  if (tab === 'bolt') {
+    if (iconEl) iconEl.className = "bi bi-stopwatch text-primary fs-2";
+    if (titleEl) titleEl.textContent = tr("boltStepHeader");
+    if (bodyEl) bodyEl.textContent = tr("boltSteps");
+    if (noticeEl) noticeEl.textContent = tr("tapWhenUrge");
+    if (bpmBox) bpmBox.classList.add("d-none");
+  } else {
+    if (iconEl) iconEl.className = "bi bi-activity text-primary fs-2";
+    if (titleEl) titleEl.textContent = tr("bpmStepHeader");
+    if (bodyEl) bodyEl.textContent = tr("bpmSteps");
+    if (noticeEl) noticeEl.textContent = tr("bpmActiveNotice");
+    if (bpmBox) bpmBox.classList.remove("d-none");
+  }
+  resetTest();
+}
+
+function initiateTest() {
+  const startBtn = $("startTestBtn");
+  const countBox = $("testCountdownBox");
+  const countNum = $("testCountdownNum");
+  const activeStage = $("testActiveStage");
+
+  if (startBtn) startBtn.classList.add("d-none");
+  if (countBox) countBox.classList.remove("d-none");
+  if (activeStage) activeStage.classList.add("d-none");
+
+  let c = 3;
+  if (countNum) countNum.textContent = c;
+  
+  testCountInterval = setInterval(() => {
+    c--;
+    if (c > 0) {
+      if (countNum) countNum.textContent = c;
+    } else {
+      clearInterval(testCountInterval);
+      testCountInterval = null;
+      if (countBox) countBox.classList.add("d-none");
+      startActiveTest();
+    }
+  }, 1000);
+}
+
+function startActiveTest() {
+  testRunning = true;
+  testStartTime = performance.now();
+  const activeStage = $("testActiveStage");
+  if (activeStage) activeStage.classList.remove("d-none");
+
+  const stopBtn = $("stopTestBtn");
+  const tapBpmBtn = $("tapBpmBtn");
+
+  if (activeTestTab === 'bolt') {
+    if (stopBtn) stopBtn.classList.remove("d-none");
+    if (tapBpmBtn) tapBpmBtn.classList.add("d-none");
+
+    const timerDisp = $("boltTimerDisplay");
+    testInterval = setInterval(() => {
+      let sec = ((performance.now() - testStartTime) / 1000).toFixed(1);
+      if (timerDisp) timerDisp.textContent = sec + "s";
+    }, 100);
+  } else {
+    bpmTaps = 0;
+    bpmCountdown = 30;
+    const bpmCountNum = $("bpmCountNum");
+    if (bpmCountNum) bpmCountNum.textContent = "0";
+    const countdownText = $("bpmCountdownText");
+    if (countdownText) countdownText.textContent = lang === "bn" ? `বাকি সময়: ${bpmCountdown} সেকেন্ড` : `Time left: ${bpmCountdown}s`;
+    
+    if (stopBtn) stopBtn.classList.add("d-none");
+    if (tapBpmBtn) tapBpmBtn.classList.remove("d-none");
+
+    const timerDisp = $("boltTimerDisplay");
+    testInterval = setInterval(() => {
+      bpmCountdown--;
+      let elapsed = ((performance.now() - testStartTime) / 1000).toFixed(1);
+      if (timerDisp) timerDisp.textContent = elapsed + "s";
+      if (countdownText) countdownText.textContent = lang === "bn" ? `বাকি সময়: ${Math.max(0, bpmCountdown)} সেকেন্ড` : `Time left: ${Math.max(0, bpmCountdown)}s`;
+      if (bpmCountdown <= 0) {
+        stopCurrentTest();
+      }
+    }, 1000);
+  }
+}
+
+function recordBpmBreath() {
+  if (!testRunning || activeTestTab !== 'bpm') return;
+  bpmTaps++;
+  const countEl = $("bpmCountNum");
+  if (countEl) countEl.textContent = bpmTaps;
+}
+
+function stopCurrentTest() {
+  if (!testRunning) return;
+  testRunning = false;
+  if (testInterval) {
+    clearInterval(testInterval);
+    testInterval = null;
+  }
+  if (testCountInterval) {
+    clearInterval(testCountInterval);
+    testCountInterval = null;
+  }
+
+  const durationSec = Math.max(0.1, (performance.now() - testStartTime) / 1000);
+  
+  if (activeTestTab === 'bolt') {
+    renderBoltResult(durationSec);
+  } else {
+    let rate = Math.round((bpmTaps / Math.min(30, durationSec)) * 60);
+    renderBpmResult(rate);
+  }
+}
+
+function renderBoltResult(sec) {
+  const roundedSec = Math.round(sec);
+  const scoreNum = $("resultScoreNum");
+  const scoreGrade = $("resultScoreGrade");
+  const scoreDetail = $("resultScoreDetail");
+  const recTitle = $("recExerciseTitle");
+  const recReason = $("recExerciseReason");
+
+  if (scoreNum) scoreNum.textContent = roundedSec + "s";
+
+  let grade = "", detail = "", recId = "";
+  if (roundedSec < 10) {
+    grade = lang === "bn" ? "খুব কম (উচ্চ মানসিক চাপ ও দুর্বল CO2 সহনশীলতা)" : "Low (Elevated Stress & Low CO2 Tolerance)";
+    detail = lang === "bn"
+      ? "আপনার স্কোর ইঙ্গিত করে যে আপনি হয়তো অতিরিক্ত বা অগভীরভাবে শ্বাস নিচ্ছেন। এটি শরীরকে ক্লান্ত ও নার্ভাস রাখে। ডায়াফ্রামেটিক ব্রিদিং দিয়ে পেটের মাধ্যমে গভীর শ্বাস নেওয়ার অভ্যাস তৈরি করা জরুরি।"
+      : "Your score indicates potential over-breathing or shallow upper-chest breathing. Oxygen delivery to cells is constricted. Diaphragmatic breathing is highly recommended.";
+    recId = "diaphragmatic";
+  } else if (roundedSec < 20) {
+    grade = lang === "bn" ? "মাঝারি কার্যকারিতা (উন্নতির সুযোগ রয়েছে)" : "Moderate Respiratory Efficiency";
+    detail = lang === "bn"
+      ? "আপনার শ্বাসের ছন্দ তুলনামূলক স্বাভাবিক হলেও মানসিক চাপের সময় শ্বাস দ্রুত হয়ে পড়ার সম্ভাবনা থাকে। ৪–৬ রিল্যাক্সিং ব্রিদিং আপনার স্নায়ুতন্ত্রকে শান্ত ও সুষম রাখবে।"
+      : "You have a reasonable baseline, but prolonged exhalations will train your nervous system to stay grounded under stress.";
+    recId = "relax46";
+  } else if (roundedSec < 30) {
+    grade = lang === "bn" ? "ভালো ও সুষম শ্বাস-প্রশ্বাস" : "Good Respiratory Health & Control";
+    detail = lang === "bn"
+      ? "আপনার ফুসফুসের কার্যকারিতা ও অক্সিজেন সহনশীলতা যথেষ্ট ভালো। মনোযোগ ও মানসিক স্থিরতা বজায় রাখতে বক্স ব্রিদিং আপনার জন্য সবচেয়ে উপযোগী।"
+      : "Great breath endurance and CO2 tolerance. Your autonomic nervous system is well-regulated. Box breathing will sharpen your concentration.";
+    recId = "box";
+  } else {
+    grade = lang === "bn" ? "চমৎকার ও উচ্চ স্তরের নিয়ন্ত্রণ" : "Optimal Respiratory Mastery";
+    detail = lang === "bn"
+      ? "আপনার শ্বাসপ্রশ্বাস প্রক্রিয়া অত্যন্ত সুশৃঙ্খল ও শান্ত। প্রাকৃতিক মননশীল শ্বাসের মাধ্যমে এই ভারসাম্য বজায় রাখুন।"
+      : "Outstanding lung efficiency and nervous system balance. Natural mindful breathing will help you sustain effortless awareness.";
+    recId = "mindful";
+  }
+
+  recommendedExerciseId = recId;
+  const targetEx = exercises.find(e => e.id === recId) || exercises[0];
+
+  if (scoreGrade) scoreGrade.textContent = grade;
+  if (scoreDetail) scoreDetail.textContent = detail;
+  if (recTitle) recTitle.textContent = exName(targetEx);
+  if (recReason) recReason.textContent = exBenefit(targetEx);
+
+  saveTestRecord({
+    type: "BOLT",
+    score: roundedSec + "s",
+    grade: grade,
+    date: new Date().toLocaleDateString(lang === "bn" ? "bn-BD" : "en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+  });
+
+  const instructView = $("testInstructionView");
+  const resultView = $("testResultView");
+  if (instructView) instructView.classList.add("d-none");
+  if (resultView) resultView.classList.remove("d-none");
+}
+
+function renderBpmResult(rate) {
+  const scoreNum = $("resultScoreNum");
+  const scoreGrade = $("resultScoreGrade");
+  const scoreDetail = $("resultScoreDetail");
+  const recTitle = $("recExerciseTitle");
+  const recReason = $("recExerciseReason");
+
+  if (scoreNum) scoreNum.textContent = rate + " BPM";
+
+  let grade = "", detail = "", recId = "";
+  if (rate > 18) {
+    grade = lang === "bn" ? "দ্রুত গতি (উচ্চ চাপ বা উত্তেজনা)" : "Rapid Rate (Heightened Arousal / Stress)";
+    detail = lang === "bn"
+      ? "আপনার বিশ্রামের শ্বাসের হার স্বাভাবিকের চেয়ে বেশি। ধীর শ্বাসের মাধ্যমে প্যারাসিমপ্যাথেটিক সিস্টেমকে সক্রিয় করুন।"
+      : "Your breathing rate is elevated above normal resting averages (12-16 bpm). Relaxing 4-6 breathing will help slow your breath.";
+    recId = "relax46";
+  } else if (rate >= 12) {
+    grade = lang === "bn" ? "স্বাভাবিক ও স্বাস্থ্যকর রেট" : "Healthy Resting Breath Rate";
+    detail = lang === "bn"
+      ? "আপনার বিশ্রামের শ্বাসের হার স্বাভাবিক সীমার মধ্যে রয়েছে। বক্স ব্রিদিং অনুশীলন আপনার মনোযোগকে আরও দৃঢ় করবে।"
+      : "Your breathing frequency is well within the healthy resting average. Box breathing is great to maintain balance.";
+    recId = "box";
+  } else {
+    grade = lang === "bn" ? "অত্যন্ত শান্ত ও গভীর শ্বাস" : "Deep Calm & Low Frequency";
+    detail = lang === "bn"
+      ? "আপনার শ্বাসের ছন্দ অত্যন্ত ধীর ও শিথিল, যা গভীর মননশীলতার পরিচায়ক।"
+      : "Your respiration rate is exceptionally calm and meditative.";
+    recId = "mindful";
+  }
+
+  recommendedExerciseId = recId;
+  const targetEx = exercises.find(e => e.id === recId) || exercises[0];
+
+  if (scoreGrade) scoreGrade.textContent = grade;
+  if (scoreDetail) scoreDetail.textContent = detail;
+  if (recTitle) recTitle.textContent = exName(targetEx);
+  if (recReason) recReason.textContent = exBenefit(targetEx);
+
+  saveTestRecord({
+    type: "BPM",
+    score: rate + " BPM",
+    grade: grade,
+    date: new Date().toLocaleDateString(lang === "bn" ? "bn-BD" : "en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+  });
+
+  const instructView = $("testInstructionView");
+  const resultView = $("testResultView");
+  if (instructView) instructView.classList.add("d-none");
+  if (resultView) resultView.classList.remove("d-none");
+}
+
+function saveTestRecord(record) {
+  try {
+    let history = JSON.parse(localStorage.getItem("bw_test_history") || "[]");
+    history.unshift(record);
+    if (history.length > 8) history = history.slice(0, 8);
+    localStorage.setItem("bw_test_history", JSON.stringify(history));
+    loadTestHistory();
+  } catch(e){}
+}
+
+function loadTestHistory() {
+  const container = $("testHistoryList");
+  if (!container) return;
+  try {
+    const history = JSON.parse(localStorage.getItem("bw_test_history") || "[]");
+    if (!history.length) {
+      container.innerHTML = `<p class="small text-muted mb-0" id="emptyHistoryMsg">${tr("noHistoryYet")}</p>`;
+      return;
+    }
+    container.innerHTML = history.map(item => `
+      <div class="test-history-item">
+        <div>
+          <strong class="text-primary">${item.type}: ${item.score}</strong>
+          <div class="text-muted" style="font-size:0.75rem">${item.grade}</div>
+        </div>
+        <span class="badge bg-light text-secondary border">${item.date}</span>
+      </div>
+    `).join("");
+  } catch(e){}
+}
+
+function clearTestHistory() {
+  localStorage.removeItem("bw_test_history");
+  loadTestHistory();
+}
+
+function resetTest() {
+  if (testRunning) stopCurrentTest();
+  testRunning = false;
+  if (testInterval) clearInterval(testInterval);
+  if (testCountInterval) clearInterval(testCountInterval);
+  
+  const instructView = $("testInstructionView");
+  const resultView = $("testResultView");
+  const countBox = $("testCountdownBox");
+  const activeStage = $("testActiveStage");
+  const startBtn = $("startTestBtn");
+  const stopBtn = $("stopTestBtn");
+  const tapBpmBtn = $("tapBpmBtn");
+  const timerDisp = $("boltTimerDisplay");
+
+  if (instructView) instructView.classList.remove("d-none");
+  if (resultView) resultView.classList.add("d-none");
+  if (countBox) countBox.classList.add("d-none");
+  if (activeStage) activeStage.classList.add("d-none");
+  if (startBtn) startBtn.classList.remove("d-none");
+  if (stopBtn) stopBtn.classList.add("d-none");
+  if (tapBpmBtn) tapBpmBtn.classList.add("d-none");
+  if (timerDisp) timerDisp.textContent = "00.0s";
+}
+
+function launchRecommendedExercise() {
+  selected = exercises.find(e => e.id === recommendedExerciseId) || exercises[0];
+  startSession();
 }
 
 document.addEventListener("visibilitychange", () => {
