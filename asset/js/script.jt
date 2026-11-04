@@ -162,6 +162,23 @@ const T = {
     summaryCycles: "সম্পূর্ণ চক্র",
     summaryStatus: "অবস্থা",
     completed: "সম্পন্ন",
+    tapCupConfetti: "ট্রফিতে ট্যাপ করুন!",
+    tapCupCheers: "🎉 দারুণ অর্জন!",
+    badgeMindfulMaster: "মাইন্ডফুলনেস চ্যাম্পিয়ন",
+    badgeLevel1: "লেভেল ১ বিজয়ী 🏅",
+    badgeLevel2: "লেভেল ২ মাস্টার 🥈",
+    badgeLevel3: "লেভেল ৩ গ্র্যান্ডমাস্টার 🥇",
+    moodCheckBadge: "সেলফ-রিফ্লেকশন",
+    moodCheckTitle: "অনুশীলনের পর এখন কেমন অনুভূতি হচ্ছে?",
+    moodCheckSub: "আপনার অনুভূতি চিহ্নিত করে মানসিক পরিবর্তনের পর্যবেক্ষণ রাখুন।",
+    moodCalm: "শান্ত ও নির্ভার",
+    moodRefreshed: "সতেজ ও উদ্যমী",
+    moodFocused: "মনোযোগী",
+    moodSleepy: "শিথিল ও তন্দ্রাচ্ছন্ন",
+    moodCalmMsg: "দারুণ! ধীর শ্বাসে আপনার স্নায়ুতন্ত্র এখন পুরোপুরি শিথিল ও শান্ত।",
+    moodRefreshedMsg: "চমৎকার! অক্সিজেন প্রবাহ বৃদ্ধি পেয়ে মস্তিষ্কে সতেজতা ফিরে এসেছে।",
+    moodFocusedMsg: "মনোযোগ বৃদ্ধি পেয়েছে! আপনার মন এখন স্থির ও স্পষ্ট ভাবনার জন্য প্রস্তুত।",
+    moodSleepyMsg: "বিশ্রামের চমৎকার প্রস্তুতি! গভীর শিথিলতা আপনার ঘুমকে প্রশান্ত করবে।",
     practiceAgain: "আবার অনুশীলন করুন",
     otherExercises: "অন্য অনুশীলন দেখুন",
     disclaimer: "এই ওয়েবসাইট সাধারণ সুস্থতা ও শিথিলতার তথ্য দেয়; এটি চিকিৎসা বা পেশাদার স্বাস্থ্যসেবার বিকল্প নয়।",
@@ -373,6 +390,23 @@ const T = {
     summaryCycles: "Completed cycles",
     summaryStatus: "Status",
     completed: "Completed",
+    tapCupConfetti: "Tap the trophy!",
+    tapCupCheers: "🎉 Great achievement!",
+    badgeMindfulMaster: "Mindfulness Champion",
+    badgeLevel1: "Level 1 Conqueror 🏅",
+    badgeLevel2: "Level 2 Master 🥈",
+    badgeLevel3: "Level 3 Grandmaster 🥇",
+    moodCheckBadge: "Self-Reflection",
+    moodCheckTitle: "How are you feeling after this session?",
+    moodCheckSub: "Check in with your body and notice the calming shift.",
+    moodCalm: "Calm & Relaxed",
+    moodRefreshed: "Refreshed & Energized",
+    moodFocused: "Sharp & Focused",
+    moodSleepy: "Sleepy & Rested",
+    moodCalmMsg: "Wonderful! Slow breathing has brought deep relaxation to your nervous system.",
+    moodRefreshedMsg: "Fantastic! Enhanced oxygenation has revitalized your energy and clarity.",
+    moodFocusedMsg: "Focus sharpened! Your mind is grounded and ready for clear thinking.",
+    moodSleepyMsg: "Perfect relaxation! Your body is prepared for peaceful, restorative sleep.",
     practiceAgain: "Practice again",
     otherExercises: "Explore other exercises",
     disclaimer: "This website provides general wellness and relaxation information; it is not a substitute for medical care or professional healthcare advice.",
@@ -671,7 +705,19 @@ function setLang(next) {
   }
   const completeEl = $("complete");
   if (completeEl && completeEl.classList.contains("active")) {
-    renderSummary(lastCompletedSession?.cycles || 0, run?.elapsed || 0, getLevelLabel(run?.level || selectedLevel));
+    renderSummary(lastCompletedSession?.cycles || 0, run?.elapsed || 0, getLevelLabel(run?.level || selectedLevel), lastCompletedSession?.level || selectedLevel);
+    if (currentSessionMood) {
+      const feedback = $("moodFeedback");
+      if (feedback && !feedback.classList.contains("d-none")) {
+        const msgMap = {
+          calm: tr("moodCalmMsg"),
+          refreshed: tr("moodRefreshedMsg"),
+          focused: tr("moodFocusedMsg"),
+          sleepy: tr("moodSleepyMsg")
+        };
+        feedback.textContent = msgMap[currentSessionMood] || "";
+      }
+    }
   }
   loadTestHistory();
 }
@@ -1271,18 +1317,26 @@ function completeSession() {
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   const completed = run.completedCycles, elapsed = run.elapsed;
   const lvlName = getLevelLabel(run.level);
+  const curLevel = run.level;
   lastCompletedSession = {
     exName: exName(run.exercise),
     levelName: lvlName,
     duration: formatTime(elapsed || 0),
-    cycles: completed
+    cycles: completed,
+    level: curLevel
   };
-  renderSummary(completed, elapsed, lvlName);
+  renderSummary(completed, elapsed, lvlName, curLevel);
   checkNativeShareSupport();
+  resetMoodSelection();
   go("complete");
+
+  setTimeout(() => {
+    triggerConfetti(65);
+    playCelebrationChime();
+  }, 220);
 }
 
-function renderSummary(cycles, elapsed, lvlName) {
+function renderSummary(cycles, elapsed, lvlName, curLevel) {
   const summaryName = $("summaryName");
   if (summaryName) summaryName.textContent = exName(selected);
   const summaryLevel = $("summaryLevel");
@@ -1291,6 +1345,214 @@ function renderSummary(cycles, elapsed, lvlName) {
   if (summaryDuration) summaryDuration.textContent = formatTime(elapsed || 0);
   const summaryCycles = $("summaryCycles");
   if (summaryCycles) summaryCycles.textContent = cycles + " " + tr("cycleUnit");
+
+  const lvl = curLevel || lastCompletedSession?.level || selectedLevel;
+  const achievementText = $("achievementText");
+  if (achievementText) {
+    if (lvl === 1) achievementText.textContent = tr("badgeLevel1");
+    else if (lvl === 2) achievementText.textContent = tr("badgeLevel2");
+    else if (lvl === 3) achievementText.textContent = tr("badgeLevel3");
+    else achievementText.textContent = tr("badgeMindfulMaster");
+  }
+
+  const cupBox = $("championCupBox");
+  if (cupBox) {
+    cupBox.classList.remove("cup-bounce-anim");
+  }
+
+  const tapHint = $("tapCupHint");
+  if (tapHint) {
+    tapHint.textContent = tr("tapCupConfetti");
+  }
+}
+
+// Celebration Confetti Engine
+let confettiParticles = [];
+let confettiAnimationId = null;
+
+function triggerConfetti(count = 55) {
+  const canvas = $("confettiCanvas");
+  if (!canvas) return;
+  const parent = canvas.parentElement;
+  const width = (canvas.width = parent ? parent.clientWidth : window.innerWidth);
+  const height = (canvas.height = parent ? parent.clientHeight : window.innerHeight);
+
+  const colors = [
+    "#FFD700", "#F59E0B", "#10B981", "#06B6D4", "#38BDF8", 
+    "#EC4899", "#8B5CF6", "#F97316", "#A7F3D0", "#FDE047"
+  ];
+
+  const originX = width / 2;
+  const originY = Math.min(180, height * 0.3);
+
+  for (let i = 0; i < count; i++) {
+    const angle = Math.PI * 2 * Math.random();
+    const velocity = 4 + Math.random() * 8;
+    confettiParticles.push({
+      x: originX + (Math.random() - 0.5) * 60,
+      y: originY + (Math.random() - 0.5) * 40,
+      vx: Math.cos(angle) * velocity,
+      vy: Math.sin(angle) * velocity - 3.5,
+      size: 6 + Math.random() * 7,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 14,
+      opacity: 1,
+      shape: Math.random() > 0.4 ? "rect" : (Math.random() > 0.5 ? "circle" : "star"),
+      gravity: 0.16 + Math.random() * 0.12,
+      life: 0,
+      maxLife: 130 + Math.random() * 70
+    });
+  }
+
+  if (!confettiAnimationId) {
+    renderConfettiLoop();
+  }
+}
+
+function renderConfettiLoop() {
+  const canvas = $("confettiCanvas");
+  if (!canvas) {
+    confettiParticles = [];
+    confettiAnimationId = null;
+    return;
+  }
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = confettiParticles.length - 1; i >= 0; i--) {
+    const p = confettiParticles[i];
+    p.life++;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += p.gravity;
+    p.vx *= 0.985;
+    p.rotation += p.rotationSpeed;
+
+    if (p.life > p.maxLife - 25) {
+      p.opacity = Math.max(0, (p.maxLife - p.life) / 25);
+    }
+
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate((p.rotation * Math.PI) / 180);
+    ctx.globalAlpha = p.opacity;
+    ctx.fillStyle = p.color;
+
+    if (p.shape === "rect") {
+      ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size * 0.65);
+    } else if (p.shape === "circle") {
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size / 2.3, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      for (let s = 0; s < 4; s++) {
+        ctx.lineTo(Math.cos((s * 90 * Math.PI) / 180) * p.size, Math.sin((s * 90 * Math.PI) / 180) * p.size);
+        ctx.lineTo(Math.cos(((s * 90 + 45) * Math.PI) / 180) * (p.size * 0.38), Math.sin(((s * 90 + 45) * Math.PI) / 180) * (p.size * 0.38));
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+
+    if (p.life >= p.maxLife || p.y > canvas.height + 25) {
+      confettiParticles.splice(i, 1);
+    }
+  }
+
+  if (confettiParticles.length > 0) {
+    confettiAnimationId = requestAnimationFrame(renderConfettiLoop);
+  } else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confettiAnimationId = null;
+  }
+}
+
+// Celebration Chime Generator (Web Audio API)
+function playCelebrationChime() {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    if (ctx.state === "suspended") {
+      ctx.resume();
+    }
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Triumphant harmonic chord)
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
+
+      gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + idx * 0.1 + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.1 + 0.85);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(ctx.currentTime + idx * 0.1);
+      osc.stop(ctx.currentTime + idx * 0.1 + 0.9);
+    });
+  } catch (err) {
+    // Non-blocking: AudioContext blocked or not supported
+  }
+}
+
+function celebrateAgain() {
+  const cupBox = $("championCupBox");
+  if (cupBox) {
+    cupBox.classList.remove("cup-bounce-anim");
+    void cupBox.offsetWidth;
+    cupBox.classList.add("cup-bounce-anim");
+  }
+
+  triggerConfetti(45);
+  playCelebrationChime();
+
+  const hint = $("tapCupHint");
+  if (hint) {
+    hint.textContent = tr("tapCupCheers");
+    setTimeout(() => {
+      if (hint) hint.textContent = tr("tapCupConfetti");
+    }, 2400);
+  }
+}
+
+let currentSessionMood = null;
+
+function resetMoodSelection() {
+  currentSessionMood = null;
+  const allBtns = document.querySelectorAll("#moodOptions .mood-btn");
+  allBtns.forEach(b => b.classList.remove("active"));
+  const feedback = $("moodFeedback");
+  if (feedback) feedback.classList.add("d-none");
+}
+
+function selectMood(moodKey, btnEl) {
+  currentSessionMood = moodKey;
+  const allBtns = document.querySelectorAll("#moodOptions .mood-btn");
+  allBtns.forEach(b => b.classList.remove("active"));
+  if (btnEl) btnEl.classList.add("active");
+
+  const feedback = $("moodFeedback");
+  if (!feedback) return;
+
+  const msgMap = {
+    calm: tr("moodCalmMsg"),
+    refreshed: tr("moodRefreshedMsg"),
+    focused: tr("moodFocusedMsg"),
+    sleepy: tr("moodSleepyMsg")
+  };
+
+  feedback.textContent = msgMap[moodKey] || "";
+  feedback.classList.remove("d-none");
+  feedback.style.animation = "none";
+  void feedback.offsetWidth;
+  feedback.style.animation = "moodFadeIn 0.35s ease";
 }
 
 function checkNativeShareSupport() {

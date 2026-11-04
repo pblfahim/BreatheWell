@@ -610,7 +610,111 @@
     <section id="complete" class="screen">
       <div class="container py-5">
         <div class="session-card my-4">
-          <div class="completion-icon"><i class="bi bi-check2"></i></div>
+          <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+          <!-- ANIMATED CHAMPION CUP & CELEBRATION STAGE -->
+          <div class="trophy-stage-wrap text-center mb-4">
+            <div class="trophy-stage position-relative d-inline-block" id="trophyStage" onclick="celebrateAgain()" role="button" tabindex="0" aria-label="Celebration Trophy - Tap for celebration">
+              <!-- Radiance Aura Behind Cup -->
+              <div class="trophy-aura" aria-hidden="true"></div>
+              
+              <!-- Floating Twinkling Sparkles -->
+              <div class="trophy-sparkle sp-1" aria-hidden="true"><i class="bi bi-star-fill"></i></div>
+              <div class="trophy-sparkle sp-2" aria-hidden="true"><i class="bi bi-sparkle"></i></div>
+              <div class="trophy-sparkle sp-3" aria-hidden="true"><i class="bi bi-stars"></i></div>
+              <div class="trophy-sparkle sp-4" aria-hidden="true"><i class="bi bi-star-fill"></i></div>
+
+              <!-- The Champion Trophy Cup (SVG vector with animated golden gradients & shine) -->
+              <div class="champion-cup-box" id="championCupBox">
+                <svg class="champion-cup-svg" viewBox="0 0 160 170" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="goldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FFF8D6"/>
+                      <stop offset="30%" stop-color="#FCD34D"/>
+                      <stop offset="65%" stop-color="#F59E0B"/>
+                      <stop offset="100%" stop-color="#B45309"/>
+                    </linearGradient>
+                    <linearGradient id="goldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#FEF3C7"/>
+                      <stop offset="45%" stop-color="#FBBF24"/>
+                      <stop offset="100%" stop-color="#92400E"/>
+                    </linearGradient>
+                    <linearGradient id="cupStemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#D97706"/>
+                      <stop offset="50%" stop-color="#FDE68A"/>
+                      <stop offset="100%" stop-color="#B45309"/>
+                    </linearGradient>
+                    <linearGradient id="cupBaseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#334155"/>
+                      <stop offset="40%" stop-color="#1E293B"/>
+                      <stop offset="100%" stop-color="#0F172A"/>
+                    </linearGradient>
+                    <linearGradient id="goldSheen" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                      <stop offset="45%" stop-color="rgba(255,255,255,0.85)"/>
+                      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                    </linearGradient>
+                    <filter id="cupSoftShadow" x="-20%" y="-15%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#D97706" flood-opacity="0.32"/>
+                    </filter>
+                  </defs>
+
+                  <g filter="url(#cupSoftShadow)">
+                    <!-- Base Pedestal Tier 2 -->
+                    <rect x="40" y="146" width="80" height="18" rx="4" fill="url(#cupBaseGrad)" stroke="#475569" stroke-width="1.2"/>
+                    <!-- Base Pedestal Tier 1 (Gold collar) -->
+                    <rect x="52" y="136" width="56" height="11" rx="2" fill="url(#goldGrad2)"/>
+                    <!-- Plaque with engraving -->
+                    <rect x="52" y="149" width="56" height="12" rx="2" fill="#0F172A" stroke="#FBBF24" stroke-width="0.75"/>
+                    <text x="80" y="158" font-size="6.8" font-weight="800" fill="#FDE68A" text-anchor="middle" letter-spacing="1">BREATHEWELL</text>
+
+                    <!-- Cup Stem -->
+                    <path d="M73 108 H87 V136 H73 Z" fill="url(#cupStemGrad)"/>
+                    <path d="M68 108 Q80 115 92 108 V113 Q80 120 68 113 Z" fill="url(#goldGrad2)"/>
+                    <ellipse cx="80" cy="136" rx="14" ry="3" fill="url(#goldGrad1)"/>
+
+                    <!-- Handles (Wing handles on both sides) -->
+                    <!-- Left Handle -->
+                    <path d="M46 36 C20 36 16 76 46 90 C48 82 34 76 34 60 C34 46 45 44 48 44 Z" fill="url(#goldGrad2)"/>
+                    <path d="M46 38 C24 38 20 74 46 86 C47 80 36 74 36 60 C36 48 45 46 48 46 Z" fill="url(#goldGrad1)"/>
+                    <!-- Right Handle -->
+                    <path d="M114 36 C140 36 144 76 114 90 C112 82 126 76 126 60 C126 46 115 44 112 44 Z" fill="url(#goldGrad2)"/>
+                    <path d="M114 38 C136 38 140 74 114 86 C113 80 124 74 124 60 C124 48 115 46 112 46 Z" fill="url(#goldGrad1)"/>
+
+                    <!-- Main Cup Goblet Body -->
+                    <path d="M44 26 C44 26 42 78 80 110 C118 78 116 26 116 26 Z" fill="url(#goldGrad1)"/>
+
+                    <!-- Cup Rim & Opening -->
+                    <ellipse cx="80" cy="26" rx="36" ry="9" fill="url(#goldGrad2)"/>
+                    <ellipse cx="80" cy="26" rx="31" ry="6.5" fill="#78350F"/>
+                    <ellipse cx="80" cy="27" rx="28" ry="5" fill="#92400E"/>
+
+                    <!-- Embossed Star in Circular Crest -->
+                    <circle cx="80" cy="60" r="16" fill="url(#goldGrad2)" stroke="#FFFBEB" stroke-width="1.2" opacity="0.9"/>
+                    <!-- Star shape -->
+                    <path d="M80 49 L83.2 56.5 L91.3 57.3 L85.2 62.8 L86.9 70.8 L80 66.8 L73.1 70.8 L74.8 62.8 L68.7 57.3 L76.8 56.5 Z" fill="#FFFFFF" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.25))"/>
+
+                    <!-- Shine Stripe Overlay across Cup -->
+                    <path class="cup-shine-path" d="M54 34 Q80 82 82 108" stroke="url(#goldSheen)" stroke-width="9" stroke-linecap="round" opacity="0.8"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Dynamic Achievement Ribbon Under Cup -->
+            <div class="achievement-ribbon-wrap mt-2">
+              <div class="achievement-badge shadow-sm" id="achievementBadge">
+                <i class="bi bi-trophy-fill text-warning me-1"></i>
+                <span id="achievementText" data-i18n="badgeMindfulMaster">মাইন্ডফুলনেস চ্যাম্পিয়ন</span>
+              </div>
+              <div class="mt-2">
+                <button type="button" class="btn btn-sm btn-light border shadow-sm rounded-pill tap-trophy-pill" onclick="celebrateAgain()" aria-label="Celebrate again">
+                  <i class="bi bi-magic text-warning me-1"></i> <span id="tapCupHint" data-i18n="tapCupConfetti">ট্রফিতে ট্যাপ করুন!</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="eyebrow mb-2" data-i18n="wellDone">সম্পন্ন</div>
           <h1 class="section-title mb-3" data-i18n="completeTitle">আপনার অনুশীলন সম্পন্ন হয়েছে!</h1>
           <p class="text-secondary mb-4" data-i18n="completeDesc">এবার স্বাভাবিকভাবে শ্বাস নিন এবং কিছুক্ষণ বিশ্রাম
@@ -618,34 +722,64 @@
           <div class="row g-3 text-start mb-4">
             <div class="col-6 col-md-4">
               <div class="info-panel">
-                <div class="small text-secondary" data-i18n="summaryExercise">অনুশীলন</div><strong
-                  id="summaryName"></strong>
+                <div class="small text-secondary mb-1"><i class="bi bi-wind text-primary me-1"></i><span data-i18n="summaryExercise">অনুশীলন</span></div>
+                <strong id="summaryName"></strong>
               </div>
             </div>
             <div class="col-6 col-md-4">
               <div class="info-panel">
-                <div class="small text-secondary" data-i18n="summaryLevel">অনুশীলনের স্তর</div><strong
-                  id="summaryLevel" class="text-primary"></strong>
+                <div class="small text-secondary mb-1"><i class="bi bi-bar-chart-steps text-info me-1"></i><span data-i18n="summaryLevel">অনুশীলনের স্তর</span></div>
+                <strong id="summaryLevel" class="text-primary"></strong>
               </div>
             </div>
             <div class="col-6 col-md-4">
               <div class="info-panel">
-                <div class="small text-secondary" data-i18n="summaryDuration">সময়</div><strong
-                  id="summaryDuration"></strong>
+                <div class="small text-secondary mb-1"><i class="bi bi-stopwatch text-warning me-1"></i><span data-i18n="summaryDuration">সময়</span></div>
+                <strong id="summaryDuration"></strong>
               </div>
             </div>
             <div class="col-6 col-md-6">
               <div class="info-panel">
-                <div class="small text-secondary" data-i18n="summaryCycles">সম্পূর্ণ চক্র</div><strong
-                  id="summaryCycles"></strong>
+                <div class="small text-secondary mb-1"><i class="bi bi-arrow-repeat text-success me-1"></i><span data-i18n="summaryCycles">সম্পূর্ণ চক্র</span></div>
+                <strong id="summaryCycles"></strong>
               </div>
             </div>
             <div class="col-12 col-md-6">
               <div class="info-panel">
-                <div class="small text-secondary" data-i18n="summaryStatus">অবস্থা</div><strong class="text-success"
-                  data-i18n="completed">সম্পন্ন</strong>
+                <div class="small text-secondary mb-1"><i class="bi bi-check-circle-fill text-success me-1"></i><span data-i18n="summaryStatus">অবস্থা</span></div>
+                <strong class="text-success" data-i18n="completed">সম্পন্ন</strong>
               </div>
             </div>
+          </div>
+
+          <!-- Interactive Post-Session Mood Check-in -->
+          <div class="mood-check-card p-4 rounded-4 border bg-white mb-4 text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+              <span class="badge bg-info-subtle text-info-emphasis rounded-pill px-2.5 py-1 small fw-bold">
+                <i class="bi bi-heart-pulse-fill me-1"></i><span data-i18n="moodCheckBadge">সেলফ-রিফ্লেকশন</span>
+              </span>
+            </div>
+            <h3 class="h6 fw-bold mb-1" data-i18n="moodCheckTitle">অনুশীলনের পর এখন কেমন অনুভূতি হচ্ছে?</h3>
+            <p class="small text-secondary mb-3" data-i18n="moodCheckSub">আপনার অনুভূতি চিহ্নিত করে মানসিক পরিবর্তনের পর্যবেক্ষণ রাখুন।</p>
+            <div class="mood-options d-flex justify-content-center gap-2 flex-wrap" id="moodOptions">
+              <button type="button" class="btn mood-btn" data-mood="calm" onclick="selectMood('calm', this)">
+                <span class="mood-emoji">😌</span>
+                <span class="mood-label" data-i18n="moodCalm">শান্ত ও নির্ভার</span>
+              </button>
+              <button type="button" class="btn mood-btn" data-mood="refreshed" onclick="selectMood('refreshed', this)">
+                <span class="mood-emoji">⚡</span>
+                <span class="mood-label" data-i18n="moodRefreshed">সতেজ ও উদ্যমী</span>
+              </button>
+              <button type="button" class="btn mood-btn" data-mood="focused" onclick="selectMood('focused', this)">
+                <span class="mood-emoji">🎯</span>
+                <span class="mood-label" data-i18n="moodFocused">মনোযোগী</span>
+              </button>
+              <button type="button" class="btn mood-btn" data-mood="sleepy" onclick="selectMood('sleepy', this)">
+                <span class="mood-emoji">🌙</span>
+                <span class="mood-label" data-i18n="moodSleepy">শিথিল ও তন্দ্রাচ্ছন্ন</span>
+              </button>
+            </div>
+            <div class="mood-feedback alert alert-primary d-none py-2 px-3 mt-3 mb-0 small rounded-3" id="moodFeedback"></div>
           </div>
 
           <!-- Social Media Sharing Section -->

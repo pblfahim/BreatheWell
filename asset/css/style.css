@@ -125,6 +125,7 @@ main {
     opacity: .25;
     transform: translateY(5px);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -136,8 +137,8 @@ main {
   padding: 76px 0 58px;
   overflow: hidden;
   background: radial-gradient(ellipse at 78% 48%, #d4efff 0%, transparent 36%),
-              radial-gradient(ellipse at 4% 10%, #fff 0%, transparent 42%),
-              linear-gradient(135deg, #f8fcff, #e5f3ff 75%, #eff9ff);
+    radial-gradient(ellipse at 4% 10%, #fff 0%, transparent 42%),
+    linear-gradient(135deg, #f8fcff, #e5f3ff 75%, #eff9ff);
 }
 
 .hero:before,
@@ -249,12 +250,21 @@ main {
 }
 
 @keyframes heroBreathe {
-  0%, 100% { transform: scale(.94); }
-  50% { transform: scale(1.08); }
+
+  0%,
+  100% {
+    transform: scale(.94);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
 }
 
 @keyframes orbit {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .float-pill {
@@ -282,8 +292,15 @@ main {
 }
 
 @keyframes floatCard {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-9px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
 }
 
 .section {
@@ -381,18 +398,25 @@ main {
 }
 
 @keyframes artFloat {
-  0%, 100% { transform: translateY(2px) scale(.96); }
-  50% { transform: translateY(-5px) scale(1.04); }
+
+  0%,
+  100% {
+    transform: translateY(2px) scale(.96);
+  }
+
+  50% {
+    transform: translateY(-5px) scale(1.04);
+  }
 }
 
 .art-diaph {
   background: radial-gradient(circle at 50% 50%, #fff 0 12%, #c7ebff 13% 34%, transparent 35%),
-              linear-gradient(145deg, #eaf8ff, #cceaff);
+    linear-gradient(145deg, #eaf8ff, #cceaff);
 }
 
 .art-relax {
   background: repeating-radial-gradient(ellipse at 50% 110%, rgba(255, 255, 255, .8) 0 8px, transparent 9px 22px),
-              linear-gradient(145deg, #e1f6ff, #bde8f8);
+    linear-gradient(145deg, #e1f6ff, #bde8f8);
 }
 
 .art-box {
@@ -415,12 +439,14 @@ main {
 }
 
 @keyframes boxTurn {
-  to { transform: rotate(405deg); }
+  to {
+    transform: rotate(405deg);
+  }
 }
 
 .art-mindful {
   background: radial-gradient(circle, #fff 0 12%, #d9f4f2 13% 34%, transparent 35%),
-              linear-gradient(145deg, #e5fbf8, #c8eeea);
+    linear-gradient(145deg, #e5fbf8, #c8eeea);
 }
 
 .art-mindful .art-symbol {
@@ -501,7 +527,7 @@ main {
   position: relative;
   overflow: hidden;
   background: radial-gradient(circle at 50% 50%, #fff 0 12%, #cdeaff 13% 34%, transparent 35%),
-              linear-gradient(145deg, #e9f7ff, #cdeaff);
+    linear-gradient(145deg, #e9f7ff, #cdeaff);
   border-radius: 22px;
   min-height: 300px;
   display: grid;
@@ -609,7 +635,7 @@ main {
   background: #e8f6ff;
 }
 
-.session-card > * {
+.session-card>* {
   position: relative;
   z-index: 1;
 }
@@ -658,8 +684,8 @@ main {
   z-index: 0;
   background: radial-gradient(circle, rgba(56, 189, 248, 0.5) 0%, rgba(23, 105, 170, 0.15) 55%, transparent 75%);
   transition: transform var(--phase-duration, 4s) cubic-bezier(0.25, 0.8, 0.25, 1),
-              background 0.8s ease,
-              opacity 0.8s ease;
+    background 0.8s ease,
+    opacity 0.8s ease;
   will-change: transform, opacity;
 }
 
@@ -670,8 +696,8 @@ main {
   pointer-events: none;
   z-index: 1;
   transition: transform var(--phase-duration, 4s) cubic-bezier(0.25, 0.8, 0.25, 1),
-              border-color 0.8s ease,
-              opacity 0.8s ease;
+    border-color 0.8s ease,
+    opacity 0.8s ease;
   will-change: transform, opacity;
 }
 
@@ -697,12 +723,23 @@ main {
 }
 
 @keyframes waveOrbit {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes wavePulse {
-  0%, 100% { transform: scale(0.97); opacity: 0.6; }
-  50% { transform: scale(1.03); opacity: 1; }
+
+  0%,
+  100% {
+    transform: scale(0.97);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
 }
 
 /* SVG Circular Phase Cadence Ring */
@@ -753,13 +790,34 @@ main {
   opacity: 0.7;
 }
 
-.particle.p-top { top: 0; left: 50%; transform: translateX(-50%); }
-.particle.p-right { top: 50%; right: 0; transform: translateY(-50%); }
-.particle.p-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
-.particle.p-left { top: 50%; left: 0; transform: translateY(-50%); }
+.particle.p-top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.particle.p-right {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.particle.p-bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.particle.p-left {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
 
 @keyframes particlesRotate {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Central Breathing Orb */
@@ -773,13 +831,13 @@ main {
   place-items: center;
   background: radial-gradient(circle at 35% 26%, #ffffff 0%, #e0f4ff 36%, #89d1f7 72%, #38a5e4 100%);
   box-shadow: 0 20px 60px rgba(23, 105, 170, 0.28),
-              0 0 0 1px rgba(255, 255, 255, 0.8) inset,
-              0 -8px 20px rgba(255, 255, 255, 0.6) inset,
-              -12px -14px 30px rgba(23, 105, 170, 0.14) inset;
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+    0 -8px 20px rgba(255, 255, 255, 0.6) inset,
+    -12px -14px 30px rgba(23, 105, 170, 0.14) inset;
   transform: scale(1);
   transition: transform var(--phase-duration, 4s) cubic-bezier(0.25, 0.8, 0.25, 1),
-              box-shadow 0.6s ease,
-              background 0.8s ease;
+    box-shadow 0.6s ease,
+    background 0.8s ease;
   will-change: transform, box-shadow;
   user-select: none;
 }
@@ -819,8 +877,15 @@ main {
 }
 
 @keyframes iconBreathe {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-3px) scale(1.08); }
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-3px) scale(1.08);
+  }
 }
 
 .breath-label {
@@ -851,9 +916,9 @@ main {
   transform: scale(1.30);
   background: radial-gradient(circle at 35% 26%, #ffffff 0%, #d8f5ff 36%, #6ec7f8 70%, #1f94df 100%);
   box-shadow: 0 30px 90px rgba(23, 105, 170, 0.38),
-              0 0 0 12px rgba(255, 255, 255, 0.35),
-              0 0 50px rgba(56, 189, 248, 0.35),
-              0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+    0 0 0 12px rgba(255, 255, 255, 0.35),
+    0 0 50px rgba(56, 189, 248, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
 }
 
 .breath-stage.inhale .breath-aura {
@@ -887,15 +952,22 @@ main {
   transform: scale(1.18);
   background: radial-gradient(circle at 35% 26%, #ffffff 0%, #e0f9f6 36%, #79e3d4 72%, #14b8a6 100%);
   box-shadow: 0 25px 75px rgba(20, 184, 166, 0.35),
-              0 0 0 10px rgba(255, 255, 255, 0.4),
-              0 0 40px rgba(94, 234, 212, 0.4),
-              0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+    0 0 0 10px rgba(255, 255, 255, 0.4),
+    0 0 40px rgba(94, 234, 212, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
   animation: holdStillness 4s ease-in-out infinite;
 }
 
 @keyframes holdStillness {
-  0%, 100% { transform: scale(1.18); }
-  50% { transform: scale(1.21); }
+
+  0%,
+  100% {
+    transform: scale(1.18);
+  }
+
+  50% {
+    transform: scale(1.21);
+  }
 }
 
 .breath-stage.hold .breath-aura {
@@ -920,9 +992,9 @@ main {
   transform: scale(0.80);
   background: radial-gradient(circle at 35% 26%, #ffffff 0%, #e8f0fe 36%, #9dbef8 72%, #4f7ee8 100%);
   box-shadow: 0 12px 40px rgba(79, 126, 232, 0.25),
-              0 0 0 6px rgba(255, 255, 255, 0.28),
-              0 0 25px rgba(129, 140, 248, 0.25),
-              0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+    0 0 0 6px rgba(255, 255, 255, 0.28),
+    0 0 25px rgba(129, 140, 248, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
 }
 
 .breath-stage.exhale .breath-aura {
@@ -954,8 +1026,8 @@ main {
   transform: scale(1);
   background: radial-gradient(circle at 35% 26%, #ffffff 0%, #e8faf5 36%, #9ce6d5 72%, #148b72 100%);
   box-shadow: 0 18px 55px rgba(20, 139, 114, 0.24),
-              0 0 0 8px rgba(255, 255, 255, 0.35),
-              0 0 0 1px rgba(255, 255, 255, 0.85) inset;
+    0 0 0 8px rgba(255, 255, 255, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.85) inset;
 }
 
 .breath-stage.rest .track-progress,
@@ -980,8 +1052,15 @@ main {
 }
 
 @keyframes prepareThrob {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 .session-progress {
@@ -991,7 +1070,7 @@ main {
   overflow: hidden;
 }
 
-.session-progress > div {
+.session-progress>div {
   height: 100%;
   background: linear-gradient(90deg, #2c9bdc, #1769aa);
   width: 0;
@@ -1021,30 +1100,318 @@ main {
   box-shadow: 0 9px 20px rgba(23, 105, 170, .14);
 }
 
-.completion-icon {
-  width: 86px;
-  height: 86px;
-  border-radius: 28px;
-  background: #e5f7f2;
-  color: var(--green);
-  display: grid;
-  place-items: center;
-  font-size: 2.5rem;
-  margin: 0 auto 20px;
-  box-shadow: 0 12px 30px rgba(20, 139, 114, .13);
-  animation: completePop .7s cubic-bezier(.2, .8, .2, 1) both;
+/* ==========================================================================
+   INTERACTIVE CELEBRATION & ANIMATED CHAMPION CUP
+   ========================================================================== */
+
+.confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 6;
 }
 
-@keyframes completePop {
-  0% { transform: scale(.5) rotate(-18deg); opacity: 0; }
-  70% { transform: scale(1.12); }
-  100% { transform: scale(1); opacity: 1; }
+.trophy-stage-wrap {
+  position: relative;
+  padding: 10px 0 6px;
+  z-index: 5;
+}
+
+.trophy-stage {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: 12px;
+  border-radius: 50%;
+}
+
+.trophy-stage:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 4px;
+}
+
+/* Pulsing Golden Aura behind the Cup */
+.trophy-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 170px;
+  height: 170px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.42) 0%, rgba(245, 158, 11, 0.18) 45%, rgba(251, 191, 36, 0) 72%);
+  filter: blur(10px);
+  z-index: 1;
+  pointer-events: none;
+  animation: auraBreathe 3.5s ease-in-out infinite;
+}
+
+@keyframes auraBreathe {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.18);
+    opacity: 1;
+  }
+}
+
+/* Floating Sparkle Stars */
+.trophy-sparkle {
+  position: absolute;
+  z-index: 4;
+  color: #f59e0b;
+  pointer-events: none;
+  animation: sparkleTwinkle 2.4s ease-in-out infinite;
+}
+
+.trophy-sparkle.sp-1 { top: 6px; left: -16px; font-size: 1.3rem; animation-delay: 0s; color: #fbbf24; }
+.trophy-sparkle.sp-2 { top: 20px; right: -20px; font-size: 1.5rem; animation-delay: 0.6s; color: #f59e0b; }
+.trophy-sparkle.sp-3 { bottom: 32px; left: -18px; font-size: 1.4rem; animation-delay: 1.2s; color: #fcd34d; }
+.trophy-sparkle.sp-4 { bottom: 38px; right: -16px; font-size: 1.2rem; animation-delay: 1.8s; color: #fbbf24; }
+
+@keyframes sparkleTwinkle {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.7) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25) rotate(45deg);
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.85));
+  }
+}
+
+/* Champion Trophy Cup Box & Animations */
+.champion-cup-box {
+  position: relative;
+  z-index: 2;
+  width: 145px;
+  height: 155px;
+  margin: 0 auto;
+  animation: cupFloat 4s ease-in-out infinite, cupEntry 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transform-origin: center bottom;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.champion-cup-box:hover {
+  transform: scale(1.08) translateY(-4px);
+}
+
+@keyframes cupEntry {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) translateY(30px) rotate(-15deg);
+  }
+  70% {
+    transform: scale(1.14) rotate(4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes cupFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(-1.5deg);
+  }
+  75% {
+    transform: translateY(-3px) rotate(1.5deg);
+  }
+}
+
+.champion-cup-box.cup-bounce-anim {
+  animation: cupCheerBounce 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+}
+
+@keyframes cupCheerBounce {
+  0% { transform: scale(1); }
+  20% { transform: scale(0.8) rotate(-9deg); }
+  45% { transform: scale(1.24) rotate(7deg); }
+  70% { transform: scale(0.95) rotate(-3deg); }
+  85% { transform: scale(1.06) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.champion-cup-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 10px 22px rgba(217, 119, 6, 0.28));
+}
+
+/* Shine Sweep Animation Across Cup */
+.cup-shine-path {
+  animation: shineSweep 3.2s ease-in-out infinite;
+}
+
+@keyframes shineSweep {
+  0%, 25% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translateY(0);
+  }
+  75%, 100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Achievement Ribbon / Badge */
+.achievement-ribbon-wrap {
+  position: relative;
+  z-index: 5;
+}
+
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  padding: 6px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.18);
+  animation: badgeGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes badgeGlow {
+  0% { box-shadow: 0 4px 14px rgba(245, 158, 11, 0.18); }
+  100% { box-shadow: 0 6px 22px rgba(245, 158, 11, 0.38); }
+}
+
+.tap-trophy-pill {
+  font-size: 0.78rem;
+  padding: 5px 16px;
+  color: #475569;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tap-trophy-pill:hover {
+  background: #fefce8;
+  border-color: #fde047;
+  color: #854d0e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.18) !important;
+}
+
+.tap-trophy-pill:active {
+  transform: scale(0.94);
+}
+
+/* Post-Session Mindful Mood Check-in */
+.mood-check-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0 !important;
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 4;
+}
+
+.mood-check-card:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 10px 14px;
+  min-width: 105px;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  user-select: none;
+}
+
+.mood-btn:hover {
+  background: #f0fdf4;
+  border-color: #86efac;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.12);
+}
+
+.mood-btn:active {
+  transform: scale(0.94);
+}
+
+.mood-btn.active {
+  background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+  border-color: var(--blue);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.18);
+  transform: translateY(-2px);
+}
+
+.mood-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mood-btn:hover .mood-emoji,
+.mood-btn.active .mood-emoji {
+  transform: scale(1.22);
+}
+
+.mood-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.mood-btn.active .mood-label {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+@keyframes moodFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Info Panel Interactive Polish */
+.session-card .info-panel {
+  background: #fbfdff;
+  border: 1px solid #e2edf8;
+  border-radius: 16px;
+  padding: 16px 18px;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.session-card .info-panel:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue);
+  box-shadow: 0 6px 18px rgba(23, 105, 170, 0.08);
 }
 
 footer {
   border-top: 1px solid var(--line);
   background: white;
-  padding: 28px 0;
+  padding: 12px 0;
   color: var(--muted);
   font-size: .88rem;
 }
@@ -1063,64 +1430,96 @@ footer {
   .hero {
     padding: 48px 0 35px;
   }
+
   .hero-art {
     min-height: 260px;
     margin-top: 20px;
   }
+
   .orb {
     width: 175px;
     height: 175px;
   }
+
   .pill-one {
     left: 0;
     top: 20px;
   }
+
   .pill-two {
     right: 0;
     bottom: 20px;
   }
+
   .section {
     padding: 45px 0;
   }
+
   .exercise-art {
     height: 125px;
   }
+
   .breath-stage {
     height: 330px;
     margin: 10px 0 18px;
   }
+
   .breath-aura {
     width: 220px;
     height: 220px;
   }
+
   .breath-svg-track {
     width: 260px;
     height: 260px;
     transform: rotate(-90deg) scale(0.82);
     transform-origin: center;
   }
+
   .breath-particles {
     width: 250px;
     height: 250px;
   }
+
   .breath-ring {
     width: 172px;
     height: 172px;
   }
-  .breath-wave.wave-1 { width: 195px; height: 195px; }
-  .breath-wave.wave-2 { width: 235px; height: 235px; }
-  .breath-wave.wave-3 { width: 275px; height: 275px; }
-  .phase-count { font-size: 2.2rem; }
-  .breath-label { font-size: 1.15rem; }
+
+  .breath-wave.wave-1 {
+    width: 195px;
+    height: 195px;
+  }
+
+  .breath-wave.wave-2 {
+    width: 235px;
+    height: 235px;
+  }
+
+  .breath-wave.wave-3 {
+    width: 275px;
+    height: 275px;
+  }
+
+  .phase-count {
+    font-size: 2.2rem;
+  }
+
+  .breath-label {
+    font-size: 1.15rem;
+  }
+
   .session-card {
     border-radius: 20px;
   }
+
   .hero h1 {
     letter-spacing: -.8px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -1129,6 +1528,7 @@ footer {
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+
   .hero-art .orb,
   .hero-art .orb:before,
   .hero-art .orb:after,
@@ -1513,6 +1913,7 @@ footer {
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(37, 211, 102, 0.28);
 }
+
 .share-btn.share-whatsapp:hover {
   background: #20bd5a;
   color: #ffffff;
@@ -1525,6 +1926,7 @@ footer {
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(17, 24, 39, 0.22);
 }
+
 .share-btn.share-x:hover {
   background: #000000;
   color: #ffffff;
@@ -1537,6 +1939,7 @@ footer {
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(24, 119, 242, 0.25);
 }
+
 .share-btn.share-facebook:hover {
   background: #1265d3;
   color: #ffffff;
@@ -1549,6 +1952,7 @@ footer {
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(10, 102, 194, 0.25);
 }
+
 .share-btn.share-linkedin:hover {
   background: #08529c;
   color: #ffffff;
@@ -1562,6 +1966,7 @@ footer {
   border-color: #cbdbe8;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
+
 .share-btn.share-copy:hover {
   background: #f0f7fe;
   color: var(--blue-dark);
@@ -1574,6 +1979,7 @@ footer {
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(23, 105, 170, 0.28);
 }
+
 .share-btn.share-native:hover {
   filter: brightness(1.08);
   transform: translateY(-2px);
@@ -1690,7 +2096,7 @@ footer {
   box-shadow: 0 4px 12px rgba(23, 105, 170, 0.08);
 }
 
-.checklist-item input:checked + div strong {
+.checklist-item input:checked+div strong {
   color: var(--blue) !important;
 }
 
@@ -1856,9 +2262,11 @@ footer {
   body {
     padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
   }
+
   .navbar-toggler {
     display: none !important;
   }
+
   .toast-container {
     bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
   }
@@ -1869,9 +2277,3 @@ footer {
     display: none !important;
   }
 }
-
-
-
-
-
-
