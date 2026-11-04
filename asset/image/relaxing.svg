@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4fc3f7" />
+      <stop offset="100%" stop-color="#0288d1" />
+    </linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="54" fill="#e1f6ff" />
+  <circle cx="60" cy="60" r="42" fill="none" stroke="#90caf9" stroke-width="2" stroke-dasharray="4 4" />
+  <!-- Wave Ripples -->
+  <path d="M26 50 C36 44 44 56 54 50 C64 44 72 56 82 50 C88 46 92 48 94 50" fill="none" stroke="url(#waveGrad)" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M22 64 C32 58 42 70 52 64 C62 58 72 70 82 64 C90 60 95 62 98 64" fill="none" stroke="url(#waveGrad)" stroke-width="4.5" stroke-linecap="round" opacity="0.8"/>
+  <path d="M28 78 C36 72 44 84 54 78 C64 72 72 84 82 78 C88 74 92 76 94 78" fill="none" stroke="url(#waveGrad)" stroke-width="4.5" stroke-linecap="round" opacity="0.6"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="lotusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#26a69a" />
+      <stop offset="100%" stop-color="#00695c" />
+    </linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="54" fill="#e5fbf8" />
+  <circle cx="60" cy="60" r="42" fill="none" stroke="#a7f3d0" stroke-width="2" stroke-dasharray="4 4" />
+  <!-- Center Petal -->
+  <path d="M60 36 C54 48 54 66 60 76 C66 66 66 48 60 36 Z" fill="url(#lotusGrad)" opacity="0.95"/>
+  <!-- Left Petal -->
+  <path d="M60 76 C46 72 34 58 38 48 C46 52 54 64 60 76 Z" fill="url(#lotusGrad)" opacity="0.75"/>
+  <!-- Right Petal -->
+  <path d="M60 76 C74 72 86 58 82 48 C74 52 66 64 60 76 Z" fill="url(#lotusGrad)" opacity="0.75"/>
+  <!-- Base Base -->
+  <path d="M44 80 Q60 86 76 80" stroke="#00695c" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

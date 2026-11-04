@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="lungGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38b6ff" />
+      <stop offset="100%" stop-color="#1769aa" />
+    </linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="54" fill="#eaf8ff" />
+  <circle cx="60" cy="60" r="42" fill="none" stroke="#bde4fd" stroke-width="2" stroke-dasharray="4 4" />
+  <!-- Trachea -->
+  <path d="M60 28 L60 48" stroke="#1769aa" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- Bronchi -->
+  <path d="M60 48 Q50 56 42 60" fill="none" stroke="#1769aa" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M60 48 Q70 56 78 60" fill="none" stroke="#1769aa" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Left Lung -->
+  <path d="M42 60 C32 62 26 72 28 83 C30 92 38 95 46 92 C52 90 54 82 50 68 Z" fill="url(#lungGrad)" opacity="0.88"/>
+  <!-- Right Lung -->
+  <path d="M78 60 C88 62 94 72 92 83 C90 92 82 95 74 92 C68 90 66 82 70 68 Z" fill="url(#lungGrad)" opacity="0.88"/>
+</svg>
