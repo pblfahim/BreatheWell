@@ -27,6 +27,11 @@ const T = {
     vibeEnergy: "সতেজ অনুভূতি",
     heroOrbTap: "আমাকে ট্যাপ করুন!",
     heroOrbSmile: "দারুণ! একটি গভীর শ্বাস নিন 😊",
+    minOne: "১ মিনিট",
+    levelLabel: "স্তর",
+    lvlGentle: "সহজ",
+    lvlClassic: "ক্লাসিক",
+    lvlDeep: "গভীর",
     startSimple: "সহজভাবে শুরু করুন",
     featuredTitle: "আপনার অনুশীলন বেছে নিন",
     featuredDesc: "নিজের স্বাচ্ছন্দ্য অনুযায়ী একটি সহজ অনুশীলন নির্বাচন করুন।",
@@ -268,6 +273,11 @@ const T = {
     vibeEnergy: "Gentle Refresh",
     heroOrbTap: "Tap me to breathe!",
     heroOrbSmile: "Wonderful! Take a deep breath 😊",
+    minOne: "1 min",
+    levelLabel: "Level",
+    lvlGentle: "Gentle",
+    lvlClassic: "Classic",
+    lvlDeep: "Deep",
     startSimple: "A simple place to begin",
     featuredTitle: "Choose your practice",
     featuredDesc: "Select a gentle exercise that feels comfortable for you.",
@@ -829,8 +839,8 @@ function quickStartExercise(id) {
   const ex = exercises.find(e => e.id === id);
   if (ex) {
     selected = ex;
-    selectedLevel = 1;
-    showDetails(id);
+    selectedLevel = cardSelectedLevels[id] || "beginner";
+    openDetails(id);
   } else {
     go("library");
   }
@@ -899,33 +909,112 @@ function spawnBuddyHearts() {
   }
 }
 
+const cardSelectedLevels = {
+  relax46: "beginner",
+  box: "intermediate",
+  diaphragmatic: "beginner",
+  mindful: "beginner"
+};
+
+function getCadenceText(ex, lvlKey = "beginner") {
+  const lvlObj = ex.levels ? ex.levels[lvlKey] : null;
+  const phases = lvlObj ? lvlObj.phases : ex.phases;
+  const secUnit = lang === "bn" ? "সে." : "s";
+  return phases.map(p => p[1] + secUnit).join("-");
+}
+
+function getLevelShortName(ex, lvlKey = "beginner") {
+  if (lvlKey === "beginner" || lvlKey === 1) return lang === "bn" ? "লেভেল ১ (সহজ)" : "Level 1 (Gentle)";
+  if (lvlKey === "intermediate" || lvlKey === 2) return lang === "bn" ? "লেভেল ২ (ক্লাসিক)" : "Level 2 (Classic)";
+  if (lvlKey === "advanced" || lvlKey === 3) return lang === "bn" ? "লেভেল ৩ (গভীর)" : "Level 3 (Deep)";
+  return lang === "bn" ? "লেভেল ১" : "Level 1";
+}
+
+function selectCardLevel(exId, lvlKey, btnEl) {
+  cardSelectedLevels[exId] = lvlKey;
+  const card = btnEl.closest(".exercise-card");
+  if (card) {
+    card.querySelectorAll(".level-chip").forEach(c => c.classList.remove("active"));
+    btnEl.classList.add("active");
+
+    const ex = exercises.find(e => e.id === exId);
+    if (ex) {
+      const activeNameEl = card.querySelector(`#activeLvlName_${exId}`);
+      if (activeNameEl) {
+        activeNameEl.textContent = getLevelShortName(ex, lvlKey);
+      }
+      const cadenceEl = card.querySelector(".art-cadence-pill");
+      if (cadenceEl) {
+        cadenceEl.innerHTML = `<i class="bi bi-soundwave me-1 text-primary"></i>${getCadenceText(ex, lvlKey)}`;
+      }
+    }
+  }
+}
+
 function cardHTML(e) {
-  let iconFile = e.image || 'mindful.svg';
+  const iconFile = e.image || 'mindful.svg';
+  const curLevelKey = cardSelectedLevels[e.id] || "beginner";
 
   return `<div class="col-md-6 col-xl-3">
-    <article class="exercise-card">
-      <span class="exercise-goal-badge">${exBadge(e)}</span>
-      <div class="exercise-art art-${e.id === 'diaphragmatic' ? 'diaph' : e.id === 'relax46' ? 'relax' : e.id === 'box' ? 'box' : 'mindful'}">
-        <div class="art-symbol">
-          <img src="asset/image/${iconFile}" width="42" height="42" alt="${exName(e)}">
-        </div>
-      </div>
-      <h3 class="mt-2">${exName(e)}</h3>
-      <p class="mb-2">${exDesc(e)}</p>
-      <div class="card-level-tag mb-3"><i class="bi bi-layers-half text-primary"></i> ${tr("levelBadgeText")}</div>
-      
-      <div class="benefit-box mb-4">
-        <div class="benefit-text"><i class="bi bi-stars text-primary me-1"></i>${exBenefit(e)}</div>
-        <div class="when-text"><i class="bi bi-clock-history me-1"></i><strong>${tr("whenToUse")}:</strong> ${exWhen(e)}</div>
+    <article class="exercise-card theme-${e.id}">
+      <!-- Top Floating Badges Bar -->
+      <div class="card-top-bar d-flex justify-content-between align-items-center mb-2">
+        <span class="exercise-goal-badge">${exBadge(e)}</span>
+        <span class="card-duration-badge"><i class="bi bi-clock me-1"></i>${tr("minOne")}</span>
       </div>
 
-      <div class="d-flex gap-2 mt-auto">
-        <button class="btn btn-primary flex-grow-1 btn-sm" onclick="quickStartSession('${e.id}')">
-          <i class="bi bi-play-fill me-1"></i>${tr("quickStart")}
-        </button>
-        <button class="btn btn-outline-primary btn-sm px-3" onclick="openDetails('${e.id}')" title="${tr("viewDetails")}">
-          ${tr("detailsLabel")}
-        </button>
+      <!-- Playful Animated Micro-Stage Art Box -->
+      <div class="exercise-art art-${e.id}">
+        <div class="art-ambient-glow" aria-hidden="true"></div>
+        <div class="art-orbit-ring" aria-hidden="true"></div>
+        <div class="art-symbol">
+          <img src="asset/image/${iconFile}" width="46" height="46" alt="${exName(e)}">
+        </div>
+        <!-- Live Cadence Rhythm Pill -->
+        <div class="art-cadence-pill">
+          <i class="bi bi-soundwave me-1 text-primary"></i>${getCadenceText(e, curLevelKey)}
+        </div>
+      </div>
+
+      <!-- Card Content -->
+      <div class="card-body-content d-flex flex-column flex-grow-1">
+        <h3 class="card-title mt-2 mb-1">${exName(e)}</h3>
+        <p class="card-desc text-secondary mb-3">${exDesc(e)}</p>
+
+        <!-- Interactive 1-Click Level Chooser -->
+        <div class="card-level-picker mb-3">
+          <div class="level-picker-header d-flex justify-content-between align-items-center mb-1.5">
+            <span class="level-picker-label"><i class="bi bi-layers-half text-primary me-1"></i>${tr("levelLabel")}:</span>
+            <span class="level-picker-active-name" id="activeLvlName_${e.id}">${getLevelShortName(e, curLevelKey)}</span>
+          </div>
+          <div class="level-chips d-flex gap-1.5">
+            <button type="button" class="btn level-chip ${curLevelKey === 'beginner' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'beginner', this)">
+              <span>L1</span> <small>${tr("lvlGentle")}</small>
+            </button>
+            <button type="button" class="btn level-chip ${curLevelKey === 'intermediate' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'intermediate', this)">
+              <span>L2</span> <small>${tr("lvlClassic")}</small>
+            </button>
+            <button type="button" class="btn level-chip ${curLevelKey === 'advanced' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'advanced', this)">
+              <span>L3</span> <small>${tr("lvlDeep")}</small>
+            </button>
+          </div>
+        </div>
+
+        <!-- Playful Benefit & Best-For Pill -->
+        <div class="benefit-box mb-3">
+          <div class="benefit-text mb-1"><i class="bi bi-stars text-primary me-1"></i>${exBenefit(e)}</div>
+          <div class="when-text"><i class="bi bi-clock-history me-1"></i><strong>${tr("whenToUse")}:</strong> ${exWhen(e)}</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex gap-2 mt-auto pt-1">
+          <button class="btn btn-primary flex-grow-1 card-start-btn" onclick="quickStartSession('${e.id}')">
+            <i class="bi bi-play-circle-fill me-1.5 fs-6"></i><span>${tr("quickStart")}</span>
+          </button>
+          <button class="btn btn-outline-primary card-details-btn px-3" onclick="openDetails('${e.id}')" title="${tr("viewDetails")}">
+            <i class="bi bi-info-circle me-1"></i><span>${tr("detailsLabel")}</span>
+          </button>
+        </div>
       </div>
     </article>
   </div>`;
@@ -978,11 +1067,13 @@ if (filtersEl) {
 
 function quickStartSession(id) {
   selected = exercises.find(e => e.id === id) || exercises[0];
+  selectedLevel = cardSelectedLevels[id] || "beginner";
   startSession();
 }
 
 function openDetails(id) {
   selected = exercises.find(e => e.id === id) || exercises[0];
+  selectedLevel = cardSelectedLevels[id] || "beginner";
   renderDetails();
   go("details");
 }
