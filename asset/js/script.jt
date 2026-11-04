@@ -31,8 +31,8 @@ const T = {
     viewDetails: "বিস্তারিত",
     benefit1Title: "বিজ্ঞানসম্মত কার্যকারিতা",
     benefit1Desc: "ধীর শ্বাস হৃদস্পন্দন হ্রাস করে এবং প্যারাসিমপ্যাথেটিক স্নায়ুতন্ত্রকে উদ্দীপ্ত করে দ্রুত শান্ত অনুভূতি আনে।",
-    benefit2Title: "৩-৫ মিনিটে ইতিবাচক পরিবর্তন",
-    benefit2Desc: "মাত্র কয়েক মিনিটের সচেতন অনুশীলন মস্তিষ্কে স্থিরতা, সতেজতা ও মানসিক স্পষ্টতা ফিরিয়ে আনে।",
+    benefit2Title: "১-৩ মিনিটে ইতিবাচক পরিবর্তন",
+    benefit2Desc: "মাত্র ১ থেকে ৩ মিনিটের সচেতন অনুশীলন মস্তিষ্কে স্থিরতা, সতেজতা ও মানসিক স্পষ্টতা ফিরিয়ে আনে।",
     benefit3Title: "১০০% নিরাপদ ও ব্যক্তিগত",
     benefit3Desc: "কোনো অ্যাকাউন্ট বা ট্র্যাকিং নেই। আপনার ব্রাউজারেই সরাসরি সম্পূর্ণ গোপনীয়তায় পরিচালিত হয়।",
     testBadge: "নতুন ফিচার: শ্বাসের সক্ষমতা টেস্ট",
@@ -94,6 +94,11 @@ const T = {
     exerciseDetails: "অনুশীলনের বিবরণ",
     pattern: "শ্বাসের প্যাটার্ন",
     sessionDuration: "অনুশীলনের সময়",
+    dur1Min: "১ মিনিট (মিনিমাম)",
+    dur2Min: "২ মিনিট",
+    dur3Min: "৩ মিনিট",
+    dur5Min: "৫ মিনিট",
+    dur10Min: "১০ মিনিট",
     audioGuidance: "অডিও নির্দেশনা",
     audioOff: "বন্ধ",
     audioOn: "চালু (সমর্থিত ব্রাউজারে)",
@@ -130,6 +135,19 @@ const T = {
     pause: "বিরতি",
     levelBeginner: "শুরুর জন্য",
     levelIntermediate: "মাঝারি",
+    levelAdvanced: "উন্নত",
+    levelSelectLabel: "অনুশীলন স্তর (লেভেল)",
+    levelBadgeText: "৩টি লেভেল (১-৩)",
+    lvlPrefix: "লেভেল",
+    summaryLevel: "অনুশীলনের স্তর",
+    shareBadge: "আপনার অর্জন শেয়ার করুন",
+    shareHeading: "বন্ধুদের সাথে প্রশান্তি ও সুস্থতা শেয়ার করুন",
+    shareSub: "আপনার সফল শ্বাস-প্রশ্বাস সেশনের অনুভূতি সোশ্যাল মিডিয়ায় ভাগ করে নিন।",
+    copyLinkBtn: "লিঙ্ক কপি",
+    moreShareBtn: "আরও শেয়ার",
+    shareTestPrompt: "আপনার টেস্ট রেজাল্ট শেয়ার করুন:",
+    copyLinkMini: "কপি",
+    linkCopied: "ক্লিপবোর্ডে কপি হয়েছে!",
     minLabel: "মিনিট",
     phaseInhale: "শ্বাস নিন",
     phaseExhale: "শ্বাস ছাড়ুন",
@@ -177,8 +195,8 @@ const T = {
     viewDetails: "Details",
     benefit1Title: "Evidence-Based Rhythms",
     benefit1Desc: "Paced exhalations engage the parasympathetic nervous system, lowering heart rate and relieving stress.",
-    benefit2Title: "Rapid Mental Shift",
-    benefit2Desc: "Just a 3 to 5-minute session resets cognitive fatigue, restores calm, and enhances focus.",
+    benefit2Title: "Rapid 1-3 Minute Shift",
+    benefit2Desc: "Just a 1 to 3-minute session resets cognitive fatigue, restores calm, and enhances focus.",
     benefit3Title: "Zero Friction & 100% Private",
     benefit3Desc: "No signup, cookies or telemetry. Runs completely locally and privately in your browser.",
     testBadge: "New Feature: Breath Fitness Test",
@@ -240,6 +258,11 @@ const T = {
     exerciseDetails: "Exercise details",
     pattern: "Breathing pattern",
     sessionDuration: "Session duration",
+    dur1Min: "1 min (Minimum)",
+    dur2Min: "2 min",
+    dur3Min: "3 min",
+    dur5Min: "5 min",
+    dur10Min: "10 min",
     audioGuidance: "Audio guidance",
     audioOff: "Off",
     audioOn: "On (supported browsers)",
@@ -276,6 +299,19 @@ const T = {
     pause: "Pause",
     levelBeginner: "Beginner",
     levelIntermediate: "Intermediate",
+    levelAdvanced: "Advanced",
+    levelSelectLabel: "Practice Level",
+    levelBadgeText: "3 Levels (1-3)",
+    lvlPrefix: "Level",
+    summaryLevel: "Practice Level",
+    shareBadge: "Share Your Milestone",
+    shareHeading: "Share Calm & Wellness With Friends",
+    shareSub: "Spread mindfulness and inspire others to take a relaxing breath.",
+    copyLinkBtn: "Copy Link",
+    moreShareBtn: "Share More",
+    shareTestPrompt: "Share your test result:",
+    copyLinkMini: "Copy",
+    linkCopied: "Copied to clipboard!",
     minLabel: "min",
     phaseInhale: "Breathe in",
     phaseExhale: "Breathe out",
@@ -301,8 +337,28 @@ const exercises = [
     level: "beginner",
     category: "beginner",
     tag: "stress",
-    duration: 300,
+    duration: 60,
     phases: [["inhale", 4], ["exhale", 6]],
+    levels: {
+      beginner: {
+        num: 1,
+        name: { bn: "লেভেল ১ · শান্ত শুরু (৩–৫ সে)", en: "Level 1 · Gentle (3–5s)" },
+        desc: { bn: "নতুনদের জন্য সহজ ৩-৫ সেকেন্ডের ছন্দ। ৩ সেকেন্ড শ্বাস নিন এবং ৫ সেকেন্ড ধীরে ছাড়ুন।", en: "Gentle 3-5s cadence for beginners: 3s inhale, 5s exhale." },
+        phases: [["inhale", 3], ["exhale", 5]]
+      },
+      intermediate: {
+        num: 2,
+        name: { bn: "লেভেল ২ · ক্লাসিক রিল্যাক্স (৪–৬ সে)", en: "Level 2 · Classic (4–6s)" },
+        desc: { bn: "স্বাভাবিক ৪-৬ সেকেন্ডের বিজ্ঞানসম্মত ছন্দ। ৪ সেকেন্ড শ্বাস নিন এবং ৬ সেকেন্ডে ধীরে ছাড়ুন।", en: "Evidence-based standard cadence: 4s inhale, 6s exhale." },
+        phases: [["inhale", 4], ["exhale", 6]]
+      },
+      advanced: {
+        num: 3,
+        name: { bn: "লেভেল ৩ · গভীর শিথিলতা (৫–৮ সে)", en: "Level 3 · Deep Vagal (5–8s)" },
+        desc: { bn: "উন্নত ৫-৮ সেকেন্ডের দীর্ঘ নিঃশ্বাসের ছন্দ। ৫ সেকেন্ড শ্বাস নিন এবং ৮ সেকেন্ডে ছাড়ুন।", en: "Extended exhalation for experienced breathers: 5s inhale, 8s exhale." },
+        phases: [["inhale", 5], ["exhale", 8]]
+      }
+    },
     name: { bn: "৪–৬ রিল্যাক্সিং ব্রিদিং", en: "4–6 Relaxing Breathing" },
     badge: { bn: "🌿 চাপ উপশম", en: "🌿 Stress Relief" },
     benefit: {
@@ -325,8 +381,28 @@ const exercises = [
     level: "intermediate",
     category: "structured",
     tag: "focus",
-    duration: 240,
+    duration: 60,
     phases: [["inhale", 4], ["hold", 4], ["exhale", 4], ["rest", 4]],
+    levels: {
+      beginner: {
+        num: 1,
+        name: { bn: "লেভেল ১ · সহজ বর্গ (৩-৩-৩-৩ সে)", en: "Level 1 · Easy Square (3s)" },
+        desc: { bn: "সহজ শ্বাস ধারণ: ৩ সে নিন, ৩ সে রাখুন, ৩ সে ছাড়ুন, ৩ সে বিরতি।", en: "Gentle square intervals: 3s inhale, 3s hold, 3s exhale, 3s rest." },
+        phases: [["inhale", 3], ["hold", 3], ["exhale", 3], ["rest", 3]]
+      },
+      intermediate: {
+        num: 2,
+        name: { bn: "লেভেল ২ · ক্লাসিক বক্স (৪-৪-৪-৪ সে)", en: "Level 2 · Classic Box (4s)" },
+        desc: { bn: "মানক নেভি সিল বক্স ছন্দ: ৪ সে নিন, ৪ সে রাখুন, ৪ সে ছাড়ুন, ৪ সে বিরতি।", en: "Standard Navy SEAL 4-second box cadence." },
+        phases: [["inhale", 4], ["hold", 4], ["exhale", 4], ["rest", 4]]
+      },
+      advanced: {
+        num: 3,
+        name: { bn: "লেভেল ৩ · গভীর মনোযোগ (৫-৫-৫-৫ সে)", en: "Level 3 · Deep Focus (5s)" },
+        desc: { bn: "উচ্চ একাগ্রতা ও সহনশীলতা: ৫ সে নিন, ৫ সে রাখুন, ৫ সে ছাড়ুন, ৫ সে বিরতি।", en: "Deep concentration & CO2 control: 5s inhale, 5s hold, 5s exhale, 5s rest." },
+        phases: [["inhale", 5], ["hold", 5], ["exhale", 5], ["rest", 5]]
+      }
+    },
     name: { bn: "বক্স ব্রিদিং", en: "Box Breathing" },
     badge: { bn: "🎯 মনোযোগ ও ভারসাম্য", en: "🎯 Focus & Reset" },
     benefit: {
@@ -349,8 +425,28 @@ const exercises = [
     level: "beginner",
     category: "beginner",
     tag: "sleep",
-    duration: 300,
+    duration: 60,
     phases: [["inhale", 4], ["exhale", 5]],
+    levels: {
+      beginner: {
+        num: 1,
+        name: { bn: "লেভেল ১ · প্রাথমিক বিস্তার (৩–৪ সে)", en: "Level 1 · Light Expansion (3–4s)" },
+        desc: { bn: "পেটের বিস্তার শুরু করতে ৩ সেকেন্ড শ্বাস নিন এবং ৪ সেকেন্ডে ছাড়ুন।", en: "Gentle belly expansion: 3s inhale, 4s exhale." },
+        phases: [["inhale", 3], ["exhale", 4]]
+      },
+      intermediate: {
+        num: 2,
+        name: { bn: "লেভেল ২ · পূর্ণ ডায়াফ্রাম (৪–৫ সে)", en: "Level 2 · Full Diaphragm (4–5s)" },
+        desc: { bn: "ফুসফুস ও পেটের গভীর ৪ সেকেন্ড শ্বাস নিন এবং ৫ সেকেন্ডে ছাড়ুন।", en: "Full diaphragmatic exchange: 4s inhale, 5s exhale." },
+        phases: [["inhale", 4], ["exhale", 5]]
+      },
+      advanced: {
+        num: 3,
+        name: { bn: "লেভেল ৩ · প্রশান্ত ঘুম (৫–৭ সে)", en: "Level 3 · Deep Rest (5–7s)" },
+        desc: { bn: "গভীর শারীরিক শিথিলতায় ৫ সেকেন্ড শ্বাস নিন এবং ৭ সেকেন্ডে ছাড়ুন।", en: "Restorative deep sleep cadence: 5s inhale, 7s exhale." },
+        phases: [["inhale", 5], ["exhale", 7]]
+      }
+    },
     name: { bn: "ডায়াফ্রামেটিক ব্রিদিং", en: "Diaphragmatic Breathing" },
     badge: { bn: "🌙 গভীর শিথিলতা ও ঘুম", en: "🌙 Deep Calm & Sleep" },
     benefit: {
@@ -373,8 +469,28 @@ const exercises = [
     level: "beginner",
     category: "mindful",
     tag: "mindful",
-    duration: 300,
+    duration: 60,
     phases: [["natural", 0]],
+    levels: {
+      beginner: {
+        num: 1,
+        name: { bn: "লেভেল ১ · নাসারন্ধ্রে সচেতনতা", en: "Level 1 · Breath Awareness" },
+        desc: { bn: "কোনো ছন্দ চাপানো ছাড়া নাসারন্ধ্রে শ্বাসের হালকা ছোঁয়া লক্ষ্য করুন।", en: "Observe the subtle flow of air at your nostrils without changing pace." },
+        phases: [["natural", 4]]
+      },
+      intermediate: {
+        num: 2,
+        name: { bn: "লেভেল ২ · পূর্ণ প্রবাহ ও বিরতি", en: "Level 2 · Flow Awareness" },
+        desc: { bn: "বুক ও পেটের ওঠানামা এবং দুই শ্বাসের মধ্যকার স্বাভাবিক বিরতি লক্ষ্য করুন।", en: "Notice chest and belly movement and the natural pauses between breaths." },
+        phases: [["natural", 5]]
+      },
+      advanced: {
+        num: 3,
+        name: { bn: "লেভেল ৩ · নিবিড় স্থিরতা", en: "Level 3 · Deep Stillness" },
+        desc: { bn: "সম্পূর্ণ স্থিরতায় প্রতিটি শ্বাসের সাথে গভীরভাবে একাত্ম থাকা।", en: "Effortless unity of mind and breath in quiet contemplation." },
+        phases: [["natural", 6]]
+      }
+    },
     name: { bn: "স্বাভাবিক মননশীল শ্বাস", en: "Natural Mindful Breathing" },
     badge: { bn: "🧘 সচেতন উপস্থিতি", en: "🧘 Mindfulness" },
     benefit: {
@@ -394,12 +510,17 @@ const exercises = [
 
 let lang = localStorage.getItem("bw-lang") || "bn";
 let selected = exercises[0];
+let selectedLevel = "intermediate";
 let filter = "all";
 let exploreGoal = "all";
 let run = null;
 let raf = null;
 let paused = false;
 let audioEnabled = false;
+
+// Sharing & Persistence State
+let lastCompletedSession = null;
+let lastTestResult = null;
 
 // Breathing Test State
 let activeTestTab = 'bolt';
@@ -419,6 +540,22 @@ const exBadge = e => e.badge[lang];
 const exBenefit = e => e.benefit[lang];
 const exWhen = e => e.when[lang];
 
+function getLevelPhases(ex, lvlKey) {
+  if (ex && ex.levels && ex.levels[lvlKey]) {
+    return ex.levels[lvlKey].phases;
+  }
+  return ex ? ex.phases : [["inhale", 4], ["exhale", 6]];
+}
+
+function getLevelLabel(lvlKey) {
+  const map = {
+    beginner: { bn: "লেভেল ১ · শুরুর জন্য", en: "Level 1 · Beginner" },
+    intermediate: { bn: "লেভেল ২ · মাঝারি", en: "Level 2 · Intermediate" },
+    advanced: { bn: "লেভেল ৩ · উন্নত", en: "Level 3 · Advanced" }
+  };
+  return map[lvlKey] ? map[lvlKey][lang] : lvlKey;
+}
+
 function setLang(next) {
   lang = next;
   localStorage.setItem("bw-lang", lang);
@@ -435,10 +572,12 @@ function setLang(next) {
   if (detailsEl && detailsEl.classList.contains("active")) renderDetails();
   if (run) {
     updateSessionText();
+    const sessionLevelBadge = $("sessionLevelBadge");
+    if (sessionLevelBadge) sessionLevelBadge.textContent = getLevelLabel(run.level);
   }
   const completeEl = $("complete");
   if (completeEl && completeEl.classList.contains("active")) {
-    renderSummary(run?.completedCycles || 0, run?.elapsed || 0);
+    renderSummary(lastCompletedSession?.cycles || 0, run?.elapsed || 0, getLevelLabel(run?.level || selectedLevel));
   }
   loadTestHistory();
 }
@@ -481,7 +620,8 @@ function cardHTML(e) {
         </div>
       </div>
       <h3 class="mt-2">${exName(e)}</h3>
-      <p class="mb-3">${exDesc(e)}</p>
+      <p class="mb-2">${exDesc(e)}</p>
+      <div class="card-level-tag mb-3"><i class="bi bi-layers-half text-primary"></i> ${tr("levelBadgeText")}</div>
       
       <div class="benefit-box mb-4">
         <div class="benefit-text"><i class="bi bi-stars text-primary me-1"></i>${exBenefit(e)}</div>
@@ -556,6 +696,41 @@ function openDetails(id) {
   go("details");
 }
 
+function selectLevel(lvl) {
+  selectedLevel = lvl;
+  document.querySelectorAll(".level-pill-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.level === lvl);
+  });
+  updateLevelDetails();
+}
+
+function updateLevelDetails() {
+  const badgeEl = $("detailLevelBadge");
+  if (badgeEl) badgeEl.textContent = getLevelLabel(selectedLevel);
+
+  const descEl = $("detailLevelDesc");
+  if (descEl && selected && selected.levels && selected.levels[selectedLevel]) {
+    descEl.textContent = selected.levels[selectedLevel].desc[lang];
+  }
+
+  const patternEl = $("detailPattern");
+  if (patternEl && selected) {
+    const phases = getLevelPhases(selected, selectedLevel);
+    if (phases[0][0] === "natural") {
+      patternEl.innerHTML = `<div class="col-12"><div class="pattern-step"><strong>${lang === "bn" ? "স্বাভাবিক মননশীল শ্বাস" : "Natural Mindful Breathing"}</strong><small>${lang === "bn" ? "কোনো নির্দিষ্ট সময় নির্ধারিত নয় (সহজ উপস্থিতি)" : "No forced timing (gentle awareness)"}</small></div></div>`;
+    } else {
+      patternEl.innerHTML = phases.map(p => `
+        <div class="col-${phases.length === 4 ? 6 : 6}">
+          <div class="pattern-step">
+            <strong>${phaseName(p[0])}</strong>
+            <small>${p[1]} ${lang === "bn" ? "সেকেন্ড" : "seconds"}</small>
+          </div>
+        </div>
+      `).join("");
+    }
+  }
+}
+
 function renderDetails() {
   const detailsEl = $("details");
   if (!detailsEl) return;
@@ -570,12 +745,7 @@ function renderDetails() {
   const descEl = $("detailDesc");
   if (descEl) descEl.textContent = exDesc(selected);
 
-  const patternEl = $("detailPattern");
-  if (patternEl) {
-    patternEl.innerHTML = selected.phases[0][0] === "natural"
-      ? `<div class="col-12"><div class="pattern-step"><strong>${lang === "bn" ? "স্বাভাবিক শ্বাস" : "Natural breathing"}</strong><small>${lang === "bn" ? "কোনো নির্দিষ্ট সময় নির্ধারিত নয়" : "No fixed timing"}</small></div></div>`
-      : selected.phases.map(p => `<div class="col-${selected.phases.length === 4 ? 6 : 6}"><div class="pattern-step"><strong>${phaseName(p[0])}</strong><small>${p[1]} ${lang === "bn" ? "সেকেন্ড" : "seconds"}</small></div></div>`).join("");
-  }
+  selectLevel(selectedLevel);
 }
 
 function phaseName(p) {
@@ -603,10 +773,14 @@ function startSession() {
   if (run) stopRun(false);
   const durationSelect = $("durationSelect");
   const audioSelect = $("audioSelect");
-  const duration = Number(durationSelect?.value || 300);
+  const duration = Number(durationSelect?.value || 60);
   audioEnabled = audioSelect?.value === "on" && "speechSynthesis" in window;
+  const phases = getLevelPhases(selected, selectedLevel);
+
   run = {
     exercise: selected,
+    level: selectedLevel,
+    phases: phases,
     duration,
     elapsed: 0,
     completedCycles: 0,
@@ -622,6 +796,8 @@ function startSession() {
 
   const sessionName = $("sessionName");
   if (sessionName) sessionName.textContent = exName(selected);
+  const sessionLevelBadge = $("sessionLevelBadge");
+  if (sessionLevelBadge) sessionLevelBadge.textContent = getLevelLabel(selectedLevel);
   const pauseBtn = $("pauseBtn");
   if (pauseBtn) {
     pauseBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
@@ -679,10 +855,12 @@ function updateSessionText() {
   if (!run) return;
   const sessionName = $("sessionName");
   if (sessionName) sessionName.textContent = exName(run.exercise);
+  const sessionLevelBadge = $("sessionLevelBadge");
+  if (sessionLevelBadge) sessionLevelBadge.textContent = getLevelLabel(run.level);
 }
 
 function currentPhase() {
-  return run.exercise.phases[run.phaseIndex];
+  return run.phases[run.phaseIndex];
 }
 
 function tick(now) {
@@ -715,7 +893,7 @@ function tick(now) {
     } else if (run.phaseElapsed >= dur) {
       run.phaseElapsed -= dur;
       run.phaseIndex++;
-      if (run.phaseIndex >= run.exercise.phases.length) {
+      if (run.phaseIndex >= run.phases.length) {
         run.phaseIndex = 0;
         run.completedCycles++;
       }
@@ -848,17 +1026,118 @@ function completeSession() {
   cancelAnimationFrame(raf);
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   const completed = run.completedCycles, elapsed = run.elapsed;
-  renderSummary(completed, elapsed);
+  const lvlName = getLevelLabel(run.level);
+  lastCompletedSession = {
+    exName: exName(run.exercise),
+    levelName: lvlName,
+    duration: formatTime(elapsed || 0),
+    cycles: completed
+  };
+  renderSummary(completed, elapsed, lvlName);
+  checkNativeShareSupport();
   go("complete");
 }
 
-function renderSummary(cycles, elapsed) {
+function renderSummary(cycles, elapsed, lvlName) {
   const summaryName = $("summaryName");
   if (summaryName) summaryName.textContent = exName(selected);
+  const summaryLevel = $("summaryLevel");
+  if (summaryLevel) summaryLevel.textContent = lvlName || getLevelLabel(selectedLevel);
   const summaryDuration = $("summaryDuration");
   if (summaryDuration) summaryDuration.textContent = formatTime(elapsed || 0);
   const summaryCycles = $("summaryCycles");
   if (summaryCycles) summaryCycles.textContent = cycles + " " + tr("cycleUnit");
+}
+
+function checkNativeShareSupport() {
+  const nativeBtn = $("nativeShareSessionBtn");
+  if (nativeBtn && navigator.share) {
+    nativeBtn.classList.remove("d-none");
+  }
+}
+
+function getShareUrl() {
+  return window.location.origin + window.location.pathname;
+}
+
+function shareSession(platform) {
+  const ex = lastCompletedSession?.exName || exName(selected);
+  const lvl = lastCompletedSession?.levelName || getLevelLabel(selectedLevel);
+  const dur = lastCompletedSession?.duration || "01:00";
+  const cyc = (lastCompletedSession?.cycles ?? 0) + " " + tr("cycleUnit");
+  const siteUrl = getShareUrl();
+
+  const msg = lang === "bn"
+    ? `🧘 আমি BreatheWell-এ "${ex}" (${lvl}) সফলভাবে সম্পন্ন করেছি! সময়: ${dur}, সম্পন্ন চক্র: ${cyc}। মানসিক প্রশান্তি পেতে আপনিও শ্বাস চর্চা করুন: ${siteUrl}`
+    : `🧘 I just completed a ${lvl} session of "${ex}" on BreatheWell! Time: ${dur}, Completed: ${cyc}. Practice mindful breathing with me: ${siteUrl}`;
+
+  executeShare(platform, msg, siteUrl, "BreatheWell Session");
+}
+
+function shareTestResult(platform) {
+  const type = lastTestResult?.type || (activeTestTab === 'bolt' ? 'BOLT' : 'BPM');
+  const score = lastTestResult?.score || $("resultScoreNum")?.textContent || "";
+  const grade = lastTestResult?.grade || $("resultScoreGrade")?.textContent || "";
+  const siteUrl = getShareUrl();
+
+  const msg = lang === "bn"
+    ? `🫁 BreatheWell-এ আমার শ্বাসের ${type} পরীক্ষার ফলাফল: ${score} (${grade})! মাত্র ১ মিনিটে আপনার ফুসফুসের কার্যকারিতা ও মানসিক সুস্থতা যাচাই করুন: ${siteUrl}`
+    : `🫁 My BreatheWell ${type} respiratory fitness score: ${score} (${grade})! Take a 1-minute science-backed breath test here: ${siteUrl}`;
+
+  executeShare(platform, msg, siteUrl, "BreatheWell Test Result");
+}
+
+function executeShare(platform, text, url, title) {
+  const encodedText = encodeURIComponent(text);
+  const encodedUrl = encodeURIComponent(url);
+
+  switch (platform) {
+    case "whatsapp":
+      window.open(`https://api.whatsapp.com/send?text=${encodedText}`, "_blank", "noopener,noreferrer");
+      break;
+    case "twitter":
+      window.open(`https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`, "_blank", "noopener,noreferrer");
+      break;
+    case "facebook":
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`, "_blank", "noopener,noreferrer,width=600,height=500");
+      break;
+    case "linkedin":
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`, "_blank", "noopener,noreferrer,width=600,height=500");
+      break;
+    case "copy":
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          toast(tr("linkCopied"));
+        }).catch(() => {
+          fallbackCopyText(text);
+        });
+      } else {
+        fallbackCopyText(text);
+      }
+      break;
+    case "native":
+      if (navigator.share) {
+        navigator.share({ title: title, text: text, url: url }).catch(() => {});
+      } else {
+        executeShare("copy", text, url, title);
+      }
+      break;
+  }
+}
+
+function fallbackCopyText(text) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand("copy");
+    toast(tr("linkCopied"));
+  } catch (e) {}
+  document.body.removeChild(ta);
 }
 
 function toast(message) {
@@ -1048,6 +1327,12 @@ function renderBoltResult(sec) {
   if (recTitle) recTitle.textContent = exName(targetEx);
   if (recReason) recReason.textContent = exBenefit(targetEx);
 
+  lastTestResult = {
+    type: "BOLT",
+    score: roundedSec + "s",
+    grade: grade
+  };
+
   saveTestRecord({
     type: "BOLT",
     score: roundedSec + "s",
@@ -1098,6 +1383,12 @@ function renderBpmResult(rate) {
   if (scoreDetail) scoreDetail.textContent = detail;
   if (recTitle) recTitle.textContent = exName(targetEx);
   if (recReason) recReason.textContent = exBenefit(targetEx);
+
+  lastTestResult = {
+    type: "BPM",
+    score: rate + " BPM",
+    grade: grade
+  };
 
   saveTestRecord({
     type: "BPM",
