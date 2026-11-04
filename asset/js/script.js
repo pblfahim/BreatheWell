@@ -373,11 +373,6 @@ function go(id) {
 }
 
 function cardHTML(e) {
-  let level = e.level === "beginner" ? tr("levelBeginner") : tr("levelIntermediate");
-  let timingChips = e.phases[0][0] === "natural"
-    ? `<span class="cadence-chip">${lang === "bn" ? "স্বাভাবিক ছন্দ" : "Natural flow"}</span>`
-    : e.phases.map(p => `<span class="cadence-chip">${phaseName(p[0])} ${p[1]}s</span>`).join("");
-
   let iconFile = e.image || 'mindful.svg';
 
   return `<div class="col-md-6 col-xl-3">
@@ -389,20 +384,11 @@ function cardHTML(e) {
         </div>
       </div>
       <h3 class="mt-2">${exName(e)}</h3>
-      <p class="mb-2">${exDesc(e)}</p>
+      <p class="mb-3">${exDesc(e)}</p>
       
-      <div class="benefit-box mb-3">
+      <div class="benefit-box mb-4">
         <div class="benefit-text"><i class="bi bi-stars text-primary me-1"></i>${exBenefit(e)}</div>
         <div class="when-text"><i class="bi bi-clock-history me-1"></i><strong>${tr("whenToUse")}:</strong> ${exWhen(e)}</div>
-      </div>
-
-      <div class="meta mb-2">
-        <span><i class="bi bi-clock me-1"></i>${Math.round(e.duration / 60)} ${tr("minLabel")}</span>
-        <span><i class="bi bi-bar-chart me-1"></i>${level}</span>
-      </div>
-      
-      <div class="cadence-wrap mb-3">
-        ${timingChips}
       </div>
 
       <div class="d-flex gap-2 mt-auto">
