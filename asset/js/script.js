@@ -17,6 +17,23 @@ const T = {
     featuredTitle: "আপনার অনুশীলন বেছে নিন",
     featuredDesc: "নিজের স্বাচ্ছন্দ্য অনুযায়ী একটি সহজ অনুশীলন নির্বাচন করুন।",
     allExercises: "সব অনুশীলন",
+    exploreEyebrow: "প্রয়োজন অনুযায়ী নির্বাচন",
+    exploreHeading: "শ্বাসের অনুশীলন অন্বেষণ করুন",
+    exploreSub: "আপনার বর্তমান শারীরিক ও মানসিক অবস্থা অনুযায়ী সঠিক কৌশলটি বেছে নিন। প্রতিটি অনুশীলনের রয়েছে সুনির্দিষ্ট বিজ্ঞানসম্মত উপকারিতা।",
+    goalAll: "সব অনুশীলন (৪টি)",
+    goalStress: "🌿 চাপ ও উদ্বেগ",
+    goalFocus: "🎯 মনোযোগ ও ভারসাম্য",
+    goalSleep: "🌙 ঘুম ও বিশ্রাম",
+    goalMindful: "🧘 সচেতন উপস্থিতি",
+    whenToUse: "কখন করবেন",
+    quickStart: "শুরু করুন",
+    viewDetails: "বিস্তারিত",
+    benefit1Title: "বিজ্ঞানসম্মত কার্যকারিতা",
+    benefit1Desc: "ধীর শ্বাস হৃদস্পন্দন হ্রাস করে এবং প্যারাসিমপ্যাথেটিক স্নায়ুতন্ত্রকে উদ্দীপ্ত করে দ্রুত শান্ত অনুভূতি আনে।",
+    benefit2Title: "৩-৫ মিনিটে ইতিবাচক পরিবর্তন",
+    benefit2Desc: "মাত্র কয়েক মিনিটের সচেতন অনুশীলন মস্তিষ্কে স্থিরতা, সতেজতা ও মানসিক স্পষ্টতা ফিরিয়ে আনে।",
+    benefit3Title: "১০০% নিরাপদ ও ব্যক্তিগত",
+    benefit3Desc: "কোনো অ্যাকাউন্ট বা ট্র্যাকিং নেই। আপনার ব্রাউজারেই সরাসরি সম্পূর্ণ গোপনীয়তায় পরিচালিত হয়।",
     how1Title: "১. একটি অনুশীলন বাছুন",
     how1Desc: "আপনার জন্য আরামদায়ক একটি শ্বাসের প্যাটার্ন নির্বাচন করুন।",
     how2Title: "২. নির্দেশনা অনুসরণ করুন",
@@ -60,8 +77,8 @@ const T = {
     footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
     inhale: "শ্বাস নিন",
     exhale: "শ্বাস ছাড়ুন",
-    hold: "স্বচ্ছন্দে বিরতি",
-    rest: "স্বাভাবিক বিরতি",
+    hold: "ধরে রাখুন",
+    rest: "বিরতি",
     prepare: "প্রস্তুত হন",
     prepareSub: "আরাম করে বসুন বা শুয়ে পড়ুন",
     paused: "অনুশীলন বিরতিতে আছে",
@@ -106,6 +123,23 @@ const T = {
     featuredTitle: "Choose your practice",
     featuredDesc: "Select a gentle exercise that feels comfortable for you.",
     allExercises: "All exercises",
+    exploreEyebrow: "Targeted Practices",
+    exploreHeading: "Explore Breathing Exercises",
+    exploreSub: "Select the ideal breathing rhythm for your current mental and physical state. Each practice offers proven physiological benefits.",
+    goalAll: "All Exercises (4)",
+    goalStress: "🌿 Stress & Anxiety",
+    goalFocus: "🎯 Focus & Energy",
+    goalSleep: "🌙 Sleep & Rest",
+    goalMindful: "🧘 Mindfulness",
+    whenToUse: "Best time",
+    quickStart: "Start",
+    viewDetails: "Details",
+    benefit1Title: "Evidence-Based Rhythms",
+    benefit1Desc: "Paced exhalations engage the parasympathetic nervous system, lowering heart rate and relieving stress.",
+    benefit2Title: "Rapid Mental Shift",
+    benefit2Desc: "Just a 3 to 5-minute session resets cognitive fatigue, restores calm, and enhances focus.",
+    benefit3Title: "Zero Friction & 100% Private",
+    benefit3Desc: "No signup, cookies or telemetry. Runs completely locally and privately in your browser.",
     how1Title: "1. Choose an exercise",
     how1Desc: "Select a breathing pattern that feels comfortable for you.",
     how2Title: "2. Follow the guide",
@@ -149,8 +183,8 @@ const T = {
     footerDisclaimer: "For general wellness. Not a medical treatment.",
     inhale: "Breathe in",
     exhale: "Breathe out",
-    hold: "Gentle hold",
-    rest: "Natural pause",
+    hold: "Hold",
+    rest: "Rest",
     prepare: "Get comfortable",
     prepareSub: "Sit or lie down somewhere safe",
     paused: "Practice paused",
@@ -181,26 +215,24 @@ const T = {
 
 const exercises = [
   {
-    id: "diaphragmatic",
-    icon: "bi-lungs",
-    level: "beginner",
-    category: "beginner",
-    duration: 300,
-    phases: [["inhale", 4], ["exhale", 5]],
-    name: { bn: "ডায়াফ্রামেটিক ব্রিদিং", en: "Diaphragmatic Breathing" },
-    desc: {
-      bn: "পেটের স্বাভাবিক ওঠানামা লক্ষ্য করে নরম ও আরামদায়কভাবে শ্বাস নেওয়ার অনুশীলন।",
-      en: "Practise gentle, comfortable breathing while noticing the natural movement of your abdomen."
-    }
-  },
-  {
     id: "relax46",
     icon: "bi-water",
+    image: "relaxing.svg",
     level: "beginner",
     category: "beginner",
+    tag: "stress",
     duration: 300,
     phases: [["inhale", 4], ["exhale", 6]],
     name: { bn: "৪–৬ রিল্যাক্সিং ব্রিদিং", en: "4–6 Relaxing Breathing" },
+    badge: { bn: "🌿 চাপ উপশম", en: "🌿 Stress Relief" },
+    benefit: {
+      bn: "হৃদস্পন্দন ধীর করে দ্রুত মানসিক চাপ ও উদ্বেগ উপশম করে।",
+      en: "Slows heart rate and triggers the body's natural calming response."
+    },
+    when: {
+      bn: "উদ্বেগের মুহূর্তে বা কাজের বিরতিতে",
+      en: "During anxiety spikes or busy work breaks"
+    },
     desc: {
       bn: "চার সেকেন্ডে নরমভাবে শ্বাস নিন এবং ছয় সেকেন্ডে ধীরে ছাড়ুন। শ্বাস ধরে রাখার প্রয়োজন নেই।",
       en: "Breathe in gently for four seconds and breathe out for six. No breath hold is required."
@@ -209,24 +241,70 @@ const exercises = [
   {
     id: "box",
     icon: "bi-bounding-box",
+    image: "box-breathing.svg",
     level: "intermediate",
     category: "structured",
+    tag: "focus",
     duration: 240,
     phases: [["inhale", 4], ["hold", 4], ["exhale", 4], ["rest", 4]],
     name: { bn: "বক্স ব্রিদিং", en: "Box Breathing" },
+    badge: { bn: "🎯 মনোযোগ ও ভারসাম্য", en: "🎯 Focus & Reset" },
+    benefit: {
+      bn: "মস্তিষ্কে স্থিরতা আনে, সতর্কতা বাড়ায় এবং স্নায়ুর ভারসাম্য রক্ষা করে।",
+      en: "Centers the mind, enhances concentration, and stabilizes emotions."
+    },
+    when: {
+      bn: "কাজের শুরুতে বা গুরুত্বপূর্ণ কাজের আগে",
+      en: "Before focused tasks, study, or presentations"
+    },
     desc: {
       bn: "সমান সময়ের চারটি ধাপের একটি কাঠামোবদ্ধ অনুশীলন। বিরতি বা শ্বাস ধরে রাখার ধাপ অস্বস্তিকর হলে এটি বাদ দিন।",
       en: "A structured pattern with four equal phases. Skip the pause or hold if it feels uncomfortable."
     }
   },
   {
+    id: "diaphragmatic",
+    icon: "bi-lungs",
+    image: "diaphragmatic.svg",
+    level: "beginner",
+    category: "beginner",
+    tag: "sleep",
+    duration: 300,
+    phases: [["inhale", 4], ["exhale", 5]],
+    name: { bn: "ডায়াফ্রামেটিক ব্রিদিং", en: "Diaphragmatic Breathing" },
+    badge: { bn: "🌙 গভীর শিথিলতা ও ঘুম", en: "🌙 Deep Calm & Sleep" },
+    benefit: {
+      bn: "ফুসফুসের পূর্ণ ব্যবহার নিশ্চিত করে এবং শরীরকে শিথিল করে বিশ্রামে নেয়।",
+      en: "Encourages full oxygen exchange and eases physical tension."
+    },
+    when: {
+      bn: "রাতে ঘুমানোর আগে বা শুয়ে বিশ্রাম নেওয়ার সময়",
+      en: "Before sleep or when lying down to unwind"
+    },
+    desc: {
+      bn: "পেটের স্বাভাবিক ওঠানামা লক্ষ্য করে নরম ও আরামদায়কভাবে শ্বাস নেওয়ার অনুশীলন।",
+      en: "Practise gentle, comfortable breathing while noticing the natural movement of your abdomen."
+    }
+  },
+  {
     id: "mindful",
     icon: "bi-flower1",
+    image: "mindful.svg",
     level: "beginner",
     category: "mindful",
+    tag: "mindful",
     duration: 300,
     phases: [["natural", 0]],
     name: { bn: "স্বাভাবিক মননশীল শ্বাস", en: "Natural Mindful Breathing" },
+    badge: { bn: "🧘 সচেতন উপস্থিতি", en: "🧘 Mindfulness" },
+    benefit: {
+      bn: "কোনো চাপ ছাড়া কেবল শ্বাসের অনুভূতির সাথে থেকে মনকে শান্ত করে।",
+      en: "Quietens mental clutter by simply observing the natural flow of breath."
+    },
+    when: {
+      bn: "দিনের যেকোনো সময়ে মানসিক সতেজতা পেতে",
+      en: "Anytime you need a peaceful mental reset"
+    },
     desc: {
       bn: "শ্বাসের গতি পরিবর্তন না করে স্বাভাবিক শ্বাস-প্রশ্বাসের অনুভূতিতে মনোযোগ দিন।",
       en: "Notice the sensations of natural breathing without trying to change its rhythm."
@@ -235,8 +313,9 @@ const exercises = [
 ];
 
 let lang = localStorage.getItem("bw-lang") || "bn";
-let selected = exercises[1];
+let selected = exercises[0];
 let filter = "all";
+let exploreGoal = "all";
 let run = null;
 let raf = null;
 let paused = false;
@@ -246,6 +325,9 @@ const $ = id => document.getElementById(id);
 const tr = k => T[lang][k] ?? k;
 const exName = e => e.name[lang];
 const exDesc = e => e.desc[lang];
+const exBadge = e => e.badge[lang];
+const exBenefit = e => e.benefit[lang];
+const exWhen = e => e.when[lang];
 
 function setLang(next) {
   lang = next;
@@ -292,24 +374,45 @@ function go(id) {
 
 function cardHTML(e) {
   let level = e.level === "beginner" ? tr("levelBeginner") : tr("levelIntermediate");
-  let timing = e.phases[0][0] === "natural"
-    ? (lang === "bn" ? "স্বাভাবিক" : "Natural")
-    : e.phases.map(p => p[1] + "s").join(" · ");
+  let timingChips = e.phases[0][0] === "natural"
+    ? `<span class="cadence-chip">${lang === "bn" ? "স্বাভাবিক ছন্দ" : "Natural flow"}</span>`
+    : e.phases.map(p => `<span class="cadence-chip">${phaseName(p[0])} ${p[1]}s</span>`).join("");
+
+  let iconFile = e.image || 'mindful.svg';
+
   return `<div class="col-md-6 col-xl-3">
     <article class="exercise-card">
+      <span class="exercise-goal-badge">${exBadge(e)}</span>
       <div class="exercise-art art-${e.id === 'diaphragmatic' ? 'diaph' : e.id === 'relax46' ? 'relax' : e.id === 'box' ? 'box' : 'mindful'}">
-        <div class="art-symbol"><i class="bi ${e.icon}"></i></div>
+        <div class="art-symbol">
+          <img src="asset/image/${iconFile}" width="42" height="42" alt="${exName(e)}">
+        </div>
       </div>
-      <h3>${exName(e)}</h3>
-      <p>${exDesc(e)}</p>
-      <div class="meta">
+      <h3 class="mt-2">${exName(e)}</h3>
+      <p class="mb-2">${exDesc(e)}</p>
+      
+      <div class="benefit-box mb-3">
+        <div class="benefit-text"><i class="bi bi-stars text-primary me-1"></i>${exBenefit(e)}</div>
+        <div class="when-text"><i class="bi bi-clock-history me-1"></i><strong>${tr("whenToUse")}:</strong> ${exWhen(e)}</div>
+      </div>
+
+      <div class="meta mb-2">
         <span><i class="bi bi-clock me-1"></i>${Math.round(e.duration / 60)} ${tr("minLabel")}</span>
-        <span>${level}</span>
+        <span><i class="bi bi-bar-chart me-1"></i>${level}</span>
       </div>
-      <div class="small text-secondary mb-3">${timing}</div>
-      <button class="btn btn-outline-primary w-100" onclick="openDetails('${e.id}')">
-        ${lang === "bn" ? "বিস্তারিত দেখুন" : "View details"} <i class="bi bi-arrow-right ms-1"></i>
-      </button>
+      
+      <div class="cadence-wrap mb-3">
+        ${timingChips}
+      </div>
+
+      <div class="d-flex gap-2 mt-auto">
+        <button class="btn btn-primary flex-grow-1 btn-sm" onclick="quickStartSession('${e.id}')">
+          <i class="bi bi-play-fill me-1"></i>${tr("quickStart")}
+        </button>
+        <button class="btn btn-outline-primary btn-sm px-3" onclick="openDetails('${e.id}')" title="${tr("viewDetails")}">
+          ${tr("detailsLabel")}
+        </button>
+      </div>
     </article>
   </div>`;
 }
@@ -318,7 +421,10 @@ function renderCards() {
   const featEl = $("featuredCards");
   const libEl = $("libraryCards");
   if (featEl) {
-    featEl.innerHTML = exercises.slice(0, 3).map(cardHTML).join("");
+    const featuredList = exploreGoal === "all"
+      ? exercises
+      : exercises.filter(e => e.tag === exploreGoal);
+    featEl.innerHTML = featuredList.map(cardHTML).join("");
   }
   if (libEl) {
     libEl.innerHTML = exercises
@@ -326,6 +432,20 @@ function renderCards() {
       .map(cardHTML)
       .join("");
   }
+}
+
+const goalPillsEl = $("exploreGoalPills");
+if (goalPillsEl) {
+  goalPillsEl.addEventListener("click", e => {
+    let b = e.target.closest("[data-goal]");
+    if (!b) return;
+    exploreGoal = b.dataset.goal;
+    document.querySelectorAll(".goal-pill").forEach(x => {
+      x.classList.toggle("btn-primary", x === b);
+      x.classList.toggle("btn-outline-primary", x !== b);
+    });
+    renderCards();
+  });
 }
 
 const filtersEl = $("filters");
@@ -342,6 +462,11 @@ if (filtersEl) {
   });
 }
 
+function quickStartSession(id) {
+  selected = exercises.find(e => e.id === id) || exercises[0];
+  startSession();
+}
+
 function openDetails(id) {
   selected = exercises.find(e => e.id === id) || exercises[0];
   renderDetails();
@@ -354,7 +479,8 @@ function renderDetails() {
   const art = detailsEl.querySelector(".detail-visual");
   if (art) {
     art.className = "detail-visual h-100 art-" + (selected.id === "diaphragmatic" ? "diaph" : selected.id === "relax46" ? "relax" : selected.id === "box" ? "box" : "mindful");
-    art.innerHTML = `<div class="orb"><div class="orb-core"><i class="bi ${selected.icon}"></i></div></div>`;
+    let iconFile = selected.image || 'mindful.svg';
+    art.innerHTML = `<div class="orb"><div class="orb-core"><img src="asset/image/${iconFile}" width="48" height="48" alt="${exName(selected)}"></div></div>`;
   }
   const titleEl = $("detailTitle");
   if (titleEl) titleEl.textContent = exName(selected);

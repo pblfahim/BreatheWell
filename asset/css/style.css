@@ -905,3 +905,107 @@ footer {
   }
 }
 
+/* Enhanced Explore Exercises Section */
+.explore-goals {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+}
+
+.goal-pill {
+  border-radius: 20px;
+  padding: 0.42rem 1rem;
+  font-weight: 600;
+  font-size: 0.86rem;
+  transition: all 0.2s ease;
+}
+
+.exercise-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-card p {
+  font-size: 0.92rem;
+  min-height: 42px;
+}
+
+.exercise-goal-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  color: var(--blue-dark);
+  font-weight: 700;
+  font-size: 0.76rem;
+  padding: 4px 11px;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(23, 105, 170, 0.12);
+  border: 1px solid rgba(168, 203, 230, 0.55);
+}
+
+.benefit-box {
+  background: #f6fbfe;
+  border: 1px solid #e1eff8;
+  border-radius: 14px;
+  padding: 11px 13px;
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.benefit-text {
+  color: var(--blue-dark);
+  font-weight: 600;
+}
+
+.when-text {
+  color: #55728c;
+  border-top: 1px dashed #dcebf5;
+  padding-top: 7px;
+  margin-top: 7px;
+}
+
+.cadence-wrap {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cadence-chip {
+  background: #eef6fc;
+  color: #24557c;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid #dcebf5;
+}
+
+.benefit-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 6px 22px rgba(20, 70, 115, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(20, 70, 115, 0.09);
+}
+
+.benefit-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--sky);
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+}
+
+
