@@ -630,128 +630,358 @@ main {
   font-variant-numeric: tabular-nums;
 }
 
+/* ==========================================================================
+   ATTRACTIVE BREATH STAGE & ORB ANIMATIONS
+   ========================================================================== */
+
 .breath-stage {
-  height: 365px;
+  height: 390px;
   display: grid;
   place-items: center;
   position: relative;
   overflow: hidden;
+  isolation: isolate;
+  margin: 15px 0 25px;
+  background: radial-gradient(circle at 50% 50%, rgba(234, 246, 255, 0.6) 0%, transparent 68%);
+  border-radius: 24px;
 }
 
-.breath-stage:before,
-.breath-stage:after {
-  content: "";
+/* Atmospheric Ambient Breathing Halo */
+.breath-aura {
   position: absolute;
-  border: 1px solid rgba(45, 144, 204, .14);
-  border-radius: 50%;
   width: 270px;
   height: 270px;
-  animation: stagePulse 7s ease-in-out infinite;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.5) 0%, rgba(23, 105, 170, 0.15) 55%, transparent 75%);
+  transition: transform var(--phase-duration, 4s) cubic-bezier(0.25, 0.8, 0.25, 1),
+              background 0.8s ease,
+              opacity 0.8s ease;
+  will-change: transform, opacity;
 }
 
-.breath-stage:after {
-  width: 315px;
-  height: 315px;
-  animation-delay: -3.5s;
-  border-style: dashed;
-  animation: orbit 36s linear infinite;
+/* Layered Wave Rings */
+.breath-wave {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  transition: transform var(--phase-duration, 4s) cubic-bezier(0.25, 0.8, 0.25, 1),
+              border-color 0.8s ease,
+              opacity 0.8s ease;
+  will-change: transform, opacity;
 }
 
-@keyframes stagePulse {
-  50% {
-    transform: scale(1.09);
-    opacity: .45;
-  }
+.breath-wave.wave-1 {
+  width: 240px;
+  height: 240px;
+  border: 1.5px solid rgba(46, 155, 229, 0.28);
+  box-shadow: inset 0 0 25px rgba(23, 105, 170, 0.05);
 }
 
+.breath-wave.wave-2 {
+  width: 290px;
+  height: 290px;
+  border: 1px dashed rgba(46, 155, 229, 0.20);
+  animation: waveOrbit 40s linear infinite;
+}
+
+.breath-wave.wave-3 {
+  width: 340px;
+  height: 340px;
+  border: 1px solid rgba(46, 155, 229, 0.10);
+  animation: wavePulse 8s ease-in-out infinite;
+}
+
+@keyframes waveOrbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wavePulse {
+  0%, 100% { transform: scale(0.97); opacity: 0.6; }
+  50% { transform: scale(1.03); opacity: 1; }
+}
+
+/* SVG Circular Phase Cadence Ring */
+.breath-svg-track {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  pointer-events: none;
+  z-index: 2;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.breath-svg-track .track-bg {
+  fill: none;
+  stroke: rgba(23, 105, 170, 0.08);
+  stroke-width: 4;
+}
+
+.breath-svg-track .track-progress {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 892.21;
+  stroke-dashoffset: 892.21;
+  stroke: url(#phaseGradInhale);
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.5));
+  transition: stroke-dashoffset 0.15s linear, stroke 0.6s ease;
+}
+
+/* Floating Harmonic Particles */
+.breath-particles {
+  position: absolute;
+  width: 310px;
+  height: 310px;
+  pointer-events: none;
+  z-index: 1;
+  animation: particlesRotate 30s linear infinite;
+}
+
+.particle {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7dd3fc, #0284c7);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+  opacity: 0.7;
+}
+
+.particle.p-top { top: 0; left: 50%; transform: translateX(-50%); }
+.particle.p-right { top: 50%; right: 0; transform: translateY(-50%); }
+.particle.p-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
+.particle.p-left { top: 50%; left: 0; transform: translateY(-50%); }
+
+@keyframes particlesRotate {
+  to { transform: rotate(360deg); }
+}
+
+/* Central Breathing Orb */
 .breath-ring {
   position: relative;
-  z-index: 1;
-  width: 205px;
-  height: 205px;
+  z-index: 3;
+  width: 206px;
+  height: 206px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 35% 28%, #fff 0, #dff5ff 42%, #8dcff2 100%);
-  box-shadow: 0 20px 65px rgba(23, 105, 170, .22), inset -10px -14px 30px rgba(23, 105, 170, .12);
+  background: radial-gradient(circle at 35% 26%, #ffffff 0%, #e0f4ff 36%, #89d1f7 72%, #38a5e4 100%);
+  box-shadow: 0 20px 60px rgba(23, 105, 170, 0.28),
+              0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+              0 -8px 20px rgba(255, 255, 255, 0.6) inset,
+              -12px -14px 30px rgba(23, 105, 170, 0.14) inset;
   transform: scale(1);
-  transition: transform 4s ease-in-out, box-shadow .5s;
-  will-change: transform;
+  transition: transform var(--phase-duration, 4s) cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.6s ease,
+              background 0.8s ease;
+  will-change: transform, box-shadow;
+  user-select: none;
 }
 
-.breath-ring:before {
-  content: "";
+/* Glass Reflection Highlight */
+.orb-glass-glow {
   position: absolute;
-  width: 245px;
-  height: 245px;
-  border: 1px solid rgba(23, 105, 170, .24);
+  inset: 0;
   border-radius: 50%;
-  box-shadow: 0 0 0 12px rgba(255, 255, 255, .22);
-}
-
-.breath-ring:after {
-  content: "";
-  position: absolute;
-  inset: -13px;
-  border: 2px solid rgba(255, 255, 255, .65);
-  border-radius: 50%;
+  background: radial-gradient(ellipse at 32% 22%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.20) 36%, transparent 65%);
   pointer-events: none;
 }
 
-.breath-ring.inhale {
-  transform: scale(1.28);
-  transition-duration: var(--phase-duration, 4s);
-  box-shadow: 0 24px 80px rgba(23, 105, 170, .32), 0 0 0 18px rgba(99, 190, 238, .10), inset -10px -14px 30px rgba(23, 105, 170, .12);
+/* Inner Pulsing Ring */
+.orb-inner-ripple {
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.5) inset;
+  pointer-events: none;
 }
 
-.breath-ring.exhale {
-  transform: scale(.82);
-  transition-duration: var(--phase-duration, 4s);
-  box-shadow: 0 12px 38px rgba(23, 105, 170, .16), 0 0 0 8px rgba(99, 190, 238, .06);
+/* Center Content & Dynamic Typography */
+.orb-center-content {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  pointer-events: none;
 }
 
-.breath-ring.hold {
-  transform: scale(1);
-  transition-duration: .2s;
-  filter: saturate(.85);
+.breath-icon-wrap {
+  font-size: 1.45rem;
+  line-height: 1;
+  display: inline-block;
+  animation: iconBreathe 3s ease-in-out infinite;
 }
 
-.breath-ring.rest {
-  transform: scale(1);
-  transition-duration: .2s;
-  background: radial-gradient(circle at 35% 28%, #fff 0, #e4f9f5 48%, #a9e2d7 100%);
-}
-
-.breath-ring.inhale:after {
-  animation: glowIn var(--phase-duration, 4s) ease-in-out forwards;
-}
-
-.breath-ring.exhale:after {
-  animation: glowOut var(--phase-duration, 4s) ease-in-out forwards;
-}
-
-@keyframes glowIn {
-  from { opacity: .35; transform: scale(.9); }
-  to { opacity: 1; transform: scale(1.08); }
-}
-
-@keyframes glowOut {
-  from { opacity: 1; transform: scale(1.08); }
-  to { opacity: .35; transform: scale(.9); }
+@keyframes iconBreathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.08); }
 }
 
 .breath-label {
-  font-size: 1.45rem;
+  font-size: 1.32rem;
   font-weight: 800;
+  letter-spacing: -0.3px;
   color: var(--blue-dark);
+  margin-top: 2px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .phase-count {
-  font-size: 2.4rem;
-  font-weight: 800;
+  font-size: 2.7rem;
+  font-weight: 900;
   color: var(--blue);
+  line-height: 1.05;
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 3px 14px rgba(23, 105, 170, .12);
+  text-shadow: 0 3px 18px rgba(23, 105, 170, 0.22);
+}
+
+/* ==========================================================================
+   DYNAMIC STYLES PER PHASE (INHALE, HOLD, EXHALE, REST, NATURAL)
+   ========================================================================== */
+
+/* INHALE PHASE: Expansion, Airy Cyan Radiance */
+.breath-stage.inhale .breath-ring,
+.breath-ring.inhale {
+  transform: scale(1.30);
+  background: radial-gradient(circle at 35% 26%, #ffffff 0%, #d8f5ff 36%, #6ec7f8 70%, #1f94df 100%);
+  box-shadow: 0 30px 90px rgba(23, 105, 170, 0.38),
+              0 0 0 12px rgba(255, 255, 255, 0.35),
+              0 0 50px rgba(56, 189, 248, 0.35),
+              0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+}
+
+.breath-stage.inhale .breath-aura {
+  transform: scale(1.38);
+  opacity: 0.75;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.65) 0%, rgba(14, 165, 233, 0.25) 55%, transparent 75%);
+}
+
+.breath-stage.inhale .breath-wave.wave-1 {
+  transform: scale(1.32);
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+.breath-stage.inhale .breath-wave.wave-2 {
+  transform: scale(1.22);
+  border-color: rgba(56, 189, 248, 0.30);
+}
+
+.breath-stage.inhale .breath-wave.wave-3 {
+  transform: scale(1.14);
+}
+
+.breath-stage.inhale .track-progress {
+  stroke: url(#phaseGradInhale);
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.7));
+}
+
+/* HOLD PHASE: Stillness, Tranquil Aquamarine Glow */
+.breath-stage.hold .breath-ring,
+.breath-ring.hold {
+  transform: scale(1.18);
+  background: radial-gradient(circle at 35% 26%, #ffffff 0%, #e0f9f6 36%, #79e3d4 72%, #14b8a6 100%);
+  box-shadow: 0 25px 75px rgba(20, 184, 166, 0.35),
+              0 0 0 10px rgba(255, 255, 255, 0.4),
+              0 0 40px rgba(94, 234, 212, 0.4),
+              0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  animation: holdStillness 4s ease-in-out infinite;
+}
+
+@keyframes holdStillness {
+  0%, 100% { transform: scale(1.18); }
+  50% { transform: scale(1.21); }
+}
+
+.breath-stage.hold .breath-aura {
+  transform: scale(1.22);
+  opacity: 0.65;
+  background: radial-gradient(circle, rgba(94, 234, 212, 0.6) 0%, rgba(20, 184, 166, 0.2) 55%, transparent 75%);
+}
+
+.breath-stage.hold .breath-wave.wave-1 {
+  transform: scale(1.20);
+  border-color: rgba(20, 184, 166, 0.4);
+}
+
+.breath-stage.hold .track-progress {
+  stroke: url(#phaseGradHold);
+  filter: drop-shadow(0 0 8px rgba(94, 234, 212, 0.7));
+}
+
+/* EXHALE PHASE: Deep Contraction, Relaxing Blue-Indigo Release */
+.breath-stage.exhale .breath-ring,
+.breath-ring.exhale {
+  transform: scale(0.80);
+  background: radial-gradient(circle at 35% 26%, #ffffff 0%, #e8f0fe 36%, #9dbef8 72%, #4f7ee8 100%);
+  box-shadow: 0 12px 40px rgba(79, 126, 232, 0.25),
+              0 0 0 6px rgba(255, 255, 255, 0.28),
+              0 0 25px rgba(129, 140, 248, 0.25),
+              0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+.breath-stage.exhale .breath-aura {
+  transform: scale(0.82);
+  opacity: 0.35;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.45) 0%, rgba(79, 126, 232, 0.15) 55%, transparent 75%);
+}
+
+.breath-stage.exhale .breath-wave.wave-1 {
+  transform: scale(0.88);
+  border-color: rgba(79, 126, 232, 0.25);
+}
+
+.breath-stage.exhale .breath-wave.wave-2 {
+  transform: scale(0.92);
+  border-color: rgba(79, 126, 232, 0.15);
+}
+
+.breath-stage.exhale .track-progress {
+  stroke: url(#phaseGradExhale);
+  filter: drop-shadow(0 0 8px rgba(129, 140, 248, 0.6));
+}
+
+/* REST & NATURAL PHASES: Peaceful Mint Balance */
+.breath-stage.rest .breath-ring,
+.breath-stage.natural .breath-ring,
+.breath-ring.rest,
+.breath-ring.natural {
+  transform: scale(1);
+  background: radial-gradient(circle at 35% 26%, #ffffff 0%, #e8faf5 36%, #9ce6d5 72%, #148b72 100%);
+  box-shadow: 0 18px 55px rgba(20, 139, 114, 0.24),
+              0 0 0 8px rgba(255, 255, 255, 0.35),
+              0 0 0 1px rgba(255, 255, 255, 0.85) inset;
+}
+
+.breath-stage.rest .track-progress,
+.breath-stage.natural .track-progress {
+  stroke: url(#phaseGradRest);
+  filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.6));
+}
+
+/* PAUSED STATE */
+.breath-stage.paused .breath-ring,
+.breath-stage.paused .breath-aura,
+.breath-stage.paused .breath-wave,
+.breath-stage.paused .breath-particles,
+.breath-stage.paused .breath-icon-wrap {
+  animation-play-state: paused !important;
+  transition-duration: 0.2s !important;
+}
+
+/* PREPARING STATE */
+.breath-stage.preparing .breath-ring {
+  animation: prepareThrob 1.2s ease-in-out infinite;
+}
+
+@keyframes prepareThrob {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 .session-progress {
@@ -856,23 +1086,32 @@ footer {
     height: 125px;
   }
   .breath-stage {
-    height: 320px;
+    height: 330px;
+    margin: 10px 0 18px;
   }
-  .breath-stage:after {
-    width: 270px;
-    height: 270px;
+  .breath-aura {
+    width: 220px;
+    height: 220px;
   }
-  .detail-visual {
-    min-height: 250px;
+  .breath-svg-track {
+    width: 260px;
+    height: 260px;
+    transform: rotate(-90deg) scale(0.82);
+    transform-origin: center;
+  }
+  .breath-particles {
+    width: 250px;
+    height: 250px;
   }
   .breath-ring {
-    width: 175px;
-    height: 175px;
+    width: 172px;
+    height: 172px;
   }
-  .breath-ring:before {
-    width: 210px;
-    height: 210px;
-  }
+  .breath-wave.wave-1 { width: 195px; height: 195px; }
+  .breath-wave.wave-2 { width: 235px; height: 235px; }
+  .breath-wave.wave-3 { width: 275px; height: 275px; }
+  .phase-count { font-size: 2.2rem; }
+  .breath-label { font-size: 1.15rem; }
   .session-card {
     border-radius: 20px;
   }
@@ -898,10 +1137,13 @@ footer {
   .art-symbol,
   .detail-visual:before,
   .detail-visual:after,
-  .breath-stage:before,
-  .breath-stage:after,
-  .breath-ring:after {
+  .breath-aura,
+  .breath-wave,
+  .breath-particles,
+  .breath-ring,
+  .breath-icon-wrap {
     animation: none !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

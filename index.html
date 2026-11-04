@@ -160,7 +160,59 @@
         <div class="session-card">
           <div class="session-top"><button class="btn btn-link text-decoration-none p-0" onclick="confirmStop()" data-i18n="exitSession"><i class="bi bi-arrow-left me-1"></i> বের হন</button><span id="sessionName"></span><span class="timer" id="remainingTime">05:00</span></div>
           <div class="session-progress mt-3"><div id="progressBar"></div></div>
-          <div class="breath-stage" aria-live="off"><div class="breath-ring" id="breathRing"><div><div class="breath-label" id="phaseLabel">প্রস্তুত</div><div class="phase-count" id="phaseCount">৩</div></div></div></div>
+          
+          <!-- ATTRACTIVE REDESIGNED BREATH STAGE -->
+          <div class="breath-stage" id="breathStage" aria-live="off">
+            <!-- Dynamic Atmosphere Halo & Waves -->
+            <div class="breath-aura" id="breathAura"></div>
+            <div class="breath-wave wave-3"></div>
+            <div class="breath-wave wave-2"></div>
+            <div class="breath-wave wave-1"></div>
+
+            <!-- SVG Circular Phase Cadence Ring -->
+            <svg class="breath-svg-track" viewBox="0 0 320 320" aria-hidden="true">
+              <defs>
+                <linearGradient id="phaseGradInhale" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#38bdf8" />
+                  <stop offset="100%" stop-color="#0284c7" />
+                </linearGradient>
+                <linearGradient id="phaseGradHold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#5eead4" />
+                  <stop offset="100%" stop-color="#0d9488" />
+                </linearGradient>
+                <linearGradient id="phaseGradExhale" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#a5b4fc" />
+                  <stop offset="100%" stop-color="#3b82f6" />
+                </linearGradient>
+                <linearGradient id="phaseGradRest" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#34d399" />
+                  <stop offset="100%" stop-color="#059669" />
+                </linearGradient>
+              </defs>
+              <circle class="track-bg" cx="160" cy="160" r="142" />
+              <circle class="track-progress" id="phaseProgressRing" cx="160" cy="160" r="142" />
+            </svg>
+
+            <!-- Floating Harmonic Particles -->
+            <div class="breath-particles" aria-hidden="true">
+              <span class="particle p-top"></span>
+              <span class="particle p-right"></span>
+              <span class="particle p-bottom"></span>
+              <span class="particle p-left"></span>
+            </div>
+
+            <!-- Central Breathing Orb -->
+            <div class="breath-ring" id="breathRing">
+              <div class="orb-glass-glow"></div>
+              <div class="orb-inner-ripple"></div>
+              <div class="orb-center-content">
+                <div class="breath-icon-wrap mb-1"><i class="bi bi-wind" id="phaseIcon"></i></div>
+                <div class="breath-label" id="phaseLabel">প্রস্তুত</div>
+                <div class="phase-count" id="phaseCount">৩</div>
+              </div>
+            </div>
+          </div>
+
           <div class="mb-3"><h2 class="h3 fw-bold mb-2" id="instructionText">আরাম করে বসুন</h2><p class="text-secondary mb-0" id="subInstruction">অনুশীলন শুরু হচ্ছে</p></div>
           <div class="d-flex justify-content-center gap-3 mt-4">
             <button class="control-btn primary" id="pauseBtn" onclick="togglePause()" aria-label="Pause"><i class="bi bi-pause-fill"></i></button>

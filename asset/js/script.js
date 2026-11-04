@@ -548,8 +548,22 @@ function startSession() {
   if (progressBar) progressBar.style.width = "0%";
   const remainingTime = $("remainingTime");
   if (remainingTime) remainingTime.textContent = formatTime(duration);
+  
+  const breathStage = $("breathStage");
+  if (breathStage) {
+    breathStage.className = "breath-stage preparing";
+    breathStage.style.setProperty("--phase-duration", "3s");
+  }
   const breathRing = $("breathRing");
-  if (breathRing) breathRing.className = "breath-ring";
+  if (breathRing) {
+    breathRing.className = "breath-ring";
+    breathRing.style.setProperty("--phase-duration", "3s");
+  }
+  const progRing = $("phaseProgressRing");
+  if (progRing) progRing.style.strokeDashoffset = "892.21";
+  const iconEl = $("phaseIcon");
+  if (iconEl) iconEl.className = "bi bi-wind";
+
   const phaseLabel = $("phaseLabel");
   if (phaseLabel) phaseLabel.textContent = tr("prepare");
   const phaseCount = $("phaseCount");
@@ -597,6 +611,11 @@ function tick(now) {
     run.prepareRemaining -= dt;
     const phaseCount = $("phaseCount");
     if (phaseCount) phaseCount.textContent = Math.max(0, Math.ceil(run.prepareRemaining));
+    
+    let prepPct = Math.max(0, Math.min(1, 1 - (run.prepareRemaining / 3)));
+    const progRing = $("phaseProgressRing");
+    if (progRing) progRing.style.strokeDashoffset = (892.21 * (1 - prepPct)).toFixed(2);
+
     if (run.prepareRemaining <= 0) {
       run.preparing = false;
       enterPhase();
@@ -619,6 +638,11 @@ function tick(now) {
       }
       enterPhase();
     }
+
+    let phasePct = dur > 0 ? Math.max(0, Math.min(1, run.phaseElapsed / dur)) : 0;
+    const progRing = $("phaseProgressRing");
+    if (progRing) progRing.style.strokeDashoffset = (892.21 * (1 - phasePct)).toFixed(2);
+
     const phaseCount = $("phaseCount");
     if (phaseCount) phaseCount.textContent = p[0] === "natural" ? "" : Math.max(0, Math.ceil(dur - run.phaseElapsed));
   }
@@ -638,6 +662,33 @@ function tick(now) {
 
 function enterPhase() {
   let p = currentPhase(), type = p[0], dur = type === "natural" ? 5 : p[1];
+  
+  const breathStage = $("breathStage");
+  if (breathStage) {
+    breathStage.className = "breath-stage " + type;
+    breathStage.dataset.exercise = run.exercise.id;
+    breathStage.style.setProperty("--phase-duration", dur + "s");
+  }
+
+  const breathRing = $("breathRing");
+  if (breathRing) {
+    breathRing.className = "breath-ring " + (type === "natural" ? "rest" : type);
+    breathRing.dataset.exercise = run.exercise.id;
+    breathRing.style.setProperty("--phase-duration", dur + "s");
+  }
+
+  const iconEl = $("phaseIcon");
+  if (iconEl) {
+    const iconMap = {
+      inhale: "bi bi-arrow-up-circle-fill text-primary",
+      hold: "bi bi-pause-circle-fill text-info",
+      exhale: "bi bi-arrow-down-circle-fill text-primary",
+      rest: "bi bi-heart-fill text-success",
+      natural: "bi bi-flower1 text-success"
+    };
+    iconEl.className = iconMap[type] || "bi bi-wind";
+  }
+
   const phaseLabel = $("phaseLabel");
   if (phaseLabel) {
     phaseLabel.textContent = type === "natural" ? (lang === "bn" ? "স্বাভাবিক শ্বাস" : "Natural breath") : phaseName(type);
@@ -650,12 +701,6 @@ function enterPhase() {
   if (subInstruction) {
     subInstruction.textContent = type === "natural" ? (lang === "bn" ? "শ্বাসের গতি বদলানোর চেষ্টা করবেন না" : "Do not try to change its rhythm") : (lang === "bn" ? "ধীরে ও স্বচ্ছন্দে" : "Gently and comfortably");
   }
-  const breathRing = $("breathRing");
-  if (breathRing) {
-    breathRing.className = "breath-ring " + (type === "natural" ? "rest" : type);
-    breathRing.dataset.exercise = run.exercise.id;
-    breathRing.style.setProperty("--phase-duration", dur + "s");
-  }
   const phaseCount = $("phaseCount");
   if (phaseCount) {
     phaseCount.textContent = type === "natural" ? "" : dur;
@@ -666,6 +711,7 @@ function enterPhase() {
 function togglePause() {
   if (!run) return;
   paused = !paused;
+  const breathStage = $("breathStage");
   const breathRing = $("breathRing");
   const instructionText = $("instructionText");
   const subInstruction = $("subInstruction");
@@ -674,6 +720,7 @@ function togglePause() {
   if (paused) {
     cancelAnimationFrame(raf);
     if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (breathStage) breathStage.classList.add("paused");
     if (breathRing) breathRing.style.transitionDuration = ".1s";
     if (instructionText) instructionText.textContent = tr("paused");
     if (subInstruction) subInstruction.textContent = tr("pausedSub");
@@ -683,6 +730,7 @@ function togglePause() {
     }
   } else {
     run.lastFrame = performance.now();
+    if (breathStage) breathStage.classList.remove("paused");
     if (pauseBtn) {
       pauseBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
       pauseBtn.setAttribute("aria-label", tr("pause"));
@@ -708,6 +756,8 @@ function stopRun(showHome) {
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   run = null;
   paused = false;
+  const breathStage = $("breathStage");
+  if (breathStage) breathStage.className = "breath-stage";
   if (showHome) go("library");
 }
 
