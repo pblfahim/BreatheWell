@@ -1,18 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
   <defs>
-    <linearGradient id="lotusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#26a69a" />
-      <stop offset="100%" stop-color="#00695c" />
+    <linearGradient id="lotusCenterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="50%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
     </linearGradient>
+    <linearGradient id="lotusSideGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ee7b7" />
+      <stop offset="60%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#065f46" />
+    </linearGradient>
+    <linearGradient id="mindfulBgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ecfdf5" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#d1fae5" stop-opacity="0.45" />
+    </linearGradient>
+    <filter id="lotusShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#059669" flood-opacity="0.25" />
+    </filter>
   </defs>
-  <circle cx="60" cy="60" r="54" fill="#e5fbf8" />
-  <circle cx="60" cy="60" r="42" fill="none" stroke="#a7f3d0" stroke-width="2" stroke-dasharray="4 4" />
-  <!-- Center Petal -->
-  <path d="M60 36 C54 48 54 66 60 76 C66 66 66 48 60 36 Z" fill="url(#lotusGrad)" opacity="0.95"/>
-  <!-- Left Petal -->
-  <path d="M60 76 C46 72 34 58 38 48 C46 52 54 64 60 76 Z" fill="url(#lotusGrad)" opacity="0.75"/>
-  <!-- Right Petal -->
-  <path d="M60 76 C74 72 86 58 82 48 C74 52 66 64 60 76 Z" fill="url(#lotusGrad)" opacity="0.75"/>
-  <!-- Base Base -->
-  <path d="M44 80 Q60 86 76 80" stroke="#00695c" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Ambient Soft Backdrop Circle -->
+  <circle cx="50" cy="50" r="44" fill="url(#mindfulBgGlow)" />
+  <!-- Sacred Blooming Lotus Petals -->
+  <g filter="url(#lotusShadow)">
+    <!-- Left Outer Petal -->
+    <path d="M50 72 C34 70 20 54 26 42 C34 47 43 60 50 72 Z"
+          fill="url(#lotusSideGrad)" opacity="0.8" />
+    <!-- Right Outer Petal -->
+    <path d="M50 72 C66 70 80 54 74 42 C66 47 57 60 50 72 Z"
+          fill="url(#lotusSideGrad)" opacity="0.8" />
+    <!-- Left Inner Petal -->
+    <path d="M50 72 C38 66 32 46 40 34 C46 44 49 58 50 72 Z"
+          fill="url(#lotusSideGrad)" opacity="0.92" />
+    <!-- Right Inner Petal -->
+    <path d="M50 72 C62 66 68 46 60 34 C54 44 51 58 50 72 Z"
+          fill="url(#lotusSideGrad)" opacity="0.92" />
+    <!-- Center Hero Lotus Petal -->
+    <path d="M50 24 C43 38 43 58 50 72 C57 58 57 38 50 24 Z"
+          fill="url(#lotusCenterGrad)" />
+    <!-- Base Water Lily Pad Cradle Arc -->
+    <path d="M34 77 Q50 83 66 77" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" />
+  </g>
+  <!-- Zen Presence Aura Sparkle -->
+  <circle cx="50" cy="18" r="2.4" fill="#10b981" />
+  <circle cx="34" cy="28" r="1.8" fill="#34d399" opacity="0.8" />
+  <circle cx="66" cy="28" r="1.8" fill="#34d399" opacity="0.8" />
 </svg>

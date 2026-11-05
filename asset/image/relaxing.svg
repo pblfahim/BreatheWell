@@ -1,14 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
   <defs>
-    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4fc3f7" />
-      <stop offset="100%" stop-color="#0288d1" />
+    <linearGradient id="relaxWaveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
     </linearGradient>
+    <linearGradient id="relaxBgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.4" />
+    </linearGradient>
+    <filter id="relaxShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#0284c7" flood-opacity="0.25" />
+    </filter>
   </defs>
-  <circle cx="60" cy="60" r="54" fill="#e1f6ff" />
-  <circle cx="60" cy="60" r="42" fill="none" stroke="#90caf9" stroke-width="2" stroke-dasharray="4 4" />
-  <!-- Wave Ripples -->
-  <path d="M26 50 C36 44 44 56 54 50 C64 44 72 56 82 50 C88 46 92 48 94 50" fill="none" stroke="url(#waveGrad)" stroke-width="4.5" stroke-linecap="round"/>
-  <path d="M22 64 C32 58 42 70 52 64 C62 58 72 70 82 64 C90 60 95 62 98 64" fill="none" stroke="url(#waveGrad)" stroke-width="4.5" stroke-linecap="round" opacity="0.8"/>
-  <path d="M28 78 C36 72 44 84 54 78 C64 72 72 84 82 78 C88 74 92 76 94 78" fill="none" stroke="url(#waveGrad)" stroke-width="4.5" stroke-linecap="round" opacity="0.6"/>
+  <!-- Ambient Soft Backdrop Circle -->
+  <circle cx="50" cy="50" r="44" fill="url(#relaxBgGlow)" />
+  <!-- Three Calming Wave Strands -->
+  <g filter="url(#relaxShadow)">
+    <!-- Top Wave -->
+    <path d="M20 40 C28 33 36 47 46 40 C56 33 64 47 74 40 C78 37 80 39 82 40"
+          fill="none" stroke="url(#relaxWaveGrad)" stroke-width="4.5" stroke-linecap="round" />
+    <!-- Center Wave (Hero) -->
+    <path d="M16 53 C26 45 35 61 47 53 C59 45 68 61 80 53 C83 51 86 52 88 53"
+          fill="none" stroke="url(#relaxWaveGrad)" stroke-width="5" stroke-linecap="round" />
+    <!-- Bottom Wave -->
+    <path d="M22 66 C30 60 38 72 48 66 C58 60 66 72 76 66 C79 64 81 65 83 66"
+          fill="none" stroke="url(#relaxWaveGrad)" stroke-width="4.2" stroke-linecap="round" opacity="0.85" />
+  </g>
+  <!-- Floating Zen Droplet Particles -->
+  <circle cx="50" cy="24" r="3.2" fill="#0284c7" opacity="0.85" />
+  <circle cx="68" cy="27" r="2.2" fill="#38bdf8" opacity="0.75" />
+  <circle cx="32" cy="29" r="2.2" fill="#38bdf8" opacity="0.75" />
 </svg>

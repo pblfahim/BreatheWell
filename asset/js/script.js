@@ -148,7 +148,7 @@ const T = {
     emergencyStep3: "৩. কোনো নির্দিষ্ট ছন্দ ছাড়া নিজের স্বাভাবিক গতিতে ৫টি শান্ত শ্বাস নিন।",
     emergencyStep4: "৪. চোখ খুলে এক ঢোক পানি পান করুন এবং ১ মিনিট বিশ্রাম নিন।",
     emergencyToastMsg: "শান্ত হোন। সেশন বন্ধ করা হয়েছে। আরাম করে স্বাভাবিক শ্বাস নিন।",
-    libraryEyebrow: "অনুশীলনের সংগ্রহ",
+    libraryEyebrow: "প্রয়োজন অনুযায়ী নির্বাচন",
     libraryTitle: "আপনার শ্বাসের অনুশীলন বেছে নিন",
     libraryDesc: "প্রতিটি অনুশীলনের সময় ও নির্দেশনা দেখে নিজের উপযোগীটি নির্বাচন করুন।",
     filterAll: "সব",
@@ -523,7 +523,7 @@ const exercises = [
         phases: [["inhale", 5], ["exhale", 8]]
       }
     },
-    name: { bn: "৪–৬ রিল্যাক্সিং ব্রিদিং", en: "4–6 Relaxing Breathing" },
+    name: { bn: "রিল্যাক্সিং ব্রিদিং", en: "Relaxing Breathing" },
     badge: { bn: "🌿 চাপ উপশম", en: "🌿 Stress Relief" },
     benefit: {
       bn: "হৃদস্পন্দন ধীর করে দ্রুত মানসিক চাপ ও উদ্বেগ উপশম করে।",
@@ -939,13 +939,19 @@ function getCadenceText(ex, lvlKey = "beginner") {
   const lvlObj = ex.levels ? ex.levels[lvlKey] : null;
   const phases = lvlObj ? lvlObj.phases : ex.phases;
   const secUnit = lang === "bn" ? "সে." : "s";
+  if (phases && phases[0] && phases[0][0] === "natural") {
+    return lang === "bn" ? "স্বাভাবিক ছন্দ" : "Natural Rhythm";
+  }
   return phases.map(p => p[1] + secUnit).join("-");
 }
 
 function getLevelShortName(ex, lvlKey = "beginner") {
-  if (lvlKey === "beginner" || lvlKey === 1) return lang === "bn" ? "লেভেল ১ (সহজ)" : "Level 1 (Gentle)";
-  if (lvlKey === "intermediate" || lvlKey === 2) return lang === "bn" ? "লেভেল ২ (ক্লাসিক)" : "Level 2 (Classic)";
-  if (lvlKey === "advanced" || lvlKey === 3) return lang === "bn" ? "লেভেল ৩ (গভীর)" : "Level 3 (Deep)";
+  if (ex && ex.levels && ex.levels[lvlKey] && ex.levels[lvlKey].name) {
+    return ex.levels[lvlKey].name[lang];
+  }
+  if (lvlKey === "beginner" || lvlKey === 1) return lang === "bn" ? "লেভেল ১ · সহজ" : "Level 1 · Gentle";
+  if (lvlKey === "intermediate" || lvlKey === 2) return lang === "bn" ? "লেভেল ২ · ক্লাসিক" : "Level 2 · Classic";
+  if (lvlKey === "advanced" || lvlKey === 3) return lang === "bn" ? "লেভেল ৩ · গভীর" : "Level 3 · Deep";
   return lang === "bn" ? "লেভেল ১" : "Level 1";
 }
 
@@ -960,75 +966,100 @@ function selectCardLevel(exId, lvlKey, btnEl) {
     if (ex) {
       const activeNameEl = card.querySelector(`#activeLvlName_${exId}`);
       if (activeNameEl) {
-        activeNameEl.textContent = getLevelShortName(ex, lvlKey);
+        activeNameEl.style.opacity = '0';
+        setTimeout(() => {
+          activeNameEl.textContent = getLevelShortName(ex, lvlKey);
+          activeNameEl.style.opacity = '1';
+        }, 100);
       }
       const cadenceEl = card.querySelector(".art-cadence-pill");
       if (cadenceEl) {
-        cadenceEl.innerHTML = `<i class="bi bi-soundwave me-1 text-primary"></i>${getCadenceText(ex, lvlKey)}`;
+        const textSpan = cadenceEl.querySelector(".cadence-text");
+        if (textSpan) {
+          textSpan.textContent = getCadenceText(ex, lvlKey);
+        } else {
+          cadenceEl.innerHTML = `
+            <span class="cadence-wave" aria-hidden="true">
+              <span class="cadence-bar bar-1"></span>
+              <span class="cadence-bar bar-2"></span>
+              <span class="cadence-bar bar-3"></span>
+            </span>
+            <span class="cadence-text">${getCadenceText(ex, lvlKey)}</span>
+          `;
+        }
+        cadenceEl.classList.remove("cadence-pulse-update");
+        void cadenceEl.offsetWidth;
+        cadenceEl.classList.add("cadence-pulse-update");
       }
     }
   }
 }
 
-function cardHTML(e) {
+function cardHTML(e, index = 0) {
   const iconFile = e.image || 'mindful.svg';
   const curLevelKey = cardSelectedLevels[e.id] || "beginner";
 
-  return `<div class="col-md-6 col-xl-3">
+  return `<div class="col-md-6 col-xl-3 exercise-card-col" style="--card-index: ${index};">
     <article class="exercise-card theme-${e.id}">
       <!-- Top Floating Badges Bar -->
-      <div class="card-top-bar d-flex justify-content-between align-items-center mb-2">
-        <span class="exercise-goal-badge">${exBadge(e)}</span>
-        <span class="card-duration-badge"><i class="bi bi-clock me-1"></i>${tr("minOne")}</span>
+      <div class="card-top-bar d-flex justify-content-between align-items-center mb-2.5">
+        <span class="exercise-goal-badge goal-${e.tag}">${exBadge(e)}</span>
+        <span class="card-duration-badge"><i class="bi bi-clock-history me-1"></i>${tr("minOne")}</span>
       </div>
 
       <!-- Playful Animated Micro-Stage Art Box -->
-      <div class="exercise-art art-${e.id}">
+      <div class="exercise-art art-${e.id}" onclick="openDetails('${e.id}')" role="button" tabindex="0" title="${exName(e)} · ${tr("viewDetails")}">
         <div class="art-ambient-glow" aria-hidden="true"></div>
-        <div class="art-orbit-ring" aria-hidden="true"></div>
-        <div class="art-symbol">
-          <img src="asset/image/${iconFile}" width="46" height="46" alt="${exName(e)}">
+        <div class="art-pulse-ring" aria-hidden="true"></div>
+        <div class="art-orbit-ring" aria-hidden="true">
+          <span class="orbit-sparkle"></span>
         </div>
-        <!-- Live Cadence Rhythm Pill -->
-        <div class="art-cadence-pill">
-          <i class="bi bi-soundwave me-1 text-primary"></i>${getCadenceText(e, curLevelKey)}
+        <div class="art-symbol">
+          <img src="asset/image/${iconFile}" width="54" height="54" alt="${exName(e)}">
+        </div>
+        <!-- Live Cadence Rhythm Pill with animated soundwave bars -->
+        <div class="art-cadence-pill" id="cadencePill_${e.id}" onclick="event.stopPropagation()">
+          <span class="cadence-wave" aria-hidden="true">
+            <span class="cadence-bar bar-1"></span>
+            <span class="cadence-bar bar-2"></span>
+            <span class="cadence-bar bar-3"></span>
+          </span>
+          <span class="cadence-text">${getCadenceText(e, curLevelKey)}</span>
         </div>
       </div>
 
       <!-- Card Content -->
       <div class="card-body-content d-flex flex-column flex-grow-1">
-        <h3 class="card-title mt-2 mb-1">${exName(e)}</h3>
-        <p class="card-desc text-secondary mb-3">${exDesc(e)}</p>
+        <h3 class="card-title" onclick="openDetails('${e.id}')" role="button" tabindex="0">${exName(e)}</h3>
+                <!-- Playful Benefit Strip -->
+        <div class="benefit-box">
+          <div class="benefit-text"><i class="bi bi-stars text-primary me-1"></i>${exBenefit(e)}</div>
+          <div class="when-text"><i class="bi bi-clock-history me-1"></i><strong>${tr("whenToUse")}:</strong> ${exWhen(e)}</div>
+        </div>
 
         <!-- Interactive 1-Click Level Chooser -->
-        <div class="card-level-picker mb-3">
-          <div class="level-picker-header d-flex justify-content-between align-items-center mb-1.5">
-            <span class="level-picker-label"><i class="bi bi-layers-half text-primary me-1"></i>${tr("levelLabel")}:</span>
+        <div class="card-level-picker">
+          <div class="level-picker-header d-flex justify-content-between align-items-center">
+            <span class="level-picker-label"><i class="bi bi-speedometer2 text-primary me-1"></i>${tr("levelLabel")}</span>
             <span class="level-picker-active-name" id="activeLvlName_${e.id}">${getLevelShortName(e, curLevelKey)}</span>
           </div>
-          <div class="level-chips d-flex gap-1.5">
-            <button type="button" class="btn level-chip ${curLevelKey === 'beginner' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'beginner', this)">
+          <div class="level-chips">
+            <button type="button" class="btn level-chip ${curLevelKey === 'beginner' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'beginner', this)" aria-label="${tr("lvlGentle")}">
               <span>L1</span> <small>${tr("lvlGentle")}</small>
             </button>
-            <button type="button" class="btn level-chip ${curLevelKey === 'intermediate' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'intermediate', this)">
+            <button type="button" class="btn level-chip ${curLevelKey === 'intermediate' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'intermediate', this)" aria-label="${tr("lvlClassic")}">
               <span>L2</span> <small>${tr("lvlClassic")}</small>
             </button>
-            <button type="button" class="btn level-chip ${curLevelKey === 'advanced' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'advanced', this)">
+            <button type="button" class="btn level-chip ${curLevelKey === 'advanced' ? 'active' : ''}" onclick="selectCardLevel('${e.id}', 'advanced', this)" aria-label="${tr("lvlDeep")}">
               <span>L3</span> <small>${tr("lvlDeep")}</small>
             </button>
           </div>
         </div>
 
-        <!-- Playful Benefit & Best-For Pill -->
-        <div class="benefit-box mb-3">
-          <div class="benefit-text mb-1"><i class="bi bi-stars text-primary me-1"></i>${exBenefit(e)}</div>
-          <div class="when-text"><i class="bi bi-clock-history me-1"></i><strong>${tr("whenToUse")}:</strong> ${exWhen(e)}</div>
-        </div>
-
         <!-- Action Buttons -->
-        <div class="d-flex gap-2 mt-auto pt-1">
+        <div class="d-flex gap-2 mt-auto pt-2">
           <button class="btn btn-primary flex-grow-1 card-start-btn" onclick="quickStartSession('${e.id}')">
-            <i class="bi bi-play-circle-fill me-1.5 fs-6"></i><span>${tr("quickStart")}</span>
+            <i class="bi bi-play-fill me-1 fs-5"></i><span>${tr("quickStart")}</span>
           </button>
           <button class="btn btn-outline-primary card-details-btn px-3" onclick="openDetails('${e.id}')" title="${tr("viewDetails")}">
             <i class="bi bi-info-circle me-1"></i><span>${tr("detailsLabel")}</span>
@@ -1042,17 +1073,19 @@ function cardHTML(e) {
 function renderCards() {
   const featEl = $("featuredCards");
   const libEl = $("libraryCards");
+  const goalFilteredList = exploreGoal === "all"
+    ? exercises
+    : exercises.filter(e => e.tag === exploreGoal);
+
   if (featEl) {
-    const featuredList = exploreGoal === "all"
-      ? exercises
-      : exercises.filter(e => e.tag === exploreGoal);
-    featEl.innerHTML = featuredList.map(cardHTML).join("");
+    featEl.innerHTML = goalFilteredList.map((e, i) => cardHTML(e, i)).join("");
   }
   if (libEl) {
-    libEl.innerHTML = exercises
-      .filter(e => filter === "all" || e.category === filter || (filter === "beginner" && e.level === "beginner"))
-      .map(cardHTML)
-      .join("");
+    const hasGoalPills = !!$("exploreGoalPills");
+    const libList = hasGoalPills
+      ? goalFilteredList
+      : exercises.filter(e => filter === "all" || e.category === filter || (filter === "beginner" && e.level === "beginner"));
+    libEl.innerHTML = libList.map((e, i) => cardHTML(e, i)).join("");
   }
 }
 
@@ -1147,7 +1180,7 @@ function renderDetails() {
   if (art) {
     art.className = "detail-visual h-100 art-" + (selected.id === "diaphragmatic" ? "diaph" : selected.id === "relax46" ? "relax" : selected.id === "box" ? "box" : "mindful");
     let iconFile = selected.image || 'mindful.svg';
-    art.innerHTML = `<div class="orb"><div class="orb-core"><img src="asset/image/${iconFile}" width="48" height="48" alt="${exName(selected)}"></div></div>`;
+    art.innerHTML = `<div class="orb"><div class="orb-core"><img src="asset/image/${iconFile}" width="64" height="64" alt="${exName(selected)}"></div></div>`;
   }
   const titleEl = $("detailTitle");
   if (titleEl) titleEl.textContent = exName(selected);
@@ -1253,7 +1286,7 @@ function triggerSafetyReset() {
   if (run) stopRun(false);
   if (testRunning) stopCurrentTest();
   if (window.speechSynthesis) window.speechSynthesis.cancel();
-  
+
   toast(tr("emergencyToastMsg"));
 
   const resetBtn = $('emergencyResetBtn');
@@ -1321,7 +1354,7 @@ function startSession() {
   if (progressBar) progressBar.style.width = "0%";
   const remainingTime = $("remainingTime");
   if (remainingTime) remainingTime.textContent = formatTime(duration);
-  
+
   const breathStage = $("breathStage");
   if (breathStage) {
     breathStage.className = "breath-stage preparing";
@@ -1386,7 +1419,7 @@ function tick(now) {
     run.prepareRemaining -= dt;
     const phaseCount = $("phaseCount");
     if (phaseCount) phaseCount.textContent = Math.max(0, Math.ceil(run.prepareRemaining));
-    
+
     let prepPct = Math.max(0, Math.min(1, 1 - (run.prepareRemaining / 3)));
     const progRing = $("phaseProgressRing");
     if (progRing) progRing.style.strokeDashoffset = (892.21 * (1 - prepPct)).toFixed(2);
@@ -1437,7 +1470,7 @@ function tick(now) {
 
 function enterPhase() {
   let p = currentPhase(), type = p[0], dur = type === "natural" ? 5 : p[1];
-  
+
   const breathStage = $("breathStage");
   if (breathStage) {
     breathStage.className = "breath-stage " + type;
@@ -1602,7 +1635,7 @@ function triggerConfetti(count = 55) {
   const height = (canvas.height = parent ? parent.clientHeight : window.innerHeight);
 
   const colors = [
-    "#FFD700", "#F59E0B", "#10B981", "#06B6D4", "#38BDF8", 
+    "#FFD700", "#F59E0B", "#10B981", "#06B6D4", "#38BDF8",
     "#EC4899", "#8B5CF6", "#F97316", "#A7F3D0", "#FDE047"
   ];
 
@@ -1847,7 +1880,7 @@ function executeShare(platform, text, url, title) {
       break;
     case "native":
       if (navigator.share) {
-        navigator.share({ title: title, text: text, url: url }).catch(() => {});
+        navigator.share({ title: title, text: text, url: url }).catch(() => { });
       } else {
         executeShare("copy", text, url, title);
       }
@@ -1866,7 +1899,7 @@ function fallbackCopyText(text) {
   try {
     document.execCommand("copy");
     toast(tr("linkCopied"));
-  } catch (e) {}
+  } catch (e) { }
   document.body.removeChild(ta);
 }
 
@@ -1927,7 +1960,7 @@ function initiateTest() {
 
   let c = 3;
   if (countNum) countNum.textContent = c;
-  
+
   testCountInterval = setInterval(() => {
     c--;
     if (c > 0) {
@@ -1966,7 +1999,7 @@ function startActiveTest() {
     if (bpmCountNum) bpmCountNum.textContent = "0";
     const countdownText = $("bpmCountdownText");
     if (countdownText) countdownText.textContent = lang === "bn" ? `বাকি সময়: ${bpmCountdown} সেকেন্ড` : `Time left: ${bpmCountdown}s`;
-    
+
     if (stopBtn) stopBtn.classList.add("d-none");
     if (tapBpmBtn) tapBpmBtn.classList.remove("d-none");
 
@@ -2003,7 +2036,7 @@ function stopCurrentTest() {
   }
 
   const durationSec = Math.max(0.1, (performance.now() - testStartTime) / 1000);
-  
+
   if (activeTestTab === 'bolt') {
     renderBoltResult(durationSec);
   } else {
@@ -2140,7 +2173,7 @@ function saveTestRecord(record) {
     if (history.length > 8) history = history.slice(0, 8);
     localStorage.setItem("bw_test_history", JSON.stringify(history));
     loadTestHistory();
-  } catch(e){}
+  } catch (e) { }
 }
 
 function loadTestHistory() {
@@ -2161,7 +2194,7 @@ function loadTestHistory() {
         <span class="badge bg-light text-secondary border">${item.date}</span>
       </div>
     `).join("");
-  } catch(e){}
+  } catch (e) { }
 }
 
 function clearTestHistory() {
@@ -2174,7 +2207,7 @@ function resetTest() {
   testRunning = false;
   if (testInterval) clearInterval(testInterval);
   if (testCountInterval) clearInterval(testCountInterval);
-  
+
   const instructView = $("testInstructionView");
   const resultView = $("testResultView");
   const countBox = $("testCountdownBox");
@@ -2225,6 +2258,18 @@ function getInitialScreen() {
 function handleUrlParams() {
   try {
     const params = new URLSearchParams(window.location.search);
+    if (params.has("goal")) {
+      const g = params.get("goal");
+      if (["all", "stress", "focus", "sleep", "mindful"].includes(g)) {
+        exploreGoal = g;
+        document.querySelectorAll(".goal-pill").forEach(x => {
+          const isActive = x.dataset.goal === g;
+          x.classList.toggle("btn-primary", isActive);
+          x.classList.toggle("btn-outline-primary", !isActive);
+        });
+        renderCards();
+      }
+    }
     if (params.has("exercise")) {
       const exId = params.get("exercise");
       const ex = exercises.find(e => e.id === exId);
@@ -2249,7 +2294,7 @@ function handleUrlParams() {
         }
       }
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function handleHashOnLoad() {

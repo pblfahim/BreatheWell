@@ -1,17 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
   <defs>
-    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#42a5f5" />
-      <stop offset="100%" stop-color="#1565c0" />
+    <linearGradient id="boxSquareGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="45%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
     </linearGradient>
+    <linearGradient id="boxBgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eff6ff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#dbeafe" stop-opacity="0.45" />
+    </linearGradient>
+    <filter id="boxShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#2563eb" flood-opacity="0.25" />
+    </filter>
   </defs>
-  <circle cx="60" cy="60" r="54" fill="#eaf3ff" />
-  <rect x="34" y="34" width="52" height="52" rx="14" fill="none" stroke="url(#boxGrad)" stroke-width="4.5" />
-  <!-- Corner Dots -->
-  <circle cx="34" cy="34" r="5" fill="#1565c0" />
-  <circle cx="86" cy="34" r="5" fill="#42a5f5" />
-  <circle cx="86" cy="86" r="5" fill="#1565c0" />
-  <circle cx="34" cy="86" r="5" fill="#42a5f5" />
-  <!-- Center symbol -->
-  <path d="M50 60 L70 60 M60 50 L60 70" stroke="#1565c0" stroke-width="3" stroke-linecap="round" />
+  <!-- Ambient Soft Backdrop Circle -->
+  <circle cx="50" cy="50" r="44" fill="url(#boxBgGlow)" />
+  <!-- Main Rounded Box Frame -->
+  <g filter="url(#boxShadow)">
+    <rect x="23" y="23" width="54" height="54" rx="16"
+          fill="none" stroke="url(#boxSquareGrad)" stroke-width="4.8" />
+    <!-- 4 Cadence Corner Phase Nodes -->
+    <circle cx="23" cy="23" r="5" fill="#2563eb" />
+    <circle cx="23" cy="23" r="2.2" fill="#ffffff" />
+    <circle cx="77" cy="23" r="5" fill="#3b82f6" />
+    <circle cx="77" cy="23" r="2.2" fill="#ffffff" />
+    <circle cx="77" cy="77" r="5" fill="#1d4ed8" />
+    <circle cx="77" cy="77" r="2.2" fill="#ffffff" />
+    <circle cx="23" cy="77" r="5" fill="#3b82f6" />
+    <circle cx="23" cy="77" r="2.2" fill="#ffffff" />
+  </g>
+  <!-- Center Harmonic Focus Cross & Subtle Inner Ring -->
+  <circle cx="50" cy="50" r="11" fill="none" stroke="#93c5fd" stroke-width="1.8" stroke-dasharray="3 3" />
+  <path d="M43 50 L57 50 M50 43 L50 57" stroke="#2563eb" stroke-width="3" stroke-linecap="round" />
 </svg>
