@@ -1,0 +1,1208 @@
+/*
+ * ============================================================================
+ * BreatheWell - Health Tracker Stylesheet (health-tracker.css)
+ * ============================================================================
+ * Description:
+ *   Complete design system for the Day-wise Blood Pressure & Diabetes (Blood
+ *   Sugar) Health Tracker. Implements modern card UI, animated status rings,
+ *   responsive chart visualizations, share/export panels, and bilingual
+ *   (Bengali/English) typography support.
+ *
+ * Design Tokens (inherits from style.css root):
+ *   --primary, --primary-dark, --sky, --line, --muted, --text, --bg
+ *
+ * Contents:
+ *   1.  CSS Custom Properties & Design Tokens
+ *   2.  Page Layout & Scaffolding
+ *   3.  Hero Stats Banner
+ *   4.  Entry Form Cards
+ *   5.  Input Fields & Controls
+ *   6.  Status Badges & Gauge Rings
+ *   7.  History Log Table
+ *   8.  Chart Canvas Wrapper
+ *   9.  Share & Export Panel
+ *   10. Family Monitor Badge
+ *   11. Toast Notifications
+ *   12. Empty State Illustrations
+ *   13. Animated Sparkline Bars
+ *   14. Responsive Overrides (≤ 768px)
+ *   15. Dark-mode Consideration (prefers-color-scheme)
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. CSS CUSTOM PROPERTIES & DESIGN TOKENS
+ * ============================================================================ */
+:root {
+  /* Health Tracker palette */
+  --ht-bp-normal:    #22c55e;   /* systolic < 120 AND diastolic < 80 */
+  --ht-bp-elevated:  #f59e0b;   /* systolic 120–129 */
+  --ht-bp-high1:     #f97316;   /* Stage 1 hypertension */
+  --ht-bp-high2:     #ef4444;   /* Stage 2 hypertension */
+  --ht-bp-crisis:    #991b1b;   /* Hypertensive crisis */
+  --ht-bp-low:       #8b5cf6;   /* Hypotension */
+
+  --ht-bg-normal:    #22c55e;   /* 70–99 mg/dL fasting / 70–139 post-meal */
+  --ht-bg-prediab:   #f59e0b;   /* 100–125 fasting / 140–199 post-meal */
+  --ht-bg-diabetic:  #ef4444;   /* ≥ 126 fasting / ≥ 200 post-meal */
+  --ht-bg-hypo:      #8b5cf6;   /* < 70 mg/dL */
+
+  /* Surface colours */
+  --ht-surface:      #ffffff;
+  --ht-surface-alt:  #f8fafc;
+  --ht-border:       #e2e8f0;
+  --ht-shadow-sm:    0 2px 8px rgba(0, 0, 0, 0.06);
+  --ht-shadow-md:    0 8px 32px rgba(0, 0, 0, 0.09);
+  --ht-shadow-lg:    0 20px 60px rgba(0, 0, 0, 0.12);
+
+  /* Metric colours for chart lines */
+  --ht-systolic:     #ef4444;
+  --ht-diastolic:    #3b82f6;
+  --ht-pulse:        #f97316;
+  --ht-glucose:      #8b5cf6;
+
+  /* Transition / Animation */
+  --ht-ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  --ht-dur-fast:     150ms;
+  --ht-dur-base:     250ms;
+  --ht-dur-slow:     400ms;
+}
+
+
+/* ============================================================================
+ * 2. PAGE LAYOUT & SCAFFOLDING
+ * ============================================================================ */
+
+/* Top decorative gradient band above the page-head */
+.ht-page-hero {
+  background: linear-gradient(135deg, #1769aa 0%, #2196f3 50%, #42a5f5 100%);
+  padding: 48px 0 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative animated bubbles behind hero */
+.ht-page-hero::before,
+.ht-page-hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.12;
+  background: white;
+  animation: htBubbleFloat 8s ease-in-out infinite alternate;
+}
+.ht-page-hero::before {
+  width: 320px;
+  height: 320px;
+  top: -100px;
+  right: -80px;
+  animation-delay: -3s;
+}
+.ht-page-hero::after {
+  width: 200px;
+  height: 200px;
+  bottom: -40px;
+  left: -40px;
+  animation-delay: -6s;
+}
+
+@keyframes htBubbleFloat {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(20px, 15px) scale(1.08); }
+}
+
+/* Pull-up card container that overlaps the hero gradient */
+.ht-pull-up {
+  margin-top: -60px;
+  position: relative;
+  z-index: 10;
+}
+
+/* Generic section gap */
+.ht-section {
+  padding-block: 32px;
+}
+
+/* Page hero text colours */
+.ht-page-hero .ht-hero-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.ht-page-hero h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.ht-page-hero .ht-hero-sub {
+  color: rgba(255,255,255,0.82);
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+/* Family badge in hero */
+.ht-family-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 14px 5px 10px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: background var(--ht-dur-base) var(--ht-ease);
+  cursor: pointer;
+}
+.ht-family-pill:hover {
+  background: rgba(255,255,255,0.3);
+  color: #fff;
+}
+
+
+/* ============================================================================
+ * 3. HERO STATS BANNER  (the pull-up summary cards row)
+ * ============================================================================ */
+.ht-stat-card {
+  background: var(--ht-surface);
+  border: 1px solid var(--ht-border);
+  border-radius: 20px;
+  padding: 22px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--ht-shadow-sm);
+  transition: transform var(--ht-dur-base) var(--ht-ease),
+              box-shadow var(--ht-dur-base) var(--ht-ease);
+}
+.ht-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ht-shadow-md);
+}
+
+/* Circular icon ring */
+.ht-stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.ht-stat-icon.bp  { background: #fee2e2; color: #ef4444; }
+.ht-stat-icon.bg  { background: #ede9fe; color: #8b5cf6; }
+.ht-stat-icon.today { background: #dcfce7; color: #22c55e; }
+.ht-stat-icon.streak { background: #fef3c7; color: #f59e0b; }
+
+.ht-stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+.ht-stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.ht-stat-sub {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+
+/* ============================================================================
+ * 4. ENTRY FORM CARDS
+ * ============================================================================ */
+.ht-form-card {
+  background: var(--ht-surface);
+  border: 1.5px solid var(--ht-border);
+  border-radius: 24px;
+  padding: 28px 24px;
+  box-shadow: var(--ht-shadow-sm);
+  transition: box-shadow var(--ht-dur-base) var(--ht-ease);
+  height: 100%;
+}
+.ht-form-card:hover {
+  box-shadow: var(--ht-shadow-md);
+}
+
+/* Card type accent top bar */
+.ht-form-card.type-bp  { border-top: 4px solid #ef4444; }
+.ht-form-card.type-bg  { border-top: 4px solid #8b5cf6; }
+
+/* Card header row */
+.ht-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.ht-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.ht-card-icon.bp { background: #fee2e2; color: #ef4444; }
+.ht-card-icon.bg { background: #ede9fe; color: #8b5cf6; }
+
+.ht-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.2;
+}
+.ht-card-sub {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+
+/* ============================================================================
+ * 5. INPUT FIELDS & CONTROLS
+ * ============================================================================ */
+.ht-input-group {
+  margin-bottom: 18px;
+}
+.ht-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ht-label .unit {
+  font-weight: 400;
+  color: #94a3b8;
+  font-size: 0.72rem;
+}
+
+/* Styled number input */
+.ht-input {
+  width: 100%;
+  height: 50px;
+  border: 1.5px solid var(--ht-border);
+  border-radius: 14px;
+  padding: 0 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  background: var(--ht-surface-alt);
+  transition: border-color var(--ht-dur-fast) var(--ht-ease),
+              box-shadow var(--ht-dur-fast) var(--ht-ease);
+  outline: none;
+  appearance: none;
+}
+.ht-input:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
+  background: #fff;
+}
+.ht-input.has-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+}
+.ht-input-error {
+  font-size: 0.72rem;
+  color: #ef4444;
+  margin-top: 4px;
+  min-height: 16px;
+  display: block;
+}
+
+/* Inline inputs row (systolic / diastolic) */
+.ht-input-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 8px;
+}
+.ht-slash {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #cbd5e1;
+  text-align: center;
+  padding-bottom: 8px;
+  line-height: 50px;
+}
+
+/* Select / Dropdown */
+.ht-select {
+  width: 100%;
+  height: 50px;
+  border: 1.5px solid var(--ht-border);
+  border-radius: 14px;
+  padding: 0 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  background: var(--ht-surface-alt) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--ht-dur-fast);
+}
+.ht-select:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
+}
+
+/* Date/time input */
+.ht-datetime {
+  width: 100%;
+  height: 46px;
+  border: 1.5px solid var(--ht-border);
+  border-radius: 14px;
+  padding: 0 14px;
+  font-size: 0.9rem;
+  color: #374151;
+  background: var(--ht-surface-alt);
+  outline: none;
+  transition: border-color var(--ht-dur-fast);
+}
+.ht-datetime:focus {
+  border-color: #2196f3;
+}
+
+/* Notes textarea */
+.ht-textarea {
+  width: 100%;
+  min-height: 72px;
+  border: 1.5px solid var(--ht-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  color: #374151;
+  background: var(--ht-surface-alt);
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--ht-dur-fast);
+  font-family: inherit;
+}
+.ht-textarea:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
+}
+
+/* Submit button */
+.ht-btn-save {
+  width: 100%;
+  height: 52px;
+  border-radius: 16px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform var(--ht-dur-fast) var(--ht-ease),
+              box-shadow var(--ht-dur-fast) var(--ht-ease),
+              opacity var(--ht-dur-fast);
+}
+.ht-btn-save:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--ht-shadow-md);
+}
+.ht-btn-save:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.ht-btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.ht-btn-save.type-bp {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(239,68,68,0.3);
+}
+.ht-btn-save.type-bg {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(139,92,246,0.3);
+}
+
+
+/* ============================================================================
+ * 6. STATUS BADGES & GAUGE RINGS
+ * ============================================================================ */
+/* Live status chip shown next to form after save */
+.ht-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  animation: htChipPop var(--ht-dur-slow) var(--ht-ease);
+}
+@keyframes htChipPop {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.ht-status-chip.normal   { background: #dcfce7; color: #15803d; }
+.ht-status-chip.elevated { background: #fef3c7; color: #b45309; }
+.ht-status-chip.high1    { background: #ffedd5; color: #c2410c; }
+.ht-status-chip.high2    { background: #fee2e2; color: #b91c1c; }
+.ht-status-chip.crisis   { background: #991b1b; color: #fff; }
+.ht-status-chip.low      { background: #ede9fe; color: #6d28d9; }
+
+/* Reading summary box that appears below form after submission */
+.ht-reading-preview {
+  background: var(--ht-surface-alt);
+  border: 1px solid var(--ht-border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  animation: htFadeUp var(--ht-dur-slow) var(--ht-ease);
+}
+@keyframes htFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ht-reading-preview .big-val {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+.ht-reading-preview .big-unit {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+
+/* ============================================================================
+ * 7. HISTORY LOG TABLE
+ * ============================================================================ */
+.ht-history-wrap {
+  background: var(--ht-surface);
+  border: 1px solid var(--ht-border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--ht-shadow-sm);
+}
+
+.ht-history-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--ht-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ht-history-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Filter tab pills */
+.ht-tab-group {
+  display: flex;
+  gap: 4px;
+  background: var(--ht-surface-alt);
+  border: 1px solid var(--ht-border);
+  border-radius: 10px;
+  padding: 3px;
+}
+.ht-tab {
+  padding: 5px 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--ht-dur-fast) var(--ht-ease);
+  white-space: nowrap;
+}
+.ht-tab.active {
+  background: #fff;
+  color: #1769aa;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Table wrapper */
+.ht-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.ht-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 540px;
+}
+.ht-table thead th {
+  padding: 10px 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  background: var(--ht-surface-alt);
+  border-bottom: 1px solid var(--ht-border);
+  white-space: nowrap;
+  text-align: left;
+}
+.ht-table tbody tr {
+  transition: background var(--ht-dur-fast);
+  animation: htRowIn var(--ht-dur-slow) var(--ht-ease) both;
+}
+@keyframes htRowIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.ht-table tbody tr:hover {
+  background: #f8fafc;
+}
+.ht-table tbody td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--ht-border);
+  font-size: 0.88rem;
+  color: #374151;
+  vertical-align: middle;
+}
+.ht-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Reading value cells */
+.ht-val-bp {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ef4444;
+  font-variant-numeric: tabular-nums;
+}
+.ht-val-bg {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #8b5cf6;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Row delete button */
+.ht-row-del {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #cbd5e1;
+  font-size: 1rem;
+  padding: 4px;
+  border-radius: 8px;
+  transition: color var(--ht-dur-fast), background var(--ht-dur-fast);
+  line-height: 1;
+}
+.ht-row-del:hover {
+  color: #ef4444;
+  background: #fee2e2;
+}
+
+/* Pagination */
+.ht-pagination {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid var(--ht-border);
+  flex-wrap: wrap;
+}
+.ht-pagination-info {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+.ht-pagination-btns {
+  display: flex;
+  gap: 4px;
+}
+.ht-page-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--ht-border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all var(--ht-dur-fast);
+}
+.ht-page-btn:hover:not(:disabled) {
+  border-color: #2196f3;
+  color: #2196f3;
+}
+.ht-page-btn.active {
+  background: #2196f3;
+  border-color: #2196f3;
+  color: #fff;
+}
+.ht-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+/* ============================================================================
+ * 8. CHART CANVAS WRAPPER
+ * ============================================================================ */
+.ht-chart-card {
+  background: var(--ht-surface);
+  border: 1px solid var(--ht-border);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: var(--ht-shadow-sm);
+}
+.ht-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ht-chart-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* Legend pills */
+.ht-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ht-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+}
+.ht-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* SVG chart container */
+.ht-chart-svg-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.ht-chart-svg {
+  width: 100%;
+  height: 220px;
+  display: block;
+}
+
+/* Tooltip (absolutely positioned div) */
+.ht-chart-tooltip {
+  position: absolute;
+  background: #0f172a;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 10px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--ht-dur-fast);
+  white-space: nowrap;
+  z-index: 20;
+  transform: translate(-50%, -110%);
+}
+.ht-chart-tooltip.visible {
+  opacity: 1;
+}
+.ht-chart-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: #0f172a transparent transparent;
+}
+
+/* Empty chart placeholder */
+.ht-chart-empty {
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  gap: 10px;
+}
+.ht-chart-empty i {
+  font-size: 2.5rem;
+  opacity: 0.4;
+}
+.ht-chart-empty p {
+  font-size: 0.85rem;
+  margin: 0;
+  text-align: center;
+}
+
+
+/* ============================================================================
+ * 9. SHARE & EXPORT PANEL
+ * ============================================================================ */
+.ht-share-card {
+  background: linear-gradient(135deg, #1769aa 0%, #2196f3 100%);
+  border-radius: 24px;
+  padding: 28px 24px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.ht-share-card::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+
+.ht-share-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  position: relative;
+}
+.ht-share-sub {
+  font-size: 0.82rem;
+  opacity: 0.82;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* QR Code display area */
+.ht-qr-wrap {
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px;
+  display: inline-block;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.ht-qr-wrap canvas {
+  display: block;
+}
+
+/* Share action buttons */
+.ht-share-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: relative;
+}
+.ht-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all var(--ht-dur-fast) var(--ht-ease);
+}
+.ht-share-btn:hover {
+  transform: translateY(-1px);
+}
+
+.ht-share-btn.csv   { background: rgba(255,255,255,0.2); color: #fff; }
+.ht-share-btn.json  { background: rgba(255,255,255,0.2); color: #fff; }
+.ht-share-btn.link  { background: #fff; color: #1769aa; }
+.ht-share-btn.print { background: rgba(255,255,255,0.2); color: #fff; }
+
+.ht-share-btn.csv:hover   { background: rgba(255,255,255,0.3); }
+.ht-share-btn.json:hover  { background: rgba(255,255,255,0.3); }
+.ht-share-btn.print:hover { background: rgba(255,255,255,0.3); }
+.ht-share-btn.link:hover  { box-shadow: 0 4px 14px rgba(255,255,255,0.4); }
+
+/* Copy link input group */
+.ht-link-row {
+  display: flex;
+  gap: 6px;
+  position: relative;
+  margin-top: 12px;
+}
+.ht-link-input {
+  flex: 1;
+  height: 42px;
+  border: none;
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+  font-family: monospace;
+  color: #374151;
+  background: rgba(255,255,255,0.95);
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ht-copy-btn {
+  height: 42px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #fff;
+  color: #1769aa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--ht-dur-fast);
+  white-space: nowrap;
+}
+.ht-copy-btn:hover {
+  background: #e3f2fd;
+}
+.ht-copy-btn.copied {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+
+/* ============================================================================
+ * 10. FAMILY MONITOR BADGE
+ * ============================================================================ */
+.ht-family-card {
+  background: var(--ht-surface);
+  border: 1.5px solid var(--ht-border);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: var(--ht-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ht-family-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ht-family-avatar-row {
+  display: flex;
+  gap: -8px;
+}
+.ht-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: linear-gradient(135deg, #2196f3, #1769aa);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-right: -10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.ht-avatar:nth-child(2) { background: linear-gradient(135deg, #22c55e, #15803d); }
+.ht-avatar:nth-child(3) { background: linear-gradient(135deg, #f59e0b, #b45309); }
+
+.ht-family-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+.ht-family-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Family profile PIN setup */
+.ht-pin-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.ht-pin-input {
+  flex: 1;
+  height: 46px;
+  border: 1.5px solid var(--ht-border);
+  border-radius: 12px;
+  padding: 0 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-align: center;
+  outline: none;
+  transition: border-color var(--ht-dur-fast);
+  color: #374151;
+}
+.ht-pin-input:focus {
+  border-color: #2196f3;
+}
+.ht-pin-btn {
+  height: 46px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: #2196f3;
+  color: #fff;
+  cursor: pointer;
+  transition: all var(--ht-dur-fast);
+  white-space: nowrap;
+}
+.ht-pin-btn:hover {
+  background: #1769aa;
+}
+
+
+/* ============================================================================
+ * 11. TOAST NOTIFICATIONS (health-tracker specific)
+ * ============================================================================ */
+.ht-toast-stack {
+  position: fixed;
+  top: 80px;
+  right: 16px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.ht-toast {
+  min-width: 260px;
+  max-width: 340px;
+  background: #fff;
+  border: 1px solid var(--ht-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  box-shadow: var(--ht-shadow-md);
+  pointer-events: auto;
+  animation: htToastIn var(--ht-dur-slow) var(--ht-ease);
+}
+@keyframes htToastIn {
+  from { opacity: 0; transform: translateX(40px) scale(0.95); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+.ht-toast.ht-toast-out {
+  animation: htToastOut var(--ht-dur-slow) var(--ht-ease) forwards;
+}
+@keyframes htToastOut {
+  to { opacity: 0; transform: translateX(40px) scale(0.9); }
+}
+
+.ht-toast-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+.ht-toast.success .ht-toast-icon { background: #dcfce7; color: #15803d; }
+.ht-toast.error   .ht-toast-icon { background: #fee2e2; color: #b91c1c; }
+.ht-toast.info    .ht-toast-icon { background: #dbeafe; color: #1d4ed8; }
+.ht-toast.warn    .ht-toast-icon { background: #fef3c7; color: #b45309; }
+
+.ht-toast-body { flex: 1; }
+.ht-toast-ttl  { font-size: 0.82rem; font-weight: 700; color: #0f172a; margin: 0 0 2px; }
+.ht-toast-msg  { font-size: 0.75rem; color: #64748b; margin: 0; }
+
+
+/* ============================================================================
+ * 12. EMPTY STATE ILLUSTRATIONS
+ * ============================================================================ */
+.ht-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: #94a3b8;
+}
+.ht-empty-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+  display: block;
+}
+.ht-empty-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 6px;
+}
+.ht-empty-desc {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+
+/* ============================================================================
+ * 13. ANIMATED SPARKLINE BARS (mini trend indicator in stat cards)
+ * ============================================================================ */
+.ht-sparkline {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 24px;
+}
+.ht-spark-bar {
+  flex: 1;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.25;
+  animation: htSparkGrow var(--ht-dur-slow) var(--ht-ease) both;
+}
+.ht-spark-bar.active {
+  opacity: 0.9;
+}
+@keyframes htSparkGrow {
+  from { transform: scaleY(0); transform-origin: bottom; }
+  to   { transform: scaleY(1); transform-origin: bottom; }
+}
+
+
+/* ============================================================================
+ * 14. RESPONSIVE OVERRIDES (≤ 768px)
+ * ============================================================================ */
+@media (max-width: 768px) {
+  .ht-page-hero {
+    padding: 36px 0 80px;
+  }
+  .ht-page-hero h1 {
+    font-size: 1.5rem;
+  }
+  .ht-pull-up {
+    margin-top: -40px;
+  }
+  .ht-form-card {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+  .ht-share-card {
+    padding: 20px 16px;
+  }
+  .ht-history-wrap {
+    border-radius: 20px;
+  }
+  .ht-chart-card {
+    border-radius: 20px;
+    padding: 18px 14px;
+  }
+  .ht-stat-card {
+    border-radius: 16px;
+    padding: 16px 14px;
+  }
+  .ht-share-btn-row {
+    flex-direction: column;
+  }
+  .ht-share-btn {
+    justify-content: center;
+  }
+
+  /* Extra bottom padding for mobile bottom nav clearance */
+  body { padding-bottom: 76px; }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .ht-input {
+    font-size: 1rem;
+    height: 46px;
+  }
+  .ht-slash {
+    line-height: 46px;
+  }
+  .ht-stat-value {
+    font-size: 1.2rem;
+  }
+}
+
+
+/* ============================================================================
+ * 15. PRINT STYLES
+ * ============================================================================ */
+@media print {
+  .ht-page-hero,
+  .ht-share-card,
+  .ht-family-card,
+  .ht-form-card,
+  .ht-pull-up,
+  .mobile-bottom-nav,
+  nav.navbar { display: none !important; }
+
+  .ht-history-wrap,
+  .ht-chart-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    page-break-inside: avoid;
+  }
+
+  .ht-table tbody tr { animation: none; }
+
+  body { padding-bottom: 0 !important; }
+}
+
