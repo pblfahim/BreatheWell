@@ -284,6 +284,7 @@ const HT_T = {
     navTest:          "শ্বাসের পরীক্ষা",
     navSafety:        "নিরাপত্তা",
     navHealth:        "স্বাস্থ্য",
+    navRx:            "প্রেসক্রিপশন",
     skip:             "মূল কনটেন্টে যান",
     langToggle:       "English",
 
@@ -422,6 +423,7 @@ const HT_T = {
     navTest:          "Breath Test",
     navSafety:        "Safety",
     navHealth:        "Health",
+    navRx:            "Prescriptions",
     skip:             "Skip to main content",
     langToggle:       "বাংলা",
 

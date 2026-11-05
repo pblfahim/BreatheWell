@@ -1,0 +1,2280 @@
+/*
+ * ============================================================================
+ * BreatheWell - Prescription Vault Stylesheet  (prescriptions.css)
+ * ============================================================================
+ * Description:
+ *   Complete design system for the Prescription Upload & Family Sharing
+ *   feature. Covers the drag-and-drop upload zone, prescription card gallery,
+ *   lightbox image/PDF viewer, metadata editor, storage gauge, search/filter
+ *   bar, share panel, and mobile-first responsive overrides.
+ *
+ * Contents:
+ *   1.  Design Tokens & Custom Properties
+ *   2.  Page Hero Banner
+ *   3.  Storage Gauge Bar
+ *   4.  Upload Zone (Drag & Drop)
+ *   5.  Metadata Form Card
+ *   6.  Prescription Card Gallery
+ *   7.  Prescription Card
+ *   8.  Lightbox / Full-screen Viewer
+ *   9.  Search & Filter Bar
+ *   10. Share & Export Panel
+ *   11. Family Monitor Card
+ *   12. Toast Notifications
+ *   13. Empty State
+ *   14. Responsive Overrides (≤ 768px)
+ *   15. Print Styles
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. DESIGN TOKENS & CUSTOM PROPERTIES
+ * ============================================================================ */
+:root {
+    /* Prescription Vault palette */
+    --rx-green: #10b981;
+    --rx-green-light: #d1fae5;
+    --rx-green-dark: #065f46;
+    --rx-teal: #0891b2;
+    --rx-teal-light: #cffafe;
+    --rx-amber: #f59e0b;
+    --rx-amber-light: #fef3c7;
+    --rx-red: #ef4444;
+    --rx-red-light: #fee2e2;
+    --rx-purple: #8b5cf6;
+    --rx-purple-light: #ede9fe;
+
+    /* Surface */
+    --rx-surface: #ffffff;
+    --rx-surface-alt: #f8fafc;
+    --rx-border: #e2e8f0;
+    --rx-muted: #94a3b8;
+    --rx-text: #0f172a;
+    --rx-text-sec: #475569;
+
+    /* Shadows */
+    --rx-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --rx-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.09);
+    --rx-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.14);
+    --rx-shadow-xl: 0 32px 80px rgba(0, 0, 0, 0.18);
+
+    /* Motion */
+    --rx-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --rx-dur-fast: 150ms;
+    --rx-dur-base: 250ms;
+    --rx-dur-slow: 400ms;
+}
+
+
+/* ============================================================================
+ * 2. PAGE HERO BANNER
+ * ============================================================================ */
+.rx-hero {
+    background: linear-gradient(135deg, #065f46 0%, #10b981 55%, #34d399 100%);
+    padding: 48px 0 100px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated decorative orbs */
+.rx-hero::before,
+.rx-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    animation: rxOrbFloat 9s ease-in-out infinite alternate;
+}
+
+.rx-hero::before {
+    width: 360px;
+    height: 360px;
+    top: -120px;
+    right: -80px;
+    animation-delay: -4s;
+}
+
+.rx-hero::after {
+    width: 220px;
+    height: 220px;
+    bottom: -60px;
+    left: -50px;
+    animation-delay: -7s;
+}
+
+@keyframes rxOrbFloat {
+    from {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    to {
+        transform: translate(16px, 12px) scale(1.07) rotate(8deg);
+    }
+}
+
+/* Pull-up container overlap */
+.rx-pull-up {
+    margin-top: -60px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Hero typography */
+.rx-hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.rx-hero h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.rx-hero-sub {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* Hero action pill */
+.rx-hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 7px 16px 7px 12px;
+    border-radius: 100px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background var(--rx-dur-base);
+}
+
+.rx-hero-pill:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+
+/* ============================================================================
+ * 3. STORAGE GAUGE BAR
+ * ============================================================================ */
+.rx-storage-bar-wrap {
+    background: var(--rx-surface);
+    border: 1px solid var(--rx-border);
+    border-radius: 20px;
+    padding: 18px 22px;
+    box-shadow: var(--rx-shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.rx-storage-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--rx-green-light);
+    color: var(--rx-green);
+    display: grid;
+    place-items: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.rx-storage-info {
+    flex: 1;
+    min-width: 140px;
+}
+
+.rx-storage-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--rx-text-sec);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.rx-storage-track {
+    height: 8px;
+    background: var(--rx-border);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.rx-storage-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--rx-green) 0%, var(--rx-teal) 100%);
+    transition: width 0.6s var(--rx-ease);
+}
+
+.rx-storage-fill.warn {
+    background: linear-gradient(90deg, var(--rx-amber), #ef8c0a);
+}
+
+.rx-storage-fill.full {
+    background: linear-gradient(90deg, var(--rx-red), #c2410c);
+}
+
+.rx-storage-pct {
+    font-size: 0.75rem;
+    color: var(--rx-muted);
+    margin-top: 4px;
+}
+
+.rx-storage-count {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--rx-text);
+    white-space: nowrap;
+}
+
+.rx-storage-count-label {
+    font-size: 0.72rem;
+    color: var(--rx-muted);
+}
+
+
+/* ============================================================================
+ * 4. UPLOAD ZONE (DRAG & DROP)
+ * ============================================================================ */
+.rx-upload-zone {
+    position: relative;
+    border: 2.5px dashed var(--rx-border);
+    border-radius: 24px;
+    background: var(--rx-surface-alt);
+    padding: 48px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color var(--rx-dur-base) var(--rx-ease),
+        background var(--rx-dur-base) var(--rx-ease),
+        transform var(--rx-dur-base) var(--rx-ease);
+    user-select: none;
+}
+
+.rx-upload-zone:hover,
+.rx-upload-zone:focus-within {
+    border-color: var(--rx-green);
+    background: var(--rx-green-light);
+    transform: scale(1.005);
+}
+
+/* Active drag-over state */
+.rx-upload-zone.drag-over {
+    border-color: var(--rx-green);
+    background: rgba(16, 185, 129, 0.08);
+    transform: scale(1.015);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+/* Hidden real file input */
+.rx-file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+/* Upload icon animation */
+.rx-upload-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 24px;
+    background: var(--rx-green-light);
+    color: var(--rx-green);
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    margin: 0 auto 20px;
+    transition: transform var(--rx-dur-base) var(--rx-ease);
+}
+
+.rx-upload-zone:hover .rx-upload-icon,
+.rx-upload-zone.drag-over .rx-upload-icon {
+    transform: translateY(-6px) scale(1.1);
+    background: var(--rx-green);
+    color: #fff;
+}
+
+.rx-upload-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--rx-text);
+    margin-bottom: 6px;
+}
+
+.rx-upload-sub {
+    font-size: 0.82rem;
+    color: var(--rx-muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* File type badges */
+.rx-file-types {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.rx-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.rx-type-badge.jpg {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.rx-type-badge.png {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.rx-type-badge.pdf {
+    background: #fdf4ff;
+    color: #9333ea;
+}
+
+.rx-type-badge.webp {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+/* Upload progress bar (shown during base64 processing) */
+.rx-upload-progress {
+    margin-top: 16px;
+    display: none;
+}
+
+.rx-upload-progress.visible {
+    display: block;
+}
+
+.rx-progress-track {
+    height: 6px;
+    background: var(--rx-border);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.rx-progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--rx-green), var(--rx-teal));
+    width: 0%;
+    transition: width 0.3s var(--rx-ease);
+}
+
+.rx-upload-progress-label {
+    font-size: 0.75rem;
+    color: var(--rx-muted);
+    margin-top: 6px;
+}
+
+/* Preview strip — thumbnails of files selected before save */
+.rx-preview-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+    justify-content: center;
+}
+
+.rx-preview-thumb {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid var(--rx-border);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: transform var(--rx-dur-base);
+}
+
+.rx-preview-thumb:hover {
+    transform: scale(1.05);
+}
+
+.rx-preview-pdf {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    background: var(--rx-purple-light);
+    display: grid;
+    place-items: center;
+    font-size: 1.8rem;
+    color: var(--rx-purple);
+    border: 2px solid var(--rx-border);
+    flex-shrink: 0;
+}
+
+/* Remove button on preview thumb */
+.rx-remove-preview {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    font-size: 0.65rem;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity var(--rx-dur-fast);
+}
+
+.rx-preview-thumb:hover .rx-remove-preview {
+    opacity: 1;
+}
+
+
+/* ============================================================================
+ * 5. METADATA FORM CARD
+ * ============================================================================ */
+.rx-form-card {
+    background: var(--rx-surface);
+    border: 1.5px solid var(--rx-border);
+    border-top: 4px solid var(--rx-green);
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: var(--rx-shadow-sm);
+    transition: box-shadow var(--rx-dur-base);
+}
+
+.rx-form-card:hover {
+    box-shadow: var(--rx-shadow-md);
+}
+
+.rx-form-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.rx-form-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--rx-green-light);
+    color: var(--rx-green);
+    display: grid;
+    place-items: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.rx-form-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--rx-text);
+    margin: 0;
+}
+
+.rx-form-sub {
+    font-size: 0.75rem;
+    color: var(--rx-muted);
+    margin: 0;
+}
+
+/* Input styles (reused pattern from health-tracker) */
+.rx-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rx-input,
+.rx-select,
+.rx-textarea {
+    width: 100%;
+    border: 1.5px solid var(--rx-border);
+    border-radius: 14px;
+    padding: 0 16px;
+    font-size: 0.9rem;
+    color: var(--rx-text);
+    background: var(--rx-surface-alt);
+    outline: none;
+    transition: border-color var(--rx-dur-fast) var(--rx-ease),
+        box-shadow var(--rx-dur-fast) var(--rx-ease);
+    font-family: inherit;
+}
+
+.rx-input {
+    height: 48px;
+}
+
+.rx-select {
+    height: 48px;
+    appearance: none;
+    background: var(--rx-surface-alt) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+    cursor: pointer;
+}
+
+.rx-textarea {
+    min-height: 80px;
+    padding: 12px 16px;
+    resize: vertical;
+}
+
+.rx-input:focus,
+.rx-select:focus,
+.rx-textarea:focus {
+    border-color: var(--rx-green);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    background: #fff;
+}
+
+.rx-input-group {
+    margin-bottom: 16px;
+}
+
+/* Medication tag chips inside a textarea-like box */
+.rx-med-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--rx-border);
+    border-radius: 14px;
+    background: var(--rx-surface-alt);
+    min-height: 52px;
+    align-items: center;
+    cursor: text;
+    transition: border-color var(--rx-dur-fast);
+}
+
+.rx-med-tags:focus-within {
+    border-color: var(--rx-green);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.rx-med-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--rx-green-light);
+    color: var(--rx-green-dark);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 8px 3px 10px;
+    border-radius: 100px;
+    animation: rxTagPop 0.2s var(--rx-ease);
+}
+
+@keyframes rxTagPop {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.rx-med-tag button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--rx-green-dark);
+    font-size: 0.8rem;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity var(--rx-dur-fast);
+}
+
+.rx-med-tag button:hover {
+    opacity: 1;
+}
+
+.rx-med-tag-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.85rem;
+    color: var(--rx-text);
+    min-width: 120px;
+    flex: 1;
+    font-family: inherit;
+}
+
+/* Urgency / Category select colours */
+.rx-urgency-normal {
+    color: var(--rx-green-dark);
+}
+
+.rx-urgency-followup {
+    color: #b45309;
+}
+
+.rx-urgency-urgent {
+    color: var(--rx-red);
+}
+
+/* Submit button */
+.rx-btn-save {
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--rx-green) 0%, #059669 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+    transition: transform var(--rx-dur-fast) var(--rx-ease),
+        box-shadow var(--rx-dur-fast) var(--rx-ease);
+}
+
+.rx-btn-save:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+}
+
+.rx-btn-save:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.rx-btn-save:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+
+/* ============================================================================
+ * 6. PRESCRIPTION CARD GALLERY
+ * ============================================================================ */
+
+/* Search & filter row */
+.rx-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.rx-search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+}
+
+.rx-search-wrap i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rx-muted);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.rx-search-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px 0 40px;
+    border: 1.5px solid var(--rx-border);
+    border-radius: 14px;
+    font-size: 0.88rem;
+    background: var(--rx-surface);
+    outline: none;
+    transition: border-color var(--rx-dur-fast);
+    font-family: inherit;
+    color: var(--rx-text);
+}
+
+.rx-search-input:focus {
+    border-color: var(--rx-green);
+}
+
+/* Category filter pills */
+.rx-filter-pills {
+    display: flex;
+    gap: 4px;
+    background: var(--rx-surface-alt);
+    border: 1px solid var(--rx-border);
+    border-radius: 12px;
+    padding: 3px;
+    flex-shrink: 0;
+}
+
+.rx-filter-pill {
+    padding: 6px 14px;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--rx-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--rx-dur-fast);
+    white-space: nowrap;
+}
+
+.rx-filter-pill.active {
+    background: #fff;
+    color: var(--rx-green-dark);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sort dropdown */
+.rx-sort-select {
+    height: 44px;
+    padding: 0 32px 0 12px;
+    border: 1.5px solid var(--rx-border);
+    border-radius: 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: var(--rx-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394a3b8' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+    color: var(--rx-text-sec);
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Gallery grid */
+.rx-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+
+/* ============================================================================
+ * 7. PRESCRIPTION CARD
+ * ============================================================================ */
+.rx-card {
+    background: var(--rx-surface);
+    border: 1px solid var(--rx-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--rx-shadow-sm);
+    transition: transform var(--rx-dur-base) var(--rx-ease),
+        box-shadow var(--rx-dur-base) var(--rx-ease);
+    animation: rxCardIn var(--rx-dur-slow) var(--rx-ease) both;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes rxCardIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.rx-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--rx-shadow-md);
+}
+
+/* Thumbnail area */
+.rx-card-thumb {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: var(--rx-surface-alt);
+}
+
+.rx-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--rx-dur-slow) var(--rx-ease);
+}
+
+.rx-card:hover .rx-card-thumb img {
+    transform: scale(1.06);
+}
+
+/* PDF thumb placeholder */
+.rx-card-thumb-pdf {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #fdf4ff, #ede9fe);
+}
+
+.rx-card-thumb-pdf i {
+    font-size: 3rem;
+    color: var(--rx-purple);
+    opacity: 0.7;
+}
+
+.rx-card-thumb-pdf span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--rx-purple);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Overlay on hover — open button */
+.rx-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--rx-dur-base) var(--rx-ease);
+}
+
+.rx-card-thumb:hover .rx-thumb-overlay {
+    opacity: 1;
+}
+
+.rx-open-btn {
+    background: rgba(255, 255, 255, 0.92);
+    border: none;
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--rx-green-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: transform var(--rx-dur-fast);
+}
+
+.rx-open-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Urgency ribbon */
+.rx-card-ribbon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.rx-card-ribbon.normal {
+    background: var(--rx-green-light);
+    color: var(--rx-green-dark);
+}
+
+.rx-card-ribbon.followup {
+    background: var(--rx-amber-light);
+    color: #92400e;
+}
+
+.rx-card-ribbon.urgent {
+    background: var(--rx-red-light);
+    color: #991b1b;
+}
+
+/* Multiple files badge */
+.rx-files-count {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 100px;
+}
+
+/* Card body */
+.rx-card-body {
+    padding: 14px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.rx-card-doctor {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--rx-text);
+    margin: 0 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rx-card-clinic {
+    font-size: 0.75rem;
+    color: var(--rx-muted);
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rx-card-meds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.rx-card-med-chip {
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: var(--rx-teal-light);
+    color: var(--rx-teal);
+    padding: 2px 8px;
+    border-radius: 100px;
+}
+
+.rx-card-med-more {
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: var(--rx-border);
+    color: var(--rx-muted);
+    padding: 2px 8px;
+    border-radius: 100px;
+}
+
+/* Card footer row */
+.rx-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--rx-border);
+}
+
+.rx-card-date {
+    font-size: 0.72rem;
+    color: var(--rx-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.rx-card-refill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 100px;
+}
+
+.rx-card-refill.due {
+    background: var(--rx-red-light);
+    color: #991b1b;
+}
+
+.rx-card-refill.soon {
+    background: var(--rx-amber-light);
+    color: #92400e;
+}
+
+.rx-card-refill.ok {
+    background: var(--rx-green-light);
+    color: var(--rx-green-dark);
+}
+
+/* Card action buttons */
+.rx-card-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.rx-card-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: grid;
+    place-items: center;
+    transition: all var(--rx-dur-fast);
+}
+
+.rx-card-btn.view {
+    background: var(--rx-green-light);
+    color: var(--rx-green-dark);
+}
+
+.rx-card-btn.del {
+    background: var(--rx-red-light);
+    color: #b91c1c;
+}
+
+.rx-card-btn.view:hover {
+    background: var(--rx-green);
+    color: #fff;
+}
+
+.rx-card-btn.del:hover {
+    background: var(--rx-red);
+    color: #fff;
+}
+
+
+/* ============================================================================
+ * 8. LIGHTBOX / FULL-SCREEN VIEWER
+ * ============================================================================ */
+.rx-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--rx-dur-base) var(--rx-ease);
+}
+
+.rx-lightbox.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Inner frame */
+.rx-lightbox-frame {
+    position: relative;
+    max-width: 900px;
+    max-height: 90vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.9) translateY(20px);
+    transition: transform var(--rx-dur-slow) var(--rx-ease);
+}
+
+.rx-lightbox.open .rx-lightbox-frame {
+    transform: scale(1) translateY(0);
+}
+
+/* Top bar in lightbox */
+.rx-lightbox-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px 20px 0 0;
+    backdrop-filter: blur(12px);
+    flex-wrap: wrap;
+}
+
+.rx-lightbox-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.rx-lightbox-meta {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.rx-lightbox-actions {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.rx-lb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--rx-dur-fast);
+}
+
+.rx-lb-btn.download {
+    background: var(--rx-green);
+    color: #fff;
+}
+
+.rx-lb-btn.close {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.rx-lb-btn:hover {
+    opacity: 0.85;
+}
+
+/* Image display */
+.rx-lightbox-img {
+    max-width: 100%;
+    max-height: calc(90vh - 100px);
+    object-fit: contain;
+    border-radius: 0 0 20px 20px;
+    display: block;
+    background: #111;
+}
+
+/* PDF iframe */
+.rx-lightbox-pdf {
+    width: 100%;
+    height: calc(90vh - 100px);
+    border: none;
+    border-radius: 0 0 20px 20px;
+    background: #fff;
+}
+
+/* Prev / Next navigation */
+.rx-lb-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background var(--rx-dur-fast);
+    backdrop-filter: blur(4px);
+}
+
+.rx-lb-nav:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.rx-lb-prev {
+    left: -56px;
+}
+
+.rx-lb-next {
+    right: -56px;
+}
+
+/* File strip (multiple files per prescription) */
+.rx-lb-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 0 2px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.rx-lb-strip-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: all var(--rx-dur-fast);
+}
+
+.rx-lb-strip-thumb.active,
+.rx-lb-strip-thumb:hover {
+    border-color: var(--rx-green);
+    opacity: 1;
+}
+
+.rx-lb-strip-pdf-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    background: var(--rx-purple-light);
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    color: var(--rx-purple);
+    border: 2px solid transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: all var(--rx-dur-fast);
+}
+
+.rx-lb-strip-pdf-thumb.active,
+.rx-lb-strip-pdf-thumb:hover {
+    border-color: var(--rx-purple);
+    opacity: 1;
+}
+
+
+/* ============================================================================
+ * 9. SHARE & EXPORT PANEL
+ * ============================================================================ */
+.rx-share-card {
+    background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+    border-radius: 24px;
+    padding: 28px 24px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.rx-share-card::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.rx-share-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    position: relative;
+}
+
+.rx-share-sub {
+    font-size: 0.82rem;
+    opacity: 0.82;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.rx-share-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+}
+
+.rx-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all var(--rx-dur-fast) var(--rx-ease);
+}
+
+.rx-share-btn:hover {
+    transform: translateY(-1px);
+}
+
+.rx-share-btn.json {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.rx-share-btn.link {
+    background: #fff;
+    color: #065f46;
+}
+
+.rx-share-btn.print {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.rx-share-btn.json:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.rx-share-btn.print:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.rx-share-btn.link:hover {
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.4);
+}
+
+/* Copy link row */
+.rx-link-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    position: relative;
+}
+
+.rx-link-input {
+    flex: 1;
+    height: 42px;
+    border: none;
+    border-radius: 12px;
+    padding: 0 12px;
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: #374151;
+    background: rgba(255, 255, 255, 0.95);
+    outline: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.rx-copy-btn {
+    height: 42px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: #fff;
+    color: #065f46;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all var(--rx-dur-fast);
+    white-space: nowrap;
+}
+
+.rx-copy-btn:hover {
+    background: #d1fae5;
+}
+
+.rx-copy-btn.copied {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+
+/* ============================================================================
+ * 10. FAMILY MONITOR CARD
+ * ============================================================================ */
+.rx-family-card {
+    background: var(--rx-surface);
+    border: 1.5px solid var(--rx-border);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: var(--rx-shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.rx-family-avatars {
+    display: flex;
+}
+
+.rx-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    background: linear-gradient(135deg, #10b981, #065f46);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 1rem;
+    margin-right: -10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    flex-shrink: 0;
+}
+
+.rx-avatar:nth-child(2) {
+    background: linear-gradient(135deg, #2196f3, #1769aa);
+}
+
+.rx-avatar:nth-child(3) {
+    background: linear-gradient(135deg, #f59e0b, #b45309);
+}
+
+.rx-family-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--rx-text);
+    margin: 0;
+}
+
+.rx-family-desc {
+    font-size: 0.8rem;
+    color: var(--rx-text-sec);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Import JSON section */
+.rx-import-wrap {
+    border: 1.5px dashed var(--rx-border);
+    border-radius: 14px;
+    padding: 14px;
+    text-align: center;
+    background: var(--rx-surface-alt);
+    transition: border-color var(--rx-dur-fast);
+    cursor: pointer;
+    position: relative;
+}
+
+.rx-import-wrap:hover {
+    border-color: var(--rx-green);
+}
+
+.rx-import-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.rx-import-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--rx-green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.rx-import-sub {
+    font-size: 0.72rem;
+    color: var(--rx-muted);
+    margin-top: 3px;
+}
+
+
+/* ============================================================================
+ * 11. TOAST NOTIFICATIONS (prescription-specific)
+ * ============================================================================ */
+.rx-toast-stack {
+    position: fixed;
+    top: 80px;
+    right: 16px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.rx-toast {
+    min-width: 260px;
+    max-width: 340px;
+    background: #fff;
+    border: 1px solid var(--rx-border);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    box-shadow: var(--rx-shadow-md);
+    pointer-events: auto;
+    animation: rxToastIn var(--rx-dur-slow) var(--rx-ease);
+}
+
+@keyframes rxToastIn {
+    from {
+        opacity: 0;
+        transform: translateX(40px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.rx-toast.rx-toast-out {
+    animation: rxToastOut var(--rx-dur-slow) var(--rx-ease) forwards;
+}
+
+@keyframes rxToastOut {
+    to {
+        opacity: 0;
+        transform: translateX(40px) scale(0.9);
+    }
+}
+
+.rx-toast-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.rx-toast.success .rx-toast-icon {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.rx-toast.error .rx-toast-icon {
+    background: var(--rx-red-light);
+    color: #b91c1c;
+}
+
+.rx-toast.info .rx-toast-icon {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.rx-toast.warn .rx-toast-icon {
+    background: var(--rx-amber-light);
+    color: #b45309;
+}
+
+.rx-toast-ttl {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--rx-text);
+    margin: 0 0 2px;
+}
+
+.rx-toast-msg {
+    font-size: 0.72rem;
+    color: var(--rx-muted);
+    margin: 0;
+}
+
+
+/* ============================================================================
+ * 12. EMPTY STATE
+ * ============================================================================ */
+.rx-empty {
+    grid-column: 1 / -1;
+    padding: 56px 24px;
+    text-align: center;
+    color: var(--rx-muted);
+}
+
+.rx-empty-icon {
+    font-size: 3.5rem;
+    opacity: 0.4;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.rx-empty-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.rx-empty-desc {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+
+/* ============================================================================
+ * 13. RESPONSIVE OVERRIDES (≤ 768px)
+ * ============================================================================ */
+@media (max-width: 768px) {
+    .rx-hero {
+        padding: 36px 0 80px;
+    }
+
+    .rx-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .rx-pull-up {
+        margin-top: -40px;
+    }
+
+    .rx-upload-zone {
+        padding: 32px 16px;
+    }
+
+    .rx-upload-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.5rem;
+    }
+
+    .rx-form-card {
+        padding: 20px 16px;
+        border-radius: 20px;
+    }
+
+    .rx-share-card {
+        padding: 20px 16px;
+    }
+
+    .rx-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+    }
+
+    .rx-card-thumb {
+        height: 120px;
+    }
+
+    .rx-lb-prev,
+    .rx-lb-next {
+        display: none;
+    }
+
+    .rx-lightbox-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rx-lightbox-actions {
+        margin-left: 0;
+    }
+
+    .rx-share-btn-row {
+        flex-direction: column;
+    }
+
+    .rx-share-btn {
+        justify-content: center;
+    }
+
+    body {
+        padding-bottom: 76px;
+    }
+}
+
+@media (max-width: 400px) {
+    .rx-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .rx-filter-pills {
+        display: none;
+    }
+}
+
+
+/* ============================================================================
+ * 14. PRINT STYLES
+ * ============================================================================ */
+@media print {
+
+    .rx-hero,
+    .rx-share-card,
+    .rx-family-card,
+    .rx-upload-zone,
+    .rx-form-card,
+    .rx-filter-bar,
+    .rx-pull-up,
+    .mobile-bottom-nav,
+    nav.navbar,
+    .rx-lightbox {
+        display: none !important;
+    }
+
+    .rx-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .rx-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    body {
+        padding-bottom: 0 !important;
+    }
+}
+
+
+/* ============================================================================
+ * OCR STATUS BANNER  (injected by rxProcessOCR after image upload)
+ * ============================================================================ */
+
+/** Base strip shown below upload zone during and after OCR analysis */
+.rx-ocr-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 12px;
+  transition: opacity 0.3s ease;
+}
+
+/** Loading state — blue */
+.rx-ocr-status.loading {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/** Success state — green */
+.rx-ocr-status.success {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/** Error state — red */
+.rx-ocr-status.error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/** Spinning dots indicator shown during loading */
+.rx-ocr-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: rxSpinAnim 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes rxSpinAnim {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ============================================================================
+ * SUPPLEMENTAL STYLES — classes used by prescriptions.html
+ * Added to complement the existing prescriptions.css design system
+ * ============================================================================ */
+
+/* ── Hero Section ─────────────────────────────────────────────────────────── */
+
+/** Hero animated particle dots */
+.rx-hero-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  animation: rxParticleFloat 6s ease-in-out infinite alternate;
+}
+.rx-hero-particle.p1 { width: 120px; height: 120px; top: 10%; right: 5%; animation-duration: 7s; }
+.rx-hero-particle.p2 { width: 70px;  height: 70px;  bottom: 20%; left: 8%; animation-duration: 5s; }
+.rx-hero-particle.p3 { width: 45px;  height: 45px;  top: 50%;   right: 25%; animation-duration: 9s; }
+
+@keyframes rxParticleFloat {
+  from { transform: translateY(0) scale(1); }
+  to   { transform: translateY(-24px) scale(1.08); }
+}
+
+/** Hero text elements */
+.rx-hero-title {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.rx-hero-sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.88);
+  max-width: 540px;
+}
+
+/** Pill action buttons in the hero */
+.rx-hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.rx-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: 2px solid rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  backdrop-filter: blur(4px);
+}
+.rx-hero-pill:hover {
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,255,255,0.8);
+  transform: translateY(-2px);
+}
+.rx-hero-pill.primary {
+  background: rgba(255,255,255,0.9);
+  color: var(--clr-primary, #1769aa);
+  border-color: transparent;
+}
+.rx-hero-pill.primary:hover {
+  background: #fff;
+}
+
+/** Decorative icon in hero right column */
+.rx-hero-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+}
+.rx-hero-icon {
+  font-size: 5rem;
+  color: rgba(255,255,255,0.9);
+  position: relative;
+  z-index: 2;
+  animation: rxIconPulse 3s ease-in-out infinite;
+}
+@keyframes rxIconPulse {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+.rx-hero-icon-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.25);
+  animation: rxRingExpand 3s ease-out infinite;
+}
+.rx-hero-icon-ring.r1 { width: 120px; height: 120px; }
+.rx-hero-icon-ring.r2 { width: 160px; height: 160px; animation-delay: 1s; }
+
+@keyframes rxRingExpand {
+  0%   { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.1); opacity: 0;   }
+}
+
+/* ── Storage Gauge Card ───────────────────────────────────────────────────── */
+
+.rx-storage-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  border: 1px solid #e5e9f0;
+}
+.rx-storage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+.rx-storage-label { display: flex; align-items: center; color: #64748b; }
+.rx-storage-meta  { color: #374151; }
+
+.rx-storage-bar-wrap {
+  height: 8px;
+  background: #e5e9f0;
+  border-radius: 50px;
+  overflow: hidden;
+}
+.rx-storage-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2ecc71, #1769aa);
+  border-radius: 50px;
+  transition: width 0.6s ease;
+  min-width: 2px;
+}
+
+/* ── Section Layout ───────────────────────────────────────────────────────── */
+
+.rx-section { padding: 3.5rem 0; }
+.rx-section-alt { background: #f8fafc; }
+
+.rx-section-heading {
+  margin-bottom: 2rem;
+}
+.rx-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+.rx-section-sub {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ── Upload Zone Enhancements ─────────────────────────────────────────────── */
+
+/** File format pills shown inside upload zone */
+.rx-upload-formats {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  margin: 0.5rem 0 1rem;
+}
+.rx-format-pill {
+  background: rgba(23,105,170,0.1);
+  color: #1769aa;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 50px;
+  letter-spacing: 0.04em;
+}
+
+/** "Browse files" button inside upload zone */
+.rx-pick-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.4rem;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #1769aa, #2196f3);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 14px rgba(23,105,170,0.3);
+  margin-top: 0.25rem;
+}
+.rx-pick-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(23,105,170,0.4);
+}
+
+/** Small informational note below upload zone */
+.rx-upload-note {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Form input helpers ───────────────────────────────────────────────────── */
+
+/** Wrapper that positions a leading icon inside the input */
+.rx-input-wrap {
+  position: relative;
+}
+.rx-input-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 0.95rem;
+  pointer-events: none;
+  z-index: 2;
+}
+/* Shift input text right to clear the icon */
+.rx-input-wrap .rx-input {
+  padding-left: 2.4rem;
+}
+
+/** Medication tags container */
+.rx-med-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  min-height: 48px;
+  background: var(--input-bg, #f1f5f9);
+  border: 1.5px solid #d1d9e0;
+  border-radius: 12px;
+  padding: 0.4rem 0.75rem;
+  cursor: text;
+  transition: border-color 0.2s;
+}
+.rx-med-tags-wrap:focus-within {
+  border-color: #1769aa;
+  background: #fff;
+}
+
+/** Text input inside the tags container */
+.rx-med-input {
+  flex: 1;
+  min-width: 140px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+  font-family: inherit;
+  color: #1e293b;
+}
+
+/** Hint text under a form field */
+.rx-field-hint {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0.3rem 0 0;
+}
+
+/** Primary save button */
+.rx-save-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #1769aa, #2196f3);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 6px 20px rgba(23,105,170,0.35);
+  width: 100%;
+  justify-content: center;
+}
+.rx-save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(23,105,170,0.45);
+}
+
+/* ── Gallery / Filter Toolbar ─────────────────────────────────────────────── */
+
+.rx-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/** Search input container */
+.rx-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+.rx-search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+/** Sort select container */
+.rx-sort-wrap {
+  position: relative;
+}
+.rx-sort-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+.rx-sort-select {
+  padding-left: 2.4rem !important;
+}
+
+/* ── Share Card elements ──────────────────────────────────────────────────── */
+
+.rx-share-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+}
+.rx-share-card-sub {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+/** Row of export/share action buttons */
+.rx-share-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1.5px solid #d1d9e0;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.rx-share-action-btn:hover {
+  background: #f0f7ff;
+  border-color: #1769aa;
+  color: #1769aa;
+  transform: translateY(-1px);
+}
+
+/** URL input + copy button row */
+.rx-share-url-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.rx-url-input {
+  flex: 1;
+  border: 1.5px solid #d1d9e0;
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.82rem;
+  color: #374151;
+  background: #f8fafc;
+  min-width: 0;
+}
+
+/** Informational note text below share URL */
+.rx-link-note {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/** Family import hint */
+.rx-import-hint {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0.4rem 0 0;
+}
+
+/* ── Lightbox Enhancements ────────────────────────────────────────────────── */
+
+/** Info block (title + meta) inside lightbox top bar */
+.rx-lb-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/** Viewer area — image or PDF embed fills this */
+.rx-lb-viewer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #0d0d0d;
+  border-radius: 0 0 16px 16px;
+}
+.rx-lb-viewer img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.rx-lb-viewer embed,
+.rx-lb-viewer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+.rx-footer {
+  background: #0f172a;
+  color: rgba(255,255,255,0.7);
+  padding: 2.5rem 0 5rem; /* extra bottom for mobile nav */
+}
+.rx-footer-brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.rx-footer-tag {
+  font-size: 0.9rem;
+  margin: 0 0 0.25rem;
+}
+.rx-footer-disclaimer {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+}
+
+/* ── Responsive overrides ─────────────────────────────────────────────────── */
+
+@media (max-width: 991.98px) {
+  .rx-hero-title { font-size: 1.8rem; }
+  .rx-toolbar { flex-direction: column; align-items: stretch; }
+  .rx-search-wrap { min-width: unset; }
+  .rx-share-url-row { flex-direction: column; }
+}
+
+@media (max-width: 575.98px) {
+  .rx-hero-pills { flex-direction: column; }
+  .rx-hero-pill  { justify-content: center; }
+  .rx-save-btn   { font-size: 0.95rem; }
+}
