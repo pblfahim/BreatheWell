@@ -5,26 +5,27 @@
   Description:
     Day-wise Blood Pressure & Diabetes (Blood Glucose) Health Tracker.
     Fully client-side, localStorage-based health logging with bilingual
-    (Bengali/English) support, interactive SVG charts, CSV/JSON export,
-    and a family-sharing mechanism via encoded URLs and optional PIN lock.
+    (Bengali/English) support, interactive live diagnostic spectrum meters,
+    smart 7-day health insights, SVG line charts with hover tooltips and
+    safe-zone highlights, one-click WhatsApp family sharing, stepper controls,
+    and a family monitoring system with PIN authentication.
 
   Architecture & Semantic Landmarks:
     - Skip Link: Accessibility bypass mechanism for keyboard users.
     - Navbar: Desktop sticky navigation bar with active state.
-    - Hero Banner: Gradient page header with animated bubbles.
+    - Hero Banner: Gradient page header with animated floating badges & quick action ribbon.
     - Pull-up Stats Row: 4 live summary cards (Latest BP, BG, Today, Streak).
-    - Entry Forms: Blood Pressure form & Blood Glucose form side by side.
-    - Trend Charts: SVG line charts for last 14 days of readings.
-    - History Log: Sortable, filterable table with pagination.
-    - Share Panel: CSV / JSON export, copy share URL, print, family PIN.
-    - Mobile Bottom Nav: Native app-style bottom drawer for ≤ 992px.
-    - Toast Stack: Non-blocking notification system.
-
-  Family Monitor Feature:
-    - Set a 4-digit PIN; share the auto-generated URL with family members.
-    - Opening the URL with ?view=... renders a read-only history table;
-      no edit controls are shown in view mode.
-    - No server or account required — entirely browser-based.
+    - Smart Health Insights Banner: Automated 7-day analytics & mindfulness link.
+    - Form Mode Switcher: Responsive segmented pill toggle (BP / BG / Side-by-side).
+    - Entry Forms:
+        * Blood Pressure form with quick steppers, preset pills, arm selector, and live spectrum meter.
+        * Blood Glucose form with timing cards, mmol/L converter, steppers, and live range meter.
+    - Trend Charts: Responsive SVG charts with timeframe buttons & hover tooltips.
+    - History Log: Filterable, paginated table with real-time text search & demo loader.
+    - Family WhatsApp & Export Panel: Instant message generator, CSV, JSON, print.
+    - Family Monitor Lock Card: 4-digit PIN authentication & read-only URL view mode.
+    - Mobile Bottom Nav: Native app-style bottom drawer for screens ≤ 992px.
+    - Toast Stack: Non-blocking accessible alert notifications.
 
   Dependencies:
     - Bootstrap 5.3.3 CSS & JS bundle (CDN)
@@ -43,8 +44,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1769aa">
   <meta name="description"
-    content="BreatheWell — দৈনিক রক্তচাপ ও ডায়াবেটিস ট্র্যাকার। পরিবারের সাথে শেয়ার করুন।">
-  <title>BreatheWell | স্বাস্থ্য ট্র্যাকার</title>
+    content="BreatheWell — দৈনিক রক্তচাপ ও ডায়াবেটিস ট্র্যাকার। লাইভ স্পেকট্রাম নির্দেশক, ট্রেন্ড চার্ট ও পরিবারের সাথে সরাসরি হোয়াটসঅ্যাপে শেয়ার।">
+  <title>BreatheWell | স্বাস্থ্য ট্র্যাকার ও পারিবারিক মনিটরিং</title>
   <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,7 +90,7 @@
 
   <main id="main">
     <!-- ======================================================================
-         2. PAGE HERO BANNER
+         2. PAGE HERO BANNER WITH FLOATING WELLNESS BADGES & QUICK ACTIONS
          ====================================================================== -->
     <div class="ht-page-hero">
       <div class="container">
@@ -104,19 +105,57 @@
             </div>
             <h1 data-ht-i18n="pageHeadline">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</h1>
             <p class="ht-hero-sub" data-ht-i18n="pageSub">
-              প্রতিদিনের রিডিং লিখে রাখুন। পরিবারের সদস্যদের সাথে শেয়ার করুন।
+              প্রতিদিনের রক্তচাপ ও ব্লাড সুগার সহজে ট্র্যাক করুন, লাইভ বিশ্লেষণ দেখুন এবং পরিবারকে নিরাপদে পাঠান।
             </p>
+
+            <!-- Floating Health Badges -->
+            <div class="ht-float-badges">
+              <div class="ht-float-pill">
+                <i class="bi bi-heart-pulse-fill text-danger"></i>
+                <span data-ht-i18n="heroPillBP">রক্তচাপ ট্র্যাকিং</span>
+              </div>
+              <div class="ht-float-pill">
+                <i class="bi bi-droplet-fill text-purple" style="color:#8b5cf6"></i>
+                <span data-ht-i18n="heroPillBG">সুগার পর্যবেক্ষণ</span>
+              </div>
+              <div class="ht-float-pill">
+                <i class="bi bi-people-fill text-success"></i>
+                <span data-ht-i18n="heroPillFamily">পারিবারিক সংযোগ</span>
+              </div>
+            </div>
+
+            <!-- Quick Action Shortcuts Ribbon -->
+            <div class="ht-quick-nav-bar">
+              <button class="ht-quick-nav-btn primary" onclick="document.getElementById('entrySection').scrollIntoView({behavior:'smooth'})">
+                <span data-ht-i18n="quickNavAdd">➕ নতুন রিডিং</span>
+              </button>
+              <button class="ht-quick-nav-btn" onclick="document.getElementById('chartsSection').scrollIntoView({behavior:'smooth'})">
+                <span data-ht-i18n="quickNavCharts">📈 ট্রেন্ড চার্ট</span>
+              </button>
+              <button class="ht-quick-nav-btn" onclick="document.getElementById('historySection').scrollIntoView({behavior:'smooth'})">
+                <span data-ht-i18n="quickNavLog">📋 ইতিহাস লগ</span>
+              </button>
+              <button class="ht-quick-nav-btn" onclick="document.getElementById('shareSection').scrollIntoView({behavior:'smooth'})">
+                <span data-ht-i18n="quickNavShare">📲 পরিবারকে পাঠান</span>
+              </button>
+              <button class="ht-quick-nav-btn" id="btnLoadDemo">
+                <span data-ht-i18n="quickNavDemo">🧪 নমুনা ডেটা</span>
+              </button>
+            </div>
           </div>
+
           <div class="col-lg-4 text-lg-end">
-            <div class="d-flex flex-wrap gap-2 justify-content-lg-end mt-3 mt-lg-0">
-              <span class="ht-family-pill" onclick="document.getElementById('shareSection').scrollIntoView({behavior:'smooth'})">
-                <i class="bi bi-people-fill"></i>
-                <span data-ht-i18n="shareTitle">পরিবারের সাথে শেয়ার করুন</span>
-              </span>
-              <span class="ht-family-pill" onclick="htExportCSV()">
+            <div class="d-flex flex-column gap-2 align-items-lg-end">
+              <button class="btn btn-light text-primary fw-bold rounded-pill px-4 py-2 shadow-sm d-inline-flex align-items-center gap-2"
+                onclick="htShareWhatsApp()">
+                <i class="bi bi-whatsapp text-success fs-5"></i>
+                <span data-ht-i18n="btnWhatsAppShare">ছেলে/মেয়েকে WhatsApp-এ পাঠান</span>
+              </button>
+              <button class="btn btn-outline-light rounded-pill px-3 py-1.5 small d-inline-flex align-items-center gap-2"
+                onclick="htExportCSV()">
                 <i class="bi bi-download"></i>
                 <span data-ht-i18n="btnCsv">CSV ডাউনলোড</span>
-              </span>
+              </button>
             </div>
           </div>
         </div>
@@ -128,30 +167,50 @@
          ====================================================================== -->
     <div class="ht-pull-up">
       <div class="container">
-        <div class="row g-3">
+        <!-- Emergency Crisis Alert Banner (displayed if readings fall in crisis zone) -->
+        <div id="crisisAlertBanner" class="ht-crisis-banner d-none">
+          <div class="ht-crisis-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+          <div class="flex-grow-1">
+            <h4 class="fw-bold mb-1" data-ht-i18n="crisisAlertTitle">জরুরি স্বাস্থ্য সতর্কতা!</h4>
+            <p class="mb-0 small" data-ht-i18n="crisisAlertMsg">
+              আপনার সর্বশেষ রক্তচাপ বা সুগারের মাত্রা আশঙ্কাজনক সীমায় রয়েছে। অবিলম্বে শান্ত হয়ে বিশ্রাম নিন এবং প্রয়োজনে ডাক্তারের সাথে যোগাযোগ করুন।
+            </p>
+          </div>
+          <button class="btn btn-light text-danger fw-bold rounded-pill px-3 py-2 btn-sm"
+            onclick="document.getElementById('shareSection').scrollIntoView({behavior:'smooth'})">
+            পরিবারকে জানান
+          </button>
+        </div>
 
+        <div class="row g-3">
           <!-- Latest Blood Pressure -->
           <div class="col-6 col-lg-3">
-            <div class="ht-stat-card">
-              <div class="ht-stat-icon bp">❤️</div>
+            <div class="ht-stat-card card-bp">
+              <div class="ht-stat-top">
+                <div class="ht-stat-icon bp">❤️</div>
+                <span class="ht-stat-badge neutral" id="statBPBadge">—</span>
+              </div>
               <div class="flex-grow-1 min-w-0">
                 <div class="ht-stat-label" data-ht-i18n="statBPTitle">সর্বশেষ রক্তচাপ</div>
                 <div class="ht-stat-value" id="statBPVal">—</div>
                 <div class="ht-stat-sub" id="statBPSub"></div>
-                <div class="ht-sparkline mt-2" id="bpSparkline"></div>
+                <div class="ht-sparkline" id="bpSparkline"></div>
               </div>
             </div>
           </div>
 
           <!-- Latest Blood Glucose -->
           <div class="col-6 col-lg-3">
-            <div class="ht-stat-card">
-              <div class="ht-stat-icon bg">🩸</div>
+            <div class="ht-stat-card card-bg">
+              <div class="ht-stat-top">
+                <div class="ht-stat-icon bg">🩸</div>
+                <span class="ht-stat-badge neutral" id="statBGBadge">—</span>
+              </div>
               <div class="flex-grow-1 min-w-0">
                 <div class="ht-stat-label" data-ht-i18n="statBGTitle">সর্বশেষ গ্লুকোজ</div>
                 <div class="ht-stat-value" id="statBGVal">—</div>
                 <div class="ht-stat-sub" id="statBGSub"></div>
-                <div class="ht-sparkline mt-2" id="bgSparkline"></div>
+                <div class="ht-sparkline" id="bgSparkline"></div>
               </div>
             </div>
           </div>
@@ -159,7 +218,10 @@
           <!-- Today's Record Count -->
           <div class="col-6 col-lg-3">
             <div class="ht-stat-card">
-              <div class="ht-stat-icon today">📋</div>
+              <div class="ht-stat-top">
+                <div class="ht-stat-icon today">📋</div>
+                <span class="ht-stat-badge normal">আজকে</span>
+              </div>
               <div class="flex-grow-1 min-w-0">
                 <div class="ht-stat-label" data-ht-i18n="statTodayTitle">আজকের রেকর্ড</div>
                 <div class="ht-stat-value" id="statTodayVal">0</div>
@@ -170,8 +232,11 @@
 
           <!-- Logging Streak -->
           <div class="col-6 col-lg-3">
-            <div class="ht-stat-card">
-              <div class="ht-stat-icon streak">🔥</div>
+            <div class="ht-stat-card card-streak">
+              <div class="ht-stat-top">
+                <div class="ht-stat-icon streak">🔥</div>
+                <span class="ht-stat-badge elevated">ধারাবাহিকতা</span>
+              </div>
               <div class="flex-grow-1 min-w-0">
                 <div class="ht-stat-label" data-ht-i18n="statStreakTitle">ধারাবাহিক দিন</div>
                 <div class="ht-stat-value" id="statStreakVal">0</div>
@@ -179,7 +244,28 @@
               </div>
             </div>
           </div>
+        </div>
 
+        <!-- Smart 7-Day Health Insights Banner -->
+        <div id="smartInsightCard" class="ht-insight-card d-none">
+          <div class="ht-insight-header">
+            <h3 class="ht-insight-title">
+              <i class="bi bi-shield-check text-success"></i>
+              <span data-ht-i18n="insightTitle">সাপ্তাহিক স্বাস্থ্য বিশ্লেষণ ও পরামর্শ</span>
+            </h3>
+            <span class="badge bg-success-subtle text-success fw-bold px-3 py-1.5 rounded-pill">লাইভ অ্যালগরিদম</span>
+          </div>
+          <div class="ht-insight-chips" id="insightChips"></div>
+          <p class="ht-insight-body" id="insightBodyText"></p>
+          <div class="ht-insight-actions">
+            <a class="ht-insight-btn" href="exercises.html">
+              <i class="bi bi-wind"></i>
+              <span data-ht-i18n="btnStartBreathing">শ্বাসের অনুশীলন শুরু করুন</span>
+            </a>
+            <button class="btn btn-sm btn-outline-success rounded-pill fw-bold" onclick="htShareWhatsApp()">
+              <i class="bi bi-whatsapp me-1"></i> পরিবারকে সাপ্তাহিক আপডেট পাঠান
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -187,27 +273,48 @@
     <!-- ======================================================================
          4. ENTRY FORMS — BLOOD PRESSURE & BLOOD GLUCOSE
          ====================================================================== -->
-    <section class="ht-section mt-4">
+    <section class="ht-section mt-3" id="entrySection">
       <div class="container">
-        <div class="row g-4">
+        <!-- Form Mode Switcher (Segmented Control) -->
+        <div class="ht-mode-switch-wrap">
+          <div class="ht-mode-switch" role="tablist">
+            <button class="ht-mode-btn active" data-mode="all" data-ht-i18n="modeAll">
+              <i class="bi bi-layout-split"></i> উভয় একসাথে
+            </button>
+            <button class="ht-mode-btn mode-bp" data-mode="bp" data-ht-i18n="modeBP">
+              <i class="bi bi-heart-pulse-fill"></i> রক্তচাপ
+            </button>
+            <button class="ht-mode-btn mode-bg" data-mode="bg" data-ht-i18n="modeBG">
+              <i class="bi bi-droplet-half"></i> গ্লুকোজ
+            </button>
+          </div>
+        </div>
+
+        <div class="row g-4" id="formsRow">
 
           <!-- 4.1 Blood Pressure Entry Form -->
-          <div class="col-lg-6">
+          <div class="col-lg-6" id="colBPForm">
             <div class="ht-form-card type-bp">
-              <!-- Card Header -->
               <div class="ht-card-header">
                 <div class="ht-card-icon bp"><i class="bi bi-heart-pulse-fill"></i></div>
                 <div>
                   <h2 class="ht-card-title" data-ht-i18n="bpFormTitle">রক্তচাপ এন্ট্রি</h2>
                   <p class="ht-card-sub" data-ht-i18n="bpFormSub">সিস্টোলিক / ডায়াস্টোলিক (mmHg)</p>
                 </div>
-                <!-- Live status chip — updated on each keystroke -->
                 <span id="bpLiveChip" class="ms-auto"></span>
               </div>
 
-              <form id="bpForm" novalidate autocomplete="off">
+              <!-- Quick Presets -->
+              <div class="ht-preset-wrap">
+                <span class="ht-preset-label">কুইক প্রিসেট:</span>
+                <span class="ht-preset-pill" onclick="htApplyBPPreset(120, 80)">120/80 (স্বাভাবিক)</span>
+                <span class="ht-preset-pill" onclick="htApplyBPPreset(115, 75)">115/75 (অনুকূল)</span>
+                <span class="ht-preset-pill" onclick="htApplyBPPreset(135, 85)">135/85 (একটু বেশি)</span>
+                <span class="ht-preset-pill" onclick="htApplyBPPreset(145, 95)">145/95 (উচ্চ)</span>
+              </div>
 
-                <!-- Systolic / Diastolic inline row -->
+              <form id="bpForm" novalidate autocomplete="off">
+                <!-- Systolic / Diastolic inline row with Stepper controls -->
                 <div class="ht-input-group">
                   <div class="ht-input-row">
                     <div>
@@ -217,9 +324,17 @@
                       </label>
                       <input class="ht-input" type="number" id="bpSystolic" name="bpSystolic"
                         placeholder="120" min="60" max="250" inputmode="numeric" required>
+                      <div class="ht-stepper-row">
+                        <span class="ht-stepper-btn" onclick="htNudgeInput('bpSystolic', -5, 60, 250)">-5</span>
+                        <span class="ht-stepper-btn" onclick="htNudgeInput('bpSystolic', -1, 60, 250)">-1</span>
+                        <span class="ht-stepper-btn" onclick="htNudgeInput('bpSystolic', 1, 60, 250)">+1</span>
+                        <span class="ht-stepper-btn" onclick="htNudgeInput('bpSystolic', 5, 60, 250)">+5</span>
+                      </div>
                       <span class="ht-input-error" id="errBpSys"></span>
                     </div>
+
                     <div class="ht-slash">/</div>
+
                     <div>
                       <label class="ht-label" for="bpDiastolic">
                         <span data-ht-i18n="lblDiastolic">ডায়াস্টোলিক</span>
@@ -227,31 +342,59 @@
                       </label>
                       <input class="ht-input" type="number" id="bpDiastolic" name="bpDiastolic"
                         placeholder="80" min="40" max="150" inputmode="numeric" required>
+                      <div class="ht-stepper-row">
+                        <span class="ht-stepper-btn" onclick="htNudgeInput('bpDiastolic', -5, 40, 150)">-5</span>
+                        <span class="ht-stepper-btn" onclick="htNudgeInput('bpDiastolic', -1, 40, 150)">-1</span>
+                        <span class="ht-stepper-btn" onclick="htNudgeInput('bpDiastolic', 1, 40, 150)">+1</span>
+                        <span class="ht-stepper-btn" onclick="htNudgeInput('bpDiastolic', 5, 40, 150)">+5</span>
+                      </div>
                       <span class="ht-input-error" id="errBpDia"></span>
                     </div>
                   </div>
                 </div>
 
-                <!-- Pulse Rate (optional) -->
+                <!-- Live BP Diagnostic Spectrum Meter -->
+                <div class="ht-gauge-wrap">
+                  <div class="ht-gauge-title">
+                    <span data-ht-i18n="gaugeTitleBP">লাইভ রক্তচাপ স্পেকট্রাম নির্দেশক</span>
+                    <span class="text-primary fw-bold"><i class="bi bi-activity"></i> AHA 2017</span>
+                  </div>
+                  <div class="ht-gauge-track bp-track">
+                    <div class="ht-gauge-pointer" id="bpGaugePointer" style="left: 32%;"></div>
+                  </div>
+                  <div class="ht-gauge-labels">
+                    <span>কম (&lt;90)</span>
+                    <span class="text-success">স্বাভাবিক (120)</span>
+                    <span class="text-warning">উচ্চতর (130)</span>
+                    <span class="text-danger">স্টেজ ১ (140)</span>
+                    <span class="text-danger-emphasis">ক্রাইসিস (&gt;180)</span>
+                  </div>
+                  <div class="ht-advice-box" id="bpAdviceBox">
+                    <span class="text-muted">সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও পরামর্শ দেখতে পাবেন।</span>
+                  </div>
+                </div>
+
+                <!-- Pulse Rate & Arm Toggle -->
                 <div class="row g-3">
-                  <div class="col-6">
+                  <div class="col-sm-6">
                     <div class="ht-input-group">
                       <label class="ht-label" for="bpPulse">
                         <span data-ht-i18n="lblPulse">নাড়ির স্পন্দন</span>
-                        <span class="unit" data-ht-i18n="unitBpm">bpm</span>
+                        <span class="unit" data-ht-i18n="unitBpm">bpm (৬০–১০০)</span>
                       </label>
                       <input class="ht-input" type="number" id="bpPulse" name="bpPulse"
                         placeholder="72" min="30" max="220" inputmode="numeric">
                       <span class="ht-input-error" id="errBpPulse"></span>
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-sm-6">
                     <div class="ht-input-group">
-                      <label class="ht-label" for="bpArm" data-ht-i18n="lblArm">কোন হাত?</label>
-                      <select class="ht-select" id="bpArm" name="bpArm">
-                        <option value="right" data-ht-i18n-opt="armRight">ডান হাত</option>
-                        <option value="left"  data-ht-i18n-opt="armLeft">বাম হাত</option>
-                      </select>
+                      <label class="ht-label" data-ht-i18n="lblArm">কোন হাত?</label>
+                      <div class="ht-pill-toggle-group">
+                        <div class="ht-pill-toggle active" data-arm="right">💪 ডান হাত</div>
+                        <div class="ht-pill-toggle" data-arm="left">💪 বাম হাত</div>
+                      </div>
+                      <input type="hidden" id="bpArm" name="bpArm" value="right">
                     </div>
                   </div>
                 </div>
@@ -266,85 +409,102 @@
                 <div class="ht-input-group">
                   <label class="ht-label" for="bpNotes" data-ht-i18n="lblNotes">নোট (ঐচ্ছিক)</label>
                   <textarea class="ht-textarea" id="bpNotes" name="bpNotes"
-                    data-ht-i18n-ph="lblNotes" placeholder="নোট (ঐচ্ছিক)"></textarea>
+                    data-ht-i18n-ph="lblNotes" placeholder="যেমন: বিশ্রামের পর, চা খাবার পর ইত্যাদি..."></textarea>
                 </div>
 
-                <!-- Submit -->
+                <!-- Submit Button -->
                 <button class="ht-btn-save type-bp" type="submit" id="saveBPBtn">
                   <i class="bi bi-plus-circle-fill"></i>
                   <span data-ht-i18n="btnSaveBP">রক্তচাপ সংরক্ষণ করুন</span>
                 </button>
               </form>
 
-              <!-- Live reading preview after save -->
+              <!-- Reading Preview -->
               <div id="bpPreviewWrap"></div>
             </div>
           </div>
 
           <!-- 4.2 Blood Glucose Entry Form -->
-          <div class="col-lg-6">
+          <div class="col-lg-6" id="colBGForm">
             <div class="ht-form-card type-bg">
-              <!-- Card Header -->
               <div class="ht-card-header">
                 <div class="ht-card-icon bg"><i class="bi bi-droplet-half"></i></div>
                 <div>
                   <h2 class="ht-card-title" data-ht-i18n="bgFormTitle">রক্তের গ্লুকোজ এন্ট্রি</h2>
                   <p class="ht-card-sub" data-ht-i18n="bgFormSub">ডায়াবেটিস পর্যবেক্ষণ (mg/dL)</p>
                 </div>
-                <!-- Live status chip -->
                 <span id="bgLiveChip" class="ms-auto"></span>
               </div>
 
-              <form id="bgForm" novalidate autocomplete="off">
+              <!-- Quick Presets -->
+              <div class="ht-preset-wrap">
+                <span class="ht-preset-label">কুইক প্রিসেট:</span>
+                <span class="ht-preset-pill" onclick="htApplyBGPreset(90, 'fasting')">90 (খালি পেটে)</span>
+                <span class="ht-preset-pill" onclick="htApplyBGPreset(130, 'postmeal')">130 (খাবার পর)</span>
+                <span class="ht-preset-pill" onclick="htApplyBGPreset(110, 'random')">110 (যেকোনো সময়)</span>
+              </div>
 
-                <!-- Glucose Value -->
+              <form id="bgForm" novalidate autocomplete="off">
+                <!-- Glucose Value Input with Stepper -->
                 <div class="ht-input-group">
                   <label class="ht-label" for="bgValue">
                     <span data-ht-i18n="lblGlucose">গ্লুকোজ মান</span>
                     <span class="unit" data-ht-i18n="unitMgdl">mg/dL</span>
                   </label>
                   <input class="ht-input" type="number" id="bgValue" name="bgValue"
-                    placeholder="90" min="20" max="600" inputmode="numeric" required>
+                    placeholder="95" min="20" max="600" inputmode="numeric" required>
+                  <div class="ht-stepper-row">
+                    <span class="ht-stepper-btn" onclick="htNudgeInput('bgValue', -10, 20, 600)">-10</span>
+                    <span class="ht-stepper-btn" onclick="htNudgeInput('bgValue', -5, 20, 600)">-5</span>
+                    <span class="ht-stepper-btn" onclick="htNudgeInput('bgValue', 5, 20, 600)">+5</span>
+                    <span class="ht-stepper-btn" onclick="htNudgeInput('bgValue', 10, 20, 600)">+10</span>
+                  </div>
+                  <div class="ht-unit-converter">
+                    <span>রূপান্তর (mmol/L): <strong id="bgMmolDisplay" class="text-primary">—</strong></span>
+                    <span class="text-muted small">১ mmol/L = ১৮ mg/dL</span>
+                  </div>
                   <span class="ht-input-error" id="errBgVal"></span>
                 </div>
 
-                <!-- Measurement Timing -->
+                <!-- Measurement Timing Cards -->
                 <div class="ht-input-group">
-                  <label class="ht-label" for="bgTiming" data-ht-i18n="lblTiming">পরিমাপের সময়</label>
-                  <select class="ht-select" id="bgTiming" name="bgTiming">
-                    <option value="fasting"  data-ht-i18n-opt="timingFasting">উপবাসে (খালি পেটে)</option>
-                    <option value="postmeal" data-ht-i18n-opt="timingPostmeal">খাবার পরে (২ ঘণ্টা)</option>
-                    <option value="random"   data-ht-i18n-opt="timingRandom">যেকোনো সময়</option>
-                  </select>
-                </div>
-
-                <!-- Reference Guide (compact accordion) -->
-                <details class="mb-3">
-                  <summary class="ht-label" style="cursor:pointer;user-select:none">
-                    <i class="bi bi-info-circle me-1 text-primary"></i>
-                    <span>স্বাভাবিক মাত্রা দেখুন</span>
-                  </summary>
-                  <div class="mt-2 p-3 rounded-3" style="background:#f8fafc;border:1px solid #e2e8f0;font-size:0.8rem">
-                    <div class="row g-2">
-                      <div class="col-6">
-                        <strong>উপবাসে (Fasting)</strong>
-                        <ul class="mb-0 mt-1 ps-3">
-                          <li style="color:#15803d">৭০–৯৯ mg/dL — স্বাভাবিক</li>
-                          <li style="color:#b45309">১০০–১২৫ — প্রি-ডায়াবেটিস</li>
-                          <li style="color:#b91c1c">≥ ১২৬ — ডায়াবেটিস</li>
-                        </ul>
-                      </div>
-                      <div class="col-6">
-                        <strong>খাবার পরে (Post-meal)</strong>
-                        <ul class="mb-0 mt-1 ps-3">
-                          <li style="color:#15803d">< ১৪০ mg/dL — স্বাভাবিক</li>
-                          <li style="color:#b45309">১৪০–১৯৯ — প্রি-ডায়াবেটিস</li>
-                          <li style="color:#b91c1c">≥ ২০০ — ডায়াবেটিস</li>
-                        </ul>
-                      </div>
+                  <label class="ht-label" data-ht-i18n="lblTiming">পরিমাপের সময়</label>
+                  <div class="ht-timing-cards">
+                    <div class="ht-timing-card active" data-timing="fasting">
+                      <span class="ht-timing-icon">☀️</span>
+                      <span class="ht-timing-text" data-ht-i18n="timingFasting">খালি পেটে</span>
+                    </div>
+                    <div class="ht-timing-card" data-timing="postmeal">
+                      <span class="ht-timing-icon">🍱</span>
+                      <span class="ht-timing-text" data-ht-i18n="timingPostmeal">খাবার ২ ঘণ্টা পর</span>
+                    </div>
+                    <div class="ht-timing-card" data-timing="random">
+                      <span class="ht-timing-icon">⚡</span>
+                      <span class="ht-timing-text" data-ht-i18n="timingRandom">যেকোনো সময়</span>
                     </div>
                   </div>
-                </details>
+                  <input type="hidden" id="bgTiming" name="bgTiming" value="fasting">
+                </div>
+
+                <!-- Live Glucose Range Meter -->
+                <div class="ht-gauge-wrap">
+                  <div class="ht-gauge-title">
+                    <span data-ht-i18n="gaugeTitleBG">লাইভ গ্লুকোজ রেঞ্জ নির্দেশক</span>
+                    <span class="text-primary fw-bold"><i class="bi bi-activity"></i> ADA 2024</span>
+                  </div>
+                  <div class="ht-gauge-track bg-track">
+                    <div class="ht-gauge-pointer" id="bgGaugePointer" style="left: 35%;"></div>
+                  </div>
+                  <div class="ht-gauge-labels">
+                    <span>কম (&lt;70)</span>
+                    <span class="text-success">স্বাভাবিক (70-99)</span>
+                    <span class="text-warning">প্রি-ডায়াবেটিস (100-125)</span>
+                    <span class="text-danger">ডায়াবেটিস (≥126)</span>
+                  </div>
+                  <div class="ht-advice-box" id="bgAdviceBox">
+                    <span class="text-muted">গ্লুকোজ মান লিখলে লাইভ ডায়াবেটিস রেঞ্জ ও ডায়াগনস্টিক দেখতে পাবেন।</span>
+                  </div>
+                </div>
 
                 <!-- Date & Time -->
                 <div class="ht-input-group">
@@ -356,20 +516,21 @@
                 <div class="ht-input-group">
                   <label class="ht-label" for="bgNotes" data-ht-i18n="lblNotes">নোট (ঐচ্ছিক)</label>
                   <textarea class="ht-textarea" id="bgNotes" name="bgNotes"
-                    placeholder="নোট (ঐচ্ছিক)"></textarea>
+                    placeholder="যেমন: মিষ্টি খাওয়ার পর, ঔষধ খাওয়ার আগে ইত্যাদি..."></textarea>
                 </div>
 
-                <!-- Submit -->
+                <!-- Submit Button -->
                 <button class="ht-btn-save type-bg" type="submit" id="saveBGBtn">
                   <i class="bi bi-plus-circle-fill"></i>
                   <span data-ht-i18n="btnSaveBG">গ্লুকোজ সংরক্ষণ করুন</span>
                 </button>
               </form>
 
-              <!-- Live reading preview after save -->
+              <!-- Reading Preview -->
               <div id="bgPreviewWrap"></div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -377,7 +538,7 @@
     <!-- ======================================================================
          5. TREND CHARTS — BLOOD PRESSURE & BLOOD GLUCOSE
          ====================================================================== -->
-    <section class="ht-section">
+    <section class="ht-section" id="chartsSection">
       <div class="container">
         <div class="row g-4">
 
@@ -385,23 +546,32 @@
           <div class="col-lg-6">
             <div class="ht-chart-card">
               <div class="ht-chart-header">
-                <h3 class="ht-chart-title" data-ht-i18n="chartBPTitle">রক্তচাপের প্রবণতা (শেষ ১৪ দিন)</h3>
-                <div class="ht-chart-legend">
-                  <span class="ht-legend-item">
-                    <span class="ht-legend-dot" style="background:var(--ht-systolic)"></span>
-                    <span data-ht-i18n="lblSystolic">সিস্টোলিক</span>
-                  </span>
-                  <span class="ht-legend-item">
-                    <span class="ht-legend-dot" style="background:var(--ht-diastolic)"></span>
-                    <span data-ht-i18n="lblDiastolic">ডায়াস্টোলিক</span>
-                  </span>
-                  <span class="ht-legend-item">
-                    <span class="ht-legend-dot" style="background:var(--ht-pulse)"></span>
-                    <span data-ht-i18n="lblPulse">নাড়ি</span>
-                  </span>
+                <div>
+                  <h3 class="ht-chart-title" data-ht-i18n="chartBPTitle">রক্তচাপের ধারাবাহিক প্রবণতা</h3>
+                  <span class="text-muted small">নিরাপদ জোন চিহ্নিত (৯০–১২০ mmHg)</span>
+                </div>
+                <!-- Timeframe Switcher -->
+                <div class="ht-chart-tf-group">
+                  <button class="ht-chart-tf-btn" data-tf="7d" data-ht-i18n="tf7d">৭ দিন</button>
+                  <button class="ht-chart-tf-btn active" data-tf="14d" data-ht-i18n="tf14d">১৪ দিন</button>
+                  <button class="ht-chart-tf-btn" data-tf="30d" data-ht-i18n="tf30d">৩০ দিন</button>
+                  <button class="ht-chart-tf-btn" data-tf="all" data-ht-i18n="tfAll">সব</button>
                 </div>
               </div>
-              <!-- SVG chart rendered here by JS -->
+              <div class="d-flex flex-wrap gap-3 mb-3">
+                <span class="ht-legend-item">
+                  <span class="ht-legend-dot" style="background:var(--ht-systolic)"></span>
+                  <span data-ht-i18n="lblSystolic">সিস্টোলিক</span>
+                </span>
+                <span class="ht-legend-item">
+                  <span class="ht-legend-dot" style="background:var(--ht-diastolic)"></span>
+                  <span data-ht-i18n="lblDiastolic">ডায়াস্টোলিক</span>
+                </span>
+                <span class="ht-legend-item">
+                  <span class="ht-legend-dot" style="background:var(--ht-pulse)"></span>
+                  <span data-ht-i18n="lblPulse">নাড়ি</span>
+                </span>
+              </div>
               <div class="ht-chart-svg-wrap" id="bpChartWrap"></div>
             </div>
           </div>
@@ -410,15 +580,24 @@
           <div class="col-lg-6">
             <div class="ht-chart-card">
               <div class="ht-chart-header">
-                <h3 class="ht-chart-title" data-ht-i18n="chartBGTitle">গ্লুকোজের প্রবণতা (শেষ ১৪ দিন)</h3>
-                <div class="ht-chart-legend">
-                  <span class="ht-legend-item">
-                    <span class="ht-legend-dot" style="background:var(--ht-glucose)"></span>
-                    <span data-ht-i18n="lblGlucose">গ্লুকোজ</span>
-                  </span>
+                <div>
+                  <h3 class="ht-chart-title" data-ht-i18n="chartBGTitle">গ্লুকোজের ধারাবাহিক প্রবণতা</h3>
+                  <span class="text-muted small">টার্গেট রেঞ্জ হাইলাইটেড (৭০–১৪০ mg/dL)</span>
+                </div>
+                <!-- Timeframe Switcher -->
+                <div class="ht-chart-tf-group">
+                  <button class="ht-chart-tf-btn" data-tf="7d" data-ht-i18n="tf7d">৭ দিন</button>
+                  <button class="ht-chart-tf-btn active" data-tf="14d" data-ht-i18n="tf14d">১৪ দিন</button>
+                  <button class="ht-chart-tf-btn" data-tf="30d" data-ht-i18n="tf30d">৩০ দিন</button>
+                  <button class="ht-chart-tf-btn" data-tf="all" data-ht-i18n="tfAll">সব</button>
                 </div>
               </div>
-              <!-- SVG chart rendered here by JS -->
+              <div class="d-flex flex-wrap gap-3 mb-3">
+                <span class="ht-legend-item">
+                  <span class="ht-legend-dot" style="background:var(--ht-glucose)"></span>
+                  <span data-ht-i18n="lblGlucose">গ্লুকোজ</span>
+                </span>
+              </div>
               <div class="ht-chart-svg-wrap" id="bgChartWrap"></div>
             </div>
           </div>
@@ -428,17 +607,25 @@
     </section>
 
     <!-- ======================================================================
-         6. HISTORY LOG TABLE
+         6. HISTORY LOG TABLE & REAL-TIME SEARCH
          ====================================================================== -->
-    <section class="ht-section">
+    <section class="ht-section" id="historySection">
       <div class="container">
         <div class="ht-history-wrap">
           <!-- History Header -->
           <div class="ht-history-header">
             <h3 class="ht-history-title">
               <i class="bi bi-clock-history text-primary"></i>
-              <span data-ht-i18n="historyTitle">ইতিহাস লগ</span>
+              <span data-ht-i18n="historyTitle">ইতিহাস ও বিস্তারিত রেকর্ড</span>
             </h3>
+
+            <!-- Search input -->
+            <div class="ht-search-wrap">
+              <i class="bi bi-search ht-search-icon"></i>
+              <input type="text" class="ht-search-input" id="historySearchInput"
+                placeholder="তারিখ বা নোট দিয়ে খুঁজুন..." data-ht-i18n-ph="searchPlaceholder">
+            </div>
+
             <!-- Tab filter pills -->
             <div class="ht-tab-group" role="tablist">
               <button class="ht-tab active" data-hist-tab="all" role="tab" data-ht-i18n="tabAll">সব</button>
@@ -452,23 +639,26 @@
             <table class="ht-table" aria-label="Health records log">
               <thead>
                 <tr>
-                  <th data-ht-i18n="colDate">তারিখ</th>
+                  <th data-ht-i18n="colDate">তারিখ ও সময়</th>
                   <th data-ht-i18n="colType">ধরন</th>
-                  <th data-ht-i18n="colValue">মান</th>
+                  <th data-ht-i18n="colValue">রিডিং মান</th>
                   <th data-ht-i18n="colStatus">অবস্থা</th>
                   <th data-ht-i18n="colNotes">নোট</th>
-                  <th></th>
+                  <th class="text-end">মুছুন</th>
                 </tr>
               </thead>
-              <tbody id="historyTbody">
-                <!-- Rows injected by JS -->
-              </tbody>
+              <tbody id="historyTbody"></tbody>
             </table>
           </div>
 
-          <!-- Pagination -->
+          <!-- Pagination & Table Footer Actions -->
           <div class="ht-pagination">
-            <span class="ht-pagination-info" id="paginInfo"></span>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="ht-pagination-info" id="paginInfo"></span>
+              <button class="btn btn-sm btn-link text-danger text-decoration-none p-0 ms-2" id="btnClearAll" data-ht-i18n="btnClearAll">
+                🗑️ সব ডেটা মুছুন
+              </button>
+            </div>
             <div class="ht-pagination-btns" id="paginBtns"></div>
           </div>
         </div>
@@ -476,24 +666,39 @@
     </section>
 
     <!-- ======================================================================
-         7. SHARE & EXPORT PANEL + FAMILY MONITOR
+         7. SHARE & EXPORT PANEL + FAMILY WHATSAPP & MONITOR LOCK
          ====================================================================== -->
     <section class="ht-section" id="shareSection">
       <div class="container">
         <div class="row g-4 align-items-stretch">
 
-          <!-- 7.1 Share & Export Card -->
+          <!-- 7.1 Share & Export Card (with direct WhatsApp sharing) -->
           <div class="col-lg-7">
             <div class="ht-share-card">
               <h3 class="ht-share-title">
                 <i class="bi bi-share-fill me-2"></i>
-                <span data-ht-i18n="shareTitle">পরিবারের সাথে শেয়ার করুন</span>
+                <span data-ht-i18n="shareTitle">পরিবারের সাথে শেয়ার ও মনিটরিং</span>
               </h3>
               <p class="ht-share-sub" data-ht-i18n="shareSub">
-                আপনার ছেলে বা মেয়ে দূর থেকে আপনার স্বাস্থ্য পর্যবেক্ষণ করতে পারবেন
+                আপনার ছেলে, মেয়ে বা পরিবারের সদস্যরা যেকোনো দূরত্ব থেকে আপনার স্বাস্থ্য পর্যবেক্ষণ করতে পারবেন।
               </p>
 
-              <!-- Action Buttons Row -->
+              <!-- Dedicated WhatsApp Action Box -->
+              <div class="ht-whatsapp-box">
+                <button class="ht-whatsapp-btn" id="btnShareWhatsApp">
+                  <i class="bi bi-whatsapp fs-4"></i>
+                  <span data-ht-i18n="btnWhatsAppShare">ছেলে/মেয়েকে WhatsApp-এ রিপোর্ট পাঠান</span>
+                </button>
+                <div class="d-flex justify-content-between align-items-center mt-2.5">
+                  <span class="small opacity-75">মেসেজের প্রিভিউ:</span>
+                  <button class="btn btn-sm btn-link text-white text-decoration-underline p-0 small" id="btnCopyMsg" data-ht-i18n="btnCopyReport">
+                    মেসেজ কপি করুন
+                  </button>
+                </div>
+                <div class="ht-msg-preview-box" id="whatsappMsgPreview">রিপোর্ট তৈরি হচ্ছে...</div>
+              </div>
+
+              <!-- Other Export Buttons -->
               <div class="ht-share-btn-row">
                 <button class="ht-share-btn csv" id="btnExportCSV">
                   <i class="bi bi-file-earmark-spreadsheet"></i>
@@ -501,7 +706,7 @@
                 </button>
                 <button class="ht-share-btn json" id="btnExportJSON">
                   <i class="bi bi-file-earmark-code"></i>
-                  <span data-ht-i18n="btnJson">JSON ডাউনলোড</span>
+                  <span data-ht-i18n="btnJson">JSON ব্যাকআপ</span>
                 </button>
                 <button class="ht-share-btn link" id="btnShareLink">
                   <i class="bi bi-link-45deg"></i>
@@ -509,7 +714,7 @@
                 </button>
                 <button class="ht-share-btn print" id="btnPrint">
                   <i class="bi bi-printer"></i>
-                  <span data-ht-i18n="btnPrint">প্রিন্ট</span>
+                  <span data-ht-i18n="btnPrint">মেডিকেল রিপোর্ট প্রিন্ট</span>
                 </button>
               </div>
 
@@ -523,16 +728,14 @@
                 </button>
               </div>
 
-              <!-- How it works note -->
-              <p class="mt-3 mb-0" style="font-size:0.75rem;opacity:0.7">
-                <i class="bi bi-info-circle me-1"></i>
-                <span>শেয়ার লিংক খুললে শুধু দেখার মোড চালু হবে — ডেটা পরিবর্তন করা যাবে না।
-                দেখার লিংকে শেষ ৩০টি রেকর্ড থাকবে।</span>
+              <p class="mt-3 mb-0" style="font-size:0.75rem;opacity:0.8">
+                <i class="bi bi-shield-lock-fill me-1"></i>
+                <span>শেয়ার লিংকটি সম্পূর্ণ নিরাপদ ও রিড-অনলি (শুধু দেখার জন্য)। এতে কোনো ডেটা পরিবর্তন করা যায় না।</span>
               </p>
             </div>
           </div>
 
-          <!-- 7.2 Family Monitor Card -->
+          <!-- 7.2 Family Monitor PIN Lock Card -->
           <div class="col-lg-5">
             <div class="ht-family-card">
               <div class="ht-family-header">
@@ -542,20 +745,19 @@
                   <div class="ht-avatar">👦</div>
                 </div>
                 <div>
-                  <h3 class="ht-family-title" data-ht-i18n="familyTitle">পারিবারিক মনিটর</h3>
+                  <h3 class="ht-family-title" data-ht-i18n="familyTitle">পারিবারিক মনিটর লক</h3>
                 </div>
               </div>
 
               <p class="ht-family-desc" data-ht-i18n="familyDesc">
-                একটি ৪ সংখ্যার পিন সেট করুন। পিন শেয়ার করলে পরিবার সদস্যরা শুধু দেখতে পাবেন — পরিবর্তন করতে পারবেন না।
+                একটি ৪ সংখ্যার পিন সেট করুন। শেয়ার লিংক দিলে পরিবার সদস্যরা শুধু দেখতে পারবেন — কোনো ডেটা পরিবর্তন করতে পারবেন না।
               </p>
 
               <!-- How to share steps -->
-              <ol class="small text-secondary ps-3 mb-3" style="line-height:1.9">
-                <li>নিচে পিন সেট করুন</li>
-                <li>"শেয়ার লিংক" বাটনে ক্লিক করুন</li>
-                <li>লিংক কপি করে পরিবারকে পাঠান</li>
-                <li>পরিবার লিংক খুলে সরাসরি ডেটা দেখতে পাবেন</li>
+              <ol class="small text-secondary ps-3 mb-2" style="line-height:1.9">
+                <li>নিচে ৪ সংখ্যার একটি পিন সেট করুন</li>
+                <li>"WhatsApp-এ পাঠান" বাটনে ক্লিক করুন অথবা লিংক কপি করুন</li>
+                <li>পরিবারের সদস্য লিংকে ক্লিক করে তাৎক্ষণিক রিপোর্ট দেখবেন</li>
               </ol>
 
               <!-- PIN setup row -->
@@ -568,11 +770,11 @@
               </div>
 
               <!-- Medical disclaimer -->
-              <div class="mt-3 p-3 rounded-3 d-flex gap-2 align-items-start"
+              <div class="mt-auto p-3 rounded-3 d-flex gap-2 align-items-start"
                 style="background:#fef3c7;border:1px solid #fde68a">
                 <i class="bi bi-exclamation-triangle-fill text-warning mt-1 flex-shrink-0"></i>
                 <p class="small mb-0 text-secondary">
-                  এই ট্র্যাকারটি ব্যক্তিগত রেকর্ড রাখার জন্য। এটি চিকিৎসার বিকল্প নয়। অস্বাভাবিক মান পেলে দ্রুত ডাক্তারের পরামর্শ নিন।
+                  এই ট্র্যাকারটি ব্যক্তিগত সচেতনতা ও রেকর্ড রাখার জন্য। চিকিৎসার প্রয়োজনে সর্বদা রেজিষ্টার্ড চিকিৎসকের পরামর্শ নিন।
                 </p>
               </div>
             </div>
@@ -637,4 +839,3 @@
 </body>
 
 </html>
-

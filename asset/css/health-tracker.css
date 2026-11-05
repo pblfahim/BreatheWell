@@ -4,9 +4,10 @@
  * ============================================================================
  * Description:
  *   Complete design system for the Day-wise Blood Pressure & Diabetes (Blood
- *   Sugar) Health Tracker. Implements modern card UI, animated status rings,
- *   responsive chart visualizations, share/export panels, and bilingual
- *   (Bengali/English) typography support.
+ *   Sugar) Health Tracker. Features modern card UI, animated status rings,
+ *   live diagnostic spectrum gauges, stepper controls, quick presets,
+ *   interactive chart tooltips, family WhatsApp direct sharing, smart
+ *   wellness insights, and bilingual typography.
  *
  * Design Tokens (inherits from style.css root):
  *   --primary, --primary-dark, --sky, --line, --muted, --text, --bg
@@ -14,19 +15,21 @@
  * Contents:
  *   1.  CSS Custom Properties & Design Tokens
  *   2.  Page Layout & Scaffolding
- *   3.  Hero Stats Banner
- *   4.  Entry Form Cards
- *   5.  Input Fields & Controls
- *   6.  Status Badges & Gauge Rings
- *   7.  History Log Table
- *   8.  Chart Canvas Wrapper
- *   9.  Share & Export Panel
- *   10. Family Monitor Badge
- *   11. Toast Notifications
- *   12. Empty State Illustrations
- *   13. Animated Sparkline Bars
- *   14. Responsive Overrides (≤ 768px)
- *   15. Dark-mode Consideration (prefers-color-scheme)
+ *   3.  Hero Banner, Floating Pills & Quick Navigation Ribbon
+ *   4.  Pull-Up Summary Cards & Sparklines
+ *   5.  Smart Health Insights & Wellness Recommendation Banner
+ *   6.  Form Mode Switcher (Segmented Control)
+ *   7.  Entry Form Cards, Steppers & Preset Pills
+ *   8.  Live Diagnostic Spectrum Gauges & Advice Cards
+ *   9.  Interactive Trend Charts & Hover Tooltips
+ *   10. History Log Table & Live Search
+ *   11. Family Direct WhatsApp & Multi-Channel Share Panel
+ *   12. Family Monitor & PIN Authentication Card
+ *   13. Emergency Crisis Alert Banner
+ *   14. Toast Notifications
+ *   15. Empty State & Utility Animations
+ *   16. Responsive Overrides (≤ 992px & ≤ 768px)
+ *   17. Print Styles (Doctor Report View)
  * ============================================================================
  */
 
@@ -34,221 +37,473 @@
  * 1. CSS CUSTOM PROPERTIES & DESIGN TOKENS
  * ============================================================================ */
 :root {
-  /* Health Tracker palette */
-  --ht-bp-normal:    #22c55e;   /* systolic < 120 AND diastolic < 80 */
-  --ht-bp-elevated:  #f59e0b;   /* systolic 120–129 */
-  --ht-bp-high1:     #f97316;   /* Stage 1 hypertension */
-  --ht-bp-high2:     #ef4444;   /* Stage 2 hypertension */
-  --ht-bp-crisis:    #991b1b;   /* Hypertensive crisis */
-  --ht-bp-low:       #8b5cf6;   /* Hypotension */
+  /* Health Classification Palette (AHA 2017 & ADA 2024) */
+  --ht-bp-normal:    #16a34a;
+  --ht-bp-elevated:  #f59e0b;
+  --ht-bp-high1:     #ea580c;
+  --ht-bp-high2:     #dc2626;
+  --ht-bp-crisis:    #991b1b;
+  --ht-bp-low:       #7c3aed;
 
-  --ht-bg-normal:    #22c55e;   /* 70–99 mg/dL fasting / 70–139 post-meal */
-  --ht-bg-prediab:   #f59e0b;   /* 100–125 fasting / 140–199 post-meal */
-  --ht-bg-diabetic:  #ef4444;   /* ≥ 126 fasting / ≥ 200 post-meal */
-  --ht-bg-hypo:      #8b5cf6;   /* < 70 mg/dL */
+  --ht-bg-normal:    #16a34a;
+  --ht-bg-prediab:   #f59e0b;
+  --ht-bg-diabetic:  #dc2626;
+  --ht-bg-hypo:      #7c3aed;
 
-  /* Surface colours */
+  /* Surfaces & Neutral Hierarchy */
   --ht-surface:      #ffffff;
   --ht-surface-alt:  #f8fafc;
   --ht-border:       #e2e8f0;
-  --ht-shadow-sm:    0 2px 8px rgba(0, 0, 0, 0.06);
-  --ht-shadow-md:    0 8px 32px rgba(0, 0, 0, 0.09);
-  --ht-shadow-lg:    0 20px 60px rgba(0, 0, 0, 0.12);
+  --ht-border-subtle:#edf2f7;
+  --ht-text-dark:    #0f172a;
+  --ht-text-muted:   #64748b;
 
-  /* Metric colours for chart lines */
+  /* Elevated Shadows */
+  --ht-shadow-sm:    0 2px 10px rgba(15, 23, 42, 0.05);
+  --ht-shadow-md:    0 8px 30px rgba(15, 23, 42, 0.08);
+  --ht-shadow-lg:    0 20px 50px rgba(15, 23, 42, 0.12);
+  --ht-shadow-glow-bp: 0 10px 28px rgba(239, 68, 68, 0.18);
+  --ht-shadow-glow-bg: 0 10px 28px rgba(139, 92, 246, 0.18);
+  --ht-shadow-glow-green: 0 10px 28px rgba(34, 197, 94, 0.18);
+
+  /* Series Colors */
   --ht-systolic:     #ef4444;
   --ht-diastolic:    #3b82f6;
   --ht-pulse:        #f97316;
   --ht-glucose:      #8b5cf6;
+  --ht-target-zone:  rgba(34, 197, 94, 0.08);
 
-  /* Transition / Animation */
-  --ht-ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  /* Easing */
+  --ht-ease:         cubic-bezier(0.16, 1, 0.3, 1);
   --ht-dur-fast:     150ms;
-  --ht-dur-base:     250ms;
-  --ht-dur-slow:     400ms;
+  --ht-dur-base:     260ms;
+  --ht-dur-slow:     420ms;
 }
-
 
 /* ============================================================================
  * 2. PAGE LAYOUT & SCAFFOLDING
  * ============================================================================ */
-
-/* Top decorative gradient band above the page-head */
-.ht-page-hero {
-  background: linear-gradient(135deg, #1769aa 0%, #2196f3 50%, #42a5f5 100%);
-  padding: 48px 0 100px;
-  position: relative;
-  overflow: hidden;
+body[data-page="health"] {
+  background-color: #f8fafc;
+  color: var(--ht-text-dark);
 }
 
-/* Decorative animated bubbles behind hero */
+.ht-section {
+  padding-block: 28px;
+}
+
+/* Pull-up container overlapping hero */
+.ht-pull-up {
+  margin-top: -65px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ============================================================================
+ * 3. HERO BANNER, FLOATING PILLS & QUICK NAVIGATION RIBBON
+ * ============================================================================ */
+.ht-page-hero {
+  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 38%, #1e88e5 72%, #42a5f5 100%);
+  padding: 48px 0 105px;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* Atmospheric animated background bubbles */
 .ht-page-hero::before,
 .ht-page-hero::after {
   content: "";
   position: absolute;
   border-radius: 50%;
-  opacity: 0.12;
+  opacity: 0.14;
   background: white;
-  animation: htBubbleFloat 8s ease-in-out infinite alternate;
+  animation: htBubbleFloat 9s ease-in-out infinite alternate;
 }
 .ht-page-hero::before {
-  width: 320px;
-  height: 320px;
-  top: -100px;
-  right: -80px;
-  animation-delay: -3s;
+  width: 380px;
+  height: 380px;
+  top: -120px;
+  right: -90px;
+  animation-delay: -2s;
 }
 .ht-page-hero::after {
-  width: 200px;
-  height: 200px;
-  bottom: -40px;
+  width: 240px;
+  height: 240px;
+  bottom: -50px;
   left: -40px;
   animation-delay: -6s;
 }
 
 @keyframes htBubbleFloat {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(20px, 15px) scale(1.08); }
+  from { transform: translate(0, 0) scale(1) rotate(0deg); }
+  to   { transform: translate(25px, 20px) scale(1.08) rotate(10deg); }
 }
 
-/* Pull-up card container that overlaps the hero gradient */
-.ht-pull-up {
-  margin-top: -60px;
-  position: relative;
-  z-index: 10;
-}
-
-/* Generic section gap */
-.ht-section {
-  padding-block: 32px;
-}
-
-/* Page hero text colours */
-.ht-page-hero .ht-hero-eyebrow {
-  font-size: 0.75rem;
+.ht-hero-eyebrow {
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
-  display: flex;
+  color: rgba(255, 255, 255, 0.85);
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-.ht-page-hero h1 {
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.2;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 12px;
 }
-.ht-page-hero .ht-hero-sub {
-  color: rgba(255,255,255,0.82);
-  font-size: 1rem;
-  margin-bottom: 0;
+
+.ht-page-hero h1 {
+  font-size: clamp(1.8rem, 4.5vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.22;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
-/* Family badge in hero */
-.ht-family-pill {
+.ht-page-hero .ht-hero-sub {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.05rem;
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+/* Floating Health Badges */
+.ht-float-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.ht-float-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ht-text-dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 100px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  animation: htPillFloat 3s ease-in-out infinite alternate;
+}
+.ht-float-pill:nth-child(2) { animation-delay: -1s; }
+.ht-float-pill:nth-child(3) { animation-delay: -2s; }
+
+@keyframes htPillFloat {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-4px); }
+}
+
+/* Quick Navigation / Action Bar in Hero */
+.ht-quick-nav-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-start;
+  margin-top: 22px;
+}
+.ht-quick-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   font-weight: 600;
-  padding: 5px 14px 5px 10px;
+  padding: 8px 16px;
   border-radius: 100px;
   text-decoration: none;
-  transition: background var(--ht-dur-base) var(--ht-ease);
   cursor: pointer;
+  transition: all var(--ht-dur-base) var(--ht-ease);
 }
-.ht-family-pill:hover {
-  background: rgba(255,255,255,0.3);
-  color: #fff;
+.ht-quick-nav-btn:hover {
+  background: #fff;
+  color: #0d47a1;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
-
+.ht-quick-nav-btn.primary {
+  background: #fff;
+  color: #0d47a1;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+.ht-quick-nav-btn.primary:hover {
+  background: #f0f7ff;
+}
 
 /* ============================================================================
- * 3. HERO STATS BANNER  (the pull-up summary cards row)
+ * 4. PULL-UP SUMMARY CARDS & SPARKLINES
  * ============================================================================ */
 .ht-stat-card {
   background: var(--ht-surface);
   border: 1px solid var(--ht-border);
-  border-radius: 20px;
-  padding: 22px 20px;
+  border-radius: 22px;
+  padding: 20px 18px;
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  justify-content: space-between;
   box-shadow: var(--ht-shadow-sm);
   transition: transform var(--ht-dur-base) var(--ht-ease),
-              box-shadow var(--ht-dur-base) var(--ht-ease);
+              box-shadow var(--ht-dur-base) var(--ht-ease),
+              border-color var(--ht-dur-base);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 .ht-stat-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   box-shadow: var(--ht-shadow-md);
 }
 
-/* Circular icon ring */
+.ht-stat-card.card-bp:hover  { border-color: #fca5a5; box-shadow: var(--ht-shadow-glow-bp); }
+.ht-stat-card.card-bg:hover  { border-color: #d8b4fe; box-shadow: var(--ht-shadow-glow-bg); }
+.ht-stat-card.card-streak:hover { border-color: #fde68a; }
+
+.ht-stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
 .ht-stat-icon {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   border-radius: 16px;
   display: grid;
   place-items: center;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   flex-shrink: 0;
 }
-.ht-stat-icon.bp  { background: #fee2e2; color: #ef4444; }
-.ht-stat-icon.bg  { background: #ede9fe; color: #8b5cf6; }
-.ht-stat-icon.today { background: #dcfce7; color: #22c55e; }
-.ht-stat-icon.streak { background: #fef3c7; color: #f59e0b; }
+.ht-stat-icon.bp     { background: #fee2e2; color: #ef4444; }
+.ht-stat-icon.bg     { background: #ede9fe; color: #8b5cf6; }
+.ht-stat-icon.today  { background: #dcfce7; color: #16a34a; }
+.ht-stat-icon.streak { background: #fef3c7; color: #d97706; }
+
+.ht-stat-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 100px;
+  letter-spacing: 0.02em;
+}
+.ht-stat-badge.normal   { background: #dcfce7; color: #15803d; }
+.ht-stat-badge.elevated { background: #fef3c7; color: #b45309; }
+.ht-stat-badge.high     { background: #fee2e2; color: #b91c1c; }
+.ht-stat-badge.neutral  { background: #f1f5f9; color: #64748b; }
 
 .ht-stat-label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #64748b;
-  margin-bottom: 2px;
-}
-.ht-stat-value {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #0f172a;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-.ht-stat-sub {
-  font-size: 0.72rem;
-  color: #94a3b8;
-  margin: 0;
+  color: var(--ht-text-muted);
+  margin-bottom: 4px;
 }
 
+.ht-stat-value {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--ht-text-dark);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.ht-stat-sub {
+  font-size: 0.74rem;
+  color: var(--ht-text-muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sparklines */
+.ht-sparkline {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 26px;
+  margin-top: 10px;
+}
+.ht-spark-bar {
+  flex: 1;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.28;
+  min-height: 3px;
+  transition: opacity var(--ht-dur-fast), transform var(--ht-dur-fast);
+}
+.ht-spark-bar.active {
+  opacity: 0.95;
+  transform: scaleY(1.08);
+}
 
 /* ============================================================================
- * 4. ENTRY FORM CARDS
+ * 5. SMART HEALTH INSIGHTS & WELLNESS RECOMMENDATION BANNER
+ * ============================================================================ */
+.ht-insight-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  border: 1.5px solid #bbf7d0;
+  border-radius: 22px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 18px rgba(34, 197, 94, 0.08);
+  margin-top: 20px;
+  transition: transform var(--ht-dur-base), box-shadow var(--ht-dur-base);
+}
+.ht-insight-card:hover {
+  box-shadow: 0 8px 26px rgba(34, 197, 94, 0.14);
+}
+.ht-insight-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.ht-insight-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #14532d;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ht-insight-body {
+  font-size: 0.92rem;
+  color: #166534;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.ht-insight-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.ht-insight-chip {
+  background: #ffffff;
+  border: 1px solid #86efac;
+  border-radius: 100px;
+  padding: 4px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #15803d;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.ht-insight-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.ht-insight-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all var(--ht-dur-fast);
+  cursor: pointer;
+}
+.ht-insight-btn:hover {
+  background: #15803d;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+/* ============================================================================
+ * 6. FORM MODE SWITCHER (SEGMENTED CONTROL)
+ * ============================================================================ */
+.ht-mode-switch-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.ht-mode-switch {
+  display: inline-flex;
+  background: var(--ht-surface);
+  border: 1.5px solid var(--ht-border);
+  border-radius: 100px;
+  padding: 4px;
+  gap: 4px;
+  box-shadow: var(--ht-shadow-sm);
+  max-width: 100%;
+  overflow-x: auto;
+}
+.ht-mode-btn {
+  padding: 9px 20px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: var(--ht-text-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: all var(--ht-dur-fast) var(--ht-ease);
+}
+.ht-mode-btn:hover {
+  color: var(--ht-text-dark);
+}
+.ht-mode-btn.active {
+  background: linear-gradient(135deg, #1769aa 0%, #2196f3 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(33, 150, 243, 0.3);
+}
+.ht-mode-btn.active.mode-bp {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+}
+.ht-mode-btn.active.mode-bg {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+}
+
+/* ============================================================================
+ * 7. ENTRY FORM CARDS, STEPPERS & PRESET PILLS
  * ============================================================================ */
 .ht-form-card {
   background: var(--ht-surface);
   border: 1.5px solid var(--ht-border);
-  border-radius: 24px;
+  border-radius: 26px;
   padding: 28px 24px;
   box-shadow: var(--ht-shadow-sm);
-  transition: box-shadow var(--ht-dur-base) var(--ht-ease);
+  transition: box-shadow var(--ht-dur-base) var(--ht-ease),
+              border-color var(--ht-dur-base);
   height: 100%;
+  position: relative;
 }
 .ht-form-card:hover {
   box-shadow: var(--ht-shadow-md);
 }
 
-/* Card type accent top bar */
-.ht-form-card.type-bp  { border-top: 4px solid #ef4444; }
-.ht-form-card.type-bg  { border-top: 4px solid #8b5cf6; }
+.ht-form-card.type-bp { border-top: 5px solid #ef4444; }
+.ht-form-card.type-bg { border-top: 5px solid #8b5cf6; }
 
-/* Card header row */
 .ht-card-header {
   display: flex;
   align-items: center;
@@ -256,175 +511,289 @@
   margin-bottom: 20px;
 }
 .ht-card-icon {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 14px;
   display: grid;
   place-items: center;
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   flex-shrink: 0;
 }
 .ht-card-icon.bp { background: #fee2e2; color: #ef4444; }
 .ht-card-icon.bg { background: #ede9fe; color: #8b5cf6; }
 
 .ht-card-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ht-text-dark);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 .ht-card-sub {
-  font-size: 0.75rem;
-  color: #94a3b8;
+  font-size: 0.78rem;
+  color: var(--ht-text-muted);
   margin: 0;
 }
 
+/* Stepper Controls */
+.ht-input-stepper-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ht-stepper-row {
+  display: flex;
+  gap: 3px;
+  margin-top: 4px;
+}
+.ht-stepper-btn {
+  flex: 1;
+  height: 28px;
+  border: 1px solid var(--ht-border);
+  background: #fff;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ht-text-muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all var(--ht-dur-fast);
+  user-select: none;
+}
+.ht-stepper-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: var(--ht-text-dark);
+}
+.ht-stepper-btn:active {
+  transform: scale(0.95);
+}
 
-/* ============================================================================
- * 5. INPUT FIELDS & CONTROLS
- * ============================================================================ */
+/* Preset Quick Pills */
+.ht-preset-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+.ht-preset-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ht-text-muted);
+  text-transform: uppercase;
+}
+.ht-preset-pill {
+  border: 1px solid var(--ht-border);
+  background: #fff;
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ht-text-dark);
+  cursor: pointer;
+  transition: all var(--ht-dur-fast);
+}
+.ht-preset-pill:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+/* Visual Arm & Timing Toggle Pills */
+.ht-pill-toggle-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ht-pill-toggle {
+  flex: 1;
+  min-width: 90px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--ht-border);
+  background: var(--ht-surface-alt);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ht-text-muted);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--ht-dur-fast);
+  user-select: none;
+}
+.ht-pill-toggle:hover {
+  background: #fff;
+  border-color: #cbd5e1;
+  color: var(--ht-text-dark);
+}
+.ht-pill-toggle.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+/* Timing Cards for Glucose (Fasting / Post-meal / Random) */
+.ht-timing-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.ht-timing-card {
+  padding: 8px 6px;
+  border: 1.5px solid var(--ht-border);
+  background: var(--ht-surface-alt);
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--ht-dur-fast);
+  user-select: none;
+}
+.ht-timing-card:hover {
+  background: #fff;
+  border-color: #cbd5e1;
+}
+.ht-timing-card.active {
+  background: #f5f3ff;
+  border-color: #8b5cf6;
+  color: #6d28d9;
+}
+.ht-timing-icon {
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 2px;
+}
+.ht-timing-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: block;
+  white-space: nowrap;
+}
+
+/* Unit Converter Tip */
+.ht-unit-converter {
+  font-size: 0.74rem;
+  color: var(--ht-text-muted);
+  background: #f8fafc;
+  border: 1px solid var(--ht-border);
+  border-radius: 10px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+/* Inputs */
 .ht-input-group {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .ht-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #374151;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
   margin-bottom: 6px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 .ht-label .unit {
-  font-weight: 400;
-  color: #94a3b8;
+  font-weight: 500;
+  color: var(--ht-text-muted);
   font-size: 0.72rem;
 }
-
-/* Styled number input */
 .ht-input {
   width: 100%;
-  height: 50px;
+  height: 52px;
   border: 1.5px solid var(--ht-border);
   border-radius: 14px;
   padding: 0 16px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ht-text-dark);
   background: var(--ht-surface-alt);
-  transition: border-color var(--ht-dur-fast) var(--ht-ease),
-              box-shadow var(--ht-dur-fast) var(--ht-ease);
   outline: none;
-  appearance: none;
+  transition: all var(--ht-dur-fast) var(--ht-ease);
 }
 .ht-input:focus {
   border-color: #2196f3;
-  box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
   background: #fff;
 }
 .ht-input.has-error {
   border-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
 }
 .ht-input-error {
   font-size: 0.72rem;
   color: #ef4444;
-  margin-top: 4px;
+  margin-top: 3px;
   min-height: 16px;
   display: block;
 }
 
-/* Inline inputs row (systolic / diastolic) */
 .ht-input-row {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: end;
+  align-items: flex-start;
   gap: 8px;
 }
 .ht-slash {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 300;
   color: #cbd5e1;
   text-align: center;
-  padding-bottom: 8px;
-  line-height: 50px;
+  line-height: 52px;
 }
 
-/* Select / Dropdown */
+.ht-datetime,
 .ht-select {
-  width: 100%;
-  height: 50px;
-  border: 1.5px solid var(--ht-border);
-  border-radius: 14px;
-  padding: 0 16px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #374151;
-  background: var(--ht-surface-alt) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;
-  appearance: none;
-  cursor: pointer;
-  outline: none;
-  transition: border-color var(--ht-dur-fast);
-}
-.ht-select:focus {
-  border-color: #2196f3;
-  box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
-}
-
-/* Date/time input */
-.ht-datetime {
   width: 100%;
   height: 46px;
   border: 1.5px solid var(--ht-border);
   border-radius: 14px;
   padding: 0 14px;
-  font-size: 0.9rem;
-  color: #374151;
+  font-size: 0.88rem;
+  color: #334155;
   background: var(--ht-surface-alt);
   outline: none;
   transition: border-color var(--ht-dur-fast);
 }
-.ht-datetime:focus {
+.ht-datetime:focus,
+.ht-select:focus {
   border-color: #2196f3;
 }
-
-/* Notes textarea */
 .ht-textarea {
   width: 100%;
-  min-height: 72px;
+  min-height: 64px;
   border: 1.5px solid var(--ht-border);
   border-radius: 14px;
-  padding: 12px 16px;
-  font-size: 0.88rem;
-  color: #374151;
+  padding: 10px 14px;
+  font-size: 0.86rem;
+  color: #334155;
   background: var(--ht-surface-alt);
   resize: vertical;
   outline: none;
-  transition: border-color var(--ht-dur-fast);
   font-family: inherit;
 }
 .ht-textarea:focus {
   border-color: #2196f3;
-  box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
 }
 
-/* Submit button */
 .ht-btn-save {
   width: 100%;
   height: 52px;
   border-radius: 16px;
   border: none;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   cursor: pointer;
   transition: transform var(--ht-dur-fast) var(--ht-ease),
-              box-shadow var(--ht-dur-fast) var(--ht-ease),
-              opacity var(--ht-dur-fast);
+              box-shadow var(--ht-dur-fast) var(--ht-ease);
 }
 .ht-btn-save:hover:not(:disabled) {
   transform: translateY(-2px);
@@ -433,26 +802,97 @@
 .ht-btn-save:active:not(:disabled) {
   transform: scale(0.98);
 }
-.ht-btn-save:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
 .ht-btn-save.type-bp {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: #fff;
-  box-shadow: 0 4px 16px rgba(239,68,68,0.3);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
 }
 .ht-btn-save.type-bg {
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: #fff;
-  box-shadow: 0 4px 16px rgba(139,92,246,0.3);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
 }
 
-
 /* ============================================================================
- * 6. STATUS BADGES & GAUGE RINGS
+ * 8. LIVE DIAGNOSTIC SPECTRUM GAUGES & ADVICE CARDS
  * ============================================================================ */
-/* Live status chip shown next to form after save */
+.ht-gauge-wrap {
+  margin: 14px 0 16px;
+  background: var(--ht-surface-alt);
+  border: 1px solid var(--ht-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+.ht-gauge-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ht-text-muted);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.ht-gauge-track {
+  height: 12px;
+  border-radius: 100px;
+  position: relative;
+  overflow: visible;
+  margin-bottom: 8px;
+}
+.ht-gauge-track.bp-track {
+  background: linear-gradient(90deg,
+    #7c3aed 0%, #7c3aed 15%,
+    #16a34a 15%, #16a34a 45%,
+    #f59e0b 45%, #f59e0b 65%,
+    #ea580c 65%, #ea580c 80%,
+    #dc2626 80%, #dc2626 92%,
+    #991b1b 92%, #991b1b 100%
+  );
+}
+.ht-gauge-track.bg-track {
+  background: linear-gradient(90deg,
+    #7c3aed 0%, #7c3aed 18%,
+    #16a34a 18%, #16a34a 52%,
+    #f59e0b 52%, #f59e0b 75%,
+    #dc2626 75%, #dc2626 100%
+  );
+}
+.ht-gauge-pointer {
+  position: absolute;
+  top: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3.5px solid #0f172a;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: left var(--ht-dur-base) var(--ht-ease);
+}
+.ht-gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ht-text-muted);
+}
+
+.ht-advice-box {
+  background: #ffffff;
+  border-left: 4px solid #16a34a;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #334155;
+  line-height: 1.5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+.ht-advice-box.elevated { border-left-color: #f59e0b; }
+.ht-advice-box.high     { border-left-color: #dc2626; }
+.ht-advice-box.crisis   { border-left-color: #991b1b; background: #fef2f2; }
+
+/* Status chips */
 .ht-status-chip {
   display: inline-flex;
   align-items: center;
@@ -461,14 +901,7 @@
   border-radius: 100px;
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.03em;
-  animation: htChipPop var(--ht-dur-slow) var(--ht-ease);
 }
-@keyframes htChipPop {
-  from { opacity: 0; transform: scale(0.8); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
 .ht-status-chip.normal   { background: #dcfce7; color: #15803d; }
 .ht-status-chip.elevated { background: #fef3c7; color: #b45309; }
 .ht-status-chip.high1    { background: #ffedd5; color: #c2410c; }
@@ -476,216 +909,8 @@
 .ht-status-chip.crisis   { background: #991b1b; color: #fff; }
 .ht-status-chip.low      { background: #ede9fe; color: #6d28d9; }
 
-/* Reading summary box that appears below form after submission */
-.ht-reading-preview {
-  background: var(--ht-surface-alt);
-  border: 1px solid var(--ht-border);
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 12px;
-  animation: htFadeUp var(--ht-dur-slow) var(--ht-ease);
-}
-@keyframes htFadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.ht-reading-preview .big-val {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #0f172a;
-  line-height: 1;
-}
-.ht-reading-preview .big-unit {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-
 /* ============================================================================
- * 7. HISTORY LOG TABLE
- * ============================================================================ */
-.ht-history-wrap {
-  background: var(--ht-surface);
-  border: 1px solid var(--ht-border);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--ht-shadow-sm);
-}
-
-.ht-history-header {
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--ht-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.ht-history-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Filter tab pills */
-.ht-tab-group {
-  display: flex;
-  gap: 4px;
-  background: var(--ht-surface-alt);
-  border: 1px solid var(--ht-border);
-  border-radius: 10px;
-  padding: 3px;
-}
-.ht-tab {
-  padding: 5px 14px;
-  border-radius: 8px;
-  border: none;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #64748b;
-  background: transparent;
-  cursor: pointer;
-  transition: all var(--ht-dur-fast) var(--ht-ease);
-  white-space: nowrap;
-}
-.ht-tab.active {
-  background: #fff;
-  color: #1769aa;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-/* Table wrapper */
-.ht-table-scroll {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.ht-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 540px;
-}
-.ht-table thead th {
-  padding: 10px 20px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #94a3b8;
-  background: var(--ht-surface-alt);
-  border-bottom: 1px solid var(--ht-border);
-  white-space: nowrap;
-  text-align: left;
-}
-.ht-table tbody tr {
-  transition: background var(--ht-dur-fast);
-  animation: htRowIn var(--ht-dur-slow) var(--ht-ease) both;
-}
-@keyframes htRowIn {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-.ht-table tbody tr:hover {
-  background: #f8fafc;
-}
-.ht-table tbody td {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--ht-border);
-  font-size: 0.88rem;
-  color: #374151;
-  vertical-align: middle;
-}
-.ht-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* Reading value cells */
-.ht-val-bp {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #ef4444;
-  font-variant-numeric: tabular-nums;
-}
-.ht-val-bg {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #8b5cf6;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Row delete button */
-.ht-row-del {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #cbd5e1;
-  font-size: 1rem;
-  padding: 4px;
-  border-radius: 8px;
-  transition: color var(--ht-dur-fast), background var(--ht-dur-fast);
-  line-height: 1;
-}
-.ht-row-del:hover {
-  color: #ef4444;
-  background: #fee2e2;
-}
-
-/* Pagination */
-.ht-pagination {
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  border-top: 1px solid var(--ht-border);
-  flex-wrap: wrap;
-}
-.ht-pagination-info {
-  font-size: 0.78rem;
-  color: #94a3b8;
-}
-.ht-pagination-btns {
-  display: flex;
-  gap: 4px;
-}
-.ht-page-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid var(--ht-border);
-  font-size: 0.8rem;
-  font-weight: 600;
-  background: #fff;
-  color: #374151;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: all var(--ht-dur-fast);
-}
-.ht-page-btn:hover:not(:disabled) {
-  border-color: #2196f3;
-  color: #2196f3;
-}
-.ht-page-btn.active {
-  background: #2196f3;
-  border-color: #2196f3;
-  color: #fff;
-}
-.ht-page-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-
-/* ============================================================================
- * 8. CHART CANVAS WRAPPER
+ * 9. INTERACTIVE TREND CHARTS & HOVER TOOLTIPS
  * ============================================================================ */
 .ht-chart-card {
   background: var(--ht-surface);
@@ -693,56 +918,60 @@
   border-radius: 24px;
   padding: 24px;
   box-shadow: var(--ht-shadow-sm);
+  position: relative;
 }
 .ht-chart-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 .ht-chart-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ht-text-dark);
   margin: 0;
 }
 
-/* Legend pills */
-.ht-chart-legend {
+/* Timeframe filter buttons */
+.ht-chart-tf-group {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 3px;
+  background: var(--ht-surface-alt);
+  border: 1px solid var(--ht-border);
+  border-radius: 10px;
+  padding: 2px;
 }
-.ht-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #64748b;
+.ht-chart-tf-btn {
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ht-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--ht-dur-fast);
 }
-.ht-legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
+.ht-chart-tf-btn.active {
+  background: #ffffff;
+  color: #1769aa;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
-/* SVG chart container */
 .ht-chart-svg-wrap {
   position: relative;
   width: 100%;
-  overflow: hidden;
 }
 .ht-chart-svg {
   width: 100%;
-  height: 220px;
+  height: 230px;
   display: block;
 }
 
-/* Tooltip (absolutely positioned div) */
+/* Tooltip */
 .ht-chart-tooltip {
   position: absolute;
   background: #0f172a;
@@ -756,7 +985,8 @@
   transition: opacity var(--ht-dur-fast);
   white-space: nowrap;
   z-index: 20;
-  transform: translate(-50%, -110%);
+  transform: translate(-50%, -115%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 .ht-chart-tooltip.visible {
   opacity: 1;
@@ -772,251 +1002,195 @@
   border-color: #0f172a transparent transparent;
 }
 
-/* Empty chart placeholder */
-.ht-chart-empty {
-  height: 180px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #94a3b8;
-  gap: 10px;
-}
-.ht-chart-empty i {
-  font-size: 2.5rem;
-  opacity: 0.4;
-}
-.ht-chart-empty p {
-  font-size: 0.85rem;
-  margin: 0;
-  text-align: center;
+/* ============================================================================
+ * 10. HISTORY LOG TABLE & LIVE SEARCH
+ * ============================================================================ */
+.ht-history-wrap {
+  background: var(--ht-surface);
+  border: 1px solid var(--ht-border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--ht-shadow-sm);
 }
 
+.ht-history-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--ht-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ht-history-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ht-text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Search bar */
+.ht-search-wrap {
+  position: relative;
+  min-width: 180px;
+}
+.ht-search-input {
+  width: 100%;
+  height: 38px;
+  border: 1px solid var(--ht-border);
+  border-radius: 10px;
+  padding: 0 12px 0 32px;
+  font-size: 0.8rem;
+  background: var(--ht-surface-alt);
+  outline: none;
+}
+.ht-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ht-text-muted);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.ht-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 580px;
+}
+.ht-table thead th {
+  padding: 12px 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  background: var(--ht-surface-alt);
+  border-bottom: 1px solid var(--ht-border);
+  text-align: left;
+}
+.ht-table tbody td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--ht-border);
+  font-size: 0.88rem;
+  vertical-align: middle;
+}
+.ht-table tbody tr:hover {
+  background: #f8fafc;
+}
 
 /* ============================================================================
- * 9. SHARE & EXPORT PANEL
+ * 11. FAMILY DIRECT WHATSAPP & MULTI-CHANNEL SHARE PANEL
  * ============================================================================ */
 .ht-share-card {
-  background: linear-gradient(135deg, #1769aa 0%, #2196f3 100%);
-  border-radius: 24px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+  border-radius: 26px;
   padding: 28px 24px;
   color: #fff;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
 }
 .ht-share-card::before {
   content: "";
   position: absolute;
   top: -40px;
   right: -40px;
-  width: 180px;
-  height: 180px;
-  background: rgba(255,255,255,0.08);
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 50%;
 }
 
-.ht-share-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 6px;
-  position: relative;
+.ht-whatsapp-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 18px;
 }
-.ht-share-sub {
-  font-size: 0.82rem;
-  opacity: 0.82;
-  margin-bottom: 20px;
-  position: relative;
-}
-
-/* QR Code display area */
-.ht-qr-wrap {
-  background: #fff;
-  border-radius: 16px;
-  padding: 12px;
-  display: inline-block;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-}
-.ht-qr-wrap canvas {
-  display: block;
-}
-
-/* Share action buttons */
-.ht-share-btn-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  position: relative;
-}
-.ht-share-btn {
+.ht-whatsapp-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 9px 18px;
-  border-radius: 12px;
-  font-size: 0.82rem;
-  font-weight: 700;
+  justify-content: center;
+  gap: 8px;
+  background: #25d366;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 12px 20px;
+  width: 100%;
   cursor: pointer;
-  border: none;
-  transition: all var(--ht-dur-fast) var(--ht-ease);
-}
-.ht-share-btn:hover {
-  transform: translateY(-1px);
-}
-
-.ht-share-btn.csv   { background: rgba(255,255,255,0.2); color: #fff; }
-.ht-share-btn.json  { background: rgba(255,255,255,0.2); color: #fff; }
-.ht-share-btn.link  { background: #fff; color: #1769aa; }
-.ht-share-btn.print { background: rgba(255,255,255,0.2); color: #fff; }
-
-.ht-share-btn.csv:hover   { background: rgba(255,255,255,0.3); }
-.ht-share-btn.json:hover  { background: rgba(255,255,255,0.3); }
-.ht-share-btn.print:hover { background: rgba(255,255,255,0.3); }
-.ht-share-btn.link:hover  { box-shadow: 0 4px 14px rgba(255,255,255,0.4); }
-
-/* Copy link input group */
-.ht-link-row {
-  display: flex;
-  gap: 6px;
-  position: relative;
-  margin-top: 12px;
-}
-.ht-link-input {
-  flex: 1;
-  height: 42px;
-  border: none;
-  border-radius: 12px;
-  padding: 0 12px;
-  font-size: 0.78rem;
-  font-family: monospace;
-  color: #374151;
-  background: rgba(255,255,255,0.95);
-  outline: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.ht-copy-btn {
-  height: 42px;
-  padding: 0 14px;
-  border: none;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  background: #fff;
-  color: #1769aa;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
   transition: all var(--ht-dur-fast);
-  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  text-decoration: none;
 }
-.ht-copy-btn:hover {
-  background: #e3f2fd;
-}
-.ht-copy-btn.copied {
-  background: #dcfce7;
-  color: #15803d;
+.ht-whatsapp-btn:hover {
+  background: #20ba59;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
 }
 
+.ht-msg-preview-box {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: #e2e8f0;
+  margin-top: 10px;
+  white-space: pre-line;
+}
 
 /* ============================================================================
- * 10. FAMILY MONITOR BADGE
+ * 12. FAMILY MONITOR & PIN AUTHENTICATION CARD
  * ============================================================================ */
 .ht-family-card {
   background: var(--ht-surface);
   border: 1.5px solid var(--ht-border);
-  border-radius: 24px;
-  padding: 24px;
+  border-radius: 26px;
+  padding: 26px;
   box-shadow: var(--ht-shadow-sm);
   display: flex;
   flex-direction: column;
   gap: 14px;
+  height: 100%;
 }
-
-.ht-family-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.ht-family-avatar-row {
-  display: flex;
-  gap: -8px;
-}
-.ht-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  background: linear-gradient(135deg, #2196f3, #1769aa);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin-right: -10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-.ht-avatar:nth-child(2) { background: linear-gradient(135deg, #22c55e, #15803d); }
-.ht-avatar:nth-child(3) { background: linear-gradient(135deg, #f59e0b, #b45309); }
-
-.ht-family-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-}
-.ht-family-desc {
-  font-size: 0.8rem;
-  color: #64748b;
-  margin: 0;
-  line-height: 1.5;
-}
-
-/* Family profile PIN setup */
-.ht-pin-wrap {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.ht-pin-input {
-  flex: 1;
-  height: 46px;
-  border: 1.5px solid var(--ht-border);
-  border-radius: 12px;
-  padding: 0 14px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.3em;
-  text-align: center;
-  outline: none;
-  transition: border-color var(--ht-dur-fast);
-  color: #374151;
-}
-.ht-pin-input:focus {
-  border-color: #2196f3;
-}
-.ht-pin-btn {
-  height: 46px;
-  padding: 0 18px;
-  border: none;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  background: #2196f3;
-  color: #fff;
-  cursor: pointer;
-  transition: all var(--ht-dur-fast);
-  white-space: nowrap;
-}
-.ht-pin-btn:hover {
-  background: #1769aa;
-}
-
 
 /* ============================================================================
- * 11. TOAST NOTIFICATIONS (health-tracker specific)
+ * 13. EMERGENCY CRISIS ALERT BANNER
+ * ============================================================================ */
+.ht-crisis-banner {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #fff;
+  border-radius: 20px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.28);
+  animation: htPulseAlert 2s infinite alternate;
+}
+@keyframes htPulseAlert {
+  from { box-shadow: 0 8px 24px rgba(220, 38, 38, 0.28); }
+  to   { box-shadow: 0 12px 32px rgba(220, 38, 38, 0.5); }
+}
+.ht-crisis-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+
+/* ============================================================================
+ * 14. TOAST NOTIFICATIONS
  * ============================================================================ */
 .ht-toast-stack {
   position: fixed;
@@ -1029,161 +1203,92 @@
   pointer-events: none;
 }
 .ht-toast {
-  min-width: 260px;
-  max-width: 340px;
+  min-width: 270px;
+  max-width: 350px;
   background: #fff;
   border: 1px solid var(--ht-border);
   border-radius: 16px;
-  padding: 14px 16px;
+  padding: 14px 18px;
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  box-shadow: var(--ht-shadow-md);
+  gap: 12px;
+  box-shadow: var(--ht-shadow-lg);
   pointer-events: auto;
   animation: htToastIn var(--ht-dur-slow) var(--ht-ease);
 }
 @keyframes htToastIn {
-  from { opacity: 0; transform: translateX(40px) scale(0.95); }
+  from { opacity: 0; transform: translateX(50px) scale(0.92); }
   to   { opacity: 1; transform: translateX(0) scale(1); }
 }
 .ht-toast.ht-toast-out {
   animation: htToastOut var(--ht-dur-slow) var(--ht-ease) forwards;
 }
 @keyframes htToastOut {
-  to { opacity: 0; transform: translateX(40px) scale(0.9); }
+  to { opacity: 0; transform: translateX(50px) scale(0.92); }
 }
-
 .ht-toast-icon {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 10px;
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 .ht-toast.success .ht-toast-icon { background: #dcfce7; color: #15803d; }
 .ht-toast.error   .ht-toast-icon { background: #fee2e2; color: #b91c1c; }
 .ht-toast.info    .ht-toast-icon { background: #dbeafe; color: #1d4ed8; }
 .ht-toast.warn    .ht-toast-icon { background: #fef3c7; color: #b45309; }
-
-.ht-toast-body { flex: 1; }
-.ht-toast-ttl  { font-size: 0.82rem; font-weight: 700; color: #0f172a; margin: 0 0 2px; }
-.ht-toast-msg  { font-size: 0.75rem; color: #64748b; margin: 0; }
-
+.ht-toast-ttl     { font-size: 0.85rem; font-weight: 800; color: #0f172a; margin: 0; }
 
 /* ============================================================================
- * 12. EMPTY STATE ILLUSTRATIONS
+ * 15. EMPTY STATE & UTILITY ANIMATIONS
  * ============================================================================ */
 .ht-empty {
   padding: 48px 24px;
   text-align: center;
-  color: #94a3b8;
+  color: var(--ht-text-muted);
 }
 .ht-empty-icon {
   font-size: 3.5rem;
-  margin-bottom: 16px;
-  opacity: 0.5;
+  margin-bottom: 12px;
+  opacity: 0.45;
   display: block;
 }
-.ht-empty-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #374151;
-  margin-bottom: 6px;
-}
-.ht-empty-desc {
-  font-size: 0.82rem;
-  line-height: 1.6;
-  max-width: 300px;
-  margin: 0 auto;
-}
-
 
 /* ============================================================================
- * 13. ANIMATED SPARKLINE BARS (mini trend indicator in stat cards)
+ * 16. RESPONSIVE OVERRIDES (≤ 992px & ≤ 768px)
  * ============================================================================ */
-.ht-sparkline {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 24px;
-}
-.ht-spark-bar {
-  flex: 1;
-  border-radius: 2px;
-  background: currentColor;
-  opacity: 0.25;
-  animation: htSparkGrow var(--ht-dur-slow) var(--ht-ease) both;
-}
-.ht-spark-bar.active {
-  opacity: 0.9;
-}
-@keyframes htSparkGrow {
-  from { transform: scaleY(0); transform-origin: bottom; }
-  to   { transform: scaleY(1); transform-origin: bottom; }
-}
-
-
-/* ============================================================================
- * 14. RESPONSIVE OVERRIDES (≤ 768px)
- * ============================================================================ */
-@media (max-width: 768px) {
-  .ht-page-hero {
-    padding: 36px 0 80px;
-  }
-  .ht-page-hero h1 {
-    font-size: 1.5rem;
-  }
+@media (max-width: 991px) {
   .ht-pull-up {
-    margin-top: -40px;
+    margin-top: -45px;
+  }
+  .ht-page-hero {
+    padding: 38px 0 85px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ht-page-hero h1 {
+    font-size: 1.6rem;
+  }
+  .ht-stat-value {
+    font-size: 1.35rem;
   }
   .ht-form-card {
     padding: 20px 16px;
     border-radius: 20px;
   }
-  .ht-share-card {
-    padding: 20px 16px;
+  .ht-timing-cards {
+    grid-template-columns: repeat(3, 1fr);
   }
-  .ht-history-wrap {
-    border-radius: 20px;
-  }
-  .ht-chart-card {
-    border-radius: 20px;
-    padding: 18px 14px;
-  }
-  .ht-stat-card {
-    border-radius: 16px;
-    padding: 16px 14px;
-  }
-  .ht-share-btn-row {
-    flex-direction: column;
-  }
-  .ht-share-btn {
-    justify-content: center;
-  }
-
-  /* Extra bottom padding for mobile bottom nav clearance */
-  body { padding-bottom: 76px; }
-}
-
-/* Very small screens */
-@media (max-width: 400px) {
-  .ht-input {
-    font-size: 1rem;
-    height: 46px;
-  }
-  .ht-slash {
-    line-height: 46px;
-  }
-  .ht-stat-value {
-    font-size: 1.2rem;
+  body {
+    padding-bottom: 76px;
   }
 }
-
 
 /* ============================================================================
- * 15. PRINT STYLES
+ * 17. PRINT STYLES (DOCTOR REPORT VIEW)
  * ============================================================================ */
 @media print {
   .ht-page-hero,
@@ -1191,18 +1296,16 @@
   .ht-family-card,
   .ht-form-card,
   .ht-pull-up,
+  .ht-mode-switch-wrap,
   .mobile-bottom-nav,
   nav.navbar { display: none !important; }
 
   .ht-history-wrap,
   .ht-chart-card {
     box-shadow: none;
-    border: 1px solid #ccc;
+    border: 1px solid #94a3b8;
     page-break-inside: avoid;
   }
 
-  .ht-table tbody tr { animation: none; }
-
   body { padding-bottom: 0 !important; }
 }
-
