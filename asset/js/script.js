@@ -1,3 +1,51 @@
+/**
+ * ============================================================================
+ * BreatheWell — Core Client-Side Application Engine
+ * ============================================================================
+ *
+ * @file        script.jt / script.js
+ * @description Central client-side JavaScript engine for the BreatheWell
+ *              mindfulness and respiratory wellness web platform.
+ *              Provides multi-page & single-page client routing, an interactive
+ *              guided breathing engine driven by requestAnimationFrame,
+ *              SpeechSynthesis audio cues, Web Audio API harmonic sound
+ *              synthesis, procedural confetti celebration particle system,
+ *              BOLT & BPM breath capacity self-assessments, multi-tier
+ *              progression cadences, and bilingual localization (Bengali/English).
+ *
+ * @version     2.4.0
+ * @author      BreatheWell Engineering Team
+ * @license     MIT
+ *
+ * ----------------------------------------------------------------------------
+ * TABLE OF CONTENTS
+ * ----------------------------------------------------------------------------
+ * 1.  BILINGUAL LOCALIZATION DICTIONARIES (i18n: bn, en)
+ * 2.  EXERCISE CATALOG & MULTI-LEVEL PROGRESSION DEFINITIONS
+ * 3.  GLOBAL RUNTIME STATE & DOM SELECTOR HELPERS
+ * 4.  LOCALIZATION HELPERS & LANGUAGE SWITCH CONTROLLER
+ * 5.  CLIENT-SIDE ROUTING & NAVIGATION CONTROLLER
+ * 6.  HERO BREATHEBUDDY MASCOT & LIVE RHYTHM GUIDE
+ * 7.  EXERCISE CARDS RENDERING & INTERACTIVE LEVEL PICKER
+ * 8.  EXERCISE DETAILS & CADENCE LEVEL SELECTOR
+ * 9.  INTERACTIVE SAFETY HUB & READINESS PROTOCOL
+ * 10. GUIDED BREATHING SESSION ENGINE (Timer & requestAnimationFrame Loop)
+ * 11. AUDIO GUIDANCE (SpeechSynthesis & Web Audio Chime Synthesizer)
+ * 12. CELEBRATION ENGINE: ANIMATED CHAMPION CUP & CONFETTI CANVAS
+ * 13. POST-SESSION MINDFUL MOOD REFLECTION CHECK-IN
+ * 14. SOCIAL MEDIA SHARING & CLIPBOARD COPY UTILITIES
+ * 15. RESPIRATORY ASSESSMENT ENGINE (BOLT & BPM COUNTER)
+ * 16. LOCAL STORAGE PERSISTENCE & HISTORY TRACKING
+ * 17. MULTI-PAGE DEEP LINKING & APPLICATION LIFECYCLE
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. BILINGUAL LOCALIZATION DICTIONARIES (i18n)
+ * ============================================================================
+ * Contains complete bilingual key-value dictionaries for Bengali (bn) and
+ * English (en). Both dictionaries maintain 100% key parity across all screens.
+ */
 const T = {
   bn: {
     skip: "মূল কনটেন্টে যান",
@@ -493,6 +541,44 @@ const T = {
   }
 };
 
+/* ============================================================================
+ * 2. EXERCISE CATALOG & MULTI-LEVEL PROGRESSION DEFINITIONS
+ * ============================================================================
+ * Catalog of 4 evidence-based breathing techniques with 3 distinct progression
+ * levels (Beginner L1, Intermediate L2, Advanced L3) per exercise:
+ * 1. 4-6 Gentle Breathing (id: 'relax46', parasympathetic activation & calm)
+ * 2. Box Breathing (id: 'box', 4-equal-side autonomic regulation & focus)
+ * 3. 4-7-8 Deep Relaxation (id: 'diaphragmatic', sedative vagal stimulation)
+ * 4. Mindful Presence (id: 'mindful', natural open monitoring awareness)
+ *
+ * @typedef {Object} LocalizedText
+ * @property {string} bn - Bengali localized string
+ * @property {string} en - English localized string
+ *
+ * @typedef {Object} LevelConfig
+ * @property {number} num - Level numeric identifier (1, 2, or 3)
+ * @property {LocalizedText} name - Level badge name
+ * @property {LocalizedText} desc - Detailed cadence description
+ * @property {Array<[string, number]>} phases - Cadence phase durations in seconds
+ *
+ * @typedef {Object} Exercise
+ * @property {string} id - Unique exercise slug
+ * @property {string} icon - Bootstrap icon class name
+ * @property {string} image - SVG illustration filename in asset/image/
+ * @property {string} level - Default difficulty category
+ * @property {string} category - Category identifier for filtering
+ * @property {string} tag - Wellness goal tag (stress, focus, sleep, mindful)
+ * @property {number} duration - Default minimum session duration in seconds (60s)
+ * @property {Array<[string, number]>} phases - Default phase durations
+ * @property {Object<string, LevelConfig>} levels - Level 1, 2, 3 progression variants
+ * @property {LocalizedText} name - Localized exercise title
+ * @property {LocalizedText} desc - Localized primary description
+ * @property {LocalizedText} badge - Goal badge label
+ * @property {LocalizedText} benefit - Physiological/neuroscience benefit summary
+ * @property {LocalizedText} when - Optimal time-of-day or situation to practice
+ *
+ * @type {Array<Exercise>}
+ */
 const exercises = [
   {
     id: "relax46",
@@ -672,38 +758,132 @@ const exercises = [
   }
 ];
 
+/* ============================================================================
+ * 3. GLOBAL RUNTIME STATE & DOM SELECTOR HELPERS
+ * ============================================================================
+ */
+
+/** @type {string} Active application language code ('bn' or 'en'). */
 let lang = localStorage.getItem("bw-lang") || "bn";
+
+/** @type {Exercise} Currently selected exercise for details or session. */
 let selected = exercises[0];
+
+/** @type {string} Active progression level ('beginner', 'intermediate', 'advanced'). */
 let selectedLevel = "intermediate";
+
+/** @type {string} Active exercise category filter ('all' or 'beginner'). */
 let filter = "all";
+
+/** @type {string} Active wellness goal filter tag ('all', 'stress', 'focus', etc.). */
 let exploreGoal = "all";
+
+/** @type {Object|null} Runtime state machine of the active guided breathing session. */
 let run = null;
+
+/** @type {number|null} Animation frame request ID for cancelAnimationFrame(). */
 let raf = null;
+
+/** @type {boolean} Indicates whether the active session timer is currently paused. */
 let paused = false;
+
+/** @type {boolean} Indicates whether SpeechSynthesis voice guidance is enabled. */
 let audioEnabled = false;
 
 // Sharing & Persistence State
+/** @type {Object|null} Snapshot of the most recently finished breathing session. */
 let lastCompletedSession = null;
+
+/** @type {Object|null} Snapshot of the most recent BOLT or BPM assessment result. */
 let lastTestResult = null;
 
 // Breathing Test State
+/** @type {'bolt'|'bpm'} Active assessment mode on the breath test screen. */
 let activeTestTab = 'bolt';
+
+/** @type {boolean} Indicates whether a breath test stopwatch/countdown is active. */
 let testRunning = false;
+
+/** @type {number} High-resolution timestamp (performance.now()) when test started. */
 let testStartTime = 0;
+
+/** @type {number|null} Interval ID for the test stopwatch/countdown timer. */
 let testInterval = null;
+
+/** @type {number|null} Interval ID for the 3-2-1 get-ready preparation countdown. */
 let testCountInterval = null;
+
+/** @type {number} Accumulated breath tap counter during 30s BPM assessment. */
 let bpmTaps = 0;
+
+/** @type {number} Remaining seconds in the 30-second breath rate counter. */
 let bpmCountdown = 30;
+
+/** @type {string} Exercise ID recommended to the user based on test score. */
 let recommendedExerciseId = 'relax46';
 
+/* ============================================================================
+ * 4. LOCALIZATION HELPERS & LANGUAGE SWITCH CONTROLLER
+ * ============================================================================
+ */
+
+/**
+ * Shorthand document.getElementById lookup.
+ * @param {string} id - Element ID.
+ * @returns {HTMLElement|null}
+ */
 const $ = id => document.getElementById(id);
+
+/**
+ * Translates an i18n key in the current language with fallback to key name.
+ * @param {string} k - Translation key.
+ * @returns {string} Localized string.
+ */
 const tr = k => T[lang][k] ?? k;
+
+/**
+ * Resolves localized name for an exercise.
+ * @param {Exercise} e - Exercise object.
+ * @returns {string}
+ */
 const exName = e => e.name[lang];
+
+/**
+ * Resolves localized description for an exercise.
+ * @param {Exercise} e - Exercise object.
+ * @returns {string}
+ */
 const exDesc = e => e.desc[lang];
+
+/**
+ * Resolves localized badge tag for an exercise.
+ * @param {Exercise} e - Exercise object.
+ * @returns {string}
+ */
 const exBadge = e => e.badge[lang];
+
+/**
+ * Resolves localized physiological benefit summary.
+ * @param {Exercise} e - Exercise object.
+ * @returns {string}
+ */
 const exBenefit = e => e.benefit[lang];
+
+/**
+ * Resolves localized optimal timing statement.
+ * @param {Exercise} e - Exercise object.
+ * @returns {string}
+ */
 const exWhen = e => e.when[lang];
 
+/**
+ * Resolves the array of phase tuples [phaseName, durationInSeconds] for an exercise
+ * based on selected level.
+ *
+ * @param {Exercise} ex - Target exercise definition.
+ * @param {string} lvlKey - Level key ('beginner', 'intermediate', 'advanced').
+ * @returns {Array<[string, number]>} Phase tuple list.
+ */
 function getLevelPhases(ex, lvlKey) {
   if (ex && ex.levels && ex.levels[lvlKey]) {
     return ex.levels[lvlKey].phases;
@@ -711,6 +891,12 @@ function getLevelPhases(ex, lvlKey) {
   return ex ? ex.phases : [["inhale", 4], ["exhale", 6]];
 }
 
+/**
+ * Returns localized label for an exercise progression level.
+ *
+ * @param {string} lvlKey - Level key ('beginner', 'intermediate', 'advanced').
+ * @returns {string} Localized level title.
+ */
 function getLevelLabel(lvlKey) {
   const map = {
     beginner: { bn: "লেভেল ১ · শুরুর জন্য", en: "Level 1 · Beginner" },
@@ -720,6 +906,12 @@ function getLevelLabel(lvlKey) {
   return map[lvlKey] ? map[lvlKey][lang] : lvlKey;
 }
 
+/**
+ * Switches global language, updates localStorage, triggers full DOM translation,
+ * and refreshes all active card lists, details views, and hero guides.
+ *
+ * @param {string} next - Target language code ('bn' or 'en').
+ */
 function setLang(next) {
   lang = next;
   localStorage.setItem("bw-lang", lang);
@@ -764,6 +956,18 @@ if (langToggleBtn) {
   langToggleBtn.addEventListener("click", () => setLang(lang === "bn" ? "en" : "bn"));
 }
 
+/* ============================================================================
+ * 5. CLIENT-SIDE ROUTING & NAVIGATION CONTROLLER
+ * ============================================================================
+ */
+
+/**
+ * Synchronizes active navigation states across desktop top navbar links and
+ * the mobile bottom app drawer. Automatically adds `.nav-hidden` during active
+ * breathing sessions to ensure an immersive, distraction-free environment.
+ *
+ * @param {string} screenId - ID of active screen or conceptual section.
+ */
 function updateNavActive(screenId) {
   const bottomNav = $("mobileBottomNav");
   let targetTab = screenId;
@@ -818,6 +1022,14 @@ function updateNavActive(screenId) {
   });
 }
 
+/**
+ * Screen transition router.
+ * Confirms user intent if navigating away from a running session, stops active
+ * assessment timers, updates active screen classes, resets scroll position,
+ * and collapses mobile menus.
+ *
+ * @param {string} id - Target screen section ID.
+ */
 function go(id) {
   if (run && id !== "session" && id !== "complete") {
     if (!confirm(tr("confirmStop"))) return;
@@ -853,7 +1065,17 @@ function go(id) {
   }
 }
 
-// Hero Playful Vibe & BreatheBuddy Interactions
+/* ============================================================================
+ * 6. HERO BREATHEBUDDY MASCOT & LIVE RHYTHM GUIDE
+ * ============================================================================
+ */
+
+/**
+ * 1-click quick-start handler triggered by Hero Vibe Selector chips.
+ * Immediately opens the exercise details screen for the target exercise.
+ *
+ * @param {string} id - Exercise identifier (e.g., 'relax46', 'box', etc.).
+ */
 function quickStartExercise(id) {
   const ex = exercises.find(e => e.id === id);
   if (ex) {
@@ -865,9 +1087,16 @@ function quickStartExercise(id) {
   }
 }
 
+/** @type {number|null} Timer interval reference for the rhythmic hero breathing guide. */
 let heroBreathTimer = null;
+
+/** @type {boolean} State flag indicating whether the mascot is currently inhaling. */
 let heroIsInhale = true;
 
+/**
+ * Initializes the rhythmic 3s-inhale / 3s-exhale live breathing guide pill
+ * displayed directly under the BreatheBuddy mascot orb.
+ */
 function initHeroBreathGuide() {
   const guideEl = $("heroOrbGuide");
   if (!guideEl) return;
@@ -886,6 +1115,11 @@ function initHeroBreathGuide() {
   }, 3000);
 }
 
+/**
+ * Click/Tap handler for the BreatheBuddy mascot.
+ * Triggers a joyful giggle bounce animation, spawns floating heart/star bubbles,
+ * plays a Web Audio celebration chime, and displays an encouraging smile message.
+ */
 function tapHeroBuddy() {
   const orb = $("heroBuddyOrb");
   if (orb) {
@@ -910,6 +1144,10 @@ function tapHeroBuddy() {
   }
 }
 
+/**
+ * Spawns 4 animated floating heart, sparkle, and blossom icons that drift
+ * upward from the mascot orb and clean themselves up from the DOM.
+ */
 function spawnBuddyHearts() {
   const wrap = $("heroArtWrap");
   if (!wrap) return;
@@ -928,6 +1166,15 @@ function spawnBuddyHearts() {
   }
 }
 
+/* ============================================================================
+ * 7. EXERCISE CARDS RENDERING & INTERACTIVE LEVEL PICKER
+ * ============================================================================
+ */
+
+/**
+ * Tracks the actively selected progression level on each exercise card.
+ * @type {Object<string, string>}
+ */
 const cardSelectedLevels = {
   relax46: "beginner",
   box: "intermediate",
@@ -935,6 +1182,13 @@ const cardSelectedLevels = {
   mindful: "beginner"
 };
 
+/**
+ * Formats a concise cadence string for an exercise and level (e.g. "4s-6s", "4s-4s-4s-4s").
+ *
+ * @param {Exercise} ex - Target exercise.
+ * @param {string} [lvlKey="beginner"] - Level key.
+ * @returns {string} Formatted cadence text with seconds units.
+ */
 function getCadenceText(ex, lvlKey = "beginner") {
   const lvlObj = ex.levels ? ex.levels[lvlKey] : null;
   const phases = lvlObj ? lvlObj.phases : ex.phases;
@@ -945,6 +1199,13 @@ function getCadenceText(ex, lvlKey = "beginner") {
   return phases.map(p => p[1] + secUnit).join("-");
 }
 
+/**
+ * Returns localized compact level title for card badges.
+ *
+ * @param {Exercise} ex - Target exercise.
+ * @param {string} [lvlKey="beginner"] - Level key.
+ * @returns {string} Localized badge title.
+ */
 function getLevelShortName(ex, lvlKey = "beginner") {
   if (ex && ex.levels && ex.levels[lvlKey] && ex.levels[lvlKey].name) {
     return ex.levels[lvlKey].name[lang];
@@ -955,6 +1216,15 @@ function getLevelShortName(ex, lvlKey = "beginner") {
   return lang === "bn" ? "লেভেল ১" : "Level 1";
 }
 
+/**
+ * Event handler for the interactive 1-click L1/L2/L3 level chips on cards.
+ * Updates the card cadence pill, re-animates the soundwave bars, and syncs
+ * the active level in cardSelectedLevels.
+ *
+ * @param {string} exId - Exercise ID.
+ * @param {string} lvlKey - Selected level key ('beginner', 'intermediate', 'advanced').
+ * @param {HTMLElement} btnEl - The clicked chip button element.
+ */
 function selectCardLevel(exId, lvlKey, btnEl) {
   cardSelectedLevels[exId] = lvlKey;
   const card = btnEl.closest(".exercise-card");
@@ -995,6 +1265,13 @@ function selectCardLevel(exId, lvlKey, btnEl) {
   }
 }
 
+/**
+ * Generates the responsive HTML markup string for an exercise card component.
+ *
+ * @param {Exercise} e - Exercise data object.
+ * @param {number} [index=0] - Card index for staggered CSS entrance animations.
+ * @returns {string} Card HTML string.
+ */
 function cardHTML(e, index = 0) {
   const iconFile = e.image || 'mindful.svg';
   const curLevelKey = cardSelectedLevels[e.id] || "beginner";
@@ -1070,6 +1347,11 @@ function cardHTML(e, index = 0) {
   </div>`;
 }
 
+/**
+ * Renders exercise cards into the Featured grid (#featuredCards) on the Home page
+ * and into the Library grid (#libraryCards) on the Exercises page, applying
+ * active goal and category filters.
+ */
 function renderCards() {
   const featEl = $("featuredCards");
   const libEl = $("libraryCards");
@@ -1117,6 +1399,17 @@ if (filtersEl) {
   });
 }
 
+/* ============================================================================
+ * 8. EXERCISE DETAILS & CADENCE LEVEL SELECTOR
+ * ============================================================================
+ */
+
+/**
+ * Launches a guided breathing session directly from a card or button.
+ * Navigates across pages if the session screen is not on the current page.
+ *
+ * @param {string} id - Exercise identifier.
+ */
 function quickStartSession(id) {
   selected = exercises.find(e => e.id === id) || exercises[0];
   selectedLevel = cardSelectedLevels[id] || "beginner";
@@ -1127,6 +1420,12 @@ function quickStartSession(id) {
   startSession();
 }
 
+/**
+ * Opens the exercise details view with full science explanation and pattern steps.
+ * Handles cross-page navigation if invoked from outside exercises.html.
+ *
+ * @param {string} id - Exercise identifier.
+ */
 function openDetails(id) {
   selected = exercises.find(e => e.id === id) || exercises[0];
   selectedLevel = cardSelectedLevels[id] || "beginner";
@@ -1138,6 +1437,11 @@ function openDetails(id) {
   go("details");
 }
 
+/**
+ * Selects an active cadence progression level on the details screen and updates UI.
+ *
+ * @param {string} lvl - Level key ('beginner', 'intermediate', 'advanced').
+ */
 function selectLevel(lvl) {
   selectedLevel = lvl;
   document.querySelectorAll(".level-pill-btn").forEach(btn => {
@@ -1146,6 +1450,9 @@ function selectLevel(lvl) {
   updateLevelDetails();
 }
 
+/**
+ * Refreshes the details screen level badge, description, and phase pattern cards.
+ */
 function updateLevelDetails() {
   const badgeEl = $("detailLevelBadge");
   if (badgeEl) badgeEl.textContent = getLevelLabel(selectedLevel);
@@ -1173,6 +1480,10 @@ function updateLevelDetails() {
   }
 }
 
+/**
+ * Populates the exercise details screen with the currently selected exercise's
+ * title, illustration, description, and progression levels.
+ */
 function renderDetails() {
   const detailsEl = $("details");
   if (!detailsEl) return;
@@ -1190,6 +1501,12 @@ function renderDetails() {
   selectLevel(selectedLevel);
 }
 
+/**
+ * Translates phase technical key into human-friendly localized title.
+ *
+ * @param {string} p - Phase type ('inhale', 'hold', 'exhale', 'rest', 'natural').
+ * @returns {string} Localized phase name.
+ */
 function phaseName(p) {
   return ({
     inhale: tr("inhale"),
@@ -1200,6 +1517,9 @@ function phaseName(p) {
   })[p];
 }
 
+/**
+ * Displays the modal containing safety guidelines and clinical disclaimers.
+ */
 function showSafety() {
   const safetyList = $("safetyList");
   if (safetyList) {
@@ -1211,12 +1531,19 @@ function showSafety() {
   }
 }
 
-// ==========================================================================
-// SAFETY HUB & READINESS FUNCTIONALITY
-// ==========================================================================
+/* ============================================================================
+ * 9. INTERACTIVE SAFETY HUB & READINESS PROTOCOL
+ * ============================================================================
+ */
 
+/** @type {'rules'|'checklist'|'conditions'|'emergency'} Active Safety Hub tab. */
 let activeSafetyTab = 'rules';
 
+/**
+ * Toggles visible tab in the Safety Hub (Rules, Checklist, Conditions, Emergency).
+ *
+ * @param {'rules'|'checklist'|'conditions'|'emergency'} tab - Target tab slug.
+ */
 function switchSafetyTab(tab) {
   activeSafetyTab = tab;
   const buttons = document.querySelectorAll('.safety-tab-btn');
@@ -1241,6 +1568,10 @@ function switchSafetyTab(tab) {
   });
 }
 
+/**
+ * Evaluates the 3-item pre-session readiness checklist, updates the progress
+ * bar percentage, and toggles the ready confirmation banner.
+ */
 function updateSafetyChecklist() {
   const c1 = $('safetyCheck1')?.checked ? 1 : 0;
   const c2 = $('safetyCheck2')?.checked ? 1 : 0;
@@ -1272,6 +1603,9 @@ function updateSafetyChecklist() {
   }
 }
 
+/**
+ * Clears all readiness checklist checkboxes and resets the progress meter.
+ */
 function resetSafetyCheck() {
   const c1 = $('safetyCheck1');
   const c2 = $('safetyCheck2');
@@ -1282,6 +1616,10 @@ function resetSafetyCheck() {
   updateSafetyChecklist();
 }
 
+/**
+ * Emergency calming reset button handler. Immediately halts running sessions
+ * and tests, cancels speech audio, alerts user, and provides reassurance.
+ */
 function triggerSafetyReset() {
   if (run) stopRun(false);
   if (testRunning) stopCurrentTest();
@@ -1303,6 +1641,10 @@ function triggerSafetyReset() {
   }
 }
 
+/**
+ * Smoothly scrolls to the #safety hub section, switching to the home page if
+ * currently on another page.
+ */
 function goToSafety() {
   const el = $("safety");
   if (el) {
@@ -1316,6 +1658,17 @@ function goToSafety() {
   }
 }
 
+/* ============================================================================
+ * 10. GUIDED BREATHING SESSION ENGINE (Timer & requestAnimationFrame Loop)
+ * ============================================================================
+ */
+
+/**
+ * Initializes and starts a new guided breathing practice session.
+ * Configures the active duration (minimum 60s), audio guidance, level phase sequence,
+ * resets the circular SVG progress ring, transitions to the 'session' screen,
+ * and kicks off the high-precision requestAnimationFrame animation loop.
+ */
 function startSession() {
   if (run) stopRun(false);
   const durationSelect = $("durationSelect");
@@ -1384,20 +1737,21 @@ function startSession() {
   raf = requestAnimationFrame(tick);
 }
 
+/**
+ * Formats a duration in seconds into a standard MM:SS string representation.
+ *
+ * @param {number} s - Duration in seconds.
+ * @returns {string} Formatted MM:SS time string (e.g. "01:30").
+ */
 function formatTime(s) {
   s = Math.max(0, Math.ceil(s));
   return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
 }
 
-function speak(text) {
-  if (!audioEnabled || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  let u = new SpeechSynthesisUtterance(text);
-  u.lang = lang === "bn" ? "bn-BD" : "en-US";
-  u.rate = .88;
-  window.speechSynthesis.speak(u);
-}
-
+/**
+ * Re-evaluates and updates the active exercise title and level badge in the session header
+ * when language changes during an active run.
+ */
 function updateSessionText() {
   if (!run) return;
   const sessionName = $("sessionName");
@@ -1406,10 +1760,23 @@ function updateSessionText() {
   if (sessionLevelBadge) sessionLevelBadge.textContent = getLevelLabel(run.level);
 }
 
+/**
+ * Returns the currently active phase tuple for the ongoing session.
+ *
+ * @returns {[string, number]} Phase tuple array (e.g. ['inhale', 4] or ['natural', 5]).
+ */
 function currentPhase() {
   return run.phases[run.phaseIndex];
 }
 
+/**
+ * High-precision animation frame tick loop executed via requestAnimationFrame.
+ * Clamps delta-time (dt <= 0.25s) to guard against browser background throttling spikes,
+ * manages the 3-second preparation countdown, progresses cycle phases, updates the
+ * SVG circular progress ring stroke offset, and triggers session completion.
+ *
+ * @param {DOMHighResTimeStamp} now - Timestamp provided by requestAnimationFrame.
+ */
 function tick(now) {
   if (!run || paused) return;
   let dt = Math.min((now - run.lastFrame) / 1000, .25);
@@ -1468,6 +1835,12 @@ function tick(now) {
   raf = requestAnimationFrame(tick);
 }
 
+/**
+ * Transitions the visual breathing stage into the current phase.
+ * Configures the CSS custom property '--phase-duration', updates stage class names
+ * for expanding/contracting circle animations, updates phase icons and instructional copy,
+ * and triggers voice guidance via Web Speech API.
+ */
 function enterPhase() {
   let p = currentPhase(), type = p[0], dur = type === "natural" ? 5 : p[1];
 
@@ -1516,6 +1889,11 @@ function enterPhase() {
   speak(type === "natural" ? (lang === "bn" ? "স্বাভাবিকভাবে শ্বাস নিন" : "Breathe naturally") : phaseName(type));
 }
 
+/**
+ * Toggles the pause state of an ongoing breathing exercise session.
+ * When paused, cancels requestAnimationFrame, cancels speech utterances,
+ * freezes CSS breathing transitions, and toggles the pause/resume icon.
+ */
 function togglePause() {
   if (!run) return;
   paused = !paused;
@@ -1552,6 +1930,9 @@ function togglePause() {
   }
 }
 
+/**
+ * Prompts the user with a confirmation alert before halting an active session prematurely.
+ */
 function confirmStop() {
   if (!run) return;
   if (confirm(tr("confirmStop"))) {
@@ -1559,6 +1940,13 @@ function confirmStop() {
   }
 }
 
+/**
+ * Cleanly halts and tears down an ongoing breathing exercise session.
+ * Cancels active animation frames, clears any pending speech synthesis,
+ * resets the stage styling, and optionally navigates to the exercise library.
+ *
+ * @param {boolean} showHome - Whether to navigate back to the exercise library view.
+ */
 function stopRun(showHome) {
   cancelAnimationFrame(raf);
   if (window.speechSynthesis) window.speechSynthesis.cancel();
@@ -1569,6 +1957,71 @@ function stopRun(showHome) {
   if (showHome) go("library");
 }
 
+/* ============================================================================
+ * 11. AUDIO GUIDANCE (SpeechSynthesis & Web Audio Chime Synthesizer)
+ * ============================================================================
+ */
+
+/**
+ * Vocalizes guidance instructions and phase changes using the Web Speech API.
+ * Uses a relaxed playback rate (0.88x) and selects the appropriate BCP 47 language tag.
+ *
+ * @param {string} text - The instruction text to speak aloud.
+ */
+function speak(text) {
+  if (!audioEnabled || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  let u = new SpeechSynthesisUtterance(text);
+  u.lang = lang === "bn" ? "bn-BD" : "en-US";
+  u.rate = .88;
+  window.speechSynthesis.speak(u);
+}
+
+/**
+ * Synthesizes a celebratory four-note harmonic chord (C5, E5, G5, C6) using the Web Audio API.
+ * Employs exponential gain attenuation envelopes for a crystal-clear, chime-like bell effect.
+ * Completely self-contained and operates offline without external audio files.
+ */
+function playCelebrationChime() {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    if (ctx.state === "suspended") {
+      ctx.resume();
+    }
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Triumphant harmonic chord)
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
+
+      gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + idx * 0.1 + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.1 + 0.85);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(ctx.currentTime + idx * 0.1);
+      osc.stop(ctx.currentTime + idx * 0.1 + 0.9);
+    });
+  } catch (err) {
+    // Non-blocking: AudioContext blocked or not supported
+  }
+}
+
+/* ============================================================================
+ * 12. CELEBRATION ENGINE: ANIMATED CHAMPION CUP & CONFETTI CANVAS
+ * ============================================================================
+ */
+
+/**
+ * Handles graceful session completion when the target timer reaches zero.
+ * Cancels timers, captures completed metrics into `lastCompletedSession`,
+ * displays the summary screen, triggers confetti physics, and sounds the victory chime.
+ */
 function completeSession() {
   cancelAnimationFrame(raf);
   if (window.speechSynthesis) window.speechSynthesis.cancel();
@@ -1593,6 +2046,15 @@ function completeSession() {
   }, 220);
 }
 
+/**
+ * Populates the completion celebration summary card with session metrics,
+ * level progression badges, and tap hint for the interactive Champion Cup.
+ *
+ * @param {number} cycles - Completed breathing cycle count.
+ * @param {number} elapsed - Total elapsed seconds.
+ * @param {string} lvlName - Localized progression level label.
+ * @param {string|number} curLevel - Active level identifier.
+ */
 function renderSummary(cycles, elapsed, lvlName, curLevel) {
   const summaryName = $("summaryName");
   if (summaryName) summaryName.textContent = exName(selected);
@@ -1623,10 +2085,18 @@ function renderSummary(cycles, elapsed, lvlName, curLevel) {
   }
 }
 
-// Celebration Confetti Engine
+/** @type {Array<Object>} Active confetti particle simulation instances. */
 let confettiParticles = [];
+
+/** @type {number|null} requestAnimationFrame loop ID for active confetti animation. */
 let confettiAnimationId = null;
 
+/**
+ * Spawns a burst of physics-based celebration confetti particles rendered on an HTML5 canvas.
+ * Particles feature randomized trajectories, gravity, angular velocity, colors, and shapes.
+ *
+ * @param {number} [count=55] - Number of confetti particles to spawn.
+ */
 function triggerConfetti(count = 55) {
   const canvas = $("confettiCanvas");
   if (!canvas) return;
@@ -1667,6 +2137,10 @@ function triggerConfetti(count = 55) {
   }
 }
 
+/**
+ * 2D Canvas rendering loop for the physics-based confetti engine.
+ * Updates velocity, gravity drag, rotational transforms, and alpha decay.
+ */
 function renderConfettiLoop() {
   const canvas = $("confettiCanvas");
   if (!canvas) {
@@ -1728,37 +2202,11 @@ function renderConfettiLoop() {
   }
 }
 
-// Celebration Chime Generator (Web Audio API)
-function playCelebrationChime() {
-  try {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return;
-    const ctx = new AudioContextClass();
-    if (ctx.state === "suspended") {
-      ctx.resume();
-    }
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Triumphant harmonic chord)
-    notes.forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
-
-      gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + idx * 0.1 + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.1 + 0.85);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(ctx.currentTime + idx * 0.1);
-      osc.stop(ctx.currentTime + idx * 0.1 + 0.9);
-    });
-  } catch (err) {
-    // Non-blocking: AudioContext blocked or not supported
-  }
-}
-
+/**
+ * Click handler for the interactive Champion Cup on the celebration screen.
+ * Triggers an energetic bounce animation, bursts fresh confetti, plays the celebratory chime,
+ * and updates the tap hint to an enthusiastic cheer.
+ */
 function celebrateAgain() {
   const cupBox = $("championCupBox");
   if (cupBox) {
@@ -1779,8 +2227,17 @@ function celebrateAgain() {
   }
 }
 
+/* ============================================================================
+ * 13. POST-SESSION MINDFUL MOOD REFLECTION CHECK-IN
+ * ============================================================================
+ */
+
+/** @type {string|null} Currently selected post-session mood key ('calm', 'refreshed', 'focused', 'sleepy'). */
 let currentSessionMood = null;
 
+/**
+ * Clears the active mood selection state and hides the reflection feedback message.
+ */
 function resetMoodSelection() {
   currentSessionMood = null;
   const allBtns = document.querySelectorAll("#moodOptions .mood-btn");
@@ -1789,6 +2246,13 @@ function resetMoodSelection() {
   if (feedback) feedback.classList.add("d-none");
 }
 
+/**
+ * Records the user's post-session emotional reflection check-in and renders
+ * a warm, affirming feedback message with a smooth fade-in transition.
+ *
+ * @param {string} moodKey - Selected mood identifier ('calm', 'refreshed', 'focused', 'sleepy').
+ * @param {HTMLElement} btnEl - Button element that received the user's click/tap.
+ */
 function selectMood(moodKey, btnEl) {
   currentSessionMood = moodKey;
   const allBtns = document.querySelectorAll("#moodOptions .mood-btn");
@@ -1812,6 +2276,15 @@ function selectMood(moodKey, btnEl) {
   feedback.style.animation = "moodFadeIn 0.35s ease";
 }
 
+/* ============================================================================
+ * 14. SOCIAL MEDIA SHARING & CLIPBOARD COPY UTILITIES
+ * ============================================================================
+ */
+
+/**
+ * Inspects `navigator.share` availability and displays the native OS share sheet button
+ * on supported modern mobile and desktop browsers.
+ */
 function checkNativeShareSupport() {
   const nativeBtn = $("nativeShareSessionBtn");
   if (nativeBtn && navigator.share) {
@@ -1819,10 +2292,20 @@ function checkNativeShareSupport() {
   }
 }
 
+/**
+ * Constructs the canonical web application share URL by extracting the origin and pathname.
+ *
+ * @returns {string} Sanitized base application URL.
+ */
 function getShareUrl() {
   return window.location.origin + window.location.pathname;
 }
 
+/**
+ * Assembles a localized session milestone message and initiates social sharing.
+ *
+ * @param {string} platform - Target platform key ('whatsapp', 'twitter', 'facebook', 'linkedin', 'copy', 'native').
+ */
 function shareSession(platform) {
   const ex = lastCompletedSession?.exName || exName(selected);
   const lvl = lastCompletedSession?.levelName || getLevelLabel(selectedLevel);
@@ -1837,6 +2320,11 @@ function shareSession(platform) {
   executeShare(platform, msg, siteUrl, "BreatheWell Session");
 }
 
+/**
+ * Assembles a localized breath test result message (BOLT / BPM) and initiates social sharing.
+ *
+ * @param {string} platform - Target platform key ('whatsapp', 'twitter', 'facebook', 'linkedin', 'copy', 'native').
+ */
 function shareTestResult(platform) {
   const type = lastTestResult?.type || (activeTestTab === 'bolt' ? 'BOLT' : 'BPM');
   const score = lastTestResult?.score || $("resultScoreNum")?.textContent || "";
@@ -1850,6 +2338,15 @@ function shareTestResult(platform) {
   executeShare(platform, msg, siteUrl, "BreatheWell Test Result");
 }
 
+/**
+ * Dispatches sharing intents to external social platform dialogs or the Clipboard API.
+ * Supports WhatsApp, X / Twitter, Facebook, LinkedIn, Clipboard copy, and Web Share API.
+ *
+ * @param {string} platform - Selected sharing platform target.
+ * @param {string} text - Message text to share.
+ * @param {string} url - Application URL.
+ * @param {string} title - Window or share sheet title.
+ */
 function executeShare(platform, text, url, title) {
   const encodedText = encodeURIComponent(text);
   const encodedUrl = encodeURIComponent(url);
@@ -1888,6 +2385,12 @@ function executeShare(platform, text, url, title) {
   }
 }
 
+/**
+ * Fallback clipboard copy utility utilizing a temporary off-screen textarea element
+ * and document.execCommand('copy') for environments without navigator.clipboard support.
+ *
+ * @param {string} text - Text to copy into clipboard.
+ */
 function fallbackCopyText(text) {
   const ta = document.createElement("textarea");
   ta.value = text;
@@ -1903,6 +2406,11 @@ function fallbackCopyText(text) {
   document.body.removeChild(ta);
 }
 
+/**
+ * Displays a non-intrusive Bootstrap toast notification.
+ *
+ * @param {string} message - Notification text to present to the user.
+ */
 function toast(message) {
   const toastText = $("toastText");
   const appToast = $("appToast");
@@ -1910,10 +2418,17 @@ function toast(message) {
   if (appToast) bootstrap.Toast.getOrCreateInstance(appToast).show();
 }
 
-// ==========================================================================
-// BREATHING ASSESSMENT / TEST LOGIC
-// ==========================================================================
+/* ============================================================================
+ * 15. RESPIRATORY ASSESSMENT ENGINE (BOLT & BPM COUNTER)
+ * ============================================================================
+ */
 
+/**
+ * Toggles the active respiratory test mode between BOLT and BPM.
+ * Updates instructional text, mode iconography, stage notices, and resets test state.
+ *
+ * @param {'bolt'|'bpm'} tab - The target test tab identifier.
+ */
 function switchTestTab(tab) {
   if (testRunning) stopCurrentTest();
   activeTestTab = tab;
@@ -1948,6 +2463,9 @@ function switchTestTab(tab) {
   resetTest();
 }
 
+/**
+ * Triggers a 3-second preparatory countdown before starting the active test measurement.
+ */
 function initiateTest() {
   const startBtn = $("startTestBtn");
   const countBox = $("testCountdownBox");
@@ -1974,6 +2492,11 @@ function initiateTest() {
   }, 1000);
 }
 
+/**
+ * Launches the active assessment timer.
+ * For BOLT: Measures elapsed seconds until first natural urge to breathe.
+ * For BPM: Counts breath taps across a 30-second window to calculate resting rate.
+ */
 function startActiveTest() {
   testRunning = true;
   testStartTime = performance.now();
@@ -2016,6 +2539,9 @@ function startActiveTest() {
   }
 }
 
+/**
+ * Tap listener for BPM assessment; records each full breath cycle tap and updates UI.
+ */
 function recordBpmBreath() {
   if (!testRunning || activeTestTab !== 'bpm') return;
   bpmTaps++;
@@ -2023,6 +2549,10 @@ function recordBpmBreath() {
   if (countEl) countEl.textContent = bpmTaps;
 }
 
+/**
+ * Halts an active assessment, cleans up intervals, calculates scores,
+ * and delegates to renderBoltResult or renderBpmResult.
+ */
 function stopCurrentTest() {
   if (!testRunning) return;
   testRunning = false;
@@ -2045,6 +2575,15 @@ function stopCurrentTest() {
   }
 }
 
+/**
+ * Evaluates the BOLT score against clinical respiratory standards:
+ * - <10s: Poor CO2 tolerance & chronic stress (Recommends Diaphragmatic)
+ * - 10-19s: Moderate respiratory efficiency (Recommends 4-6 Relaxing)
+ * - 20-29s: Good respiratory health and balance (Recommends Box Breathing)
+ * - >=30s: Optimal respiratory mastery (Recommends Mindful Breathing)
+ *
+ * @param {number} sec - Measured breath-hold duration in seconds.
+ */
 function renderBoltResult(sec) {
   const roundedSec = Math.round(sec);
   const scoreNum = $("resultScoreNum");
@@ -2109,6 +2648,14 @@ function renderBoltResult(sec) {
   if (resultView) resultView.classList.remove("d-none");
 }
 
+/**
+ * Evaluates resting breath frequency (BPM):
+ * - >18 BPM: Rapid rate / sympathetic arousal (Recommends 4-6 Relaxing)
+ * - 12-18 BPM: Healthy resting breath frequency (Recommends Box Breathing)
+ * - <12 BPM: Deep calm / parasympathetic tone (Recommends Mindful Breathing)
+ *
+ * @param {number} rate - Breaths per minute frequency.
+ */
 function renderBpmResult(rate) {
   const scoreNum = $("resultScoreNum");
   const scoreGrade = $("resultScoreGrade");
@@ -2166,6 +2713,21 @@ function renderBpmResult(rate) {
   if (resultView) resultView.classList.remove("d-none");
 }
 
+/* ============================================================================
+ * 16. LOCAL STORAGE PERSISTENCE & HISTORY TRACKING
+ * ============================================================================
+ */
+
+/**
+ * Persists an assessment record to browser localStorage ('bw_test_history'),
+ * capping stored history at the 8 most recent test entries.
+ *
+ * @param {Object} record - Assessment record payload.
+ * @param {string} record.type - Test type ('BOLT' or 'BPM').
+ * @param {string} record.score - Formatted score with units.
+ * @param {string} record.grade - Evaluation grade tier.
+ * @param {string} record.date - Localized date and time string.
+ */
 function saveTestRecord(record) {
   try {
     let history = JSON.parse(localStorage.getItem("bw_test_history") || "[]");
@@ -2176,6 +2738,10 @@ function saveTestRecord(record) {
   } catch (e) { }
 }
 
+/**
+ * Retrieves assessment records from localStorage and renders them in the history container.
+ * Displays a friendly empty-state prompt if no prior records exist.
+ */
 function loadTestHistory() {
   const container = $("testHistoryList");
   if (!container) return;
@@ -2197,11 +2763,18 @@ function loadTestHistory() {
   } catch (e) { }
 }
 
+/**
+ * Clears all saved assessment records from localStorage and re-renders the empty view.
+ */
 function clearTestHistory() {
   localStorage.removeItem("bw_test_history");
   loadTestHistory();
 }
 
+/**
+ * Resets the breathing test interface to its initial state, clearing active timers
+ * and restoring the instructional start view.
+ */
 function resetTest() {
   if (testRunning) stopCurrentTest();
   testRunning = false;
@@ -2227,6 +2800,10 @@ function resetTest() {
   if (timerDisp) timerDisp.textContent = "00.0s";
 }
 
+/**
+ * Launches the personalized exercise recommended by the user's latest assessment score.
+ * Handles cross-page navigation if the session container is not on the current page.
+ */
 function launchRecommendedExercise() {
   selected = exercises.find(e => e.id === recommendedExerciseId) || exercises[0];
   if (!$("session")) {
@@ -2236,6 +2813,15 @@ function launchRecommendedExercise() {
   startSession();
 }
 
+/* ============================================================================
+ * 17. MULTI-PAGE DEEP LINKING & APPLICATION LIFECYCLE
+ * ============================================================================
+ */
+
+/**
+ * Background tab safety listener: Automatically pauses any running exercise session
+ * when the document visibility changes to hidden (e.g. user switches tabs).
+ */
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && run && !paused) {
     togglePause();
@@ -2243,7 +2829,12 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-// Determine initial screen based on data-page, active screen element, or URL
+/**
+ * Determines the initial active screen identifier based on document body data-page attribute,
+ * active .screen DOM class, or URL pathname heuristics.
+ *
+ * @returns {string} Initial screen ID ('home', 'library', 'test', etc.).
+ */
 function getInitialScreen() {
   const page = document.body.dataset.page;
   if (page) return page === "exercises" ? "library" : page;
@@ -2255,6 +2846,10 @@ function getInitialScreen() {
   return "home";
 }
 
+/**
+ * Parses deep-linking URL parameters (?goal=..., ?exercise=..., ?level=..., ?action=...)
+ * on initial page load and routes directly to the requested exercise or category filter.
+ */
 function handleUrlParams() {
   try {
     const params = new URLSearchParams(window.location.search);
@@ -2297,6 +2892,9 @@ function handleUrlParams() {
   } catch (e) { }
 }
 
+/**
+ * Smoothly scrolls to target hash anchors on page load (e.g. #safety) and updates navigation.
+ */
 function handleHashOnLoad() {
   if (window.location.hash === "#safety") {
     setTimeout(() => {
@@ -2309,7 +2907,9 @@ function handleHashOnLoad() {
   }
 }
 
-// Initialize on script load
+// ----------------------------------------------------------------------------
+// APPLICATION BOOTSTRAP SEQUENCE
+// ----------------------------------------------------------------------------
 setLang(lang);
 renderCards();
 const currentScreen = getInitialScreen();
@@ -2320,7 +2920,11 @@ if (currentScreen === "test") {
 handleUrlParams();
 handleHashOnLoad();
 
-// Auto-highlight Safety in bottom bar when scrolled to Safety on Home screen
+/**
+ * IntersectionObserver for Safety Hub scrollspy on Home screen:
+ * Dynamically highlights the Safety tab in the mobile bottom drawer navigation
+ * whenever the user scrolls past the 25% threshold of the #safety section.
+ */
 if ("IntersectionObserver" in window) {
   const safetyObserver = new IntersectionObserver((entries) => {
     const homeScreen = $("home");

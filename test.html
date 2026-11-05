@@ -1,3 +1,32 @@
+<!--
+  ============================================================================
+  BreatheWell - Respiratory Assessment & Fitness Test (breath-test.html)
+  ============================================================================
+  Description:
+    Dedicated diagnostic assessment tool for BreatheWell. Provides dual testing modes:
+      1. BOLT (Body Oxygen Level Test): Measures functional carbon dioxide tolerance
+         and respiratory efficiency in seconds.
+      2. BPM Counter (Breaths Per Minute): Live interactive breath frequency measurement
+         across a 30-second window to evaluate resting respiratory rate.
+    Includes clinical benchmark score evaluation, personalized exercise recommendations,
+    social sharing, and persistent localStorage history tracking.
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass for keyboard & screen-reader navigation.
+    - Global Navigation: Desktop sticky navbar with active state tracking.
+    - Mode Switcher: Toggle between BOLT and BPM test protocols.
+    - Interactive Stage: Dynamic stopwatch/tap counters with countdown preparation.
+    - Diagnostic Results: Real-time clinical categorization & smart exercise launcher.
+    - Science Insight & History: Explanatory pulmonology context & localStorage records.
+    - Mobile Bottom Nav: Native mobile drawer for touch screen devices (< 992px).
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle
+    - Bootstrap Icons 1.11.3
+    - Stylesheet: asset/css/style.css
+    - Application Engine: asset/js/script.js
+  ============================================================================
+-->
 <!doctype html>
 <html lang="bn">
 
@@ -20,8 +49,13 @@
 </head>
 
 <body class="bn" data-page="test">
+  <!-- Accessibility Skip Navigation Link -->
   <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল
     কনটেন্টে যান</a>
+
+  <!-- ========================================================================
+       1. GLOBAL DESKTOP NAVIGATION BAR
+       ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
       <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html"
@@ -46,7 +80,9 @@
   </nav>
 
   <main id="main">
-    <!-- SCREEN: BREATH TEST & ASSESSMENT -->
+    <!-- ========================================================================
+         2. SCREEN: RESPIRATORY ASSESSMENT ENGINE (BOLT & BPM)
+         ======================================================================== -->
     <section id="test" class="screen active">
       <div class="container py-4 pb-5">
         <!-- Header -->
@@ -72,7 +108,7 @@
         </div>
 
         <div class="row g-4 align-items-start">
-          <!-- Main Interactive Test Card -->
+          <!-- 2.1 Main Interactive Assessment Card & Live Counter Stage -->
           <div class="col-lg-7">
             <div class="test-panel p-4 p-md-5 rounded-4 bg-white shadow-sm border text-center position-relative">
 
@@ -236,7 +272,9 @@
             </div>
           </div>
 
-          <!-- Right Side: Test Science & Local History Tracker -->
+          <!-- ====================================================================
+               2.2 Scientific Clinical Context & Local Test History
+               ==================================================================== -->
           <div class="col-lg-5">
             <!-- Science Insight Card -->
             <div class="info-panel p-4 rounded-4 bg-white border shadow-sm mb-4">
@@ -276,7 +314,9 @@
       </div>
     </section>
 
-    <!-- SAFETY MODAL -->
+    <!-- ======================================================================
+         3. ACCESSIBLE SAFETY MODAL DIALOG
+         ====================================================================== -->
     <div class="modal fade" id="safetyModal" tabindex="-1" aria-labelledby="safetyModalTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4">
@@ -294,6 +334,9 @@
     </div>
   </main>
 
+  <!-- ========================================================================
+       4. GLOBAL FOOTER & MEDICAL DISCLAIMER
+       ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2"><span><strong
           class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু
@@ -301,7 +344,9 @@
     </div>
   </footer>
 
-  <!-- MOBILE BOTTOM APP DRAWER / NAVBAR -->
+  <!-- ========================================================================
+       5. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
     <div class="drawer-handle-pill" aria-hidden="true"></div>
     <div class="mobile-nav-items">
@@ -324,6 +369,9 @@
     </div>
   </nav>
 
+  <!-- ========================================================================
+       6. SYSTEM NOTIFICATION TOAST & SCRIPT INCLUDES
+       ======================================================================== -->
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="appToast" class="toast border-0 shadow" role="status">
       <div class="toast-body d-flex justify-content-between align-items-center"><span id="toastText"></span><button
@@ -336,3 +384,4 @@
 </body>
 
 </html>
+

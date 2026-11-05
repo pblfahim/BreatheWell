@@ -1,3 +1,31 @@
+<!--
+  ============================================================================
+  BreatheWell - Home Page (index.html)
+  ============================================================================
+  Description:
+    The primary landing page for BreatheWell. Features the joyful BreatheBuddy
+    mascot, live interactive rhythm guide, featured exercises catalog,
+    science-backed health benefits overview, respiratory fitness assessment teaser,
+    and the comprehensive 4-pillar Safety & Readiness Hub.
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass mechanism for keyboard & screen-reader users.
+    - Header & Navigation: Desktop responsive sticky navbar with bilingual switcher.
+    - Hero Stage: Interactive BreatheBuddy mascot, ambient animated bubbles, quick vibes.
+    - Featured Section: Goal-based exercise filtering and responsive card grid.
+    - Assessment Teaser: High-impact callout driving users to BOLT/BPM breath tests.
+    - Safety Hub: 4 tabs (3 Rules, Readiness Checklist, Health Conditions, Emergency Reset).
+    - Mobile Bottom Drawer: Native mobile app navigation bar for screen widths < 992px.
+    - Modals & Toasts: Global accessible modal dialogs and notification toasts.
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle
+    - Bootstrap Icons 1.11.3
+    - Inter & Noto Sans Bengali typography
+    - Stylesheet: asset/css/style.css (Zero inline CSS permitted)
+    - Application Engine: asset/js/script.js (Zero inline JS permitted)
+  ============================================================================
+-->
 <!doctype html>
 <html lang="bn">
 
@@ -20,8 +48,13 @@
 </head>
 
 <body class="bn" data-page="home">
+  <!-- Accessibility Skip Navigation Link -->
   <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল
     কনটেন্টে যান</a>
+
+  <!-- ========================================================================
+       1. GLOBAL DESKTOP NAVIGATION BAR
+       ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
       <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html" aria-label="BreatheWell home"><span
@@ -48,8 +81,11 @@
   </nav>
 
   <main id="main">
-    <!-- SCREEN 1: HOME -->
+    <!-- ========================================================================
+         2. SCREEN 1: HOME (Hero, Featured Exercises, Teaser & Safety)
+         ======================================================================== -->
     <section id="home" class="screen active">
+      <!-- 2.1 Hero Section & Interactive BreatheBuddy Mascot -->
       <div class="hero">
         <!-- Ambient floating background bubbles -->
         <div class="hero-bubble bubble-1" aria-hidden="true"></div>
@@ -169,6 +205,9 @@
           </div>
         </div>
       </div>
+      <!-- ====================================================================
+           2.2 FEATURED EXERCISES & SCIENCE HIGHLIGHTS
+           ==================================================================== -->
       <section class="section" id="featured">
         <div class="container">
           <!-- Section Header -->
@@ -228,7 +267,9 @@
           </div>
       </section>
 
-      <!-- BREATH TEST TEASER SECTION -->
+      <!-- ====================================================================
+           2.3 RESPIRATORY HEALTH ASSESSMENT TEASER BANNER
+           ==================================================================== -->
       <section class="section pt-0" id="testTeaser">
         <div class="container">
           <div class="test-banner p-4 p-md-5 rounded-4 text-white position-relative overflow-hidden">
@@ -260,7 +301,9 @@
           </div>
         </div>
       </section>
-      <!-- SCREEN 1: SAFETY HUB SECTION -->
+      <!-- ====================================================================
+           2.4 INTERACTIVE SAFETY HUB & READINESS PROTOCOL
+           ==================================================================== -->
       <section class="section pt-0" id="safety">
         <div class="container">
           <div class="safety-hub p-4 p-md-5 rounded-4 bg-white border shadow-sm">
@@ -572,7 +615,9 @@
       </section>
     </section>
 
-    <!-- SAFETY MODAL -->
+    <!-- ======================================================================
+         3. ACCESSIBLE SAFETY MODAL DIALOG
+         ====================================================================== -->
     <div class="modal fade" id="safetyModal" tabindex="-1" aria-labelledby="safetyModalTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4">
@@ -589,13 +634,20 @@
       </div>
     </div>
   </main>
+
+  <!-- ========================================================================
+       4. GLOBAL FOOTER & MEDICAL DISCLAIMER
+       ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2"><span><strong
           class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু
           প্রশান্তি</span></span><span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
-  <!-- MOBILE BOTTOM APP DRAWER / NAVBAR -->
+
+  <!-- ========================================================================
+       5. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
     <div class="drawer-handle-pill" aria-hidden="true"></div>
     <div class="mobile-nav-items">
@@ -618,6 +670,10 @@
       </a>
     </div>
   </nav>
+
+  <!-- ========================================================================
+       6. SYSTEM NOTIFICATION TOAST & SCRIPT INCLUDES
+       ======================================================================== -->
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="appToast" class="toast border-0 shadow" role="status">
       <div class="toast-body d-flex justify-content-between align-items-center"><span id="toastText"></span><button
