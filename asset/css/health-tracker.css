@@ -38,46 +38,46 @@
  * ============================================================================ */
 :root {
   /* Health Classification Palette (AHA 2017 & ADA 2024) */
-  --ht-bp-normal:    #16a34a;
-  --ht-bp-elevated:  #f59e0b;
-  --ht-bp-high1:     #ea580c;
-  --ht-bp-high2:     #dc2626;
-  --ht-bp-crisis:    #991b1b;
-  --ht-bp-low:       #7c3aed;
+  --ht-bp-normal: #16a34a;
+  --ht-bp-elevated: #f59e0b;
+  --ht-bp-high1: #ea580c;
+  --ht-bp-high2: #dc2626;
+  --ht-bp-crisis: #991b1b;
+  --ht-bp-low: #7c3aed;
 
-  --ht-bg-normal:    #16a34a;
-  --ht-bg-prediab:   #f59e0b;
-  --ht-bg-diabetic:  #dc2626;
-  --ht-bg-hypo:      #7c3aed;
+  --ht-bg-normal: #16a34a;
+  --ht-bg-prediab: #f59e0b;
+  --ht-bg-diabetic: #dc2626;
+  --ht-bg-hypo: #7c3aed;
 
   /* Surfaces & Neutral Hierarchy */
-  --ht-surface:      #ffffff;
-  --ht-surface-alt:  #f8fafc;
-  --ht-border:       #e2e8f0;
-  --ht-border-subtle:#edf2f7;
-  --ht-text-dark:    #0f172a;
-  --ht-text-muted:   #64748b;
+  --ht-surface: #ffffff;
+  --ht-surface-alt: #f8fafc;
+  --ht-border: #e2e8f0;
+  --ht-border-subtle: #edf2f7;
+  --ht-text-dark: #0f172a;
+  --ht-text-muted: #64748b;
 
   /* Elevated Shadows */
-  --ht-shadow-sm:    0 2px 10px rgba(15, 23, 42, 0.05);
-  --ht-shadow-md:    0 8px 30px rgba(15, 23, 42, 0.08);
-  --ht-shadow-lg:    0 20px 50px rgba(15, 23, 42, 0.12);
+  --ht-shadow-sm: 0 2px 10px rgba(15, 23, 42, 0.05);
+  --ht-shadow-md: 0 8px 30px rgba(15, 23, 42, 0.08);
+  --ht-shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.12);
   --ht-shadow-glow-bp: 0 10px 28px rgba(239, 68, 68, 0.18);
   --ht-shadow-glow-bg: 0 10px 28px rgba(139, 92, 246, 0.18);
   --ht-shadow-glow-green: 0 10px 28px rgba(34, 197, 94, 0.18);
 
   /* Series Colors */
-  --ht-systolic:     #ef4444;
-  --ht-diastolic:    #3b82f6;
-  --ht-pulse:        #f97316;
-  --ht-glucose:      #8b5cf6;
-  --ht-target-zone:  rgba(34, 197, 94, 0.08);
+  --ht-systolic: #ef4444;
+  --ht-diastolic: #3b82f6;
+  --ht-pulse: #f97316;
+  --ht-glucose: #8b5cf6;
+  --ht-target-zone: rgba(34, 197, 94, 0.08);
 
   /* Easing */
-  --ht-ease:         cubic-bezier(0.16, 1, 0.3, 1);
-  --ht-dur-fast:     150ms;
-  --ht-dur-base:     260ms;
-  --ht-dur-slow:     420ms;
+  --ht-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ht-dur-fast: 150ms;
+  --ht-dur-base: 260ms;
+  --ht-dur-slow: 420ms;
 }
 
 /* ============================================================================
@@ -104,7 +104,7 @@ body[data-page="health"] {
  * ============================================================================ */
 .ht-page-hero {
   background: linear-gradient(135deg, #0d47a1 0%, #1565c0 38%, #1e88e5 72%, #42a5f5 100%);
-  padding: 48px 0 105px;
+  padding: 32px 0 82px;
   position: relative;
   overflow: hidden;
   color: #fff;
@@ -120,6 +120,7 @@ body[data-page="health"] {
   background: white;
   animation: htBubbleFloat 9s ease-in-out infinite alternate;
 }
+
 .ht-page-hero::before {
   width: 380px;
   height: 380px;
@@ -127,6 +128,7 @@ body[data-page="health"] {
   right: -90px;
   animation-delay: -2s;
 }
+
 .ht-page-hero::after {
   width: 240px;
   height: 240px;
@@ -136,8 +138,13 @@ body[data-page="health"] {
 }
 
 @keyframes htBubbleFloat {
-  from { transform: translate(0, 0) scale(1) rotate(0deg); }
-  to   { transform: translate(25px, 20px) scale(1.08) rotate(10deg); }
+  from {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+
+  to {
+    transform: translate(25px, 20px) scale(1.08) rotate(10deg);
+  }
 }
 
 .ht-hero-eyebrow {
@@ -179,6 +186,7 @@ body[data-page="health"] {
   gap: 10px;
   margin-top: 16px;
 }
+
 .ht-float-pill {
   display: inline-flex;
   align-items: center;
@@ -192,12 +200,23 @@ body[data-page="health"] {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   animation: htPillFloat 3s ease-in-out infinite alternate;
 }
-.ht-float-pill:nth-child(2) { animation-delay: -1s; }
-.ht-float-pill:nth-child(3) { animation-delay: -2s; }
+
+.ht-float-pill:nth-child(2) {
+  animation-delay: -1s;
+}
+
+.ht-float-pill:nth-child(3) {
+  animation-delay: -2s;
+}
 
 @keyframes htPillFloat {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-4px); }
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-4px);
+  }
 }
 
 /* Quick Navigation / Action Bar in Hero */
@@ -208,6 +227,7 @@ body[data-page="health"] {
   justify-content: flex-start;
   margin-top: 22px;
 }
+
 .ht-quick-nav-btn {
   display: inline-flex;
   align-items: center;
@@ -224,18 +244,21 @@ body[data-page="health"] {
   cursor: pointer;
   transition: all var(--ht-dur-base) var(--ht-ease);
 }
+
 .ht-quick-nav-btn:hover {
   background: #fff;
   color: #0d47a1;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
+
 .ht-quick-nav-btn.primary {
   background: #fff;
   color: #0d47a1;
   font-weight: 700;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
+
 .ht-quick-nav-btn.primary:hover {
   background: #f0f7ff;
 }
@@ -253,20 +276,31 @@ body[data-page="health"] {
   justify-content: space-between;
   box-shadow: var(--ht-shadow-sm);
   transition: transform var(--ht-dur-base) var(--ht-ease),
-              box-shadow var(--ht-dur-base) var(--ht-ease),
-              border-color var(--ht-dur-base);
+    box-shadow var(--ht-dur-base) var(--ht-ease),
+    border-color var(--ht-dur-base);
   height: 100%;
   position: relative;
   overflow: hidden;
 }
+
 .ht-stat-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--ht-shadow-md);
 }
 
-.ht-stat-card.card-bp:hover  { border-color: #fca5a5; box-shadow: var(--ht-shadow-glow-bp); }
-.ht-stat-card.card-bg:hover  { border-color: #d8b4fe; box-shadow: var(--ht-shadow-glow-bg); }
-.ht-stat-card.card-streak:hover { border-color: #fde68a; }
+.ht-stat-card.card-bp:hover {
+  border-color: #fca5a5;
+  box-shadow: var(--ht-shadow-glow-bp);
+}
+
+.ht-stat-card.card-bg:hover {
+  border-color: #d8b4fe;
+  box-shadow: var(--ht-shadow-glow-bg);
+}
+
+.ht-stat-card.card-streak:hover {
+  border-color: #fde68a;
+}
 
 .ht-stat-top {
   display: flex;
@@ -284,10 +318,26 @@ body[data-page="health"] {
   font-size: 1.4rem;
   flex-shrink: 0;
 }
-.ht-stat-icon.bp     { background: #fee2e2; color: #ef4444; }
-.ht-stat-icon.bg     { background: #ede9fe; color: #8b5cf6; }
-.ht-stat-icon.today  { background: #dcfce7; color: #16a34a; }
-.ht-stat-icon.streak { background: #fef3c7; color: #d97706; }
+
+.ht-stat-icon.bp {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.ht-stat-icon.bg {
+  background: #ede9fe;
+  color: #8b5cf6;
+}
+
+.ht-stat-icon.today {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.ht-stat-icon.streak {
+  background: #fef3c7;
+  color: #d97706;
+}
 
 .ht-stat-badge {
   font-size: 0.7rem;
@@ -296,10 +346,26 @@ body[data-page="health"] {
   border-radius: 100px;
   letter-spacing: 0.02em;
 }
-.ht-stat-badge.normal   { background: #dcfce7; color: #15803d; }
-.ht-stat-badge.elevated { background: #fef3c7; color: #b45309; }
-.ht-stat-badge.high     { background: #fee2e2; color: #b91c1c; }
-.ht-stat-badge.neutral  { background: #f1f5f9; color: #64748b; }
+
+.ht-stat-badge.normal {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ht-stat-badge.elevated {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ht-stat-badge.high {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.ht-stat-badge.neutral {
+  background: #f1f5f9;
+  color: #64748b;
+}
 
 .ht-stat-label {
   font-size: 0.74rem;
@@ -335,6 +401,7 @@ body[data-page="health"] {
   height: 26px;
   margin-top: 10px;
 }
+
 .ht-spark-bar {
   flex: 1;
   border-radius: 3px;
@@ -343,6 +410,7 @@ body[data-page="health"] {
   min-height: 3px;
   transition: opacity var(--ht-dur-fast), transform var(--ht-dur-fast);
 }
+
 .ht-spark-bar.active {
   opacity: 0.95;
   transform: scaleY(1.08);
@@ -360,9 +428,11 @@ body[data-page="health"] {
   margin-top: 20px;
   transition: transform var(--ht-dur-base), box-shadow var(--ht-dur-base);
 }
+
 .ht-insight-card:hover {
   box-shadow: 0 8px 26px rgba(34, 197, 94, 0.14);
 }
+
 .ht-insight-header {
   display: flex;
   align-items: center;
@@ -371,6 +441,7 @@ body[data-page="health"] {
   flex-wrap: wrap;
   margin-bottom: 12px;
 }
+
 .ht-insight-title {
   font-size: 1rem;
   font-weight: 800;
@@ -380,18 +451,21 @@ body[data-page="health"] {
   align-items: center;
   gap: 8px;
 }
+
 .ht-insight-body {
   font-size: 0.92rem;
   color: #166534;
   line-height: 1.6;
   margin-bottom: 14px;
 }
+
 .ht-insight-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 14px;
 }
+
 .ht-insight-chip {
   background: #ffffff;
   border: 1px solid #86efac;
@@ -404,12 +478,14 @@ body[data-page="health"] {
   align-items: center;
   gap: 5px;
 }
+
 .ht-insight-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
 }
+
 .ht-insight-btn {
   display: inline-flex;
   align-items: center;
@@ -425,6 +501,7 @@ body[data-page="health"] {
   transition: all var(--ht-dur-fast);
   cursor: pointer;
 }
+
 .ht-insight-btn:hover {
   background: #15803d;
   color: #fff;
@@ -440,6 +517,7 @@ body[data-page="health"] {
   justify-content: center;
   margin-bottom: 24px;
 }
+
 .ht-mode-switch {
   display: inline-flex;
   background: var(--ht-surface);
@@ -451,6 +529,7 @@ body[data-page="health"] {
   max-width: 100%;
   overflow-x: auto;
 }
+
 .ht-mode-btn {
   padding: 9px 20px;
   border-radius: 100px;
@@ -466,18 +545,22 @@ body[data-page="health"] {
   white-space: nowrap;
   transition: all var(--ht-dur-fast) var(--ht-ease);
 }
+
 .ht-mode-btn:hover {
   color: var(--ht-text-dark);
 }
+
 .ht-mode-btn.active {
   background: linear-gradient(135deg, #1769aa 0%, #2196f3 100%);
   color: #fff;
   box-shadow: 0 4px 14px rgba(33, 150, 243, 0.3);
 }
+
 .ht-mode-btn.active.mode-bp {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
 }
+
 .ht-mode-btn.active.mode-bg {
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
@@ -493,16 +576,22 @@ body[data-page="health"] {
   padding: 28px 24px;
   box-shadow: var(--ht-shadow-sm);
   transition: box-shadow var(--ht-dur-base) var(--ht-ease),
-              border-color var(--ht-dur-base);
+    border-color var(--ht-dur-base);
   height: 100%;
   position: relative;
 }
+
 .ht-form-card:hover {
   box-shadow: var(--ht-shadow-md);
 }
 
-.ht-form-card.type-bp { border-top: 5px solid #ef4444; }
-.ht-form-card.type-bg { border-top: 5px solid #8b5cf6; }
+.ht-form-card.type-bp {
+  border-top: 5px solid #ef4444;
+}
+
+.ht-form-card.type-bg {
+  border-top: 5px solid #8b5cf6;
+}
 
 .ht-card-header {
   display: flex;
@@ -510,6 +599,7 @@ body[data-page="health"] {
   gap: 12px;
   margin-bottom: 20px;
 }
+
 .ht-card-icon {
   width: 46px;
   height: 46px;
@@ -519,8 +609,16 @@ body[data-page="health"] {
   font-size: 1.35rem;
   flex-shrink: 0;
 }
-.ht-card-icon.bp { background: #fee2e2; color: #ef4444; }
-.ht-card-icon.bg { background: #ede9fe; color: #8b5cf6; }
+
+.ht-card-icon.bp {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.ht-card-icon.bg {
+  background: #ede9fe;
+  color: #8b5cf6;
+}
 
 .ht-card-title {
   font-size: 1.15rem;
@@ -529,6 +627,7 @@ body[data-page="health"] {
   margin: 0;
   line-height: 1.25;
 }
+
 .ht-card-sub {
   font-size: 0.78rem;
   color: var(--ht-text-muted);
@@ -541,11 +640,13 @@ body[data-page="health"] {
   flex-direction: column;
   gap: 4px;
 }
+
 .ht-stepper-row {
   display: flex;
   gap: 3px;
   margin-top: 4px;
 }
+
 .ht-stepper-btn {
   flex: 1;
   height: 28px;
@@ -561,11 +662,13 @@ body[data-page="health"] {
   transition: all var(--ht-dur-fast);
   user-select: none;
 }
+
 .ht-stepper-btn:hover {
   background: #f1f5f9;
   border-color: #cbd5e1;
   color: var(--ht-text-dark);
 }
+
 .ht-stepper-btn:active {
   transform: scale(0.95);
 }
@@ -578,12 +681,14 @@ body[data-page="health"] {
   margin-bottom: 16px;
   align-items: center;
 }
+
 .ht-preset-label {
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--ht-text-muted);
   text-transform: uppercase;
 }
+
 .ht-preset-pill {
   border: 1px solid var(--ht-border);
   background: #fff;
@@ -595,6 +700,7 @@ body[data-page="health"] {
   cursor: pointer;
   transition: all var(--ht-dur-fast);
 }
+
 .ht-preset-pill:hover {
   border-color: #94a3b8;
   background: #f8fafc;
@@ -606,6 +712,7 @@ body[data-page="health"] {
   gap: 6px;
   flex-wrap: wrap;
 }
+
 .ht-pill-toggle {
   flex: 1;
   min-width: 90px;
@@ -621,11 +728,13 @@ body[data-page="health"] {
   transition: all var(--ht-dur-fast);
   user-select: none;
 }
+
 .ht-pill-toggle:hover {
   background: #fff;
   border-color: #cbd5e1;
   color: var(--ht-text-dark);
 }
+
 .ht-pill-toggle.active {
   background: #eff6ff;
   border-color: #3b82f6;
@@ -639,6 +748,7 @@ body[data-page="health"] {
   gap: 6px;
   margin-bottom: 14px;
 }
+
 .ht-timing-card {
   padding: 8px 6px;
   border: 1.5px solid var(--ht-border);
@@ -649,20 +759,24 @@ body[data-page="health"] {
   transition: all var(--ht-dur-fast);
   user-select: none;
 }
+
 .ht-timing-card:hover {
   background: #fff;
   border-color: #cbd5e1;
 }
+
 .ht-timing-card.active {
   background: #f5f3ff;
   border-color: #8b5cf6;
   color: #6d28d9;
 }
+
 .ht-timing-icon {
   font-size: 1.1rem;
   display: block;
   margin-bottom: 2px;
 }
+
 .ht-timing-text {
   font-size: 0.72rem;
   font-weight: 700;
@@ -688,6 +802,7 @@ body[data-page="health"] {
 .ht-input-group {
   margin-bottom: 16px;
 }
+
 .ht-label {
   font-size: 0.82rem;
   font-weight: 700;
@@ -697,11 +812,13 @@ body[data-page="health"] {
   align-items: center;
   gap: 6px;
 }
+
 .ht-label .unit {
   font-weight: 500;
   color: var(--ht-text-muted);
   font-size: 0.72rem;
 }
+
 .ht-input {
   width: 100%;
   height: 52px;
@@ -715,15 +832,18 @@ body[data-page="health"] {
   outline: none;
   transition: all var(--ht-dur-fast) var(--ht-ease);
 }
+
 .ht-input:focus {
   border-color: #2196f3;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
   background: #fff;
 }
+
 .ht-input.has-error {
   border-color: #ef4444;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
 }
+
 .ht-input-error {
   font-size: 0.72rem;
   color: #ef4444;
@@ -738,6 +858,7 @@ body[data-page="health"] {
   align-items: flex-start;
   gap: 8px;
 }
+
 .ht-slash {
   font-size: 2.2rem;
   font-weight: 300;
@@ -759,10 +880,12 @@ body[data-page="health"] {
   outline: none;
   transition: border-color var(--ht-dur-fast);
 }
+
 .ht-datetime:focus,
 .ht-select:focus {
   border-color: #2196f3;
 }
+
 .ht-textarea {
   width: 100%;
   min-height: 64px;
@@ -776,6 +899,7 @@ body[data-page="health"] {
   outline: none;
   font-family: inherit;
 }
+
 .ht-textarea:focus {
   border-color: #2196f3;
 }
@@ -793,20 +917,24 @@ body[data-page="health"] {
   gap: 8px;
   cursor: pointer;
   transition: transform var(--ht-dur-fast) var(--ht-ease),
-              box-shadow var(--ht-dur-fast) var(--ht-ease);
+    box-shadow var(--ht-dur-fast) var(--ht-ease);
 }
+
 .ht-btn-save:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: var(--ht-shadow-md);
 }
+
 .ht-btn-save:active:not(:disabled) {
   transform: scale(0.98);
 }
+
 .ht-btn-save.type-bp {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: #fff;
   box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
 }
+
 .ht-btn-save.type-bg {
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: #fff;
@@ -823,6 +951,7 @@ body[data-page="health"] {
   border-radius: 16px;
   padding: 14px 16px;
 }
+
 .ht-gauge-title {
   font-size: 0.74rem;
   font-weight: 700;
@@ -832,6 +961,7 @@ body[data-page="health"] {
   justify-content: space-between;
   margin-bottom: 8px;
 }
+
 .ht-gauge-track {
   height: 12px;
   border-radius: 100px;
@@ -839,24 +969,25 @@ body[data-page="health"] {
   overflow: visible;
   margin-bottom: 8px;
 }
+
 .ht-gauge-track.bp-track {
   background: linear-gradient(90deg,
-    #7c3aed 0%, #7c3aed 15%,
-    #16a34a 15%, #16a34a 45%,
-    #f59e0b 45%, #f59e0b 65%,
-    #ea580c 65%, #ea580c 80%,
-    #dc2626 80%, #dc2626 92%,
-    #991b1b 92%, #991b1b 100%
-  );
+      #7c3aed 0%, #7c3aed 15%,
+      #16a34a 15%, #16a34a 45%,
+      #f59e0b 45%, #f59e0b 65%,
+      #ea580c 65%, #ea580c 80%,
+      #dc2626 80%, #dc2626 92%,
+      #991b1b 92%, #991b1b 100%);
 }
+
 .ht-gauge-track.bg-track {
   background: linear-gradient(90deg,
-    #7c3aed 0%, #7c3aed 18%,
-    #16a34a 18%, #16a34a 52%,
-    #f59e0b 52%, #f59e0b 75%,
-    #dc2626 75%, #dc2626 100%
-  );
+      #7c3aed 0%, #7c3aed 18%,
+      #16a34a 18%, #16a34a 52%,
+      #f59e0b 52%, #f59e0b 75%,
+      #dc2626 75%, #dc2626 100%);
 }
+
 .ht-gauge-pointer {
   position: absolute;
   top: -4px;
@@ -869,6 +1000,7 @@ body[data-page="health"] {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   transition: left var(--ht-dur-base) var(--ht-ease);
 }
+
 .ht-gauge-labels {
   display: flex;
   justify-content: space-between;
@@ -888,9 +1020,19 @@ body[data-page="health"] {
   line-height: 1.5;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
-.ht-advice-box.elevated { border-left-color: #f59e0b; }
-.ht-advice-box.high     { border-left-color: #dc2626; }
-.ht-advice-box.crisis   { border-left-color: #991b1b; background: #fef2f2; }
+
+.ht-advice-box.elevated {
+  border-left-color: #f59e0b;
+}
+
+.ht-advice-box.high {
+  border-left-color: #dc2626;
+}
+
+.ht-advice-box.crisis {
+  border-left-color: #991b1b;
+  background: #fef2f2;
+}
 
 /* Status chips */
 .ht-status-chip {
@@ -902,12 +1044,36 @@ body[data-page="health"] {
   font-size: 0.78rem;
   font-weight: 700;
 }
-.ht-status-chip.normal   { background: #dcfce7; color: #15803d; }
-.ht-status-chip.elevated { background: #fef3c7; color: #b45309; }
-.ht-status-chip.high1    { background: #ffedd5; color: #c2410c; }
-.ht-status-chip.high2    { background: #fee2e2; color: #b91c1c; }
-.ht-status-chip.crisis   { background: #991b1b; color: #fff; }
-.ht-status-chip.low      { background: #ede9fe; color: #6d28d9; }
+
+.ht-status-chip.normal {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ht-status-chip.elevated {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ht-status-chip.high1 {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.ht-status-chip.high2 {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.ht-status-chip.crisis {
+  background: #991b1b;
+  color: #fff;
+}
+
+.ht-status-chip.low {
+  background: #ede9fe;
+  color: #6d28d9;
+}
 
 /* ============================================================================
  * 9. INTERACTIVE TREND CHARTS & HOVER TOOLTIPS
@@ -920,6 +1086,7 @@ body[data-page="health"] {
   box-shadow: var(--ht-shadow-sm);
   position: relative;
 }
+
 .ht-chart-header {
   display: flex;
   align-items: center;
@@ -928,6 +1095,7 @@ body[data-page="health"] {
   flex-wrap: wrap;
   gap: 12px;
 }
+
 .ht-chart-title {
   font-size: 1.05rem;
   font-weight: 800;
@@ -944,6 +1112,7 @@ body[data-page="health"] {
   border-radius: 10px;
   padding: 2px;
 }
+
 .ht-chart-tf-btn {
   padding: 4px 10px;
   border-radius: 8px;
@@ -955,6 +1124,7 @@ body[data-page="health"] {
   cursor: pointer;
   transition: all var(--ht-dur-fast);
 }
+
 .ht-chart-tf-btn.active {
   background: #ffffff;
   color: #1769aa;
@@ -965,6 +1135,7 @@ body[data-page="health"] {
   position: relative;
   width: 100%;
 }
+
 .ht-chart-svg {
   width: 100%;
   height: 230px;
@@ -988,9 +1159,11 @@ body[data-page="health"] {
   transform: translate(-50%, -115%);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
+
 .ht-chart-tooltip.visible {
   opacity: 1;
 }
+
 .ht-chart-tooltip::after {
   content: "";
   position: absolute;
@@ -1022,6 +1195,7 @@ body[data-page="health"] {
   gap: 12px;
   flex-wrap: wrap;
 }
+
 .ht-history-title {
   font-size: 1.05rem;
   font-weight: 800;
@@ -1037,6 +1211,7 @@ body[data-page="health"] {
   position: relative;
   min-width: 180px;
 }
+
 .ht-search-input {
   width: 100%;
   height: 38px;
@@ -1047,6 +1222,7 @@ body[data-page="health"] {
   background: var(--ht-surface-alt);
   outline: none;
 }
+
 .ht-search-icon {
   position: absolute;
   left: 10px;
@@ -1062,6 +1238,7 @@ body[data-page="health"] {
   border-collapse: collapse;
   min-width: 580px;
 }
+
 .ht-table thead th {
   padding: 12px 20px;
   font-size: 0.72rem;
@@ -1073,12 +1250,14 @@ body[data-page="health"] {
   border-bottom: 1px solid var(--ht-border);
   text-align: left;
 }
+
 .ht-table tbody td {
   padding: 14px 20px;
   border-bottom: 1px solid var(--ht-border);
   font-size: 0.88rem;
   vertical-align: middle;
 }
+
 .ht-table tbody tr:hover {
   background: #f8fafc;
 }
@@ -1095,6 +1274,7 @@ body[data-page="health"] {
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
 }
+
 .ht-share-card::before {
   content: "";
   position: absolute;
@@ -1114,6 +1294,7 @@ body[data-page="health"] {
   padding: 16px;
   margin-bottom: 18px;
 }
+
 .ht-whatsapp-btn {
   display: inline-flex;
   align-items: center;
@@ -1132,6 +1313,7 @@ body[data-page="health"] {
   box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
   text-decoration: none;
 }
+
 .ht-whatsapp-btn:hover {
   background: #20ba59;
   color: #ffffff;
@@ -1180,10 +1362,17 @@ body[data-page="health"] {
   box-shadow: 0 8px 24px rgba(220, 38, 38, 0.28);
   animation: htPulseAlert 2s infinite alternate;
 }
+
 @keyframes htPulseAlert {
-  from { box-shadow: 0 8px 24px rgba(220, 38, 38, 0.28); }
-  to   { box-shadow: 0 12px 32px rgba(220, 38, 38, 0.5); }
+  from {
+    box-shadow: 0 8px 24px rgba(220, 38, 38, 0.28);
+  }
+
+  to {
+    box-shadow: 0 12px 32px rgba(220, 38, 38, 0.5);
+  }
 }
+
 .ht-crisis-icon {
   font-size: 2.2rem;
   flex-shrink: 0;
@@ -1202,6 +1391,7 @@ body[data-page="health"] {
   gap: 10px;
   pointer-events: none;
 }
+
 .ht-toast {
   min-width: 270px;
   max-width: 350px;
@@ -1216,16 +1406,30 @@ body[data-page="health"] {
   pointer-events: auto;
   animation: htToastIn var(--ht-dur-slow) var(--ht-ease);
 }
+
 @keyframes htToastIn {
-  from { opacity: 0; transform: translateX(50px) scale(0.92); }
-  to   { opacity: 1; transform: translateX(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateX(50px) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
+
 .ht-toast.ht-toast-out {
   animation: htToastOut var(--ht-dur-slow) var(--ht-ease) forwards;
 }
+
 @keyframes htToastOut {
-  to { opacity: 0; transform: translateX(50px) scale(0.92); }
+  to {
+    opacity: 0;
+    transform: translateX(50px) scale(0.92);
+  }
 }
+
 .ht-toast-icon {
   width: 34px;
   height: 34px;
@@ -1235,11 +1439,33 @@ body[data-page="health"] {
   flex-shrink: 0;
   font-size: 1.1rem;
 }
-.ht-toast.success .ht-toast-icon { background: #dcfce7; color: #15803d; }
-.ht-toast.error   .ht-toast-icon { background: #fee2e2; color: #b91c1c; }
-.ht-toast.info    .ht-toast-icon { background: #dbeafe; color: #1d4ed8; }
-.ht-toast.warn    .ht-toast-icon { background: #fef3c7; color: #b45309; }
-.ht-toast-ttl     { font-size: 0.85rem; font-weight: 800; color: #0f172a; margin: 0; }
+
+.ht-toast.success .ht-toast-icon {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ht-toast.error .ht-toast-icon {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.ht-toast.info .ht-toast-icon {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.ht-toast.warn .ht-toast-icon {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ht-toast-ttl {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
 
 /* ============================================================================
  * 15. EMPTY STATE & UTILITY ANIMATIONS
@@ -1249,6 +1475,7 @@ body[data-page="health"] {
   text-align: center;
   color: var(--ht-text-muted);
 }
+
 .ht-empty-icon {
   font-size: 3.5rem;
   margin-bottom: 12px;
@@ -1263,6 +1490,7 @@ body[data-page="health"] {
   .ht-pull-up {
     margin-top: -45px;
   }
+
   .ht-page-hero {
     padding: 38px 0 85px;
   }
@@ -1272,16 +1500,20 @@ body[data-page="health"] {
   .ht-page-hero h1 {
     font-size: 1.6rem;
   }
+
   .ht-stat-value {
     font-size: 1.35rem;
   }
+
   .ht-form-card {
     padding: 20px 16px;
     border-radius: 20px;
   }
+
   .ht-timing-cards {
     grid-template-columns: repeat(3, 1fr);
   }
+
   body {
     padding-bottom: 76px;
   }
@@ -1291,6 +1523,7 @@ body[data-page="health"] {
  * 17. PRINT STYLES (DOCTOR REPORT VIEW)
  * ============================================================================ */
 @media print {
+
   .ht-page-hero,
   .ht-share-card,
   .ht-family-card,
@@ -1298,7 +1531,9 @@ body[data-page="health"] {
   .ht-pull-up,
   .ht-mode-switch-wrap,
   .mobile-bottom-nav,
-  nav.navbar { display: none !important; }
+  nav.navbar {
+    display: none !important;
+  }
 
   .ht-history-wrap,
   .ht-chart-card {
@@ -1307,5 +1542,7 @@ body[data-page="health"] {
     page-break-inside: avoid;
   }
 
-  body { padding-bottom: 0 !important; }
+  body {
+    padding-bottom: 0 !important;
+  }
 }
