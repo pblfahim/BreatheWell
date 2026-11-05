@@ -76,6 +76,11 @@ select {
   color: var(--blue) !important;
 }
 
+.nav-link.active {
+  color: var(--blue) !important;
+  font-weight: 700;
+}
+
 .btn-primary {
   --bs-btn-bg: var(--blue);
   --bs-btn-border-color: var(--blue);

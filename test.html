@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="bn">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1769aa">
+  <meta name="description"
+    content="BreatheWell — বৈজ্ঞানিক BOLT টেস্ট ও রেসপিরেটরি রেট ট্র্যাকিং এর মাধ্যমে আপনার ফুসফুসের সক্ষমতা পরিমাপ করুন।">
+  <title>BreatheWell | শ্বাসের পরীক্ষা</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/css/style.css">
+</head>
+
+<body class="bn" data-page="test">
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল
+    কনটেন্টে যান</a>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html"
+        aria-label="BreatheWell home"><span class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell</a>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+          aria-label="Open navigation"><span class="navbar-toggler-icon"></span></button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-screen="home" data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-screen="library"
+              data-i18n="navExercises">অনুশীলন</a></li>
+          <li class="nav-item"><a class="nav-link active" href="breath-test.html" onclick="if($('test')){go('test');return false;}" data-screen="test" data-i18n="navTest">শ্বাসের
+              পরীক্ষা</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#safety" onclick="goToSafety();return false;"
+              data-screen="safety" data-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- SCREEN: BREATH TEST & ASSESSMENT -->
+    <section id="test" class="screen active">
+      <div class="container py-4 pb-5">
+        <!-- Header -->
+        <div class="page-head pb-3">
+          <div class="breadcrumb mb-2"><a href="index.html" class="text-decoration-none" data-i18n="navHome">হোম</a> / <span
+              data-i18n="navTest">শ্বাসের পরীক্ষা</span></div>
+          <div class="eyebrow mb-2" data-i18n="testEyebrow">রেসপিরেটরি ফিটনেস অ্যাসেসমেন্ট</div>
+          <h1 class="section-title mb-2" data-i18n="testMainTitle">আপনার শ্বাসের সক্ষমতা যাচাই করুন</h1>
+          <p class="section-sub mb-0" data-i18n="testMainDesc">বৈজ্ঞানিক BOLT টেস্ট ও রেসপিরেটরি রেট ট্র্যাকিং এর
+            মাধ্যমে আপনার ফুসফুসের কার্যকারিতা ও অক্সিজেন সহনশীলতা পরিমাপ করুন।</p>
+        </div>
+
+        <!-- Test Mode Switcher Tabs -->
+        <div class="d-flex flex-wrap gap-2 mb-4" id="testTypeTabs">
+          <button class="btn btn-primary btn-sm test-tab-btn" data-test="bolt" id="tabBoltBtn"
+            onclick="switchTestTab('bolt')">
+            <i class="bi bi-lungs me-1"></i> <span data-i18n="tabBoltTitle">BOLT সহনশীলতা টেস্ট</span>
+          </button>
+          <button class="btn btn-outline-primary btn-sm test-tab-btn" data-test="bpm" id="tabBpmBtn"
+            onclick="switchTestTab('bpm')">
+            <i class="bi bi-activity me-1"></i> <span data-i18n="tabBpmTitle">শ্বাসের গতি (BPM Counter)</span>
+          </button>
+        </div>
+
+        <div class="row g-4 align-items-start">
+          <!-- Main Interactive Test Card -->
+          <div class="col-lg-7">
+            <div class="test-panel p-4 p-md-5 rounded-4 bg-white shadow-sm border text-center position-relative">
+
+              <!-- Instructions & Interactive Stage -->
+              <div id="testInstructionView">
+                <div class="test-visual-badge mx-auto mb-3">
+                  <i class="bi bi-stopwatch text-primary fs-2" id="testModeIcon"></i>
+                </div>
+                <h2 class="h4 fw-bold mb-2" id="testInstructionTitle" data-i18n="boltStepHeader">কীভাবে টেস্ট করবেন?
+                </h2>
+                <p class="text-secondary small mb-4 mx-auto" style="max-width: 500px;" id="testInstructionBody"
+                  data-i18n="boltSteps">
+                  স্বাভাবিকভাবে নাক দিয়ে শ্বাস নিন এবং ছাড়ুন। এরপর নাক চেপে ধরে 'স্টার্ট' চাপুন। প্রথম শ্বাসের তাগিদ
+                  অনুভব করা মাত্র 'থামুন' চাপুন। জোর করে শ্বাস আটকে রাখবেন না।
+                </p>
+
+                <!-- Preparation & Countdown Area -->
+                <div class="test-countdown-box d-none my-4" id="testCountdownBox">
+                  <div class="test-count-circle mx-auto">
+                    <span id="testCountdownNum">3</span>
+                  </div>
+                  <div class="small text-muted mt-2" data-i18n="prepareToHold">স্বাভাবিক শ্বাস ছাড়ুন ও প্রস্তুত হন...
+                  </div>
+                </div>
+
+                <!-- Active Stopwatch & Stage -->
+                <div class="test-active-stage d-none my-4" id="testActiveStage">
+                  <div class="bolt-meter-wrap mx-auto position-relative">
+                    <div class="bolt-glow-ring"></div>
+                    <div class="bolt-timer-display" id="boltTimerDisplay">00.0s</div>
+                  </div>
+                  <div class="small text-muted mt-2" id="testStageNotice" data-i18n="tapWhenUrge">প্রথম শ্বাসের তাগিদে
+                    থামুন চাপুন</div>
+
+                  <!-- BPM Specific Tap Feedback -->
+                  <div class="bpm-counter-box d-none mt-3" id="bpmCounterBox">
+                    <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 rounded-pill">
+                      <span data-i18n="breathsRecorded">গণনাকৃত শ্বাস:</span> <strong id="bpmCountNum">0</strong>
+                    </span>
+                    <div class="small text-secondary mt-2" id="bpmCountdownText">বাকি সময়: ৩০ সেকেন্ড</div>
+                  </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="d-flex justify-content-center gap-3 mt-4" id="testControlArea">
+                  <button class="btn btn-primary px-4 py-3 fw-bold rounded-3 shadow-sm" id="startTestBtn"
+                    onclick="initiateTest()">
+                    <i class="bi bi-play-circle me-1"></i> <span data-i18n="startTestBtnText">টেস্ট শুরু করুন</span>
+                  </button>
+                  <button class="btn btn-danger px-4 py-3 fw-bold rounded-3 shadow-sm d-none" id="stopTestBtn"
+                    onclick="stopCurrentTest()">
+                    <i class="bi bi-stop-circle me-1"></i> <span data-i18n="stopTestBtnText">থামুন (শ্বাস নেওয়ার
+                      তাগিদ)</span>
+                  </button>
+                  <button class="btn btn-success px-4 py-3 fw-bold rounded-3 shadow-sm d-none" id="tapBpmBtn"
+                    onclick="recordBpmBreath()">
+                    <i class="bi bi-heart-pulse me-1"></i> <span data-i18n="tapBpmBtnText">১টি পূর্ণ শ্বাস নিলাম
+                      (ট্যাপ)</span>
+                  </button>
+                </div>
+
+                <div class="alert alert-warning small mt-4 mb-0 text-start d-flex gap-2 align-items-center">
+                  <i class="bi bi-exclamation-triangle fs-5 text-warning flex-shrink-0"></i>
+                  <span data-i18n="boltSafetyAlert">এটি কোনো সহনশীলতা পরীক্ষা নয়। অস্বস্তি বা মাথা ঘোরার আগেই টেস্ট
+                    সম্পন্ন করুন।</span>
+                </div>
+              </div>
+
+              <!-- Test Result View (Revealed after test) -->
+              <div id="testResultView" class="d-none text-start">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold"
+                    data-i18n="testCompleteBadge">টেস্ট সম্পন্ন হয়েছে</span>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="resetTest()"><i
+                      class="bi bi-arrow-clockwise me-1"></i><span data-i18n="retryTest">আবার পরীক্ষা
+                      করুন</span></button>
+                </div>
+
+                <div class="result-score-hero p-4 rounded-4 mb-4 text-center">
+                  <div class="result-score-number display-4 fw-bolder mb-1 text-primary" id="resultScoreNum">0s</div>
+                  <div class="h5 fw-bold mb-2" id="resultScoreGrade">সন্তোষজনক কার্যকারিতা</div>
+                  <p class="text-secondary small mb-0 mx-auto" style="max-width: 480px;" id="resultScoreDetail"></p>
+                </div>
+
+                <!-- Recommendation Card inside Results -->
+                <div class="personalized-recommendation p-4 rounded-4 border mb-4">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-stars text-primary fs-5"></i>
+                    <strong class="text-primary" data-i18n="recHeading">আপনার ফলাফলের ভিত্তিতে প্রস্তাবিত
+                      অনুশীলন</strong>
+                  </div>
+                  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mt-3">
+                    <div>
+                      <h3 class="h6 fw-bold mb-1" id="recExerciseTitle">ডায়াফ্রামেটিক ব্রিদিং</h3>
+                      <p class="text-secondary small mb-0" id="recExerciseReason">আপনার অক্সিজেন সহনশীলতা বাড়াতে এই
+                        অনুশীলন অত্যন্ত কার্যকরী।</p>
+                    </div>
+                    <button class="btn btn-primary fw-bold text-nowrap" id="startRecExerciseBtn"
+                      onclick="launchRecommendedExercise()">
+                      <i class="bi bi-play-fill me-1"></i> <span data-i18n="startRecExercise">অনুশীলন শুরু করুন</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Test Result Social Share Bar -->
+                <div
+                  class="test-share-bar p-3 rounded-3 border bg-white mb-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-share-fill text-primary"></i>
+                    <span class="small fw-bold text-dark" data-i18n="shareTestPrompt">আপনার টেস্ট রেজাল্ট শেয়ার
+                      করুন:</span>
+                  </div>
+                  <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-sm btn-outline-success share-mini-btn" onclick="shareTestResult('whatsapp')"
+                      title="WhatsApp" aria-label="Share to WhatsApp">
+                      <i class="bi bi-whatsapp me-1"></i> WhatsApp
+                    </button>
+                    <button class="btn btn-sm btn-outline-dark share-mini-btn" onclick="shareTestResult('twitter')"
+                      title="X (Twitter)" aria-label="Share to X">
+                      <i class="bi bi-twitter-x me-1"></i> X
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary share-mini-btn" onclick="shareTestResult('facebook')"
+                      title="Facebook" aria-label="Share to Facebook">
+                      <i class="bi bi-facebook me-1"></i> Facebook
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary share-mini-btn" onclick="shareTestResult('copy')"
+                      title="Copy Link" aria-label="Copy share link">
+                      <i class="bi bi-link-45deg me-1"></i> <span data-i18n="copyLinkMini">কপি</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Score Ranges Reference Guide -->
+                <div class="score-legend-box p-3 rounded-3 border bg-white small mb-3">
+                  <div class="fw-bold mb-2" data-i18n="scoreGuideTitle">স্কোর গাইড (BOLT স্কেল):</div>
+                  <div class="row g-2">
+                    <div class="col-6 col-md-3">
+                      <div class="p-2 rounded bg-danger-subtle text-danger text-center">
+                        <strong>&lt; ১০ সে</strong><br><small data-i18n="gradeLow">খুব কম</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="p-2 rounded bg-warning-subtle text-warning-emphasis text-center">
+                        <strong>১০–১৯ সে</strong><br><small data-i18n="gradeModerate">মাঝারি</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="p-2 rounded bg-info-subtle text-info-emphasis text-center">
+                        <strong>২০–২৯ সে</strong><br><small data-i18n="gradeGood">ভালো</small>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                      <div class="p-2 rounded bg-success-subtle text-success text-center">
+                        <strong>৩০+ সে</strong><br><small data-i18n="gradeOptimal">চমৎকার</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Side: Test Science & Local History Tracker -->
+          <div class="col-lg-5">
+            <!-- Science Insight Card -->
+            <div class="info-panel p-4 rounded-4 bg-white border shadow-sm mb-4">
+              <h3 class="h6 fw-bold mb-3 d-flex align-items-center gap-2">
+                <i class="bi bi-journal-medical text-primary fs-5"></i>
+                <span data-i18n="scienceTitle">টেস্টের বৈজ্ঞানিক গুরুত্ব</span>
+              </h3>
+              <p class="small text-secondary lh-base mb-3" data-i18n="scienceDesc">
+                BOLT টেস্ট আপনার রক্তে কার্বন ডাই অক্সাইডের প্রতি মস্তিষ্কের শ্বাস নিয়ন্ত্রণ কেন্দ্রের সংবেদনশীলতা
+                পরিমাপ করে। স্কোর ২০ সেকেন্ডের বেশি হওয়া মানে শরীরের কোষে অক্সিজেন সরবরাহ ভালো এবং স্নায়ুতন্ত্র শান্ত
+                রয়েছে।
+              </p>
+              <ul class="small text-secondary ps-3 mb-0 lh-lg" id="scienceKeyPoints">
+                <li data-i18n="sciPt1">অক্সিজেন ব্যবহার ও ফুসফুসের ক্ষমতা বৃদ্ধি।</li>
+                <li data-i18n="sciPt2">মানসিক উদ্বেগ ও ঘুমের সমস্যা কমাতে সহায়ক।</li>
+                <li data-i18n="sciPt3">প্রতিদিন সকালে টেস্ট করে অগ্রগতি পর্যবেক্ষণ করা যায়।</li>
+              </ul>
+            </div>
+
+            <!-- History Tracker Card (localStorage) -->
+            <div class="info-panel p-4 rounded-4 bg-white border shadow-sm">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 d-flex align-items-center gap-2">
+                  <i class="bi bi-clock-history text-primary"></i>
+                  <span data-i18n="historyTitle">আপনার পূর্ববর্তী রেকর্ড</span>
+                </h3>
+                <button class="btn btn-sm btn-link text-danger p-0 text-decoration-none" onclick="clearTestHistory()"
+                  id="clearHistoryBtn" data-i18n="clearHistory">মুছে ফেলুন</button>
+              </div>
+              <div id="testHistoryList" class="test-history-container">
+                <p class="small text-muted mb-0" id="emptyHistoryMsg" data-i18n="noHistoryYet">এখনো কোনো টেস্টের রেকর্ড
+                  নেই। প্রথম টেস্টটি সম্পন্ন করুন!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAFETY MODAL -->
+    <div class="modal fade" id="safetyModal" tabindex="-1" aria-labelledby="safetyModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+          <div class="modal-header border-0">
+            <h2 class="modal-title fs-5 fw-bold" id="safetyModalTitle" data-i18n="safetyTitle">নিরাপদ অনুশীলন</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-0">
+            <ul class="small lh-lg mb-3" id="safetyList"></ul>
+            <div class="alert alert-warning small mb-0" data-i18n="disclaimer">এই ওয়েবসাইট সাধারণ সুস্থতা ও শিথিলতার
+              তথ্য দেয়; এটি চিকিৎসা বা পেশাদার স্বাস্থ্যসেবার বিকল্প নয়।</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2"><span><strong
+          class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু
+          প্রশান্তি</span></span><span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+    </div>
+  </footer>
+
+  <!-- MOBILE BOTTOM APP DRAWER / NAVBAR -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" aria-hidden="true"></div>
+    <div class="mobile-nav-items">
+      <a class="mobile-nav-link" data-screen="home" href="index.html" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link" data-screen="library" href="exercises.html" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-i18n="navExercises">অনুশীলন</span>
+      </a>
+      <a class="mobile-nav-link active" data-screen="test" href="breath-test.html" onclick="if($('test')){go('test');return false;}" aria-label="Breath Test">
+        <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
+        <span class="nav-label" data-i18n="navTest">শ্বাসের পরীক্ষা</span>
+      </a>
+      <a class="mobile-nav-link" data-screen="safety" href="index.html#safety" onclick="goToSafety();return false;" aria-label="Safety">
+        <div class="nav-icon-wrap"><i class="bi bi-shield-check"></i></div>
+        <span class="nav-label" data-i18n="navSafety">নিরাপত্তা</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="appToast" class="toast border-0 shadow" role="status">
+      <div class="toast-body d-flex justify-content-between align-items-center"><span id="toastText"></span><button
+          class="btn-close ms-3" data-bs-dismiss="toast"></button></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/script.js"></script>
+</body>
+
+</html>

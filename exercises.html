@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="bn">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1769aa">
+  <meta name="description"
+    content="BreatheWell — আপনার উপযোগী শ্বাস-প্রশ্বাসের অনুশীলন বেছে নিন এবং ধাপে ধাপে মাইন্ডফুলনেস চর্চা করুন।">
+  <title>BreatheWell | শ্বাসের অনুশীলন</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/css/style.css">
+</head>
+
+<body class="bn" data-page="exercises">
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল
+    কনটেন্টে যান</a>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html"
+        aria-label="BreatheWell home"><span class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell</a>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+          aria-label="Open navigation"><span class="navbar-toggler-icon"></span></button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-screen="home" data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link active" href="exercises.html" onclick="if($('library')){go('library');return false;}" data-screen="library"
+              data-i18n="navExercises">অনুশীলন</a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-screen="test" data-i18n="navTest">শ্বাসের
+              পরীক্ষা</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#safety" onclick="goToSafety();return false;"
+              data-screen="safety" data-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- SCREEN: EXERCISE LIBRARY -->
+    <section id="library" class="screen active">
+      <div class="container py-4 pb-5">
+        <div class="page-head pb-3">
+          <div class="breadcrumb mb-2"><a href="index.html" class="text-decoration-none" data-i18n="navHome">হোম</a> / <span
+              data-i18n="navExercises">অনুশীলন</span></div>
+          <div class="eyebrow mb-2" data-i18n="libraryEyebrow">অনুশীলনের সংগ্রহ</div>
+          <h1 class="section-title mb-2" data-i18n="libraryTitle">আপনার শ্বাসের অনুশীলন বেছে নিন</h1>
+          <p class="section-sub mb-0" data-i18n="libraryDesc">প্রতিটি অনুশীলনের সময় ও নির্দেশনা দেখে নিজের উপযোগীটি নির্বাচন
+            করুন।</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mb-4" id="filters">
+          <button class="btn btn-primary btn-sm filter-btn" data-filter="all" data-i18n="filterAll">সব</button>
+          <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="beginner"
+            data-i18n="filterBeginner">শুরুর জন্য</button>
+          <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="structured"
+            data-i18n="filterStructured">নির্দিষ্ট ছন্দ</button>
+          <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="mindful"
+            data-i18n="filterMindful">মনোযোগ</button>
+        </div>
+        <div class="row g-4 pb-5" id="libraryCards"></div>
+      </div>
+    </section>
+
+    <!-- SCREEN: EXERCISE DETAILS -->
+    <section id="details" class="screen">
+      <div class="container py-4 pb-5">
+        <div class="page-head pb-2">
+          <div class="breadcrumb mb-2"><button class="btn btn-link p-0 text-decoration-none" onclick="go('library')" data-i18n="libraryTitle">অনুশীলন</button> / <span
+              data-i18n="detailsLabel">বিস্তারিত</span></div>
+        </div>
+        <div class="row g-4 align-items-stretch">
+          <div class="col-lg-5">
+            <div class="detail-visual h-100">
+              <div class="orb">
+                <div class="orb-core"><i class="bi bi-wind"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="eyebrow mb-2" data-i18n="exerciseDetails">অনুশীলনের বিবরণ</div>
+            <h1 class="section-title mb-3" id="detailTitle"></h1>
+            <p class="text-secondary lh-lg" id="detailDesc"></p>
+
+            <!-- Level Selector Control -->
+            <div class="level-selector-wrap mt-4 mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label fw-bold mb-0" data-i18n="levelSelectLabel">অনুশীলন স্তর (লেভেল)</label>
+                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-semibold"
+                  id="detailLevelBadge">লেভেল ২ · মাঝারি</span>
+              </div>
+              <div class="level-pill-group" role="group" aria-label="Exercise difficulty level" id="levelButtonGroup">
+                <button type="button" class="level-pill-btn" data-level="beginner" onclick="selectLevel('beginner')">
+                  <span class="lvl-badge">L1</span>
+                  <span class="lvl-text" data-i18n="levelBeginner">শুরুর জন্য</span>
+                </button>
+                <button type="button" class="level-pill-btn active" data-level="intermediate"
+                  onclick="selectLevel('intermediate')">
+                  <span class="lvl-badge">L2</span>
+                  <span class="lvl-text" data-i18n="levelIntermediate">মাঝারি</span>
+                </button>
+                <button type="button" class="level-pill-btn" data-level="advanced" onclick="selectLevel('advanced')">
+                  <span class="lvl-badge">L3</span>
+                  <span class="lvl-text" data-i18n="levelAdvanced">উন্নত</span>
+                </button>
+              </div>
+              <div class="level-hint text-secondary small mt-2" id="detailLevelDesc"></div>
+            </div>
+
+            <h2 class="h6 fw-bold mt-4 mb-3" data-i18n="pattern">শ্বাসের প্যাটার্ন</h2>
+            <div class="row g-2 mb-4" id="detailPattern"></div>
+            <div class="row g-3 align-items-end">
+              <div class="col-sm-6"><label class="form-label fw-bold" for="durationSelect"
+                  data-i18n="sessionDuration">অনুশীলনের সময়</label><select id="durationSelect" class="form-select">
+                  <option value="60" selected data-i18n="dur1Min">১ মিনিট (মিনিমাম)</option>
+                  <option value="120" data-i18n="dur2Min">২ মিনিট</option>
+                  <option value="180" data-i18n="dur3Min">৩ মিনিট</option>
+                  <option value="300" data-i18n="dur5Min">৫ মিনিট</option>
+                  <option value="600" data-i18n="dur10Min">১০ মিনিট</option>
+                </select></div>
+              <div class="col-sm-6"><label class="form-label fw-bold" for="audioSelect" data-i18n="audioGuidance">অডিও
+                  নির্দেশনা</label><select id="audioSelect" class="form-select">
+                  <option value="off" data-i18n="audioOff">বন্ধ</option>
+                  <option value="on" data-i18n="audioOn">চালু (সমর্থিত ব্রাউজারে)</option>
+                </select></div>
+            </div>
+            <div class="safety-panel mt-4"><strong><i class="bi bi-shield-check me-2"></i><span
+                  data-i18n="beforeStart">শুরু করার আগে</span></strong>
+              <p class="mb-0 mt-2 small" data-i18n="detailSafety">স্বাভাবিকভাবে শ্বাস নিন। কোনো ধাপ অস্বস্তিকর হলে থামুন
+                এবং নিজের স্বাভাবিক শ্বাসে ফিরে যান।</p>
+            </div>
+            <button class="btn btn-primary w-100 mt-4" onclick="startSession()" data-i18n="startSession">অনুশীলন শুরু
+              করুন <i class="bi bi-play-fill ms-1"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN: GUIDED BREATHING SESSION -->
+    <section id="session" class="screen">
+      <div class="session-wrap">
+        <div class="container">
+          <div class="session-card">
+            <div class="session-top">
+              <button class="btn btn-link text-decoration-none p-0" onclick="confirmStop()" data-i18n="exitSession"><i
+                  class="bi bi-arrow-left me-1"></i> বের হন</button>
+              <div class="d-flex align-items-center gap-2">
+                <span id="sessionName"></span>
+                <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 small"
+                  id="sessionLevelBadge">লেভেল ২</span>
+              </div>
+              <span class="timer" id="remainingTime">01:00</span>
+            </div>
+            <div class="session-progress mt-3">
+              <div id="progressBar"></div>
+            </div>
+
+            <!-- ATTRACTIVE BREATH STAGE -->
+            <div class="breath-stage" id="breathStage" aria-live="off">
+              <!-- Dynamic Atmosphere Halo & Waves -->
+              <div class="breath-aura" id="breathAura"></div>
+              <div class="breath-wave wave-3"></div>
+              <div class="breath-wave wave-2"></div>
+              <div class="breath-wave wave-1"></div>
+
+              <!-- SVG Circular Phase Cadence Ring -->
+              <svg class="breath-svg-track" viewBox="0 0 320 320" aria-hidden="true">
+                <defs>
+                  <linearGradient id="phaseGradInhale" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#38bdf8" />
+                    <stop offset="100%" stop-color="#0284c7" />
+                  </linearGradient>
+                  <linearGradient id="phaseGradHold" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#5eead4" />
+                    <stop offset="100%" stop-color="#0d9488" />
+                  </linearGradient>
+                  <linearGradient id="phaseGradExhale" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#a5b4fc" />
+                    <stop offset="100%" stop-color="#3b82f6" />
+                  </linearGradient>
+                  <linearGradient id="phaseGradRest" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#34d399" />
+                    <stop offset="100%" stop-color="#059669" />
+                  </linearGradient>
+                </defs>
+                <circle class="track-bg" cx="160" cy="160" r="142" />
+                <circle class="track-progress" id="phaseProgressRing" cx="160" cy="160" r="142" />
+              </svg>
+
+              <!-- Floating Harmonic Particles -->
+              <div class="breath-particles" aria-hidden="true">
+                <span class="particle p-top"></span>
+                <span class="particle p-right"></span>
+                <span class="particle p-bottom"></span>
+                <span class="particle p-left"></span>
+              </div>
+
+              <!-- Central Breathing Orb -->
+              <div class="breath-ring" id="breathRing">
+                <div class="orb-glass-glow"></div>
+                <div class="orb-inner-ripple"></div>
+                <div class="orb-center-content">
+                  <div class="breath-icon-wrap mb-1"><i class="bi bi-wind" id="phaseIcon"></i></div>
+                  <div class="breath-label" id="phaseLabel">প্রস্তুত</div>
+                  <div class="phase-count" id="phaseCount">৩</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <h2 class="h3 fw-bold mb-2" id="instructionText">আরাম করে বসুন</h2>
+              <p class="text-secondary mb-0" id="subInstruction">অনুশীলন শুরু হচ্ছে</p>
+            </div>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+              <button class="control-btn primary" id="pauseBtn" onclick="togglePause()" aria-label="Pause"><i
+                  class="bi bi-pause-fill"></i></button>
+              <button class="control-btn" onclick="confirmStop()" aria-label="Stop"><i
+                  class="bi bi-stop-fill"></i></button>
+            </div>
+            <p class="small text-secondary mt-4 mb-0" data-i18n="sessionSafety">শ্বাস জোর করে নেবেন না। অস্বস্তি হলে
+              থামুন।</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN: SESSION COMPLETE -->
+    <section id="complete" class="screen">
+      <div class="container py-5">
+        <div class="session-card my-4">
+          <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+          <!-- ANIMATED CHAMPION CUP & CELEBRATION STAGE -->
+          <div class="trophy-stage-wrap text-center mb-4">
+            <div class="trophy-stage position-relative d-inline-block" id="trophyStage" onclick="celebrateAgain()"
+              role="button" tabindex="0" aria-label="Celebration Trophy - Tap for celebration">
+              <div class="trophy-aura" aria-hidden="true"></div>
+              <div class="trophy-sparkle sp-1" aria-hidden="true"><i class="bi bi-star-fill"></i></div>
+              <div class="trophy-sparkle sp-2" aria-hidden="true"><i class="bi bi-sparkle"></i></div>
+              <div class="trophy-sparkle sp-3" aria-hidden="true"><i class="bi bi-stars"></i></div>
+              <div class="trophy-sparkle sp-4" aria-hidden="true"><i class="bi bi-star-fill"></i></div>
+
+              <div class="champion-cup-box" id="championCupBox">
+                <svg class="champion-cup-svg" viewBox="0 0 160 170" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <defs>
+                    <linearGradient id="goldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FFF8D6" />
+                      <stop offset="30%" stop-color="#FCD34D" />
+                      <stop offset="65%" stop-color="#F59E0B" />
+                      <stop offset="100%" stop-color="#B45309" />
+                    </linearGradient>
+                    <linearGradient id="goldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#FEF3C7" />
+                      <stop offset="45%" stop-color="#FBBF24" />
+                      <stop offset="100%" stop-color="#92400E" />
+                    </linearGradient>
+                    <linearGradient id="cupStemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#D97706" />
+                      <stop offset="50%" stop-color="#FDE68A" />
+                      <stop offset="100%" stop-color="#B45309" />
+                    </linearGradient>
+                    <linearGradient id="cupBaseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#334155" />
+                      <stop offset="40%" stop-color="#1E293B" />
+                      <stop offset="100%" stop-color="#0F172A" />
+                    </linearGradient>
+                    <linearGradient id="goldSheen" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+                      <stop offset="45%" stop-color="rgba(255,255,255,0.85)" />
+                      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                    </linearGradient>
+                    <filter id="cupSoftShadow" x="-20%" y="-15%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#D97706" flood-opacity="0.32" />
+                    </filter>
+                  </defs>
+
+                  <g filter="url(#cupSoftShadow)">
+                    <rect x="40" y="146" width="80" height="18" rx="4" fill="url(#cupBaseGrad)" stroke="#475569"
+                      stroke-width="1.2" />
+                    <rect x="52" y="136" width="56" height="11" rx="2" fill="url(#goldGrad2)" />
+                    <rect x="52" y="149" width="56" height="12" rx="2" fill="#0F172A" stroke="#FBBF24"
+                      stroke-width="0.75" />
+                    <text x="80" y="158" font-size="6.8" font-weight="800" fill="#FDE68A" text-anchor="middle"
+                      letter-spacing="1">BREATHEWELL</text>
+                    <path d="M73 108 H87 V136 H73 Z" fill="url(#cupStemGrad)" />
+                    <path d="M68 108 Q80 115 92 108 V113 Q80 120 68 113 Z" fill="url(#goldGrad2)" />
+                    <ellipse cx="80" cy="136" rx="14" ry="3" fill="url(#goldGrad1)" />
+                    <path d="M46 36 C20 36 16 76 46 90 C48 82 34 76 34 60 C34 46 45 44 48 44 Z"
+                      fill="url(#goldGrad2)" />
+                    <path d="M46 38 C24 38 20 74 46 86 C47 80 36 74 36 60 C36 48 45 46 48 46 Z"
+                      fill="url(#goldGrad1)" />
+                    <path d="M114 36 C140 36 144 76 114 90 C112 82 126 76 126 60 C126 46 115 44 112 44 Z"
+                      fill="url(#goldGrad2)" />
+                    <path d="M114 38 C136 38 140 74 114 86 C113 80 124 74 124 60 C124 48 115 46 112 46 Z"
+                      fill="url(#goldGrad1)" />
+                    <path d="M44 26 C44 26 42 78 80 110 C118 78 116 26 116 26 Z" fill="url(#goldGrad1)" />
+                    <ellipse cx="80" cy="26" rx="36" ry="9" fill="url(#goldGrad2)" />
+                    <ellipse cx="80" cy="26" rx="31" ry="6.5" fill="#78350F" />
+                    <ellipse cx="80" cy="27" rx="28" ry="5" fill="#92400E" />
+                    <circle cx="80" cy="60" r="16" fill="url(#goldGrad2)" stroke="#FFFBEB" stroke-width="1.2"
+                      opacity="0.9" />
+                    <path
+                      d="M80 49 L83.2 56.5 L91.3 57.3 L85.2 62.8 L86.9 70.8 L80 66.8 L73.1 70.8 L74.8 62.8 L68.7 57.3 L76.8 56.5 Z"
+                      fill="#FFFFFF" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.25))" />
+                    <path class="cup-shine-path" d="M54 34 Q80 82 82 108" stroke="url(#goldSheen)" stroke-width="9"
+                      stroke-linecap="round" opacity="0.8" />
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <div class="achievement-ribbon-wrap mt-2">
+              <div class="achievement-badge shadow-sm" id="achievementBadge">
+                <i class="bi bi-trophy-fill text-warning me-1"></i>
+                <span id="achievementText" data-i18n="badgeMindfulMaster">মাইন্ডফুলনেস চ্যাম্পিয়ন</span>
+              </div>
+              <div class="mt-2">
+                <button type="button" class="btn btn-sm btn-light border shadow-sm rounded-pill tap-trophy-pill"
+                  onclick="celebrateAgain()" aria-label="Celebrate again">
+                  <i class="bi bi-magic text-warning me-1"></i> <span id="tapCupHint" data-i18n="tapCupConfetti">ট্রফিতে
+                    ট্যাপ করুন!</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="eyebrow mb-2" data-i18n="wellDone">সম্পন্ন</div>
+          <h1 class="section-title mb-3" data-i18n="completeTitle">আপনার অনুশীলন সম্পন্ন হয়েছে!</h1>
+          <p class="text-secondary mb-4" data-i18n="completeDesc">এবার স্বাভাবিকভাবে শ্বাস নিন এবং কিছুক্ষণ বিশ্রাম
+            করুন।</p>
+          <div class="row g-3 text-start mb-4">
+            <div class="col-6 col-md-4">
+              <div class="info-panel">
+                <div class="small text-secondary mb-1"><i class="bi bi-wind text-primary me-1"></i><span
+                    data-i18n="summaryExercise">অনুশীলন</span></div>
+                <strong id="summaryName"></strong>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="info-panel">
+                <div class="small text-secondary mb-1"><i class="bi bi-bar-chart-steps text-info me-1"></i><span
+                    data-i18n="summaryLevel">অনুশীলনের স্তর</span></div>
+                <strong id="summaryLevel" class="text-primary"></strong>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="info-panel">
+                <div class="small text-secondary mb-1"><i class="bi bi-stopwatch text-warning me-1"></i><span
+                    data-i18n="summaryDuration">সময়</span></div>
+                <strong id="summaryDuration"></strong>
+              </div>
+            </div>
+            <div class="col-6 col-md-6">
+              <div class="info-panel">
+                <div class="small text-secondary mb-1"><i class="bi bi-arrow-repeat text-success me-1"></i><span
+                    data-i18n="summaryCycles">সম্পূর্ণ চক্র</span></div>
+                <strong id="summaryCycles"></strong>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="info-panel">
+                <div class="small text-secondary mb-1"><i class="bi bi-check-circle-fill text-success me-1"></i><span
+                    data-i18n="summaryStatus">অবস্থা</span></div>
+                <strong class="text-success" data-i18n="completed">সম্পন্ন</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Post-Session Mood Check-in -->
+          <div class="mood-check-card p-4 rounded-4 border bg-white mb-4 text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+              <span class="badge bg-info-subtle text-info-emphasis rounded-pill px-2.5 py-1 small fw-bold">
+                <i class="bi bi-heart-pulse-fill me-1"></i><span data-i18n="moodCheckBadge">সেলফ-রিফ্লেকশন</span>
+              </span>
+            </div>
+            <h3 class="h6 fw-bold mb-1" data-i18n="moodCheckTitle">অনুশীলনের পর এখন কেমন অনুভূতি হচ্ছে?</h3>
+            <p class="small text-secondary mb-3" data-i18n="moodCheckSub">আপনার অনুভূতি চিহ্নিত করে মানসিক পরিবর্তনের
+              পর্যবেক্ষণ রাখুন।</p>
+            <div class="mood-options d-flex justify-content-center gap-2 flex-wrap" id="moodOptions">
+              <button type="button" class="btn mood-btn" data-mood="calm" onclick="selectMood('calm', this)">
+                <span class="mood-emoji">😌</span>
+                <span class="mood-label" data-i18n="moodCalm">শান্ত ও নির্ভার</span>
+              </button>
+              <button type="button" class="btn mood-btn" data-mood="refreshed" onclick="selectMood('refreshed', this)">
+                <span class="mood-emoji">⚡</span>
+                <span class="mood-label" data-i18n="moodRefreshed">সতেজ ও উদ্যমী</span>
+              </button>
+              <button type="button" class="btn mood-btn" data-mood="focused" onclick="selectMood('focused', this)">
+                <span class="mood-emoji">🎯</span>
+                <span class="mood-label" data-i18n="moodFocused">মনোযোগী</span>
+              </button>
+              <button type="button" class="btn mood-btn" data-mood="sleepy" onclick="selectMood('sleepy', this)">
+                <span class="mood-emoji">🌙</span>
+                <span class="mood-label" data-i18n="moodSleepy">শিথিল ও তন্দ্রাচ্ছন্ন</span>
+              </button>
+            </div>
+            <div class="mood-feedback alert alert-primary d-none py-2 px-3 mt-3 mb-0 small rounded-3" id="moodFeedback">
+            </div>
+          </div>
+
+          <!-- Social Media Sharing Section -->
+          <div class="social-share-card p-4 rounded-4 border bg-white mb-4 text-center">
+            <div class="share-header mb-3">
+              <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-bold mb-2"
+                data-i18n="shareBadge">আপনার অর্জন শেয়ার করুন</span>
+              <h3 class="h6 fw-bold mb-1" data-i18n="shareHeading">বন্ধুদের সাথে প্রশান্তি ও সুস্থতা শেয়ার করুন</h3>
+              <p class="small text-secondary mb-0" data-i18n="shareSub">আপনার সফল শ্বাস-প্রশ্বাস সেশনের অনুভূতি সোশ্যাল
+                মিডিয়ায় ভাগ করে নিন।</p>
+            </div>
+            <div class="share-buttons-grid d-flex flex-wrap justify-content-center gap-2">
+              <button class="btn share-btn share-whatsapp" onclick="shareSession('whatsapp')"
+                aria-label="Share on WhatsApp">
+                <i class="bi bi-whatsapp"></i> <span>WhatsApp</span>
+              </button>
+              <button class="btn share-btn share-x" onclick="shareSession('twitter')" aria-label="Share on X">
+                <i class="bi bi-twitter-x"></i> <span>X (Twitter)</span>
+              </button>
+              <button class="btn share-btn share-facebook" onclick="shareSession('facebook')"
+                aria-label="Share on Facebook">
+                <i class="bi bi-facebook"></i> <span>Facebook</span>
+              </button>
+              <button class="btn share-btn share-linkedin" onclick="shareSession('linkedin')"
+                aria-label="Share on LinkedIn">
+                <i class="bi bi-linkedin"></i> <span>LinkedIn</span>
+              </button>
+              <button class="btn share-btn share-copy" onclick="shareSession('copy')" aria-label="Copy Link">
+                <i class="bi bi-link-45deg"></i> <span data-i18n="copyLinkBtn">লিঙ্ক কপি</span>
+              </button>
+              <button class="btn share-btn share-native d-none" id="nativeShareSessionBtn"
+                onclick="shareSession('native')" aria-label="More share options">
+                <i class="bi bi-share-fill"></i> <span data-i18n="moreShareBtn">আরও শেয়ার</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+            <button class="btn btn-primary" onclick="startSession()" data-i18n="practiceAgain">আবার অনুশীলন করুন</button>
+            <button class="btn btn-outline-primary" onclick="go('library')" data-i18n="otherExercises">অন্য অনুশীলন দেখুন</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAFETY MODAL -->
+    <div class="modal fade" id="safetyModal" tabindex="-1" aria-labelledby="safetyModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+          <div class="modal-header border-0">
+            <h2 class="modal-title fs-5 fw-bold" id="safetyModalTitle" data-i18n="safetyTitle">নিরাপদ অনুশীলন</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-0">
+            <ul class="small lh-lg mb-3" id="safetyList"></ul>
+            <div class="alert alert-warning small mb-0" data-i18n="disclaimer">এই ওয়েবসাইট সাধারণ সুস্থতা ও শিথিলতার
+              তথ্য দেয়; এটি চিকিৎসা বা পেশাদার স্বাস্থ্যসেবার বিকল্প নয়।</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2"><span><strong
+          class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু
+          প্রশান্তি</span></span><span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+    </div>
+  </footer>
+
+  <!-- MOBILE BOTTOM APP DRAWER / NAVBAR -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" aria-hidden="true"></div>
+    <div class="mobile-nav-items">
+      <a class="mobile-nav-link" data-screen="home" href="index.html" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link active" data-screen="library" href="exercises.html" onclick="if($('library')){go('library');return false;}" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-i18n="navExercises">অনুশীলন</span>
+      </a>
+      <a class="mobile-nav-link" data-screen="test" href="breath-test.html" aria-label="Breath Test">
+        <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
+        <span class="nav-label" data-i18n="navTest">শ্বাসের পরীক্ষা</span>
+      </a>
+      <a class="mobile-nav-link" data-screen="safety" href="index.html#safety" onclick="goToSafety();return false;" aria-label="Safety">
+        <div class="nav-icon-wrap"><i class="bi bi-shield-check"></i></div>
+        <span class="nav-label" data-i18n="navSafety">নিরাপত্তা</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="appToast" class="toast border-0 shadow" role="status">
+      <div class="toast-body d-flex justify-content-between align-items-center"><span id="toastText"></span><button
+          class="btn-close ms-3" data-bs-dismiss="toast"></button></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/script.js"></script>
+</body>
+
+</html>
+

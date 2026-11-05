@@ -766,6 +766,11 @@ if (langToggleBtn) {
 
 function updateNavActive(screenId) {
   const bottomNav = $("mobileBottomNav");
+  let targetTab = screenId;
+  if (screenId === "details" || screenId === "complete") {
+    targetTab = "library";
+  }
+
   if (bottomNav) {
     if (screenId === "session") {
       bottomNav.classList.add("nav-hidden");
@@ -773,14 +778,10 @@ function updateNavActive(screenId) {
       bottomNav.classList.remove("nav-hidden");
     }
 
-    let targetTab = screenId;
-    if (screenId === "details" || screenId === "complete") {
-      targetTab = "library";
-    }
-
     const links = bottomNav.querySelectorAll(".mobile-nav-link");
     links.forEach(link => {
-      if (link.dataset.screen === targetTab) {
+      const scr = link.dataset.screen;
+      if (scr === targetTab) {
         link.classList.add("active");
         link.setAttribute("aria-current", "page");
       } else {
@@ -793,21 +794,26 @@ function updateNavActive(screenId) {
   // Also sync desktop navbar active class
   const desktopLinks = document.querySelectorAll("#navMenu .nav-link");
   desktopLinks.forEach(link => {
+    const scr = link.dataset.screen;
     const fn = link.getAttribute("onclick") || "";
+    const href = link.getAttribute("href") || "";
     let matches = false;
-    if (screenId === "safety" && fn.includes("goToSafety")) {
+
+    if (screenId === "safety" && (scr === "safety" || fn.includes("goToSafety") || href.includes("#safety"))) {
       matches = true;
-    } else if (screenId === "home" && fn.includes("go('home')")) {
+    } else if (screenId === "home" && (scr === "home" || fn.includes("go('home')") || href.endsWith("index.html") || href === "/")) {
       matches = true;
-    } else if ((screenId === "library" || screenId === "details" || screenId === "complete") && fn.includes("go('library')")) {
+    } else if ((screenId === "library" || screenId === "details" || screenId === "complete") && (scr === "library" || fn.includes("go('library')") || href.includes("exercises.html"))) {
       matches = true;
-    } else if (screenId === "test" && fn.includes("go('test')")) {
+    } else if (screenId === "test" && (scr === "test" || fn.includes("go('test')") || href.includes("test.html") || href.includes("breath-test.html"))) {
       matches = true;
     }
     if (matches) {
       link.classList.add("active");
+      link.setAttribute("aria-current", "page");
     } else {
       link.classList.remove("active");
+      link.removeAttribute("aria-current");
     }
   });
 }
@@ -820,18 +826,31 @@ function go(id) {
   if (testRunning && id !== "test") {
     stopCurrentTest();
   }
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   const target = $(id);
-  if (target) target.classList.add("active");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  const nav = $("navMenu");
-  if (nav && nav.classList.contains("show")) {
-    bootstrap.Collapse.getOrCreateInstance(nav).hide();
+  if (target) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    target.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    const nav = $("navMenu");
+    if (nav && nav.classList.contains("show")) {
+      bootstrap.Collapse.getOrCreateInstance(nav).hide();
+    }
+    if (id === 'test') {
+      loadTestHistory();
+    }
+    updateNavActive(id);
+  } else {
+    // Navigate across pages if screen is not on this page
+    if (id === 'home') {
+      window.location.href = 'index.html';
+    } else if (id === 'library' || id === 'exercises') {
+      window.location.href = 'exercises.html';
+    } else if (id === 'test') {
+      window.location.href = 'breath-test.html';
+    } else if (id === 'safety') {
+      window.location.href = 'index.html#safety';
+    }
   }
-  if (id === 'test') {
-    loadTestHistory();
-  }
-  updateNavActive(id);
 }
 
 // Hero Playful Vibe & BreatheBuddy Interactions
@@ -1068,12 +1087,20 @@ if (filtersEl) {
 function quickStartSession(id) {
   selected = exercises.find(e => e.id === id) || exercises[0];
   selectedLevel = cardSelectedLevels[id] || "beginner";
+  if (!$("session")) {
+    window.location.href = `exercises.html?exercise=${id}&level=${selectedLevel}&action=start`;
+    return;
+  }
   startSession();
 }
 
 function openDetails(id) {
   selected = exercises.find(e => e.id === id) || exercises[0];
   selectedLevel = cardSelectedLevels[id] || "beginner";
+  if (!$("details")) {
+    window.location.href = `exercises.html?exercise=${id}&level=${selectedLevel}&action=details`;
+    return;
+  }
   renderDetails();
   go("details");
 }
@@ -1244,12 +1271,16 @@ function triggerSafetyReset() {
 }
 
 function goToSafety() {
-  go('home');
-  updateNavActive('safety');
-  setTimeout(() => {
-    const el = $("safety");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  }, 80);
+  const el = $("safety");
+  if (el) {
+    go('home');
+    updateNavActive('safety');
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth" });
+    }, 80);
+  } else {
+    window.location.href = "index.html#safety";
+  }
 }
 
 function startSession() {
@@ -2165,6 +2196,10 @@ function resetTest() {
 
 function launchRecommendedExercise() {
   selected = exercises.find(e => e.id === recommendedExerciseId) || exercises[0];
+  if (!$("session")) {
+    window.location.href = `exercises.html?exercise=${recommendedExerciseId}&action=start`;
+    return;
+  }
   startSession();
 }
 
@@ -2175,10 +2210,70 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
+// Determine initial screen based on data-page, active screen element, or URL
+function getInitialScreen() {
+  const page = document.body.dataset.page;
+  if (page) return page === "exercises" ? "library" : page;
+  const activeScreen = document.querySelector(".screen.active");
+  if (activeScreen) return activeScreen.id;
+  const path = window.location.pathname.toLowerCase();
+  if (path.includes("exercise")) return "library";
+  if (path.includes("test")) return "test";
+  return "home";
+}
+
+function handleUrlParams() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("exercise")) {
+      const exId = params.get("exercise");
+      const ex = exercises.find(e => e.id === exId);
+      if (ex) {
+        selected = ex;
+        if (params.has("level")) {
+          const lvl = params.get("level");
+          if (["beginner", "intermediate", "advanced"].includes(lvl)) {
+            selectedLevel = lvl;
+            cardSelectedLevels[exId] = lvl;
+          }
+        }
+        const action = params.get("action");
+        if (action === "start") {
+          setTimeout(() => {
+            startSession();
+          }, 80);
+        } else {
+          setTimeout(() => {
+            openDetails(exId);
+          }, 50);
+        }
+      }
+    }
+  } catch (e) {}
+}
+
+function handleHashOnLoad() {
+  if (window.location.hash === "#safety") {
+    setTimeout(() => {
+      const el = $("safety");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        updateNavActive("safety");
+      }
+    }, 120);
+  }
+}
+
 // Initialize on script load
 setLang(lang);
 renderCards();
-updateNavActive("home");
+const currentScreen = getInitialScreen();
+updateNavActive(currentScreen);
+if (currentScreen === "test") {
+  loadTestHistory();
+}
+handleUrlParams();
+handleHashOnLoad();
 
 // Auto-highlight Safety in bottom bar when scrolled to Safety on Home screen
 if ("IntersectionObserver" in window) {
