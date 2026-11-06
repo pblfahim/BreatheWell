@@ -78,10 +78,8 @@
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
           <li class="nav-item"><a class="nav-link" href="index.html" data-rx-i18n="navHome">হোম</a></li>
           <li class="nav-item"><a class="nav-link" href="exercises.html" data-rx-i18n="navExercises">অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-rx-i18n="navTest">শ্বাসের পরীক্ষা</a>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="health-tracker.html" data-rx-i18n="navHealth">স্বাস্থ্য
-              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-rx-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
+          <li class="nav-item"><a class="nav-link" href="health-tracker.html" data-rx-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
           <li class="nav-item"><a class="nav-link active" href="prescriptions.html" aria-current="page"
               data-rx-i18n="navRx">প্রেসক্রিপশন</a></li>
           <li class="nav-item"><a class="nav-link" href="index.html#safety" data-rx-i18n="navSafety">নিরাপত্তা</a></li>
@@ -635,48 +633,47 @@
   </main>
 
   <!-- ========================================================================
-       8. FOOTER
+       8. GLOBAL FOOTER
        ======================================================================== -->
-  <footer class="rx-footer">
-    <div class="container text-center">
-      <div class="rx-footer-brand">
-        <i class="bi bi-wind me-2"></i>BreatheWell
-      </div>
-      <p class="rx-footer-tag" data-rx-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু প্রশান্তি</p>
-      <p class="rx-footer-disclaimer" data-rx-i18n="footerDisclaimer">
-        সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।
-      </p>
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-rx-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
+      <span data-rx-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
 
   <!-- ========================================================================
-       9. MOBILE BOTTOM NAVIGATION DRAWER
+       9. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
-  <nav class="mobile-nav-bar" aria-label="Mobile bottom navigation">
-    <a class="mobile-nav-link" href="index.html" aria-label="Home">
-      <div class="nav-icon-wrap"><i class="bi bi-house-fill"></i></div>
-      <span class="nav-label" data-rx-i18n="navHome">হোম</span>
-    </a>
-    <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
-      <div class="nav-icon-wrap"><i class="bi bi-lungs-fill"></i></div>
-      <span class="nav-label" data-rx-i18n="navExercises">অনুশীলন</span>
-    </a>
-    <a class="mobile-nav-link" href="breath-test.html" aria-label="Breath Test">
-      <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
-      <span class="nav-label" data-rx-i18n="navTest">শ্বাস পরীক্ষা</span>
-    </a>
-    <a class="mobile-nav-link" href="health-tracker.html" aria-label="Health Tracker">
-      <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
-      <span class="nav-label" data-rx-i18n="navHealth">স্বাস্থ্য</span>
-    </a>
-    <a class="mobile-nav-link active" href="prescriptions.html" aria-label="Prescriptions" aria-current="page">
-      <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
-      <span class="nav-label" data-rx-i18n="navRx">প্রেসক্রিপশন</span>
-    </a>
-    <a class="mobile-nav-link" href="index.html#safety" aria-label="Safety">
-      <div class="nav-icon-wrap"><i class="bi bi-shield-check"></i></div>
-      <span class="nav-label" data-rx-i18n="navSafety">নিরাপত্তা</span>
-    </a>
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" aria-hidden="true"></div>
+    <div class="mobile-nav-items">
+      <a class="mobile-nav-link" href="index.html" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-rx-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-rx-i18n="navExercises">অনুশীলন</span>
+      </a>
+      <a class="mobile-nav-link" href="breath-test.html" aria-label="Breath Test">
+        <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
+        <span class="nav-label" data-rx-i18n="navTest">শ্বাসের পরীক্ষা</span>
+      </a>
+      <a class="mobile-nav-link" href="health-tracker.html" aria-label="Health Tracker">
+        <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
+        <span class="nav-label" data-rx-i18n="navHealth">স্বাস্থ্য</span>
+      </a>
+      <a class="mobile-nav-link active" href="prescriptions.html" aria-label="Prescriptions" aria-current="page">
+        <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
+        <span class="nav-label" data-rx-i18n="navRx">প্রেসক্রিপশন</span>
+      </a>
+      <a class="mobile-nav-link" href="index.html#safety" aria-label="Safety">
+        <div class="nav-icon-wrap"><i class="bi bi-shield-check"></i></div>
+        <span class="nav-label" data-rx-i18n="navSafety">নিরাপত্তা</span>
+      </a>
+    </div>
   </nav>
 
   <!-- ========================================================================

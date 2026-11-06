@@ -70,8 +70,11 @@
           <li class="nav-item"><a class="nav-link" href="index.html" data-screen="home" data-i18n="navHome">হোম</a></li>
           <li class="nav-item"><a class="nav-link" href="exercises.html" data-screen="library"
               data-i18n="navExercises">অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link active" href="breath-test.html" onclick="if($('test')){go('test');return false;}" data-screen="test" data-i18n="navTest">শ্বাসের
-              পরীক্ষা</a></li>
+          <li class="nav-item"><a class="nav-link active" href="breath-test.html" aria-current="page"
+              onclick="if($('test')){go('test');return false;}" data-screen="test" data-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
+          <li class="nav-item"><a class="nav-link" href="health-tracker.html"
+              data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
           <li class="nav-item"><a class="nav-link" href="index.html#safety" onclick="goToSafety();return false;"
               data-screen="safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
@@ -358,9 +361,17 @@
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
         <span class="nav-label" data-i18n="navExercises">অনুশীলন</span>
       </a>
-      <a class="mobile-nav-link active" data-screen="test" href="breath-test.html" onclick="if($('test')){go('test');return false;}" aria-label="Breath Test">
+      <a class="mobile-nav-link active" data-screen="test" href="breath-test.html" aria-current="page" onclick="if($('test')){go('test');return false;}" aria-label="Breath Test">
         <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
         <span class="nav-label" data-i18n="navTest">শ্বাসের পরীক্ষা</span>
+      </a>
+      <a class="mobile-nav-link" href="health-tracker.html" aria-label="Health Tracker">
+        <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
+        <span class="nav-label" data-i18n="navHealth">স্বাস্থ্য</span>
+      </a>
+      <a class="mobile-nav-link" href="prescriptions.html" aria-label="Prescriptions">
+        <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
+        <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
       </a>
       <a class="mobile-nav-link" data-screen="safety" href="index.html#safety" onclick="goToSafety();return false;" aria-label="Safety">
         <div class="nav-icon-wrap"><i class="bi bi-shield-check"></i></div>

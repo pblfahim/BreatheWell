@@ -2654,31 +2654,14 @@
     border-radius: 8px;
 }
 
-/* ── Footer ───────────────────────────────────────────────────────────────── */
+/* ── Global Footer Alignment ──────────────────────────────────────────────── */
 
-.rx-footer {
-    background: #0f172a;
-    color: rgba(255, 255, 255, 0.7);
-    padding: 2.5rem 0 5rem;
-    /* extra bottom for mobile nav */
-}
-
-.rx-footer-brand {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 0.5rem;
-}
-
-.rx-footer-tag {
-    font-size: 0.9rem;
-    margin: 0 0 0.25rem;
-}
-
-.rx-footer-disclaimer {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.4);
-    margin: 0;
+footer {
+    border-top: 1px solid var(--rx-border);
+    background: #ffffff;
+    padding: 14px 0;
+    color: var(--rx-text-muted);
+    font-size: 0.88rem;
 }
 
 /* ── Responsive overrides ─────────────────────────────────────────────────── */
