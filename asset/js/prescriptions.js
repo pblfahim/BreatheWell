@@ -352,6 +352,13 @@ const RX_T = {
 
         shareTitle: "পরিবারের সাথে শেয়ার করুন",
         shareSub: "আপনার ছেলে বা মেয়ে দূর থেকে প্রেসক্রিপশন দেখতে পারবেন",
+        shareBadge: "পারিবারিক শেয়ার ও ব্যাকআপ",
+        shareCardExportTitle: "শেয়ার ও এক্সপোর্ট অপশন",
+        shareSecurityBadge: "নিরাপদ ও রিড-অনলি",
+        btnWhatsAppShare: "হোয়াটসঅ্যাপে ছেলে/মেয়েকে পাঠান",
+        msgPreviewTitle: "মেসেজের প্রিভিউ:",
+        btnCopyReport: "মেসেজ কপি করুন",
+        btnCopySummary: "টেক্সট সামারি",
         btnJson: "JSON ব্যাকআপ",
         btnLink: "শেয়ার লিংক (তথ্য মাত্র)",
         btnPrint: "প্রিন্ট করুন",
@@ -361,8 +368,20 @@ const RX_T = {
 
         familyTitle: "পরিবার দেখার মোড",
         familyDesc: "JSON ব্যাকআপ পরিবারকে পাঠান। তারা এখানে আমদানি করলে শুধু দেখতে পাবেন।",
+        step1Title: "ব্যাকআপ তৈরি",
+        step1Desc: "JSON ব্যাকআপ বা মেসেজ কপি করে ছেলে/মেয়েকে পাঠান",
+        step2Title: "ফ্যামিলি ইমপোর্ট",
+        step2Desc: "পরিবারের সদস্য এখানে ফাইল ড্রপ করে সহজেই লোড করতে পারেন",
+        step3Title: "রিড-অনলি মনিটরিং",
+        step3Desc: "কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত দেখা যাবে",
+        importDropTitle: "JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে নিন",
+        importDropHint: "BreatheWell ব্যাকআপ ফাইল (.json) সমর্থিত",
         importBtn: "JSON আমদানি করুন",
         importSub: "পরিবারের কাছ থেকে প্রাপ্ত JSON ফাইল",
+        importMergeBtn: "নতুনগুলো যোগ করুন (Merge)",
+        importReplaceBtn: "সম্পূর্ণ প্রতিস্থাপন (Replace)",
+        importCancelBtn: "বাতিল",
+        btnTestView: "পরিবার কীভাবে দেখবে তা পরীক্ষা করুন",
 
         noRx: "কোনো প্রেসক্রিপশন নেই",
         noRxSub: "উপরে ফাইল আপলোড করুন",
@@ -372,6 +391,11 @@ const RX_T = {
         toastCopied: "লিংক কপি হয়েছে",
         toastJsonDone: "JSON ডাউনলোড হয়েছে",
         toastImported: "প্রেসক্রিপশন আমদানি হয়েছে",
+        toastMsgCopied: "হোয়াটসঅ্যাপ মেসেজ কপি হয়েছে!",
+        toastSummaryCopied: "প্রেসক্রিপশন সামারি কপি হয়েছে!",
+        toastImportEmpty: "ফাইলে কোনো বৈধ প্রেসক্রিপশন পাওয়া যায়নি",
+        toastImportMergeDone: "{n}টি নতুন প্রেসক্রিপশন ভল্টে যোগ করা হয়েছে!",
+        toastImportReplaceDone: "ভল্ট সফলভাবে প্রতিস্থাপিত হয়েছে ({n}টি প্রেসক্রিপশন)!",
         toastNoFile: "কোনো ফাইল বাছাই করা হয়নি",
         toastBadType: "শুধু JPG, PNG, WebP বা PDF আপলোড করুন",
         toastTooBig: "স্টোরেজ প্রায় পূর্ণ! কিছু পুরনো এন্ট্রি মুছুন",
@@ -439,6 +463,13 @@ const RX_T = {
 
         shareTitle: "Share with Family",
         shareSub: "Your son or daughter can remotely view prescriptions",
+        shareBadge: "Family Sharing & Backup",
+        shareCardExportTitle: "Share & Export Options",
+        shareSecurityBadge: "Secure & Read-Only",
+        btnWhatsAppShare: "Send to Son/Daughter via WhatsApp",
+        msgPreviewTitle: "WhatsApp Message Preview:",
+        btnCopyReport: "Copy Message",
+        btnCopySummary: "Text Summary",
         btnJson: "JSON Backup",
         btnLink: "Share Link (metadata only)",
         btnPrint: "Print",
@@ -448,8 +479,20 @@ const RX_T = {
 
         familyTitle: "Family View Mode",
         familyDesc: "Send the JSON backup to family. They import it here to view (read-only).",
+        step1Title: "Create Backup",
+        step1Desc: "Download JSON backup or copy message for your son/daughter",
+        step2Title: "Family Import",
+        step2Desc: "Family members drop the file here to easily load it",
+        step3Title: "Read-Only Monitoring",
+        step3Desc: "Safe remote tracking with zero risk of accidental editing or deletion",
+        importDropTitle: "Drop JSON backup file here or click to browse",
+        importDropHint: "BreatheWell vault backup file (.json) supported",
         importBtn: "Import JSON",
         importSub: "JSON file received from family member",
+        importMergeBtn: "Add to Existing (Merge)",
+        importReplaceBtn: "Replace Entire Vault (Replace)",
+        importCancelBtn: "Cancel",
+        btnTestView: "Test How Family Sees This",
 
         noRx: "No prescriptions yet",
         noRxSub: "Upload a file above to get started",
@@ -459,6 +502,11 @@ const RX_T = {
         toastCopied: "Link copied to clipboard",
         toastJsonDone: "JSON downloaded",
         toastImported: "Prescriptions imported",
+        toastMsgCopied: "WhatsApp message copied to clipboard!",
+        toastSummaryCopied: "Prescription summary copied to clipboard!",
+        toastImportEmpty: "No valid prescriptions found in file",
+        toastImportMergeDone: "{n} new prescription(s) added to vault!",
+        toastImportReplaceDone: "Vault replaced successfully ({n} prescriptions)!",
         toastNoFile: "No files selected",
         toastBadType: "Only JPG, PNG, WebP or PDF supported",
         toastTooBig: "Storage nearly full! Delete older entries",
@@ -1118,7 +1166,7 @@ function rxDelete(id) {
 }
 
 /* ============================================================================
- * 13. SHARE & EXPORT ENGINE (JSON, URL, Print)
+ * 13. SHARE & EXPORT ENGINE (JSON, WhatsApp, URL, Print, Text)
  * ============================================================================ */
 
 /**
@@ -1127,7 +1175,10 @@ function rxDelete(id) {
  */
 function rxExportJSON() {
     const all = rxLoad();
-    if (!all.length) return;
+    if (!all.length) {
+        rxToast(rxLang === "bn" ? "কোনো প্রেসক্রিপশন সংরক্ষিত নেই" : "No prescriptions saved", "warn", "bi-exclamation-circle");
+        return;
+    }
     const json = JSON.stringify({ exported: new Date().toISOString(), prescriptions: all }, null, 2);
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -1136,7 +1187,7 @@ function rxExportJSON() {
     a.download = `breathewell-prescriptions-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
-    rxToast(rx("toastJsonDone"), "success", "bi-file-earmark-code");
+    rxToast(rx("toastJsonDone"), "success", "bi-filetype-json");
 }
 
 /**
@@ -1158,10 +1209,165 @@ function rxGenerateShareURL() {
     return `${base}?rxview=${payload}`;
 }
 
-/** Updates the share URL input. */
+/**
+ * Generates a well-formatted bilingual WhatsApp summary message.
+ * @returns {string}
+ */
+function rxGenerateWhatsAppMessage() {
+    const records = rxLoad();
+    const isBn = rxLang === "bn";
+    const dateStr = new Date().toLocaleDateString(isBn ? "bn-BD" : "en-GB", { day: "2-digit", month: "short", year: "numeric" });
+
+    if (!records.length) {
+        return isBn
+            ? `📋 *BreatheWell প্রেসক্রিপশন ভল্ট* (${dateStr})\nবর্তমানে কোনো সংরক্ষিত প্রেসক্রিপশন নেই।`
+            : `📋 *BreatheWell Prescription Vault* (${dateStr})\nNo prescriptions currently saved.`;
+    }
+
+    const shareUrl = rxGenerateShareURL();
+    let msg = isBn
+        ? `📋 *BreatheWell প্রেসক্রিপশন সামারি*\n📅 তারিখ: ${dateStr}\n📁 মোট প্রেসক্রিপশন: ${records.length}টি\n\n`
+        : `📋 *BreatheWell Prescription Summary*\n📅 Date: ${dateStr}\n📁 Total Prescriptions: ${records.length}\n\n`;
+
+    records.forEach((r, idx) => {
+        const num = isBn ? (idx + 1).toLocaleString("bn-BD") : (idx + 1);
+        const docName = r.doctor || (isBn ? "ডাক্তারের নাম উল্লেখ নেই" : "Doctor not specified");
+        const clinic = r.clinic ? ` (${r.clinic})` : "";
+        const pDate = r.prescDate ? rxFmtDate(r.prescDate) : "—";
+        const meds = (r.meds && r.meds.length) ? r.meds.join(", ") : (isBn ? "কোনো ওষুধ নেই" : "None");
+        const diag = r.diagnosis ? `\n   🩺 ${isBn ? "রোগ" : "Diagnosis"}: ${r.diagnosis}` : "";
+
+        let refillInfo = "";
+        if (r.refillDate) {
+            const days = rxDaysUntilRefill(r.refillDate);
+            if (days < 0) {
+                refillInfo = `\n   ⚠️ ${isBn ? "রিফিল বাকি" : "Refill overdue"}: ${rxFmtDate(r.refillDate)}`;
+            } else if (days <= 7) {
+                refillInfo = `\n   ⏰ ${isBn ? "রিফিল আসন্ন" : "Refill soon"}: ${rxFmtDate(r.refillDate)} (${days} ${isBn ? "দিন বাকি" : "days left"})`;
+            } else {
+                refillInfo = `\n   🗓️ ${isBn ? "পরবর্তী রিফিল" : "Next refill"}: ${rxFmtDate(r.refillDate)}`;
+            }
+        }
+
+        msg += `${num}. *${docName}*${clinic}\n`;
+        msg += `   📅 ${isBn ? "প্রেসক্রিপশন তারিখ" : "Date"}: ${pDate}\n`;
+        msg += `   💊 ${isBn ? "ওষুধ" : "Meds"}: ${meds}`;
+        msg += diag;
+        msg += refillInfo;
+        msg += `\n\n`;
+    });
+
+    if (isBn) {
+        msg += `🔗 *অনলাইনে দেখতে লিংকটিতে চাপুন (রিড-অনলি ভিউ):*\n${shareUrl}\n\n`;
+        msg += `_BreatheWell ডিজিটাল স্বাস্থ্য ভল্ট থেকে প্রেরিত_`;
+    } else {
+        msg += `🔗 *Tap link to view details (Read-only view):*\n${shareUrl}\n\n`;
+        msg += `_Sent via BreatheWell Digital Health Vault_`;
+    }
+
+    return msg;
+}
+
+/**
+ * Directly shares prescription summary to son/daughter via WhatsApp Web / App.
+ */
+function rxShareWhatsApp() {
+    const text = rxGenerateWhatsAppMessage();
+    const encoded = encodeURIComponent(text);
+    const url = `https://api.whatsapp.com/send?text=${encoded}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+}
+
+/**
+ * Copies formatted WhatsApp message to clipboard.
+ */
+function rxCopyWhatsAppMessage() {
+    const text = rxGenerateWhatsAppMessage();
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = $r("rxBtnCopyMsg");
+        if (btn) {
+            btn.innerHTML = `<i class="bi bi-check2"></i> <span>${rx("btnCopied")}</span>`;
+            btn.classList.add("copied");
+            setTimeout(() => {
+                btn.innerHTML = `<i class="bi bi-clipboard"></i> <span>${rx("btnCopyReport")}</span>`;
+                btn.classList.remove("copied");
+            }, 2500);
+        }
+        rxToast(rx("toastMsgCopied"), "success", "bi-whatsapp");
+    }).catch(() => {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        rxToast(rx("toastMsgCopied"), "success", "bi-whatsapp");
+    });
+}
+
+/**
+ * Copies a plain-text prescription summary to clipboard (for SMS / Email).
+ */
+function rxCopySummary() {
+    const records = rxLoad();
+    const isBn = rxLang === "bn";
+    const dateStr = new Date().toLocaleDateString(isBn ? "bn-BD" : "en-GB", { day: "2-digit", month: "short", year: "numeric" });
+
+    if (!records.length) {
+        rxToast(isBn ? "কোনো প্রেসক্রিপশন নেই" : "No prescriptions saved", "warn", "bi-exclamation-circle");
+        return;
+    }
+
+    let summary = isBn
+        ? `BreatheWell প্রেসক্রিপশন সামারি (${dateStr})\nমোট প্রেসক্রিপশন: ${records.length}টি\n---------------------------------\n`
+        : `BreatheWell Prescription Summary (${dateStr})\nTotal Prescriptions: ${records.length}\n---------------------------------\n`;
+
+    records.forEach((r, i) => {
+        const doc = r.doctor || "—";
+        const clinic = r.clinic ? ` (${r.clinic})` : "";
+        const dt = r.prescDate ? rxFmtDate(r.prescDate) : "—";
+        const meds = (r.meds && r.meds.length) ? r.meds.join(", ") : "—";
+        const diag = r.diagnosis ? ` | ${isBn ? "রোগ" : "Diagnosis"}: ${r.diagnosis}` : "";
+        const refill = r.refillDate ? ` | ${isBn ? "রিফিল" : "Refill"}: ${rxFmtDate(r.refillDate)}` : "";
+        summary += `${i + 1}. ${doc}${clinic} - ${dt}\n   ${isBn ? "ওষুধ" : "Meds"}: ${meds}${diag}${refill}\n`;
+    });
+
+    navigator.clipboard.writeText(summary).then(() => {
+        rxToast(rx("toastSummaryCopied"), "success", "bi-card-text");
+    }).catch(() => {
+        const ta = document.createElement("textarea");
+        ta.value = summary;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        rxToast(rx("toastSummaryCopied"), "success", "bi-card-text");
+    });
+}
+
+/** Updates the share URL input, preview box, and test view link. */
 function rxRefreshShareLink() {
+    const shareUrl = rxGenerateShareURL();
     const input = $r("rxShareUrlInput");
-    if (input) input.value = rxGenerateShareURL();
+    if (input) input.value = shareUrl;
+
+    const preview = $r("rxWhatsappMsgPreview");
+    if (preview) {
+        preview.textContent = rxGenerateWhatsAppMessage();
+    }
+
+    const testLink = $r("rxBtnTestView");
+    if (testLink) {
+        testLink.href = shareUrl;
+    }
+
+    const statCount = $r("rxShareVaultCount");
+    if (statCount) {
+        const count = rxLoad().length;
+        statCount.textContent = rxLang === "bn"
+            ? `ভল্টে ${count.toLocaleString("bn-BD")}টি প্রেসক্রিপশন`
+            : `${count} prescription(s) in vault`;
+    }
 }
 
 /** Copies the share URL to clipboard. */
@@ -1171,9 +1377,12 @@ function rxCopyLink() {
     navigator.clipboard.writeText(input.value).then(() => {
         const btn = $r("rxCopyBtn");
         if (btn) {
-            btn.textContent = rx("btnCopied");
+            btn.innerHTML = `<i class="bi bi-check2"></i> <span>${rx("btnCopied")}</span>`;
             btn.classList.add("copied");
-            setTimeout(() => { btn.textContent = rx("btnCopy"); btn.classList.remove("copied"); }, 2500);
+            setTimeout(() => {
+                btn.innerHTML = `<i class="bi bi-clipboard"></i> <span>${rx("btnCopy")}</span>`;
+                btn.classList.remove("copied");
+            }, 2500);
         }
         rxToast(rx("toastCopied"), "success", "bi-clipboard-check");
     }).catch(() => {
@@ -1183,35 +1392,179 @@ function rxCopyLink() {
 }
 
 /* ============================================================================
- * 14. FAMILY IMPORT (JSON restore)
+ * 14. FAMILY IMPORT & STAGED MERGE/REPLACE ENGINE
  * ============================================================================ */
 
-/**
- * Handles JSON import from a family member's backup file.
- * @param {Event} e
- */
-function rxHandleImport(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+/** Staged records from a parsed JSON backup file */
+let stagedImportRecords = [];
+let stagedImportFilename = "";
 
+/** Binds drag-and-drop and click events to the JSON import zone */
+function rxBindImportDropZone() {
+    const dropzone = $r("rxImportDropZone");
+    const input = $r("rxImportInput");
+    if (!dropzone || !input) return;
+
+    dropzone.addEventListener("click", e => {
+        if (e.target === input) return;
+        input.click();
+    });
+
+    dropzone.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            input.click();
+        }
+    });
+
+    input.addEventListener("change", () => {
+        if (input.files?.length) {
+            rxStageImportFile(input.files[0]);
+        }
+    });
+
+    dropzone.addEventListener("dragover", e => {
+        e.preventDefault();
+        dropzone.classList.add("drag-over");
+    });
+
+    dropzone.addEventListener("dragleave", e => {
+        if (!dropzone.contains(e.relatedTarget)) {
+            dropzone.classList.remove("drag-over");
+        }
+    });
+
+    dropzone.addEventListener("drop", e => {
+        e.preventDefault();
+        dropzone.classList.remove("drag-over");
+        if (e.dataTransfer.files?.length) {
+            rxStageImportFile(e.dataTransfer.files[0]);
+        }
+    });
+}
+
+/**
+ * Reads a JSON file and stages it for preview and user choice (Merge vs Replace).
+ * @param {File} file
+ */
+function rxStageImportFile(file) {
+    if (!file) return;
+    stagedImportFilename = file.name;
     const reader = new FileReader();
     reader.onload = ev => {
         try {
             const parsed = JSON.parse(ev.target.result);
             const records = parsed.prescriptions || (Array.isArray(parsed) ? parsed : []);
-            if (!records.length) throw new Error("empty");
+            if (!records.length) {
+                rxToast(rx("toastImportEmpty"), "error", "bi-exclamation-triangle");
+                return;
+            }
 
-            // Store in localStorage (overwrites)
-            rxSave(records);
-            rxRenderGallery();
-            rxUpdateStorage();
-            rxToast(`${rx("toastImported")} (${records.length})`, "success", "bi-cloud-download");
-        } catch {
+            stagedImportRecords = records;
+            rxRenderImportPreview(parsed.exported);
+        } catch (err) {
+            console.error("JSON parse error:", err);
             rxToast("Invalid JSON file", "error", "bi-x-circle");
         }
     };
     reader.readAsText(file);
-    e.target.value = "";
+}
+
+/**
+ * Renders the staged preview box with doctor names and count badge.
+ * @param {string} [exportedDate]
+ */
+function rxRenderImportPreview(exportedDate) {
+    const previewBox = $r("rxImportPreview");
+    const badge = $r("rxImportCountBadge");
+    const meta = $r("rxImportFileMeta");
+    const list = $r("rxImportList");
+    if (!previewBox || !badge || !list) return;
+
+    const count = stagedImportRecords.length;
+    badge.textContent = rxLang === "bn"
+        ? `${count.toLocaleString("bn-BD")}টি প্রেসক্রিপশন পাওয়া গেছে`
+        : `${count} prescription(s) found`;
+
+    if (meta) {
+        meta.textContent = stagedImportFilename + (exportedDate ? ` · ${rxFmtDate(exportedDate)}` : "");
+    }
+
+    list.innerHTML = stagedImportRecords.map((r, i) => {
+        const doc = r.doctor || (rxLang === "bn" ? "ডাক্তারের নাম নেই" : "No doctor name");
+        const dt = r.prescDate ? rxFmtDate(r.prescDate) : "";
+        const medCount = (r.meds && r.meds.length)
+            ? (rxLang === "bn" ? `${r.meds.length}টি ওষুধ` : `${r.meds.length} meds`)
+            : "";
+        return `<div class="rx-import-item-line">
+            <strong>${i + 1}. ${doc}</strong>
+            ${dt ? ` · <span class="text-muted">${dt}</span>` : ""}
+            ${medCount ? ` · <span class="badge bg-light text-dark border">${medCount}</span>` : ""}
+        </div>`;
+    }).join("");
+
+    previewBox.classList.remove("d-none");
+    previewBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+/** Merges imported prescriptions into existing vault. */
+function rxExecuteMergeImport() {
+    if (!stagedImportRecords.length) return;
+    const existing = rxLoad();
+    const existingIds = new Set(existing.map(r => r.id));
+    let addedCount = 0;
+
+    stagedImportRecords.forEach(r => {
+        if (!r.id) r.id = rxUUID();
+        if (!existingIds.has(r.id)) {
+            existing.push(r);
+            existingIds.add(r.id);
+            addedCount++;
+        }
+    });
+
+    rxSave(existing);
+    rxCancelImport();
+    rxRenderGallery();
+    rxUpdateStorage();
+    rxRefreshShareLink();
+
+    const countStr = rxLang === "bn" ? addedCount.toLocaleString("bn-BD") : addedCount;
+    const msg = rx("toastImportMergeDone").replace("{n}", countStr);
+    rxToast(msg, "success", "bi-check-circle-fill");
+}
+
+/** Replaces entire vault with imported prescriptions. */
+function rxExecuteReplaceImport() {
+    if (!stagedImportRecords.length) return;
+    const count = stagedImportRecords.length;
+    stagedImportRecords.forEach(r => { if (!r.id) r.id = rxUUID(); });
+    rxSave(stagedImportRecords);
+    rxCancelImport();
+    rxRenderGallery();
+    rxUpdateStorage();
+    rxRefreshShareLink();
+
+    const countStr = rxLang === "bn" ? count.toLocaleString("bn-BD") : count;
+    const msg = rx("toastImportReplaceDone").replace("{n}", countStr);
+    rxToast(msg, "success", "bi-arrow-repeat");
+}
+
+/** Cancels staged import and resets preview. */
+function rxCancelImport() {
+    stagedImportRecords = [];
+    stagedImportFilename = "";
+    const previewBox = $r("rxImportPreview");
+    if (previewBox) previewBox.classList.add("d-none");
+    const input = $r("rxImportInput");
+    if (input) input.value = "";
+}
+
+/** Backward-compatible direct handler */
+function rxHandleImport(e) {
+    if (e.target?.files?.length) {
+        rxStageImportFile(e.target.files[0]);
+    }
 }
 
 /**
@@ -1373,14 +1726,20 @@ document.addEventListener("DOMContentLoaded", () => {
         rxRenderGallery();
     });
 
-    // Share buttons
+    // Share & Export buttons
+    $r("rxBtnWhatsApp")?.addEventListener("click", rxShareWhatsApp);
+    $r("rxBtnCopyMsg")?.addEventListener("click", rxCopyWhatsAppMessage);
+    $r("rxBtnCopySummary")?.addEventListener("click", rxCopySummary);
     $r("rxBtnJson")?.addEventListener("click", rxExportJSON);
     $r("rxBtnLink")?.addEventListener("click", rxRefreshShareLink);
     $r("rxCopyBtn")?.addEventListener("click", rxCopyLink);
     $r("rxBtnPrint")?.addEventListener("click", () => window.print());
 
-    // Import JSON
-    $r("rxImportInput")?.addEventListener("change", rxHandleImport);
+    // Family Import Drag & Drop + Staged preview
+    rxBindImportDropZone();
+    $r("rxBtnMergeImport")?.addEventListener("click", rxExecuteMergeImport);
+    $r("rxBtnReplaceImport")?.addEventListener("click", rxExecuteReplaceImport);
+    $r("rxBtnCancelImport")?.addEventListener("click", rxCancelImport);
 
     // Lightbox close (backdrop + button)
     $r("rxLightbox")?.addEventListener("click", e => {
