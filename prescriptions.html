@@ -127,6 +127,10 @@
                 <i class="bi bi-cloud-arrow-up-fill"></i>
                 <span>আপলোড করুন</span>
               </button>
+              <a class="rx-hero-pill text-decoration-none" href="create-prescription.html">
+                <i class="bi bi-pencil-square text-teal"></i>
+                <span data-rx-i18n="heroCreatePrescription">প্রেসক্রিপশন তৈরি করুন</span>
+              </a>
               <button class="rx-hero-pill"
                 onclick="document.getElementById('rxGallerySection').scrollIntoView({behavior:'smooth'})">
                 <i class="bi bi-grid-3x3-gap-fill"></i>
@@ -188,11 +192,15 @@
       <div class="container">
 
         <!-- Section heading -->
-        <div class="rx-section-heading">
-          <h2 class="rx-section-title">
+        <div class="rx-section-heading d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <h2 class="rx-section-title mb-0">
             <i class="bi bi-cloud-arrow-up-fill me-2"></i>
             <span data-rx-i18n="uploadTitle">প্রেসক্রিপশন আপলোড করুন</span>
           </h2>
+          <a href="create-prescription.html" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 rounded-pill px-3 py-1 fw-semibold text-decoration-none">
+            <i class="bi bi-pencil-square"></i>
+            <span data-rx-i18n="btnCreateDigitalRx">ডিজিটাল প্রেসক্রিপশন তৈরি</span>
+          </a>
         </div>
 
         <div class="row g-4 align-items-start">

@@ -1,0 +1,973 @@
+/*
+ * ============================================================================
+ * BreatheWell - Create Prescription Stylesheet (create-prescription.css)
+ * ============================================================================
+ * Description:
+ *   Modern, clinical design system for creating, editing, and previewing
+ *   digital medical prescriptions. Modeled directly on standard hospital
+ *   prescription pad layouts (Doctor info, Patient vitals, C/C, H/O, O/E,
+ *   Inv, Dx, Rx medicine table, Advice, and Doctor Signature).
+ *
+ * Contents:
+ *   1.  CSS Variables & Design Tokens
+ *   2.  Hero & Action Toolbar
+ *   3.  Editor Studio Grid Layout
+ *   4.  Form Control Cards & Inputs
+ *   5.  Dynamic Items & Medicine Table Builder
+ *   6.  Digital Prescription Pad (WYSIWYG Paper Preview)
+ *   7.  Quick Prescription Presets & Templates
+ *   8.  Toast Notifications & Modals
+ *   9.  Mobile Responsive Overrides
+ *   10. Pixel-Perfect Print Stylesheet (@media print)
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. CSS VARIABLES & DESIGN TOKENS
+ * ============================================================================ */
+:root {
+  --cp-primary: #0284c7;
+  --cp-primary-dark: #0369a1;
+  --cp-primary-light: #e0f2fe;
+  --cp-teal: #0d9488;
+  --cp-teal-dark: #0f766e;
+  --cp-teal-light: #ccfbf1;
+  --cp-emerald: #10b981;
+  --cp-emerald-light: #d1fae5;
+  --cp-amber: #f59e0b;
+  --cp-amber-light: #fef3c7;
+  --cp-rose: #f43f5e;
+  --cp-rose-light: #ffe4e6;
+  --cp-slate-900: #0f172a;
+  --cp-slate-800: #1e293b;
+  --cp-slate-700: #334155;
+  --cp-slate-600: #475569;
+  --cp-slate-500: #64748b;
+  --cp-slate-400: #94a3b8;
+  --cp-slate-300: #cbd5e1;
+  --cp-slate-200: #e2e8f0;
+  --cp-slate-100: #f1f5f9;
+  --cp-slate-50: #f8fafc;
+  --cp-white: #ffffff;
+
+  --cp-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+  --cp-shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
+  --cp-shadow-lg: 0 12px 32px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+  --cp-shadow-paper: 0 16px 48px -8px rgba(15, 23, 42, 0.15), 0 4px 16px -4px rgba(15, 23, 42, 0.08);
+
+  --cp-radius-sm: 8px;
+  --cp-radius-md: 12px;
+  --cp-radius-lg: 18px;
+  --cp-radius-xl: 24px;
+}
+
+/* ============================================================================
+ * 2. HERO & ACTION TOOLBAR
+ * ============================================================================ */
+.cp-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f766e 100%);
+  color: var(--cp-white);
+  padding: 2.25rem 0 3.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cp-hero::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(13, 148, 136, 0.28) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cp-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cp-teal-light);
+  background: rgba(13, 148, 136, 0.22);
+  border: 1px solid rgba(45, 212, 191, 0.3);
+  border-radius: 9999px;
+  padding: 0.35rem 0.9rem;
+  margin-bottom: 0.85rem;
+}
+
+.cp-hero-title {
+  font-size: clamp(1.85rem, 3.2vw, 2.65rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin-bottom: 0.65rem;
+}
+
+.cp-hero-sub {
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  color: var(--cp-slate-300);
+  max-width: 620px;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+.cp-toolbar-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--cp-radius-lg);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.cp-action-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--cp-radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cp-btn-primary {
+  background: var(--cp-teal);
+  color: var(--cp-white);
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+}
+
+.cp-btn-primary:hover {
+  background: var(--cp-teal-dark);
+  color: var(--cp-white);
+  transform: translateY(-1px);
+}
+
+.cp-btn-success {
+  background: var(--cp-emerald);
+  color: var(--cp-white);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+.cp-btn-success:hover {
+  background: #059669;
+  color: var(--cp-white);
+  transform: translateY(-1px);
+}
+
+.cp-btn-outline-light {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--cp-white);
+}
+
+.cp-btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: var(--cp-white);
+  transform: translateY(-1px);
+}
+
+.cp-btn-outline-dark {
+  background: var(--cp-white);
+  border-color: var(--cp-slate-300);
+  color: var(--cp-slate-700);
+}
+
+.cp-btn-outline-dark:hover {
+  background: var(--cp-slate-50);
+  border-color: var(--cp-slate-400);
+  color: var(--cp-slate-900);
+}
+
+.cp-btn-danger-outline {
+  background: transparent;
+  border-color: rgba(244, 63, 94, 0.4);
+  color: #fb7185;
+}
+
+.cp-btn-danger-outline:hover {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--cp-white);
+}
+
+/* ============================================================================
+ * 3. EDITOR STUDIO GRID LAYOUT
+ * ============================================================================ */
+.cp-studio-section {
+  padding: 2.25rem 0 4.5rem;
+  background: #f8fafc;
+}
+
+.cp-editor-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cp-preview-column {
+  position: sticky;
+  top: 85px;
+}
+
+/* ============================================================================
+ * 4. FORM CONTROL CARDS & INPUTS
+ * ============================================================================ */
+.cp-card {
+  background: var(--cp-white);
+  border: 1px solid var(--cp-slate-200);
+  border-radius: var(--cp-radius-lg);
+  box-shadow: var(--cp-shadow-sm);
+  padding: 1.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cp-card:focus-within {
+  border-color: var(--cp-teal);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+}
+
+.cp-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cp-slate-100);
+}
+
+.cp-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cp-slate-900);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.cp-card-title i {
+  color: var(--cp-teal);
+  font-size: 1.15rem;
+}
+
+.cp-card-subtitle {
+  font-size: 0.8125rem;
+  color: var(--cp-slate-500);
+  margin: 0;
+}
+
+.cp-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cp-slate-700);
+  margin-bottom: 0.35rem;
+}
+
+.cp-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cp-input-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: var(--cp-slate-400);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.cp-input {
+  width: 100%;
+  padding: 0.55rem 0.85rem 0.55rem 2.45rem;
+  font-size: 0.875rem;
+  color: var(--cp-slate-800);
+  background: var(--cp-white);
+  border: 1px solid var(--cp-slate-300);
+  border-radius: var(--cp-radius-sm);
+  outline: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.cp-input:focus {
+  border-color: var(--cp-teal);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.cp-input-plain {
+  padding-left: 0.85rem;
+}
+
+.cp-textarea {
+  width: 100%;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.875rem;
+  color: var(--cp-slate-800);
+  background: var(--cp-white);
+  border: 1px solid var(--cp-slate-300);
+  border-radius: var(--cp-radius-sm);
+  outline: none;
+  resize: vertical;
+  min-height: 85px;
+  line-height: 1.5;
+  transition: all 0.15s ease-in-out;
+}
+
+.cp-textarea:focus {
+  border-color: var(--cp-teal);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+/* ============================================================================
+ * 5. DYNAMIC ITEMS & MEDICINE TABLE BUILDER
+ * ============================================================================ */
+.cp-chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  min-height: 38px;
+  padding: 0.35rem 0.5rem;
+  background: var(--cp-slate-50);
+  border: 1px dashed var(--cp-slate-300);
+  border-radius: var(--cp-radius-sm);
+}
+
+.cp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: var(--cp-white);
+  border: 1px solid var(--cp-slate-200);
+  border-radius: 9999px;
+  color: var(--cp-slate-800);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.cp-chip-remove {
+  border: none;
+  background: transparent;
+  color: var(--cp-slate-400);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  transition: color 0.15s;
+}
+
+.cp-chip-remove:hover {
+  color: var(--cp-rose);
+}
+
+/* Medicine Entry Row in Editor */
+.cp-med-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 0.5rem;
+}
+
+.cp-med-table th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cp-slate-500);
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1.5px solid var(--cp-slate-200);
+  background: var(--cp-slate-50);
+}
+
+.cp-med-table td {
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--cp-slate-200);
+  vertical-align: middle;
+}
+
+.cp-med-table tr:hover td {
+  background: #f0fdfa;
+}
+
+.cp-med-input-compact {
+  width: 100%;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.8125rem;
+  border: 1px solid var(--cp-slate-300);
+  border-radius: 6px;
+  outline: none;
+}
+
+.cp-med-input-compact:focus {
+  border-color: var(--cp-teal);
+  box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.15);
+}
+
+.cp-slash-box {
+  background: #ecfeff;
+  border: 1px dashed #06b6d4;
+  border-radius: var(--cp-radius-md);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cp-slash-text {
+  font-size: 0.8125rem;
+  color: #0e7490;
+  margin: 0;
+}
+
+.cp-slash-kbd {
+  background: var(--cp-white);
+  border: 1px solid #a5f3fc;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
+  font-family: monospace;
+  font-weight: 700;
+  color: #0891b2;
+}
+
+/* ============================================================================
+ * 6. DIGITAL PRESCRIPTION PAD (WYSIWYG PAPER PREVIEW)
+ * ============================================================================ */
+.cp-pad-outer {
+  background: #cbd5e1;
+  padding: 1.5rem;
+  border-radius: var(--cp-radius-xl);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.cp-pad-paper {
+  background: var(--cp-white);
+  border-radius: 4px;
+  box-shadow: var(--cp-shadow-paper);
+  padding: 2.5rem 2.25rem;
+  min-height: 850px;
+  position: relative;
+  font-family: "Inter", "Noto Sans Bengali", system-ui, sans-serif;
+  color: var(--cp-slate-900);
+  border: 1px solid #e2e8f0;
+}
+
+/* Doctor Header */
+.cp-pad-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--cp-slate-900);
+}
+
+.cp-doc-name {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--cp-slate-900);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.cp-doc-degrees {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cp-slate-700);
+  margin-bottom: 0.2rem;
+  line-height: 1.35;
+}
+
+.cp-doc-reg {
+  font-size: 0.775rem;
+  color: var(--cp-slate-500);
+  font-weight: 500;
+  margin: 0;
+}
+
+.cp-hosp-info {
+  text-align: right;
+}
+
+.cp-hosp-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--cp-teal);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.cp-hosp-address {
+  font-size: 0.8125rem;
+  color: var(--cp-slate-600);
+  margin-bottom: 0.2rem;
+}
+
+.cp-hosp-call {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cp-slate-800);
+  margin: 0;
+}
+
+/* Patient Info Sub-Header Bar */
+.cp-pad-patient-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.25rem;
+  border-bottom: 1.5px dashed var(--cp-slate-300);
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--cp-slate-800);
+}
+
+.cp-patient-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cp-patient-meta-label {
+  font-weight: 700;
+  color: var(--cp-slate-900);
+}
+
+.cp-patient-meta-val {
+  font-weight: 500;
+  color: var(--cp-slate-800);
+}
+
+/* Two-Column Pad Body */
+.cp-pad-body {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 1.5rem;
+  min-height: 580px;
+}
+
+/* Left Sidebar (Clinical Examination) */
+.cp-pad-left-col {
+  border-right: 1.5px solid var(--cp-slate-300);
+  padding-right: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cp-pad-section-heading {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--cp-slate-900);
+  margin-bottom: 0.4rem;
+  border-bottom: 1px dotted var(--cp-slate-300);
+  padding-bottom: 0.2rem;
+}
+
+.cp-pad-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--cp-slate-700);
+  line-height: 1.5;
+}
+
+.cp-pad-list li {
+  position: relative;
+  padding-left: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.cp-pad-list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--cp-slate-400);
+}
+
+/* O/E Vital Pairs */
+.cp-oe-table {
+  width: 100%;
+  font-size: 0.8125rem;
+}
+
+.cp-oe-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.2rem 0;
+  border-bottom: 1px dotted rgba(203, 213, 225, 0.6);
+}
+
+.cp-oe-name {
+  font-weight: 700;
+  color: var(--cp-slate-800);
+}
+
+.cp-oe-val {
+  font-weight: 600;
+  color: var(--cp-slate-900);
+}
+
+/* Right Column (Dx, Rx, Advice) */
+.cp-pad-right-col {
+  padding-left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-pad-dx {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cp-slate-900);
+  margin-bottom: 1rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px dotted var(--cp-slate-300);
+}
+
+.cp-pad-dx-label {
+  font-weight: 800;
+  color: var(--cp-teal-dark);
+}
+
+.cp-pad-rx-symbol {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 2.35rem;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--cp-slate-900);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+/* Medicine Item in Live Pad */
+.cp-pad-med-item {
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed var(--cp-slate-200);
+}
+
+.cp-pad-med-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.2rem;
+}
+
+.cp-pad-med-name {
+  font-size: 0.925rem;
+  font-weight: 700;
+  color: var(--cp-slate-900);
+}
+
+.cp-pad-med-form {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--cp-teal);
+  text-transform: uppercase;
+  margin-right: 0.35rem;
+}
+
+.cp-pad-med-duration {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cp-slate-600);
+}
+
+.cp-pad-med-sub {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8125rem;
+  color: var(--cp-slate-600);
+  padding-left: 1.2rem;
+}
+
+.cp-pad-med-dosage {
+  font-family: monospace;
+  font-weight: 700;
+  background: var(--cp-slate-100);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  color: var(--cp-slate-800);
+}
+
+/* Advice on Pad */
+.cp-pad-advice-section {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cp-slate-200);
+}
+
+.cp-pad-advice-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--cp-slate-900);
+  margin-bottom: 0.35rem;
+}
+
+.cp-pad-advice-body {
+  font-size: 0.8125rem;
+  color: var(--cp-slate-700);
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* Footer / Signature */
+.cp-pad-footer {
+  margin-top: 2rem;
+  padding-top: 0.85rem;
+  border-top: 1px dotted var(--cp-slate-300);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.cp-pad-footer-note {
+  font-size: 0.725rem;
+  color: var(--cp-slate-400);
+}
+
+.cp-pad-signature-box {
+  text-align: center;
+  width: 180px;
+}
+
+.cp-pad-signature-line {
+  border-top: 1.5px solid var(--cp-slate-800);
+  padding-top: 0.3rem;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--cp-slate-800);
+}
+
+/* ============================================================================
+ * 7. QUICK PRESCRIPTION PRESETS & TEMPLATES
+ * ============================================================================ */
+.cp-preset-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.cp-preset-pill {
+  border: 1px solid var(--cp-slate-300);
+  background: var(--cp-white);
+  color: var(--cp-slate-700);
+  border-radius: 9999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.775rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cp-preset-pill:hover {
+  background: var(--cp-teal-light);
+  border-color: var(--cp-teal);
+  color: var(--cp-teal-dark);
+}
+
+/* ============================================================================
+ * 8. TOAST NOTIFICATIONS & MODALS
+ * ============================================================================ */
+.cp-toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1090;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.cp-toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 380px;
+  background: var(--cp-slate-900);
+  color: var(--cp-white);
+  border-radius: var(--cp-radius-md);
+  padding: 0.85rem 1.15rem;
+  box-shadow: var(--cp-shadow-lg);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: cpToastSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 4px solid var(--cp-teal);
+}
+
+.cp-toast.success {
+  border-left-color: var(--cp-emerald);
+}
+
+.cp-toast.warn {
+  border-left-color: var(--cp-amber);
+}
+
+.cp-toast.error {
+  border-left-color: var(--cp-rose);
+}
+
+@keyframes cpToastSlide {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+ * 9. MOBILE RESPONSIVE OVERRIDES
+ * ============================================================================ */
+@media (max-width: 991.98px) {
+  .cp-preview-column {
+    position: static;
+    margin-top: 2rem;
+  }
+
+  .cp-pad-outer {
+    padding: 0.75rem;
+  }
+
+  .cp-pad-paper {
+    padding: 1.5rem 1.25rem;
+    min-height: auto;
+  }
+
+  .cp-pad-body {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .cp-pad-left-col {
+    border-right: none;
+    border-bottom: 1.5px solid var(--cp-slate-300);
+    padding-right: 0;
+    padding-bottom: 1.25rem;
+  }
+
+  .cp-pad-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cp-hosp-info {
+    text-align: left;
+  }
+}
+
+/* ============================================================================
+ * 10. PIXEL-PERFECT PRINT STYLESHEET (@media print)
+ * ============================================================================ */
+@media print {
+  /* Hide all website UI, navigation, buttons, controls */
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+
+  .navbar,
+  .mobile-bottom-nav,
+  .mobile-sidebar-offcanvas,
+  .cp-hero,
+  .cp-editor-column,
+  .cp-toast-stack,
+  .cp-preview-toolbar,
+  footer,
+  #navMenu {
+    display: none !important;
+  }
+
+  .cp-studio-section {
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .col-lg-6 {
+    width: 100% !important;
+  }
+
+  .cp-pad-outer {
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .cp-pad-paper {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0.5in 0.4in !important;
+    min-height: auto !important;
+    width: 100% !important;
+  }
+
+  .cp-pad-header {
+    border-bottom: 2pt solid #000000 !important;
+  }
+
+  .cp-hosp-name {
+    color: #0d9488 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .cp-pad-body {
+    display: grid !important;
+    grid-template-columns: 210px 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .cp-pad-left-col {
+    border-right: 1.5pt solid #cccccc !important;
+    padding-right: 1.15rem !important;
+  }
+
+  @page {
+    margin: 0.5in;
+    size: A4 portrait;
+  }
+}
+

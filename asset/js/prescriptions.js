@@ -323,6 +323,8 @@ const RX_T = {
         heroEyebrow: "ডিজিটাল স্বাস্থ্য সংরক্ষণ",
         heroTitle: "প্রেসক্রিপশন ভল্ট",
         heroSub: "আপনার ডাক্তারের প্রেসক্রিপশন সংরক্ষণ করুন এবং পরিবারের সাথে শেয়ার করুন।",
+        heroCreatePrescription: "প্রেসক্রিপশন তৈরি করুন",
+        btnCreateDigitalRx: "ডিজিটাল প্রেসক্রিপশন তৈরি",
 
         storageLabel: "স্টোরেজ ব্যবহার",
         storageCount: "টি প্রেসক্রিপশন",
@@ -453,6 +455,8 @@ const RX_T = {
         heroEyebrow: "Digital Health Vault",
         heroTitle: "Prescription Vault",
         heroSub: "Store your doctor's prescriptions and share them with family members.",
+        heroCreatePrescription: "Create Prescription",
+        btnCreateDigitalRx: "Create Digital Rx",
 
         storageLabel: "Storage used",
         storageCount: "prescriptions",

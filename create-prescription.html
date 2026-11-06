@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="bn">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d9488">
+  <meta name="description"
+    content="BreatheWell — ডিজিটাল প্রেসক্রিপশন মেকার। চিকিৎসকের প্রেসক্রিপশন তৈরি করুন, প্রিন্ট করুন এবং ভল্টে সংরক্ষণ করুন।">
+  <title>BreatheWell | প্রেসক্রিপশন তৈরি করুন (Create Prescription)</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/create-prescription.css">
+</head>
+
+<body class="bn" data-page="create-prescription">
+
+  <!-- Accessibility Skip Navigation Link -->
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main">মূল কনটেন্টে যান</a>
+
+  <!-- ========================================================================
+       1. GLOBAL DESKTOP NAVIGATION BAR
+       ======================================================================== -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html" aria-label="BreatheWell home"><span
+          class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell</a>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <button class="lang-btn" id="cpLangToggle" aria-label="Change language">English</button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+          aria-label="Open navigation"><span class="navbar-toggler-icon"></span></button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-cp-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-cp-i18n="navExercises">অনুশীলন</a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-cp-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
+          <li class="nav-item"><a class="nav-link" href="health-tracker.html" data-cp-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions.html" data-cp-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#safety" data-cp-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ========================================================================
+         2. HERO BANNER & CONTROL TOOLBAR
+         ======================================================================== -->
+    <div class="cp-hero">
+      <div class="container">
+        <div class="row align-items-center g-3">
+          <div class="col-lg-7">
+            <div class="cp-hero-eyebrow">
+              <i class="bi bi-pencil-square"></i>
+              <span data-cp-i18n="heroEyebrow">ডিজিটাল প্রেসক্রিপশন মেকার</span>
+            </div>
+            <h1 class="cp-hero-title" data-cp-i18n="heroTitle">প্রেসক্রিপশন তৈরি করুন</h1>
+            <p class="cp-hero-sub" data-cp-i18n="heroSub">
+              ডাক্তারের ব্যবস্থাপত্র তৈরি করুন, প্রিন্ট করুন এবং ভল্টে সংরক্ষণ করুন।
+            </p>
+          </div>
+          <div class="col-lg-5">
+            <div class="cp-toolbar-card">
+              <div class="cp-action-btn-group w-100 justify-content-between">
+                <button type="button" class="cp-btn cp-btn-primary" id="btnLoadSample">
+                  <i class="bi bi-file-earmark-pdf-fill"></i>
+                  <span data-cp-i18n="btnLoadPdfSample">নমুনা লোড করুন (PDF)</span>
+                </button>
+                <button type="button" class="cp-btn cp-btn-outline-light" id="btnClearForm">
+                  <i class="bi bi-eraser-fill"></i>
+                  <span data-cp-i18n="btnClear">নতুন ফর্ম</span>
+                </button>
+              </div>
+              <div class="cp-action-btn-group w-100 justify-content-end mt-2 pt-2 border-top border-light border-opacity-10">
+                <button type="button" class="cp-btn cp-btn-success" id="btnSaveToVault">
+                  <i class="bi bi-floppy-fill"></i>
+                  <span data-cp-i18n="btnSaveVault">ভল্টে সংরক্ষণ</span>
+                </button>
+                <button type="button" class="cp-btn cp-btn-outline-light" id="btnPrintPrescription">
+                  <i class="bi bi-printer-fill"></i>
+                  <span data-cp-i18n="btnPrint">প্রিন্ট / PDF</span>
+                </button>
+                <button type="button" class="cp-btn cp-btn-outline-light" id="btnShareWhatsApp">
+                  <i class="bi bi-whatsapp"></i>
+                </button>
+                <button type="button" class="cp-btn cp-btn-outline-light" id="btnCopySummary" title="Copy Text Summary">
+                  <i class="bi bi-clipboard-check"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================
+         3. MAIN EDITOR STUDIO SECTION
+         Two-Column Layout: Left Form Inputs | Right Paper Pad Preview
+         ======================================================================== -->
+    <section class="cp-studio-section">
+      <div class="container">
+        <div class="row g-4">
+
+          <!-- ── LEFT COLUMN: Form Controls & Inputs ──────────────────────── -->
+          <div class="col-lg-6 cp-editor-column">
+
+            <!-- Card 1: Doctor & Clinic Info -->
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h2 class="cp-card-title">
+                  <i class="bi bi-person-badge-fill"></i>
+                  <span data-cp-i18n="cardDoctorTitle">ডাক্তার ও হাসপাতালের তথ্য</span>
+                </h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label class="cp-label" for="inDocName" data-cp-i18n="lblDoctorName">ডাক্তারের নাম</label>
+                  <div class="cp-input-wrap">
+                    <i class="bi bi-person-fill cp-input-icon"></i>
+                    <input type="text" id="inDocName" class="cp-input" placeholder="Dr. A. Rahman">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="cp-label" for="inDegrees" data-cp-i18n="lblDegrees">ডিগ্রি ও বিশেষজ্ঞতা</label>
+                  <div class="cp-input-wrap">
+                    <i class="bi bi-mortarboard-fill cp-input-icon"></i>
+                    <input type="text" id="inDegrees" class="cp-input" placeholder="MBBS, FCPS (Medicine)">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="cp-label" for="inRegNo" data-cp-i18n="lblRegNo">রেজিস্ট্রেশন নম্বর</label>
+                  <div class="cp-input-wrap">
+                    <i class="bi bi-hash cp-input-icon"></i>
+                    <input type="text" id="inRegNo" class="cp-input" placeholder="Reg No: A-123456">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="cp-label" for="inHospital" data-cp-i18n="lblHospitalName">হাসপাতাল / ক্লিনিক</label>
+                  <div class="cp-input-wrap">
+                    <i class="bi bi-hospital-fill cp-input-icon"></i>
+                    <input type="text" id="inHospital" class="cp-input" placeholder="City General Hospital">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="cp-label" for="inAddress" data-cp-i18n="lblHospitalAddress">ঠিকানা</label>
+                  <div class="cp-input-wrap">
+                    <i class="bi bi-geo-alt-fill cp-input-icon"></i>
+                    <input type="text" id="inAddress" class="cp-input" placeholder="123 Health Avenue, Dhaka">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="cp-label" for="inPhone" data-cp-i18n="lblHospitalPhone">মোবাইল / হেল্পলাইন</label>
+                  <div class="cp-input-wrap">
+                    <i class="bi bi-telephone-fill cp-input-icon"></i>
+                    <input type="text" id="inPhone" class="cp-input" placeholder="Call: +880 1700-000000">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Patient Info -->
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h2 class="cp-card-title">
+                  <i class="bi bi-person-vcard-fill"></i>
+                  <span data-cp-i18n="cardPatientTitle">রোগীর তথ্য</span>
+                </h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label class="cp-label" for="inPatName" data-cp-i18n="lblPatientName">রোগীর নাম</label>
+                  <div class="cp-input-wrap">
+                    <i class="bi bi-person-circle cp-input-icon"></i>
+                    <input type="text" id="inPatName" class="cp-input" placeholder="Rahim Uddin">
+                  </div>
+                </div>
+                <div class="col-sm-2 col-4">
+                  <label class="cp-label" for="inAge" data-cp-i18n="lblAge">বয়স</label>
+                  <input type="text" id="inAge" class="cp-input cp-input-plain text-center" placeholder="45">
+                </div>
+                <div class="col-sm-2 col-4">
+                  <label class="cp-label" for="inSex" data-cp-i18n="lblSex">লিঙ্গ</label>
+                  <input type="text" id="inSex" class="cp-input cp-input-plain text-center" placeholder="M">
+                </div>
+                <div class="col-sm-2 col-4">
+                  <label class="cp-label" for="inDate" data-cp-i18n="lblDate">তারিখ</label>
+                  <input type="text" id="inDate" class="cp-input cp-input-plain text-center" placeholder="11/6/2026">
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Clinical Examination & Vitals (O/E) -->
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h2 class="cp-card-title">
+                  <i class="bi bi-clipboard2-pulse-fill"></i>
+                  <span data-cp-i18n="cardClinicalTitle">ক্লিনিক্যাল হিস্ট্রি ও পরীক্ষা (O/E)</span>
+                </h2>
+              </div>
+
+              <!-- Chief Complaints C/C -->
+              <div class="mb-3">
+                <label class="cp-label" for="inCCInput" data-cp-i18n="lblCC">প্রধান সমস্যা (C/C)</label>
+                <div class="cp-chip-container" id="ccChipContainer"></div>
+                <div class="input-group">
+                  <input type="text" id="inCCInput" class="form-control form-control-sm"
+                    placeholder="যেমন: Fever x 3 days (Enter চাপুন)">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" id="btnCCAdd">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- History of Past Illness H/O -->
+              <div class="mb-3">
+                <label class="cp-label" for="inHOInput" data-cp-i18n="lblHO">অতীত রোগ ইতিহাস (H/O)</label>
+                <div class="cp-chip-container" id="hoChipContainer"></div>
+                <div class="input-group">
+                  <input type="text" id="inHOInput" class="form-control form-control-sm"
+                    placeholder="যেমন: DM x 5 years, HTN (Enter চাপুন)">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" id="btnHOAdd">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- On Examination Vitals (O/E) -->
+              <div class="mb-3">
+                <label class="cp-label" data-cp-i18n="lblOE">শারীরিক পরীক্ষা (O/E Vitals)</label>
+                <div class="row g-2">
+                  <div class="col-sm-3 col-6">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text fw-bold">BP</span>
+                      <input type="text" id="inBp" class="form-control text-center" placeholder="120/80">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-6">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text fw-bold">Pulse</span>
+                      <input type="text" id="inPulse" class="form-control text-center" placeholder="72">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-6">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text fw-bold">Temp</span>
+                      <input type="text" id="inTemp" class="form-control text-center" placeholder="98.6">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-6">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text fw-bold">Weight</span>
+                      <input type="text" id="inWeight" class="form-control text-center" placeholder="65">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Investigations (Inv.) -->
+              <div>
+                <label class="cp-label" for="inInvInput" data-cp-i18n="lblInv">ল্যাব পরীক্ষা (Inv.)</label>
+                <div class="cp-chip-container" id="invChipContainer"></div>
+                <div class="input-group">
+                  <input type="text" id="inInvInput" class="form-control form-control-sm"
+                    placeholder="যেমন: CBC, Random Blood Sugar (Enter চাপুন)">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" id="btnInvAdd">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Treatment & Medications (Rx) -->
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h2 class="cp-card-title">
+                  <i class="bi bi-capsule-pill"></i>
+                  <span data-cp-i18n="cardTreatmentTitle">চিকিৎসা ও ওষুধ (Rx)</span>
+                </h2>
+              </div>
+
+              <!-- Diagnosis Dx -->
+              <div class="mb-3">
+                <label class="cp-label" for="inDx" data-cp-i18n="lblDx">রোগনির্ণয় (Dx)</label>
+                <div class="cp-input-wrap">
+                  <i class="bi bi-stethoscope cp-input-icon"></i>
+                  <input type="text" id="inDx" class="cp-input" placeholder="Viral Fever (Suspected) - Flu">
+                </div>
+              </div>
+
+              <!-- Slash helper tip box -->
+              <div class="cp-slash-box">
+                <p class="cp-slash-text">
+                  <i class="bi bi-keyboard me-1"></i>
+                  <span data-cp-i18n="typeSlash">কমান্ড দিতে বা দ্রুত ওষুধ যোগ করতে '/' চাপুন</span>
+                </p>
+                <span class="cp-slash-kbd">/</span>
+              </div>
+
+              <!-- Quick Popular Medicine Presets -->
+              <div class="mb-3">
+                <span class="cp-label mb-1">জনপ্রিয় ওষুধ প্রিসেট:</span>
+                <div class="cp-preset-pills">
+                  <button type="button" class="cp-preset-pill cp-med-preset-pill" data-med="Tab. Napa Extend (665mg)"
+                    data-dosage="1+0+1" data-timing="After meal" data-duration="5 days">Napa Extend</button>
+                  <button type="button" class="cp-preset-pill cp-med-preset-pill" data-med="Tab. Fexo (120mg)"
+                    data-dosage="0+0+1" data-timing="After meal" data-duration="7 days">Fexo 120mg</button>
+                  <button type="button" class="cp-preset-pill cp-med-preset-pill" data-med="Cap. Seclo (20mg)"
+                    data-dosage="1+0+1" data-timing="Before meal" data-duration="14 days">Omeprazole</button>
+                  <button type="button" class="cp-preset-pill cp-med-preset-pill" data-med="Tab. Monas (10mg)"
+                    data-dosage="0+0+1" data-timing="At bedtime" data-duration="1 month">Montelukast</button>
+                  <button type="button" class="cp-preset-pill cp-med-preset-pill" data-med="Oral Rehydration Salt (ORS)"
+                    data-dosage="As needed" data-timing="In 500ml water" data-duration="3 days">ORS</button>
+                </div>
+              </div>
+
+              <!-- Add Medicine Form Row -->
+              <div class="p-3 bg-light rounded-3 border mb-3">
+                <span class="cp-label mb-2" data-cp-i18n="addMedicine">ওষুধ যোগ করুন</span>
+                <div class="row g-2 align-items-center">
+                  <div class="col-md-5 col-12">
+                    <input type="text" id="medNameInput" class="form-control form-control-sm"
+                      placeholder="ওষুধের নাম (e.g. Tab. Napa)">
+                  </div>
+                  <div class="col-md-2 col-4">
+                    <select id="medFormSelect" class="form-select form-select-sm">
+                      <option value="Tab">Tab</option>
+                      <option value="Cap">Cap</option>
+                      <option value="Syr">Syr</option>
+                      <option value="Inj">Inj</option>
+                      <option value="Drops">Drops</option>
+                      <option value="Sachet">Sachet</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2 col-4">
+                    <input type="text" id="medDosageInput" class="form-control form-control-sm text-center"
+                      value="1+0+1" placeholder="1+0+1">
+                  </div>
+                  <div class="col-md-3 col-4">
+                    <select id="medTimingSelect" class="form-select form-select-sm">
+                      <option value="After meal">After meal</option>
+                      <option value="Before meal">Before meal</option>
+                      <option value="With food">With food</option>
+                      <option value="At bedtime">At bedtime</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 col-6">
+                    <input type="text" id="medDurationInput" class="form-control form-control-sm" value="5 days"
+                      placeholder="5 days">
+                  </div>
+                  <div class="col-md-5 col-6">
+                    <input type="text" id="medNoteInput" class="form-control form-control-sm"
+                      placeholder="নির্দেশনা (ঐচ্ছিক)">
+                  </div>
+                  <div class="col-md-3 col-12 text-end">
+                    <button type="button" class="btn btn-sm btn-teal text-white w-100" id="btnAddMedicine"
+                      style="background:#0d9488;">
+                      <i class="bi bi-plus-circle me-1"></i> যোগ করুন
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Medicine Editor Table -->
+              <div class="table-responsive">
+                <table class="cp-med-table">
+                  <thead>
+                    <tr>
+                      <th data-cp-i18n="colMedName">ওষুধের নাম</th>
+                      <th data-cp-i18n="colDosage">ডোজ</th>
+                      <th data-cp-i18n="colTiming">সময়</th>
+                      <th data-cp-i18n="colDuration">মেয়াদ</th>
+                      <th data-cp-i18n="colAction">একশন</th>
+                    </tr>
+                  </thead>
+                  <tbody id="editorMedsTbody"></tbody>
+                </table>
+              </div>
+
+              <!-- Doctor Advice -->
+              <div class="mt-3">
+                <label class="cp-label" for="inAdvice" data-cp-i18n="lblAdvice">পরামর্শ ও নির্দেশনা</label>
+                <textarea id="inAdvice" class="cp-textarea" rows="3"
+                  placeholder="যেমন: প্রচুর পানি পান করুন, পর্যাপ্ত বিশ্রাম নিন..."></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ── RIGHT COLUMN: The Live Prescription Pad (WYSIWYG Paper) ──── -->
+          <div class="col-lg-6 cp-preview-column">
+            <div class="cp-pad-outer">
+              <div class="cp-pad-paper" id="printablePrescriptionPad">
+
+                <!-- 1. Doctor Header -->
+                <div class="cp-pad-header">
+                  <div class="cp-doc-info">
+                    <h2 class="cp-doc-name" id="padDocName">Dr. A. Rahman</h2>
+                    <p class="cp-doc-degrees" id="padDocDegrees">MBBS, FCPS (Medicine), MD (Neurology)</p>
+                    <p class="cp-doc-reg" id="padDocReg">Reg No: A-123456</p>
+                  </div>
+                  <div class="cp-hosp-info">
+                    <h2 class="cp-hosp-name" id="padHospName">City General Hospital</h2>
+                    <p class="cp-hosp-address" id="padHospAddress">123 Health Avenue, Dhaka</p>
+                    <p class="cp-hosp-call" id="padHospCall">Call: +880 1700-000000</p>
+                  </div>
+                </div>
+
+                <!-- 2. Patient Info Sub-Header Bar -->
+                <div class="cp-pad-patient-bar">
+                  <div class="cp-patient-meta-item">
+                    <span class="cp-patient-meta-label">Name:</span>
+                    <span class="cp-patient-meta-val" id="padPatName">Rahim Uddin</span>
+                  </div>
+                  <div class="cp-patient-meta-item">
+                    <span class="cp-patient-meta-label">Age:</span>
+                    <span class="cp-patient-meta-val" id="padAge">45</span>
+                  </div>
+                  <div class="cp-patient-meta-item">
+                    <span class="cp-patient-meta-label">Sex:</span>
+                    <span class="cp-patient-meta-val" id="padSex">M</span>
+                  </div>
+                  <div class="cp-patient-meta-item">
+                    <span class="cp-patient-meta-label">Date:</span>
+                    <span class="cp-patient-meta-val" id="padDate">11/6/2026</span>
+                  </div>
+                </div>
+
+                <!-- 3. Two-Column Pad Body -->
+                <div class="cp-pad-body">
+
+                  <!-- ── Left Sidebar: Clinical History & Vitals ── -->
+                  <div class="cp-pad-left-col">
+
+                    <!-- C/C -->
+                    <div>
+                      <h3 class="cp-pad-section-heading">C/C</h3>
+                      <ul class="cp-pad-list" id="padCCList">
+                        <li>Fever x 3 days</li>
+                        <li>Headache</li>
+                      </ul>
+                    </div>
+
+                    <!-- H/O -->
+                    <div>
+                      <h3 class="cp-pad-section-heading">H/O</h3>
+                      <ul class="cp-pad-list" id="padHOList">
+                        <li>DM x 5 years</li>
+                      </ul>
+                    </div>
+
+                    <!-- O/E Vitals -->
+                    <div>
+                      <h3 class="cp-pad-section-heading">O/E</h3>
+                      <div class="cp-oe-table">
+                        <div class="cp-oe-row">
+                          <span class="cp-oe-name">BP:</span>
+                          <span class="cp-oe-val" id="padBpVal">120/80</span>
+                        </div>
+                        <div class="cp-oe-row">
+                          <span class="cp-oe-name">Pulse:</span>
+                          <span class="cp-oe-val" id="padPulseVal">72</span>
+                        </div>
+                        <div class="cp-oe-row">
+                          <span class="cp-oe-name">Temp:</span>
+                          <span class="cp-oe-val" id="padTempVal">98.6</span>
+                        </div>
+                        <div class="cp-oe-row">
+                          <span class="cp-oe-name">Weight:</span>
+                          <span class="cp-oe-val" id="padWeightVal">65</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Inv. -->
+                    <div>
+                      <h3 class="cp-pad-section-heading">Inv.</h3>
+                      <ul class="cp-pad-list" id="padInvList">
+                        <li>CBC</li>
+                        <li>Random Blood Sugar</li>
+                      </ul>
+                    </div>
+
+                  </div>
+
+                  <!-- ── Right Main Column: Dx, Rx & Advice ── -->
+                  <div class="cp-pad-right-col">
+
+                    <!-- Dx: Diagnosis -->
+                    <div class="cp-pad-dx">
+                      <span class="cp-pad-dx-label">Dx:</span>
+                      <span id="padDxVal">- Viral Fever (Suspected) - Flu</span>
+                    </div>
+
+                    <!-- Large Cursive Rx Symbol -->
+                    <div class="cp-pad-rx-symbol">Rx</div>
+
+                    <!-- Medicines List -->
+                    <div id="padMedContainer"></div>
+
+                    <!-- Advice Section -->
+                    <div class="cp-pad-advice-section">
+                      <h3 class="cp-pad-advice-title">Advice</h3>
+                      <div class="cp-pad-advice-body" id="padAdviceText">
+                        Drink plenty of boiled water & oral fluids.
+                        Take complete bed rest for 3 days.
+                        Tepid sponge on forehead if temperature > 101°F.
+                        Follow up after 3-5 days if fever persists.
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div><!-- /cp-pad-body -->
+
+                <!-- 4. Footer & Signature Line -->
+                <div class="cp-pad-footer">
+                  <div class="cp-pad-footer-note">
+                    BreatheWell Digital Health Platform &bull; Not a substitute for formal physical examination.
+                  </div>
+                  <div class="cp-pad-signature-box">
+                    <div class="cp-pad-signature-line" data-cp-i18n="sigLine">ডাক্তারের স্বাক্ষর ও সিল</div>
+                  </div>
+                </div>
+
+              </div><!-- /cp-pad-paper -->
+            </div><!-- /cp-pad-outer -->
+          </div>
+
+        </div><!-- /row g-4 -->
+      </div><!-- /container -->
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       4. GLOBAL FOOTER
+       ======================================================================== -->
+  <footer class="footer py-5 mt-auto">
+    <div class="container text-center">
+      <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <span class="fw-bold fs-5 text-dark">BreatheWell</span>
+      </div>
+      <p class="text-muted small mb-3">
+        একটি উন্মুক্ত, অফলাইন-প্রথম ডিজিটাল স্বাস্থ্য ও সচেতন শ্বাসপ্রশ্বাস প্ল্যাটফর্ম।
+      </p>
+      <div class="d-flex justify-content-center gap-4 small mb-4">
+        <a href="index.html" class="text-decoration-none text-muted">হোম</a>
+        <a href="exercises.html" class="text-decoration-none text-muted">অনুশীলন</a>
+        <a href="breath-test.html" class="text-decoration-none text-muted">শ্বাসের পরীক্ষা</a>
+        <a href="health-tracker.html" class="text-decoration-none text-muted">স্বাস্থ্য ট্র্যাকার</a>
+        <a href="prescriptions.html" class="text-decoration-none text-muted">প্রেসক্রিপশন ভল্ট</a>
+        <a href="create-prescription.html" class="text-decoration-none text-teal fw-semibold">প্রেসক্রিপশন তৈরি</a>
+      </div>
+      <p class="text-muted text-xs mb-0">
+        &copy; 2026 BreatheWell. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       5. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="mobile-nav-track">
+      <a class="mobile-nav-link" href="index.html">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-cp-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link" href="exercises.html">
+        <div class="nav-icon-wrap"><i class="bi bi-activity"></i></div>
+        <span class="nav-label" data-cp-i18n="navExercises">অনুশীলন</span>
+      </a>
+      <a class="mobile-nav-link" href="breath-test.html">
+        <div class="nav-icon-wrap"><i class="bi bi-speedometer2"></i></div>
+        <span class="nav-label" data-cp-i18n="navTest">পরীক্ষা</span>
+      </a>
+      <button type="button" class="mobile-nav-link mobile-nav-more-btn" id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
+        <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
+        <span class="nav-label" data-cp-i18n="navMore">আরও</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       6. MOBILE SIDEBAR DRAWER (< 992px)
+       ======================================================================== -->
+  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+    aria-labelledby="mobileSidebarMenuLabel">
+    <div class="offcanvas-header mobile-sidebar-header">
+      <div class="mobile-sidebar-brand">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <div>
+          <h2 class="mobile-sidebar-title h5 mb-0" id="mobileSidebarMenuLabel">BreatheWell</h2>
+          <p class="mobile-sidebar-subtitle mb-0">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mobile-sidebar-body">
+      <!-- 1. Interactive Language Selector -->
+      <div class="mobile-sidebar-lang-card">
+        <div class="mobile-sidebar-lang-info">
+          <i class="bi bi-translate text-primary"></i>
+          <span class="mobile-sidebar-lang-title">ভাষা পরিবর্তন</span>
+        </div>
+        <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
+          <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
+          <button type="button" class="mobile-lang-pill" data-lang="en">English</button>
+        </div>
+      </div>
+
+      <!-- 2. Main Navigation Links -->
+      <div class="mobile-sidebar-section-title">পেজ ও মডিউল</div>
+      <div class="mobile-sidebar-nav-list">
+        <a class="mobile-sidebar-nav-item" href="index.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-cp-i18n="navHome">হোম</span>
+            <span class="mobile-sidebar-sub">মূল পাতা ও ফিচারসমূহ</span>
+          </div>
+        </a>
+        <a class="mobile-sidebar-nav-item" href="exercises.html">
+          <div class="mobile-sidebar-icon-box text-teal">
+            <i class="bi bi-lungs-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-cp-i18n="navExercises">অনুশীলন</span>
+            <span class="mobile-sidebar-sub">৪টি শ্বাসপ্রশ্বাস টেকনিক</span>
+          </div>
+        </a>
+        <a class="mobile-sidebar-nav-item" href="breath-test.html">
+          <div class="mobile-sidebar-icon-box text-amber">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-cp-i18n="navTest">শ্বাসের পরীক্ষা</span>
+            <span class="mobile-sidebar-sub">BOLT ও শ্বাস গণনা ল্যাব</span>
+          </div>
+        </a>
+        <a class="mobile-sidebar-nav-item" href="health-tracker.html">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-cp-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-sub">রক্তচাপ ও গ্লুকোজ পর্যবেক্ষণ</span>
+          </div>
+        </a>
+        <a class="mobile-sidebar-nav-item" href="prescriptions.html">
+          <div class="mobile-sidebar-icon-box text-success">
+            <i class="bi bi-file-earmark-medical-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-cp-i18n="navRx">প্রেসক্রিপশন ভল্ট</span>
+            <span class="mobile-sidebar-sub">ব্যবস্থাপত্র সংরক্ষণ ও পরিবার</span>
+          </div>
+        </a>
+        <a class="mobile-sidebar-nav-item active" href="create-prescription.html" aria-current="page">
+          <div class="mobile-sidebar-icon-box text-teal" style="color:#0d9488;">
+            <i class="bi bi-pencil-square"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-cp-i18n="heroTitle">প্রেসক্রিপশন তৈরি</span>
+            <span class="mobile-sidebar-sub">ডিজিটাল চিকিৎসকের প্যাড</span>
+          </div>
+        </a>
+        <a class="mobile-sidebar-nav-item" href="index.html#safety">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-shield-fill-exclamation"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-cp-i18n="navSafety">নিরাপত্তা</span>
+            <span class="mobile-sidebar-sub">জরুরি নির্দেশনা ও হটলাইন</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 3. Quick Action Utilities -->
+      <div class="mobile-sidebar-section-title">কুইক একশন</div>
+      <div class="mobile-sidebar-actions-grid">
+        <a class="mobile-sidebar-action-card emergency-action" href="index.html#safety" data-action="emergency-sos">
+          <div class="mobile-sidebar-action-icon text-danger">
+            <i class="bi bi-telephone-outbound-fill"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title">জরুরি SOS</span>
+            <span class="mobile-sidebar-action-sub">হেল্পলাইন ৯৯৯ ও ১৬২৬৩</span>
+          </div>
+        </a>
+        <a class="mobile-sidebar-action-card" href="prescriptions.html">
+          <div class="mobile-sidebar-action-icon text-success">
+            <i class="bi bi-images"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title">প্রেসক্রিপশন ভল্ট</span>
+            <span class="mobile-sidebar-action-sub">সংরক্ষিত ফাইল দেখুন</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Footer Disclaimer -->
+      <div class="mobile-sidebar-footer">
+        <p class="mobile-sidebar-disclaimer">
+          <i class="bi bi-info-circle me-1"></i>
+          <span>সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Stack Container -->
+  <div class="cp-toast-stack" id="cpToastStack" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- Script Includes -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/create-prescription.js"></script>
+
+</body>
+
+</html>
+
