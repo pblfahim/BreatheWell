@@ -1263,43 +1263,125 @@ body[data-page="health"] {
 }
 
 /* ============================================================================
- * 11. FAMILY DIRECT WHATSAPP & MULTI-CHANNEL SHARE PANEL
+ * 11. FAMILY DIRECT WHATSAPP & MULTI-CHANNEL SHARE PANEL (Clean & Modern)
  * ============================================================================ */
+
+/* Section badge & header stat pill */
+.ht-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 50px;
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.ht-share-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 50px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e293b;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Left Card: Share & Export ────────────────────────────────────────────── */
 .ht-share-card {
-  background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 55%, #0284c7 100%);
   border-radius: 26px;
   padding: 28px 24px;
   color: #fff;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
+  box-shadow: 0 12px 36px rgba(30, 58, 138, 0.25);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .ht-share-card::before {
   content: "";
   position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 200px;
-  height: 200px;
-  background: rgba(255, 255, 255, 0.08);
+  top: -60px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
 }
 
+.ht-share-card::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+.ht-share-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+.ht-share-sub {
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
+  line-height: 1.45;
+}
+
+.ht-share-pill-secure {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+/* Dedicated WhatsApp Action Box */
 .ht-whatsapp-box {
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 16px;
   margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
 }
 
 .ht-whatsapp-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   background: #25d366;
   color: #ffffff;
   border: none;
@@ -1309,8 +1391,8 @@ body[data-page="health"] {
   padding: 12px 20px;
   width: 100%;
   cursor: pointer;
-  transition: all var(--ht-dur-fast);
-  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
   text-decoration: none;
 }
 
@@ -1318,33 +1400,572 @@ body[data-page="health"] {
   background: #20ba59;
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.45);
+}
+
+.ht-msg-preview-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ht-btn-copy-msg {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.9;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.ht-btn-copy-msg:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
+.ht-btn-copy-msg.copied {
+  color: #86efac;
+  text-decoration: none;
 }
 
 .ht-msg-preview-box {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.25);
   border-radius: 12px;
   padding: 10px 14px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-family: inherit;
-  color: #e2e8f0;
-  margin-top: 10px;
+  color: #f1f5f9;
+  line-height: 1.5;
   white-space: pre-line;
+  max-height: 120px;
+  overflow-y: auto;
+  margin-top: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ============================================================================
- * 12. FAMILY MONITOR & PIN AUTHENTICATION CARD
- * ============================================================================ */
+/* Multi-Channel Export Grid (4 tiles) */
+.ht-share-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.ht-action-tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
+}
+
+.ht-action-tile:hover {
+  background: rgba(255, 255, 255, 0.24);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.ht-tile-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.ht-tile-text strong {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ht-tile-sub {
+  display: block;
+  font-size: 0.68rem;
+  opacity: 0.8;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Link Row */
+.ht-link-row {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.ht-link-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.ht-link-lead-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.ht-link-input {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 12px;
+  padding: 0 12px 0 36px;
+  font-size: 0.74rem;
+  font-family: monospace;
+  color: #1e293b;
+  background: rgba(255, 255, 255, 0.95);
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ht-copy-btn {
+  height: 42px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: #ffffff;
+  color: #1d4ed8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ht-copy-btn:hover {
+  background: #dbeafe;
+  color: #1e3a8a;
+  transform: translateY(-1px);
+}
+
+.ht-copy-btn.copied {
+  background: #a7f3d0;
+  color: #065f46;
+}
+
+.ht-link-note {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.5;
+  margin: 12px 0 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Right Card: Family Mode & PIN Lock + Import ──────────────────────────── */
 .ht-family-card {
-  background: var(--ht-surface);
-  border: 1.5px solid var(--ht-border);
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
   border-radius: 26px;
-  padding: 26px;
-  box-shadow: var(--ht-shadow-sm);
+  padding: 28px 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   height: 100%;
+}
+
+.ht-family-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.ht-family-avatars {
+  display: flex;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+
+.ht-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2.5px solid #ffffff;
+  background: linear-gradient(135deg, #10b981, #065f46);
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin-right: -10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.ht-avatar:nth-child(2) {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.ht-avatar:nth-child(3) {
+  background: linear-gradient(135deg, #f59e0b, #b45309);
+}
+
+.ht-family-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.ht-family-desc {
+  font-size: 0.82rem;
+  color: #64748b;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* 3-Step Visual Guide */
+.ht-family-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.ht-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.ht-step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ht-step-body strong {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.25;
+}
+
+.ht-step-body p {
+  font-size: 0.68rem;
+  color: #64748b;
+  margin: 2px 0 0;
+  line-height: 1.35;
+}
+
+/* PIN Wrap */
+.ht-pin-card-wrap {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+.ht-pin-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ht-pin-input {
+  flex: 1;
+  height: 42px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: 1.1rem;
+  letter-spacing: 0.25em;
+  text-align: center;
+  font-weight: 700;
+  background: #fff;
+  color: #1e293b;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ht-pin-input:focus {
+  border-color: #2563eb;
+}
+
+.ht-pin-input.has-error {
+  border-color: #ef4444;
+}
+
+.ht-pin-btn {
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.ht-pin-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Import Dropzone */
+.ht-import-dropzone {
+  border: 2px dashed #2563eb;
+  border-radius: 18px;
+  padding: 18px 16px;
+  text-align: center;
+  background: #eff6ff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.ht-import-dropzone:hover,
+.ht-import-dropzone.drag-over {
+  background: #dbeafe;
+  border-color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.ht-import-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 1.3rem;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 6px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.ht-import-drop-text strong {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.ht-import-drop-text span {
+  display: block;
+  font-size: 0.72rem;
+  color: #64748b;
+  margin: 3px 0 8px;
+}
+
+.ht-import-btn-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 50px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+/* Staged Import Preview Box */
+.ht-import-preview-box {
+  background: #ffffff;
+  border: 1.5px solid #2563eb;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+}
+
+.ht-import-preview-badge {
+  display: flex;
+  align-items: center;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.ht-import-file-meta {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-family: monospace;
+}
+
+.ht-import-preview-list {
+  max-height: 110px;
+  overflow-y: auto;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-top: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: #334155;
+}
+
+.ht-import-item-line {
+  padding: 3px 0;
+  border-bottom: 1px dashed #e2e8f0;
+}
+.ht-import-item-line:last-child {
+  border-bottom: none;
+}
+
+.ht-import-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ht-btn-import-merge {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ht-btn-import-merge:hover {
+  background: #1d4ed8;
+}
+
+.ht-btn-import-replace {
+  background: #f59e0b;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ht-btn-import-replace:hover {
+  background: #d97706;
+}
+
+.ht-btn-import-cancel {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ht-btn-import-cancel:hover {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.ht-test-view-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: 1.5px dashed #cbd5e1;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.ht-test-view-link:hover {
+  background: #f1f5f9;
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.ht-disclaimer-box {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+@media (max-width: 767.98px) {
+  .ht-share-grid {
+    grid-template-columns: 1fr;
+  }
+  .ht-family-steps {
+    grid-template-columns: 1fr;
+  }
+  .ht-import-actions {
+    flex-direction: column;
+  }
 }
 
 /* ============================================================================

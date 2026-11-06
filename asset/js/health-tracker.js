@@ -235,6 +235,11 @@ const HT_T = {
 
     shareTitle:       "পরিবারের সাথে শেয়ার ও মনিটরিং",
     shareSub:         "আপনার ছেলে, মেয়ে বা পরিবারের সদস্যরা যেকোনো দূরত্ব থেকে আপনার স্বাস্থ্য পর্যবেক্ষণ করতে পারবেন।",
+    shareBadge:       "পারিবারিক শেয়ার ও ব্যাকআপ",
+    shareCardExportTitle: "শেয়ার ও এক্সপোর্ট অপশন",
+    shareSecurityBadge: "নিরাপদ ও রিড-অনলি",
+    msgPreviewTitle:  "মেসেজের প্রিভিউ:",
+    shareVaultReady:  "ভল্ট প্রস্তুত",
     btnWhatsAppShare: "ছেলে/মেয়েকে WhatsApp-এ পাঠান",
     btnCopyReport:    "মেসেজ টেক্সট কপি করুন",
     btnCsv:           "CSV ডাউনলোড",
@@ -243,9 +248,28 @@ const HT_T = {
     btnPrint:         "মেডিকেল রিপোর্ট প্রিন্ট",
     btnCopy:          "কপি",
     btnCopied:        "কপি হয়েছে ✓",
+    tileCsvSub:       "এক্সেল ও শিটসের জন্য",
+    tileJsonSub:      "পূর্ণ ব্যাকআপ ফাইল",
+    tileLinkSub:      "লিংক রিফ্রেশ করুন",
+    tilePrintSub:     "মেডিকেল সামারি শিট",
 
     familyTitle:      "পারিবারিক মনিটর লক",
     familyDesc:       "একটি ৪ সংখ্যার পিন সেট করুন। শেয়ার লিংক দিলে পরিবার সদস্যরা শুধু দেখতে পারবেন — কোনো ডেটা পরিবর্তন করতে পারবেন না।",
+    step1Title:       "১. ব্যাকআপ ও পিন",
+    step1Desc:        "৪ সংখ্যার পিন সেট করুন অথবা JSON ব্যাকআপ তৈরি করে পরিবারকে পাঠান",
+    step2Title:       "২. ফ্যামিলি ইমপোর্ট",
+    step2Desc:        "পরিবারের সদস্য ফাইল ড্রপ করে সহজেই রেকর্ড দেখতে পাবেন",
+    step3Title:       "৩. রিড-অনলি মনিটরিং",
+    step3Desc:        "কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত পর্যবেক্ষণ",
+    pinHintText:      "পিন সেট করলে ডেটা পরিবর্তন সুরক্ষিত থাকবে",
+    importDropTitle:  "JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে নিন",
+    importDropHint:   "BreatheWell স্বাস্থ্য ব্যাকআপ ফাইল (.json) সমর্থিত",
+    importBtn:        "JSON আমদানি করুন",
+    importMergeBtn:   "নতুনগুলো যোগ করুন (Merge)",
+    importReplaceBtn: "সম্পূর্ণ প্রতিস্থাপন (Replace)",
+    importCancelBtn:  "বাতিল",
+    btnTestView:      "পরিবার কীভাবে দেখবে তা পরীক্ষা করুন",
+    disclaimerText:   "এই ট্র্যাকারটি ব্যক্তিগত সচেতনতা ও রেকর্ড রাখার জন্য। চিকিৎসার প্রয়োজনে সর্বদা রেজিষ্টার্ড চিকিৎসকের পরামর্শ নিন।",
     pinPlaceholder:   "• • • •",
     btnSetPin:        "পিন সেট করুন",
     btnResetPin:      "পিন পরিবর্তন করুন",
@@ -264,6 +288,9 @@ const HT_T = {
     toastPinSaved:    "পারিবারিক পিন সংরক্ষিত হয়েছে",
     toastDemoLoaded:  "৭ দিনের নমুনা ডেটা সফলভাবে যোগ হয়েছে!",
     toastAllCleared:  "সব স্বাস্থ্য রেকর্ড মুছে ফেলা হয়েছে।",
+    toastImportEmpty: "ফাইলে কোনো স্বাস্থ্য রেকর্ড পাওয়া যায়নি",
+    toastImportMergeDone: "{n}টি নতুন রেকর্ড ভল্টে যোগ করা হয়েছে!",
+    toastImportReplaceDone: "ভল্ট সফলভাবে প্রতিস্থাপিত হয়েছে ({n}টি রেকর্ড)!",
 
     errSysRange:      "সিস্টোলিক মান ৬০–২৫০ এর মধ্যে হওয়া চাই",
     errDiaRange:      "ডায়াস্টোলিক মান ৪০–১৫০ এর মধ্যে হওয়া চাই",
@@ -374,6 +401,11 @@ const HT_T = {
 
     shareTitle:       "Share with Family",
     shareSub:         "Your son, daughter, or family members can monitor your vital signs remotely from any device.",
+    shareBadge:       "Family Sharing & Backup",
+    shareCardExportTitle: "Share & Export Options",
+    shareSecurityBadge: "Secure & Read-Only",
+    msgPreviewTitle:  "WhatsApp Message Preview:",
+    shareVaultReady:  "Vault Ready",
     btnWhatsAppShare: "Send Report to Family via WhatsApp",
     btnCopyReport:    "Copy Message Text",
     btnCsv:           "Download CSV",
@@ -382,9 +414,28 @@ const HT_T = {
     btnPrint:         "Print Doctor Report",
     btnCopy:          "Copy",
     btnCopied:        "Copied ✓",
+    tileCsvSub:       "For Excel & Sheets",
+    tileJsonSub:      "Full backup file",
+    tileLinkSub:      "Refresh link",
+    tilePrintSub:     "Medical summary sheet",
 
     familyTitle:      "Family Monitor Lock",
     familyDesc:       "Set a 4-digit PIN. Anyone opening the share link can only view your readings without altering any data.",
+    step1Title:       "1. Backup & PIN",
+    step1Desc:        "Set a 4-digit PIN or export JSON backup for your family",
+    step2Title:       "2. Family Import",
+    step2Desc:        "Family members drop the file here to easily view your logs",
+    step3Title:       "3. Read-Only Monitoring",
+    step3Desc:        "Safe remote monitoring with zero risk of accidental editing or deletion",
+    pinHintText:      "Setting a PIN protects your data from being altered via share links",
+    importDropTitle:  "Drop JSON backup file here or click to browse",
+    importDropHint:   "BreatheWell health backup file (.json) supported",
+    importBtn:        "Import JSON",
+    importMergeBtn:   "Add New Records (Merge)",
+    importReplaceBtn: "Replace Entire Vault (Replace)",
+    importCancelBtn:  "Cancel",
+    btnTestView:      "Test How Family Sees This",
+    disclaimerText:   "This tracker is for personal awareness and record-keeping. Always consult a registered physician for medical advice.",
     pinPlaceholder:   "• • • •",
     btnSetPin:        "Set PIN",
     btnResetPin:      "Change PIN",
@@ -403,6 +454,9 @@ const HT_T = {
     toastPinSaved:    "Family PIN saved",
     toastDemoLoaded:  "7 days of realistic sample data loaded!",
     toastAllCleared:  "All health records cleared.",
+    toastImportEmpty: "No health records found in file",
+    toastImportMergeDone: "{n} new record(s) added to health vault!",
+    toastImportReplaceDone: "Health vault replaced successfully ({n} records)!",
 
     errSysRange:      "Systolic must be between 60–250 mmHg",
     errDiaRange:      "Diastolic must be between 40–150 mmHg",
@@ -1486,11 +1540,184 @@ function htGenerateShareURL() {
 }
 
 function htRefreshShareLink() {
+  const shareUrl = htGenerateShareURL();
   const input = $("shareUrlInput");
-  if (input) input.value = htGenerateShareURL();
+  if (input) input.value = shareUrl;
 
   const msgBox = $("whatsappMsgPreview");
   if (msgBox) msgBox.textContent = generateFormattedHealthReport();
+
+  const testLink = $("htBtnTestView");
+  if (testLink) testLink.href = shareUrl;
+
+  const statCount = $("htShareVaultCount");
+  if (statCount) {
+    const count = htLoadRecords().length;
+    statCount.textContent = htLang === "bn"
+      ? `${count.toLocaleString("bn-BD")}টি রেকর্ড প্রস্তুত`
+      : `${count} record(s) ready in vault`;
+  }
+}
+
+/* ============================================================================
+ * 13b. FAMILY IMPORT & STAGED MERGE/REPLACE ENGINE (HEALTH TRACKER)
+ * ============================================================================ */
+
+/** Staged records from a parsed health backup JSON */
+let stagedHealthRecords = [];
+let stagedHealthFilename = "";
+
+function htBindImportDropZone() {
+  const dropzone = $("htImportDropZone");
+  const input = $("htImportInput");
+  if (!dropzone || !input) return;
+
+  dropzone.addEventListener("click", e => {
+    if (e.target === input) return;
+    input.click();
+  });
+
+  dropzone.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      input.click();
+    }
+  });
+
+  input.addEventListener("change", () => {
+    if (input.files?.length) {
+      htStageImportFile(input.files[0]);
+    }
+  });
+
+  dropzone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropzone.classList.add("drag-over");
+  });
+
+  dropzone.addEventListener("dragleave", e => {
+    if (!dropzone.contains(e.relatedTarget)) {
+      dropzone.classList.remove("drag-over");
+    }
+  });
+
+  dropzone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropzone.classList.remove("drag-over");
+    if (e.dataTransfer.files?.length) {
+      htStageImportFile(e.dataTransfer.files[0]);
+    }
+  });
+}
+
+function htStageImportFile(file) {
+  if (!file) return;
+  stagedHealthFilename = file.name;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      const records = parsed.records || (Array.isArray(parsed) ? parsed : []);
+      if (!records.length) {
+        htToast(ht("toastImportEmpty"), "error", "bi-exclamation-triangle");
+        return;
+      }
+
+      stagedHealthRecords = records;
+      htRenderImportPreview(parsed.exported);
+    } catch (err) {
+      console.error("JSON parse error:", err);
+      htToast("Invalid JSON file", "error", "bi-x-circle");
+    }
+  };
+  reader.readAsText(file);
+}
+
+function htRenderImportPreview(exportedDate) {
+  const previewBox = $("htImportPreview");
+  const badge = $("htImportCountBadge");
+  const meta = $("htImportFileMeta");
+  const list = $("htImportList");
+  if (!previewBox || !badge || !list) return;
+
+  const count = stagedHealthRecords.length;
+  badge.textContent = htLang === "bn"
+    ? `${count.toLocaleString("bn-BD")}টি স্বাস্থ্য রেকর্ড পাওয়া গেছে`
+    : `${count} health record(s) found`;
+
+  if (meta) {
+    meta.textContent = stagedHealthFilename + (exportedDate ? ` · ${htFormatDate(exportedDate)}` : "");
+  }
+
+  list.innerHTML = stagedHealthRecords.slice(0, 10).map((r, i) => {
+    const isBP = r.type === "bp";
+    const typeLabel = isBP ? "রক্তচাপ (BP)" : "গ্লুকোজ (BG)";
+    const val = isBP ? `${r.sys}/${r.dia} mmHg` : `${r.value} mg/dL`;
+    const dt = r.date ? htFormatDate(r.date) : "";
+    return `<div class="ht-import-item-line">
+      <strong>${i + 1}. ${typeLabel}:</strong> ${val}
+      ${dt ? ` · <span class="text-muted">${dt}</span>` : ""}
+    </div>`;
+  }).join("") + (stagedHealthRecords.length > 10 ? `<div class="text-muted small mt-1">+ আরও ${stagedHealthRecords.length - 10}টি রেকর্ড...</div>` : "");
+
+  previewBox.classList.remove("d-none");
+  previewBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function htExecuteMergeImport() {
+  if (!stagedHealthRecords.length) return;
+  const existing = htLoadRecords();
+  const existingIds = new Set(existing.map(r => r.id));
+  let addedCount = 0;
+
+  stagedHealthRecords.forEach(r => {
+    if (!r.id) r.id = htUUID();
+    if (!existingIds.has(r.id)) {
+      existing.push(r);
+      existingIds.add(r.id);
+      addedCount++;
+    }
+  });
+
+  htSaveRecords(existing);
+  htCancelImport();
+  renderHistory();
+  renderBPChart();
+  renderBGChart();
+  renderStats();
+  renderInsights();
+  htRefreshShareLink();
+
+  const countStr = htLang === "bn" ? addedCount.toLocaleString("bn-BD") : addedCount;
+  const msg = ht("toastImportMergeDone").replace("{n}", countStr);
+  htToast(msg, "success", "bi-check-circle-fill");
+}
+
+function htExecuteReplaceImport() {
+  if (!stagedHealthRecords.length) return;
+  const count = stagedHealthRecords.length;
+  stagedHealthRecords.forEach(r => { if (!r.id) r.id = htUUID(); });
+  htSaveRecords(stagedHealthRecords);
+  htCancelImport();
+  renderHistory();
+  renderBPChart();
+  renderBGChart();
+  renderStats();
+  renderInsights();
+  htRefreshShareLink();
+
+  const countStr = htLang === "bn" ? count.toLocaleString("bn-BD") : count;
+  const msg = ht("toastImportReplaceDone").replace("{n}", countStr);
+  htToast(msg, "success", "bi-arrow-repeat");
+}
+
+function htCancelImport() {
+  stagedHealthRecords = [];
+  stagedHealthFilename = "";
+  const previewBox = $("htImportPreview");
+  if (previewBox) previewBox.classList.add("d-none");
+  const input = $("htImportInput");
+  if (input) input.value = "";
 }
 
 function htCopyLink() {
@@ -1849,6 +2076,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (copyMsgBtn)  copyMsgBtn.addEventListener("click", htCopyFormattedReport);
   if (loadDemoBtn) loadDemoBtn.addEventListener("click", htLoadDemoData);
   if (clearAllBtn) clearAllBtn.addEventListener("click", htClearAllRecords);
+
+  // Staged JSON Import listeners
+  htBindImportDropZone();
+  const mergeBtn = $("htBtnMergeImport");
+  const replaceBtn = $("htBtnReplaceImport");
+  const cancelBtn = $("htBtnCancelImport");
+  if (mergeBtn) mergeBtn.addEventListener("click", htExecuteMergeImport);
+  if (replaceBtn) replaceBtn.addEventListener("click", htExecuteReplaceImport);
+  if (cancelBtn) cancelBtn.addEventListener("click", htCancelImport);
 
   // Live input listening for BP gauge
   ["bpSystolic", "bpDiastolic"].forEach(id => {
