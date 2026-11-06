@@ -551,21 +551,109 @@
         <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
         <span class="nav-label" data-i18n="navTest">শ্বাসের পরীক্ষা</span>
       </a>
-      <a class="mobile-nav-link" href="health-tracker.html" aria-label="Health Tracker">
-        <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
-        <span class="nav-label" data-i18n="navHealth">স্বাস্থ্য</span>
-      </a>
-      <a class="mobile-nav-link" href="prescriptions.html" aria-label="Prescriptions">
-        <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
-        <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
-      </a>
-      <a class="mobile-nav-link" data-screen="safety" href="index.html#safety" onclick="goToSafety();return false;"
-        aria-label="Safety">
-        <div class="nav-icon-wrap"><i class="bi bi-shield-check"></i></div>
-        <span class="nav-label" data-i18n="navSafety">নিরাপত্তা</span>
-      </a>
+      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
+        <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
+        <span class="nav-label" data-i18n="navMore">আরও</span>
+      </button>
     </div>
   </nav>
+
+  <!-- ========================================================================
+       MOBILE SIDEBAR DRAWER (< 992px)
+       Sliding drawer navigation menu from the right side
+       ======================================================================== -->
+  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+    aria-labelledby="mobileSidebarMenuLabel">
+    <div class="offcanvas-header mobile-sidebar-header">
+      <div class="mobile-sidebar-brand">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <div>
+          <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
+          <p class="mobile-sidebar-subtitle">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mobile-sidebar-body">
+      <div class="mobile-sidebar-nav-list">
+        <a class="mobile-sidebar-nav-item" href="index.html" data-bs-dismiss="offcanvas">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHome">হোম</span>
+            <span class="mobile-sidebar-sub">মূল পাতা ও ফিচারসমূহ</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item active" href="exercises.html" aria-current="page" data-bs-dismiss="offcanvas">
+          <div class="mobile-sidebar-icon-box text-success">
+            <i class="bi bi-grid-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navExercises">অনুশীলন</span>
+            <span class="mobile-sidebar-sub">শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="breath-test.html" data-bs-dismiss="offcanvas">
+          <div class="mobile-sidebar-icon-box text-info">
+            <i class="bi bi-stopwatch-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navTest">শ্বাসের পরীক্ষা</span>
+            <span class="mobile-sidebar-sub">BOLT ও BPM রেসপিরেটরি টেস্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="health-tracker.html" data-bs-dismiss="offcanvas">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-sub">রক্তচাপ ও ডায়াবেটিস পর্যবেক্ষণ</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="prescriptions.html" data-bs-dismiss="offcanvas">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-file-earmark-medical-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+            <span class="mobile-sidebar-sub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="index.html#safety" onclick="goToSafety();return false;"
+          data-bs-dismiss="offcanvas">
+          <div class="mobile-sidebar-icon-box text-warning">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navSafety">নিরাপত্তা</span>
+            <span class="mobile-sidebar-sub">৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+      </div>
+
+      <div class="mobile-sidebar-footer">
+        <p class="mobile-sidebar-disclaimer">
+          <i class="bi bi-info-circle me-1"></i>
+          <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+        </p>
+      </div>
+    </div>
+  </div>
 
   <!-- ========================================================================
        9. SYSTEM NOTIFICATION TOAST & SCRIPT INCLUDES

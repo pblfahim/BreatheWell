@@ -312,6 +312,7 @@ const HT_T = {
     navSafety:        "নিরাপত্তা",
     navHealth:        "স্বাস্থ্য",
     navRx:            "প্রেসক্রিপশন",
+    navMore:          "আরও",
     skip:             "মূল কনটেন্টে যান",
     langToggle:       "English",
 
@@ -478,6 +479,7 @@ const HT_T = {
     navSafety:        "Safety",
     navHealth:        "Health",
     navRx:            "Prescriptions",
+    navMore:          "More",
     skip:             "Skip to main content",
     langToggle:       "বাংলা",
 

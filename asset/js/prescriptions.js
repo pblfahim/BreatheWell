@@ -298,8 +298,13 @@ let rxLang = localStorage.getItem(RX_LANG_KEY) || "bn";
 const RX_T = {
     bn: {
         skip: "মূল কনটেন্টে যান",
-        navHome: "হোম", navExercises: "অনুশীলন", navTest: "শ্বাসের পরীক্ষা",
-        navHealth: "স্বাস্থ্য ট্র্যাকার", navRx: "প্রেসক্রিপশন", navSafety: "নিরাপত্তা",
+        navHome: "হোম",
+        navExercises: "অনুশীলন",
+        navTest: "শ্বাসের পরীক্ষা",
+        navHealth: "স্বাস্থ্য ট্র্যাকার",
+        navRx: "প্রেসক্রিপশন",
+        navSafety: "নিরাপত্তা",
+        navMore: "আরও",
 
         heroEyebrow: "ডিজিটাল স্বাস্থ্য সংরক্ষণ",
         heroTitle: "প্রেসক্রিপশন ভল্ট",
@@ -409,8 +414,13 @@ const RX_T = {
     },
     en: {
         skip: "Skip to main content",
-        navHome: "Home", navExercises: "Exercises", navTest: "Breath Test",
-        navHealth: "Health Tracker", navRx: "Prescriptions", navSafety: "Safety",
+        navHome: "Home",
+        navExercises: "Exercises",
+        navTest: "Breath Test",
+        navHealth: "Health Tracker",
+        navRx: "Prescriptions",
+        navSafety: "Safety",
+        navMore: "More",
 
         heroEyebrow: "Digital Health Vault",
         heroTitle: "Prescription Vault",
