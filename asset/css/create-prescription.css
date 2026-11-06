@@ -893,6 +893,44 @@
 }
 
 /* ============================================================================
+ * 9.5 OCR STATUS BANNER & INPUT HIGHLIGHT
+ * ============================================================================ */
+.cp-ocr-status {
+  margin-top: 0.65rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--cp-radius-sm);
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.cp-input.ocr-highlight,
+.cp-textarea.ocr-highlight,
+.cp-select.ocr-highlight {
+  animation: cpFieldHighlight 1.5s ease-out;
+  border-color: var(--cp-teal) !important;
+  background-color: #f0fdfa !important;
+}
+
+@keyframes cpFieldHighlight {
+  0% {
+    background-color: #ccfbf1;
+    border-color: #0d9488;
+    transform: scale(1.01);
+  }
+  100% {
+    background-color: #ffffff;
+    border-color: inherit;
+    transform: scale(1);
+  }
+}
+
+/* ============================================================================
  * 10. PIXEL-PERFECT PRINT STYLESHEET (@media print)
  * ============================================================================ */
 @media print {

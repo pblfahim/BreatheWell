@@ -71,15 +71,18 @@
           <div class="col-lg-5">
             <div class="cp-toolbar-card">
               <div class="cp-action-btn-group w-100 justify-content-between">
-                <button type="button" class="cp-btn cp-btn-primary" id="btnLoadSample">
-                  <i class="bi bi-file-earmark-pdf-fill"></i>
-                  <span data-cp-i18n="btnLoadPdfSample">নমুনা লোড করুন (PDF)</span>
+                <input type="file" id="cpOcrFileInput" accept="image/*,application/pdf" class="d-none" aria-label="Upload prescription file for OCR">
+                <button type="button" class="cp-btn cp-btn-primary" id="btnUploadOcr">
+                  <i class="bi bi-cloud-arrow-up-fill"></i>
+                  <span data-cp-i18n="btnUploadOcr">প্রেসক্রিপশন আপলোড (OCR)</span>
                 </button>
                 <button type="button" class="cp-btn cp-btn-outline-light" id="btnClearForm">
                   <i class="bi bi-eraser-fill"></i>
                   <span data-cp-i18n="btnClear">নতুন ফর্ম</span>
                 </button>
               </div>
+              <!-- OCR status banner -->
+              <div class="cp-ocr-status d-none" id="cpOcrStatus" aria-live="polite"></div>
               <div class="cp-action-btn-group w-100 justify-content-end mt-2 pt-2 border-top border-light border-opacity-10">
                 <button type="button" class="cp-btn cp-btn-success" id="btnSaveToVault">
                   <i class="bi bi-floppy-fill"></i>
@@ -724,6 +727,7 @@
 
   <!-- Script Includes -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="asset/js/create-prescription.js"></script>
 
 </body>
