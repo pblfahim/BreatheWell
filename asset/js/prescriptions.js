@@ -305,6 +305,20 @@ const RX_T = {
         navRx: "প্রেসক্রিপশন",
         navSafety: "নিরাপত্তা",
         navMore: "আরও",
+        sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
+        navPagesTitle: "পেজ ও মডিউল",
+        navHomeSub: "মূল পাতা ও ফিচারসমূহ",
+        navExercisesSub: "শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি",
+        navTestSub: "BOLT ও BPM রেসপিরেটরি টেস্ট",
+        navHealthSub: "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
+        navRxSub: "ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR",
+        navSafetySub: "৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা",
+        quickToolsTitle: "দ্রুত অ্যাকশন",
+        quickEmergencyLabel: "জরুরি শান্ত শ্বাস (SOS)",
+        quickEmergencySub: "৪টি ধাপে তাৎক্ষণিক প্রশান্তি",
+        quickTestLabel: "ফুসফুস পরীক্ষা",
+        quickTestSub: "BOLT ও BPM স্কোর জানুন",
+        langSelectTitle: "ভাষা পরিবর্তন",
 
         heroEyebrow: "ডিজিটাল স্বাস্থ্য সংরক্ষণ",
         heroTitle: "প্রেসক্রিপশন ভল্ট",
@@ -421,6 +435,20 @@ const RX_T = {
         navRx: "Prescriptions",
         navSafety: "Safety",
         navMore: "More",
+        sidebarBrandSub: "Digital Health & Mindfulness",
+        navPagesTitle: "Pages & Modules",
+        navHomeSub: "Home page & core features",
+        navExercisesSub: "Breathing exercises library",
+        navTestSub: "BOLT & BPM respiratory tests",
+        navHealthSub: "Blood pressure & diabetes tracker",
+        navRxSub: "Digital prescription vault & OCR",
+        navSafetySub: "3 core safety rules & guidance",
+        quickToolsTitle: "Quick Tools",
+        quickEmergencyLabel: "Emergency Calm Breath (SOS)",
+        quickEmergencySub: "Immediate calmness in 4 quick steps",
+        quickTestLabel: "Breath Fitness Test",
+        quickTestSub: "Check BOLT & BPM breath score",
+        langSelectTitle: "Language",
 
         heroEyebrow: "Digital Health Vault",
         heroTitle: "Prescription Vault",
@@ -1684,6 +1712,14 @@ function rxSetLang(lang) {
     const btn = $r("rxLangToggle");
     if (btn) btn.textContent = lang === "bn" ? "English" : "বাংলা";
 
+    document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
+        const isTarget = btn.dataset.lang === lang;
+        btn.classList.toggle("active", isTarget);
+        btn.setAttribute("aria-pressed", isTarget ? "true" : "false");
+    });
+    localStorage.setItem("bw-lang", lang);
+    localStorage.setItem("bw_lang", lang);
+
     // Re-render dynamic content
     rxRenderGallery();
     rxUpdateStorage();
@@ -1774,5 +1810,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initial share link
     rxRefreshShareLink();
+
+    // Mobile offcanvas sidebar drawer bindings
+    document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetLang = btn.dataset.lang;
+            if (targetLang && targetLang !== rxLang) {
+                rxSetLang(targetLang);
+            }
+        });
+    });
+
+    const sidebar = $r("mobileSidebarMenu");
+    if (sidebar) {
+        sidebar.querySelectorAll(".mobile-sidebar-nav-item, .mobile-sidebar-action-card").forEach(link => {
+            link.addEventListener("click", (e) => {
+                const href = link.getAttribute("href") || "";
+                const action = link.dataset.action;
+
+                if (typeof bootstrap !== "undefined" && bootstrap.Offcanvas) {
+                    const inst = bootstrap.Offcanvas.getInstance(sidebar);
+                    if (inst) inst.hide();
+                }
+
+                if (action === "emergency-sos" || href.includes("#safety")) {
+                    e.preventDefault();
+                    window.location.href = "index.html#safety";
+                    return;
+                }
+
+                const cleanHref = href.split("#")[0].split("?")[0].split("/").pop();
+                if (cleanHref === "prescriptions.html" || !cleanHref) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    return;
+                }
+
+                if (href && !href.startsWith("javascript:")) {
+                    e.preventDefault();
+                    window.location.href = href;
+                }
+            });
+        });
+    }
 });
 

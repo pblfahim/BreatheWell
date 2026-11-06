@@ -56,6 +56,20 @@ const T = {
     navHealth: "স্বাস্থ্য ট্র্যাকার",
     navRx: "প্রেসক্রিপশন",
     navMore: "আরও",
+    sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
+    navPagesTitle: "পেজ ও মডিউল",
+    navHomeSub: "মূল পাতা ও ফিচারসমূহ",
+    navExercisesSub: "শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি",
+    navTestSub: "BOLT ও BPM রেসপিরেটরি টেস্ট",
+    navHealthSub: "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
+    navRxSub: "ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR",
+    navSafetySub: "৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা",
+    quickToolsTitle: "দ্রুত অ্যাকশন",
+    quickEmergencyLabel: "জরুরি শান্ত শ্বাস (SOS)",
+    quickEmergencySub: "৪টি ধাপে তাৎক্ষণিক প্রশান্তি",
+    quickTestLabel: "ফুসফুস পরীক্ষা",
+    quickTestSub: "BOLT ও BPM স্কোর জানুন",
+    langSelectTitle: "ভাষা পরিবর্তন",
     heroEyebrow: "প্রতিদিনের ছোট্ট বিরতি",
     heroBadge: "সহজ ও আনন্দদায়ক মাইন্ডফুলনেস ✨",
     heroTitle: "প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি",
@@ -305,6 +319,20 @@ const T = {
     navHealth: "Health Tracker",
     navRx: "Prescriptions",
     navMore: "More",
+    sidebarBrandSub: "Digital Health & Mindfulness",
+    navPagesTitle: "Pages & Modules",
+    navHomeSub: "Home page & core features",
+    navExercisesSub: "Breathing exercises library",
+    navTestSub: "BOLT & BPM respiratory tests",
+    navHealthSub: "Blood pressure & diabetes tracker",
+    navRxSub: "Digital prescription vault & OCR",
+    navSafetySub: "3 core safety rules & guidance",
+    quickToolsTitle: "Quick Tools",
+    quickEmergencyLabel: "Emergency Calm Breath (SOS)",
+    quickEmergencySub: "Immediate calmness in 4 quick steps",
+    quickTestLabel: "Breath Fitness Test",
+    quickTestSub: "Check BOLT & BPM breath score",
+    langSelectTitle: "Language",
     heroEyebrow: "A small pause in your day",
     heroBadge: "Simple & Joyful Mindfulness ✨",
     heroTitle: "Find your calm, one breath at a time",
@@ -929,6 +957,13 @@ function setLang(next) {
   });
   const langToggleBtn = $("langToggle");
   if (langToggleBtn) langToggleBtn.textContent = lang === "bn" ? "English" : "বাংলা";
+  document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
+    const isTarget = btn.dataset.lang === lang;
+    btn.classList.toggle("active", isTarget);
+    btn.setAttribute("aria-pressed", isTarget ? "true" : "false");
+  });
+  localStorage.setItem("bw_lang", lang);
+  localStorage.setItem("bw_rx_lang", lang);
   renderCards();
   const detailsEl = $("details");
   if (detailsEl && detailsEl.classList.contains("active")) renderDetails();
@@ -1026,6 +1061,41 @@ function updateNavActive(screenId) {
       link.removeAttribute("aria-current");
     }
   });
+
+  // Sync mobile sidebar drawer navigation items
+  const sidebarLinks = document.querySelectorAll("#mobileSidebarMenu .mobile-sidebar-nav-item");
+  sidebarLinks.forEach(link => {
+    const href = link.getAttribute("href") || "";
+    let matches = false;
+    if (screenId === "safety" && href.includes("#safety")) {
+      matches = true;
+    } else if (screenId === "home" && (href.endsWith("index.html") || href === "/")) {
+      matches = true;
+    } else if ((screenId === "library" || screenId === "details" || screenId === "complete") && href.includes("exercises.html")) {
+      matches = true;
+    } else if (screenId === "test" && (href.includes("test.html") || href.includes("breath-test.html"))) {
+      matches = true;
+    }
+    if (matches) {
+      link.classList.add("active");
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.classList.remove("active");
+      link.removeAttribute("aria-current");
+    }
+  });
+
+  // If safety or offcanvas screen is active, highlight the "More" hamburger button
+  const moreBtn = $("mobileMoreBtn");
+  if (moreBtn) {
+    if (screenId === "safety") {
+      moreBtn.classList.add("active");
+      moreBtn.setAttribute("aria-current", "page");
+    } else if (screenId === "home" || screenId === "library" || screenId === "test") {
+      moreBtn.classList.remove("active");
+      moreBtn.removeAttribute("aria-current");
+    }
+  }
 }
 
 /**
@@ -1052,6 +1122,11 @@ function go(id) {
     const nav = $("navMenu");
     if (nav && nav.classList.contains("show")) {
       bootstrap.Collapse.getOrCreateInstance(nav).hide();
+    }
+    const mobileSidebar = $("mobileSidebarMenu");
+    if (mobileSidebar && typeof bootstrap !== "undefined" && bootstrap.Offcanvas) {
+      const inst = bootstrap.Offcanvas.getInstance(mobileSidebar);
+      if (inst) inst.hide();
     }
     if (id === 'test') {
       loadTestHistory();
@@ -1652,6 +1727,11 @@ function triggerSafetyReset() {
  * currently on another page.
  */
 function goToSafety() {
+  const mobileSidebar = $("mobileSidebarMenu");
+  if (mobileSidebar && typeof bootstrap !== "undefined" && bootstrap.Offcanvas) {
+    const inst = bootstrap.Offcanvas.getInstance(mobileSidebar);
+    if (inst) inst.hide();
+  }
   const el = $("safety");
   if (el) {
     go('home');
@@ -2913,10 +2993,91 @@ function handleHashOnLoad() {
   }
 }
 
+function isTargetCurrentPage(href) {
+  if (!href) return false;
+  const cleanHref = href.split("#")[0].split("?")[0].split("/").pop();
+  let currentFile = window.location.pathname.split("/").pop();
+  if (!currentFile || currentFile === "") currentFile = "index.html";
+
+  if (!cleanHref) return true;
+  if (cleanHref === currentFile) return true;
+  if (cleanHref === "index.html" && currentFile === "") return true;
+  if ((cleanHref === "breath-test.html" || cleanHref === "test.html") && (currentFile === "breath-test.html" || currentFile === "test.html")) return true;
+  return false;
+}
+
+/**
+ * Binds functional controls for the mobile offcanvas sidebar drawer:
+ * - Real-time language selector pills (বাংলা / English)
+ * - Infallible routing and smooth scrolling for all navigation and quick action links
+ * - SOS emergency calm trigger routing
+ */
+function initMobileSidebar() {
+  document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetLang = btn.dataset.lang;
+      if (targetLang && targetLang !== lang) {
+        setLang(targetLang);
+      }
+    });
+  });
+
+  const sidebar = $("mobileSidebarMenu");
+  if (sidebar) {
+    sidebar.querySelectorAll(".mobile-sidebar-nav-item, .mobile-sidebar-action-card").forEach(link => {
+      link.addEventListener("click", (e) => {
+        const href = link.getAttribute("href") || "";
+        const action = link.dataset.action;
+
+        // Immediately close the offcanvas
+        if (typeof bootstrap !== "undefined" && bootstrap.Offcanvas) {
+          const inst = bootstrap.Offcanvas.getInstance(sidebar);
+          if (inst) inst.hide();
+        }
+
+        // 1. SOS Emergency or Safety anchor
+        if (action === "emergency-sos" || href.includes("#safety")) {
+          const safetyEl = $("safety");
+          if (safetyEl) {
+            e.preventDefault();
+            go("home");
+            updateNavActive("safety");
+            setTimeout(() => {
+              safetyEl.scrollIntoView({ behavior: "smooth" });
+              const emergBox = $("emergencyGuidance") || safetyEl;
+              emergBox.classList.add("pulse-highlight");
+              setTimeout(() => emergBox.classList.remove("pulse-highlight"), 1600);
+            }, 120);
+            return;
+          } else {
+            e.preventDefault();
+            window.location.href = "index.html#safety";
+            return;
+          }
+        }
+
+        // 2. Current Page link: scroll to top
+        if (isTargetCurrentPage(href)) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        // 3. Different page: explicitly route to guarantee navigation across all mobile browsers
+        if (href && !href.startsWith("javascript:")) {
+          e.preventDefault();
+          window.location.href = href;
+        }
+      });
+    });
+  }
+}
+
 // ----------------------------------------------------------------------------
 // APPLICATION BOOTSTRAP SEQUENCE
 // ----------------------------------------------------------------------------
 setLang(lang);
+initMobileSidebar();
 renderCards();
 const currentScreen = getInitialScreen();
 updateNavActive(currentScreen);

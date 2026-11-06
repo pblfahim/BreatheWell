@@ -3487,6 +3487,126 @@ footer {
   color: var(--blue);
 }
 
+/* Interactive Language Selector in Mobile Sidebar */
+.mobile-sidebar-lang-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+
+.mobile-sidebar-lang-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+}
+
+.mobile-sidebar-lang-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.mobile-sidebar-lang-pills {
+  display: flex;
+  gap: 4px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.mobile-lang-pill {
+  border: none;
+  background: transparent;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  border-radius: 8px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-lang-pill:hover {
+  color: var(--blue-dark);
+}
+
+.mobile-lang-pill.active {
+  background: #ffffff;
+  color: var(--blue-dark);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Quick Action Tools in Mobile Sidebar */
+.mobile-sidebar-actions-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-sidebar-action-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  color: #1e293b;
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-sidebar-action-card:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: var(--blue-dark);
+  transform: translateX(-2px);
+}
+
+.mobile-sidebar-action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.mobile-sidebar-action-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.mobile-sidebar-action-title {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: inherit;
+  line-height: 1.25;
+}
+
+.mobile-sidebar-action-sub {
+  display: block;
+  font-size: 0.68rem;
+  color: #64748b;
+  line-height: 1.2;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .mobile-sidebar-footer {
   margin-top: auto;
   padding: 14px 16px;
