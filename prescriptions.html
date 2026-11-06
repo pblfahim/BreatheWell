@@ -38,834 +38,883 @@
 <html lang="bn">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1769aa">
-  <meta name="description"
-    content="BreatheWell — ডিজিটাল প্রেসক্রিপশন ভল্ট। ছবি আপলোড করুন, OCR দিয়ে তথ্য সংরক্ষণ করুন, পরিবারের সাথে শেয়ার করুন।">
-  <title>BreatheWell | প্রেসক্রিপশন ভল্ট</title>
-  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="asset/css/style.css">
-  <link rel="stylesheet" href="asset/css/prescriptions.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1769aa">
+    <meta name="description"
+        content="BreatheWell — ডিজিটাল প্রেসক্রিপশন ভল্ট। ছবি আপলোড করুন, OCR দিয়ে তথ্য সংরক্ষণ করুন, পরিবারের সাথে শেয়ার করুন।">
+    <title>BreatheWell | প্রেসক্রিপশন ভল্ট</title>
+    <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="stylesheet" href="asset/css/prescriptions.css">
 </head>
 
 <body class="bn" data-page="rx">
 
-  <!-- Accessibility Skip Navigation Link -->
-  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-rx-i18n="skip">মূল
-    কনটেন্টে যান</a>
+    <!-- Accessibility Skip Navigation Link -->
+    <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main"
+        data-rx-i18n="skip">মূল
+        কনটেন্টে যান</a>
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        1. GLOBAL DESKTOP NAVIGATION BAR
        ======================================================================== -->
-  <nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html" aria-label="BreatheWell home"><span
-          class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell</a>
-      <div class="d-flex align-items-center gap-2 order-lg-3">
-        <button class="lang-btn" id="rxLangToggle" aria-label="Change language">English</button>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
-          aria-label="Open navigation"><span class="navbar-toggler-icon"></span></button>
-      </div>
-      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
-        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link" href="index.html" data-rx-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link" href="exercises.html" data-rx-i18n="navExercises">অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-rx-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
-          <li class="nav-item"><a class="nav-link" href="health-tracker.html" data-rx-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link active" href="prescriptions.html" aria-current="page"
-              data-rx-i18n="navRx">প্রেসক্রিপশন</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html#safety" data-rx-i18n="navSafety">নিরাপত্তা</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container py-2">
+            <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html"
+                aria-label="BreatheWell home"><span class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell</a>
+            <div class="d-flex align-items-center gap-2 order-lg-3">
+                <button class="lang-btn" id="rxLangToggle" aria-label="Change language">English</button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navMenu" aria-label="Open navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+            </div>
+            <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+                <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html" data-rx-i18n="navHome">হোম</a></li>
+                    <li class="nav-item"><a class="nav-link" href="exercises.html"
+                            data-rx-i18n="navExercises">অনুশীলন</a></li>
+                    <li class="nav-item"><a class="nav-link" href="breath-test.html" data-rx-i18n="navTest">শ্বাসের
+                            পরীক্ষা</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="health-tracker.html"
+                            data-rx-i18n="navHealth">স্বাস্থ্য
+                            ট্র্যাকার</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="prescriptions.html" aria-current="page"
+                            data-rx-i18n="navRx">প্রেসক্রিপশন</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#safety"
+                            data-rx-i18n="navSafety">নিরাপত্তা</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-  <main id="main">
+    <main id="main">
 
-    <!-- ======================================================================
+        <!-- ======================================================================
          2. FAMILY VIEW-MODE NOTICE
          Shown automatically when URL contains ?view=... (family read-only mode)
          ====================================================================== -->
-    <div id="rxViewNotice" class="d-none"></div>
+        <div id="rxViewNotice" class="d-none"></div>
 
-    <!-- ======================================================================
+        <!-- ======================================================================
          3. HERO BANNER
          ====================================================================== -->
-    <div class="rx-hero">
-      <!-- Animated ambient background particles -->
-      <div class="rx-hero-particle p1" aria-hidden="true"></div>
-      <div class="rx-hero-particle p2" aria-hidden="true"></div>
-      <div class="rx-hero-particle p3" aria-hidden="true"></div>
+        <div class="rx-hero">
+            <!-- Animated ambient background particles -->
+            <div class="rx-hero-particle p1" aria-hidden="true"></div>
+            <div class="rx-hero-particle p2" aria-hidden="true"></div>
+            <div class="rx-hero-particle p3" aria-hidden="true"></div>
 
-      <div class="container position-relative">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-8">
-            <!-- Eyebrow label -->
-            <div class="rx-hero-eyebrow">
-              <i class="bi bi-clipboard2-pulse-fill"></i>
-              <span data-rx-i18n="heroEyebrow">ডিজিটাল স্বাস্থ্য সংরক্ষণ</span>
+            <div class="container position-relative">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <!-- Eyebrow label -->
+                        <div class="rx-hero-eyebrow">
+                            <i class="bi bi-clipboard2-pulse-fill"></i>
+                            <span data-rx-i18n="heroEyebrow">ডিজিটাল স্বাস্থ্য সংরক্ষণ</span>
+                        </div>
+
+                        <!-- Page headline -->
+                        <h1 class="rx-hero-title" data-rx-i18n="heroTitle">প্রেসক্রিপশন ভল্ট</h1>
+                        <p class="rx-hero-sub" data-rx-i18n="heroSub">
+                            আপনার ডাক্তারের প্রেসক্রিপশন সংরক্ষণ করুন এবং পরিবারের সাথে শেয়ার করুন।
+                        </p>
+
+                        <!-- Quick-action pills -->
+                        <div class="rx-hero-pills mt-4">
+                            <button class="rx-hero-pill primary rx-edit-only" id="rxHeroBtnUpload">
+                                <i class="bi bi-cloud-arrow-up-fill"></i>
+                                <span>আপলোড করুন</span>
+                            </button>
+                            <a class="rx-hero-pill text-decoration-none" href="create-prescription.html">
+                                <i class="bi bi-pencil-square text-teal"></i>
+                                <span data-rx-i18n="heroCreatePrescription">প্রেসক্রিপশন তৈরি করুন</span>
+                            </a>
+                            <button class="rx-hero-pill" id="rxHeroBtnGallery">
+                                <i class="bi bi-grid-3x3-gap-fill"></i>
+                                <span>গ্যালারি দেখুন</span>
+                            </button>
+                            <button class="rx-hero-pill" id="rxHeroBtnShare">
+                                <i class="bi bi-share-fill"></i>
+                                <span>পরিবার শেয়ার</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Decorative icon column -->
+                    <div class="col-lg-4 d-none d-lg-flex justify-content-center">
+                        <div class="rx-hero-icon-wrap">
+                            <i class="bi bi-file-earmark-medical-fill rx-hero-icon"></i>
+                            <div class="rx-hero-icon-ring r1" aria-hidden="true"></div>
+                            <div class="rx-hero-icon-ring r2" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <!-- Page headline -->
-            <h1 class="rx-hero-title" data-rx-i18n="heroTitle">প্রেসক্রিপশন ভল্ট</h1>
-            <p class="rx-hero-sub" data-rx-i18n="heroSub">
-              আপনার ডাক্তারের প্রেসক্রিপশন সংরক্ষণ করুন এবং পরিবারের সাথে শেয়ার করুন।
-            </p>
-
-            <!-- Quick-action pills -->
-            <div class="rx-hero-pills mt-4">
-              <button class="rx-hero-pill primary rx-edit-only"
-                onclick="document.getElementById('rxUploadSection').scrollIntoView({behavior:'smooth'})">
-                <i class="bi bi-cloud-arrow-up-fill"></i>
-                <span>আপলোড করুন</span>
-              </button>
-              <a class="rx-hero-pill text-decoration-none" href="create-prescription.html">
-                <i class="bi bi-pencil-square text-teal"></i>
-                <span data-rx-i18n="heroCreatePrescription">প্রেসক্রিপশন তৈরি করুন</span>
-              </a>
-              <button class="rx-hero-pill"
-                onclick="document.getElementById('rxGallerySection').scrollIntoView({behavior:'smooth'})">
-                <i class="bi bi-grid-3x3-gap-fill"></i>
-                <span>গ্যালারি দেখুন</span>
-              </button>
-              <button class="rx-hero-pill"
-                onclick="document.getElementById('rxShareSection').scrollIntoView({behavior:'smooth'})">
-                <i class="bi bi-share-fill"></i>
-                <span>পরিবার শেয়ার</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Decorative icon column -->
-          <div class="col-lg-4 d-none d-lg-flex justify-content-center">
-            <div class="rx-hero-icon-wrap">
-              <i class="bi bi-file-earmark-medical-fill rx-hero-icon"></i>
-              <div class="rx-hero-icon-ring r1" aria-hidden="true"></div>
-              <div class="rx-hero-icon-ring r2" aria-hidden="true"></div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- ======================================================================
+        <!-- ======================================================================
          4. STORAGE GAUGE (pull-up card)
          Shows percentage of localStorage used by prescriptions
          ====================================================================== -->
-    <div class="rx-pull-up">
-      <div class="container">
-        <div class="rx-storage-card">
-          <div class="rx-storage-top">
-            <div class="rx-storage-label">
-              <i class="bi bi-hdd-fill me-2"></i>
-              <span data-rx-i18n="storageLabel">স্টোরেজ ব্যবহার</span>
+        <div class="rx-pull-up">
+            <div class="container">
+                <div class="rx-storage-card">
+                    <div class="rx-storage-top">
+                        <div class="rx-storage-label">
+                            <i class="bi bi-hdd-fill me-2"></i>
+                            <span data-rx-i18n="storageLabel">স্টোরেজ ব্যবহার</span>
+                        </div>
+                        <div class="rx-storage-meta">
+                            <span id="rxStoragePct">0%</span>
+                            &nbsp;·&nbsp;
+                            <span id="rxStorageCount">0</span>
+                            <span data-rx-i18n="storageCount"> টি প্রেসক্রিপশন</span>
+                        </div>
+                    </div>
+                    <div class="rx-storage-bar-wrap" role="progressbar" aria-label="Storage used" aria-valuemin="0"
+                        aria-valuemax="100">
+                        <div class="rx-storage-bar-fill" id="rxStorageFill"></div>
+                    </div>
+                </div>
             </div>
-            <div class="rx-storage-meta">
-              <span id="rxStoragePct">0%</span>
-              &nbsp;·&nbsp;
-              <span id="rxStorageCount">0</span>
-              <span data-rx-i18n="storageCount"> টি প্রেসক্রিপশন</span>
-            </div>
-          </div>
-          <div class="rx-storage-bar-wrap" role="progressbar" aria-label="Storage used" aria-valuemin="0"
-            aria-valuemax="100">
-            <div class="rx-storage-bar-fill" id="rxStorageFill"></div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- ======================================================================
+        <!-- ======================================================================
          5. UPLOAD + METADATA FORM SECTION
          Left: Drag-and-drop zone + preview strip + OCR status banner
          Right: Prescription metadata form (doctor, meds, refill, etc.)
          ====================================================================== -->
-    <section id="rxUploadSection" class="rx-section rx-edit-only">
-      <div class="container">
+        <section id="rxUploadSection" class="rx-section rx-edit-only">
+            <div class="container">
 
-        <!-- Section heading -->
-        <div class="rx-section-heading d-flex flex-wrap align-items-center justify-content-between gap-2">
-          <h2 class="rx-section-title mb-0">
-            <i class="bi bi-cloud-arrow-up-fill me-2"></i>
-            <span data-rx-i18n="uploadTitle">প্রেসক্রিপশন আপলোড করুন</span>
-          </h2>
-          <a href="create-prescription.html" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 rounded-pill px-3 py-1 fw-semibold text-decoration-none">
-            <i class="bi bi-pencil-square"></i>
-            <span data-rx-i18n="btnCreateDigitalRx">ডিজিটাল প্রেসক্রিপশন তৈরি</span>
-          </a>
-        </div>
-
-        <div class="row g-4 align-items-start">
-
-          <!-- ── LEFT: Upload zone ──────────────────────────────────────────── -->
-          <div class="col-lg-5">
-
-            <!-- Drag & Drop zone — clicking it triggers the hidden file input -->
-            <div class="rx-upload-zone" id="rxUploadZone" role="button" tabindex="0"
-              aria-label="Upload prescription image or PDF">
-              <!-- Hidden native file input -->
-              <input type="file" id="rxFileInput" accept=".jpg,.jpeg,.png,.webp,.gif,.pdf" multiple
-                class="visually-hidden">
-
-              <!-- Zone inner content -->
-              <div class="rx-upload-inner">
-                <div class="rx-upload-icon">
-                  <i class="bi bi-cloud-arrow-up"></i>
-                </div>
-                <p class="rx-upload-title" data-rx-i18n="uploadSub">
-                  ছবি বা PDF ড্র্যাগ করুন অথবা ক্লিক করে বেছে নিন
-                </p>
-                <div class="rx-upload-formats">
-                  <span class="rx-format-pill">JPG</span>
-                  <span class="rx-format-pill">PNG</span>
-                  <span class="rx-format-pill">WebP</span>
-                  <span class="rx-format-pill">PDF</span>
-                </div>
-                <button type="button" class="rx-pick-btn" id="rxPickBtn">
-                  <i class="bi bi-folder2-open me-2"></i>
-                  <span data-rx-i18n="uploadPick">ফাইল বেছে নিন</span>
-                </button>
-              </div>
-
-              <!-- Upload progress bar (shown during compression) -->
-              <div class="rx-progress" id="rxProgress">
-                <div class="rx-progress-fill" id="rxProgressFill"></div>
-                <span class="rx-progress-label" id="rxProgressLabel"></span>
-              </div>
-            </div>
-
-            <!-- Preview strip — thumbnails of queued files before saving -->
-            <div class="rx-preview-strip" id="rxPreviewStrip"></div>
-
-            <!-- OCR status banner — hidden until OCR runs -->
-            <div class="rx-ocr-status d-none" id="rxOcrStatus" aria-live="polite"></div>
-
-            <!-- OCR info note -->
-            <p class="rx-upload-note mt-2">
-              <i class="bi bi-lightbulb-fill text-warning me-1"></i>
-              ছবি আপলোড করলে OCR স্বয়ংক্রিয়ভাবে ডাক্তারের নাম ও ওষুধ পড়বে।
-              PDF আপলোডে ম্যানুয়াল পূরণ প্রয়োজন।
-            </p>
-          </div>
-
-          <!-- ── RIGHT: Prescription metadata form ─────────────────────────── -->
-          <div class="col-lg-7">
-            <div class="rx-form-card">
-              <div class="rx-form-header">
-                <h3 data-rx-i18n="formTitle">প্রেসক্রিপশন তথ্য</h3>
-                <p class="rx-form-sub" data-rx-i18n="formSub">ডাক্তারের তথ্য ও ওষুধের তালিকা যোগ করুন</p>
-              </div>
-
-              <form id="rxForm" novalidate>
-
-                <div class="row g-3">
-
-                  <!-- Doctor name -->
-                  <div class="col-sm-6">
-                    <label class="rx-label" for="rxDoctor" data-rx-i18n="lblDoctor">ডাক্তারের নাম</label>
-                    <div class="rx-input-wrap">
-                      <i class="bi bi-person-badge-fill rx-input-icon"></i>
-                      <input type="text" id="rxDoctor" class="rx-input" placeholder="Dr. ..." autocomplete="off">
-                    </div>
-                  </div>
-
-                  <!-- Clinic / Hospital -->
-                  <div class="col-sm-6">
-                    <label class="rx-label" for="rxClinic" data-rx-i18n="lblClinic">ক্লিনিক / হাসপাতাল</label>
-                    <div class="rx-input-wrap">
-                      <i class="bi bi-hospital-fill rx-input-icon"></i>
-                      <input type="text" id="rxClinic" class="rx-input" placeholder="হাসপাতালের নাম" autocomplete="off">
-                    </div>
-                  </div>
-
-                  <!-- Prescription date -->
-                  <div class="col-sm-6">
-                    <label class="rx-label" for="rxDate" data-rx-i18n="lblDate">প্রেসক্রিপশনের তারিখ</label>
-                    <div class="rx-input-wrap">
-                      <i class="bi bi-calendar3 rx-input-icon"></i>
-                      <input type="date" id="rxDate" class="rx-input">
-                    </div>
-                  </div>
-
-                  <!-- Urgency -->
-                  <div class="col-sm-6">
-                    <label class="rx-label" for="rxUrgency" data-rx-i18n="lblUrgency">জরুরিত্ব</label>
-                    <div class="rx-input-wrap">
-                      <i class="bi bi-flag-fill rx-input-icon"></i>
-                      <select id="rxUrgency" class="rx-input rx-select">
-                        <option value="normal" data-rx-i18n="urgNormal">স্বাভাবিক</option>
-                        <option value="followup" data-rx-i18n="urgFollowup">ফলো-আপ প্রয়োজন</option>
-                        <option value="urgent" data-rx-i18n="urgUrgent">জরুরি</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <!-- Medications tag input -->
-                  <div class="col-12">
-                    <label class="rx-label" data-rx-i18n="lblMeds">ওষুধের তালিকা</label>
-                    <!-- Chip container — chips + text input coexist here -->
-                    <div class="rx-med-tags-wrap" id="rxMedTagsWrap">
-                      <input type="text" id="rxMedInput" class="rx-med-input"
-                        placeholder="ওষুধের নাম লিখুন, Enter চাপুন" data-rx-i18n-placeholder="medsPlaceholder"
-                        autocomplete="off">
-                    </div>
-                    <p class="rx-field-hint">
-                      <i class="bi bi-info-circle me-1"></i>
-                      প্রতিটি ওষুধের নাম লিখে Enter অথবা কমা (,) চাপুন
-                    </p>
-                  </div>
-
-                  <!-- Diagnosis -->
-                  <div class="col-sm-6">
-                    <label class="rx-label" for="rxDiagnosis" data-rx-i18n="lblDiagnosis">রোগনির্ণয় / অসুস্থতা</label>
-                    <div class="rx-input-wrap">
-                      <i class="bi bi-clipboard2-pulse rx-input-icon"></i>
-                      <input type="text" id="rxDiagnosis" class="rx-input" placeholder="যেমন: উচ্চ রক্তচাপ, ডায়াবেটিস"
-                        autocomplete="off">
-                    </div>
-                  </div>
-
-                  <!-- Refill date -->
-                  <div class="col-sm-6">
-                    <label class="rx-label" for="rxRefill" data-rx-i18n="lblRefill">পরবর্তী রিফিলের তারিখ</label>
-                    <div class="rx-input-wrap">
-                      <i class="bi bi-calendar-check rx-input-icon"></i>
-                      <input type="date" id="rxRefill" class="rx-input">
-                    </div>
-                  </div>
-
-                  <!-- Notes -->
-                  <div class="col-12">
-                    <label class="rx-label" for="rxNotes" data-rx-i18n="lblNotes">নোট (ঐচ্ছিক)</label>
-                    <textarea id="rxNotes" class="rx-input rx-textarea" rows="3"
-                      placeholder="অতিরিক্ত নির্দেশনা বা নোট…"></textarea>
-                  </div>
-
-                </div><!-- /row g-3 -->
-
-                <!-- Save button -->
-                <div class="mt-4">
-                  <button type="submit" class="rx-save-btn">
-                    <i class="bi bi-floppy-fill me-2"></i>
-                    <span data-rx-i18n="btnSave">প্রেসক্রিপশন সংরক্ষণ করুন</span>
-                  </button>
+                <!-- Section heading -->
+                <div class="rx-section-heading d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h2 class="rx-section-title mb-0">
+                        <i class="bi bi-cloud-arrow-up-fill me-2"></i>
+                        <span data-rx-i18n="uploadTitle">প্রেসক্রিপশন আপলোড করুন</span>
+                    </h2>
+                    <a href="create-prescription.html"
+                        class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 rounded-pill px-3 py-1 fw-semibold text-decoration-none">
+                        <i class="bi bi-pencil-square"></i>
+                        <span data-rx-i18n="btnCreateDigitalRx">ডিজিটাল প্রেসক্রিপশন তৈরি</span>
+                    </a>
                 </div>
 
-              </form><!-- /rxForm -->
-            </div><!-- /rx-form-card -->
-          </div><!-- /col-lg-7 -->
+                <div class="row g-4 align-items-start">
 
-        </div><!-- /row -->
-      </div><!-- /container -->
-    </section>
+                    <!-- ── LEFT: Upload zone & OCR Controls ───────────────────── -->
+                    <div class="col-lg-5">
 
-    <!-- ======================================================================
+                        <!-- Drag & Drop zone — clicking it triggers the hidden file input -->
+                        <div class="rx-upload-zone" id="rxUploadZone" role="button" tabindex="0"
+                            aria-label="Upload prescription image or PDF">
+                            <!-- Hidden native file input -->
+                            <input type="file" id="rxFileInput" accept=".jpg,.jpeg,.png,.webp,.gif,.pdf" multiple
+                                class="visually-hidden">
+
+                            <!-- Zone inner content -->
+                            <div class="rx-upload-inner">
+                                <div class="rx-upload-icon">
+                                    <i class="bi bi-cloud-arrow-up"></i>
+                                </div>
+                                <p class="rx-upload-title" data-rx-i18n="uploadSub">
+                                    ছবি বা PDF ড্র্যাগ করুন অথবা ক্লিক করে বেছে নিন
+                                </p>
+                                <div class="rx-upload-formats">
+                                    <span class="rx-format-pill">JPG</span>
+                                    <span class="rx-format-pill">PNG</span>
+                                    <span class="rx-format-pill">WebP</span>
+                                    <span class="rx-format-pill">PDF</span>
+                                </div>
+                                <button type="button" class="rx-pick-btn" id="rxPickBtn">
+                                    <i class="bi bi-folder2-open me-2"></i>
+                                    <span data-rx-i18n="uploadPick">ফাইল বেছে নিন</span>
+                                </button>
+                            </div>
+
+                            <!-- Upload progress bar (shown during compression) -->
+                            <div class="rx-progress" id="rxProgress">
+                                <div class="rx-progress-fill" id="rxProgressFill"></div>
+                                <span class="rx-progress-label" id="rxProgressLabel"></span>
+                            </div>
+                        </div>
+
+                        <!-- Preview strip — thumbnails of queued files before saving -->
+                        <div class="rx-preview-strip" id="rxPreviewStrip"></div>
+
+                        <!-- OCR status banner — hidden until OCR runs -->
+                        <div class="rx-ocr-status d-none" id="rxOcrStatus" aria-live="polite"></div>
+
+                        <!-- Sample OCR Test Action Button -->
+                        <div class="mt-3">
+                            <button type="button"
+                                class="btn btn-sm w-100 d-inline-flex align-items-center justify-content-center gap-2 py-2 rounded-3 fw-semibold"
+                                id="btnSampleOcr"
+                                style="color:#0f766e; background:#f0fdfa; border: 1.5px dashed #0d9488;">
+                                <i class="bi bi-magic fs-6"></i>
+                                <span data-rx-i18n="btnSampleOcr">নমুনা প্রেসক্রিপশনে OCR পরীক্ষা করুন (Sample
+                                    OCR)</span>
+                            </button>
+                        </div>
+
+                        <!-- OCR info note -->
+                        <p class="rx-upload-note mt-2">
+                            <i class="bi bi-lightbulb-fill text-warning me-1"></i>
+                            ছবি আপলোড করলে OCR স্বয়ংক্রিয়ভাবে ডাক্তারের নাম ও ওষুধ পড়বে।
+                            PDF আপলোডে ম্যানুয়াল পূরণ প্রয়োজন।
+                        </p>
+                    </div>
+
+                    <!-- ── RIGHT: Prescription metadata form ─────────────────── -->
+                    <div class="col-lg-7">
+                        <div class="rx-form-card">
+                            <div class="rx-form-header">
+                                <h3 data-rx-i18n="formTitle">প্রেসক্রিপশন তথ্য</h3>
+                                <p class="rx-form-sub" data-rx-i18n="formSub">ডাক্তারের তথ্য ও ওষুধের তালিকা যোগ করুন
+                                </p>
+                            </div>
+
+                            <form id="rxForm" novalidate>
+
+                                <div class="row g-3">
+
+                                    <!-- Doctor name -->
+                                    <div class="col-sm-6">
+                                        <label class="rx-label" for="rxDoctor" data-rx-i18n="lblDoctor">ডাক্তারের
+                                            নাম</label>
+                                        <div class="rx-input-wrap">
+                                            <i class="bi bi-person-badge-fill rx-input-icon"></i>
+                                            <input type="text" id="rxDoctor" class="rx-input" placeholder="Dr. ..."
+                                                autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <!-- Clinic / Hospital -->
+                                    <div class="col-sm-6">
+                                        <label class="rx-label" for="rxClinic" data-rx-i18n="lblClinic">ক্লিনিক /
+                                            হাসপাতাল</label>
+                                        <div class="rx-input-wrap">
+                                            <i class="bi bi-hospital-fill rx-input-icon"></i>
+                                            <input type="text" id="rxClinic" class="rx-input"
+                                                placeholder="হাসপাতালের নাম" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <!-- Prescription date -->
+                                    <div class="col-sm-6">
+                                        <label class="rx-label" for="rxDate" data-rx-i18n="lblDate">প্রেসক্রিপশনের
+                                            তারিখ</label>
+                                        <div class="rx-input-wrap">
+                                            <i class="bi bi-calendar3 rx-input-icon"></i>
+                                            <input type="date" id="rxDate" class="rx-input">
+                                        </div>
+                                    </div>
+
+                                    <!-- Urgency -->
+                                    <div class="col-sm-6">
+                                        <label class="rx-label" for="rxUrgency"
+                                            data-rx-i18n="lblUrgency">জরুরিত্ব</label>
+                                        <div class="rx-input-wrap">
+                                            <i class="bi bi-flag-fill rx-input-icon"></i>
+                                            <select id="rxUrgency" class="rx-input rx-select">
+                                                <option value="normal" data-rx-i18n="urgNormal">স্বাভাবিক</option>
+                                                <option value="followup" data-rx-i18n="urgFollowup">ফলো-আপ প্রয়োজন
+                                                </option>
+                                                <option value="urgent" data-rx-i18n="urgUrgent">জরুরি</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Medications tag input -->
+                                    <div class="col-12">
+                                        <label class="rx-label" data-rx-i18n="lblMeds">ওষুধের তালিকা</label>
+                                        <!-- Chip container — chips + text input coexist here -->
+                                        <div class="rx-med-tags-wrap" id="rxMedTagsWrap">
+                                            <input type="text" id="rxMedInput" class="rx-med-input"
+                                                placeholder="ওষুধের নাম লিখুন, Enter চাপুন"
+                                                data-rx-i18n-placeholder="medsPlaceholder" autocomplete="off">
+                                        </div>
+                                        <p class="rx-field-hint">
+                                            <i class="bi bi-info-circle me-1"></i>
+                                            প্রতিটি ওষুধের নাম লিখে Enter অথবা কমা (,) চাপুন
+                                        </p>
+                                    </div>
+
+                                    <!-- Diagnosis -->
+                                    <div class="col-sm-6">
+                                        <label class="rx-label" for="rxDiagnosis" data-rx-i18n="lblDiagnosis">রোগনির্ণয়
+                                            / অসুস্থতা</label>
+                                        <div class="rx-input-wrap">
+                                            <i class="bi bi-clipboard2-pulse rx-input-icon"></i>
+                                            <input type="text" id="rxDiagnosis" class="rx-input"
+                                                placeholder="যেমন: উচ্চ রক্তচাপ, ডায়াবেটিস" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <!-- Refill date -->
+                                    <div class="col-sm-6">
+                                        <label class="rx-label" for="rxRefill" data-rx-i18n="lblRefill">পরবর্তী রিফিলের
+                                            তারিখ</label>
+                                        <div class="rx-input-wrap">
+                                            <i class="bi bi-calendar-check rx-input-icon"></i>
+                                            <input type="date" id="rxRefill" class="rx-input">
+                                        </div>
+                                    </div>
+
+                                    <!-- Notes -->
+                                    <div class="col-12">
+                                        <label class="rx-label" for="rxNotes" data-rx-i18n="lblNotes">নোট
+                                            (ঐচ্ছিক)</label>
+                                        <textarea id="rxNotes" class="rx-input rx-textarea" rows="3"
+                                            placeholder="অতিরিক্ত নির্দেশনা বা নোট…"></textarea>
+                                    </div>
+
+                                </div><!-- /row g-3 -->
+
+                                <!-- Save button -->
+                                <div class="mt-4">
+                                    <button type="submit" class="rx-save-btn">
+                                        <i class="bi bi-floppy-fill me-2"></i>
+                                        <span data-rx-i18n="btnSave">প্রেসক্রিপশন সংরক্ষণ করুন</span>
+                                    </button>
+                                </div>
+
+                            </form><!-- /rxForm -->
+                        </div><!-- /rx-form-card -->
+                    </div><!-- /col-lg-7 -->
+
+                </div><!-- /row -->
+            </div><!-- /container -->
+        </section>
+
+        <!-- ======================================================================
          6. GALLERY SECTION — saved prescription cards
          ====================================================================== -->
-    <section id="rxGallerySection" class="rx-section rx-section-alt">
-      <div class="container">
+        <section id="rxGallerySection" class="rx-section rx-section-alt">
+            <div class="container">
 
-        <!-- Section heading -->
-        <div class="rx-section-heading">
-          <h2 class="rx-section-title">
-            <i class="bi bi-grid-3x3-gap-fill me-2"></i>
-            <span data-rx-i18n="galleryTitle">সংরক্ষিত প্রেসক্রিপশন</span>
-          </h2>
-        </div>
+                <!-- Section heading -->
+                <div class="rx-section-heading">
+                    <h2 class="rx-section-title">
+                        <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+                        <span data-rx-i18n="galleryTitle">সংরক্ষিত প্রেসক্রিপশন</span>
+                    </h2>
+                </div>
 
-        <!-- Filter / Search / Sort toolbar -->
-        <div class="rx-toolbar">
+                <!-- Filter / Search / Sort toolbar -->
+                <div class="rx-toolbar">
 
-          <!-- Live search input -->
-          <div class="rx-search-wrap">
-            <i class="bi bi-search rx-search-icon"></i>
-            <input type="search" id="rxSearch" class="rx-search-input" placeholder="ডাক্তার বা ওষুধ খুঁজুন..."
-              data-rx-i18n-placeholder="searchPh" aria-label="Search prescriptions">
-          </div>
+                    <!-- Live search input -->
+                    <div class="rx-search-wrap">
+                        <i class="bi bi-search rx-search-icon"></i>
+                        <input type="search" id="rxSearch" class="rx-search-input"
+                            placeholder="ডাক্তার বা ওষুধ খুঁজুন..." data-rx-i18n-placeholder="searchPh"
+                            aria-label="Search prescriptions">
+                    </div>
 
-          <!-- Category filter pills -->
-          <div class="rx-filter-bar" role="group" aria-label="Filter by urgency">
-            <button class="rx-filter-pill active" data-filter="all" data-rx-i18n="filterAll">সব</button>
-            <button class="rx-filter-pill" data-filter="normal" data-rx-i18n="filterNormal">স্বাভাবিক</button>
-            <button class="rx-filter-pill" data-filter="followup" data-rx-i18n="filterFollowup">ফলো-আপ</button>
-            <button class="rx-filter-pill" data-filter="urgent" data-rx-i18n="filterUrgent">জরুরি</button>
-          </div>
+                    <!-- Category filter pills -->
+                    <div class="rx-filter-bar" role="group" aria-label="Filter by urgency">
+                        <button class="rx-filter-pill active" data-filter="all" data-rx-i18n="filterAll">সব</button>
+                        <button class="rx-filter-pill" data-filter="normal"
+                            data-rx-i18n="filterNormal">স্বাভাবিক</button>
+                        <button class="rx-filter-pill" data-filter="followup"
+                            data-rx-i18n="filterFollowup">ফলো-আপ</button>
+                        <button class="rx-filter-pill" data-filter="urgent" data-rx-i18n="filterUrgent">জরুরি</button>
+                    </div>
 
-          <!-- Sort select -->
-          <div class="rx-sort-wrap">
-            <i class="bi bi-sort-down rx-sort-icon"></i>
-            <select id="rxSortSelect" class="rx-sort-select" aria-label="Sort prescriptions">
-              <option value="new" data-rx-i18n="sortNew">নতুন আগে</option>
-              <option value="old" data-rx-i18n="sortOld">পুরনো আগে</option>
-              <option value="doctor" data-rx-i18n="sortDoctor">ডাক্তার</option>
-            </select>
-          </div>
+                    <!-- Sort select -->
+                    <div class="rx-sort-wrap">
+                        <i class="bi bi-sort-down rx-sort-icon"></i>
+                        <select id="rxSortSelect" class="rx-sort-select" aria-label="Sort prescriptions">
+                            <option value="new" data-rx-i18n="sortNew">নতুন আগে</option>
+                            <option value="old" data-rx-i18n="sortOld">পুরনো আগে</option>
+                            <option value="doctor" data-rx-i18n="sortDoctor">ডাক্তার</option>
+                        </select>
+                    </div>
 
-        </div><!-- /rx-toolbar -->
+                </div><!-- /rx-toolbar -->
 
-        <!-- Gallery card grid — populated by rxRenderGallery() -->
-        <div class="rx-gallery" id="rxGallery" aria-live="polite" aria-label="Prescription gallery"></div>
+                <!-- Gallery card grid — populated by rxRenderGallery() -->
+                <div class="rx-gallery" id="rxGallery" aria-live="polite" aria-label="Prescription gallery"></div>
 
-      </div>
-    </section>
+            </div>
+        </section>
 
-    <!-- ======================================================================
+        <!-- ======================================================================
          7. SHARE & EXPORT SECTION
          JSON backup, URL share, print, and family import (read-only view)
          ====================================================================== -->
-    <section id="rxShareSection" class="rx-section">
-      <div class="container">
+        <section id="rxShareSection" class="rx-section">
+            <div class="container">
 
-        <!-- Section heading with eyebrow & vault status -->
-        <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
-          <div>
-            <div class="rx-section-badge">
-              <i class="bi bi-people-fill text-success"></i>
-              <span data-rx-i18n="shareBadge">পারিবারিক শেয়ার ও ব্যাকআপ</span>
-            </div>
-            <h2 class="rx-section-title mt-1 mb-1">
-              <i class="bi bi-share-fill me-2 text-primary"></i>
-              <span data-rx-i18n="shareTitle">পরিবারের সাথে শেয়ার করুন</span>
-            </h2>
-            <p class="rx-section-sub mb-0" data-rx-i18n="shareSub">
-              আপনার ছেলে বা মেয়ে যেকোনো স্থান থেকে প্রেসক্রিপশন দেখতে পারবেন
-            </p>
-          </div>
-          <div class="rx-share-stat-pill" id="rxShareVaultPill">
-            <i class="bi bi-shield-check text-primary"></i>
-            <span id="rxShareVaultCount">ভল্ট প্রস্তুত</span>
-          </div>
-        </div>
-
-        <div class="row g-4 align-items-stretch">
-
-          <!-- ── Column 1: Share & Family WhatsApp (Export Card) ────────────── -->
-          <div class="col-lg-6">
-            <div class="rx-share-card">
-              <div class="d-flex align-items-center justify-content-between mb-3">
-                <h3 class="rx-share-title mb-0">
-                  <i class="bi bi-send-check-fill me-2"></i>
-                  <span data-rx-i18n="shareCardExportTitle">শেয়ার ও এক্সপোর্ট অপশন</span>
-                </h3>
-                <span class="rx-share-pill-secure">
-                  <i class="bi bi-shield-lock-fill"></i>
-                  <span data-rx-i18n="shareSecurityBadge">নিরাপদ ও রিড-অনলি</span>
-                </span>
-              </div>
-              <p class="rx-share-sub" data-rx-i18n="shareSub">
-                আপনার ছেলে বা মেয়ে দূর থেকে প্রেসক্রিপশন দেখতে পারবেন
-              </p>
-
-              <!-- Dedicated WhatsApp Action Box -->
-              <div class="rx-whatsapp-box">
-                <button type="button" class="rx-whatsapp-btn" id="rxBtnWhatsApp">
-                  <i class="bi bi-whatsapp"></i>
-                  <span data-rx-i18n="btnWhatsAppShare">হোয়াটসঅ্যাপে ছেলে/মেয়েকে পাঠান</span>
-                </button>
-                <div class="d-flex justify-content-between align-items-center mt-2.5">
-                  <span class="rx-msg-preview-label" data-rx-i18n="msgPreviewTitle">মেসেজের প্রিভিউ:</span>
-                  <button type="button" class="rx-btn-copy-msg" id="rxBtnCopyMsg" data-rx-i18n="btnCopyReport">
-                    <i class="bi bi-clipboard"></i> <span>মেসেজ কপি করুন</span>
-                  </button>
+                <!-- Section heading with eyebrow & vault status -->
+                <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+                    <div>
+                        <div class="rx-section-badge">
+                            <i class="bi bi-people-fill text-success"></i>
+                            <span data-rx-i18n="shareBadge">পারিবারিক শেয়ার ও ব্যাকআপ</span>
+                        </div>
+                        <h2 class="rx-section-title mt-1 mb-1">
+                            <i class="bi bi-share-fill me-2 text-primary"></i>
+                            <span data-rx-i18n="shareTitle">পরিবারের সাথে শেয়ার করুন</span>
+                        </h2>
+                        <p class="rx-section-sub mb-0" data-rx-i18n="shareSub">
+                            আপনার ছেলে বা মেয়ে যেকোনো স্থান থেকে প্রেসক্রিপশন দেখতে পারবেন
+                        </p>
+                    </div>
+                    <div class="rx-share-stat-pill" id="rxShareVaultPill">
+                        <i class="bi bi-shield-check text-primary"></i>
+                        <span id="rxShareVaultCount">ভল্ট প্রস্তুত</span>
+                    </div>
                 </div>
-                <div class="rx-msg-preview-box" id="rxWhatsappMsgPreview">রিপোর্ট তৈরি হচ্ছে...</div>
-              </div>
 
-              <!-- Multi-Channel Export Grid -->
-              <div class="rx-share-grid">
-                <button type="button" class="rx-action-tile json" id="rxBtnJson">
-                  <div class="rx-tile-icon"><i class="bi bi-filetype-json"></i></div>
-                  <div class="rx-tile-text">
-                    <strong data-rx-i18n="btnJson">JSON ব্যাকআপ</strong>
-                    <span class="rx-tile-sub">ফটোসহ অফলাইন ফাইল</span>
-                  </div>
-                </button>
+                <div class="row g-4 align-items-stretch">
 
-                <button type="button" class="rx-action-tile link" id="rxBtnLink">
-                  <div class="rx-tile-icon"><i class="bi bi-link-45deg"></i></div>
-                  <div class="rx-tile-text">
-                    <strong data-rx-i18n="btnLink">শেয়ার লিংক</strong>
-                    <span class="rx-tile-sub">লিংক রিফ্রেশ করুন</span>
-                  </div>
-                </button>
+                    <!-- ── Column 1: Share & Family WhatsApp (Export Card) ────────────── -->
+                    <div class="col-lg-6">
+                        <div class="rx-share-card">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <h3 class="rx-share-title mb-0">
+                                    <i class="bi bi-send-check-fill me-2"></i>
+                                    <span data-rx-i18n="shareCardExportTitle">শেয়ার ও এক্সপোর্ট অপশন</span>
+                                </h3>
+                                <span class="rx-share-pill-secure">
+                                    <i class="bi bi-shield-lock-fill"></i>
+                                    <span data-rx-i18n="shareSecurityBadge">নিরাপদ ও রিড-অনলি</span>
+                                </span>
+                            </div>
+                            <p class="rx-share-sub" data-rx-i18n="shareSub">
+                                আপনার ছেলে বা মেয়ে দূর থেকে প্রেসক্রিপশন দেখতে পারবেন
+                            </p>
 
-                <button type="button" class="rx-action-tile print" id="rxBtnPrint">
-                  <div class="rx-tile-icon"><i class="bi bi-printer-fill"></i></div>
-                  <div class="rx-tile-text">
-                    <strong data-rx-i18n="btnPrint">প্রিন্ট / PDF</strong>
-                    <span class="rx-tile-sub">মেডিকেল সামারি শিট</span>
-                  </div>
-                </button>
+                            <!-- Dedicated WhatsApp Action Box -->
+                            <div class="rx-whatsapp-box">
+                                <button type="button" class="rx-whatsapp-btn" id="rxBtnWhatsApp">
+                                    <i class="bi bi-whatsapp"></i>
+                                    <span data-rx-i18n="btnWhatsAppShare">হোয়াটসঅ্যাপে ছেলে/মেয়েকে পাঠান</span>
+                                </button>
+                                <div class="d-flex justify-content-between align-items-center mt-2.5">
+                                    <span class="rx-msg-preview-label" data-rx-i18n="msgPreviewTitle">মেসেজের
+                                        প্রিভিউ:</span>
+                                    <button type="button" class="rx-btn-copy-msg" id="rxBtnCopyMsg"
+                                        data-rx-i18n="btnCopyReport">
+                                        <i class="bi bi-clipboard"></i> <span>মেসেজ কপি করুন</span>
+                                    </button>
+                                </div>
+                                <div class="rx-msg-preview-box" id="rxWhatsappMsgPreview">রিপোর্ট তৈরি হচ্ছে...</div>
+                            </div>
 
-                <button type="button" class="rx-action-tile summary" id="rxBtnCopySummary">
-                  <div class="rx-tile-icon"><i class="bi bi-card-text"></i></div>
-                  <div class="rx-tile-text">
-                    <strong data-rx-i18n="btnCopySummary">টেক্সট সামারি</strong>
-                    <span class="rx-tile-sub">ক্লিপবোর্ডে কপি করুন</span>
-                  </div>
-                </button>
-              </div>
+                            <!-- Multi-Channel Export Grid -->
+                            <div class="rx-share-grid">
+                                <button type="button" class="rx-action-tile json" id="rxBtnJson">
+                                    <div class="rx-tile-icon"><i class="bi bi-filetype-json"></i></div>
+                                    <div class="rx-tile-text">
+                                        <strong data-rx-i18n="btnJson">JSON ব্যাকআপ</strong>
+                                        <span class="rx-tile-sub">ফটোসহ অফলাইন ফাইল</span>
+                                    </div>
+                                </button>
 
-              <!-- Share URL Input Row -->
-              <div class="rx-link-row mt-3">
-                <div class="rx-link-input-wrap">
-                  <i class="bi bi-link-45deg rx-link-lead-icon"></i>
-                  <input type="url" id="rxShareUrlInput" class="rx-link-input" readonly
-                    placeholder="শেয়ার লিংক এখানে দেখাবে…" aria-label="Share URL">
-                </div>
-                <button type="button" class="rx-copy-btn" id="rxCopyBtn" aria-label="Copy share link">
-                  <i class="bi bi-clipboard"></i>
-                  <span data-rx-i18n="btnCopy">কপি</span>
-                </button>
-              </div>
+                                <button type="button" class="rx-action-tile link" id="rxBtnLink">
+                                    <div class="rx-tile-icon"><i class="bi bi-link-45deg"></i></div>
+                                    <div class="rx-tile-text">
+                                        <strong data-rx-i18n="btnLink">শেয়ার লিংক</strong>
+                                        <span class="rx-tile-sub">লিংক রিফ্রেশ করুন</span>
+                                    </div>
+                                </button>
 
-              <!-- Note -->
-              <p class="rx-link-note mt-2.5" data-rx-i18n="linkNote">
-                <i class="bi bi-info-circle me-1"></i>
-                <span>শেয়ার লিংকে ফাইল থাকবে না — শুধু প্রেসক্রিপশন তথ্য থাকবে। পূর্ণ ব্যাকআপের জন্য JSON ব্যবহার
-                  করুন।</span>
-              </p>
-            </div>
-          </div>
+                                <button type="button" class="rx-action-tile print" id="rxBtnPrint">
+                                    <div class="rx-tile-icon"><i class="bi bi-printer-fill"></i></div>
+                                    <div class="rx-tile-text">
+                                        <strong data-rx-i18n="btnPrint">প্রিন্ট / PDF</strong>
+                                        <span class="rx-tile-sub">মেডিকেল সামারি শিট</span>
+                                    </div>
+                                </button>
 
-          <!-- ── Column 2: Family Import & Read-Only View ───────────────────── -->
-          <div class="col-lg-6">
-            <div class="rx-family-card">
-              <!-- Header with avatars -->
-              <div class="rx-family-top">
-                <div class="rx-family-avatars">
-                  <div class="rx-avatar" title="পিতা / মাতা">👴</div>
-                  <div class="rx-avatar" title="কন্যা / পুত্র">👩</div>
-                  <div class="rx-avatar" title="পরিবার">👦</div>
-                </div>
-                <div>
-                  <h3 class="rx-family-title" data-rx-i18n="familyTitle">পরিবার দেখার মোড</h3>
-                  <p class="rx-family-desc mb-0" data-rx-i18n="familyDesc">
-                    JSON ব্যাকআপ পরিবারকে পাঠান। তারা এখানে আমদানি করলে শুধু দেখতে পাবেন।
-                  </p>
-                </div>
-              </div>
+                                <button type="button" class="rx-action-tile summary" id="rxBtnCopySummary">
+                                    <div class="rx-tile-icon"><i class="bi bi-card-text"></i></div>
+                                    <div class="rx-tile-text">
+                                        <strong data-rx-i18n="btnCopySummary">টেক্সট সামারি</strong>
+                                        <span class="rx-tile-sub">ক্লিপবোর্ডে কপি করুন</span>
+                                    </div>
+                                </button>
+                            </div>
 
-              <!-- 3-Step Visual Guide -->
-              <div class="rx-family-steps">
-                <div class="rx-step-item">
-                  <div class="rx-step-num">১</div>
-                  <div class="rx-step-body">
-                    <strong data-rx-i18n="step1Title">ব্যাকআপ তৈরি</strong>
-                    <p data-rx-i18n="step1Desc">JSON ব্যাকআপ বা মেসেজ কপি করে ছেলে/মেয়েকে পাঠান</p>
-                  </div>
-                </div>
-                <div class="rx-step-item">
-                  <div class="rx-step-num">২</div>
-                  <div class="rx-step-body">
-                    <strong data-rx-i18n="step2Title">ফ্যামিলি ইমপোর্ট</strong>
-                    <p data-rx-i18n="step2Desc">পরিবারের সদস্য এখানে ফাইল ড্রপ করে সহজেই লোড করতে পারেন</p>
-                  </div>
-                </div>
-                <div class="rx-step-item">
-                  <div class="rx-step-num">৩</div>
-                  <div class="rx-step-body">
-                    <strong data-rx-i18n="step3Title">রিড-অনলি মনিটরিং</strong>
-                    <p data-rx-i18n="step3Desc">কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত দেখা যাবে</p>
-                  </div>
-                </div>
-              </div>
+                            <!-- Share URL Input Row -->
+                            <div class="rx-link-row mt-3">
+                                <div class="rx-link-input-wrap">
+                                    <i class="bi bi-link-45deg rx-link-lead-icon"></i>
+                                    <input type="url" id="rxShareUrlInput" class="rx-link-input" readonly
+                                        placeholder="শেয়ার লিংক এখানে দেখাবে…" aria-label="Share URL">
+                                </div>
+                                <button type="button" class="rx-copy-btn" id="rxCopyBtn" aria-label="Copy share link">
+                                    <i class="bi bi-clipboard"></i>
+                                    <span data-rx-i18n="btnCopy">কপি</span>
+                                </button>
+                            </div>
 
-              <!-- Interactive Drag & Drop Import Dropzone -->
-              <div class="rx-import-dropzone" id="rxImportDropZone" role="button" tabindex="0">
-                <input type="file" id="rxImportInput" accept=".json,application/json" class="visually-hidden">
-                <div class="rx-import-dropzone-inner">
-                  <div class="rx-import-icon-wrap">
-                    <i class="bi bi-cloud-arrow-down-fill"></i>
-                  </div>
-                  <div class="rx-import-drop-text">
-                    <strong data-rx-i18n="importDropTitle">JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে নিন</strong>
-                    <span data-rx-i18n="importDropHint">BreatheWell ব্যাকআপ ফাইল (.json) সমর্থিত</span>
-                  </div>
-                  <span class="rx-import-btn-pill">
-                    <i class="bi bi-folder2-open me-1"></i> <span data-rx-i18n="importBtn">JSON আমদানি করুন</span>
-                  </span>
-                </div>
-              </div>
+                            <!-- Note -->
+                            <p class="rx-link-note mt-2.5" data-rx-i18n="linkNote">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <span>শেয়ার লিংকে ফাইল থাকবে না — শুধু প্রেসক্রিপশন তথ্য থাকবে। পূর্ণ ব্যাকআপের জন্য
+                                    JSON ব্যবহার
+                                    করুন।</span>
+                            </p>
+                        </div>
+                    </div>
 
-              <!-- Staged Import Preview Box (Appears when JSON file is loaded) -->
-              <div class="rx-import-preview-box d-none" id="rxImportPreview">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <div class="rx-import-preview-badge">
-                    <i class="bi bi-check-circle-fill text-success me-1"></i>
-                    <strong id="rxImportCountBadge">৩টি প্রেসক্রিপশন</strong>
-                  </div>
-                  <span class="rx-import-file-meta" id="rxImportFileMeta"></span>
-                </div>
-                <div class="rx-import-preview-list" id="rxImportList"></div>
-                <div class="rx-import-actions mt-3">
-                  <button type="button" class="rx-btn-import-merge" id="rxBtnMergeImport">
-                    <i class="bi bi-plus-circle-fill me-1"></i>
-                    <span data-rx-i18n="importMergeBtn">নতুনগুলো যোগ করুন (Merge)</span>
-                  </button>
-                  <button type="button" class="rx-btn-import-replace" id="rxBtnReplaceImport">
-                    <i class="bi bi-arrow-repeat me-1"></i>
-                    <span data-rx-i18n="importReplaceBtn">সম্পূর্ণ প্রতিস্থাপন (Replace)</span>
-                  </button>
-                  <button type="button" class="rx-btn-import-cancel" id="rxBtnCancelImport">
-                    <i class="bi bi-x-circle me-1"></i>
-                    <span data-rx-i18n="importCancelBtn">বাতিল</span>
-                  </button>
-                </div>
-              </div>
+                    <!-- ── Column 2: Family Import & Read-Only View ───────────────────── -->
+                    <div class="col-lg-6">
+                        <div class="rx-family-card">
+                            <!-- Header with avatars -->
+                            <div class="rx-family-top">
+                                <div class="rx-family-avatars">
+                                    <div class="rx-avatar" title="পিতা / মাতা">👴</div>
+                                    <div class="rx-avatar" title="কন্যা / পুত্র">👩</div>
+                                    <div class="rx-avatar" title="পরিবার">👦</div>
+                                </div>
+                                <div>
+                                    <h3 class="rx-family-title" data-rx-i18n="familyTitle">পরিবার দেখার মোড</h3>
+                                    <p class="rx-family-desc mb-0" data-rx-i18n="familyDesc">
+                                        JSON ব্যাকআপ পরিবারকে পাঠান। তারা এখানে আমদানি করলে শুধু দেখতে পাবেন।
+                                    </p>
+                                </div>
+                            </div>
 
-              <!-- Test Read-Only View Button -->
-              <div class="rx-family-footer-bar mt-auto">
-                <a href="#" id="rxBtnTestView" class="rx-test-view-link" target="_blank" rel="noopener">
-                  <i class="bi bi-eye-fill me-1.5"></i>
-                  <span data-rx-i18n="btnTestView">পরিবার কীভাবে দেখবে তা পরীক্ষা করুন</span>
-                  <i class="bi bi-arrow-up-right ms-1"></i>
-                </a>
-              </div>
+                            <!-- 3-Step Visual Guide -->
+                            <div class="rx-family-steps">
+                                <div class="rx-step-item">
+                                    <div class="rx-step-num">১</div>
+                                    <div class="rx-step-body">
+                                        <strong data-rx-i18n="step1Title">ব্যাকআপ তৈরি</strong>
+                                        <p data-rx-i18n="step1Desc">JSON ব্যাকআপ বা মেসেজ কপি করে ছেলে/মেয়েকে পাঠান</p>
+                                    </div>
+                                </div>
+                                <div class="rx-step-item">
+                                    <div class="rx-step-num">২</div>
+                                    <div class="rx-step-body">
+                                        <strong data-rx-i18n="step2Title">ফ্যামিলি ইমপোর্ট</strong>
+                                        <p data-rx-i18n="step2Desc">পরিবারের সদস্য এখানে ফাইল ড্রপ করে সহজেই লোড করতে
+                                            পারেন</p>
+                                    </div>
+                                </div>
+                                <div class="rx-step-item">
+                                    <div class="rx-step-num">৩</div>
+                                    <div class="rx-step-body">
+                                        <strong data-rx-i18n="step3Title">রিড-অনলি মনিটরিং</strong>
+                                        <p data-rx-i18n="step3Desc">কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত
+                                            দেখা যাবে</p>
+                                    </div>
+                                </div>
+                            </div>
 
-            </div>
-          </div>
+                            <!-- Interactive Drag & Drop Import Dropzone -->
+                            <div class="rx-import-dropzone" id="rxImportDropZone" role="button" tabindex="0">
+                                <input type="file" id="rxImportInput" accept=".json,application/json"
+                                    class="visually-hidden">
+                                <div class="rx-import-dropzone-inner">
+                                    <div class="rx-import-icon-wrap">
+                                        <i class="bi bi-cloud-arrow-down-fill"></i>
+                                    </div>
+                                    <div class="rx-import-drop-text">
+                                        <strong data-rx-i18n="importDropTitle">JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে
+                                            নিন</strong>
+                                        <span data-rx-i18n="importDropHint">BreatheWell ব্যাকআপ ফাইল (.json)
+                                            সমর্থিত</span>
+                                    </div>
+                                    <span class="rx-import-btn-pill">
+                                        <i class="bi bi-folder2-open me-1"></i> <span data-rx-i18n="importBtn">JSON
+                                            আমদানি করুন</span>
+                                    </span>
+                                </div>
+                            </div>
 
-        </div><!-- /row -->
-      </div><!-- /container -->
-    </section>
+                            <!-- Staged Import Preview Box (Appears when JSON file is loaded) -->
+                            <div class="rx-import-preview-box d-none" id="rxImportPreview">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="rx-import-preview-badge">
+                                        <i class="bi bi-check-circle-fill text-success me-1"></i>
+                                        <strong id="rxImportCountBadge">৩টি প্রেসক্রিপশন</strong>
+                                    </div>
+                                    <span class="rx-import-file-meta" id="rxImportFileMeta"></span>
+                                </div>
+                                <div class="rx-import-preview-list" id="rxImportList"></div>
+                                <div class="rx-import-actions mt-3">
+                                    <button type="button" class="rx-btn-import-merge" id="rxBtnMergeImport">
+                                        <i class="bi bi-plus-circle-fill me-1"></i>
+                                        <span data-rx-i18n="importMergeBtn">নতুনগুলো যোগ করুন (Merge)</span>
+                                    </button>
+                                    <button type="button" class="rx-btn-import-replace" id="rxBtnReplaceImport">
+                                        <i class="bi bi-arrow-repeat me-1"></i>
+                                        <span data-rx-i18n="importReplaceBtn">সম্পূর্ণ প্রতিস্থাপন (Replace)</span>
+                                    </button>
+                                    <button type="button" class="rx-btn-import-cancel" id="rxBtnCancelImport">
+                                        <i class="bi bi-x-circle me-1"></i>
+                                        <span data-rx-i18n="importCancelBtn">বাতিল</span>
+                                    </button>
+                                </div>
+                            </div>
 
-  </main>
+                            <!-- Test Read-Only View Button -->
+                            <div class="rx-family-footer-bar mt-auto">
+                                <a href="#" id="rxBtnTestView" class="rx-test-view-link" target="_blank" rel="noopener">
+                                    <i class="bi bi-eye-fill me-1.5"></i>
+                                    <span data-rx-i18n="btnTestView">পরিবার কীভাবে দেখবে তা পরীক্ষা করুন</span>
+                                    <i class="bi bi-arrow-up-right ms-1"></i>
+                                </a>
+                            </div>
 
-  <!-- ========================================================================
+                        </div>
+                    </div>
+
+                </div><!-- /row -->
+            </div><!-- /container -->
+        </section>
+
+    </main>
+
+    <!-- ========================================================================
        8. GLOBAL FOOTER
        ======================================================================== -->
-  <footer>
-    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-rx-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
-          প্রশান্তি</span></span>
-      <span data-rx-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
-    </div>
-  </footer>
+    <footer>
+        <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+            <span><strong class="text-primary">BreatheWell</strong> · <span data-rx-i18n="footerTag">প্রতিটি নিঃশ্বাসে
+                    একটি
+                    প্রশান্তি</span></span>
+            <span data-rx-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+        </div>
+    </footer>
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        9. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
-  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
-    <div class="drawer-handle-pill" aria-hidden="true"></div>
-    <div class="mobile-nav-items">
-      <a class="mobile-nav-link" href="index.html" aria-label="Home">
-        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
-        <span class="nav-label" data-rx-i18n="navHome">হোম</span>
-      </a>
-      <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
-        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-rx-i18n="navExercises">অনুশীলন</span>
-      </a>
-      <a class="mobile-nav-link" href="breath-test.html" aria-label="Breath Test">
-        <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
-        <span class="nav-label" data-rx-i18n="navTest">শ্বাসের পরীক্ষা</span>
-      </a>
-      <button type="button" class="mobile-nav-link active" id="mobileMoreBtn" aria-current="page"
-        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
-        aria-label="More navigation options">
-        <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
-        <span class="nav-label" data-rx-i18n="navMore">আরও</span>
-      </button>
-    </div>
-  </nav>
+    <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+        <div class="drawer-handle-pill" aria-hidden="true"></div>
+        <div class="mobile-nav-items">
+            <a class="mobile-nav-link" href="index.html" aria-label="Home">
+                <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+                <span class="nav-label" data-rx-i18n="navHome">হোম</span>
+            </a>
+            <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
+                <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+                <span class="nav-label" data-rx-i18n="navExercises">অনুশীলন</span>
+            </a>
+            <a class="mobile-nav-link" href="breath-test.html" aria-label="Breath Test">
+                <div class="nav-icon-wrap"><i class="bi bi-stopwatch-fill"></i></div>
+                <span class="nav-label" data-rx-i18n="navTest">শ্বাসের পরীক্ষা</span>
+            </a>
+            <button type="button" class="mobile-nav-link active" id="mobileMoreBtn" aria-current="page"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
+                aria-label="More navigation options">
+                <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
+                <span class="nav-label" data-rx-i18n="navMore">আরও</span>
+            </button>
+        </div>
+    </nav>
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        MOBILE SIDEBAR DRAWER (< 992px)
        Sliding drawer navigation menu from the right side
        ======================================================================== -->
-  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
-    aria-labelledby="mobileSidebarMenuLabel">
-    <div class="offcanvas-header mobile-sidebar-header">
-      <div class="mobile-sidebar-brand">
-        <span class="brand-mark"><i class="bi bi-wind"></i></span>
-        <div>
-          <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
-          <p class="mobile-sidebar-subtitle" data-rx-i18n="sidebarBrandSub">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+    <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+        aria-labelledby="mobileSidebarMenuLabel">
+        <div class="offcanvas-header mobile-sidebar-header">
+            <div class="mobile-sidebar-brand">
+                <span class="brand-mark"><i class="bi bi-wind"></i></span>
+                <div>
+                    <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
+                    <p class="mobile-sidebar-subtitle" data-rx-i18n="sidebarBrandSub">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস
+                    </p>
+                </div>
+            </div>
+            <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
         </div>
-      </div>
-      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
-        aria-label="Close"></button>
+        <div class="offcanvas-body mobile-sidebar-body">
+            <!-- 1. Interactive Language Selector -->
+            <div class="mobile-sidebar-lang-card">
+                <div class="mobile-sidebar-lang-info">
+                    <i class="bi bi-translate text-primary"></i>
+                    <span class="mobile-sidebar-lang-title" data-rx-i18n="langSelectTitle">ভাষা পরিবর্তন</span>
+                </div>
+                <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
+                    <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
+                    <button type="button" class="mobile-lang-pill" data-lang="en">English</button>
+                </div>
+            </div>
+
+            <!-- 2. Main Navigation Links -->
+            <div class="mobile-sidebar-section-title" data-rx-i18n="navPagesTitle">পেজ ও মডিউল</div>
+            <div class="mobile-sidebar-nav-list">
+                <a class="mobile-sidebar-nav-item" href="index.html">
+                    <div class="mobile-sidebar-icon-box text-primary">
+                        <i class="bi bi-house-door-fill"></i>
+                    </div>
+                    <div class="mobile-sidebar-text">
+                        <span class="mobile-sidebar-label" data-rx-i18n="navHome">হোম</span>
+                        <span class="mobile-sidebar-sub" data-rx-i18n="navHomeSub">মূল পাতা ও ফিচারসমূহ</span>
+                    </div>
+                    <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+                </a>
+
+                <a class="mobile-sidebar-nav-item" href="exercises.html">
+                    <div class="mobile-sidebar-icon-box text-success">
+                        <i class="bi bi-grid-fill"></i>
+                    </div>
+                    <div class="mobile-sidebar-text">
+                        <span class="mobile-sidebar-label" data-rx-i18n="navExercises">অনুশীলন</span>
+                        <span class="mobile-sidebar-sub" data-rx-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম
+                            লাইব্রেরি</span>
+                    </div>
+                    <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+                </a>
+
+                <a class="mobile-sidebar-nav-item" href="breath-test.html">
+                    <div class="mobile-sidebar-icon-box text-info">
+                        <i class="bi bi-stopwatch-fill"></i>
+                    </div>
+                    <div class="mobile-sidebar-text">
+                        <span class="mobile-sidebar-label" data-rx-i18n="navTest">শ্বাসের পরীক্ষা</span>
+                        <span class="mobile-sidebar-sub" data-rx-i18n="navTestSub">BOLT ও BPM রেসপিরেটরি টেস্ট</span>
+                    </div>
+                    <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+                </a>
+
+                <a class="mobile-sidebar-nav-item" href="health-tracker.html">
+                    <div class="mobile-sidebar-icon-box text-danger">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                    <div class="mobile-sidebar-text">
+                        <span class="mobile-sidebar-label" data-rx-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+                        <span class="mobile-sidebar-sub" data-rx-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস
+                            ট্র্যাকার</span>
+                    </div>
+                    <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+                </a>
+
+                <a class="mobile-sidebar-nav-item active" href="prescriptions.html" aria-current="page">
+                    <div class="mobile-sidebar-icon-box text-primary">
+                        <i class="bi bi-file-earmark-medical-fill"></i>
+                    </div>
+                    <div class="mobile-sidebar-text">
+                        <span class="mobile-sidebar-label" data-rx-i18n="navRx">প্রেসক্রিপশন</span>
+                        <span class="mobile-sidebar-sub" data-rx-i18n="navRxSub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
+                    </div>
+                    <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+                </a>
+
+                <a class="mobile-sidebar-nav-item" href="index.html#safety">
+                    <div class="mobile-sidebar-icon-box text-warning">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div class="mobile-sidebar-text">
+                        <span class="mobile-sidebar-label" data-rx-i18n="navSafety">নিরাপত্তা</span>
+                        <span class="mobile-sidebar-sub" data-rx-i18n="navSafetySub">৩টি মূল নিয়ম ও স্বাস্থ্য
+                            নির্দেশিকা</span>
+                    </div>
+                    <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+                </a>
+            </div>
+
+            <!-- 3. Quick Action Utilities -->
+            <div class="mobile-sidebar-section-title" data-rx-i18n="quickToolsTitle">দ্রুত অ্যাকশন</div>
+            <div class="mobile-sidebar-actions-grid">
+                <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
+                    <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                    <div class="mobile-sidebar-action-text">
+                        <span class="mobile-sidebar-action-title" data-rx-i18n="quickEmergencyLabel">জরুরি শান্ত শ্বাস
+                            (SOS)</span>
+                        <span class="mobile-sidebar-action-sub" data-rx-i18n="quickEmergencySub">৪টি ধাপে তাৎক্ষণিক
+                            প্রশান্তি</span>
+                    </div>
+                </a>
+
+                <a class="mobile-sidebar-action-card" href="health-tracker.html">
+                    <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
+                        <i class="bi bi-activity"></i>
+                    </div>
+                    <div class="mobile-sidebar-action-text">
+                        <span class="mobile-sidebar-action-title" data-rx-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+                        <span class="mobile-sidebar-action-sub" data-rx-i18n="navHealthSub">রক্তচাপ ও গ্লুকোজ
+                            পর্যবেক্ষণ</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 4. Footer Disclaimer -->
+            <div class="mobile-sidebar-footer">
+                <p class="mobile-sidebar-disclaimer">
+                    <i class="bi bi-info-circle me-1"></i>
+                    <span data-rx-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+                </p>
+            </div>
+        </div>
     </div>
-    <div class="offcanvas-body mobile-sidebar-body">
-      <!-- 1. Interactive Language Selector -->
-      <div class="mobile-sidebar-lang-card">
-        <div class="mobile-sidebar-lang-info">
-          <i class="bi bi-translate text-primary"></i>
-          <span class="mobile-sidebar-lang-title" data-rx-i18n="langSelectTitle">ভাষা পরিবর্তন</span>
-        </div>
-        <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
-          <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
-          <button type="button" class="mobile-lang-pill" data-lang="en">English</button>
-        </div>
-      </div>
 
-      <!-- 2. Main Navigation Links -->
-      <div class="mobile-sidebar-section-title" data-rx-i18n="navPagesTitle">পেজ ও মডিউল</div>
-      <div class="mobile-sidebar-nav-list">
-        <a class="mobile-sidebar-nav-item" href="index.html">
-          <div class="mobile-sidebar-icon-box text-primary">
-            <i class="bi bi-house-door-fill"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-rx-i18n="navHome">হোম</span>
-            <span class="mobile-sidebar-sub" data-rx-i18n="navHomeSub">মূল পাতা ও ফিচারসমূহ</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item" href="exercises.html">
-          <div class="mobile-sidebar-icon-box text-success">
-            <i class="bi bi-grid-fill"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-rx-i18n="navExercises">অনুশীলন</span>
-            <span class="mobile-sidebar-sub" data-rx-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item" href="breath-test.html">
-          <div class="mobile-sidebar-icon-box text-info">
-            <i class="bi bi-stopwatch-fill"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-rx-i18n="navTest">শ্বাসের পরীক্ষা</span>
-            <span class="mobile-sidebar-sub" data-rx-i18n="navTestSub">BOLT ও BPM রেসপিরেটরি টেস্ট</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item" href="health-tracker.html">
-          <div class="mobile-sidebar-icon-box text-danger">
-            <i class="bi bi-heart-pulse-fill"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-rx-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
-            <span class="mobile-sidebar-sub" data-rx-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item active" href="prescriptions.html" aria-current="page">
-          <div class="mobile-sidebar-icon-box text-primary">
-            <i class="bi bi-file-earmark-medical-fill"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-rx-i18n="navRx">প্রেসক্রিপশন</span>
-            <span class="mobile-sidebar-sub" data-rx-i18n="navRxSub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item" href="index.html#safety">
-          <div class="mobile-sidebar-icon-box text-warning">
-            <i class="bi bi-shield-check"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-rx-i18n="navSafety">নিরাপত্তা</span>
-            <span class="mobile-sidebar-sub" data-rx-i18n="navSafetySub">৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-      </div>
-
-      <!-- 3. Quick Action Utilities -->
-      <div class="mobile-sidebar-section-title" data-rx-i18n="quickToolsTitle">দ্রুত অ্যাকশন</div>
-      <div class="mobile-sidebar-actions-grid">
-        <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
-          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
-            <i class="bi bi-heart-pulse-fill"></i>
-          </div>
-          <div class="mobile-sidebar-action-text">
-            <span class="mobile-sidebar-action-title" data-rx-i18n="quickEmergencyLabel">জরুরি শান্ত শ্বাস (SOS)</span>
-            <span class="mobile-sidebar-action-sub" data-rx-i18n="quickEmergencySub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
-          </div>
-        </a>
-
-        <a class="mobile-sidebar-action-card" href="health-tracker.html">
-          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
-            <i class="bi bi-activity"></i>
-          </div>
-          <div class="mobile-sidebar-action-text">
-            <span class="mobile-sidebar-action-title" data-rx-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
-            <span class="mobile-sidebar-action-sub" data-rx-i18n="navHealthSub">রক্তচাপ ও গ্লুকোজ পর্যবেক্ষণ</span>
-          </div>
-        </a>
-      </div>
-
-      <!-- 4. Footer Disclaimer -->
-      <div class="mobile-sidebar-footer">
-        <p class="mobile-sidebar-disclaimer">
-          <i class="bi bi-info-circle me-1"></i>
-          <span data-rx-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================
+    <!-- ========================================================================
        10. TOAST NOTIFICATION STACK
        ======================================================================== -->
-  <div class="rx-toast-stack" id="rxToastStack" aria-live="polite" aria-atomic="false"></div>
+    <div class="rx-toast-stack" id="rxToastStack" aria-live="polite" aria-atomic="false"></div>
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        11. FULL-SCREEN LIGHTBOX VIEWER
        Rendered by rxOpenLightbox() — image/PDF viewer with file strip
        ======================================================================== -->
-  <div class="rx-lightbox" id="rxLightbox" role="dialog" aria-modal="true" aria-label="Prescription viewer">
-    <div class="rx-lightbox-frame">
+    <div class="rx-lightbox" id="rxLightbox" role="dialog" aria-modal="true" aria-label="Prescription viewer">
+        <div class="rx-lightbox-frame">
 
-      <!-- Top bar: title, metadata, actions -->
-      <div class="rx-lightbox-topbar">
-        <div class="rx-lb-info">
-          <h3 class="rx-lightbox-title" id="lbTitle"></h3>
-          <p class="rx-lightbox-meta" id="lbMeta"></p>
-        </div>
-        <div class="rx-lightbox-actions">
-          <button class="rx-lb-btn download" id="lbDownload" aria-label="Download">
-            <i class="bi bi-download"></i>
-            <span data-rx-i18n="btnDownload">ডাউনলোড</span>
-          </button>
-          <button class="rx-lb-btn close" id="lbCloseBtn" aria-label="Close lightbox">
-            <i class="bi bi-x-lg"></i>
-            <span data-rx-i18n="btnClose">বন্ধ করুন</span>
-          </button>
-        </div>
-      </div>
+            <!-- Top bar: title, metadata, actions -->
+            <div class="rx-lightbox-topbar">
+                <div class="rx-lb-info">
+                    <h3 class="rx-lightbox-title" id="lbTitle"></h3>
+                    <p class="rx-lightbox-meta" id="lbMeta"></p>
+                </div>
+                <div class="rx-lightbox-actions">
+                    <button class="rx-lb-btn download" id="lbDownload" aria-label="Download">
+                        <i class="bi bi-download"></i>
+                        <span data-rx-i18n="btnDownload">ডাউনলোড</span>
+                    </button>
+                    <button class="rx-lb-btn close" id="lbCloseBtn" aria-label="Close lightbox">
+                        <i class="bi bi-x-lg"></i>
+                        <span data-rx-i18n="btnClose">বন্ধ করুন</span>
+                    </button>
+                </div>
+            </div>
 
-      <!-- File thumbnail strip (shown when prescription has multiple files) -->
-      <div class="rx-lb-strip" id="lbStrip"></div>
+            <!-- File thumbnail strip (shown when prescription has multiple files) -->
+            <div class="rx-lb-strip" id="lbStrip"></div>
 
-      <!-- Main viewer area — populated with <img> or <embed> for PDF -->
-      <div class="rx-lb-viewer" id="lbViewer"></div>
+            <!-- Main viewer area — populated with <img> or <embed> for PDF -->
+            <div class="rx-lb-viewer" id="lbViewer"></div>
 
-      <!-- Previous / Next navigation buttons -->
-      <button class="rx-lb-nav rx-lb-prev" id="lbPrev" aria-label="Previous file">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-      <button class="rx-lb-nav rx-lb-next" id="lbNext" aria-label="Next file">
-        <i class="bi bi-chevron-right"></i>
-      </button>
+            <!-- Previous / Next navigation buttons -->
+            <button class="rx-lb-nav rx-lb-prev" id="lbPrev" aria-label="Previous file">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="rx-lb-nav rx-lb-next" id="lbNext" aria-label="Next file">
+                <i class="bi bi-chevron-right"></i>
+            </button>
 
-    </div><!-- /rx-lightbox-frame -->
-  </div><!-- /rxLightbox -->
+        </div><!-- /rx-lightbox-frame -->
+    </div><!-- /rxLightbox -->
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        12. SCRIPT INCLUDES
        Order matters: Bootstrap → Tesseract.js OCR → App engine
        ======================================================================== -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="asset/js/prescriptions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="asset/js/prescriptions.js"></script>
 
 </body>
 

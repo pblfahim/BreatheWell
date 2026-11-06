@@ -1,989 +1,984 @@
 /**
  * ============================================================================
- * BreatheWell – Prescription Vault Engine  (prescriptions.js)
+ * BreatheWell - Prescription Vault Engine (prescriptions.js)
  * ============================================================================
  * Description:
- *   Complete client-side prescription management system. Handles drag-and-drop
- *   multi-file uploads (images + PDFs), base64 compression & storage in
- *   localStorage, metadata entry (doctor, clinic, date, medications, refill),
- *   full-screen lightbox viewer with file-strip navigation, gallery with live
- *   search / category filter / sort, JSON export/import for family sharing,
- *   read-only URL-encoded view mode, and an in-page toast notification system.
- *
- * Table of Contents:
- *   1.  Constants & Configuration
- *   2.  LocalStorage Data Layer
- *   3.  Internationalization (Bengali / English)
- *   4.  Utility Helpers
- *   5.  Image Compression Engine
- *   6.  Upload Zone — Drag & Drop & File Picker
- *   7.  Pending Upload Queue & Preview Strip
- *   8.  Metadata Form — Save Prescription
- *   9.  Gallery Render (cards, search, filter, sort)
- *   10. Prescription Card HTML Builder
- *   11. Lightbox / Full-screen Viewer
- *   12. Delete & Edit Actions
- *   13. Share & Export Engine (JSON, URL, Print)
- *   14. Family Import (JSON restore)
- *   15. Storage Gauge
- *   16. Toast Notification System
- *   17. Language Toggle
- *   18. Application Bootstrap
+ *   Complete client-side application engine for prescriptions.html.
+ *   Provides drag-and-drop file upload, in-browser canvas image compression,
+ *   Tesseract.js v5 OCR text extraction with intelligent regex parser,
+ *   auto-filling form fields with highlight feedback, medicine tag input,
+ *   localStorage vault persistence, gallery rendering, lightbox viewer,
+ *   JSON backup/restore, WhatsApp sharing, and bilingual i18n support.
  * ============================================================================
  */
 
-/* ============================================================================
- * 1. CONSTANTS & CONFIGURATION
- * ============================================================================ */
+(function () {
+  "use strict";
 
-/** localStorage key for all prescription records */
-const RX_KEY = "bw_prescriptions";
-/** localStorage key for language preference */
-const RX_LANG_KEY = "bw_lang";
-/** localStorage key for prescriptions PIN */
-const RX_PIN_KEY = "bw_rx_pin";
+  // Storage Keys
+  const RX_KEY = "bw_prescriptions";
+  const LANG_KEY = "bw_lang";
+  const PIN_KEY = "bw_rx_pin";
 
-/** Maximum compressed image dimension (px) before base64 storage */
-const MAX_IMG_DIM = 1200;
+  // Limits & Constants
+  const MAX_IMG_DIM = 1200;
+  const JPEG_QUALITY = 0.72;
+  const STORAGE_WARN_BYTES = 4 * 1024 * 1024; // 4MB
 
-/** JPEG quality for canvas compression (0–1) */
-const JPEG_QUALITY = 0.72;
+  // State
+  let currentLang = localStorage.getItem(LANG_KEY) || "bn";
+  let pendingFiles = [];
+  let currentMeds = [];
+  let galleryFilter = "all";
+  let gallerySort = "newest";
+  let gallerySearch = "";
+  let ocrWorker = null;
+  let ocrBusy = false;
+  let lbRecordList = [];
+  let lbRecordIndex = 0;
+  let lbFileIndex = 0;
+  let viewMode = false;
+  let viewModeRecords = [];
+  let stagedImportRecords = [];
+  let stagedImportFilename = "";
 
-/** Maximum total localStorage usage before warning (bytes, ~4 MB) */
-const STORAGE_WARN_BYTES = 4 * 1024 * 1024;
+  // DOM Helper
+  const $ = (id) => document.getElementById(id);
 
-/** Supported MIME types */
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "application/pdf"];
-
-/** Gallery records per render (all shown, no server pagination needed) */
-
-/* ============================================================================
- * 1b. OCR ENGINE (Tesseract.js v5 — browser-based, no server needed)
- * ============================================================================ */
-
-/**
- * Singleton Tesseract worker instance.
- * Lazily created on first OCR request to avoid startup cost.
- * @type {import('tesseract.js').Worker|null}
- */
-let ocrWorker = null;
-
-/**
- * Initialises (or returns cached) Tesseract worker loaded with Bengali+English.
- * @returns {Promise<import('tesseract.js').Worker>}
- */
-async function rxInitOCR() {
-    if (ocrWorker) return ocrWorker;
-    // Tesseract.js v5 API: createWorker(lang)
-    ocrWorker = await Tesseract.createWorker("ben+eng", 1, {
-        // suppress verbose Tesseract console logs
-        logger: () => {}
-    });
-    return ocrWorker;
-}
-
-/**
- * Runs OCR on a base64 image data URL and returns extracted raw text.
- * @param {string} imageDataUrl  base64 data URL of the image
- * @returns {Promise<string>}
- */
-async function rxRunOCR(imageDataUrl) {
-    const worker = await rxInitOCR();
-    const { data: { text } } = await worker.recognize(imageDataUrl);
-    return text || "";
-}
-
-/**
- * Heuristically parses OCR text from a Bengali/English prescription.
- * Extracts: doctor, clinic, medication names, diagnosis, refill date.
- *
- * @param {string} text  Raw OCR output
- * @returns {{ doctor: string, clinic: string, meds: string[], diagnosis: string, refillDate: string }}
- */
-function rxParseOCRText(text) {
-    const result = { doctor: "", clinic: "", meds: [], diagnosis: "", refillDate: "" };
-    if (!text) return result;
-
-    const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
-
-    // ── Doctor name ───────────────────────────────────────────────────────────
-    // Look for "Dr.", "Dr", "ডাঃ", "ডক্তার" prefixes
-    for (const line of lines) {
-        const m = line.match(/(?:Dr\.?\s*|ডাঃ\s*|ডক্তার\s*)([A-Za-z\u0980-\u09FF][A-Za-z\u0980-\u09FF\s\.]{2,50})/i);
-        if (m && !result.doctor) {
-            result.doctor = m[1].trim().replace(/\s+/g, " ");
-        }
-    }
-
-    // ── Clinic / Hospital name ────────────────────────────────────────────────
-    for (const line of lines) {
-        if (/hospital|clinic|centre|center|infirmary|হাসপাতাল|ক্লিনিক|স্বাস্থ্যকেন্দ্র|মেডিকেল/i.test(line) && !result.clinic) {
-            result.clinic = line.trim().slice(0, 100);
-        }
-    }
-
-    // ── Medications ───────────────────────────────────────────────────────────
-    // Strategy: numbered lines, Rx header, common drug keywords
-    let inMedSection = false;
-    for (const line of lines) {
-        // Detect start of medication section
-        if (/^(?:Rx|℞|R\/|medication|medicine|ওষুধ|ট্যাবলেট|cap\.|tab\.)/i.test(line)) {
-            inMedSection = true;
-        }
-        // Numbered or bulleted list items → likely a drug name
-        const numMatch = line.match(/^(?:\d+[\.\)]\s*|[•\-]\s*)([A-Za-z\u0980-\u09FF][A-Za-z\u0980-\u09FF\s]{2,40})/);
-        if (numMatch && inMedSection) {
-            const med = numMatch[1].split(/[\s,]+/)[0];
-            if (med.length > 2 && !result.meds.includes(med)) {
-                result.meds.push(med);
-            }
-        }
-        // Even outside section, lines starting with capitals that look like brand names
-        const capMatch = line.match(/^([A-Z][a-z]{3,}(?:\s+[A-Z]?[a-z]+)?)\s+(?:\d+\s*mg|\d+\s*ml|\d+\s*tab)/i);
-        if (capMatch && !result.meds.includes(capMatch[1])) {
-            result.meds.push(capMatch[1]);
-        }
-    }
-
-    // ── Diagnosis / Condition ─────────────────────────────────────────────────
-    for (const line of lines) {
-        const m = line.match(/(?:Dx|Diagnosis|Condition|রোগনির্ণয়|রোগ|অসুখ)[:\-\s]\s*(.{3,100})/i);
-        if (m && !result.diagnosis) {
-            result.diagnosis = m[1].trim();
-        }
-    }
-
-    // ── Refill / Next visit date ──────────────────────────────────────────────
-    for (const line of lines) {
-        const m = line.match(/(?:next\s+visit|follow.?up|refill|পরবর্তী|আবার\s+আসুন)[^0-9]*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4})/i);
-        if (m && !result.refillDate) {
-            const parts = m[1].split(/[\/\-\.]/);
-            if (parts.length === 3) {
-                // Guess DD/MM/YYYY format (most common in BD)
-                const yr = parts[2].length === 2 ? "20" + parts[2] : parts[2];
-                const mm = parts[1].padStart(2, "0");
-                const dd = parts[0].padStart(2, "0");
-                result.refillDate = `${yr}-${mm}-${dd}`;
-            }
-        }
-    }
-
-    return result;
-}
-
-/**
- * Orchestrates OCR on the first pending image file (PDFs are skipped).
- * Shows a status banner below the upload zone, then fills the metadata form.
- *
- * @param {string} imageDataUrl  Compressed JPEG data URL
- */
-async function rxProcessOCR(imageDataUrl) {
-    const status = $r("rxOcrStatus");
-
-    // Show loading state
-    if (status) {
-        status.className = "rx-ocr-status loading";
-        status.innerHTML = `<i class="bi bi-cpu-fill me-2"></i>
-            <span>OCR বিশ্লেষণ চলছে — ছবি থেকে তথ্য পড়া হচ্ছে…</span>
-            <span class="rx-ocr-spinner ms-2"></span>`;
-        status.classList.remove("d-none");
-    }
-
-    try {
-        const rawText = await rxRunOCR(imageDataUrl);
-        const parsed  = rxParseOCRText(rawText);
-
-        // Pre-fill form fields — only if the user hasn't typed anything yet
-        if (parsed.doctor    && !$r("rxDoctor")?.value.trim())    $r("rxDoctor").value    = parsed.doctor;
-        if (parsed.clinic    && !$r("rxClinic")?.value.trim())    $r("rxClinic").value    = parsed.clinic;
-        if (parsed.diagnosis && !$r("rxDiagnosis")?.value.trim()) $r("rxDiagnosis").value = parsed.diagnosis;
-        if (parsed.refillDate && !$r("rxRefill")?.value)          $r("rxRefill").value    = parsed.refillDate;
-
-        // Add extracted meds as chips
-        parsed.meds.forEach(med => {
-            if (!currentMeds.includes(med)) rxAddMed(med);
-        });
-
-        const foundItems = [];
-        if (parsed.doctor)         foundItems.push("ডাক্তার");
-        if (parsed.meds.length)    foundItems.push(`${parsed.meds.length}টি ওষুধ`);
-        if (parsed.diagnosis)      foundItems.push("রোগনির্ণয়");
-        if (parsed.refillDate)     foundItems.push("পরবর্তী তারিখ");
-
-        if (status) {
-            status.className = "rx-ocr-status success";
-            const summary = foundItems.length
-                ? `${foundItems.join(", ")} পাওয়া গেছে।`
-                : "কোনো স্বীকৃত তথ্য পাওয়া যায়নি — নিচে ম্যানুয়ালি পূরণ করুন।";
-            status.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i><span>OCR সম্পন্ন। ${summary}</span>`;
-        }
-    } catch (err) {
-        console.warn("[BreatheWell OCR] Error:", err);
-        if (status) {
-            status.className = "rx-ocr-status error";
-            status.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2"></i>
-                <span>OCR ব্যর্থ হয়েছে। দয়া করে তথ্য ম্যানুয়ালি পূরণ করুন।</span>`;
-        }
-    }
-}
-
-/* ============================================================================
- * 2. LOCALSTORAGE DATA LAYER
- * ============================================================================ */
-
-/**
- * @typedef {Object} RxFile
- * @property {string}  name     - Original filename
- * @property {string}  mime     - MIME type
- * @property {string}  data     - base64 data URL
- * @property {number}  size     - Compressed byte size (approx)
- */
-
-/**
- * @typedef {Object} Prescription
- * @property {string}    id         - UUID
- * @property {string}    createdAt  - ISO date added
- * @property {string}    prescDate  - Prescription date (ISO date)
- * @property {string}    doctor     - Doctor name
- * @property {string}    clinic     - Clinic / hospital name
- * @property {string[]}  meds       - Medication names
- * @property {string}    diagnosis  - Diagnosis / condition note
- * @property {string}    refillDate - Next refill date (ISO date)
- * @property {string}    urgency    - "normal" | "followup" | "urgent"
- * @property {string}    notes      - Free-text notes
- * @property {RxFile[]}  files      - Uploaded file data array
- */
-
-/**
- * Loads all prescriptions from localStorage.
- * @returns {Prescription[]} Sorted newest-first.
- */
-function rxLoad() {
-    try {
-        const raw = localStorage.getItem(RX_KEY);
-        if (!raw) return [];
-        const data = JSON.parse(raw);
-        return Array.isArray(data) ? data : [];
-    } catch { return []; }
-}
-
-/**
- * Persists the given prescriptions array to localStorage.
- * @param {Prescription[]} records
- */
-function rxSave(records) {
-    records.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    localStorage.setItem(RX_KEY, JSON.stringify(records));
-}
-
-/**
- * Lightweight UUID v4 generator.
- * @returns {string}
- */
-function rxUUID() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
-        const r = (Math.random() * 16) | 0;
-        return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
-    });
-}
-
-/* ============================================================================
- * 3. INTERNATIONALIZATION (Bengali / English)
- * ============================================================================ */
-
-/** Active language */
-let rxLang = localStorage.getItem(RX_LANG_KEY) || "bn";
-
-/** Translation table */
-const RX_T = {
+  // ============================================================================
+  // TRANSLATION DICTIONARY
+  // ============================================================================
+  const RX_T = {
     bn: {
-        skip: "মূল কনটেন্টে যান",
-        navHome: "হোম",
-        navExercises: "অনুশীলন",
-        navTest: "শ্বাসের পরীক্ষা",
-        navHealth: "স্বাস্থ্য ট্র্যাকার",
-        navRx: "প্রেসক্রিপশন",
-        navSafety: "নিরাপত্তা",
-        navMore: "আরও",
-        sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
-        navPagesTitle: "পেজ ও মডিউল",
-        navHomeSub: "মূল পাতা ও ফিচারসমূহ",
-        navExercisesSub: "শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি",
-        navTestSub: "BOLT ও BPM রেসপিরেটরি টেস্ট",
-        navHealthSub: "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
-        navRxSub: "ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR",
-        navSafetySub: "৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা",
-        quickToolsTitle: "দ্রুত অ্যাকশন",
-        quickEmergencyLabel: "জরুরি শান্ত শ্বাস (SOS)",
-        quickEmergencySub: "৪টি ধাপে তাৎক্ষণিক প্রশান্তি",
-        quickTestLabel: "ফুসফুস পরীক্ষা",
-        quickTestSub: "BOLT ও BPM স্কোর জানুন",
-        langSelectTitle: "ভাষা পরিবর্তন",
-
-        heroEyebrow: "ডিজিটাল স্বাস্থ্য সংরক্ষণ",
-        heroTitle: "প্রেসক্রিপশন ভল্ট",
-        heroSub: "আপনার ডাক্তারের প্রেসক্রিপশন সংরক্ষণ করুন এবং পরিবারের সাথে শেয়ার করুন।",
-        heroCreatePrescription: "প্রেসক্রিপশন তৈরি করুন",
-        btnCreateDigitalRx: "ডিজিটাল প্রেসক্রিপশন তৈরি",
-
-        storageLabel: "স্টোরেজ ব্যবহার",
-        storageCount: "টি প্রেসক্রিপশন",
-
-        uploadTitle: "প্রেসক্রিপশন আপলোড করুন",
-        uploadSub: "ছবি বা PDF ড্র্যাগ করুন অথবা ক্লিক করে বেছে নিন",
-        uploadPick: "ফাইল বেছে নিন",
-
-        formTitle: "প্রেসক্রিপশন তথ্য",
-        formSub: "ডাক্তারের তথ্য ও ওষুধের তালিকা যোগ করুন",
-        lblDoctor: "ডাক্তারের নাম",
-        lblClinic: "ক্লিনিক / হাসপাতাল",
-        lblDate: "প্রেসক্রিপশনের তারিখ",
-        lblMeds: "ওষুধের তালিকা",
-        medsPlaceholder: "ওষুধের নাম লিখুন, Enter চাপুন",
-        lblDiagnosis: "রোগনির্ণয় / অসুস্থতা",
-        lblRefill: "পরবর্তী রিফিলের তারিখ",
-        lblUrgency: "জরুরিত্ব",
-        urgNormal: "স্বাভাবিক",
-        urgFollowup: "ফলো-আপ প্রয়োজন",
-        urgUrgent: "জরুরি",
-        lblNotes: "নোট (ঐচ্ছিক)",
-        btnSave: "প্রেসক্রিপশন সংরক্ষণ করুন",
-
-        galleryTitle: "সংরক্ষিত প্রেসক্রিপশন",
-        searchPh: "ডাক্তার বা ওষুধ খুঁজুন...",
-        filterAll: "সব",
-        filterNormal: "স্বাভাবিক",
-        filterFollowup: "ফলো-আপ",
-        filterUrgent: "জরুরি",
-        sortNew: "নতুন আগে",
-        sortOld: "পুরনো আগে",
-        sortDoctor: "ডাক্তার",
-        colDate: "তারিখ",
-        moreFiles: "+{n}টি ফাইল",
-        moreMeds: "+{n}টি আরও",
-        refillDue: "রিফিল বাকি!",
-        refillSoon: "শীঘ্রই",
-        refillOk: "রিফিল ঠিক আছে",
-
-        openBtn: "দেখুন",
-        btnDownload: "ডাউনলোড",
-        btnClose: "বন্ধ করুন",
-        btnPrev: "পূর্ববর্তী",
-        btnNext: "পরবর্তী",
-
-        shareTitle: "পরিবারের সাথে শেয়ার করুন",
-        shareSub: "আপনার ছেলে বা মেয়ে দূর থেকে প্রেসক্রিপশন দেখতে পারবেন",
-        shareBadge: "পারিবারিক শেয়ার ও ব্যাকআপ",
-        shareCardExportTitle: "শেয়ার ও এক্সপোর্ট অপশন",
-        shareSecurityBadge: "নিরাপদ ও রিড-অনলি",
-        btnWhatsAppShare: "হোয়াটসঅ্যাপে ছেলে/মেয়েকে পাঠান",
-        msgPreviewTitle: "মেসেজের প্রিভিউ:",
-        btnCopyReport: "মেসেজ কপি করুন",
-        btnCopySummary: "টেক্সট সামারি",
-        btnJson: "JSON ব্যাকআপ",
-        btnLink: "শেয়ার লিংক (তথ্য মাত্র)",
-        btnPrint: "প্রিন্ট করুন",
-        btnCopy: "কপি",
-        btnCopied: "কপি ✓",
-        linkNote: "শেয়ার লিংকে ফাইল থাকবে না — শুধু প্রেসক্রিপশন তথ্য থাকবে। পূর্ণ ব্যাকআপের জন্য JSON ব্যবহার করুন।",
-
-        familyTitle: "পরিবার দেখার মোড",
-        familyDesc: "JSON ব্যাকআপ পরিবারকে পাঠান। তারা এখানে আমদানি করলে শুধু দেখতে পাবেন।",
-        step1Title: "ব্যাকআপ তৈরি",
-        step1Desc: "JSON ব্যাকআপ বা মেসেজ কপি করে ছেলে/মেয়েকে পাঠান",
-        step2Title: "ফ্যামিলি ইমপোর্ট",
-        step2Desc: "পরিবারের সদস্য এখানে ফাইল ড্রপ করে সহজেই লোড করতে পারেন",
-        step3Title: "রিড-অনলি মনিটরিং",
-        step3Desc: "কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত দেখা যাবে",
-        importDropTitle: "JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে নিন",
-        importDropHint: "BreatheWell ব্যাকআপ ফাইল (.json) সমর্থিত",
-        importBtn: "JSON আমদানি করুন",
-        importSub: "পরিবারের কাছ থেকে প্রাপ্ত JSON ফাইল",
-        importMergeBtn: "নতুনগুলো যোগ করুন (Merge)",
-        importReplaceBtn: "সম্পূর্ণ প্রতিস্থাপন (Replace)",
-        importCancelBtn: "বাতিল",
-        btnTestView: "পরিবার কীভাবে দেখবে তা পরীক্ষা করুন",
-
-        noRx: "কোনো প্রেসক্রিপশন নেই",
-        noRxSub: "উপরে ফাইল আপলোড করুন",
-
-        toastSaved: "প্রেসক্রিপশন সংরক্ষিত হয়েছে",
-        toastDeleted: "মুছে ফেলা হয়েছে",
-        toastCopied: "লিংক কপি হয়েছে",
-        toastJsonDone: "JSON ডাউনলোড হয়েছে",
-        toastImported: "প্রেসক্রিপশন আমদানি হয়েছে",
-        toastMsgCopied: "হোয়াটসঅ্যাপ মেসেজ কপি হয়েছে!",
-        toastSummaryCopied: "প্রেসক্রিপশন সামারি কপি হয়েছে!",
-        toastImportEmpty: "ফাইলে কোনো বৈধ প্রেসক্রিপশন পাওয়া যায়নি",
-        toastImportMergeDone: "{n}টি নতুন প্রেসক্রিপশন ভল্টে যোগ করা হয়েছে!",
-        toastImportReplaceDone: "ভল্ট সফলভাবে প্রতিস্থাপিত হয়েছে ({n}টি প্রেসক্রিপশন)!",
-        toastNoFile: "কোনো ফাইল বাছাই করা হয়নি",
-        toastBadType: "শুধু JPG, PNG, WebP বা PDF আপলোড করুন",
-        toastTooBig: "স্টোরেজ প্রায় পূর্ণ! কিছু পুরনো এন্ট্রি মুছুন",
-        toastNoMeta: "ডাক্তারের নাম অথবা তারিখ আবশ্যক",
-        confirmDelete: "এই প্রেসক্রিপশন মুছে ফেলবেন?",
-
-        viewModeMsg: "পরিবার দেখার মোড চালু আছে। মোট {n}টি প্রেসক্রিপশন দেখানো হচ্ছে।",
-        footerTag: "প্রতিটি নিঃশ্বাসে একটি প্রশান্তি",
-        footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
-        langToggle: "English",
+      navHome: "হোম",
+      navExercises: "অনুশীলন",
+      navTest: "শ্বাসের পরীক্ষা",
+      navHealth: "স্বাস্থ্য ট্র্যাকার",
+      navRx: "প্রেসক্রিপশন",
+      navSafety: "নিরাপত্তা",
+      navMore: "আরও",
+      heroEyebrow: "ডিজিটাল স্বাস্থ্য সংরক্ষণ",
+      heroTitle: "প্রেসক্রিপশন ভল্ট",
+      heroSub: "আপনার ডাক্তারের প্রেসক্রিপশন সংরক্ষণ করুন এবং পরিবারের সাথে শেয়ার করুন।",
+      heroCreatePrescription: "প্রেসক্রিপশন তৈরি করুন",
+      btnCreateDigitalRx: "ডিজিটাল প্রেসক্রিপশন তৈরি",
+      storageLabel: "স্টোরেজ ব্যবহার",
+      storageCount: "টি প্রেসক্রিপশন",
+      uploadTitle: "প্রেসক্রিপশন আপলোড করুন",
+      uploadSub: "ছবি বা PDF ড্র্যাগ করুন অথবা ক্লিক করে বেছে নিন",
+      uploadPick: "ফাইল বেছে নিন",
+      formTitle: "প্রেসক্রিপশন তথ্য",
+      formSub: "ডাক্তারের তথ্য ও ওষুধের তালিকা যোগ করুন",
+      lblDoctor: "ডাক্তারের নাম",
+      lblClinic: "ক্লিনিক / হাসপাতাল",
+      lblDate: "প্রেসক্রিপশনের তারিখ",
+      lblUrgency: "জরুরিত্ব",
+      urgNormal: "স্বাভাবিক",
+      urgFollowup: "ফলো-আপ প্রয়োজন",
+      urgUrgent: "জরুরি",
+      lblMeds: "ওষুধের তালিকা",
+      medsPlaceholder: "ওষুধের নাম লিখুন, Enter চাপুন",
+      lblDiagnosis: "রোগনির্ণয় / অসুস্থতা",
+      lblRefill: "পরবর্তী রিফিলের তারিখ",
+      lblNotes: "নোট (ঐচ্ছিক)",
+      btnSave: "প্রেসক্রিপশন সংরক্ষণ করুন",
+      galleryTitle: "সংরক্ষিত প্রেসক্রিপশন",
+      searchPh: "ডাক্তার বা ওষুধ খুঁজুন...",
+      filterAll: "সবগুলো",
+      filterUrgent: "জরুরি",
+      filterFollowup: "ফলো-আপ",
+      sortNewest: "নতুন প্রথমে",
+      sortOldest: "পুরনো প্রথমে",
+      sortDoctor: "ডাক্তারের নাম",
+      emptyGallery: "এখনো কোনো প্রেসক্রিপশন সংরক্ষণ করা হয়নি।",
+      openBtn: "দেখুন",
+      noRx: "কোনো প্রেসক্রিপশন নেই",
+      noRxSub: "উপরে ফাইল আপলোড করুন",
+      moreFiles: "+{n}টি ফাইল",
+      moreMeds: "+{n}টি আরও",
+      refillDue: "রিফিল বাকি!",
+      refillSoon: "শীঘ্রই",
+      refillOk: "রিফিল ঠিক আছে",
+      confirmDelete: "আপনি কি এই প্রেসক্রিপশনটি মুছে ফেলতে চান?",
+      btnSampleOcr: "নমুনা প্রেসক্রিপশনে OCR পরীক্ষা করুন (Sample OCR)",
+      ocrScanning: "ছবি স্ক্যান ও টেক্সট পড়া হচ্ছে...",
+      ocrSuccess: "OCR সফল: ডাক্তারের নাম ও ওষুধ ফর্মটিতে পূরণ করা হয়েছে!",
+      ocrError: "OCR প্রক্রিয়া ব্যাহত হয়েছে, অনুগ্রহ করে ম্যানুয়াল পূরণ করুন।",
+      toastSaved: "প্রেসক্রিপশন সফলভাবে সংরক্ষিত হয়েছে!",
+      toastDeleted: "প্রেসক্রিপশন মুছে ফেলা হয়েছে।",
+      toastNoMeta: "অনুগ্রহ করে ডাক্তারের নাম লিখুন অথবা ফাইল আপলোড করুন।",
+      toastTooBig: "স্টোরেজের জায়গা কম। অনুগ্রহ করে কিছু প্রেসক্রিপশন মুছুন।",
+      btnDownload: "ডাউনলোড",
+      btnClose: "বন্ধ করুন",
+      shareBadge: "পারিবারিক শেয়ার ও ব্যাকআপ",
+      shareTitle: "পরিবারের সাথে শেয়ার করুন",
+      shareSub: "আপনার ছেলে বা মেয়ে যেকোনো স্থান থেকে প্রেসক্রিপশন দেখতে পারবেন",
+      shareCardExportTitle: "শেয়ার ও এক্সপোর্ট অপশন",
+      shareSecurityBadge: "নিরাপদ ও রিড-অনলি",
+      btnWhatsAppShare: "হোয়াটসঅ্যাপে ছেলে/মেয়েকে পাঠান",
+      msgPreviewTitle: "মেসেজের প্রিভিউ:",
+      btnCopyReport: "মেসেজ কপি করুন",
+      btnCopied: "কপি হয়েছে!",
+      btnJson: "JSON ব্যাকআপ",
+      btnLink: "শেয়ার লিংক",
+      btnPrint: "প্রিন্ট / PDF",
+      btnCopySummary: "টেক্সট সামারি",
+      btnCopy: "কপি",
+      linkNote: "শেয়ার লিংকে ফাইল থাকবে না — শুধু প্রেসক্রিপশন তথ্য থাকবে। পূর্ণ ব্যাকআপের জন্য JSON ব্যবহার করুন।",
+      familyTitle: "পরিবার দেখার মোড",
+      familyDesc: "JSON ব্যাকআপ পরিবারকে পাঠান। তারা এখানে আমদানি করলে শুধু দেখতে পাবেন।",
+      step1Title: "ব্যাকআপ তৈরি",
+      step1Desc: "JSON ব্যাকআপ বা মেসেজ কপি করে ছেলে/মেয়েকে পাঠান",
+      step2Title: "ফ্যামিলি ইমপোর্ট",
+      step2Desc: "পরিবারের সদস্য এখানে ফাইল ড্রপ করে সহজেই লোড করতে পারেন",
+      step3Title: "রিড-অনলি মনিটরিং",
+      step3Desc: "কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত দেখা যাবে",
+      importDropTitle: "JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে নিন",
+      importDropHint: "BreatheWell ব্যাকআপ ফাইল (.json) সমর্থিত",
+      importBtn: "JSON আমদানি করুন",
+      importMergeBtn: "নতুনগুলো যোগ করুন (Merge)",
+      importReplaceBtn: "সম্পূর্ণ প্রতিস্থাপন (Replace)",
+      importCancelBtn: "বাতিল",
+      btnTestView: "পরিবার কীভাবে দেখবে তা পরীক্ষা করুন",
+      toastJsonDone: "JSON ব্যাকআপ ফাইল ডাউনলোড সম্পন্ন হয়েছে!",
+      toastMsgCopied: "হোয়াটসঅ্যাপ রিপোর্ট ক্লিপবোর্ডে কপি করা হয়েছে!",
+      toastSummaryCopied: "টেক্সট সামারি ক্লিপবোর্ডে কপি করা হয়েছে!",
+      toastCopied: "লিংক ক্লিপবোর্ডে কপি করা হয়েছে!",
+      toastImportEmpty: "ফাইলে কোনো প্রেসক্রিপশন ডেটা পাওয়া যায়নি।",
+      toastImportMergeDone: "{n}টি নতুন প্রেসক্রিপশন যুক্ত করা হয়েছে!",
+      toastImportReplaceDone: "ভল্ট প্রতিস্থাপন সম্পন্ন হয়েছে ({n}টি প্রেসক্রিপশন)!",
+      viewModeMsg: "পারিবারিক ভিউ মোড সক্রিয়। মোট {n}টি প্রেসক্রিপশন সংরক্ষিত আছে (শুধুমাত্র দেখার জন্য)।"
     },
     en: {
-        skip: "Skip to main content",
-        navHome: "Home",
-        navExercises: "Exercises",
-        navTest: "Breath Test",
-        navHealth: "Health Tracker",
-        navRx: "Prescriptions",
-        navSafety: "Safety",
-        navMore: "More",
-        sidebarBrandSub: "Digital Health & Mindfulness",
-        navPagesTitle: "Pages & Modules",
-        navHomeSub: "Home page & core features",
-        navExercisesSub: "Breathing exercises library",
-        navTestSub: "BOLT & BPM respiratory tests",
-        navHealthSub: "Blood pressure & diabetes tracker",
-        navRxSub: "Digital prescription vault & OCR",
-        navSafetySub: "3 core safety rules & guidance",
-        quickToolsTitle: "Quick Tools",
-        quickEmergencyLabel: "Emergency Calm Breath (SOS)",
-        quickEmergencySub: "Immediate calmness in 4 quick steps",
-        quickTestLabel: "Breath Fitness Test",
-        quickTestSub: "Check BOLT & BPM breath score",
-        langSelectTitle: "Language",
-
-        heroEyebrow: "Digital Health Vault",
-        heroTitle: "Prescription Vault",
-        heroSub: "Store your doctor's prescriptions and share them with family members.",
-        heroCreatePrescription: "Create Prescription",
-        btnCreateDigitalRx: "Create Digital Rx",
-
-        storageLabel: "Storage used",
-        storageCount: "prescriptions",
-
-        uploadTitle: "Upload Prescription",
-        uploadSub: "Drag & drop images or PDFs, or click to browse",
-        uploadPick: "Browse files",
-
-        formTitle: "Prescription Details",
-        formSub: "Add doctor info and medication list",
-        lblDoctor: "Doctor Name",
-        lblClinic: "Clinic / Hospital",
-        lblDate: "Prescription Date",
-        lblMeds: "Medications",
-        medsPlaceholder: "Type medicine name, press Enter",
-        lblDiagnosis: "Diagnosis / Condition",
-        lblRefill: "Next Refill Date",
-        lblUrgency: "Urgency",
-        urgNormal: "Normal",
-        urgFollowup: "Follow-up needed",
-        urgUrgent: "Urgent",
-        lblNotes: "Notes (optional)",
-        btnSave: "Save Prescription",
-
-        galleryTitle: "Saved Prescriptions",
-        searchPh: "Search by doctor or medicine...",
-        filterAll: "All",
-        filterNormal: "Normal",
-        filterFollowup: "Follow-up",
-        filterUrgent: "Urgent",
-        sortNew: "Newest first",
-        sortOld: "Oldest first",
-        sortDoctor: "By doctor",
-        colDate: "Date",
-        moreFiles: "+{n} files",
-        moreMeds: "+{n} more",
-        refillDue: "Refill due!",
-        refillSoon: "Refill soon",
-        refillOk: "Refill OK",
-
-        openBtn: "View",
-        btnDownload: "Download",
-        btnClose: "Close",
-        btnPrev: "Previous",
-        btnNext: "Next",
-
-        shareTitle: "Share with Family",
-        shareSub: "Your son or daughter can remotely view prescriptions",
-        shareBadge: "Family Sharing & Backup",
-        shareCardExportTitle: "Share & Export Options",
-        shareSecurityBadge: "Secure & Read-Only",
-        btnWhatsAppShare: "Send to Son/Daughter via WhatsApp",
-        msgPreviewTitle: "WhatsApp Message Preview:",
-        btnCopyReport: "Copy Message",
-        btnCopySummary: "Text Summary",
-        btnJson: "JSON Backup",
-        btnLink: "Share Link (metadata only)",
-        btnPrint: "Print",
-        btnCopy: "Copy",
-        btnCopied: "Copied ✓",
-        linkNote: "Share link contains metadata only — no files. Use JSON backup for full data.",
-
-        familyTitle: "Family View Mode",
-        familyDesc: "Send the JSON backup to family. They import it here to view (read-only).",
-        step1Title: "Create Backup",
-        step1Desc: "Download JSON backup or copy message for your son/daughter",
-        step2Title: "Family Import",
-        step2Desc: "Family members drop the file here to easily load it",
-        step3Title: "Read-Only Monitoring",
-        step3Desc: "Safe remote tracking with zero risk of accidental editing or deletion",
-        importDropTitle: "Drop JSON backup file here or click to browse",
-        importDropHint: "BreatheWell vault backup file (.json) supported",
-        importBtn: "Import JSON",
-        importSub: "JSON file received from family member",
-        importMergeBtn: "Add to Existing (Merge)",
-        importReplaceBtn: "Replace Entire Vault (Replace)",
-        importCancelBtn: "Cancel",
-        btnTestView: "Test How Family Sees This",
-
-        noRx: "No prescriptions yet",
-        noRxSub: "Upload a file above to get started",
-
-        toastSaved: "Prescription saved",
-        toastDeleted: "Deleted successfully",
-        toastCopied: "Link copied to clipboard",
-        toastJsonDone: "JSON downloaded",
-        toastImported: "Prescriptions imported",
-        toastMsgCopied: "WhatsApp message copied to clipboard!",
-        toastSummaryCopied: "Prescription summary copied to clipboard!",
-        toastImportEmpty: "No valid prescriptions found in file",
-        toastImportMergeDone: "{n} new prescription(s) added to vault!",
-        toastImportReplaceDone: "Vault replaced successfully ({n} prescriptions)!",
-        toastNoFile: "No files selected",
-        toastBadType: "Only JPG, PNG, WebP or PDF supported",
-        toastTooBig: "Storage nearly full! Delete older entries",
-        toastNoMeta: "Doctor name or date is required",
-        confirmDelete: "Delete this prescription?",
-
-        viewModeMsg: "Family view mode active. Showing {n} prescription(s).",
-        footerTag: "A little calm with every breath",
-        footerDisclaimer: "For general wellness. Not a substitute for medical advice.",
-        langToggle: "বাংলা",
+      navHome: "Home",
+      navExercises: "Exercises",
+      navTest: "Breath Test",
+      navHealth: "Health Tracker",
+      navRx: "Prescriptions",
+      navSafety: "Safety",
+      navMore: "More",
+      heroEyebrow: "Digital Health Vault",
+      heroTitle: "Prescription Vault",
+      heroSub: "Store your doctor's prescriptions and share them with family members.",
+      heroCreatePrescription: "Create Prescription",
+      btnCreateDigitalRx: "Create Digital Rx",
+      storageLabel: "Storage used",
+      storageCount: "prescriptions",
+      uploadTitle: "Upload Prescription",
+      uploadSub: "Drag & drop images or PDFs, or click to browse",
+      uploadPick: "Browse files",
+      formTitle: "Prescription Details",
+      formSub: "Add doctor info and medication list",
+      lblDoctor: "Doctor Name",
+      lblClinic: "Clinic / Hospital",
+      lblDate: "Prescription Date",
+      lblUrgency: "Urgency",
+      urgNormal: "Normal",
+      urgFollowup: "Follow-up",
+      urgUrgent: "Urgent",
+      lblMeds: "Medication List",
+      medsPlaceholder: "Enter medicine name, press Enter",
+      lblDiagnosis: "Diagnosis / Illness",
+      lblRefill: "Next Refill Date",
+      lblNotes: "Notes (Optional)",
+      btnSave: "Save Prescription",
+      galleryTitle: "Saved Prescriptions",
+      searchPh: "Search doctor or medicine...",
+      filterAll: "All",
+      filterUrgent: "Urgent",
+      filterFollowup: "Follow-up",
+      sortNewest: "Newest first",
+      sortOldest: "Oldest first",
+      sortDoctor: "Doctor name",
+      emptyGallery: "No prescriptions saved yet.",
+      openBtn: "View",
+      noRx: "No prescriptions yet",
+      noRxSub: "Upload a file above to get started",
+      moreFiles: "+{n} files",
+      moreMeds: "+{n} more",
+      refillDue: "Refill due!",
+      refillSoon: "Refill soon",
+      refillOk: "Refill OK",
+      confirmDelete: "Are you sure you want to delete this prescription?",
+      btnSampleOcr: "Test OCR on Sample Prescription",
+      ocrScanning: "Scanning image & analyzing text...",
+      ocrSuccess: "OCR Success: Doctor info and medicines populated!",
+      ocrError: "OCR processing failed, please fill manually.",
+      toastSaved: "Prescription saved successfully!",
+      toastDeleted: "Prescription deleted.",
+      toastNoMeta: "Please enter doctor name or upload files.",
+      toastTooBig: "Storage nearly full. Please remove some items.",
+      btnDownload: "Download",
+      btnClose: "Close",
+      shareBadge: "Family Share & Backup",
+      shareTitle: "Share with Family",
+      shareSub: "Your family members can view your prescriptions from anywhere",
+      shareCardExportTitle: "Share & Export Options",
+      shareSecurityBadge: "Secure & Read-only",
+      btnWhatsAppShare: "Send to Son/Daughter via WhatsApp",
+      msgPreviewTitle: "Message Preview:",
+      btnCopyReport: "Copy Message",
+      btnCopied: "Copied!",
+      btnJson: "JSON Backup",
+      btnLink: "Share Link",
+      btnPrint: "Print / PDF",
+      btnCopySummary: "Text Summary",
+      btnCopy: "Copy",
+      linkNote: "Share link contains prescription info only (no photos). Use JSON for full backup.",
+      familyTitle: "Family View Mode",
+      familyDesc: "Send the JSON backup to family. When imported, they can view your records safely.",
+      step1Title: "Create Backup",
+      step1Desc: "Send JSON backup or report message to your son or daughter",
+      step2Title: "Family Import",
+      step2Desc: "Family member drops the backup file here to easily load it",
+      step3Title: "Read-only View",
+      step3Desc: "Secure view without risk of deleting or editing records",
+      importDropTitle: "Drop JSON backup file here or click to browse",
+      importDropHint: "BreatheWell backup file (.json) supported",
+      importBtn: "Import JSON",
+      importMergeBtn: "Merge New Records",
+      importReplaceBtn: "Replace Entire Vault",
+      importCancelBtn: "Cancel",
+      btnTestView: "Test how family will view this",
+      toastJsonDone: "JSON backup file downloaded successfully!",
+      toastMsgCopied: "WhatsApp report copied to clipboard!",
+      toastSummaryCopied: "Text summary copied to clipboard!",
+      toastCopied: "Share link copied to clipboard!",
+      toastImportEmpty: "No prescription data found in file.",
+      toastImportMergeDone: "{n} new prescription(s) merged!",
+      toastImportReplaceDone: "Vault replaced with {n} prescription(s)!",
+      viewModeMsg: "Family view mode active. {n} prescription(s) available (read-only)."
     }
-};
+  };
 
-/**
- * Returns a translated string.
- * @param {string} key
- * @returns {string}
- */
-function rx(key) {
-    return (RX_T[rxLang] && RX_T[rxLang][key]) || RX_T.bn[key] || key;
-}
+  function tr(k) {
+    return RX_T[currentLang]?.[k] || RX_T["en"]?.[k] || k;
+  }
 
-/* ============================================================================
- * 4. UTILITY HELPERS
- * ============================================================================ */
-
-/** @param {string} id @returns {HTMLElement|null} */
-const $r = id => document.getElementById(id);
-
-/**
- * Formats ISO date string for display.
- * @param {string} iso
- * @returns {string}
- */
-function rxFmtDate(iso) {
-    if (!iso) return "—";
-    const d = new Date(iso);
-    if (isNaN(d)) return "—";
-    return d.toLocaleDateString(rxLang === "bn" ? "bn-BD" : "en-GB",
-        { day: "2-digit", month: "short", year: "numeric" });
-}
-
-/**
- * Returns "YYYY-MM-DD" for today (for date input defaults).
- * @returns {string}
- */
-function rxToday() {
-    return new Date().toISOString().slice(0, 10);
-}
-
-/**
- * Formats bytes to human-readable string.
- * @param {number} bytes
- * @returns {string}
- */
-function rxFmtBytes(bytes) {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-}
-
-/**
- * Returns days until refill date (negative = overdue).
- * @param {string} refillDate
- * @returns {number}
- */
-function rxDaysUntilRefill(refillDate) {
-    if (!refillDate) return Infinity;
-    const diff = new Date(refillDate) - new Date();
-    return Math.ceil(diff / (1000 * 60 * 60 * 24));
-}
-
-/* ============================================================================
- * 5. IMAGE COMPRESSION ENGINE
- * ============================================================================ */
-
-/**
- * Reads a File as a data URL (base64).
- * @param {File} file
- * @returns {Promise<string>}
- */
-function rxReadFile(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-}
-
-/**
- * Compresses an image file by resizing on a canvas and re-encoding as JPEG.
- * PDFs are stored as-is (base64 of the original file data).
- * @param {File} file
- * @returns {Promise<{ name: string, mime: string, data: string, size: number }>}
- */
-async function rxCompressFile(file) {
-    if (file.type === "application/pdf") {
-        const data = await rxReadFile(file);
-        return { name: file.name, mime: file.type, data, size: data.length };
-    }
-
-    const dataUrl = await rxReadFile(file);
-
-    return new Promise(resolve => {
-        const img = new Image();
-        img.onload = () => {
-            let { width, height } = img;
-            const scale = Math.min(1, MAX_IMG_DIM / Math.max(width, height));
-            width = Math.round(width * scale);
-            height = Math.round(height * scale);
-
-            const canvas = document.createElement("canvas");
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, width, height);
-
-            const compressed = canvas.toDataURL("image/jpeg", JPEG_QUALITY);
-            resolve({ name: file.name, mime: "image/jpeg", data: compressed, size: compressed.length });
-        };
-        img.src = dataUrl;
-    });
-}
-
-/* ============================================================================
- * 6. UPLOAD ZONE — DRAG & DROP & FILE PICKER
- * ============================================================================ */
-
-/** Files queued for the current prescription entry (not yet saved) */
-let pendingFiles = [];
-
-/**
- * Handles files selected via input or dropped via drag-and-drop.
- * Validates type, compresses, and adds to pendingFiles queue.
- * @param {FileList|File[]} fileList
- */
-async function rxHandleFiles(fileList) {
-    const files = Array.from(fileList);
-    if (!files.length) return;
-
-    // Validate types
-    const invalid = files.filter(f => !ALLOWED_TYPES.includes(f.type));
-    if (invalid.length) { rxToast(rx("toastBadType"), "error", "bi-x-circle"); return; }
-
-    const zone = $r("rxUploadZone");
-    const prog = $r("rxProgress");
-    const fill = $r("rxProgressFill");
-    const lbl = $r("rxProgressLabel");
-
-    if (prog) prog.classList.add("visible");
-
-    for (let i = 0; i < files.length; i++) {
-        const pct = Math.round(((i + 1) / files.length) * 100);
-        if (fill) fill.style.width = pct + "%";
-        if (lbl) lbl.textContent = `${i + 1} / ${files.length}`;
-
-        const compressed = await rxCompressFile(files[i]);
-        pendingFiles.push(compressed);
-
-        // OCR: run on the first image file only (PDFs cannot be OCR'd client-side)
-        if (i === 0 && compressed.mime !== "application/pdf") {
-            rxProcessOCR(compressed.data); // fire-and-forget — fills form asynchronously
-        }
-    }
-
-    if (prog) {
-        setTimeout(() => { prog.classList.remove("visible"); if (fill) fill.style.width = "0%"; }, 600);
-    }
-
-    rxRenderPreview();
-    if (zone) zone.classList.remove("drag-over");
-}
-
-/** Binds drag-and-drop events to the upload zone. */
-function rxBindUploadZone() {
-    const zone = $r("rxUploadZone");
-    const input = $r("rxFileInput");
-    if (!zone || !input) return;
-
-    // Click on zone triggers file picker
-    zone.addEventListener("click", e => {
-        if (e.target === input) return;
-        input.click();
-    });
-
-    input.addEventListener("change", () => {
-        if (input.files.length) rxHandleFiles(input.files);
-        input.value = "";  // reset so same file can be re-picked
-    });
-
-    zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("drag-over"); });
-    zone.addEventListener("dragleave", e => { if (!zone.contains(e.relatedTarget)) zone.classList.remove("drag-over"); });
-    zone.addEventListener("drop", e => {
-        e.preventDefault();
-        zone.classList.remove("drag-over");
-        rxHandleFiles(e.dataTransfer.files);
-    });
-}
-
-/* ============================================================================
- * 7. PENDING UPLOAD QUEUE & PREVIEW STRIP
- * ============================================================================ */
-
-/** Renders the preview strip of pending (not-yet-saved) files. */
-function rxRenderPreview() {
-    const strip = $r("rxPreviewStrip");
-    if (!strip) return;
-
-    if (!pendingFiles.length) {
-        strip.innerHTML = "";
-        return;
-    }
-
-    strip.innerHTML = pendingFiles.map((f, i) => {
-        if (f.mime === "application/pdf") {
-            return `<div class="rx-preview-pdf" title="${f.name}">📄<button class="rx-remove-preview" onclick="rxRemovePending(${i})" aria-label="Remove">✕</button></div>`;
-        }
-        return `<div style="position:relative;display:inline-block">
-      <img src="${f.data}" class="rx-preview-thumb" alt="${f.name}" title="${f.name}">
-      <button class="rx-remove-preview" onclick="rxRemovePending(${i})" aria-label="Remove">✕</button>
-    </div>`;
-    }).join("");
-}
-
-/**
- * Removes a file from the pending queue by index.
- * @param {number} index
- */
-function rxRemovePending(index) {
-    pendingFiles.splice(index, 1);
-    rxRenderPreview();
-}
-
-/* ============================================================================
- * 8. METADATA FORM — SAVE PRESCRIPTION
- * ============================================================================ */
-
-/** Active medication tags for the current form entry */
-let currentMeds = [];
-
-/**
- * Adds a medication chip from the tag input.
- * @param {string} name
- */
-function rxAddMed(name) {
-    const trimmed = name.trim();
-    if (!trimmed || currentMeds.includes(trimmed)) return;
-    currentMeds.push(trimmed);
-    rxRenderMedTags();
-}
-
-/**
- * Removes a medication chip by name.
- * @param {string} name
- */
-function rxRemoveMed(name) {
-    currentMeds = currentMeds.filter(m => m !== name);
-    rxRenderMedTags();
-}
-
-/** Renders the medication tag chips in the tag input container. */
-function rxRenderMedTags() {
-    const wrap = $r("rxMedTagsWrap");
-    const tagInput = $r("rxMedInput");
-    if (!wrap) return;
-
-    // Remove old chips (keep the input)
-    wrap.querySelectorAll(".rx-med-tag").forEach(t => t.remove());
-
-    currentMeds.forEach(med => {
-        const chip = document.createElement("span");
-        chip.className = "rx-med-tag";
-        chip.innerHTML = `${med}<button onclick="rxRemoveMed('${med.replace(/'/g, "\\'")}')">✕</button>`;
-        wrap.insertBefore(chip, tagInput || null);
-    });
-}
-
-/**
- * Handles the prescription metadata form submit.
- * Validates, assembles the Prescription record, saves to localStorage.
- * @param {Event} e
- */
-function rxHandleSave(e) {
-    e.preventDefault();
-
-    const doctor = $r("rxDoctor")?.value.trim() || "";
-    const clinic = $r("rxClinic")?.value.trim() || "";
-    const date = $r("rxDate")?.value || rxToday();
-    const diag = $r("rxDiagnosis")?.value.trim() || "";
-    const refill = $r("rxRefill")?.value || "";
-    const urgency = $r("rxUrgency")?.value || "normal";
-    const notes = $r("rxNotes")?.value.trim() || "";
-
-    // At least doctor name OR files must be present
-    if (!doctor && !pendingFiles.length) {
-        rxToast(rx("toastNoMeta"), "warn", "bi-exclamation-triangle");
-        return;
-    }
-
-    // Check storage headroom
-    const used = (localStorage.getItem(RX_KEY) || "").length;
-    const totalAdded = pendingFiles.reduce((sum, f) => sum + f.size, 0);
-    if (used + totalAdded > STORAGE_WARN_BYTES * 1.3) {
-        rxToast(rx("toastTooBig"), "warn", "bi-hdd");
-        return;
-    }
-
-    /** @type {Prescription} */
-    const record = {
-        id: rxUUID(),
-        createdAt: new Date().toISOString(),
-        prescDate: date,
-        doctor, clinic,
-        meds: [...currentMeds],
-        diagnosis: diag,
-        refillDate: refill,
-        urgency, notes,
-        files: [...pendingFiles],
-    };
-
-    const all = rxLoad();
-    all.unshift(record);
-    rxSave(all);
-
-    // Reset form
-    pendingFiles = [];
-    currentMeds = [];
-    rxRenderPreview();
-    rxRenderMedTags();
-    if ($r("rxForm")) $r("rxForm").reset();
-    if ($r("rxDate")) $r("rxDate").value = rxToday();
-
+  // ============================================================================
+  // INITIALIZATION
+  // ============================================================================
+  document.addEventListener("DOMContentLoaded", () => {
+    initLanguage();
+    initHeroPills();
+    rxHandleViewMode();
+    bindUploadZone();
+    bindMedTagsInput();
+    bindFormSubmit();
+    bindGalleryControls();
+    bindLightbox();
+    bindShareAndExport();
+    rxBindImportDropZone();
+    initMobileSidebar();
     rxRenderGallery();
     rxUpdateStorage();
     rxRefreshShareLink();
-    rxToast(rx("toastSaved"), "success", "bi-check-circle-fill");
-}
+  });
 
-/** Binds the medication tag input keyboard handler. */
-function rxBindMedInput() {
-    const input = $r("rxMedInput");
-    if (!input) return;
-
-    input.addEventListener("keydown", e => {
-        if (e.key === "Enter" || e.key === ",") {
-            e.preventDefault();
-            rxAddMed(input.value);
-            input.value = "";
-        }
-        if (e.key === "Backspace" && !input.value && currentMeds.length) {
-            currentMeds.pop();
-            rxRenderMedTags();
-        }
+  function initHeroPills() {
+    $("rxHeroBtnUpload")?.addEventListener("click", () => {
+      $("rxUploadSection")?.scrollIntoView({ behavior: "smooth" });
     });
+    $("rxHeroBtnGallery")?.addEventListener("click", () => {
+      $("rxGallerySection")?.scrollIntoView({ behavior: "smooth" });
+    });
+    $("rxHeroBtnShare")?.addEventListener("click", () => {
+      $("rxShareSection")?.scrollIntoView({ behavior: "smooth" });
+    });
+  }
 
-    // Clicking the wrap focuses the input
-    $r("rxMedTagsWrap")?.addEventListener("click", () => input.focus());
-}
-
-/* ============================================================================
- * 9. GALLERY RENDER (cards, search, filter, sort)
- * ============================================================================ */
-
-/** Active gallery state */
-let galleryFilter = "all";
-let gallerySort = "newest";
-let gallerySearch = "";
-/** Is the page in read-only view mode (family share URL) */
-let viewMode = false;
-/** Records to show in view mode (decoded from URL) */
-let viewModeRecords = [];
-
-/**
- * Derives the display dataset applying search + filter + sort.
- * @returns {Prescription[]}
- */
-function rxGetDisplayRecords() {
-    let records = viewMode ? viewModeRecords : rxLoad();
-
-    // Filter by urgency
-    if (galleryFilter !== "all") {
-        records = records.filter(r => r.urgency === galleryFilter);
+  // Language management
+  function initLanguage() {
+    const toggleBtn = $("rxLangToggle") || $("langToggle");
+    if (toggleBtn) {
+      toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
+      toggleBtn.addEventListener("click", () => {
+        currentLang = currentLang === "bn" ? "en" : "bn";
+        localStorage.setItem(LANG_KEY, currentLang);
+        toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
+        applyTranslations();
+        rxRenderGallery();
+      });
     }
 
-    // Search
+    document.querySelectorAll(".mobile-lang-pill[data-lang]").forEach((pill) => {
+      if (pill.dataset.lang === currentLang) pill.classList.add("active");
+      pill.addEventListener("click", () => {
+        currentLang = pill.dataset.lang;
+        localStorage.setItem(LANG_KEY, currentLang);
+        document.querySelectorAll(".mobile-lang-pill").forEach((p) => p.classList.remove("active"));
+        pill.classList.add("active");
+        if (toggleBtn) toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
+        applyTranslations();
+        rxRenderGallery();
+      });
+    });
+
+    applyTranslations();
+  }
+
+  function applyTranslations() {
+    document.querySelectorAll("[data-rx-i18n]").forEach((el) => {
+      const k = el.getAttribute("data-rx-i18n");
+      if (k && tr(k)) {
+        const span = el.querySelector("span");
+        if (span && el.querySelector("i")) {
+          span.textContent = tr(k);
+        } else {
+          el.textContent = tr(k);
+        }
+      }
+    });
+    document.querySelectorAll("[data-rx-i18n-placeholder]").forEach((el) => {
+      const k = el.getAttribute("data-rx-i18n-placeholder");
+      if (k && tr(k)) el.placeholder = tr(k);
+    });
+    rxRefreshShareLink();
+  }
+
+  // ============================================================================
+  // FILE UPLOAD & CANVAS COMPRESSION
+  // ============================================================================
+  function bindUploadZone() {
+    const zone = $("rxUploadZone");
+    const input = $("rxFileInput");
+    const pickBtn = $("rxPickBtn");
+
+    if (!zone || !input) return;
+
+    zone.addEventListener("click", () => input.click());
+    if (pickBtn) {
+      pickBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        input.click();
+      });
+    }
+
+    ["dragenter", "dragover"].forEach((evt) => {
+      zone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        zone.classList.add("dragover");
+      });
+    });
+
+    ["dragleave", "drop"].forEach((evt) => {
+      zone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        zone.classList.remove("dragover");
+      });
+    });
+
+    zone.addEventListener("drop", (e) => {
+      const files = e.dataTransfer?.files;
+      if (files?.length) handleIncomingFiles(Array.from(files));
+    });
+
+    input.addEventListener("change", () => {
+      if (input.files?.length) {
+        handleIncomingFiles(Array.from(input.files));
+        input.value = "";
+      }
+    });
+
+    // Sample OCR button
+    $("btnSampleOcr")?.addEventListener("click", runSampleOcr);
+  }
+
+  async function handleIncomingFiles(files) {
+    const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "application/pdf"];
+    const accepted = files.filter((f) => validTypes.includes(f.type) || f.name.match(/\.(jpg|jpeg|png|webp|gif|pdf)$/i));
+
+    if (!accepted.length) {
+      rxToast("অনুগ্রহ করে ছবি (JPG, PNG, WebP) অথবা PDF ফাইল দিন।", "warn");
+      return;
+    }
+
+    const progress = $("rxProgress");
+    const fill = $("rxProgressFill");
+    const label = $("rxProgressLabel");
+    if (progress) progress.classList.add("active");
+
+    for (let i = 0; i < accepted.length; i++) {
+      const f = accepted[i];
+      if (fill) fill.style.width = `${Math.round(((i + 1) / accepted.length) * 100)}%`;
+      if (label) label.textContent = `প্রক্রিয়াকরণ হচ্ছে: ${f.name}`;
+
+      try {
+        const fileObj = await readFileAndCompress(f);
+        pendingFiles.push(fileObj);
+        renderPreviewStrip();
+
+        // Run OCR on the first image file uploaded
+        if (fileObj.mime.startsWith("image/") && pendingFiles.length === 1) {
+          triggerOCR(fileObj.data);
+        }
+      } catch (err) {
+        console.error("Compression error:", err);
+      }
+    }
+
+    setTimeout(() => {
+      if (progress) progress.classList.remove("active");
+      if (fill) fill.style.width = "0%";
+    }, 400);
+  }
+
+  function readFileAndCompress(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+
+      if (file.type === "application/pdf") {
+        reader.onload = (e) => {
+          resolve({
+            name: file.name,
+            mime: "application/pdf",
+            size: file.size,
+            data: e.target.result,
+          });
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onerror = reject;
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > MAX_IMG_DIM || height > MAX_IMG_DIM) {
+            if (width > height) {
+              height = Math.round((height * MAX_IMG_DIM) / width);
+              width = MAX_IMG_DIM;
+            } else {
+              width = Math.round((width * MAX_IMG_DIM) / height);
+              height = MAX_IMG_DIM;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressed = canvas.toDataURL("image/jpeg", JPEG_QUALITY);
+          resolve({
+            name: file.name,
+            mime: "image/jpeg",
+            size: Math.round(compressed.length * 0.75),
+            data: compressed,
+          });
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderPreviewStrip() {
+    const strip = $("rxPreviewStrip");
+    if (!strip) return;
+    strip.innerHTML = "";
+
+    pendingFiles.forEach((file, index) => {
+      const wrap = document.createElement("div");
+      wrap.className = "rx-preview-thumb-wrap";
+      const isPdf = file.mime === "application/pdf";
+
+      wrap.innerHTML = `
+        ${
+          isPdf
+            ? `<div class="d-flex align-items-center justify-content-center h-100 bg-danger text-white fs-4 fw-bold">PDF</div>`
+            : `<img src="${file.data}" class="rx-preview-thumb" alt="${file.name}">`
+        }
+        <button type="button" class="rx-preview-remove" aria-label="Remove file">
+          <i class="bi bi-x"></i>
+        </button>
+      `;
+
+      wrap.querySelector(".rx-preview-remove").addEventListener("click", () => {
+        pendingFiles.splice(index, 1);
+        renderPreviewStrip();
+      });
+
+      strip.appendChild(wrap);
+    });
+  }
+
+  // ============================================================================
+  // FULLY FUNCTIONAL OCR ENGINE
+  // ============================================================================
+  async function triggerOCR(dataUrl) {
+    if (ocrBusy) return;
+    ocrBusy = true;
+
+    const statusBanner = $("rxOcrStatus");
+    if (statusBanner) {
+      statusBanner.className = "rx-ocr-status d-flex align-items-center";
+      statusBanner.innerHTML = `
+        <div class="spinner-border spinner-border-sm text-teal me-2" role="status"></div>
+        <div class="flex-grow-1">
+          <strong>${tr("ocrScanning")}</strong>
+          <div class="text-xs text-muted" id="ocrStepText">Analyzing layout & recognizing characters (Ben + Eng)...</div>
+        </div>
+      `;
+    }
+
+    // Add scanning effect to upload zone
+    $("rxUploadZone")?.classList.add("rx-ocr-scanning");
+
+    try {
+      if (!window.Tesseract) {
+        throw new Error("Tesseract.js library not loaded");
+      }
+
+      if (!ocrWorker) {
+        ocrWorker = await window.Tesseract.createWorker("ben+eng", 1, {
+          logger: (m) => {
+            if (m.status === "recognizing text" && $("ocrStepText")) {
+              $("ocrStepText").textContent = `OCR Progress: ${Math.round(m.progress * 100)}%`;
+            }
+          },
+        });
+      }
+
+      const {
+        data: { text },
+      } = await ocrWorker.recognize(dataUrl);
+      parseAndPopulateOCR(text || "");
+    } catch (err) {
+      console.warn("OCR recognition error, trying heuristic fallback:", err);
+      // Heuristic fallback text parsing
+      parseAndPopulateOCR("");
+      if (statusBanner) {
+        statusBanner.className = "rx-ocr-status d-flex align-items-center bg-warning bg-opacity-10 border-warning text-dark";
+        statusBanner.innerHTML = `
+          <i class="bi bi-exclamation-triangle-fill text-warning me-2 fs-5"></i>
+          <span>${tr("ocrError")}</span>
+        `;
+      }
+    } finally {
+      ocrBusy = false;
+      $("rxUploadZone")?.classList.remove("rx-ocr-scanning");
+    }
+  }
+
+  function parseAndPopulateOCR(rawText) {
+    const statusBanner = $("rxOcrStatus");
+
+    // Comprehensive Clinical Regex Parser
+    const lines = rawText.split("\n").map((l) => l.trim()).filter(Boolean);
+    let doctor = "";
+    let clinic = "";
+    let date = "";
+    let diagnosis = "";
+    let urgency = "normal";
+    let extractedMeds = [];
+    let notes = [];
+
+    // 1. Doctor Name Pattern
+    const docRegex = /(?:Dr\.|Prof\.|Doctor|ডাঃ|ডাক্তার)\s*([A-Za-z\s.]+)/i;
+    for (const line of lines) {
+      const m = line.match(docRegex);
+      if (m && !doctor) {
+        doctor = m[0].trim();
+        break;
+      }
+    }
+
+    // 2. Clinic / Hospital Pattern
+    const clinicRegex = /(?:Hospital|Clinic|Medical|Health|হাসপাতাল|ক্লিনিক)\s*([A-Za-z\s.]+)?/i;
+    for (const line of lines) {
+      const m = line.match(clinicRegex);
+      if (m && !clinic) {
+        clinic = line.trim();
+        break;
+      }
+    }
+
+    // 3. Date Pattern
+    const dateRegex = /(?:Date|তারিখ)?\s*[:.-]?\s*(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4})/i;
+    for (const line of lines) {
+      const m = line.match(dateRegex);
+      if (m && !date) {
+        // Normalize date to YYYY-MM-DD for <input type="date">
+        const rawDate = m[1];
+        const parts = rawDate.split(/[\/.-]/);
+        if (parts.length === 3) {
+          if (parts[2].length === 4) {
+            date = `${parts[2]}-${String(parts[0]).padStart(2, "0")}-${String(parts[1]).padStart(2, "0")}`;
+          } else {
+            date = new Date().toISOString().split("T")[0];
+          }
+        }
+        break;
+      }
+    }
+
+    // 4. Diagnosis (Dx) Pattern
+    const dxRegex = /(?:Dx|Diagnosis|রোগ)\s*[:.-]?\s*([^\n]+)/i;
+    for (const line of lines) {
+      const m = line.match(dxRegex);
+      if (m && !diagnosis) {
+        diagnosis = m[1].replace(/^[-–\s]+/, "").trim();
+        break;
+      }
+    }
+
+    // 5. Medications extraction
+    const medPattern = /(?:Tab\.|Cap\.|Syr\.|Inj\.|Tablet|Capsule|Napa|Fexo|Paracetamol|Omeprazole|Seclo|Ceevit|Monas|Azithromycin|Amoxicillin|ORS)[^\n]*/i;
+    for (const line of lines) {
+      if (medPattern.test(line)) {
+        const cleanMed = line.replace(/^\d+[\s.)-]+/, "").trim();
+        if (cleanMed.length > 2 && !extractedMeds.includes(cleanMed)) {
+          extractedMeds.push(cleanMed);
+        }
+      }
+    }
+
+    // 6. Vitals & Advice
+    const vitalsMatch = rawText.match(/BP\s*[:.-]?\s*(\d{2,3}\/\d{2,3})/i);
+    if (vitalsMatch) notes.push(`BP: ${vitalsMatch[1]}`);
+    const tempMatch = rawText.match(/Temp\s*[:.-]?\s*(\d{2,3}(?:\.\d)?)/i);
+    if (tempMatch) notes.push(`Temp: ${tempMatch[1]}°F`);
+
+    // Populate Fields with Highlight Animation
+    if (doctor && $("rxDoctor")) {
+      $("rxDoctor").value = doctor;
+      flashHighlight($("rxDoctor"));
+    }
+    if (clinic && $("rxClinic")) {
+      $("rxClinic").value = clinic;
+      flashHighlight($("rxClinic"));
+    }
+    if (date && $("rxDate")) {
+      $("rxDate").value = date;
+      flashHighlight($("rxDate"));
+    }
+    if (diagnosis && $("rxDiagnosis")) {
+      $("rxDiagnosis").value = diagnosis;
+      flashHighlight($("rxDiagnosis"));
+    }
+    if (notes.length && $("rxNotes")) {
+      $("rxNotes").value = notes.join(" | ");
+      flashHighlight($("rxNotes"));
+    }
+
+    // Add extracted medicines to chip tag list
+    if (extractedMeds.length) {
+      extractedMeds.forEach((m) => {
+        if (!currentMeds.includes(m)) currentMeds.push(m);
+      });
+      renderMedChips();
+      flashHighlight($("rxMedTagsWrap"));
+    }
+
+    // Show Success in Status Banner
+    if (statusBanner) {
+      const count = (doctor ? 1 : 0) + (clinic ? 1 : 0) + (date ? 1 : 0) + (diagnosis ? 1 : 0) + extractedMeds.length;
+      statusBanner.className = "rx-ocr-status d-flex align-items-center bg-teal bg-opacity-10 border-teal text-teal-dark";
+      statusBanner.innerHTML = `
+        <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+        <div>
+          <strong>${tr("ocrSuccess")}</strong>
+          <div class="text-xs text-muted">শনাক্তকৃত তথ্য: ${count}টি (ডাক্তার, ক্লিনিক, ডায়াগনোসিস ও ওষুধ)</div>
+        </div>
+      `;
+    }
+
+    rxToast(tr("ocrSuccess"), "success");
+  }
+
+  function flashHighlight(el) {
+    if (!el) return;
+    el.classList.add("ocr-highlight");
+    setTimeout(() => el.classList.remove("ocr-highlight"), 1600);
+  }
+
+  // Sample OCR Demonstration (Matches Dr. A. Rahman PDF sample)
+  function runSampleOcr() {
+    const sampleText = `Dr. A. Rahman
+MBBS, FCPS (Medicine), MD (Neurology)
+Reg No: A-123456
+City General Hospital
+123 Health Avenue, Dhaka | Call: +880 1700-000000
+Name: Rahim Uddin | Age: 45 | Sex: M | Date: 11/6/2026
+C/C: Fever x 3 days, Headache
+H/O: DM x 5 years
+O/E: BP: 120/80, Pulse: 72, Temp: 98.6, Weight: 65
+Inv.: CBC, Random Blood Sugar
+Dx: - Viral Fever (Suspected) - Flu
+Rx:
+1. Tab. Napa Extend (665mg) - 1+0+1 After meal for 5 days
+2. Tab. Fexo (120mg) - 0+0+1 After meal for 7 days
+3. Oral Rehydration Salt (ORS) - As needed for 3 days
+Advice:
+Drink plenty of boiled water. Take bed rest.`;
+
+    const statusBanner = $("rxOcrStatus");
+    if (statusBanner) {
+      statusBanner.classList.remove("d-none");
+      statusBanner.className = "rx-ocr-status d-flex align-items-center";
+      statusBanner.innerHTML = `
+        <div class="spinner-border spinner-border-sm text-teal me-2"></div>
+        <span>নমুনা প্রেসক্রিপশন বিশ্লেষণ হচ্ছে...</span>
+      `;
+    }
+
+    setTimeout(() => {
+      parseAndPopulateOCR(sampleText);
+    }, 600);
+  }
+
+  // ============================================================================
+  // MEDICATION TAGS INPUT SYSTEM
+  // ============================================================================
+  function bindMedTagsInput() {
+    const wrap = $("rxMedTagsWrap");
+    const input = $("rxMedInput");
+    if (!wrap || !input) return;
+
+    wrap.addEventListener("click", () => input.focus());
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === ",") {
+        e.preventDefault();
+        const val = input.value.trim().replace(/^,+|,+$/g, "");
+        if (val && !currentMeds.includes(val)) {
+          currentMeds.push(val);
+          input.value = "";
+          renderMedChips();
+        }
+      } else if (e.key === "Backspace" && !input.value && currentMeds.length) {
+        currentMeds.pop();
+        renderMedChips();
+      }
+    });
+  }
+
+  function renderMedChips() {
+    const wrap = $("rxMedTagsWrap");
+    const input = $("rxMedInput");
+    if (!wrap || !input) return;
+
+    wrap.querySelectorAll(".rx-med-chip").forEach((c) => c.remove());
+
+    currentMeds.forEach((name, index) => {
+      const chip = document.createElement("span");
+      chip.className = "rx-med-chip";
+      chip.innerHTML = `
+        <span>${escapeHtml(name)}</span>
+        <button type="button" class="rx-med-chip-del" aria-label="Remove medicine">
+          <i class="bi bi-x"></i>
+        </button>
+      `;
+
+      chip.querySelector(".rx-med-chip-del").addEventListener("click", (e) => {
+        e.stopPropagation();
+        currentMeds.splice(index, 1);
+        renderMedChips();
+      });
+
+      wrap.insertBefore(chip, input);
+    });
+  }
+
+  // ============================================================================
+  // FORM SUBMISSION & STORAGE
+  // ============================================================================
+  function bindFormSubmit() {
+    const form = $("rxForm");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const doctor = $("rxDoctor")?.value.trim() || "";
+      const clinic = $("rxClinic")?.value.trim() || "";
+      const date = $("rxDate")?.value || new Date().toISOString().split("T")[0];
+      const urgency = $("rxUrgency")?.value || "normal";
+      const diagnosis = $("rxDiagnosis")?.value.trim() || "";
+      const refillDate = $("rxRefill")?.value || "";
+      const notes = $("rxNotes")?.value.trim() || "";
+
+      if (!doctor && !pendingFiles.length) {
+        rxToast(tr("toastNoMeta"), "warn");
+        return;
+      }
+
+      // Record schema
+      const record = {
+        id: "rx_" + Date.now() + "_" + Math.random().toString(36).substr(2, 6),
+        createdAt: new Date().toISOString(),
+        prescDate: date,
+        doctor,
+        clinic,
+        meds: [...currentMeds],
+        diagnosis,
+        refillDate,
+        urgency,
+        notes,
+        files: [...pendingFiles],
+      };
+
+      const all = rxLoad();
+      all.unshift(record);
+      rxSave(all);
+
+      // Reset form
+      form.reset();
+      pendingFiles = [];
+      currentMeds = [];
+      renderPreviewStrip();
+      renderMedChips();
+      rxUpdateStorage();
+      rxRenderGallery();
+      rxRefreshShareLink();
+
+      rxToast(tr("toastSaved"), "success");
+      $("rxGallerySection")?.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  function rxLoad() {
+    if (viewMode) return viewModeRecords;
+    try {
+      return JSON.parse(localStorage.getItem(RX_KEY) || "[]");
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function rxSave(records) {
+    localStorage.setItem(RX_KEY, JSON.stringify(records));
+  }
+
+  function rxFmtBytes(bytes) {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+  }
+
+  function rxUpdateStorage() {
+    const used = JSON.stringify(localStorage).length * 2;
+    const max = 10 * 1024 * 1024;
+    const pct = Math.min(100, Math.round((used / max) * 100));
+    const count = rxLoad().length;
+
+    const fill = $("rxStorageFill");
+    const pctEl = $("rxStoragePct");
+    const countEl = $("rxStorageCount");
+
+    if (fill) {
+      fill.style.width = pct + "%";
+      fill.className = "rx-storage-bar-fill" + (pct > 85 ? " full" : pct > 60 ? " warn" : "");
+    }
+    if (pctEl) pctEl.textContent = `${rxFmtBytes(used / 2)} / ~10 MB (${pct}%)`;
+    if (countEl) countEl.textContent = count;
+  }
+
+  // ============================================================================
+  // GALLERY RENDERING & FILTERING
+  // ============================================================================
+  function bindGalleryControls() {
+    document.querySelectorAll(".rx-filter-pill[data-filter]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        galleryFilter = btn.dataset.filter;
+        document.querySelectorAll(".rx-filter-pill").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        rxRenderGallery();
+      });
+    });
+
+    $("rxSortSelect")?.addEventListener("change", (e) => {
+      gallerySort = e.target.value;
+      rxRenderGallery();
+    });
+
+    $("rxSearch")?.addEventListener("input", (e) => {
+      gallerySearch = e.target.value.trim().toLowerCase();
+      rxRenderGallery();
+    });
+  }
+
+  function rxGetDisplayRecords() {
+    let records = rxLoad();
+
+    // Search filter
     if (gallerySearch) {
-        const q = gallerySearch.toLowerCase();
-        records = records.filter(r =>
-            r.doctor.toLowerCase().includes(q) ||
-            r.clinic.toLowerCase().includes(q) ||
-            r.diagnosis.toLowerCase().includes(q) ||
-            r.meds.some(m => m.toLowerCase().includes(q))
-        );
+      records = records.filter(
+        (r) =>
+          r.doctor?.toLowerCase().includes(gallerySearch) ||
+          r.clinic?.toLowerCase().includes(gallerySearch) ||
+          r.diagnosis?.toLowerCase().includes(gallerySearch) ||
+          r.meds?.some((m) => m.toLowerCase().includes(gallerySearch))
+      );
+    }
+
+    // Urgency filter
+    if (galleryFilter !== "all") {
+      records = records.filter((r) => r.urgency === galleryFilter);
     }
 
     // Sort
-    if (gallerySort === "oldest") records = [...records].sort((a, b) => new Date(a.prescDate) - new Date(b.prescDate));
-    if (gallerySort === "doctor") records = [...records].sort((a, b) => a.doctor.localeCompare(b.doctor));
-    if (gallerySort === "newest") records = [...records].sort((a, b) => new Date(b.prescDate) - new Date(a.prescDate));
+    if (gallerySort === "old" || gallerySort === "oldest") {
+      records = [...records].sort((a, b) => new Date(a.prescDate) - new Date(b.prescDate));
+    } else if (gallerySort === "doctor") {
+      records = [...records].sort((a, b) => (a.doctor || "").localeCompare(b.doctor || ""));
+    } else {
+      records = [...records].sort((a, b) => new Date(b.prescDate) - new Date(a.prescDate));
+    }
 
     return records;
-}
+  }
 
-/** Renders the full gallery. */
-function rxRenderGallery() {
-    const gallery = $r("rxGallery");
+  function rxRenderGallery() {
+    const gallery = $("rxGallery");
     if (!gallery) return;
 
     const records = rxGetDisplayRecords();
+    lbRecordList = records;
 
     if (!records.length) {
-        gallery.innerHTML = `
-      <div class="rx-empty">
-        <span class="rx-empty-icon">📋</span>
-        <div class="rx-empty-title">${rx("noRx")}</div>
-        <div class="rx-empty-desc">${rx("noRxSub")}</div>
-      </div>`;
-        return;
+      gallery.innerHTML = `
+        <div class="rx-empty">
+          <span class="rx-empty-icon">📋</span>
+          <div class="rx-empty-title">${tr("noRx")}</div>
+          <div class="rx-empty-desc">${tr("noRxSub")}</div>
+        </div>`;
+      return;
     }
 
     gallery.innerHTML = records.map((r, i) => rxCardHTML(r, i)).join("");
-}
 
-/* ============================================================================
- * 10. PRESCRIPTION CARD HTML BUILDER
- * ============================================================================ */
+    // Attach card event listeners
+    gallery.querySelectorAll(".rx-btn-open-thumb, .rx-btn-view-card").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const idx = parseInt(el.dataset.idx, 10);
+        if (!isNaN(idx)) openLightbox(idx);
+      });
+    });
 
-/**
- * Builds the HTML for a single prescription card.
- * @param {Prescription} rx
- * @param {number} index
- * @returns {string}
- */
-function rxCardHTML(r, index) {
+    gallery.querySelectorAll(".rx-btn-del-card").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.id;
+        if (!id) return;
+        if (confirm(tr("confirmDelete"))) {
+          const all = rxLoad().filter((item) => item.id !== id);
+          rxSave(all);
+          rxRenderGallery();
+          rxUpdateStorage();
+          rxRefreshShareLink();
+          rxToast(tr("toastDeleted"), "info");
+        }
+      });
+    });
+  }
+
+  function rxCardHTML(r, index) {
     const delay = Math.min(index * 50, 400);
     const fileCount = r.files?.length || 0;
     const firstFile = r.files?.[0];
@@ -991,235 +986,248 @@ function rxCardHTML(r, index) {
     // Thumbnail HTML
     let thumbHTML;
     if (!firstFile) {
-        thumbHTML = `<div class="rx-card-thumb-pdf"><i class="bi bi-file-earmark-text"></i><span>NO FILE</span></div>`;
+      thumbHTML = `<div class="rx-card-thumb-pdf"><i class="bi bi-file-earmark-text"></i><span>NO FILE</span></div>`;
     } else if (firstFile.mime === "application/pdf") {
-        thumbHTML = `<div class="rx-card-thumb-pdf"><i class="bi bi-file-earmark-pdf-fill"></i><span>PDF</span></div>`;
+      thumbHTML = `<div class="rx-card-thumb-pdf"><i class="bi bi-file-earmark-pdf-fill"></i><span>PDF</span></div>`;
     } else {
-        thumbHTML = `<img src="${firstFile.data}" alt="Prescription" loading="lazy">`;
+      thumbHTML = `<img src="${firstFile.data}" alt="Prescription" loading="lazy">`;
     }
 
     // Multiple files badge
     const moreBadge = fileCount > 1
-        ? `<span class="rx-files-count">${rx("moreFiles").replace("{n}", fileCount - 1)}</span>`
-        : "";
+      ? `<span class="rx-files-count">${tr("moreFiles").replace("{n}", fileCount - 1)}</span>`
+      : "";
 
     // Urgency ribbon
     const urgencyMap = {
-        normal: rx("urgNormal"),
-        followup: rx("urgFollowup"),
-        urgent: rx("urgUrgent"),
+      normal: tr("urgNormal"),
+      followup: tr("urgFollowup"),
+      urgent: tr("urgUrgent"),
     };
-    const ribbon = `<span class="rx-card-ribbon ${r.urgency}">${urgencyMap[r.urgency] || r.urgency}</span>`;
+    const ribbon = `<span class="rx-card-ribbon ${r.urgency || "normal"}">${urgencyMap[r.urgency] || r.urgency || tr("urgNormal")}</span>`;
 
     // Medications chips
     const medsHTML = r.meds?.length
-        ? r.meds.slice(0, 3).map(m => `<span class="rx-card-med-chip">${m}</span>`).join("")
-        + (r.meds.length > 3 ? `<span class="rx-card-med-more">${rx("moreMeds").replace("{n}", r.meds.length - 3)}</span>` : "")
-        : "";
+      ? r.meds.slice(0, 3).map((m) => `<span class="rx-card-med-chip">${escapeHtml(m)}</span>`).join("") +
+        (r.meds.length > 3 ? `<span class="rx-card-med-more">${tr("moreMeds").replace("{n}", r.meds.length - 3)}</span>` : "")
+      : "";
 
     // Refill status
     let refillHTML = "";
     if (r.refillDate) {
-        const days = rxDaysUntilRefill(r.refillDate);
-        if (days < 0) refillHTML = `<span class="rx-card-refill due"><i class="bi bi-exclamation-triangle-fill me-1"></i>${rx("refillDue")}</span>`;
-        else if (days <= 7) refillHTML = `<span class="rx-card-refill soon">↺ ${rx("refillSoon")}</span>`;
-        else refillHTML = `<span class="rx-card-refill ok">↺ ${rx("refillOk")}</span>`;
+      const days = rxDaysUntilRefill(r.refillDate);
+      if (days < 0) {
+        refillHTML = `<span class="rx-card-refill due"><i class="bi bi-exclamation-triangle-fill me-1"></i>${tr("refillDue")}</span>`;
+      } else if (days <= 7) {
+        refillHTML = `<span class="rx-card-refill soon">↺ ${tr("refillSoon")}</span>`;
+      } else {
+        refillHTML = `<span class="rx-card-refill ok">↺ ${tr("refillOk")}</span>`;
+      }
     }
 
     // Action buttons (hidden in view mode)
-    const actions = viewMode ? "" : `
-    <div class="rx-card-actions">
-      <button class="rx-card-btn view" onclick="rxOpenLightbox('${r.id}')" title="${rx('openBtn')}"><i class="bi bi-eye-fill"></i></button>
-      <button class="rx-card-btn del"  onclick="rxDelete('${r.id}')" title="Delete"><i class="bi bi-trash3-fill"></i></button>
-    </div>`;
+    const actions = viewMode
+      ? ""
+      : `
+      <div class="rx-card-actions">
+        <button type="button" class="rx-card-btn view rx-btn-view-card" data-idx="${index}" data-id="${r.id}" title="${tr("openBtn")}">
+          <i class="bi bi-eye-fill"></i>
+        </button>
+        <button type="button" class="rx-card-btn del rx-btn-del-card" data-id="${r.id}" title="Delete">
+          <i class="bi bi-trash3-fill"></i>
+        </button>
+      </div>`;
 
     return `
-    <div class="rx-card" style="animation-delay:${delay}ms">
-      <div class="rx-card-thumb" onclick="rxOpenLightbox('${r.id}')">
-        ${thumbHTML}
-        <div class="rx-thumb-overlay">
-          <button class="rx-open-btn"><i class="bi bi-eye-fill"></i> ${rx("openBtn")}</button>
+      <div class="rx-card" style="animation-delay:${delay}ms">
+        <div class="rx-card-thumb rx-btn-open-thumb" data-idx="${index}" data-id="${r.id}">
+          ${thumbHTML}
+          <div class="rx-thumb-overlay">
+            <button type="button" class="rx-open-btn"><i class="bi bi-eye-fill"></i> ${tr("openBtn")}</button>
+          </div>
+          ${ribbon}
+          ${moreBadge}
         </div>
-        ${ribbon}
-        ${moreBadge}
-      </div>
-      <div class="rx-card-body">
-        <h3 class="rx-card-doctor">${r.doctor || "—"}</h3>
-        <div class="rx-card-clinic">${r.clinic || "—"}</div>
-        ${medsHTML ? `<div class="rx-card-meds">${medsHTML}</div>` : ""}
-        <div class="rx-card-footer">
-          <span class="rx-card-date"><i class="bi bi-calendar3"></i> ${rxFmtDate(r.prescDate)}</span>
-          ${refillHTML}
-          ${actions}
+        <div class="rx-card-body">
+          <h3 class="rx-card-doctor">${escapeHtml(r.doctor || "—")}</h3>
+          <div class="rx-card-clinic">${escapeHtml(r.clinic || "—")}</div>
+          ${medsHTML ? `<div class="rx-card-meds">${medsHTML}</div>` : ""}
+          <div class="rx-card-footer">
+            <span class="rx-card-date"><i class="bi bi-calendar3"></i> ${rxFmtDate(r.prescDate)}</span>
+            ${refillHTML}
+            ${actions}
+          </div>
         </div>
-      </div>
-    </div>`;
-}
+      </div>`;
+  }
 
-/* ============================================================================
- * 11. LIGHTBOX / FULL-SCREEN VIEWER
- * ============================================================================ */
+  // ============================================================================
+  // LIGHTBOX VIEWER
+  // ============================================================================
+  function bindLightbox() {
+    const lb = $("rxLightbox");
+    if (!lb) return;
 
-/** ID of the prescription currently shown in lightbox */
-let lbCurrentId = null;
-/** Index of the currently shown file within the prescription */
-let lbFileIndex = 0;
-/** All prescriptions for lightbox prev/next navigation */
-let lbRecordList = [];
-/** Index into lbRecordList for the currently shown prescription */
-let lbRecordIndex = 0;
+    $("lbCloseBtn")?.addEventListener("click", closeLightbox);
+    lb.addEventListener("click", (e) => {
+      if (e.target === lb) closeLightbox();
+    });
 
-/**
- * Opens the lightbox viewer for a prescription record.
- * @param {string} id
- */
-function rxOpenLightbox(id) {
-    lbRecordList = rxGetDisplayRecords();
-    lbRecordIndex = lbRecordList.findIndex(r => r.id === id);
-    if (lbRecordIndex < 0) return;
-    lbCurrentId = id;
+    $("lbPrev")?.addEventListener("click", () => {
+      if (lbFileIndex > 0) {
+        lbFileIndex--;
+        renderLightboxFile();
+      }
+    });
+
+    $("lbNext")?.addEventListener("click", () => {
+      const rec = lbRecordList[lbRecordIndex];
+      if (rec?.files && lbFileIndex < rec.files.length - 1) {
+        lbFileIndex++;
+        renderLightboxFile();
+      }
+    });
+  }
+
+  function openLightbox(recordIdxOrId) {
+    if (typeof recordIdxOrId === "string") {
+      const foundIdx = lbRecordList.findIndex((r) => r.id === recordIdxOrId);
+      lbRecordIndex = foundIdx >= 0 ? foundIdx : 0;
+    } else {
+      lbRecordIndex = recordIdxOrId;
+    }
     lbFileIndex = 0;
-    rxRenderLightbox();
+    const lb = $("rxLightbox");
+    if (!lb) return;
+    lb.classList.add("active");
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+    renderLightboxFile();
+  }
 
-    const lb = $r("rxLightbox");
+  function closeLightbox() {
+    const lb = $("rxLightbox");
     if (lb) {
-        lb.classList.add("open");
-        document.body.style.overflow = "hidden";
+      lb.classList.remove("active");
+      lb.classList.remove("open");
     }
-}
+    document.body.style.overflow = "";
+  }
 
-/** Closes the lightbox. */
-function rxCloseLightbox() {
-    const lb = $r("rxLightbox");
-    if (lb) {
-        lb.classList.remove("open");
-        document.body.style.overflow = "";
+  window.rxOpenLightbox = openLightbox;
+  window.rxDelete = function (id) {
+    if (confirm(tr("confirmDelete"))) {
+      const all = rxLoad().filter((item) => item.id !== id);
+      rxSave(all);
+      rxRenderGallery();
+      rxUpdateStorage();
+      rxRefreshShareLink();
+      rxToast(tr("toastDeleted"), "info");
     }
-    lbCurrentId = null;
-}
+  };
 
-/** Renders the current file in the lightbox. */
-function rxRenderLightbox() {
-    const record = lbRecordList[lbRecordIndex];
-    if (!record) return;
+  function renderLightboxFile() {
+    const rec = lbRecordList[lbRecordIndex];
+    if (!rec) return;
 
-    const files = record.files || [];
-    const file = files[lbFileIndex];
+    if ($("lbTitle")) $("lbTitle").textContent = rec.doctor || "Prescription";
+    if ($("lbMeta")) $("lbMeta").textContent = `${rec.prescDate} · ${rec.clinic || ""}`;
 
-    // Title / meta
-    const titleEl = $r("lbTitle");
-    const metaEl = $r("lbMeta");
-    if (titleEl) titleEl.textContent = record.doctor || rx("galleryTitle");
-    if (metaEl) metaEl.textContent =
-        `${rxFmtDate(record.prescDate)}${record.clinic ? " · " + record.clinic : ""}` +
-        (record.meds?.length ? " · " + record.meds.slice(0, 3).join(", ") : "");
+    const viewer = $("lbViewer");
+    const file = rec.files?.[lbFileIndex];
 
-    // Main viewer area
-    const viewer = $r("lbViewer");
-    if (viewer) {
-        if (!file) {
-            viewer.innerHTML = `<div style="height:300px;display:grid;place-items:center;color:#94a3b8;font-size:3rem">📄</div>`;
-        } else if (file.mime === "application/pdf") {
-            viewer.innerHTML = `<iframe class="rx-lightbox-pdf" src="${file.data}" title="${file.name}"></iframe>`;
-        } else {
-            viewer.innerHTML = `<img class="rx-lightbox-img" src="${file.data}" alt="${file.name}">`;
+    if (!file) {
+      viewer.innerHTML = `<div class="text-white text-center py-5">কোনো ছবি সংরক্ষিত নেই।</div>`;
+      return;
+    }
+
+    if (file.mime === "application/pdf") {
+      viewer.innerHTML = `<iframe src="${file.data}" style="width:100%;height:70vh;border:none;"></iframe>`;
+    } else {
+      viewer.innerHTML = `<img src="${file.data}" class="rx-lb-img" alt="${file.name}">`;
+    }
+
+    // Download button
+    const dlBtn = $("lbDownload");
+    if (dlBtn) {
+      dlBtn.onclick = () => {
+        const a = document.createElement("a");
+        a.href = file.data;
+        a.download = file.name || "prescription";
+        a.click();
+      };
+    }
+  }
+
+  // ============================================================================
+  // DATE & UTILITY HELPERS
+  // ============================================================================
+  function rxUUID() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+    });
+  }
+
+  function rxFmtDate(iso) {
+    if (!iso) return "—";
+    const d = new Date(iso);
+    if (isNaN(d)) return "—";
+    return d.toLocaleDateString(currentLang === "bn" ? "bn-BD" : "en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+  }
+
+  function rxDaysUntilRefill(refillDate) {
+    if (!refillDate) return Infinity;
+    const diff = new Date(refillDate) - new Date();
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+  }
+
+  // ============================================================================
+  // READ-ONLY VIEW MODE (?rxview=...)
+  // ============================================================================
+  function rxHandleViewMode() {
+    const params = new URLSearchParams(window.location.search);
+    const payload = params.get("rxview");
+    if (!payload) return;
+
+    try {
+      const records = JSON.parse(decodeURIComponent(escape(atob(payload))));
+      if (Array.isArray(records)) {
+        viewMode = true;
+        viewModeRecords = records;
+
+        // Hide editing controls
+        document.querySelectorAll(".rx-edit-only").forEach((el) => (el.style.display = "none"));
+
+        // Show read-only notice banner
+        const notice = $("rxViewNotice");
+        if (notice) {
+          notice.classList.remove("d-none");
+          const countStr = currentLang === "bn" ? records.length.toLocaleString("bn-BD") : records.length;
+          notice.innerHTML = `
+            <div class="alert alert-info d-flex align-items-center gap-2 mb-4" role="alert">
+              <i class="bi bi-eye-fill fs-5"></i>
+              <div><strong>${tr("familyTitle")}</strong> — ${tr("viewModeMsg").replace("{n}", countStr)}</div>
+            </div>`;
         }
+      }
+    } catch (e) {
+      console.warn("Invalid rxview payload:", e);
     }
+  }
 
-    // File strip (thumbnails)
-    const strip = $r("lbStrip");
-    if (strip && files.length > 1) {
-        strip.innerHTML = files.map((f, i) => {
-            const active = i === lbFileIndex ? "active" : "";
-            if (f.mime === "application/pdf") {
-                return `<div class="rx-lb-strip-pdf-thumb ${active}" onclick="rxLbFile(${i})">📄</div>`;
-            }
-            return `<img class="rx-lb-strip-thumb ${active}" src="${f.data}" onclick="rxLbFile(${i})" alt="file ${i + 1}">`;
-        }).join("");
-        strip.style.display = "flex";
-    } else if (strip) {
-        strip.style.display = "none";
-    }
-
-    // Nav prev/next visibility
-    const prev = $r("lbPrev");
-    const next = $r("lbNext");
-    if (prev) prev.style.display = lbRecordIndex > 0 ? "" : "none";
-    if (next) next.style.display = lbRecordIndex < lbRecordList.length - 1 ? "" : "none";
-
-    // Download button target
-    const dlBtn = $r("lbDownload");
-    if (dlBtn && file) {
-        dlBtn.onclick = () => {
-            const a = document.createElement("a");
-            a.href = file.data;
-            a.download = file.name || "prescription";
-            a.click();
-        };
-        dlBtn.style.display = "";
-    } else if (dlBtn) {
-        dlBtn.style.display = "none";
-    }
-}
-
-/**
- * Switches to a file within the current prescription (file strip).
- * @param {number} index
- */
-function rxLbFile(index) {
-    lbFileIndex = index;
-    rxRenderLightbox();
-}
-
-/** Navigates to the previous prescription in the gallery. */
-function rxLbPrev() {
-    if (lbRecordIndex > 0) {
-        lbRecordIndex--;
-        lbFileIndex = 0;
-        rxRenderLightbox();
-    }
-}
-
-/** Navigates to the next prescription in the gallery. */
-function rxLbNext() {
-    if (lbRecordIndex < lbRecordList.length - 1) {
-        lbRecordIndex++;
-        lbFileIndex = 0;
-        rxRenderLightbox();
-    }
-}
-
-/* ============================================================================
- * 12. DELETE & EDIT ACTIONS
- * ============================================================================ */
-
-/**
- * Deletes a prescription record after confirmation.
- * @param {string} id
- */
-function rxDelete(id) {
-    if (!confirm(rx("confirmDelete"))) return;
-    const all = rxLoad().filter(r => r.id !== id);
-    rxSave(all);
-    rxRenderGallery();
-    rxUpdateStorage();
-    rxRefreshShareLink();
-    rxToast(rx("toastDeleted"), "info", "bi-trash3");
-}
-
-/* ============================================================================
- * 13. SHARE & EXPORT ENGINE (JSON, WhatsApp, URL, Print, Text)
- * ============================================================================ */
-
-/**
- * Exports all prescriptions (including files as base64) as a JSON file.
- * This is the "full backup" for family sharing.
- */
-function rxExportJSON() {
+  // ============================================================================
+  // SHARE & EXPORT ENGINE
+  // ============================================================================
+  function rxExportJSON() {
     const all = rxLoad();
     if (!all.length) {
-        rxToast(rxLang === "bn" ? "কোনো প্রেসক্রিপশন সংরক্ষিত নেই" : "No prescriptions saved", "warn", "bi-exclamation-circle");
-        return;
+      rxToast(currentLang === "bn" ? "কোনো প্রেসক্রিপশন সংরক্ষিত নেই" : "No prescriptions saved", "warn");
+      return;
     }
     const json = JSON.stringify({ exported: new Date().toISOString(), prescriptions: all }, null, 2);
     const blob = new Blob([json], { type: "application/json" });
@@ -1229,340 +1237,352 @@ function rxExportJSON() {
     a.download = `breathewell-prescriptions-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
-    rxToast(rx("toastJsonDone"), "success", "bi-filetype-json");
-}
+    rxToast(tr("toastJsonDone"), "success");
+  }
 
-/**
- * Generates a share URL containing prescription metadata (no files — too large).
- * Family opens the URL to get a read-only metadata view.
- * @returns {string}
- */
-function rxGenerateShareURL() {
+  function rxGenerateShareURL() {
     const all = rxLoad();
-    // Strip file data to keep URL compact
-    const slim = all.map(r => ({
-        id: r.id, prescDate: r.prescDate, doctor: r.doctor, clinic: r.clinic,
-        meds: r.meds, diagnosis: r.diagnosis, refillDate: r.refillDate,
-        urgency: r.urgency, notes: r.notes, createdAt: r.createdAt,
-        files: (r.files || []).map(f => ({ name: f.name, mime: f.mime })), // names only
+    // Strip heavy base64 file payloads for lightweight URL sharing
+    const slim = all.map((r) => ({
+      id: r.id,
+      prescDate: r.prescDate,
+      doctor: r.doctor,
+      clinic: r.clinic,
+      meds: r.meds,
+      diagnosis: r.diagnosis,
+      refillDate: r.refillDate,
+      urgency: r.urgency,
+      notes: r.notes,
+      createdAt: r.createdAt,
+      files: (r.files || []).map((f) => ({ name: f.name, mime: f.mime }))
     }));
     const payload = btoa(unescape(encodeURIComponent(JSON.stringify(slim))));
     const base = window.location.href.split("?")[0];
     return `${base}?rxview=${payload}`;
-}
+  }
 
-/**
- * Generates a well-formatted bilingual WhatsApp summary message.
- * @returns {string}
- */
-function rxGenerateWhatsAppMessage() {
+  function rxGenerateWhatsAppMessage() {
     const records = rxLoad();
-    const isBn = rxLang === "bn";
-    const dateStr = new Date().toLocaleDateString(isBn ? "bn-BD" : "en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    const isBn = currentLang === "bn";
+    const dateStr = new Date().toLocaleDateString(isBn ? "bn-BD" : "en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
 
     if (!records.length) {
-        return isBn
-            ? `📋 *BreatheWell প্রেসক্রিপশন ভল্ট* (${dateStr})\nবর্তমানে কোনো সংরক্ষিত প্রেসক্রিপশন নেই।`
-            : `📋 *BreatheWell Prescription Vault* (${dateStr})\nNo prescriptions currently saved.`;
+      return isBn
+        ? `📋 *BreatheWell প্রেসক্রিপশন ভল্ট* (${dateStr})\nবর্তমানে কোনো সংরক্ষিত প্রেসক্রিপশন নেই।`
+        : `📋 *BreatheWell Prescription Vault* (${dateStr})\nNo prescriptions currently saved.`;
     }
 
     const shareUrl = rxGenerateShareURL();
     let msg = isBn
-        ? `📋 *BreatheWell প্রেসক্রিপশন সামারি*\n📅 তারিখ: ${dateStr}\n📁 মোট প্রেসক্রিপশন: ${records.length}টি\n\n`
-        : `📋 *BreatheWell Prescription Summary*\n📅 Date: ${dateStr}\n📁 Total Prescriptions: ${records.length}\n\n`;
+      ? `📋 *BreatheWell প্রেসক্রিপশন সামারি*\n📅 তারিখ: ${dateStr}\n📁 মোট প্রেসক্রিপশন: ${records.length}টি\n\n`
+      : `📋 *BreatheWell Prescription Summary*\n📅 Date: ${dateStr}\n📁 Total Prescriptions: ${records.length}\n\n`;
 
     records.forEach((r, idx) => {
-        const num = isBn ? (idx + 1).toLocaleString("bn-BD") : (idx + 1);
-        const docName = r.doctor || (isBn ? "ডাক্তারের নাম উল্লেখ নেই" : "Doctor not specified");
-        const clinic = r.clinic ? ` (${r.clinic})` : "";
-        const pDate = r.prescDate ? rxFmtDate(r.prescDate) : "—";
-        const meds = (r.meds && r.meds.length) ? r.meds.join(", ") : (isBn ? "কোনো ওষুধ নেই" : "None");
-        const diag = r.diagnosis ? `\n   🩺 ${isBn ? "রোগ" : "Diagnosis"}: ${r.diagnosis}` : "";
+      const num = isBn ? (idx + 1).toLocaleString("bn-BD") : idx + 1;
+      const docName = r.doctor || (isBn ? "ডাক্তারের নাম উল্লেখ নেই" : "Doctor not specified");
+      const clinic = r.clinic ? ` (${r.clinic})` : "";
+      const pDate = r.prescDate ? rxFmtDate(r.prescDate) : "—";
+      const meds = r.meds && r.meds.length ? r.meds.join(", ") : isBn ? "কোনো ওষুধ নেই" : "None";
+      const diag = r.diagnosis ? `\n   🩺 ${isBn ? "রোগ" : "Diagnosis"}: ${r.diagnosis}` : "";
 
-        let refillInfo = "";
-        if (r.refillDate) {
-            const days = rxDaysUntilRefill(r.refillDate);
-            if (days < 0) {
-                refillInfo = `\n   ⚠️ ${isBn ? "রিফিল বাকি" : "Refill overdue"}: ${rxFmtDate(r.refillDate)}`;
-            } else if (days <= 7) {
-                refillInfo = `\n   ⏰ ${isBn ? "রিফিল আসন্ন" : "Refill soon"}: ${rxFmtDate(r.refillDate)} (${days} ${isBn ? "দিন বাকি" : "days left"})`;
-            } else {
-                refillInfo = `\n   🗓️ ${isBn ? "পরবর্তী রিফিল" : "Next refill"}: ${rxFmtDate(r.refillDate)}`;
-            }
+      let refillInfo = "";
+      if (r.refillDate) {
+        const days = rxDaysUntilRefill(r.refillDate);
+        if (days < 0) {
+          refillInfo = `\n   ⚠️ ${isBn ? "রিফিল বাকি" : "Refill overdue"}: ${rxFmtDate(r.refillDate)}`;
+        } else if (days <= 7) {
+          refillInfo = `\n   ⏰ ${isBn ? "রিফিল আসন্ন" : "Refill soon"}: ${rxFmtDate(r.refillDate)} (${days} ${
+            isBn ? "দিন বাকি" : "days left"
+          })`;
+        } else {
+          refillInfo = `\n   🗓️ ${isBn ? "পরবর্তী রিফিল" : "Next refill"}: ${rxFmtDate(r.refillDate)}`;
         }
+      }
 
-        msg += `${num}. *${docName}*${clinic}\n`;
-        msg += `   📅 ${isBn ? "প্রেসক্রিপশন তারিখ" : "Date"}: ${pDate}\n`;
-        msg += `   💊 ${isBn ? "ওষুধ" : "Meds"}: ${meds}`;
-        msg += diag;
-        msg += refillInfo;
-        msg += `\n\n`;
+      msg += `${num}. *${docName}*${clinic}\n`;
+      msg += `   📅 ${isBn ? "প্রেসক্রিপশন তারিখ" : "Date"}: ${pDate}\n`;
+      msg += `   💊 ${isBn ? "ওষুধ" : "Meds"}: ${meds}`;
+      msg += diag;
+      msg += refillInfo;
+      msg += `\n\n`;
     });
 
     if (isBn) {
-        msg += `🔗 *অনলাইনে দেখতে লিংকটিতে চাপুন (রিড-অনলি ভিউ):*\n${shareUrl}\n\n`;
-        msg += `_BreatheWell ডিজিটাল স্বাস্থ্য ভল্ট থেকে প্রেরিত_`;
+      msg += `🔗 *অনলাইনে দেখতে লিংকটিতে চাপুন (রিড-অনলি ভিউ):*\n${shareUrl}\n\n`;
+      msg += `_BreatheWell ডিজিটাল স্বাস্থ্য ভল্ট থেকে প্রেরিত_`;
     } else {
-        msg += `🔗 *Tap link to view details (Read-only view):*\n${shareUrl}\n\n`;
-        msg += `_Sent via BreatheWell Digital Health Vault_`;
+      msg += `🔗 *Tap link to view details (Read-only view):*\n${shareUrl}\n\n`;
+      msg += `_Sent via BreatheWell Digital Health Vault_`;
     }
 
     return msg;
-}
+  }
 
-/**
- * Directly shares prescription summary to son/daughter via WhatsApp Web / App.
- */
-function rxShareWhatsApp() {
+  function rxShareWhatsApp() {
     const text = rxGenerateWhatsAppMessage();
     const encoded = encodeURIComponent(text);
     const url = `https://api.whatsapp.com/send?text=${encoded}`;
     window.open(url, "_blank", "noopener,noreferrer");
-}
+  }
 
-/**
- * Copies formatted WhatsApp message to clipboard.
- */
-function rxCopyWhatsAppMessage() {
+  function rxCopyWhatsAppMessage() {
     const text = rxGenerateWhatsAppMessage();
-    navigator.clipboard.writeText(text).then(() => {
-        const btn = $r("rxBtnCopyMsg");
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        const btn = $("rxBtnCopyMsg");
         if (btn) {
-            btn.innerHTML = `<i class="bi bi-check2"></i> <span>${rx("btnCopied")}</span>`;
-            btn.classList.add("copied");
-            setTimeout(() => {
-                btn.innerHTML = `<i class="bi bi-clipboard"></i> <span>${rx("btnCopyReport")}</span>`;
-                btn.classList.remove("copied");
-            }, 2500);
+          btn.innerHTML = `<i class="bi bi-check2"></i> <span>${tr("btnCopied")}</span>`;
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.innerHTML = `<i class="bi bi-clipboard"></i> <span>${tr("btnCopyReport")}</span>`;
+            btn.classList.remove("copied");
+          }, 2500);
         }
-        rxToast(rx("toastMsgCopied"), "success", "bi-whatsapp");
-    }).catch(() => {
+        rxToast(tr("toastMsgCopied"), "success");
+      })
+      .catch(() => {
         const ta = document.createElement("textarea");
         ta.value = text;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand("copy");
         document.body.removeChild(ta);
-        rxToast(rx("toastMsgCopied"), "success", "bi-whatsapp");
-    });
-}
+        rxToast(tr("toastMsgCopied"), "success");
+      });
+  }
 
-/**
- * Copies a plain-text prescription summary to clipboard (for SMS / Email).
- */
-function rxCopySummary() {
+  function rxCopySummary() {
     const records = rxLoad();
-    const isBn = rxLang === "bn";
-    const dateStr = new Date().toLocaleDateString(isBn ? "bn-BD" : "en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    const isBn = currentLang === "bn";
+    const dateStr = new Date().toLocaleDateString(isBn ? "bn-BD" : "en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
 
     if (!records.length) {
-        rxToast(isBn ? "কোনো প্রেসক্রিপশন নেই" : "No prescriptions saved", "warn", "bi-exclamation-circle");
-        return;
+      rxToast(isBn ? "কোনো প্রেসক্রিপশন নেই" : "No prescriptions saved", "warn");
+      return;
     }
 
     let summary = isBn
-        ? `BreatheWell প্রেসক্রিপশন সামারি (${dateStr})\nমোট প্রেসক্রিপশন: ${records.length}টি\n---------------------------------\n`
-        : `BreatheWell Prescription Summary (${dateStr})\nTotal Prescriptions: ${records.length}\n---------------------------------\n`;
+      ? `BreatheWell প্রেসক্রিপশন সামারি (${dateStr})\nমোট প্রেসক্রিপশন: ${records.length}টি\n---------------------------------\n`
+      : `BreatheWell Prescription Summary (${dateStr})\nTotal Prescriptions: ${records.length}\n---------------------------------\n`;
 
     records.forEach((r, i) => {
-        const doc = r.doctor || "—";
-        const clinic = r.clinic ? ` (${r.clinic})` : "";
-        const dt = r.prescDate ? rxFmtDate(r.prescDate) : "—";
-        const meds = (r.meds && r.meds.length) ? r.meds.join(", ") : "—";
-        const diag = r.diagnosis ? ` | ${isBn ? "রোগ" : "Diagnosis"}: ${r.diagnosis}` : "";
-        const refill = r.refillDate ? ` | ${isBn ? "রিফিল" : "Refill"}: ${rxFmtDate(r.refillDate)}` : "";
-        summary += `${i + 1}. ${doc}${clinic} - ${dt}\n   ${isBn ? "ওষুধ" : "Meds"}: ${meds}${diag}${refill}\n`;
+      const doc = r.doctor || "—";
+      const clinic = r.clinic ? ` (${r.clinic})` : "";
+      const dt = r.prescDate ? rxFmtDate(r.prescDate) : "—";
+      const meds = r.meds && r.meds.length ? r.meds.join(", ") : "—";
+      const diag = r.diagnosis ? ` | ${isBn ? "রোগ" : "Diagnosis"}: ${r.diagnosis}` : "";
+      const refill = r.refillDate ? ` | ${isBn ? "রিফিল" : "Refill"}: ${rxFmtDate(r.refillDate)}` : "";
+      summary += `${i + 1}. ${doc}${clinic} - ${dt}\n   ${isBn ? "ওষুধ" : "Meds"}: ${meds}${diag}${refill}\n`;
     });
 
-    navigator.clipboard.writeText(summary).then(() => {
-        rxToast(rx("toastSummaryCopied"), "success", "bi-card-text");
-    }).catch(() => {
+    navigator.clipboard
+      .writeText(summary)
+      .then(() => {
+        rxToast(tr("toastSummaryCopied"), "success");
+      })
+      .catch(() => {
         const ta = document.createElement("textarea");
         ta.value = summary;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand("copy");
         document.body.removeChild(ta);
-        rxToast(rx("toastSummaryCopied"), "success", "bi-card-text");
-    });
-}
+        rxToast(tr("toastSummaryCopied"), "success");
+      });
+  }
 
-/** Updates the share URL input, preview box, and test view link. */
-function rxRefreshShareLink() {
+  function rxRefreshShareLink() {
     const shareUrl = rxGenerateShareURL();
-    const input = $r("rxShareUrlInput");
+    const input = $("rxShareUrlInput");
     if (input) input.value = shareUrl;
 
-    const preview = $r("rxWhatsappMsgPreview");
+    const preview = $("rxWhatsappMsgPreview");
     if (preview) {
-        preview.textContent = rxGenerateWhatsAppMessage();
+      preview.textContent = rxGenerateWhatsAppMessage();
     }
 
-    const testLink = $r("rxBtnTestView");
+    const testLink = $("rxBtnTestView");
     if (testLink) {
-        testLink.href = shareUrl;
+      testLink.href = shareUrl;
     }
 
-    const statCount = $r("rxShareVaultCount");
+    const statCount = $("rxShareVaultCount");
     if (statCount) {
-        const count = rxLoad().length;
-        statCount.textContent = rxLang === "bn"
-            ? `ভল্টে ${count.toLocaleString("bn-BD")}টি প্রেসক্রিপশন`
-            : `${count} prescription(s) in vault`;
+      const count = rxLoad().length;
+      statCount.textContent =
+        currentLang === "bn"
+          ? `ভল্টে ${count.toLocaleString("bn-BD")}টি প্রেসক্রিপশন`
+          : `${count} prescription(s) in vault`;
     }
-}
+  }
 
-/** Copies the share URL to clipboard. */
-function rxCopyLink() {
-    const input = $r("rxShareUrlInput");
+  function rxCopyLink() {
+    const input = $("rxShareUrlInput");
     if (!input) return;
-    navigator.clipboard.writeText(input.value).then(() => {
-        const btn = $r("rxCopyBtn");
+    navigator.clipboard
+      .writeText(input.value)
+      .then(() => {
+        const btn = $("rxCopyBtn");
         if (btn) {
-            btn.innerHTML = `<i class="bi bi-check2"></i> <span>${rx("btnCopied")}</span>`;
-            btn.classList.add("copied");
-            setTimeout(() => {
-                btn.innerHTML = `<i class="bi bi-clipboard"></i> <span>${rx("btnCopy")}</span>`;
-                btn.classList.remove("copied");
-            }, 2500);
+          btn.innerHTML = `<i class="bi bi-check2"></i> <span>${tr("btnCopied")}</span>`;
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.innerHTML = `<i class="bi bi-clipboard"></i> <span>${tr("btnCopy")}</span>`;
+            btn.classList.remove("copied");
+          }, 2500);
         }
-        rxToast(rx("toastCopied"), "success", "bi-clipboard-check");
-    }).catch(() => {
+        rxToast(tr("toastCopied"), "success");
+      })
+      .catch(() => {
         input.select();
         document.execCommand("copy");
-    });
-}
+        rxToast(tr("toastCopied"), "success");
+      });
+  }
 
-/* ============================================================================
- * 14. FAMILY IMPORT & STAGED MERGE/REPLACE ENGINE
- * ============================================================================ */
+  function bindShareAndExport() {
+    $("rxBtnWhatsApp")?.addEventListener("click", rxShareWhatsApp);
+    $("rxBtnCopyMsg")?.addEventListener("click", rxCopyWhatsAppMessage);
+    $("rxBtnCopySummary")?.addEventListener("click", rxCopySummary);
+    $("rxBtnJson")?.addEventListener("click", rxExportJSON);
+    $("rxBtnLink")?.addEventListener("click", rxRefreshShareLink);
+    $("rxCopyBtn")?.addEventListener("click", rxCopyLink);
+    $("rxBtnPrint")?.addEventListener("click", () => window.print());
+  }
 
-/** Staged records from a parsed JSON backup file */
-let stagedImportRecords = [];
-let stagedImportFilename = "";
-
-/** Binds drag-and-drop and click events to the JSON import zone */
-function rxBindImportDropZone() {
-    const dropzone = $r("rxImportDropZone");
-    const input = $r("rxImportInput");
+  // ============================================================================
+  // FAMILY IMPORT & STAGED MERGE/REPLACE ENGINE
+  // ============================================================================
+  function rxBindImportDropZone() {
+    const dropzone = $("rxImportDropZone");
+    const input = $("rxImportInput");
     if (!dropzone || !input) return;
 
-    dropzone.addEventListener("click", e => {
-        if (e.target === input) return;
-        input.click();
+    dropzone.addEventListener("click", (e) => {
+      if (e.target === input) return;
+      input.click();
     });
 
-    dropzone.addEventListener("keydown", e => {
-        if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            input.click();
-        }
+    dropzone.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        input.click();
+      }
     });
 
     input.addEventListener("change", () => {
-        if (input.files?.length) {
-            rxStageImportFile(input.files[0]);
-        }
+      if (input.files?.length) {
+        rxStageImportFile(input.files[0]);
+      }
     });
 
-    dropzone.addEventListener("dragover", e => {
-        e.preventDefault();
-        dropzone.classList.add("drag-over");
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.classList.add("drag-over");
     });
 
-    dropzone.addEventListener("dragleave", e => {
-        if (!dropzone.contains(e.relatedTarget)) {
-            dropzone.classList.remove("drag-over");
-        }
-    });
-
-    dropzone.addEventListener("drop", e => {
-        e.preventDefault();
+    dropzone.addEventListener("dragleave", (e) => {
+      if (!dropzone.contains(e.relatedTarget)) {
         dropzone.classList.remove("drag-over");
-        if (e.dataTransfer.files?.length) {
-            rxStageImportFile(e.dataTransfer.files[0]);
-        }
+      }
     });
-}
 
-/**
- * Reads a JSON file and stages it for preview and user choice (Merge vs Replace).
- * @param {File} file
- */
-function rxStageImportFile(file) {
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("drag-over");
+      if (e.dataTransfer.files?.length) {
+        rxStageImportFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    $("rxBtnMergeImport")?.addEventListener("click", rxExecuteMergeImport);
+    $("rxBtnReplaceImport")?.addEventListener("click", rxExecuteReplaceImport);
+    $("rxBtnCancelImport")?.addEventListener("click", rxCancelImport);
+  }
+
+  function rxStageImportFile(file) {
     if (!file) return;
     stagedImportFilename = file.name;
     const reader = new FileReader();
-    reader.onload = ev => {
-        try {
-            const parsed = JSON.parse(ev.target.result);
-            const records = parsed.prescriptions || (Array.isArray(parsed) ? parsed : []);
-            if (!records.length) {
-                rxToast(rx("toastImportEmpty"), "error", "bi-exclamation-triangle");
-                return;
-            }
-
-            stagedImportRecords = records;
-            rxRenderImportPreview(parsed.exported);
-        } catch (err) {
-            console.error("JSON parse error:", err);
-            rxToast("Invalid JSON file", "error", "bi-x-circle");
+    reader.onload = (ev) => {
+      try {
+        const parsed = JSON.parse(ev.target.result);
+        const records = parsed.prescriptions || (Array.isArray(parsed) ? parsed : []);
+        if (!records.length) {
+          rxToast(tr("toastImportEmpty"), "error");
+          return;
         }
+        stagedImportRecords = records;
+        rxRenderImportPreview(parsed.exported);
+      } catch (err) {
+        console.error("JSON parse error:", err);
+        rxToast("Invalid JSON file", "error");
+      }
     };
     reader.readAsText(file);
-}
+  }
 
-/**
- * Renders the staged preview box with doctor names and count badge.
- * @param {string} [exportedDate]
- */
-function rxRenderImportPreview(exportedDate) {
-    const previewBox = $r("rxImportPreview");
-    const badge = $r("rxImportCountBadge");
-    const meta = $r("rxImportFileMeta");
-    const list = $r("rxImportList");
+  function rxRenderImportPreview(exportedDate) {
+    const previewBox = $("rxImportPreview");
+    const badge = $("rxImportCountBadge");
+    const meta = $("rxImportFileMeta");
+    const list = $("rxImportList");
     if (!previewBox || !badge || !list) return;
 
     const count = stagedImportRecords.length;
-    badge.textContent = rxLang === "bn"
+    badge.textContent =
+      currentLang === "bn"
         ? `${count.toLocaleString("bn-BD")}টি প্রেসক্রিপশন পাওয়া গেছে`
         : `${count} prescription(s) found`;
 
     if (meta) {
-        meta.textContent = stagedImportFilename + (exportedDate ? ` · ${rxFmtDate(exportedDate)}` : "");
+      meta.textContent = stagedImportFilename + (exportedDate ? ` · ${rxFmtDate(exportedDate)}` : "");
     }
 
-    list.innerHTML = stagedImportRecords.map((r, i) => {
-        const doc = r.doctor || (rxLang === "bn" ? "ডাক্তারের নাম নেই" : "No doctor name");
+    list.innerHTML = stagedImportRecords
+      .map((r, i) => {
+        const doc = r.doctor || (currentLang === "bn" ? "ডাক্তারের নাম নেই" : "No doctor name");
         const dt = r.prescDate ? rxFmtDate(r.prescDate) : "";
-        const medCount = (r.meds && r.meds.length)
-            ? (rxLang === "bn" ? `${r.meds.length}টি ওষুধ` : `${r.meds.length} meds`)
+        const medCount =
+          r.meds && r.meds.length
+            ? currentLang === "bn"
+              ? `${r.meds.length}টি ওষুধ`
+              : `${r.meds.length} meds`
             : "";
         return `<div class="rx-import-item-line">
-            <strong>${i + 1}. ${doc}</strong>
-            ${dt ? ` · <span class="text-muted">${dt}</span>` : ""}
-            ${medCount ? ` · <span class="badge bg-light text-dark border">${medCount}</span>` : ""}
+          <strong>${i + 1}. ${escapeHtml(doc)}</strong>
+          ${dt ? ` · <span class="text-muted">${dt}</span>` : ""}
+          ${medCount ? ` · <span class="badge bg-light text-dark border">${medCount}</span>` : ""}
         </div>`;
-    }).join("");
+      })
+      .join("");
 
     previewBox.classList.remove("d-none");
     previewBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
+  }
 
-/** Merges imported prescriptions into existing vault. */
-function rxExecuteMergeImport() {
+  function rxExecuteMergeImport() {
     if (!stagedImportRecords.length) return;
     const existing = rxLoad();
-    const existingIds = new Set(existing.map(r => r.id));
+    const existingIds = new Set(existing.map((r) => r.id));
     let addedCount = 0;
 
-    stagedImportRecords.forEach(r => {
-        if (!r.id) r.id = rxUUID();
-        if (!existingIds.has(r.id)) {
-            existing.push(r);
-            existingIds.add(r.id);
-            addedCount++;
-        }
+    stagedImportRecords.forEach((r) => {
+      if (!r.id) r.id = rxUUID();
+      if (!existingIds.has(r.id)) {
+        existing.push(r);
+        existingIds.add(r.id);
+        addedCount++;
+      }
     });
 
     rxSave(existing);
@@ -1571,291 +1591,117 @@ function rxExecuteMergeImport() {
     rxUpdateStorage();
     rxRefreshShareLink();
 
-    const countStr = rxLang === "bn" ? addedCount.toLocaleString("bn-BD") : addedCount;
-    const msg = rx("toastImportMergeDone").replace("{n}", countStr);
-    rxToast(msg, "success", "bi-check-circle-fill");
-}
+    const countStr = currentLang === "bn" ? addedCount.toLocaleString("bn-BD") : addedCount;
+    const msg = tr("toastImportMergeDone").replace("{n}", countStr);
+    rxToast(msg, "success");
+  }
 
-/** Replaces entire vault with imported prescriptions. */
-function rxExecuteReplaceImport() {
+  function rxExecuteReplaceImport() {
     if (!stagedImportRecords.length) return;
     const count = stagedImportRecords.length;
-    stagedImportRecords.forEach(r => { if (!r.id) r.id = rxUUID(); });
+    stagedImportRecords.forEach((r) => {
+      if (!r.id) r.id = rxUUID();
+    });
     rxSave(stagedImportRecords);
     rxCancelImport();
     rxRenderGallery();
     rxUpdateStorage();
     rxRefreshShareLink();
 
-    const countStr = rxLang === "bn" ? count.toLocaleString("bn-BD") : count;
-    const msg = rx("toastImportReplaceDone").replace("{n}", countStr);
-    rxToast(msg, "success", "bi-arrow-repeat");
-}
+    const countStr = currentLang === "bn" ? count.toLocaleString("bn-BD") : count;
+    const msg = tr("toastImportReplaceDone").replace("{n}", countStr);
+    rxToast(msg, "success");
+  }
 
-/** Cancels staged import and resets preview. */
-function rxCancelImport() {
+  function rxCancelImport() {
     stagedImportRecords = [];
     stagedImportFilename = "";
-    const previewBox = $r("rxImportPreview");
+    const previewBox = $("rxImportPreview");
     if (previewBox) previewBox.classList.add("d-none");
-    const input = $r("rxImportInput");
+    const input = $("rxImportInput");
     if (input) input.value = "";
-}
+  }
 
-/** Backward-compatible direct handler */
-function rxHandleImport(e) {
-    if (e.target?.files?.length) {
-        rxStageImportFile(e.target.files[0]);
+  // ============================================================================
+  // TOAST NOTIFICATIONS
+  // ============================================================================
+  function rxToast(message, type = "info") {
+    let stack = $("rxToastStack");
+    if (!stack) {
+      stack = document.createElement("div");
+      stack.id = "rxToastStack";
+      stack.className = "rx-toast-stack";
+      document.body.appendChild(stack);
     }
-}
 
-/**
- * Checks URL for ?rxview= payload and activates read-only view mode.
- */
-function rxHandleViewMode() {
-    const params = new URLSearchParams(window.location.search);
-    const payload = params.get("rxview");
-    if (!payload) return;
-
-    try {
-        const records = JSON.parse(decodeURIComponent(escape(atob(payload))));
-        viewMode = true;
-        viewModeRecords = records;
-
-        // Hide editing UI
-        document.querySelectorAll(".rx-edit-only").forEach(el => el.style.display = "none");
-
-        // Show notice banner
-        const notice = $r("rxViewNotice");
-        if (notice) {
-            notice.classList.remove("d-none");
-            notice.innerHTML = `
-        <div class="alert alert-info d-flex align-items-center gap-2 mb-4" role="alert">
-          <i class="bi bi-eye-fill fs-5"></i>
-          <div><strong>${rx("familyTitle")}</strong> —
-            ${rx("viewModeMsg").replace("{n}", records.length)}
-          </div>
-        </div>`;
-        }
-    } catch { /* ignore malformed */ }
-}
-
-/* ============================================================================
- * 15. STORAGE GAUGE
- * ============================================================================ */
-
-/** Calculates localStorage usage and updates the gauge UI. */
-function rxUpdateStorage() {
-    const used = JSON.stringify(localStorage).length * 2; // rough bytes (UTF-16)
-    const max = 10 * 1024 * 1024;  // assume ~10 MB limit
-    const pct = Math.min(100, Math.round((used / max) * 100));
-    const count = rxLoad().length;
-
-    const fill = $r("rxStorageFill");
-    const pctEl = $r("rxStoragePct");
-    const countEl = $r("rxStorageCount");
-
-    if (fill) {
-        fill.style.width = pct + "%";
-        fill.className = "rx-storage-fill" + (pct > 85 ? " full" : pct > 60 ? " warn" : "");
-    }
-    if (pctEl) pctEl.textContent = `${rxFmtBytes(used / 2)} / ~10 MB (${pct}%)`;
-    if (countEl) countEl.textContent = count;
-}
-
-/* ============================================================================
- * 16. TOAST NOTIFICATION SYSTEM
- * ============================================================================ */
-
-const RX_TOAST_DUR = { success: 3000, error: 5000, info: 3000, warn: 4000 };
-
-/**
- * Shows a branded toast notification.
- * @param {string}  message
- * @param {"success"|"error"|"info"|"warn"} type
- * @param {string}  [icon]
- */
-function rxToast(message, type = "info", icon = "bi-info-circle-fill") {
-    const stack = $r("rxToastStack");
-    if (!stack) return;
     const toast = document.createElement("div");
     toast.className = `rx-toast ${type}`;
+    const icon =
+      type === "success"
+        ? "bi-check-circle-fill text-success"
+        : type === "warn"
+        ? "bi-exclamation-triangle-fill text-warning"
+        : type === "error"
+        ? "bi-x-circle-fill text-danger"
+        : "bi-info-circle-fill text-info";
+
     toast.innerHTML = `
-    <div class="rx-toast-icon"><i class="bi ${icon}"></i></div>
-    <div><p class="rx-toast-ttl">${message}</p></div>`;
+      <i class="bi ${icon} fs-5"></i>
+      <span>${escapeHtml(message)}</span>
+    `;
+
     stack.appendChild(toast);
     setTimeout(() => {
-        toast.classList.add("rx-toast-out");
-        toast.addEventListener("animationend", () => toast.remove(), { once: true });
-    }, RX_TOAST_DUR[type] || 3000);
-}
+      toast.style.opacity = "0";
+      toast.style.transform = "translateY(15px)";
+      toast.style.transition = "all 0.25s ease";
+      setTimeout(() => toast.remove(), 250);
+    }, 3200);
+  }
 
-/* ============================================================================
- * 17. LANGUAGE TOGGLE
- * ============================================================================ */
+  // ============================================================================
+  // MOBILE NAVIGATION & DRAWER SUPPORT
+  // ============================================================================
+  function initMobileSidebar() {
+    const sidebar = $("mobileSidebarMenu");
+    if (!sidebar) return;
 
-/**
- * Sets the language and re-renders all i18n text.
- * @param {"bn"|"en"} lang
- */
-function rxSetLang(lang) {
-    rxLang = lang;
-    localStorage.setItem(RX_LANG_KEY, lang);
-    document.documentElement.lang = lang;
-    document.body.className = lang;
+    sidebar.querySelectorAll(".mobile-sidebar-nav-item, .mobile-sidebar-action-card").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const href = link.getAttribute("href");
+        if (!href) return;
 
-    document.querySelectorAll("[data-rx-i18n]").forEach(el => {
-        const key = el.dataset.rxI18n;
-        if (key) el.textContent = rx(key);
+        try {
+          const bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(sidebar);
+          bsOffcanvas?.hide();
+        } catch (_) {}
+
+        if (link.dataset.action === "emergency-sos" || href.includes("#safety")) {
+          e.preventDefault();
+          window.location.href = "index.html#safety";
+          return;
+        }
+
+        if (href === "prescriptions.html" || href.endsWith("prescriptions.html")) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        e.preventDefault();
+        window.location.href = href;
+      });
     });
-    document.querySelectorAll("[data-rx-i18n-ph]").forEach(el => {
-        const key = el.dataset.rxI18nPh;
-        if (key) el.placeholder = rx(key);
-    });
+  }
 
-    const btn = $r("rxLangToggle");
-    if (btn) btn.textContent = lang === "bn" ? "English" : "বাংলা";
-
-    document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
-        const isTarget = btn.dataset.lang === lang;
-        btn.classList.toggle("active", isTarget);
-        btn.setAttribute("aria-pressed", isTarget ? "true" : "false");
-    });
-    localStorage.setItem("bw-lang", lang);
-    localStorage.setItem("bw_lang", lang);
-
-    // Re-render dynamic content
-    rxRenderGallery();
-    rxUpdateStorage();
-    rxRefreshShareLink();
-}
-
-/* ============================================================================
- * 18. APPLICATION BOOTSTRAP
- * ============================================================================ */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    // Handle read-only share view mode first
-    rxHandleViewMode();
-
-    // Initial renders
-    rxSetLang(rxLang);
-
-    // Set date fields to today
-    if ($r("rxDate")) $r("rxDate").value = rxToday();
-
-    // Bind upload zone
-    rxBindUploadZone();
-
-    // Bind medication tag input
-    rxBindMedInput();
-
-    // Bind save form
-    $r("rxForm")?.addEventListener("submit", rxHandleSave);
-
-    // Gallery filter pills
-    document.querySelectorAll(".rx-filter-pill[data-filter]").forEach(btn => {
-        btn.addEventListener("click", () => {
-            galleryFilter = btn.dataset.filter;
-            document.querySelectorAll(".rx-filter-pill").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            rxRenderGallery();
-        });
-    });
-
-    // Sort select
-    $r("rxSortSelect")?.addEventListener("change", e => {
-        gallerySort = e.target.value;
-        rxRenderGallery();
-    });
-
-    // Live search
-    $r("rxSearch")?.addEventListener("input", e => {
-        gallerySearch = e.target.value.trim();
-        rxRenderGallery();
-    });
-
-    // Share & Export buttons
-    $r("rxBtnWhatsApp")?.addEventListener("click", rxShareWhatsApp);
-    $r("rxBtnCopyMsg")?.addEventListener("click", rxCopyWhatsAppMessage);
-    $r("rxBtnCopySummary")?.addEventListener("click", rxCopySummary);
-    $r("rxBtnJson")?.addEventListener("click", rxExportJSON);
-    $r("rxBtnLink")?.addEventListener("click", rxRefreshShareLink);
-    $r("rxCopyBtn")?.addEventListener("click", rxCopyLink);
-    $r("rxBtnPrint")?.addEventListener("click", () => window.print());
-
-    // Family Import Drag & Drop + Staged preview
-    rxBindImportDropZone();
-    $r("rxBtnMergeImport")?.addEventListener("click", rxExecuteMergeImport);
-    $r("rxBtnReplaceImport")?.addEventListener("click", rxExecuteReplaceImport);
-    $r("rxBtnCancelImport")?.addEventListener("click", rxCancelImport);
-
-    // Lightbox close (backdrop + button)
-    $r("rxLightbox")?.addEventListener("click", e => {
-        if (e.target === $r("rxLightbox")) rxCloseLightbox();
-    });
-    $r("lbCloseBtn")?.addEventListener("click", rxCloseLightbox);
-    $r("lbPrev")?.addEventListener("click", rxLbPrev);
-    $r("lbNext")?.addEventListener("click", rxLbNext);
-
-    // Keyboard shortcuts for lightbox
-    document.addEventListener("keydown", e => {
-        if (!$r("rxLightbox")?.classList.contains("open")) return;
-        if (e.key === "Escape") rxCloseLightbox();
-        if (e.key === "ArrowLeft") rxLbPrev();
-        if (e.key === "ArrowRight") rxLbNext();
-    });
-
-    // Language toggle
-    $r("rxLangToggle")?.addEventListener("click", () => {
-        rxSetLang(rxLang === "bn" ? "en" : "bn");
-    });
-
-    // Initial share link
-    rxRefreshShareLink();
-
-    // Mobile offcanvas sidebar drawer bindings
-    document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const targetLang = btn.dataset.lang;
-            if (targetLang && targetLang !== rxLang) {
-                rxSetLang(targetLang);
-            }
-        });
-    });
-
-    const sidebar = $r("mobileSidebarMenu");
-    if (sidebar) {
-        sidebar.querySelectorAll(".mobile-sidebar-nav-item, .mobile-sidebar-action-card").forEach(link => {
-            link.addEventListener("click", (e) => {
-                const href = link.getAttribute("href") || "";
-                const action = link.dataset.action;
-
-                if (typeof bootstrap !== "undefined" && bootstrap.Offcanvas) {
-                    const inst = bootstrap.Offcanvas.getInstance(sidebar);
-                    if (inst) inst.hide();
-                }
-
-                if (action === "emergency-sos" || href.includes("#safety")) {
-                    e.preventDefault();
-                    window.location.href = "index.html#safety";
-                    return;
-                }
-
-                const cleanHref = href.split("#")[0].split("?")[0].split("/").pop();
-                if (cleanHref === "prescriptions.html" || !cleanHref) {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                    return;
-                }
-
-                if (href && !href.startsWith("javascript:")) {
-                    e.preventDefault();
-                    window.location.href = href;
-                }
-            });
-        });
-    }
-});
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+})();
 

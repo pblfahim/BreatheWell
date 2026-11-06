@@ -143,7 +143,13 @@
       sexMale: "পুরুষ (M)",
       sexFemale: "মহিলা (F)",
       sexOther: "অন্যান্য",
-      sigLine: "ডাক্তারের স্বাক্ষর ও সিল"
+      sigLine: "ডাক্তারের স্বাক্ষর ও সিল",
+      footerTag: "প্রতিটি নিঃশ্বাসে একটি প্রশান্তি",
+      footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
+      sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
+      langSelectTitle: "ভাষা পরিবর্তন",
+      quickToolsTitle: "দ্রুত অ্যাকশন",
+      navPagesTitle: "পেজ ও মডিউল"
     },
     en: {
       navHome: "Home",
@@ -198,7 +204,13 @@
       sexMale: "Male (M)",
       sexFemale: "Female (F)",
       sexOther: "Other",
-      sigLine: "Doctor's Signature & Stamp"
+      sigLine: "Doctor's Signature & Stamp",
+      footerTag: "A touch of calm with every breath",
+      footerDisclaimer: "For general wellness only. Not a substitute for medical advice.",
+      sidebarBrandSub: "Digital Health & Mindfulness",
+      langSelectTitle: "Change Language",
+      quickToolsTitle: "Quick Tools",
+      navPagesTitle: "Pages & Modules"
     }
   };
 
