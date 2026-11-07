@@ -88,124 +88,402 @@
          ======================================================================== -->
     <section id="home" class="screen active">
       <!-- 2.1 Hero Section & Interactive BreatheBuddy Mascot -->
-      <div class="hero">
+      <div class="hero hero-slider-wrapper position-relative" id="heroSliderSection">
         <!-- Ambient floating background bubbles -->
         <div class="hero-bubble bubble-1" aria-hidden="true"></div>
         <div class="hero-bubble bubble-2" aria-hidden="true"></div>
         <div class="hero-bubble bubble-3" aria-hidden="true"></div>
 
-        <div class="container position-relative">
-          <div class="row align-items-center g-4">
-            <div class="col-lg-7">
-              <div class="hero-pill-badge mb-3">
-                <span class="badge-icon"><i class="bi bi-stars"></i></span>
-                <span class="badge-text" data-i18n="heroBadge">সহজ ও আনন্দদায়ক মাইন্ডফুলনেস ✨</span>
-              </div>
-              <h1 class="hero-title" data-i18n="heroTitle">প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি</h1>
-              <p class="hero-subtitle my-3" data-i18n="heroDesc">সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে ধীরে
-                চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।</p>
+        <!-- Slider Track Container -->
+        <div class="hero-slider" id="heroSlider" aria-roledescription="carousel"
+          aria-label="BreatheWell Platform Highlights">
 
-              <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
-                <a class="btn btn-primary btn-lg hero-cta-btn" href="exercises.html">
-                  <span data-i18n="startBreathing">অনুশীলন শুরু করুন</span> <i
-                    class="bi bi-arrow-right-short fs-5 ms-1"></i>
-                </a>
-                <button class="btn btn-outline-primary btn-lg hero-secondary-btn"
-                  onclick="document.getElementById('featured').scrollIntoView({behavior:'smooth'})"
-                  data-i18n="explore">অনুশীলন দেখুন</button>
-              </div>
+          <!-- SLIDE 1: Mindful Breathing & Lung Capacity (Current Hero with Mascot) -->
+          <div class="hero-slide active" data-slide-index="0" role="group" aria-roledescription="slide"
+            aria-label="1 of 3: Mindful Breathing">
+            <div class="container position-relative">
+              <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                  <div class="hero-pill-badge mb-3">
+                    <span class="badge-icon"><i class="bi bi-stars"></i></span>
+                    <span class="badge-text" data-i18n="heroBadge">সহজ ও আনন্দদায়ক মাইন্ডফুলনেস ✨</span>
+                  </div>
+                  <h1 class="hero-title" data-i18n="heroTitle">প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি</h1>
+                  <p class="hero-subtitle my-3" data-i18n="heroDesc">সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে
+                    ধীরে চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।</p>
 
-              <!-- Quick Vibe Selector -->
-              <!-- <div class="hero-vibe-wrap mt-4 pt-3">
-                <div class="hero-vibe-title small fw-bold text-secondary mb-2">
-                  <i class="bi bi-compass me-1 text-primary"></i><span data-i18n="heroVibePrompt">আজ আপনার লক্ষ্য কী?</span>
-                </div>
-                <div class="hero-vibes d-flex flex-wrap gap-2">
-                  <button type="button" class="btn hero-vibe-chip" onclick="quickStartExercise('relax46')">
-                    <span class="vibe-emoji">🌿</span> <span data-i18n="vibeCalm">চাপ মুক্তি</span>
-                  </button>
-                  <button type="button" class="btn hero-vibe-chip" onclick="quickStartExercise('box')">
-                    <span class="vibe-emoji">🎯</span> <span data-i18n="vibeFocus">গভীর মনোযোগ</span>
-                  </button>
-                  <button type="button" class="btn hero-vibe-chip" onclick="quickStartExercise('diaphragmatic')">
-                    <span class="vibe-emoji">🌙</span> <span data-i18n="vibeSleep">ভালো ঘুম</span>
-                  </button>
-                  <button type="button" class="btn hero-vibe-chip" onclick="quickStartExercise('mindful')">
-                    <span class="vibe-emoji">⚡</span> <span data-i18n="vibeEnergy">সতেজ অনুভূতি</span>
-                  </button>
-                </div>
-              </div> -->
-
-              <div class="d-flex flex-wrap gap-4 mt-4 small text-secondary hero-perks">
-                <span class="d-flex align-items-center gap-1.5"><i
-                    class="bi bi-shield-check text-success fs-6"></i><span data-i18n="noAccount">অ্যাকাউন্ট প্রয়োজন
-                    নেই</span></span>
-                <span class="d-flex align-items-center gap-1.5"><i class="bi bi-phone text-primary fs-6"></i><span
-                    data-i18n="mobileReady">মোবাইল উপযোগী</span></span>
-                <span class="d-flex align-items-center gap-1.5"><i class="bi bi-award-fill text-warning fs-6"></i><span
-                    data-i18n="heroPillQuick">১ মিনিটে প্রশান্তি</span></span>
-              </div>
-            </div>
-
-            <div class="col-lg-5">
-              <div class="hero-art" id="heroArtWrap">
-                <div class="hero-buddy-wrap">
-                  <div class="hero-buddy-orb" id="heroBuddyOrb" onclick="tapHeroBuddy()" role="button" tabindex="0"
-                    aria-label="BreatheBuddy - Tap for a joyful breath">
-                    <!-- Glowing breath atmosphere -->
-                    <div class="buddy-aura" aria-hidden="true"></div>
-
-                    <!-- Orbiting dots -->
-                    <div class="buddy-orbit orbit-1" aria-hidden="true">
-                      <div class="orbit-particle p1"></div>
-                    </div>
-                    <div class="buddy-orbit orbit-2" aria-hidden="true">
-                      <div class="orbit-particle p2"></div>
-                    </div>
-
-                    <!-- Main Sphere -->
-                    <div class="buddy-sphere">
-                      <div class="buddy-shine" aria-hidden="true"></div>
-                      <!-- Cute Face SVG -->
-                      <svg class="buddy-face-svg" viewBox="0 0 100 80" width="86" height="70" aria-hidden="true">
-                        <g class="buddy-eye eye-left">
-                          <ellipse cx="32" cy="34" rx="4.5" ry="5.5" fill="#1e3a5f" />
-                          <circle cx="34" cy="32" r="1.8" fill="#ffffff" />
-                        </g>
-                        <g class="buddy-eye eye-right">
-                          <ellipse cx="68" cy="34" rx="4.5" ry="5.5" fill="#1e3a5f" />
-                          <circle cx="70" cy="32" r="1.8" fill="#ffffff" />
-                        </g>
-                        <ellipse cx="25" cy="42" rx="5" ry="3" fill="#f43f5e" opacity="0.38" />
-                        <ellipse cx="75" cy="42" rx="5" ry="3" fill="#f43f5e" opacity="0.38" />
-                        <path class="buddy-mouth" d="M42 42 Q50 51 58 42" stroke="#1e3a5f" stroke-width="3"
-                          stroke-linecap="round" fill="none" />
-                      </svg>
-                    </div>
+                  <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+                    <a class="btn btn-primary btn-lg hero-cta-btn" href="exercises.html">
+                      <span data-i18n="startBreathing">অনুশীলন শুরু করুন</span> <i
+                        class="bi bi-arrow-right-short fs-5 ms-1"></i>
+                    </a>
+                    <button class="btn btn-outline-primary btn-lg hero-secondary-btn"
+                      onclick="document.getElementById('featured').scrollIntoView({behavior:'smooth'})"
+                      data-i18n="explore">অনুশীলন দেখুন</button>
                   </div>
 
-                  <!-- Live Inhale/Exhale Guide Pill -->
-                  <div class="hero-orb-caption text-center">
-                    <span class="hero-orb-guide-pill" id="heroOrbGuide" data-i18n="heroLiveBreathing">মৃদু শ্বাস
-                      নিন...</span>
-                    <div class="hero-tap-hint-text"><i class="bi bi-hand-index-thumb me-1"></i><span
-                        data-i18n="heroOrbTap">আমাকে ট্যাপ করুন!</span></div>
+                  <div class="d-flex flex-wrap gap-4 mt-4 small text-secondary hero-perks">
+                    <span class="d-flex align-items-center gap-1.5"><i
+                        class="bi bi-shield-check text-success fs-6"></i><span data-i18n="noAccount">অ্যাকাউন্ট প্রয়োজন
+                        নেই</span></span>
+                    <span class="d-flex align-items-center gap-1.5"><i class="bi bi-phone text-primary fs-6"></i><span
+                        data-i18n="mobileReady">মোবাইল উপযোগী</span></span>
+                    <span class="d-flex align-items-center gap-1.5"><i
+                        class="bi bi-award-fill text-warning fs-6"></i><span data-i18n="heroPillQuick">১ মিনিটে
+                        প্রশান্তি</span></span>
                   </div>
                 </div>
 
-                <!-- Floating Playful Pills -->
-                <div class="float-pill pill-joy-1"><i class="bi bi-heart-pulse-fill text-danger me-1"></i> <span
-                    data-i18n="heroPillHeart">প্রশান্ত হৃদয়</span></div>
-                <div class="float-pill pill-joy-2"><i class="bi bi-clock-history text-primary me-1"></i> <span
-                    data-i18n="heroPillQuick">১ মিনিটে প্রশান্তি</span></div>
-                <div class="float-pill pill-joy-3"><i class="bi bi-flower1 text-success me-1"></i> <span
-                    data-i18n="gentlePractice">নরম ও স্বচ্ছন্দ</span></div>
-                <div class="float-pill pill-joy-4"><i class="bi bi-stars text-warning me-1"></i> <span
-                    data-i18n="heroPillStress">চাপ হ্রাস</span></div>
+                <div class="col-lg-5">
+                  <div class="hero-art hero-3d-scene" id="heroArtWrap">
+                    <div class="hero-buddy-wrap">
+                      <div class="hero-buddy-orb" id="heroBuddyOrb" onclick="tapHeroBuddy()" role="button" tabindex="0"
+                        aria-label="BreatheBuddy - Tap for a joyful breath">
+                        <!-- 3D Ground Shadow beneath orb -->
+                        <div class="buddy-ground-shadow" aria-hidden="true"></div>
+                        <!-- Glowing breath atmosphere -->
+                        <div class="buddy-aura" aria-hidden="true"></div>
+                        <div class="buddy-aura aura-outer" aria-hidden="true"></div>
+
+                        <!-- Orbiting dots -->
+                        <div class="buddy-orbit orbit-1" aria-hidden="true">
+                          <div class="orbit-particle p1"></div>
+                        </div>
+                        <div class="buddy-orbit orbit-2" aria-hidden="true">
+                          <div class="orbit-particle p2"></div>
+                        </div>
+
+                        <!-- Main Sphere -->
+                        <div class="buddy-sphere">
+                          <div class="buddy-shine" aria-hidden="true"></div>
+                          <!-- Cute Face SVG -->
+                          <svg class="buddy-face-svg" viewBox="0 0 100 80" width="86" height="70" aria-hidden="true">
+                            <g class="buddy-eye eye-left">
+                              <ellipse cx="32" cy="34" rx="4.5" ry="5.5" fill="#1e3a5f" />
+                              <circle cx="34" cy="32" r="1.8" fill="#ffffff" />
+                            </g>
+                            <g class="buddy-eye eye-right">
+                              <ellipse cx="68" cy="34" rx="4.5" ry="5.5" fill="#1e3a5f" />
+                              <circle cx="70" cy="32" r="1.8" fill="#ffffff" />
+                            </g>
+                            <ellipse cx="25" cy="42" rx="5" ry="3" fill="#f43f5e" opacity="0.38" />
+                            <ellipse cx="75" cy="42" rx="5" ry="3" fill="#f43f5e" opacity="0.38" />
+                            <path class="buddy-mouth" d="M42 42 Q50 51 58 42" stroke="#1e3a5f" stroke-width="3"
+                              stroke-linecap="round" fill="none" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <!-- Live Inhale/Exhale Guide Pill -->
+                      <div class="hero-orb-caption text-center">
+                        <span class="hero-orb-guide-pill" id="heroOrbGuide" data-i18n="heroLiveBreathing">মৃদু শ্বাস
+                          নিন...</span>
+                        <div class="hero-tap-hint-text"><i class="bi bi-hand-index-thumb me-1"></i><span
+                            data-i18n="heroOrbTap">আমাকে ট্যাপ করুন!</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Floating Playful Pills -->
+                    <div class="float-pill pill-joy-1"><i class="bi bi-heart-pulse-fill text-danger me-1"></i> <span
+                        data-i18n="heroPillHeart">প্রশান্ত হৃদয়</span></div>
+                    <div class="float-pill pill-joy-2"><i class="bi bi-clock-history text-primary me-1"></i> <span
+                        data-i18n="heroPillQuick">১ মিনিটে প্রশান্তি</span></div>
+                    <div class="float-pill pill-joy-3"><i class="bi bi-flower1 text-success me-1"></i> <span
+                        data-i18n="gentlePractice">নরম ও স্বচ্ছন্দ</span></div>
+                    <div class="float-pill pill-joy-4"><i class="bi bi-stars text-warning me-1"></i> <span
+                        data-i18n="heroPillStress">চাপ হ্রাস</span></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- SLIDE 2: Health Vitals & Diabetes Tracking (Day-wise Blood Pressure & Sugar) -->
+          <div class="hero-slide" data-slide-index="1" role="group" aria-roledescription="slide"
+            aria-label="2 of 3: Health Vitals Tracking">
+            <div class="container position-relative">
+              <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                  <div class="hero-pill-badge mb-3 hero-badge-health">
+                    <span class="badge-icon"><i class="bi bi-activity text-danger"></i></span>
+                    <span class="badge-text" data-i18n="heroSlide2Badge">ক্লিনিক্যাল ভাইটাল ট্র্যাকার 🩺</span>
+                  </div>
+                  <h1 class="hero-title" data-i18n="heroSlide2Title">রক্তচাপ ও ডায়াবেটিস সহজ ট্র্যাকিং</h1>
+                  <p class="hero-subtitle my-3" data-i18n="heroSlide2Desc">আমেরিকান হার্ট অ্যাসোসিয়েশন (AHA 2017) ও ADA
+                    স্ট্যান্ডার্ড অনুযায়ী লাইভ ডায়াগনস্টিক স্কেল, ট্রেন্ড অ্যানালিটিক্স ও পরিবারের সাথে সরাসরি
+                    হোয়াটসঅ্যাপ রিপোর্ট শেয়ারিং।</p>
+
+                  <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+                    <a class="btn btn-primary btn-lg hero-cta-btn" href="health-tracker.html">
+                      <i class="bi bi-heart-pulse-fill me-1"></i> <span data-i18n="heroSlide2Cta">হেলথ ট্র্যাকার
+                        খুলুন</span> <i class="bi bi-arrow-right-short fs-5 ms-1"></i>
+                    </a>
+                    <a class="btn btn-outline-primary btn-lg hero-secondary-btn"
+                      href="health-tracker.html#entryFormCard">
+                      <i class="bi bi-plus-circle me-1"></i> <span data-i18n="heroSlide2Sec">লগ যোগ করুন</span>
+                    </a>
+                  </div>
+
+                  <div class="d-flex flex-wrap gap-4 mt-4 small text-secondary hero-perks">
+                    <span class="d-flex align-items-center gap-1.5"><i
+                        class="bi bi-check-circle-fill text-success fs-6"></i><span data-i18n="heroSlide2Perk1">AHA ও
+                        ADA স্কেল</span></span>
+                    <span class="d-flex align-items-center gap-1.5"><i
+                        class="bi bi-whatsapp text-success fs-6"></i><span data-i18n="heroSlide2Perk2">হোয়াটসঅ্যাপ
+                        ফ্যামিলি শেয়ার</span></span>
+                    <span class="d-flex align-items-center gap-1.5"><i
+                        class="bi bi-file-earmark-pdf-fill text-danger fs-6"></i><span data-i18n="heroSlide2Perk3">ডক্টর
+                        রিপোর্ট সামারি</span></span>
+                  </div>
+                </div>
+
+                <div class="col-lg-5">
+                  <div class="hero-art hero-health-art hero-3d-scene">
+                    <!-- 3D Ground Pedestal Shadow -->
+                    <div class="console-ground-shadow shadow-health" aria-hidden="true"></div>
+                    <!-- Glassmorphic Live Vitals Console Card -->
+                    <div class="hero-vitals-console">
+                      <!-- Live Monitor Header -->
+                      <div class="vitals-console-head d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="vitals-live-beacon"></span>
+                          <span class="small fw-bold text-dark" data-i18n="heroSlide2Live">লাইভ মনিটর</span>
+                        </div>
+                        <span class="badge bg-success-subtle text-success extra-small fw-bold">AHA 2017</span>
+                      </div>
+
+                      <!-- Blood Pressure Metric Card -->
+                      <div class="vitals-metric-row mb-2">
+                        <div class="vitals-metric-icon vitals-icon-bp">
+                          <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <div class="vitals-metric-info">
+                          <div class="d-flex justify-content-between align-items-baseline">
+                            <span class="extra-small text-muted fw-semibold" data-i18n="heroSlide2BpLabel">রক্তচাপ
+                              (BP)</span>
+                            <span class="badge bg-success-subtle text-success extra-small"
+                              data-i18n="heroSlide2BpStatus">স্বাভাবিক</span>
+                          </div>
+                          <div class="vitals-number-wrap">
+                            <strong class="vitals-val text-dark">120 / 80</strong>
+                            <span class="extra-small text-muted ms-1">mmHg</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Blood Sugar Metric Card -->
+                      <div class="vitals-metric-row mb-2">
+                        <div class="vitals-metric-icon vitals-icon-bg">
+                          <i class="bi bi-droplet-half"></i>
+                        </div>
+                        <div class="vitals-metric-info">
+                          <div class="d-flex justify-content-between align-items-baseline">
+                            <span class="extra-small text-muted fw-semibold" data-i18n="heroSlide2BgLabel">রক্তের
+                              গ্লুকোজ</span>
+                            <span class="badge bg-success-subtle text-success extra-small"
+                              data-i18n="heroSlide2BgStatus">খাবার পূর্বে</span>
+                          </div>
+                          <div class="vitals-number-wrap">
+                            <strong class="vitals-val text-dark">5.6</strong>
+                            <span class="extra-small text-muted ms-1">mmol/L</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Pulse & Mini ECG Card -->
+                      <div class="vitals-metric-row">
+                        <div class="vitals-metric-icon vitals-icon-pulse">
+                          <i class="bi bi-activity"></i>
+                        </div>
+                        <div class="vitals-metric-info">
+                          <div class="d-flex justify-content-between align-items-baseline">
+                            <span class="extra-small text-muted fw-semibold" data-i18n="heroSlide2PulseLabel">পালস
+                              রেট</span>
+                            <span class="extra-small text-success fw-bold" data-i18n="heroSlide2PulseStatus">সুষম
+                              ছন্দ</span>
+                          </div>
+                          <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                              <strong class="vitals-val text-dark">72</strong>
+                              <span class="extra-small text-muted ms-1">BPM</span>
+                            </div>
+                            <svg class="ecg-wave-svg" viewBox="0 0 100 22" width="100" height="22" aria-hidden="true">
+                              <path class="ecg-bg-line"
+                                d="M0 11 L22 11 L26 4 L31 18 L36 6 L41 14 L46 11 L68 11 L72 4 L77 18 L82 6 L87 14 L92 11 L100 11"
+                                fill="none" stroke="rgba(16, 185, 129, 0.2)" stroke-width="2" />
+                              <path class="ecg-pulse-line"
+                                d="M0 11 L22 11 L26 4 L31 18 L36 6 L41 14 L46 11 L68 11 L72 4 L77 18 L82 6 L87 14 L92 11 L100 11"
+                                fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Floating Vitals Pills -->
+                    <div class="float-pill pill-health-1"><i class="bi bi-shield-check text-success me-1"></i> <span
+                        data-i18n="heroSlide2Pill1">AHA 2017 স্ট্যান্ডার্ড</span></div>
+                    <div class="float-pill pill-health-2"><i class="bi bi-graph-up-arrow text-primary me-1"></i> <span
+                        data-i18n="heroSlide2Pill2">৭-৩০ দিনের ট্রেন্ড</span></div>
+                    <div class="float-pill pill-health-3"><i class="bi bi-lock-fill text-warning me-1"></i> <span
+                        data-i18n="heroSlide2Pill3">পিন লক সুরক্ষিত</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 3: Prescription Studio & OCR Scanner (Tesseract.js OCR) -->
+          <div class="hero-slide" data-slide-index="2" role="group" aria-roledescription="slide"
+            aria-label="3 of 3: Smart Prescription & OCR">
+            <div class="container position-relative">
+              <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                  <div class="hero-pill-badge mb-3 hero-badge-rx">
+                    <span class="badge-icon"><i class="bi bi-camera-fill text-teal"></i></span>
+                    <span class="badge-text" data-i18n="heroSlide3Badge">স্মার্ট এআই প্রেসক্রিপশন ও ওসিআর 📄</span>
+                  </div>
+                  <h1 class="hero-title" data-i18n="heroSlide3Title">প্রেসক্রিপশন স্ক্যান ও ডিজিটাল ব্যবস্থাপনা</h1>
+                  <p class="hero-subtitle my-3" data-i18n="heroSlide3Desc">প্রেসক্রিপশনের ছবি আপলোড করুন;
+                    ক্লায়েন্ট-সাইড Tesseract OCR দিয়ে তাৎক্ষণিক ওষুধ, মাত্রা ও নিয়মাবলী স্ক্যান করে স্বয়ংক্রিয় ডিজিটাল
+                    প্যাডে রূপান্তর করুন।</p>
+
+                  <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+                    <a class="btn btn-primary btn-lg hero-cta-btn" href="create-prescription.html">
+                      <i class="bi bi-magic me-1"></i> <span data-i18n="heroSlide3Cta">ওসিআর দিয়ে স্ক্যান করুন</span> <i
+                        class="bi bi-arrow-right-short fs-5 ms-1"></i>
+                    </a>
+                    <a class="btn btn-outline-primary btn-lg hero-secondary-btn" href="prescriptions.html">
+                      <i class="bi bi-safe2-fill me-1"></i> <span data-i18n="heroSlide3Sec">প্রেসক্রিপশন ভল্ট</span>
+                    </a>
+                  </div>
+
+                  <div class="d-flex flex-wrap gap-4 mt-4 small text-secondary hero-perks">
+                    <span class="d-flex align-items-center gap-1.5"><i
+                        class="bi bi-lightning-charge-fill text-warning fs-6"></i><span
+                        data-i18n="heroSlide3Perk1">ক্লায়েন্ট-সাইড Tesseract OCR</span></span>
+                    <span class="d-flex align-items-center gap-1.5"><i
+                        class="bi bi-shield-lock-fill text-success fs-6"></i><span data-i18n="heroSlide3Perk2">১০০%
+                        ডিভাইসে সুরক্ষিত (Offline)</span></span>
+                    <span class="d-flex align-items-center gap-1.5"><i
+                        class="bi bi-printer-fill text-primary fs-6"></i><span data-i18n="heroSlide3Perk3">প্রিন্ট ও PDF
+                        রেডি</span></span>
+                  </div>
+                </div>
+
+                <div class="col-lg-5">
+                  <div class="hero-art hero-rx-art hero-3d-scene">
+                    <!-- 3D Ground Pedestal Shadow -->
+                    <div class="console-ground-shadow shadow-rx" aria-hidden="true"></div>
+                    <!-- Glassmorphic Digital Prescription Pad Console -->
+                    <div class="hero-rx-console position-relative">
+                      <!-- Active Laser Scan Beam Simulation -->
+                      <div class="ocr-laser-beam" aria-hidden="true">
+                        <div class="ocr-laser-flare"></div>
+                        <div class="ocr-laser-cone"></div>
+                      </div>
+                      <div class="ocr-scan-grid" aria-hidden="true"></div>
+
+                      <!-- Hospital Header -->
+                      <div class="rx-console-head pb-2 mb-2 border-bottom">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div>
+                            <strong class="d-block extra-small text-dark" data-i18n="heroSlide3PadTitle">সিটি কেয়ার
+                              হাসপাতাল · ডিজিটাল প্রেসক্রিপশন</strong>
+                            <span class="extra-small text-primary fw-semibold" data-i18n="heroSlide3Doc">ডাঃ এম. এ.
+                              রহমান (MBBS, FCPS)</span>
+                          </div>
+                          <span class="badge bg-teal-subtle text-teal extra-small"><i
+                              class="bi bi-cpu-fill me-1"></i>OCR v5</span>
+                        </div>
+                      </div>
+
+                      <!-- Scanning Active Indicator -->
+                      <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="extra-small text-muted d-flex align-items-center gap-1">
+                          <span class="ocr-scan-pulse"></span>
+                          <span data-i18n="heroSlide3ScanStatus">ওসিআর স্ক্যান সক্রিয়...</span>
+                        </span>
+                        <span class="badge bg-success-subtle text-success extra-small fw-bold"
+                          data-i18n="heroSlide3Accuracy">৯৮% ওসিআর সঠিকতা</span>
+                      </div>
+
+                      <!-- Detected Medicine Rows -->
+                      <div class="rx-console-med-list">
+                        <div class="rx-console-med-item mb-2">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold small text-dark" data-i18n="heroSlide3Med1">Tab. Napa Extra
+                              500mg</span>
+                            <span class="badge bg-light text-dark border extra-small" data-i18n="heroSlide3Dose1">১+০+১
+                              (ভরা পেটে)</span>
+                          </div>
+                        </div>
+                        <div class="rx-console-med-item mb-2">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold small text-dark" data-i18n="heroSlide3Med2">Cap. Seclo 20mg</span>
+                            <span class="badge bg-light text-dark border extra-small" data-i18n="heroSlide3Dose2">১+০+১
+                              (খাবার পূর্বে)</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Footer Signature Stamp Preview -->
+                      <div class="rx-console-footer pt-2 border-top d-flex justify-content-between align-items-center">
+                        <span class="extra-small text-muted"><i class="bi bi-calendar3 me-1"></i><span
+                            data-i18n="heroSlide3Date">আজকের প্রেসক্রিপশন</span></span>
+                        <span class="extra-small text-success fw-bold"><i class="bi bi-patch-check-fill me-1"></i><span
+                            data-i18n="heroSlide3Stamp">ডিজিটাল ভেরিফাইড</span></span>
+                      </div>
+                    </div>
+
+                    <!-- Floating Rx Pills -->
+                    <div class="float-pill pill-rx-1"><i class="bi bi-magic text-teal me-1"></i> <span
+                        data-i18n="heroSlide3Pill1">অটো মেডিসিন ডিটেকশন</span></div>
+                    <div class="float-pill pill-rx-2"><i class="bi bi-pen-fill text-primary me-1"></i> <span
+                        data-i18n="heroSlide3Pill2">ডিজিটাল সিগনেচার</span></div>
+                    <div class="float-pill pill-rx-3"><i class="bi bi-whatsapp text-success me-1"></i> <span
+                        data-i18n="heroSlide3Pill3">হোয়াটসঅ্যাপে শেয়ার</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /hero-slider -->
+
+        <!-- Slider Navigation Controls -->
+        <div class="hero-slider-controls container position-relative d-flex justify-content-between align-items-center">
+          <!-- Slide Counter -->
+          <div
+            class="hero-slider-counter badge bg-white bg-opacity-75 text-dark border shadow-sm px-3 py-1.5 rounded-pill"
+            id="heroSlideCounter" aria-live="polite">
+            01 / 03
+          </div>
+
+          <!-- Pagination Indicator Dots -->
+          <div class="hero-slider-dots" id="heroSliderDots" role="tablist" aria-label="Hero slider pagination">
+            <button type="button" class="hero-dot active" data-slide="0" role="tab" aria-selected="true"
+              aria-label="Go to slide 1"><span class="hero-dot-bar"></span></button>
+            <button type="button" class="hero-dot" data-slide="1" role="tab" aria-selected="false"
+              aria-label="Go to slide 2"><span class="hero-dot-bar"></span></button>
+            <button type="button" class="hero-dot" data-slide="2" role="tab" aria-selected="false"
+              aria-label="Go to slide 3"><span class="hero-dot-bar"></span></button>
+          </div>
+
+          <!-- Prev/Next Navigation Arrows -->
+          <div class="hero-slider-arrows d-flex gap-2">
+            <button type="button" class="hero-nav-arrow" id="heroSliderPrev" aria-label="Previous slide"
+              data-i18n-title="sliderPrev" title="পূর্ববর্তী স্লাইড">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button type="button" class="hero-nav-arrow" id="heroSliderNext" aria-label="Next slide"
+              data-i18n-title="sliderNext" title="পরবর্তী স্লাইড">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
         </div>
+
       </div>
       <!-- ====================================================================
            2.2 FEATURED EXERCISES & SCIENCE HIGHLIGHTS

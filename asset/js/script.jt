@@ -92,6 +92,47 @@ const T = {
     vibeEnergy: "সতেজ অনুভূতি",
     heroOrbTap: "আমাকে ট্যাপ করুন!",
     heroOrbSmile: "দারুণ! একটি গভীর শ্বাস নিন 😊",
+    heroSlide2Badge: "ক্লিনিক্যাল ভাইটাল ট্র্যাকার 🩺",
+    heroSlide2Title: "রক্তচাপ ও ডায়াবেটিস সহজ ট্র্যাকিং",
+    heroSlide2Desc: "আমেরিকান হার্ট অ্যাসোসিয়েশন (AHA 2017) ও ADA স্ট্যান্ডার্ড অনুযায়ী লাইভ ডায়াগনস্টিক স্কেল, ট্রেন্ড অ্যানালিটিক্স ও পরিবারের সাথে সরাসরি হোয়াটসঅ্যাপ রিপোর্ট শেয়ারিং।",
+    heroSlide2Cta: "হেলথ ট্র্যাকার খুলুন",
+    heroSlide2Sec: "লগ যোগ করুন",
+    heroSlide2Perk1: "AHA ও ADA স্কেল",
+    heroSlide2Perk2: "হোয়াটসঅ্যাপ ফ্যামিলি শেয়ার",
+    heroSlide2Perk3: "ডক্টর রিপোর্ট সামারি",
+    heroSlide2Live: "লাইভ মনিটর",
+    heroSlide2BpLabel: "রক্তচাপ (BP)",
+    heroSlide2BpStatus: "স্বাভাবিক",
+    heroSlide2BgLabel: "রক্তের গ্লুকোজ",
+    heroSlide2BgStatus: "খাবার পূর্বে",
+    heroSlide2PulseLabel: "পালস রেট",
+    heroSlide2PulseStatus: "সুষম ছন্দ",
+    heroSlide2Pill1: "AHA 2017 স্ট্যান্ডার্ড",
+    heroSlide2Pill2: "৭-৩০ দিনের ট্রেন্ড",
+    heroSlide2Pill3: "পিন লক সুরক্ষিত",
+    heroSlide3Badge: "স্মার্ট এআই প্রেসক্রিপশন ও ওসিআর 📄",
+    heroSlide3Title: "প্রেসক্রিপশন স্ক্যান ও ডিজিটাল ব্যবস্থাপনা",
+    heroSlide3Desc: "প্রেসক্রিপশনের ছবি আপলোড করুন; ক্লায়েন্ট-সাইড Tesseract OCR দিয়ে তাৎক্ষণিক ওষুধ, মাত্রা ও নিয়মাবলী স্ক্যান করে স্বয়ংক্রিয় ডিজিটাল প্যাডে রূপান্তর করুন।",
+    heroSlide3Cta: "ওসিআর দিয়ে স্ক্যান করুন",
+    heroSlide3Sec: "প্রেসক্রিপশন ভল্ট",
+    heroSlide3Perk1: "ক্লায়েন্ট-সাইড Tesseract OCR",
+    heroSlide3Perk2: "১০০% ডিভাইসে সুরক্ষিত (Offline)",
+    heroSlide3Perk3: "প্রিন্ট ও PDF রেডি",
+    heroSlide3PadTitle: "সিটি কেয়ার হাসপাতাল · ডিজিটাল প্রেসক্রিপশন",
+    heroSlide3Doc: "ডাঃ এম. এ. রহমান (MBBS, FCPS)",
+    heroSlide3ScanStatus: "ওসিআর স্ক্যান সক্রিয়...",
+    heroSlide3Accuracy: "৯৮% ওসিআর সঠিকতা",
+    heroSlide3Med1: "Tab. Napa Extra 500mg",
+    heroSlide3Dose1: "১+০+১ (ভরা পেটে)",
+    heroSlide3Med2: "Cap. Seclo 20mg",
+    heroSlide3Dose2: "১+০+১ (খাবার পূর্বে)",
+    heroSlide3Pill1: "অটো মেডিসিন ডিটেকশন",
+    heroSlide3Pill2: "ডিজিটাল সিগনেচার",
+    heroSlide3Pill3: "হোয়াটসঅ্যাপে শেয়ার",
+    heroSlide3Stamp: "ডিজিটাল ভেরিফাইড",
+    heroSlide3Date: "আজকের প্রেসক্রিপশন",
+    sliderPrev: "পূর্ববর্তী স্লাইড",
+    sliderNext: "পরবর্তী স্লাইড",
     minOne: "১ মিনিট",
     levelLabel: "স্তর",
     lvlGentle: "সহজ",
@@ -400,6 +441,47 @@ const T = {
     vibeEnergy: "Gentle Refresh",
     heroOrbTap: "Tap me to breathe!",
     heroOrbSmile: "Wonderful! Take a deep breath 😊",
+    heroSlide2Badge: "Clinical Vitals Monitor 🩺",
+    heroSlide2Title: "Day-wise Blood Pressure & Diabetes Tracking",
+    heroSlide2Desc: "Real-time AHA 2017 & ADA diagnostic spectrum gauges, 7-30 day interactive trends, and instant family WhatsApp summary sharing.",
+    heroSlide2Cta: "Open Health Tracker",
+    heroSlide2Sec: "Log New Reading",
+    heroSlide2Perk1: "AHA & ADA Standards",
+    heroSlide2Perk2: "WhatsApp Family Share",
+    heroSlide2Perk3: "Doctor Report Summary",
+    heroSlide2Live: "Live Monitor",
+    heroSlide2BpLabel: "Blood Pressure (BP)",
+    heroSlide2BpStatus: "Normal",
+    heroSlide2BgLabel: "Blood Glucose",
+    heroSlide2BgStatus: "Fasting",
+    heroSlide2PulseLabel: "Pulse Rate",
+    heroSlide2PulseStatus: "Resting Rhythm",
+    heroSlide2Pill1: "AHA 2017 Protocol",
+    heroSlide2Pill2: "7-30 Day Trends",
+    heroSlide2Pill3: "PIN Protected",
+    heroSlide3Badge: "Smart Digital Rx Studio & OCR 📄",
+    heroSlide3Title: "Scan Prescriptions with Client-Side OCR",
+    heroSlide3Desc: "Upload or drop prescription photos; client-side Tesseract OCR instantly extracts medications, dosage, and instructions into a clean digital prescription pad.",
+    heroSlide3Cta: "Scan with OCR",
+    heroSlide3Sec: "Open Rx Vault",
+    heroSlide3Perk1: "Client-Side Tesseract OCR",
+    heroSlide3Perk2: "100% Private on Device (Offline)",
+    heroSlide3Perk3: "Print & PDF Ready",
+    heroSlide3PadTitle: "City Care Hospital · Digital Rx Studio",
+    heroSlide3Doc: "Dr. M. A. Rahman (MBBS, FCPS)",
+    heroSlide3ScanStatus: "OCR Scanning Active...",
+    heroSlide3Accuracy: "98% OCR Accuracy",
+    heroSlide3Med1: "Tab. Napa Extra 500mg",
+    heroSlide3Dose1: "1+0+1 (After meal)",
+    heroSlide3Med2: "Cap. Seclo 20mg",
+    heroSlide3Dose2: "1+0+1 (Before meal)",
+    heroSlide3Pill1: "Auto Rx Extraction",
+    heroSlide3Pill2: "Doctor Signature",
+    heroSlide3Pill3: "WhatsApp Sharing",
+    heroSlide3Stamp: "Digitally Verified",
+    heroSlide3Date: "Today's Prescription",
+    sliderPrev: "Previous slide",
+    sliderNext: "Next slide",
     minOne: "1 min",
     levelLabel: "Level",
     lvlGentle: "Gentle",
@@ -1044,6 +1126,10 @@ function setLang(next) {
   document.querySelectorAll("[data-i18n]").forEach(el => {
     let k = el.dataset.i18n;
     if (T[lang][k]) el.innerHTML = T[lang][k];
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach(el => {
+    let k = el.getAttribute("data-i18n-title");
+    if (T[lang][k]) el.setAttribute("title", T[lang][k]);
   });
   const langToggleBtn = $("langToggle");
   if (langToggleBtn) langToggleBtn.textContent = lang === "bn" ? "English" : "বাংলা";
@@ -3511,10 +3597,143 @@ function initMobileSidebar() {
 }
 
 // ----------------------------------------------------------------------------
+// HERO MULTI-MODULE SLIDER CONTROLLER
+// ----------------------------------------------------------------------------
+let currentHeroSlideIndex = 0;
+let heroSlideTimer = null;
+const HERO_SLIDE_INTERVAL = 6500; // 6.5s auto-rotation
+
+function initHeroSlider() {
+  const slider = $("heroSlider");
+  if (!slider) return;
+
+  const slides = slider.querySelectorAll(".hero-slide");
+  if (!slides.length) return;
+
+  const dots = document.querySelectorAll(".hero-dot");
+  const prevBtn = $("heroSliderPrev");
+  const nextBtn = $("heroSliderNext");
+  const counter = $("heroSlideCounter");
+
+  function showSlide(idx) {
+    if (idx < 0) idx = slides.length - 1;
+    if (idx >= slides.length) idx = 0;
+    currentHeroSlideIndex = idx;
+
+    slides.forEach((s, i) => {
+      const isAct = i === idx;
+      s.classList.toggle("active", isAct);
+      s.setAttribute("aria-hidden", isAct ? "false" : "true");
+    });
+
+    dots.forEach((d, i) => {
+      const isAct = i === idx;
+      d.classList.toggle("active", isAct);
+      d.setAttribute("aria-selected", isAct ? "true" : "false");
+    });
+
+    if (counter) {
+      counter.textContent = `0${idx + 1} / 0${slides.length}`;
+    }
+  }
+
+  function nextSlide() {
+    showSlide(currentHeroSlideIndex + 1);
+  }
+
+  function prevSlide() {
+    showSlide(currentHeroSlideIndex - 1);
+  }
+
+  function startAutoSlide() {
+    stopAutoSlide();
+    heroSlideTimer = setInterval(nextSlide, HERO_SLIDE_INTERVAL);
+  }
+
+  function stopAutoSlide() {
+    if (heroSlideTimer) {
+      clearInterval(heroSlideTimer);
+      heroSlideTimer = null;
+    }
+  }
+
+  // Hook button events
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      prevSlide();
+      startAutoSlide();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      nextSlide();
+      startAutoSlide();
+    });
+  }
+
+  // Hook dot navigation
+  dots.forEach(d => {
+    d.addEventListener("click", () => {
+      const target = parseInt(d.dataset.slide, 10);
+      if (!isNaN(target)) {
+        showSlide(target);
+        startAutoSlide();
+      }
+    });
+  });
+
+  // Pause on hover or focus
+  slider.addEventListener("mouseenter", stopAutoSlide);
+  slider.addEventListener("mouseleave", startAutoSlide);
+
+  // Mobile Touch Swipe gestures
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  slider.addEventListener("touchstart", (e) => {
+    stopAutoSlide();
+    if (e.changedTouches && e.changedTouches[0]) {
+      touchStartX = e.changedTouches[0].screenX;
+    }
+  }, { passive: true });
+
+  slider.addEventListener("touchend", (e) => {
+    if (e.changedTouches && e.changedTouches[0]) {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }
+    startAutoSlide();
+  }, { passive: true });
+
+  // Keyboard navigation
+  slider.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      prevSlide();
+      startAutoSlide();
+    } else if (e.key === "ArrowRight") {
+      nextSlide();
+      startAutoSlide();
+    }
+  });
+
+  // Initialize first view & start timer
+  showSlide(0);
+  startAutoSlide();
+}
+
+// ----------------------------------------------------------------------------
 // APPLICATION BOOTSTRAP SEQUENCE
 // ----------------------------------------------------------------------------
 setLang(lang);
 initMobileSidebar();
+initHeroSlider();
 renderCards();
 const currentScreen = getInitialScreen();
 updateNavActive(currentScreen);
