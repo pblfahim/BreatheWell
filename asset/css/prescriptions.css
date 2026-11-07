@@ -14,46 +14,46 @@
  * 1. DESIGN TOKENS & CUSTOM PROPERTIES
  * ============================================================================ */
 :root {
-  --rx-green: #10b981;
-  --rx-green-light: #d1fae5;
-  --rx-green-dark: #065f46;
-  --rx-teal: #0d9488;
-  --rx-teal-light: #ccfbf1;
-  --rx-teal-dark: #0f766e;
-  --rx-primary: #1769aa;
-  --rx-primary-dark: #0d47a1;
-  --rx-primary-light: #e3f2fd;
-  --rx-amber: #f59e0b;
-  --rx-amber-light: #fef3c7;
-  --rx-red: #ef4444;
-  --rx-red-light: #fee2e2;
-  --rx-purple: #8b5cf6;
-  --rx-purple-light: #ede9fe;
+  --rx-green: var(--bw-emerald, #10b981);
+  --rx-green-light: var(--bw-emerald-light, #d1fae5);
+  --rx-green-dark: var(--bw-emerald-hover, #065f46);
+  --rx-teal: var(--bw-teal, #00897b);
+  --rx-teal-light: var(--bw-teal-light, #e0f2f1);
+  --rx-teal-dark: var(--bw-teal-hover, #00695c);
+  --rx-primary: var(--bw-primary, #1769aa);
+  --rx-primary-dark: var(--bw-primary-dark, #0d47a1);
+  --rx-primary-light: var(--bw-primary-light, #e8f3fb);
+  --rx-amber: var(--bw-amber, #f59e0b);
+  --rx-amber-light: var(--bw-amber-light, #fef3c7);
+  --rx-red: var(--bw-rose, #ef4444);
+  --rx-red-light: var(--bw-rose-light, #fee2e2);
+  --rx-purple: var(--bw-purple, #8b5cf6);
+  --rx-purple-light: var(--bw-purple-light, #ede9fe);
 
-  --rx-surface: #ffffff;
-  --rx-surface-alt: #f8fafc;
-  --rx-border: #e2e8f0;
-  --rx-border-focus: #0d9488;
-  --rx-muted: #94a3b8;
-  --rx-text: #0f172a;
-  --rx-text-sec: #475569;
+  --rx-surface: var(--bw-surface, #ffffff);
+  --rx-surface-alt: var(--bw-surface-alt, #f8fafc);
+  --rx-border: var(--bw-line, #e2e8f0);
+  --rx-border-focus: var(--bw-primary, #1769aa);
+  --rx-muted: var(--bw-muted, #94a3b8);
+  --rx-text: var(--bw-ink, #0f172a);
+  --rx-text-sec: var(--bw-slate-600, #475569);
 
-  --rx-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --rx-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.09);
-  --rx-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.14);
-  --rx-shadow-xl: 0 32px 80px rgba(0, 0, 0, 0.18);
+  --rx-shadow-sm: var(--bw-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
+  --rx-shadow-md: var(--bw-shadow-md, 0 6px 18px rgba(0, 0, 0, 0.09));
+  --rx-shadow-lg: var(--bw-shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.14));
+  --rx-shadow-xl: var(--bw-shadow-xl, 0 20px 48px rgba(0, 0, 0, 0.18));
 
-  --rx-radius-sm: 8px;
-  --rx-radius-md: 12px;
-  --rx-radius-lg: 16px;
-  --rx-radius-xl: 24px;
+  --rx-radius-sm: var(--bw-radius-sm, 8px);
+  --rx-radius-md: var(--bw-radius-md, 12px);
+  --rx-radius-lg: var(--bw-radius-lg, 18px);
+  --rx-radius-xl: var(--bw-radius-xl, 24px);
 }
 
 /* ============================================================================
  * 2. HERO BANNER
  * ============================================================================ */
 .rx-hero {
-  background: linear-gradient(135deg, #065f46 0%, #10b981 55%, #34d399 100%);
+  background: linear-gradient(135deg, #0d47a1 0%, #1769aa 45%, #00897b 100%);
   color: #ffffff;
   padding: 48px 0 100px;
   position: relative;

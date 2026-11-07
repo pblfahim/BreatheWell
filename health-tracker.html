@@ -823,11 +823,25 @@
 
               <!-- PIN setup row -->
               <div class="ht-pin-card-wrap">
+                <div class="ht-pin-header">
+                  <label for="familyPin" class="ht-pin-label">
+                    <i class="bi bi-shield-lock-fill text-primary"></i>
+                    <span data-ht-i18n="pinLabel">পারিবারিক পিন কোড</span>
+                  </label>
+                  <span class="ht-pin-badge">4-Digit PIN</span>
+                </div>
                 <div class="ht-pin-wrap">
-                  <input class="ht-pin-input" type="password" id="familyPin" inputmode="numeric" maxlength="4"
-                    pattern="\d{4}" data-ht-i18n-ph="pinPlaceholder" placeholder="• • • •"
-                    aria-label="Family monitor PIN">
+                  <div class="ht-pin-input-container">
+                    <i class="bi bi-key-fill ht-pin-key-icon" aria-hidden="true"></i>
+                    <input class="ht-pin-input" type="password" id="familyPin" inputmode="numeric" maxlength="4"
+                      pattern="\d{4}" data-ht-i18n-ph="pinPlaceholder" placeholder="• • • •"
+                      aria-label="Family monitor PIN">
+                  </div>
                   <button type="button" class="ht-pin-btn" id="setPinBtn" data-ht-i18n="btnSetPin">পিন সেট করুন</button>
+                </div>
+                <div class="ht-pin-hint">
+                  <i class="bi bi-info-circle text-primary"></i>
+                  <span data-ht-i18n="pinHintText">পিন সেট করলে ডেটা পরিবর্তন সুরক্ষিত থাকবে</span>
                 </div>
               </div>
 

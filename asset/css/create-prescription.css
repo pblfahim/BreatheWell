@@ -26,46 +26,46 @@
  * 1. CSS VARIABLES & DESIGN TOKENS
  * ============================================================================ */
 :root {
-  --cp-primary: #0284c7;
-  --cp-primary-dark: #0369a1;
-  --cp-primary-light: #e0f2fe;
-  --cp-teal: #0d9488;
-  --cp-teal-dark: #0f766e;
-  --cp-teal-light: #ccfbf1;
-  --cp-emerald: #10b981;
-  --cp-emerald-light: #d1fae5;
-  --cp-amber: #f59e0b;
-  --cp-amber-light: #fef3c7;
-  --cp-rose: #f43f5e;
-  --cp-rose-light: #ffe4e6;
-  --cp-slate-900: #0f172a;
-  --cp-slate-800: #1e293b;
-  --cp-slate-700: #334155;
-  --cp-slate-600: #475569;
-  --cp-slate-500: #64748b;
+  --cp-primary: var(--bw-primary, #1769aa);
+  --cp-primary-dark: var(--bw-primary-dark, #0d47a1);
+  --cp-primary-light: var(--bw-primary-light, #e8f3fb);
+  --cp-teal: var(--bw-teal, #00897b);
+  --cp-teal-dark: var(--bw-teal-hover, #00695c);
+  --cp-teal-light: var(--bw-teal-light, #e0f2f1);
+  --cp-emerald: var(--bw-emerald, #10b981);
+  --cp-emerald-light: var(--bw-emerald-light, #d1fae5);
+  --cp-amber: var(--bw-amber, #f59e0b);
+  --cp-amber-light: var(--bw-amber-light, #fef3c7);
+  --cp-rose: var(--bw-rose, #ef4444);
+  --cp-rose-light: var(--bw-rose-light, #fee2e2);
+  --cp-slate-900: var(--bw-ink, #0f172a);
+  --cp-slate-800: var(--bw-slate-800, #1e293b);
+  --cp-slate-700: var(--bw-slate-700, #334155);
+  --cp-slate-600: var(--bw-slate-600, #475569);
+  --cp-slate-500: var(--bw-muted, #64748b);
   --cp-slate-400: #94a3b8;
   --cp-slate-300: #cbd5e1;
-  --cp-slate-200: #e2e8f0;
-  --cp-slate-100: #f1f5f9;
-  --cp-slate-50: #f8fafc;
-  --cp-white: #ffffff;
+  --cp-slate-200: var(--bw-line, #e2e8f0);
+  --cp-slate-100: var(--bw-line-subtle, #f1f5f9);
+  --cp-slate-50: var(--bw-surface-alt, #f8fafc);
+  --cp-white: var(--bw-surface, #ffffff);
 
-  --cp-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
-  --cp-shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
-  --cp-shadow-lg: 0 12px 32px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+  --cp-shadow-sm: var(--bw-shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.05));
+  --cp-shadow-md: var(--bw-shadow-md, 0 6px 18px rgba(15, 23, 42, 0.06));
+  --cp-shadow-lg: var(--bw-shadow-lg, 0 12px 32px rgba(15, 23, 42, 0.08));
   --cp-shadow-paper: 0 16px 48px -8px rgba(15, 23, 42, 0.15), 0 4px 16px -4px rgba(15, 23, 42, 0.08);
 
-  --cp-radius-sm: 8px;
-  --cp-radius-md: 12px;
-  --cp-radius-lg: 18px;
-  --cp-radius-xl: 24px;
+  --cp-radius-sm: var(--bw-radius-sm, 8px);
+  --cp-radius-md: var(--bw-radius-md, 12px);
+  --cp-radius-lg: var(--bw-radius-lg, 18px);
+  --cp-radius-xl: var(--bw-radius-xl, 24px);
 }
 
 /* ============================================================================
  * 2. HERO & ACTION TOOLBAR
  * ============================================================================ */
 .cp-hero {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f766e 100%);
+  background: linear-gradient(135deg, #0d47a1 0%, #1769aa 45%, #00897b 100%);
   color: var(--cp-white);
   padding: 2.25rem 0 3.25rem;
   position: relative;
@@ -142,9 +142,10 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.55rem 1.15rem;
-  font-size: 0.875rem;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
+  line-height: 1.4;
   border-radius: var(--cp-radius-md);
   border: 1px solid transparent;
   cursor: pointer;
@@ -153,28 +154,40 @@
   white-space: nowrap;
 }
 
+.cp-btn:hover {
+  transform: translateY(-1.5px);
+}
+
+.cp-btn:active {
+  transform: translateY(0.5px) scale(0.985);
+}
+
 .cp-btn-primary {
-  background: var(--cp-teal);
+  background: var(--cp-primary);
+  border-color: var(--cp-primary);
   color: var(--cp-white);
-  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+  box-shadow: 0 4px 14px rgba(23, 105, 170, 0.22);
 }
 
 .cp-btn-primary:hover {
-  background: var(--cp-teal-dark);
+  background: var(--cp-primary-dark);
+  border-color: var(--cp-primary-dark);
   color: var(--cp-white);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(23, 105, 170, 0.32);
 }
 
 .cp-btn-success {
   background: var(--cp-emerald);
+  border-color: var(--cp-emerald);
   color: var(--cp-white);
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.22);
 }
 
 .cp-btn-success:hover {
-  background: #059669;
+  background: var(--cp-teal-dark);
+  border-color: var(--cp-teal-dark);
   color: var(--cp-white);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.32);
 }
 
 .cp-btn-outline-light {

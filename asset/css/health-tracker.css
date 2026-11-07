@@ -38,40 +38,40 @@
  * ============================================================================ */
 :root {
   /* Health Classification Palette (AHA 2017 & ADA 2024) */
-  --ht-bp-normal: #16a34a;
-  --ht-bp-elevated: #f59e0b;
+  --ht-bp-normal: var(--bw-emerald, #10b981);
+  --ht-bp-elevated: var(--bw-amber, #f59e0b);
   --ht-bp-high1: #ea580c;
-  --ht-bp-high2: #dc2626;
+  --ht-bp-high2: var(--bw-rose, #ef4444);
   --ht-bp-crisis: #991b1b;
-  --ht-bp-low: #7c3aed;
+  --ht-bp-low: var(--bw-purple, #8b5cf6);
 
-  --ht-bg-normal: #16a34a;
-  --ht-bg-prediab: #f59e0b;
-  --ht-bg-diabetic: #dc2626;
-  --ht-bg-hypo: #7c3aed;
+  --ht-bg-normal: var(--bw-emerald, #10b981);
+  --ht-bg-prediab: var(--bw-amber, #f59e0b);
+  --ht-bg-diabetic: var(--bw-rose, #ef4444);
+  --ht-bg-hypo: var(--bw-purple, #8b5cf6);
 
   /* Surfaces & Neutral Hierarchy */
-  --ht-surface: #ffffff;
-  --ht-surface-alt: #f8fafc;
-  --ht-border: #e2e8f0;
-  --ht-border-subtle: #edf2f7;
-  --ht-text-dark: #0f172a;
-  --ht-text-muted: #64748b;
+  --ht-surface: var(--bw-surface, #ffffff);
+  --ht-surface-alt: var(--bw-surface-alt, #f8fafc);
+  --ht-border: var(--bw-line, #e2e8f0);
+  --ht-border-subtle: var(--bw-line-subtle, #edf2f7);
+  --ht-text-dark: var(--bw-ink, #0f172a);
+  --ht-text-muted: var(--bw-muted, #64748b);
 
   /* Elevated Shadows */
-  --ht-shadow-sm: 0 2px 10px rgba(15, 23, 42, 0.05);
-  --ht-shadow-md: 0 8px 30px rgba(15, 23, 42, 0.08);
-  --ht-shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.12);
+  --ht-shadow-sm: var(--bw-shadow-sm, 0 2px 10px rgba(15, 23, 42, 0.05));
+  --ht-shadow-md: var(--bw-shadow-md, 0 8px 30px rgba(15, 23, 42, 0.08));
+  --ht-shadow-lg: var(--bw-shadow-lg, 0 20px 50px rgba(15, 23, 42, 0.12));
   --ht-shadow-glow-bp: 0 10px 28px rgba(239, 68, 68, 0.18);
   --ht-shadow-glow-bg: 0 10px 28px rgba(139, 92, 246, 0.18);
-  --ht-shadow-glow-green: 0 10px 28px rgba(34, 197, 94, 0.18);
+  --ht-shadow-glow-green: 0 10px 28px rgba(16, 185, 129, 0.18);
 
   /* Series Colors */
-  --ht-systolic: #ef4444;
-  --ht-diastolic: #3b82f6;
+  --ht-systolic: var(--bw-rose, #ef4444);
+  --ht-diastolic: var(--bw-primary, #1769aa);
   --ht-pulse: #f97316;
-  --ht-glucose: #8b5cf6;
-  --ht-target-zone: rgba(34, 197, 94, 0.08);
+  --ht-glucose: var(--bw-purple, #8b5cf6);
+  --ht-target-zone: rgba(16, 185, 129, 0.08);
 
   /* Easing */
   --ht-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -103,7 +103,7 @@ body[data-page="health"] {
  * 3. HERO BANNER, FLOATING PILLS & QUICK NAVIGATION RIBBON
  * ============================================================================ */
 .ht-page-hero {
-  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 38%, #1e88e5 72%, #42a5f5 100%);
+  background: linear-gradient(135deg, #0d47a1 0%, #1769aa 45%, #00897b 100%);
   padding: 32px 0 82px;
   position: relative;
   overflow: hidden;
@@ -1701,60 +1701,220 @@ body[data-page="health"] {
   line-height: 1.35;
 }
 
-/* PIN Wrap */
+/* PIN Card Wrap (Fully Responsive Mobile & Desktop) */
 .ht-pin-card-wrap {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 12px 14px;
+  background: var(--ht-surface-alt, #f8fafc);
+  border: 1px solid var(--ht-border, #e2e8f0);
+  border-radius: var(--bw-radius-lg, 16px);
+  padding: 14px 16px;
+  box-shadow: var(--ht-shadow-sm, 0 2px 10px rgba(15, 23, 42, 0.05));
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color var(--ht-dur-base) var(--ht-ease), box-shadow var(--ht-dur-base) var(--ht-ease);
+}
+
+.ht-pin-card-wrap:focus-within {
+  border-color: var(--bw-primary, #1769aa);
+  box-shadow: 0 4px 18px rgba(23, 105, 170, 0.12);
+}
+
+.ht-pin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.ht-pin-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ht-text-dark, #0f172a);
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ht-pin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  background: var(--bw-primary-light, #e8f3fb);
+  color: var(--bw-primary, #1769aa);
+  border: 1px solid rgba(23, 105, 170, 0.15);
+  white-space: nowrap;
 }
 
 .ht-pin-wrap {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.ht-pin-input-container {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
   align-items: center;
 }
 
+.ht-pin-key-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--ht-text-muted, #94a3b8);
+  font-size: 0.95rem;
+  pointer-events: none;
+  transition: color 0.2s ease;
+  z-index: 2;
+}
+
 .ht-pin-input {
-  flex: 1;
-  height: 42px;
+  width: 100%;
+  height: 44px;
   border: 1.5px solid #cbd5e1;
-  border-radius: 12px;
-  padding: 0 12px;
-  font-size: 1.1rem;
+  border-radius: var(--bw-radius-md, 12px);
+  padding: 0 14px 0 38px;
+  font-size: 1.15rem;
   letter-spacing: 0.25em;
   text-align: center;
   font-weight: 700;
-  background: #fff;
-  color: #1e293b;
+  background: #ffffff;
+  color: var(--ht-text-dark, #1e293b);
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s var(--ht-ease);
 }
 
 .ht-pin-input:focus {
-  border-color: #2563eb;
+  border-color: var(--bw-primary, #1769aa);
+  box-shadow: 0 0 0 3.5px rgba(23, 105, 170, 0.15);
+}
+
+.ht-pin-input-container:focus-within .ht-pin-key-icon {
+  color: var(--bw-primary, #1769aa);
 }
 
 .ht-pin-input.has-error {
-  border-color: #ef4444;
+  border-color: var(--ht-bp-high2, #ef4444);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  animation: htShake 0.4s ease;
 }
 
 .ht-pin-btn {
-  height: 42px;
-  padding: 0 18px;
-  border-radius: 12px;
-  border: none;
-  background: #2563eb;
-  color: #fff;
-  font-size: 0.85rem;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--bw-radius-md, 12px);
+  border: 1px solid var(--bw-primary, #1769aa);
+  background: var(--bw-primary, #1769aa);
+  color: #ffffff;
+  font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s var(--ht-ease);
   white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(23, 105, 170, 0.22);
 }
 
 .ht-pin-btn:hover {
-  background: #1d4ed8;
+  background: var(--bw-primary-hover, #0f5287);
+  border-color: var(--bw-primary-hover, #0f5287);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(23, 105, 170, 0.3);
+}
+
+.ht-pin-btn:active {
+  transform: translateY(0.5px) scale(0.985);
+}
+
+.ht-pin-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--ht-text-muted, #64748b);
+  margin-top: 8px;
+  line-height: 1.35;
+}
+
+@keyframes htShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+/* Mobile Responsiveness for PIN Card Wrap (< 576px) */
+@media (max-width: 575.98px) {
+  .ht-family-steps {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .ht-pin-card-wrap {
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+
+  .ht-pin-header {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .ht-pin-label {
+    font-size: 0.8rem;
+  }
+
+  .ht-pin-badge {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+  }
+
+  .ht-pin-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .ht-pin-input-container {
+    width: 100%;
+  }
+
+  .ht-pin-input {
+    width: 100%;
+    height: 48px;
+    font-size: 1.25rem;
+    letter-spacing: 0.35em;
+    padding: 0 14px 0 38px;
+    border-radius: 12px;
+  }
+
+  .ht-pin-btn {
+    width: 100%;
+    height: 46px;
+    font-size: 0.92rem;
+    border-radius: 12px;
+    padding: 0 16px;
+  }
+
+  .ht-pin-hint {
+    font-size: 0.69rem;
+    line-height: 1.3;
+    margin-top: 6px;
+  }
 }
 
 /* Import Dropzone */
