@@ -7,8 +7,6 @@
     Fully client-side, localStorage-based health logging with bilingual
     (Bengali/English) support, interactive live diagnostic spectrum meters,
     smart 7-day health insights, SVG line charts with hover tooltips and
-    safe-zone highlights, one-click WhatsApp family sharing, stepper controls,
-    and a family monitoring system with PIN authentication.
 
   Architecture & Semantic Landmarks:
     - Skip Link: Accessibility bypass mechanism for keyboard users.
@@ -18,10 +16,8 @@
     - Smart Health Insights Banner: Automated 7-day analytics & mindfulness link.
     - Form Mode Switcher: Responsive segmented pill toggle (BP / BG / Side-by-side).
     - Entry Forms:
-        * Blood Pressure form with quick steppers, preset pills, arm selector, and live spectrum meter.
-        * Blood Glucose form with timing cards, mmol/L converter, steppers, and live range meter.
-    - Trend Charts: Responsive SVG charts with timeframe buttons & hover tooltips.
-    - History Log: Filterable, paginated table with real-time text search & demo loader.
+        * Blood Pressure form with arm selector and live spectrum meter.
+        * Blood Glucose form with timing cards, mmol/L converter, and live range meter.
     - Family WhatsApp & Export Panel: Instant message generator, CSV, JSON, print.
     - Family Monitor Lock Card: 4-digit PIN authentication & read-only URL view mode.
     - Mobile Bottom Nav: Native app-style bottom drawer for screens ≤ 992px.
@@ -54,6 +50,7 @@
     rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="asset/css/style.css">
   <link rel="stylesheet" href="asset/css/health-tracker.css">
 </head>
@@ -80,8 +77,10 @@
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
           <li class="nav-item"><a class="nav-link" href="index.html" data-ht-i18n="navHome">হোম</a></li>
           <li class="nav-item"><a class="nav-link" href="exercises.html" data-ht-i18n="navExercises">অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-ht-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
-          <li class="nav-item"><a class="nav-link active" href="health-tracker.html" aria-current="page" data-ht-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-ht-i18n="navTest">শ্বাসের পরীক্ষা</a>
+          </li>
+          <li class="nav-item"><a class="nav-link active" href="health-tracker.html" aria-current="page"
+              data-ht-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
           <li class="nav-item"><a class="nav-link" href="prescriptions.html" data-ht-i18n="navRx">প্রেসক্রিপশন</a></li>
           <li class="nav-item"><a class="nav-link" href="index.html#safety" data-ht-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
@@ -123,10 +122,6 @@
                 onclick="document.getElementById('historySection').scrollIntoView({behavior:'smooth'})">
                 <span data-ht-i18n="quickNavLog">📋 ইতিহাস লগ</span>
               </button>
-              <button class="ht-quick-nav-btn"
-                onclick="document.getElementById('shareSection').scrollIntoView({behavior:'smooth'})">
-                <span data-ht-i18n="quickNavShare">📲 পরিবারকে পাঠান</span>
-              </button>
               <button class="ht-quick-nav-btn" id="btnLoadDemo">
                 <span data-ht-i18n="quickNavDemo">🧪 নমুনা ডেটা</span>
               </button>
@@ -135,12 +130,6 @@
 
           <div class="col-lg-4 text-lg-end">
             <div class="d-flex flex-column gap-2 align-items-lg-end">
-              <button
-                class="btn btn-light text-primary fw-bold rounded-pill px-4 py-2 shadow-sm d-inline-flex align-items-center gap-2"
-                onclick="htShareWhatsApp()">
-                <i class="bi bi-whatsapp text-success fs-5"></i>
-                <span data-ht-i18n="btnWhatsAppShare">এ ছেলে/মেয়েকে পাঠান</span>
-              </button>
               <button
                 class="btn btn-outline-light rounded-pill px-3 py-1.5 small d-inline-flex align-items-center gap-2"
                 onclick="htExportCSV()">
@@ -168,10 +157,6 @@
               প্রয়োজনে ডাক্তারের সাথে যোগাযোগ করুন।
             </p>
           </div>
-          <button class="btn btn-light text-danger fw-bold rounded-pill px-3 py-2 btn-sm"
-            onclick="document.getElementById('shareSection').scrollIntoView({behavior:'smooth'})">
-            পরিবারকে জানান
-          </button>
         </div>
 
         <div class="row g-3">
@@ -254,9 +239,6 @@
               <i class="bi bi-wind"></i>
               <span data-ht-i18n="btnStartBreathing">শ্বাসের অনুশীলন শুরু করুন</span>
             </a>
-            <button class="btn btn-sm btn-outline-success rounded-pill fw-bold" onclick="htShareWhatsApp()">
-              <i class="bi bi-whatsapp me-1"></i> পরিবারকে সাপ্তাহিক আপডেট পাঠান
-            </button>
           </div>
         </div>
       </div>
@@ -527,80 +509,8 @@
         </div>
       </div>
     </section>
-
     <!-- ======================================================================
-         5. TREND CHARTS — BLOOD PRESSURE & BLOOD GLUCOSE
-         ====================================================================== -->
-    <section class="ht-section" id="chartsSection">
-      <div class="container">
-        <div class="row g-4">
-
-          <!-- 5.1 Blood Pressure Chart -->
-          <div class="col-lg-6">
-            <div class="ht-chart-card">
-              <div class="ht-chart-header">
-                <div>
-                  <h3 class="ht-chart-title" data-ht-i18n="chartBPTitle">রক্তচাপের ধারাবাহিক প্রবণতা</h3>
-                  <span class="text-muted small">নিরাপদ জোন চিহ্নিত (৯০–১২০ mmHg)</span>
-                </div>
-                <!-- Timeframe Switcher -->
-                <div class="ht-chart-tf-group">
-                  <button class="ht-chart-tf-btn" data-tf="7d" data-ht-i18n="tf7d">৭ দিন</button>
-                  <button class="ht-chart-tf-btn active" data-tf="14d" data-ht-i18n="tf14d">১৪ দিন</button>
-                  <button class="ht-chart-tf-btn" data-tf="30d" data-ht-i18n="tf30d">৩০ দিন</button>
-                  <button class="ht-chart-tf-btn" data-tf="all" data-ht-i18n="tfAll">সব</button>
-                </div>
-              </div>
-              <div class="d-flex flex-wrap gap-3 mb-3">
-                <span class="ht-legend-item">
-                  <span class="ht-legend-dot" style="background:var(--ht-systolic)"></span>
-                  <span data-ht-i18n="lblSystolic">সিস্টোলিক</span>
-                </span>
-                <span class="ht-legend-item">
-                  <span class="ht-legend-dot" style="background:var(--ht-diastolic)"></span>
-                  <span data-ht-i18n="lblDiastolic">ডায়াস্টোলিক</span>
-                </span>
-                <span class="ht-legend-item">
-                  <span class="ht-legend-dot" style="background:var(--ht-pulse)"></span>
-                  <span data-ht-i18n="lblPulse">নাড়ি</span>
-                </span>
-              </div>
-              <div class="ht-chart-svg-wrap" id="bpChartWrap"></div>
-            </div>
-          </div>
-
-          <!-- 5.2 Blood Glucose Chart -->
-          <div class="col-lg-6">
-            <div class="ht-chart-card">
-              <div class="ht-chart-header">
-                <div>
-                  <h3 class="ht-chart-title" data-ht-i18n="chartBGTitle">গ্লুকোজের ধারাবাহিক প্রবণতা</h3>
-                  <span class="text-muted small">টার্গেট রেঞ্জ হাইলাইটেড (৭০–১৪০ mg/dL)</span>
-                </div>
-                <!-- Timeframe Switcher -->
-                <div class="ht-chart-tf-group">
-                  <button class="ht-chart-tf-btn" data-tf="7d" data-ht-i18n="tf7d">৭ দিন</button>
-                  <button class="ht-chart-tf-btn active" data-tf="14d" data-ht-i18n="tf14d">১৪ দিন</button>
-                  <button class="ht-chart-tf-btn" data-tf="30d" data-ht-i18n="tf30d">৩০ দিন</button>
-                  <button class="ht-chart-tf-btn" data-tf="all" data-ht-i18n="tfAll">সব</button>
-                </div>
-              </div>
-              <div class="d-flex flex-wrap gap-3 mb-3">
-                <span class="ht-legend-item">
-                  <span class="ht-legend-dot" style="background:var(--ht-glucose)"></span>
-                  <span data-ht-i18n="lblGlucose">গ্লুকোজ</span>
-                </span>
-              </div>
-              <div class="ht-chart-svg-wrap" id="bgChartWrap"></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ======================================================================
-         6. HISTORY LOG TABLE & REAL-TIME SEARCH
+         6. HISTORY LOG TABLE & REAL-TIME SEARCH (DataTables Bootstrap 5)
          ====================================================================== -->
     <section class="ht-section" id="historySection">
       <div class="container">
@@ -611,305 +521,44 @@
               <i class="bi bi-clock-history text-primary"></i>
               <span data-ht-i18n="historyTitle">ইতিহাস ও বিস্তারিত রেকর্ড</span>
             </h3>
-
-            <!-- Search input -->
-            <div class="ht-search-wrap">
-              <i class="bi bi-search ht-search-icon"></i>
-              <input type="text" class="ht-search-input" id="historySearchInput"
-                placeholder="তারিখ বা নোট দিয়ে খুঁজুন..." data-ht-i18n-ph="searchPlaceholder">
-            </div>
-
-            <!-- Tab filter pills -->
-            <div class="ht-tab-group" role="tablist">
-              <button class="ht-tab active" data-hist-tab="all" role="tab" data-ht-i18n="tabAll">সব</button>
-              <button class="ht-tab" data-hist-tab="bp" role="tab" data-ht-i18n="tabBP">রক্তচাপ</button>
-              <button class="ht-tab" data-hist-tab="bg" role="tab" data-ht-i18n="tabBG">গ্লুকোজ</button>
-            </div>
-          </div>
-
-          <!-- Scrollable Table -->
-          <div class="ht-table-scroll">
-            <table class="ht-table" aria-label="Health records log">
-              <thead>
-                <tr>
-                  <th data-ht-i18n="colDate">তারিখ ও সময়</th>
-                  <th data-ht-i18n="colType">ধরন</th>
-                  <th data-ht-i18n="colValue">রিডিং মান</th>
-                  <th data-ht-i18n="colStatus">অবস্থা</th>
-                  <th data-ht-i18n="colNotes">নোট</th>
-                  <th class="text-end">মুছুন</th>
-                </tr>
-              </thead>
-              <tbody id="historyTbody"></tbody>
-            </table>
-          </div>
-
-          <!-- Pagination & Table Footer Actions -->
-          <div class="ht-pagination">
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <span class="ht-pagination-info" id="paginInfo"></span>
-              <button class="btn btn-sm btn-link text-danger text-decoration-none p-0 ms-2" id="btnClearAll"
+            <!-- Tab filter pills & Action buttons -->
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+              <div class="ht-tab-group" role="tablist">
+                <button class="ht-tab active" data-hist-tab="all" role="tab" data-ht-i18n="tabAll">সব</button>
+                <button class="ht-tab" data-hist-tab="bp" role="tab" data-ht-i18n="tabBP">রক্তচাপ</button>
+                <button class="ht-tab" data-hist-tab="bg" role="tab" data-ht-i18n="tabBG">গ্লুকোজ</button>
+              </div>
+              <button class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-bold" id="btnClearAll"
                 data-ht-i18n="btnClearAll">
                 🗑️ সব ডেটা মুছুন
               </button>
             </div>
-            <div class="ht-pagination-btns" id="paginBtns"></div>
+          </div>
+
+          <!-- DataTables Bootstrap 5 Body -->
+          <div class="ht-datatable-body p-3 p-md-4">
+            <div class="table-responsive">
+              <table id="historyTable" class="table table-striped table-hover ht-table align-middle w-100"
+                aria-label="Health records log">
+                <thead>
+                  <tr>
+                    <th scope="col"><span data-ht-i18n="colDate">তারিখ ও সময়</span></th>
+                    <th scope="col"><span data-ht-i18n="colType">ধরন</span></th>
+                    <th scope="col"><span data-ht-i18n="colValue">রিডিং মান</span></th>
+                    <th scope="col"><span data-ht-i18n="colStatus">অবস্থা</span></th>
+                    <th scope="col"><span data-ht-i18n="colNotes">নোট</span></th>
+                    <th scope="col" class="text-end" data-orderable="false"><span data-ht-i18n="colAction">মুছুন</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="historyTbody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ======================================================================
-         7. SHARE & EXPORT PANEL + FAMILY WHATSAPP & MONITOR LOCK
-         ====================================================================== -->
-    <section class="ht-section" id="shareSection">
-      <div class="container">
-
-        <!-- Section heading with badge & live vault status pill -->
-        <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
-          <div>
-            <div class="ht-section-badge">
-              <i class="bi bi-people-fill text-primary"></i>
-              <span data-ht-i18n="shareBadge">পারিবারিক শেয়ার ও ব্যাকআপ</span>
-            </div>
-            <h2 class="h3 fw-bold text-dark mt-1 mb-1">
-              <i class="bi bi-share-fill me-2 text-primary"></i>
-              <span data-ht-i18n="shareTitle">পরিবারের সাথে শেয়ার ও মনিটরিং</span>
-            </h2>
-            <p class="text-secondary mb-0 small" data-ht-i18n="shareSub">
-              আপনার ছেলে, মেয়ে বা পরিবারের সদস্যরা যেকোনো দূরত্ব থেকে আপনার স্বাস্থ্য পর্যবেক্ষণ করতে পারবেন।
-            </p>
-          </div>
-          <div class="ht-share-stat-pill" id="htShareVaultPill">
-            <i class="bi bi-shield-check text-primary"></i>
-            <span id="htShareVaultCount" data-ht-i18n="shareVaultReady">ভল্ট প্রস্তুত</span>
-          </div>
-        </div>
-
-        <div class="row g-4 align-items-stretch">
-
-          <!-- ── Column 1: Share & Family WhatsApp (Export Card) ── -->
-          <div class="col-lg-6">
-            <div class="ht-share-card">
-              <div class="d-flex align-items-center justify-content-between mb-3">
-                <h3 class="ht-share-title mb-0">
-                  <i class="bi bi-send-check-fill me-2"></i>
-                  <span data-ht-i18n="shareCardExportTitle">শেয়ার ও এক্সপোর্ট অপশন</span>
-                </h3>
-                <span class="ht-share-pill-secure">
-                  <i class="bi bi-shield-lock-fill"></i>
-                  <span data-ht-i18n="shareSecurityBadge">নিরাপদ ও রিড-অনলি</span>
-                </span>
-              </div>
-              <p class="ht-share-sub" data-ht-i18n="shareSub">
-                আপনার ছেলে, মেয়ে বা পরিবারের সদস্যরা যেকোনো দূরত্ব থেকে আপনার স্বাস্থ্য পর্যবেক্ষণ করতে পারবেন।
-              </p>
-
-              <!-- Dedicated WhatsApp Action Box -->
-              <div class="ht-whatsapp-box">
-                <button type="button" class="ht-whatsapp-btn" id="btnShareWhatsApp">
-                  <i class="bi bi-whatsapp"></i>
-                  <span data-ht-i18n="btnWhatsAppShare">ছেলে/মেয়েকে WhatsApp-এ পাঠান</span>
-                </button>
-                <div class="d-flex justify-content-between align-items-center mt-2.5">
-                  <span class="ht-msg-preview-label" data-ht-i18n="msgPreviewTitle">মেসেজের প্রিভিউ:</span>
-                  <button type="button" class="ht-btn-copy-msg" id="btnCopyMsg" data-ht-i18n="btnCopyReport">
-                    <i class="bi bi-clipboard"></i> <span>মেসেজ কপি করুন</span>
-                  </button>
-                </div>
-                <div class="ht-msg-preview-box" id="whatsappMsgPreview">রিপোর্ট তৈরি হচ্ছে...</div>
-              </div>
-
-              <!-- Multi-Channel Export Grid (4 tiles) -->
-              <div class="ht-share-grid">
-                <button type="button" class="ht-action-tile" id="btnExportCSV">
-                  <div class="ht-tile-icon"><i class="bi bi-file-earmark-spreadsheet-fill"></i></div>
-                  <div class="ht-tile-text">
-                    <strong data-ht-i18n="btnCsv">CSV ডাউনলোড</strong>
-                    <span class="ht-tile-sub" data-ht-i18n="tileCsvSub">এক্সেল ও শিটসের জন্য</span>
-                  </div>
-                </button>
-
-                <button type="button" class="ht-action-tile" id="btnExportJSON">
-                  <div class="ht-tile-icon"><i class="bi bi-filetype-json"></i></div>
-                  <div class="ht-tile-text">
-                    <strong data-ht-i18n="btnJson">JSON ব্যাকআপ</strong>
-                    <span class="ht-tile-sub" data-ht-i18n="tileJsonSub">পূর্ণ ব্যাকআপ ফাইল</span>
-                  </div>
-                </button>
-
-                <button type="button" class="ht-action-tile" id="btnShareLink">
-                  <div class="ht-tile-icon"><i class="bi bi-link-45deg"></i></div>
-                  <div class="ht-tile-text">
-                    <strong data-ht-i18n="btnLink">শেয়ার লিংক</strong>
-                    <span class="ht-tile-sub" data-ht-i18n="tileLinkSub">লিংক রিফ্রেশ করুন</span>
-                  </div>
-                </button>
-
-                <button type="button" class="ht-action-tile" id="btnPrint">
-                  <div class="ht-tile-icon"><i class="bi bi-printer-fill"></i></div>
-                  <div class="ht-tile-text">
-                    <strong data-ht-i18n="btnPrint">মেডিকেল রিপোর্ট প্রিন্ট</strong>
-                    <span class="ht-tile-sub" data-ht-i18n="tilePrintSub">মেডিকেল সামারি শিট</span>
-                  </div>
-                </button>
-              </div>
-
-              <!-- Share URL Input Row -->
-              <div class="ht-link-row mt-3">
-                <div class="ht-link-input-wrap">
-                  <i class="bi bi-link-45deg ht-link-lead-icon"></i>
-                  <input type="url" id="shareUrlInput" class="ht-link-input" readonly
-                    placeholder="শেয়ার লিংক এখানে দেখাবে…" aria-label="Share URL">
-                </div>
-                <button type="button" class="ht-copy-btn" id="copyLinkBtn" aria-label="Copy share link">
-                  <i class="bi bi-clipboard"></i>
-                  <span data-ht-i18n="btnCopy">কপি</span>
-                </button>
-              </div>
-
-              <!-- Link Note -->
-              <p class="ht-link-note mt-2.5">
-                <i class="bi bi-shield-lock-fill me-1"></i>
-                <span data-ht-i18n="pinHintText">পিন সেট করলে ডেটা পরিবর্তন সুরক্ষিত থাকবে</span>
-              </p>
-            </div>
-          </div>
-
-          <!-- ── Column 2: Family Import & Read-Only View ── -->
-          <div class="col-lg-6">
-            <div class="ht-family-card">
-              <!-- Header with avatars -->
-              <div class="ht-family-top">
-                <div class="ht-family-avatars">
-                  <div class="ht-avatar" title="পিতা / মাতা">👴</div>
-                  <div class="ht-avatar" title="কন্যা / পুত্র">👩</div>
-                  <div class="ht-avatar" title="পরিবার">👦</div>
-                </div>
-                <div>
-                  <h3 class="ht-family-title" data-ht-i18n="familyTitle">পারিবারিক মনিটর লক</h3>
-                  <p class="ht-family-desc mb-0" data-ht-i18n="familyDesc">
-                    একটি ৪ সংখ্যার পিন সেট করুন। শেয়ার লিংক দিলে পরিবার সদস্যরা শুধু দেখতে পারবেন — কোনো ডেটা পরিবর্তন
-                    করতে
-                    পারবেন না।
-                  </p>
-                </div>
-              </div>
-
-              <!-- 3-Step Visual Guide -->
-              <div class="ht-family-steps">
-                <div class="ht-step-item">
-                  <div class="ht-step-num">১</div>
-                  <div class="ht-step-body">
-                    <strong data-ht-i18n="step1Title">১. ব্যাকআপ ও পিন</strong>
-                    <p data-ht-i18n="step1Desc">৪ সংখ্যার পিন সেট করুন অথবা JSON ব্যাকআপ তৈরি করে পরিবারকে পাঠান</p>
-                  </div>
-                </div>
-                <div class="ht-step-item">
-                  <div class="ht-step-num">২</div>
-                  <div class="ht-step-body">
-                    <strong data-ht-i18n="step2Title">২. ফ্যামিলি ইমপোর্ট</strong>
-                    <p data-ht-i18n="step2Desc">পরিবারের সদস্য ফাইল ড্রপ করে সহজেই রেকর্ড দেখতে পাবেন</p>
-                  </div>
-                </div>
-                <div class="ht-step-item">
-                  <div class="ht-step-num">৩</div>
-                  <div class="ht-step-body">
-                    <strong data-ht-i18n="step3Title">৩. রিড-অনলি মনিটরিং</strong>
-                    <p data-ht-i18n="step3Desc">কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত পর্যবেক্ষণ</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- PIN setup row -->
-              <div class="ht-pin-card-wrap">
-                <div class="ht-pin-header">
-                  <label for="familyPin" class="ht-pin-label">
-                    <i class="bi bi-shield-lock-fill text-primary"></i>
-                    <span data-ht-i18n="pinLabel">পারিবারিক পিন কোড</span>
-                  </label>
-                  <span class="ht-pin-badge">4-Digit PIN</span>
-                </div>
-                <div class="ht-pin-wrap">
-                  <div class="ht-pin-input-container">
-                    <i class="bi bi-key-fill ht-pin-key-icon" aria-hidden="true"></i>
-                    <input class="ht-pin-input" type="password" id="familyPin" inputmode="numeric" maxlength="4"
-                      pattern="\d{4}" data-ht-i18n-ph="pinPlaceholder" placeholder="• • • •"
-                      aria-label="Family monitor PIN">
-                  </div>
-                  <button type="button" class="ht-pin-btn" id="setPinBtn" data-ht-i18n="btnSetPin">পিন সেট করুন</button>
-                </div>
-                <div class="ht-pin-hint">
-                  <i class="bi bi-info-circle text-primary"></i>
-                  <span data-ht-i18n="pinHintText">পিন সেট করলে ডেটা পরিবর্তন সুরক্ষিত থাকবে</span>
-                </div>
-              </div>
-
-              <!-- Interactive Drag-and-Drop JSON Import Dropzone -->
-              <div class="ht-import-dropzone" id="htImportDropZone">
-                <div class="ht-import-icon-wrap">
-                  <i class="bi bi-cloud-arrow-up-fill"></i>
-                </div>
-                <div class="ht-import-drop-text">
-                  <strong data-ht-i18n="importDropTitle">JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে নিন</strong>
-                  <span data-ht-i18n="importDropHint">BreatheWell স্বাস্থ্য ব্যাকআপ ফাইল (.json) সমর্থিত</span>
-                </div>
-                <span class="ht-import-btn-pill">
-                  <i class="bi bi-folder2-open me-1"></i>
-                  <span data-ht-i18n="importBtn">JSON আমদানি করুন</span>
-                </span>
-                <input type="file" id="htImportInput" accept=".json,application/json" class="d-none"
-                  aria-label="Import health tracker JSON backup">
-              </div>
-
-              <!-- Staged Import Preview Box (Appears when JSON file is loaded) -->
-              <div class="ht-import-preview-box d-none" id="htImportPreview">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <div class="ht-import-preview-badge">
-                    <i class="bi bi-check-circle-fill text-success me-1"></i>
-                    <strong id="htImportCountBadge">০টি রেকর্ড</strong>
-                  </div>
-                  <span class="ht-import-file-meta" id="htImportFileMeta"></span>
-                </div>
-                <div class="ht-import-preview-list" id="htImportList"></div>
-                <div class="ht-import-actions mt-3">
-                  <button type="button" class="ht-btn-import-merge" id="htBtnMergeImport">
-                    <i class="bi bi-plus-circle-fill me-1"></i>
-                    <span data-ht-i18n="importMergeBtn">নতুনগুলো যোগ করুন (Merge)</span>
-                  </button>
-                  <button type="button" class="ht-btn-import-replace" id="htBtnReplaceImport">
-                    <i class="bi bi-arrow-repeat me-1"></i>
-                    <span data-ht-i18n="importReplaceBtn">সম্পূর্ণ প্রতিস্থাপন (Replace)</span>
-                  </button>
-                  <button type="button" class="ht-btn-import-cancel" id="htBtnCancelImport">
-                    <i class="bi bi-x-circle me-1"></i>
-                    <span data-ht-i18n="importCancelBtn">বাতিল</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Test Read-Only View Button -->
-              <a href="#" id="htBtnTestView" class="ht-test-view-link mt-auto" target="_blank" rel="noopener">
-                <i class="bi bi-eye-fill me-1.5"></i>
-                <span data-ht-i18n="btnTestView">পরিবার কীভাবে দেখবে তা পরীক্ষা করুন</span>
-                <i class="bi bi-arrow-up-right ms-1"></i>
-              </a>
-
-              <!-- Medical disclaimer -->
-              <div class="ht-disclaimer-box">
-                <i class="bi bi-exclamation-triangle-fill text-warning mt-0.5 flex-shrink-0"></i>
-                <p class="small mb-0 text-secondary" data-ht-i18n="disclaimerText">
-                  এই ট্র্যাকারটি ব্যক্তিগত সচেতনতা ও রেকর্ড রাখার জন্য। চিকিৎসার প্রয়োজনে সর্বদা রেজিষ্টার্ড চিকিৎসকের
-                  পরামর্শ নিন।
-                </p>
-              </div>
-
-            </div>
-          </div>
-
-        </div><!-- /row -->
-      </div><!-- /container -->
-    </section>
 
   </main>
 
@@ -1093,7 +742,10 @@
   <!-- ========================================================================
        11. SCRIPT INCLUDES
        ======================================================================== -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
   <script src="asset/js/health-tracker.js"></script>
 </body>
 

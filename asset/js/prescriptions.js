@@ -59,7 +59,7 @@
       navMore: "আরও",
       heroEyebrow: "ডিজিটাল স্বাস্থ্য সংরক্ষণ",
       heroTitle: "প্রেসক্রিপশন ভল্ট",
-      heroSub: "আপনার ডাক্তারের প্রেসক্রিপশন সংরক্ষণ করুন এবং পরিবারের সাথে শেয়ার করুন।",
+      heroSub: "আপনার ডাক্তারের প্রেসক্রিপশন নিরাপদে সংরক্ষণ ও পর্যবেক্ষণ করুন।",
       heroCreatePrescription: "প্রেসক্রিপশন তৈরি করুন",
       btnCreateDigitalRx: "ডিজিটাল প্রেসক্রিপশন তৈরি",
       storageLabel: "স্টোরেজ ব্যবহার",
@@ -110,43 +110,6 @@
       toastTooBig: "স্টোরেজের জায়গা কম। অনুগ্রহ করে কিছু প্রেসক্রিপশন মুছুন।",
       btnDownload: "ডাউনলোড",
       btnClose: "বন্ধ করুন",
-      shareBadge: "পারিবারিক শেয়ার ও ব্যাকআপ",
-      shareTitle: "পরিবারের সাথে শেয়ার করুন",
-      shareSub: "আপনার ছেলে বা মেয়ে যেকোনো স্থান থেকে প্রেসক্রিপশন দেখতে পারবেন",
-      shareCardExportTitle: "শেয়ার ও এক্সপোর্ট অপশন",
-      shareSecurityBadge: "নিরাপদ ও রিড-অনলি",
-      btnWhatsAppShare: "হোয়াটসঅ্যাপে ছেলে/মেয়েকে পাঠান",
-      msgPreviewTitle: "মেসেজের প্রিভিউ:",
-      btnCopyReport: "মেসেজ কপি করুন",
-      btnCopied: "কপি হয়েছে!",
-      btnJson: "JSON ব্যাকআপ",
-      btnLink: "শেয়ার লিংক",
-      btnPrint: "প্রিন্ট / PDF",
-      btnCopySummary: "টেক্সট সামারি",
-      btnCopy: "কপি",
-      linkNote: "শেয়ার লিংকে ফাইল থাকবে না — শুধু প্রেসক্রিপশন তথ্য থাকবে। পূর্ণ ব্যাকআপের জন্য JSON ব্যবহার করুন।",
-      familyTitle: "পরিবার দেখার মোড",
-      familyDesc: "JSON ব্যাকআপ পরিবারকে পাঠান। তারা এখানে আমদানি করলে শুধু দেখতে পাবেন।",
-      step1Title: "ব্যাকআপ তৈরি",
-      step1Desc: "JSON ব্যাকআপ বা মেসেজ কপি করে ছেলে/মেয়েকে পাঠান",
-      step2Title: "ফ্যামিলি ইমপোর্ট",
-      step2Desc: "পরিবারের সদস্য এখানে ফাইল ড্রপ করে সহজেই লোড করতে পারেন",
-      step3Title: "রিড-অনলি মনিটরিং",
-      step3Desc: "কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত দেখা যাবে",
-      importDropTitle: "JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে নিন",
-      importDropHint: "BreatheWell ব্যাকআপ ফাইল (.json) সমর্থিত",
-      importBtn: "JSON আমদানি করুন",
-      importMergeBtn: "নতুনগুলো যোগ করুন (Merge)",
-      importReplaceBtn: "সম্পূর্ণ প্রতিস্থাপন (Replace)",
-      importCancelBtn: "বাতিল",
-      btnTestView: "পরিবার কীভাবে দেখবে তা পরীক্ষা করুন",
-      toastJsonDone: "JSON ব্যাকআপ ফাইল ডাউনলোড সম্পন্ন হয়েছে!",
-      toastMsgCopied: "হোয়াটসঅ্যাপ রিপোর্ট ক্লিপবোর্ডে কপি করা হয়েছে!",
-      toastSummaryCopied: "টেক্সট সামারি ক্লিপবোর্ডে কপি করা হয়েছে!",
-      toastCopied: "লিংক ক্লিপবোর্ডে কপি করা হয়েছে!",
-      toastImportEmpty: "ফাইলে কোনো প্রেসক্রিপশন ডেটা পাওয়া যায়নি।",
-      toastImportMergeDone: "{n}টি নতুন প্রেসক্রিপশন যুক্ত করা হয়েছে!",
-      toastImportReplaceDone: "ভল্ট প্রতিস্থাপন সম্পন্ন হয়েছে ({n}টি প্রেসক্রিপশন)!",
       viewModeMsg: "পারিবারিক ভিউ মোড সক্রিয়। মোট {n}টি প্রেসক্রিপশন সংরক্ষিত আছে (শুধুমাত্র দেখার জন্য)।"
     },
     en: {
@@ -159,7 +122,7 @@
       navMore: "More",
       heroEyebrow: "Digital Health Vault",
       heroTitle: "Prescription Vault",
-      heroSub: "Store your doctor's prescriptions and share them with family members.",
+      heroSub: "Store and monitor your doctor's prescriptions securely.",
       heroCreatePrescription: "Create Prescription",
       btnCreateDigitalRx: "Create Digital Rx",
       storageLabel: "Storage used",
@@ -210,43 +173,6 @@
       toastTooBig: "Storage nearly full. Please remove some items.",
       btnDownload: "Download",
       btnClose: "Close",
-      shareBadge: "Family Share & Backup",
-      shareTitle: "Share with Family",
-      shareSub: "Your family members can view your prescriptions from anywhere",
-      shareCardExportTitle: "Share & Export Options",
-      shareSecurityBadge: "Secure & Read-only",
-      btnWhatsAppShare: "Send to Son/Daughter via WhatsApp",
-      msgPreviewTitle: "Message Preview:",
-      btnCopyReport: "Copy Message",
-      btnCopied: "Copied!",
-      btnJson: "JSON Backup",
-      btnLink: "Share Link",
-      btnPrint: "Print / PDF",
-      btnCopySummary: "Text Summary",
-      btnCopy: "Copy",
-      linkNote: "Share link contains prescription info only (no photos). Use JSON for full backup.",
-      familyTitle: "Family View Mode",
-      familyDesc: "Send the JSON backup to family. When imported, they can view your records safely.",
-      step1Title: "Create Backup",
-      step1Desc: "Send JSON backup or report message to your son or daughter",
-      step2Title: "Family Import",
-      step2Desc: "Family member drops the backup file here to easily load it",
-      step3Title: "Read-only View",
-      step3Desc: "Secure view without risk of deleting or editing records",
-      importDropTitle: "Drop JSON backup file here or click to browse",
-      importDropHint: "BreatheWell backup file (.json) supported",
-      importBtn: "Import JSON",
-      importMergeBtn: "Merge New Records",
-      importReplaceBtn: "Replace Entire Vault",
-      importCancelBtn: "Cancel",
-      btnTestView: "Test how family will view this",
-      toastJsonDone: "JSON backup file downloaded successfully!",
-      toastMsgCopied: "WhatsApp report copied to clipboard!",
-      toastSummaryCopied: "Text summary copied to clipboard!",
-      toastCopied: "Share link copied to clipboard!",
-      toastImportEmpty: "No prescription data found in file.",
-      toastImportMergeDone: "{n} new prescription(s) merged!",
-      toastImportReplaceDone: "Vault replaced with {n} prescription(s)!",
       viewModeMsg: "Family view mode active. {n} prescription(s) available (read-only)."
     }
   };
@@ -267,12 +193,9 @@
     bindFormSubmit();
     bindGalleryControls();
     bindLightbox();
-    bindShareAndExport();
-    rxBindImportDropZone();
     initMobileSidebar();
     rxRenderGallery();
     rxUpdateStorage();
-    rxRefreshShareLink();
   });
 
   function initHeroPills() {
@@ -281,9 +204,6 @@
     });
     $("rxHeroBtnGallery")?.addEventListener("click", () => {
       $("rxGallerySection")?.scrollIntoView({ behavior: "smooth" });
-    });
-    $("rxHeroBtnShare")?.addEventListener("click", () => {
-      $("rxShareSection")?.scrollIntoView({ behavior: "smooth" });
     });
   }
 
@@ -333,7 +253,6 @@
       const k = el.getAttribute("data-rx-i18n-placeholder");
       if (k && tr(k)) el.placeholder = tr(k);
     });
-    rxRefreshShareLink();
   }
 
   // ============================================================================
@@ -487,10 +406,9 @@
       const isPdf = file.mime === "application/pdf";
 
       wrap.innerHTML = `
-        ${
-          isPdf
-            ? `<div class="d-flex align-items-center justify-content-center h-100 bg-danger text-white fs-4 fw-bold">PDF</div>`
-            : `<img src="${file.data}" class="rx-preview-thumb" alt="${file.name}">`
+        ${isPdf
+          ? `<div class="d-flex align-items-center justify-content-center h-100 bg-danger text-white fs-4 fw-bold">PDF</div>`
+          : `<img src="${file.data}" class="rx-preview-thumb" alt="${file.name}">`
         }
         <button type="button" class="rx-preview-remove" aria-label="Remove file">
           <i class="bi bi-x"></i>
@@ -834,7 +752,6 @@ Drink plenty of boiled water. Take bed rest.`;
       renderMedChips();
       rxUpdateStorage();
       rxRenderGallery();
-      rxRefreshShareLink();
 
       rxToast(tr("toastSaved"), "success");
       $("rxGallerySection")?.scrollIntoView({ behavior: "smooth" });
@@ -971,7 +888,6 @@ Drink plenty of boiled water. Take bed rest.`;
           rxSave(all);
           rxRenderGallery();
           rxUpdateStorage();
-          rxRefreshShareLink();
           rxToast(tr("toastDeleted"), "info");
         }
       });
@@ -1009,7 +925,7 @@ Drink plenty of boiled water. Take bed rest.`;
     // Medications chips
     const medsHTML = r.meds?.length
       ? r.meds.slice(0, 3).map((m) => `<span class="rx-card-med-chip">${escapeHtml(m)}</span>`).join("") +
-        (r.meds.length > 3 ? `<span class="rx-card-med-more">${tr("moreMeds").replace("{n}", r.meds.length - 3)}</span>` : "")
+      (r.meds.length > 3 ? `<span class="rx-card-med-more">${tr("moreMeds").replace("{n}", r.meds.length - 3)}</span>` : "")
       : "";
 
     // Refill status
@@ -1121,7 +1037,6 @@ Drink plenty of boiled water. Take bed rest.`;
       rxSave(all);
       rxRenderGallery();
       rxUpdateStorage();
-      rxRefreshShareLink();
       rxToast(tr("toastDeleted"), "info");
     }
   };
@@ -1221,408 +1136,6 @@ Drink plenty of boiled water. Take bed rest.`;
   }
 
   // ============================================================================
-  // SHARE & EXPORT ENGINE
-  // ============================================================================
-  function rxExportJSON() {
-    const all = rxLoad();
-    if (!all.length) {
-      rxToast(currentLang === "bn" ? "কোনো প্রেসক্রিপশন সংরক্ষিত নেই" : "No prescriptions saved", "warn");
-      return;
-    }
-    const json = JSON.stringify({ exported: new Date().toISOString(), prescriptions: all }, null, 2);
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `breathewell-prescriptions-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    rxToast(tr("toastJsonDone"), "success");
-  }
-
-  function rxGenerateShareURL() {
-    const all = rxLoad();
-    // Strip heavy base64 file payloads for lightweight URL sharing
-    const slim = all.map((r) => ({
-      id: r.id,
-      prescDate: r.prescDate,
-      doctor: r.doctor,
-      clinic: r.clinic,
-      meds: r.meds,
-      diagnosis: r.diagnosis,
-      refillDate: r.refillDate,
-      urgency: r.urgency,
-      notes: r.notes,
-      createdAt: r.createdAt,
-      files: (r.files || []).map((f) => ({ name: f.name, mime: f.mime }))
-    }));
-    const payload = btoa(unescape(encodeURIComponent(JSON.stringify(slim))));
-    const base = window.location.href.split("?")[0];
-    return `${base}?rxview=${payload}`;
-  }
-
-  function rxGenerateWhatsAppMessage() {
-    const records = rxLoad();
-    const isBn = currentLang === "bn";
-    const dateStr = new Date().toLocaleDateString(isBn ? "bn-BD" : "en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric"
-    });
-
-    if (!records.length) {
-      return isBn
-        ? `📋 *BreatheWell প্রেসক্রিপশন ভল্ট* (${dateStr})\nবর্তমানে কোনো সংরক্ষিত প্রেসক্রিপশন নেই।`
-        : `📋 *BreatheWell Prescription Vault* (${dateStr})\nNo prescriptions currently saved.`;
-    }
-
-    const shareUrl = rxGenerateShareURL();
-    let msg = isBn
-      ? `📋 *BreatheWell প্রেসক্রিপশন সামারি*\n📅 তারিখ: ${dateStr}\n📁 মোট প্রেসক্রিপশন: ${records.length}টি\n\n`
-      : `📋 *BreatheWell Prescription Summary*\n📅 Date: ${dateStr}\n📁 Total Prescriptions: ${records.length}\n\n`;
-
-    records.forEach((r, idx) => {
-      const num = isBn ? (idx + 1).toLocaleString("bn-BD") : idx + 1;
-      const docName = r.doctor || (isBn ? "ডাক্তারের নাম উল্লেখ নেই" : "Doctor not specified");
-      const clinic = r.clinic ? ` (${r.clinic})` : "";
-      const pDate = r.prescDate ? rxFmtDate(r.prescDate) : "—";
-      const meds = r.meds && r.meds.length ? r.meds.join(", ") : isBn ? "কোনো ওষুধ নেই" : "None";
-      const diag = r.diagnosis ? `\n   🩺 ${isBn ? "রোগ" : "Diagnosis"}: ${r.diagnosis}` : "";
-
-      let refillInfo = "";
-      if (r.refillDate) {
-        const days = rxDaysUntilRefill(r.refillDate);
-        if (days < 0) {
-          refillInfo = `\n   ⚠️ ${isBn ? "রিফিল বাকি" : "Refill overdue"}: ${rxFmtDate(r.refillDate)}`;
-        } else if (days <= 7) {
-          refillInfo = `\n   ⏰ ${isBn ? "রিফিল আসন্ন" : "Refill soon"}: ${rxFmtDate(r.refillDate)} (${days} ${
-            isBn ? "দিন বাকি" : "days left"
-          })`;
-        } else {
-          refillInfo = `\n   🗓️ ${isBn ? "পরবর্তী রিফিল" : "Next refill"}: ${rxFmtDate(r.refillDate)}`;
-        }
-      }
-
-      msg += `${num}. *${docName}*${clinic}\n`;
-      msg += `   📅 ${isBn ? "প্রেসক্রিপশন তারিখ" : "Date"}: ${pDate}\n`;
-      msg += `   💊 ${isBn ? "ওষুধ" : "Meds"}: ${meds}`;
-      msg += diag;
-      msg += refillInfo;
-      msg += `\n\n`;
-    });
-
-    if (isBn) {
-      msg += `🔗 *অনলাইনে দেখতে লিংকটিতে চাপুন (রিড-অনলি ভিউ):*\n${shareUrl}\n\n`;
-      msg += `_BreatheWell ডিজিটাল স্বাস্থ্য ভল্ট থেকে প্রেরিত_`;
-    } else {
-      msg += `🔗 *Tap link to view details (Read-only view):*\n${shareUrl}\n\n`;
-      msg += `_Sent via BreatheWell Digital Health Vault_`;
-    }
-
-    return msg;
-  }
-
-  function rxShareWhatsApp() {
-    const text = rxGenerateWhatsAppMessage();
-    const encoded = encodeURIComponent(text);
-    const url = `https://api.whatsapp.com/send?text=${encoded}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-  }
-
-  function rxCopyWhatsAppMessage() {
-    const text = rxGenerateWhatsAppMessage();
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        const btn = $("rxBtnCopyMsg");
-        if (btn) {
-          btn.innerHTML = `<i class="bi bi-check2"></i> <span>${tr("btnCopied")}</span>`;
-          btn.classList.add("copied");
-          setTimeout(() => {
-            btn.innerHTML = `<i class="bi bi-clipboard"></i> <span>${tr("btnCopyReport")}</span>`;
-            btn.classList.remove("copied");
-          }, 2500);
-        }
-        rxToast(tr("toastMsgCopied"), "success");
-      })
-      .catch(() => {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-        rxToast(tr("toastMsgCopied"), "success");
-      });
-  }
-
-  function rxCopySummary() {
-    const records = rxLoad();
-    const isBn = currentLang === "bn";
-    const dateStr = new Date().toLocaleDateString(isBn ? "bn-BD" : "en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric"
-    });
-
-    if (!records.length) {
-      rxToast(isBn ? "কোনো প্রেসক্রিপশন নেই" : "No prescriptions saved", "warn");
-      return;
-    }
-
-    let summary = isBn
-      ? `BreatheWell প্রেসক্রিপশন সামারি (${dateStr})\nমোট প্রেসক্রিপশন: ${records.length}টি\n---------------------------------\n`
-      : `BreatheWell Prescription Summary (${dateStr})\nTotal Prescriptions: ${records.length}\n---------------------------------\n`;
-
-    records.forEach((r, i) => {
-      const doc = r.doctor || "—";
-      const clinic = r.clinic ? ` (${r.clinic})` : "";
-      const dt = r.prescDate ? rxFmtDate(r.prescDate) : "—";
-      const meds = r.meds && r.meds.length ? r.meds.join(", ") : "—";
-      const diag = r.diagnosis ? ` | ${isBn ? "রোগ" : "Diagnosis"}: ${r.diagnosis}` : "";
-      const refill = r.refillDate ? ` | ${isBn ? "রিফিল" : "Refill"}: ${rxFmtDate(r.refillDate)}` : "";
-      summary += `${i + 1}. ${doc}${clinic} - ${dt}\n   ${isBn ? "ওষুধ" : "Meds"}: ${meds}${diag}${refill}\n`;
-    });
-
-    navigator.clipboard
-      .writeText(summary)
-      .then(() => {
-        rxToast(tr("toastSummaryCopied"), "success");
-      })
-      .catch(() => {
-        const ta = document.createElement("textarea");
-        ta.value = summary;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-        rxToast(tr("toastSummaryCopied"), "success");
-      });
-  }
-
-  function rxRefreshShareLink() {
-    const shareUrl = rxGenerateShareURL();
-    const input = $("rxShareUrlInput");
-    if (input) input.value = shareUrl;
-
-    const preview = $("rxWhatsappMsgPreview");
-    if (preview) {
-      preview.textContent = rxGenerateWhatsAppMessage();
-    }
-
-    const testLink = $("rxBtnTestView");
-    if (testLink) {
-      testLink.href = shareUrl;
-    }
-
-    const statCount = $("rxShareVaultCount");
-    if (statCount) {
-      const count = rxLoad().length;
-      statCount.textContent =
-        currentLang === "bn"
-          ? `ভল্টে ${count.toLocaleString("bn-BD")}টি প্রেসক্রিপশন`
-          : `${count} prescription(s) in vault`;
-    }
-  }
-
-  function rxCopyLink() {
-    const input = $("rxShareUrlInput");
-    if (!input) return;
-    navigator.clipboard
-      .writeText(input.value)
-      .then(() => {
-        const btn = $("rxCopyBtn");
-        if (btn) {
-          btn.innerHTML = `<i class="bi bi-check2"></i> <span>${tr("btnCopied")}</span>`;
-          btn.classList.add("copied");
-          setTimeout(() => {
-            btn.innerHTML = `<i class="bi bi-clipboard"></i> <span>${tr("btnCopy")}</span>`;
-            btn.classList.remove("copied");
-          }, 2500);
-        }
-        rxToast(tr("toastCopied"), "success");
-      })
-      .catch(() => {
-        input.select();
-        document.execCommand("copy");
-        rxToast(tr("toastCopied"), "success");
-      });
-  }
-
-  function bindShareAndExport() {
-    $("rxBtnWhatsApp")?.addEventListener("click", rxShareWhatsApp);
-    $("rxBtnCopyMsg")?.addEventListener("click", rxCopyWhatsAppMessage);
-    $("rxBtnCopySummary")?.addEventListener("click", rxCopySummary);
-    $("rxBtnJson")?.addEventListener("click", rxExportJSON);
-    $("rxBtnLink")?.addEventListener("click", rxRefreshShareLink);
-    $("rxCopyBtn")?.addEventListener("click", rxCopyLink);
-    $("rxBtnPrint")?.addEventListener("click", () => window.print());
-  }
-
-  // ============================================================================
-  // FAMILY IMPORT & STAGED MERGE/REPLACE ENGINE
-  // ============================================================================
-  function rxBindImportDropZone() {
-    const dropzone = $("rxImportDropZone");
-    const input = $("rxImportInput");
-    if (!dropzone || !input) return;
-
-    dropzone.addEventListener("click", (e) => {
-      if (e.target === input) return;
-      input.click();
-    });
-
-    dropzone.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        input.click();
-      }
-    });
-
-    input.addEventListener("change", () => {
-      if (input.files?.length) {
-        rxStageImportFile(input.files[0]);
-      }
-    });
-
-    dropzone.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      dropzone.classList.add("drag-over");
-    });
-
-    dropzone.addEventListener("dragleave", (e) => {
-      if (!dropzone.contains(e.relatedTarget)) {
-        dropzone.classList.remove("drag-over");
-      }
-    });
-
-    dropzone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      dropzone.classList.remove("drag-over");
-      if (e.dataTransfer.files?.length) {
-        rxStageImportFile(e.dataTransfer.files[0]);
-      }
-    });
-
-    $("rxBtnMergeImport")?.addEventListener("click", rxExecuteMergeImport);
-    $("rxBtnReplaceImport")?.addEventListener("click", rxExecuteReplaceImport);
-    $("rxBtnCancelImport")?.addEventListener("click", rxCancelImport);
-  }
-
-  function rxStageImportFile(file) {
-    if (!file) return;
-    stagedImportFilename = file.name;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      try {
-        const parsed = JSON.parse(ev.target.result);
-        const records = parsed.prescriptions || (Array.isArray(parsed) ? parsed : []);
-        if (!records.length) {
-          rxToast(tr("toastImportEmpty"), "error");
-          return;
-        }
-        stagedImportRecords = records;
-        rxRenderImportPreview(parsed.exported);
-      } catch (err) {
-        console.error("JSON parse error:", err);
-        rxToast("Invalid JSON file", "error");
-      }
-    };
-    reader.readAsText(file);
-  }
-
-  function rxRenderImportPreview(exportedDate) {
-    const previewBox = $("rxImportPreview");
-    const badge = $("rxImportCountBadge");
-    const meta = $("rxImportFileMeta");
-    const list = $("rxImportList");
-    if (!previewBox || !badge || !list) return;
-
-    const count = stagedImportRecords.length;
-    badge.textContent =
-      currentLang === "bn"
-        ? `${count.toLocaleString("bn-BD")}টি প্রেসক্রিপশন পাওয়া গেছে`
-        : `${count} prescription(s) found`;
-
-    if (meta) {
-      meta.textContent = stagedImportFilename + (exportedDate ? ` · ${rxFmtDate(exportedDate)}` : "");
-    }
-
-    list.innerHTML = stagedImportRecords
-      .map((r, i) => {
-        const doc = r.doctor || (currentLang === "bn" ? "ডাক্তারের নাম নেই" : "No doctor name");
-        const dt = r.prescDate ? rxFmtDate(r.prescDate) : "";
-        const medCount =
-          r.meds && r.meds.length
-            ? currentLang === "bn"
-              ? `${r.meds.length}টি ওষুধ`
-              : `${r.meds.length} meds`
-            : "";
-        return `<div class="rx-import-item-line">
-          <strong>${i + 1}. ${escapeHtml(doc)}</strong>
-          ${dt ? ` · <span class="text-muted">${dt}</span>` : ""}
-          ${medCount ? ` · <span class="badge bg-light text-dark border">${medCount}</span>` : ""}
-        </div>`;
-      })
-      .join("");
-
-    previewBox.classList.remove("d-none");
-    previewBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }
-
-  function rxExecuteMergeImport() {
-    if (!stagedImportRecords.length) return;
-    const existing = rxLoad();
-    const existingIds = new Set(existing.map((r) => r.id));
-    let addedCount = 0;
-
-    stagedImportRecords.forEach((r) => {
-      if (!r.id) r.id = rxUUID();
-      if (!existingIds.has(r.id)) {
-        existing.push(r);
-        existingIds.add(r.id);
-        addedCount++;
-      }
-    });
-
-    rxSave(existing);
-    rxCancelImport();
-    rxRenderGallery();
-    rxUpdateStorage();
-    rxRefreshShareLink();
-
-    const countStr = currentLang === "bn" ? addedCount.toLocaleString("bn-BD") : addedCount;
-    const msg = tr("toastImportMergeDone").replace("{n}", countStr);
-    rxToast(msg, "success");
-  }
-
-  function rxExecuteReplaceImport() {
-    if (!stagedImportRecords.length) return;
-    const count = stagedImportRecords.length;
-    stagedImportRecords.forEach((r) => {
-      if (!r.id) r.id = rxUUID();
-    });
-    rxSave(stagedImportRecords);
-    rxCancelImport();
-    rxRenderGallery();
-    rxUpdateStorage();
-    rxRefreshShareLink();
-
-    const countStr = currentLang === "bn" ? count.toLocaleString("bn-BD") : count;
-    const msg = tr("toastImportReplaceDone").replace("{n}", countStr);
-    rxToast(msg, "success");
-  }
-
-  function rxCancelImport() {
-    stagedImportRecords = [];
-    stagedImportFilename = "";
-    const previewBox = $("rxImportPreview");
-    if (previewBox) previewBox.classList.add("d-none");
-    const input = $("rxImportInput");
-    if (input) input.value = "";
-  }
-
-  // ============================================================================
   // TOAST NOTIFICATIONS
   // ============================================================================
   function rxToast(message, type = "info") {
@@ -1640,10 +1153,10 @@ Drink plenty of boiled water. Take bed rest.`;
       type === "success"
         ? "bi-check-circle-fill text-success"
         : type === "warn"
-        ? "bi-exclamation-triangle-fill text-warning"
-        : type === "error"
-        ? "bi-x-circle-fill text-danger"
-        : "bi-info-circle-fill text-info";
+          ? "bi-exclamation-triangle-fill text-warning"
+          : type === "error"
+            ? "bi-x-circle-fill text-danger"
+            : "bi-info-circle-fill text-info";
 
     toast.innerHTML = `
       <i class="bi ${icon} fs-5"></i>
@@ -1674,7 +1187,7 @@ Drink plenty of boiled water. Take bed rest.`;
         try {
           const bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(sidebar);
           bsOffcanvas?.hide();
-        } catch (_) {}
+        } catch (_) { }
 
         if (link.dataset.action === "emergency-sos" || href.includes("#safety")) {
           e.preventDefault();

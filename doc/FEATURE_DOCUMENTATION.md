@@ -126,7 +126,7 @@
 ### Module 5: Clinical Vitals Health Tracker (`health-tracker.html`)
 
 - **Blood Pressure (BP) Module:**
-  - Dual systolic / diastolic inputs with +/- 1, 5, 10 nudge steppers and arm selection (Left/Right).
+  - Dual systolic / diastolic inputs with arm selection (Left/Right) and interactive live spectrum slider.
   - One-click presets: Normal (120/80), Elevated (128/82), Stage 1 (135/88), Stage 2 (155/96).
   - 2017 AHA classification with prominent Hypertensive Crisis visual alarms.
 - **Blood Glucose (BG) Module:**

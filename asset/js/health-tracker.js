@@ -5,7 +5,7 @@
  * Description:
  *   Complete client-side engine for the Day-wise Blood Pressure & Diabetes
  *   (Blood Sugar) Health Tracker. Features real-time diagnostic spectrum
- *   gauges, quick stepper nudge controls, preset pills, interactive SVG
+ *   gauges, interactive SVG
  *   charts with timeframe filters and hover tooltips, one-tap WhatsApp family
  *   sharing, weekly automated health insights, and offline localStorage
  *   persistence with zero server dependence.
@@ -17,7 +17,7 @@
  *   4.  Utility Helpers
  *   5.  Blood-Pressure Classification & Diagnostic Advice Engine
  *   6.  Blood-Glucose Classification & Diagnostic Advice Engine
- *   7.  Form Handling & Stepper / Preset Controls
+ *   7.  Form Handling
  *   8.  Live Diagnostic Spectrum Gauges
  *   9.  History Log — Render, Live Search & Pagination
  *   10. Interactive SVG Chart Engine with Tooltips & Timeframes
@@ -39,13 +39,9 @@
 const HT_KEY = "bw_health_tracker_records";
 
 /** localStorage key for user's family PIN */
-const HT_PIN_KEY = "bw_health_tracker_pin";
 
 /** localStorage key for language preference */
 const HT_LANG_KEY = "bw_lang";
-
-/** Number of history rows shown per page */
-const ROWS_PER_PAGE = 8;
 
 /** Maximum records kept per type to avoid bloating localStorage */
 const MAX_RECORDS = 365;
@@ -156,15 +152,13 @@ const HT_T = {
     pageTitle:        "স্বাস্থ্য পর্যবেক্ষণ",
     pageEyebrow:      "দৈনিক স্বাস্থ্য লগ",
     pageHeadline:     "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
-    pageSub:          "প্রতিদিনের রক্তচাপ ও ব্লাড সুগার সহজে ট্র্যাক করুন, লাইভ বিশ্লেষণ দেখুন এবং পরিবারকে নিরাপদে পাঠান।",
+    pageSub:          "প্রতিদিনের রক্তচাপ ও ব্লাড সুগার সহজে ট্র্যাক করুন এবং লাইভ বিশ্লেষণ ও ট্রেন্ড পর্যবেক্ষণ করুন।",
     heroPillBP:       "রক্তচাপ ট্র্যাকিং",
     heroPillBG:       "সুগার পর্যবেক্ষণ",
-    heroPillFamily:   "পারিবারিক সংযোগ",
 
     quickNavAdd:      "➕ নতুন রিডিং",
     quickNavCharts:   "📈 ট্রেন্ড চার্ট",
     quickNavLog:      "📋 ইতিহাস লগ",
-    quickNavShare:    "📲 পরিবারকে পাঠান",
     quickNavDemo:     "🧪 নমুনা ডেটা",
 
     statBPTitle:      "সর্বশেষ রক্তচাপ",
@@ -229,53 +223,13 @@ const HT_T = {
     colValue:         "রিডিং মান",
     colStatus:        "অবস্থা",
     colNotes:         "নোট",
+    colAction:        "মুছুন",
     noHistory:        "এখনো কোনো রেকর্ড নেই",
     noHistorySub:     "উপরের ফর্মে ডেটা যোগ করুন অথবা নমুনা ডেটা দিয়ে দেখুন",
     paginInfo:        "{from}–{to} / {total}টি রেকর্ড",
 
-    shareTitle:       "পরিবারের সাথে শেয়ার ও মনিটরিং",
-    shareSub:         "আপনার ছেলে, মেয়ে বা পরিবারের সদস্যরা যেকোনো দূরত্ব থেকে আপনার স্বাস্থ্য পর্যবেক্ষণ করতে পারবেন।",
-    shareBadge:       "পারিবারিক শেয়ার ও ব্যাকআপ",
-    shareCardExportTitle: "শেয়ার ও এক্সপোর্ট অপশন",
-    shareSecurityBadge: "নিরাপদ ও রিড-অনলি",
-    msgPreviewTitle:  "মেসেজের প্রিভিউ:",
-    shareVaultReady:  "ভল্ট প্রস্তুত",
-    btnWhatsAppShare: "ছেলে/মেয়েকে WhatsApp-এ পাঠান",
-    btnCopyReport:    "মেসেজ টেক্সট কপি করুন",
     btnCsv:           "CSV ডাউনলোড",
-    btnJson:          "JSON ব্যাকআপ",
-    btnLink:          "শেয়ার লিংক",
-    btnPrint:         "মেডিকেল রিপোর্ট প্রিন্ট",
-    btnCopy:          "কপি",
-    btnCopied:        "কপি হয়েছে ✓",
-    tileCsvSub:       "এক্সেল ও শিটসের জন্য",
-    tileJsonSub:      "পূর্ণ ব্যাকআপ ফাইল",
-    tileLinkSub:      "লিংক রিফ্রেশ করুন",
-    tilePrintSub:     "মেডিকেল সামারি শিট",
-
-    familyTitle:      "পারিবারিক মনিটর লক",
-    familyDesc:       "একটি ৪ সংখ্যার পিন সেট করুন। শেয়ার লিংক দিলে পরিবার সদস্যরা শুধু দেখতে পারবেন — কোনো ডেটা পরিবর্তন করতে পারবেন না।",
-    step1Title:       "১. ব্যাকআপ ও পিন",
-    step1Desc:        "৪ সংখ্যার পিন সেট করুন অথবা JSON ব্যাকআপ তৈরি করে পরিবারকে পাঠান",
-    step2Title:       "২. ফ্যামিলি ইমপোর্ট",
-    step2Desc:        "পরিবারের সদস্য ফাইল ড্রপ করে সহজেই রেকর্ড দেখতে পাবেন",
-    step3Title:       "৩. রিড-অনলি মনিটরিং",
-    step3Desc:        "কোনো ডেটা ডিলিট বা এডিট হওয়ার ঝুঁকি ছাড়া সুরক্ষিত পর্যবেক্ষণ",
-    pinLabel:         "পারিবারিক পিন কোড",
-    pinHintText:      "পিন সেট করলে ডেটা পরিবর্তন সুরক্ষিত থাকবে",
-    importDropTitle:  "JSON ব্যাকআপ ফাইল ড্রপ করুন অথবা বেছে নিন",
-    importDropHint:   "BreatheWell স্বাস্থ্য ব্যাকআপ ফাইল (.json) সমর্থিত",
-    importBtn:        "JSON আমদানি করুন",
-    importMergeBtn:   "নতুনগুলো যোগ করুন (Merge)",
-    importReplaceBtn: "সম্পূর্ণ প্রতিস্থাপন (Replace)",
-    importCancelBtn:  "বাতিল",
-    btnTestView:      "পরিবার কীভাবে দেখবে তা পরীক্ষা করুন",
     disclaimerText:   "এই ট্র্যাকারটি ব্যক্তিগত সচেতনতা ও রেকর্ড রাখার জন্য। চিকিৎসার প্রয়োজনে সর্বদা রেজিষ্টার্ড চিকিৎসকের পরামর্শ নিন।",
-    pinPlaceholder:   "• • • •",
-    btnSetPin:        "পিন সেট করুন",
-    btnResetPin:      "পিন পরিবর্তন করুন",
-    pinSetOk:         "পিন সেট হয়েছে ✓",
-
     btnLoadDemo:      "🧪 নমুনা ডেটা যোগ করুন",
     btnClearAll:      "🗑️ সব ডেটা মুছুন",
 
@@ -338,15 +292,13 @@ const HT_T = {
     pageTitle:        "Health Monitor",
     pageEyebrow:      "Daily Health Log",
     pageHeadline:     "Blood Pressure & Diabetes Tracker",
-    pageSub:          "Effortlessly log blood pressure and sugar levels, view instant diagnostics, and share updates securely with family.",
+    pageSub:          "Effortlessly log blood pressure and sugar levels, view instant diagnostics, and monitor long-term trends.",
     heroPillBP:       "BP Tracking",
     heroPillBG:       "Glucose Monitor",
-    heroPillFamily:   "Family Connected",
 
     quickNavAdd:      "➕ Add Reading",
     quickNavCharts:   "📈 Trends & Charts",
     quickNavLog:      "📋 History Log",
-    quickNavShare:    "📲 Share Report",
     quickNavDemo:     "🧪 Demo Data",
 
     statBPTitle:      "Latest BP",
@@ -411,53 +363,13 @@ const HT_T = {
     colValue:         "Reading Value",
     colStatus:        "Status",
     colNotes:         "Notes",
+    colAction:        "Action",
     noHistory:        "No records yet",
     noHistorySub:     "Add your readings above or explore with sample data",
     paginInfo:        "{from}–{to} of {total} records",
 
-    shareTitle:       "Share with Family",
-    shareSub:         "Your son, daughter, or family members can monitor your vital signs remotely from any device.",
-    shareBadge:       "Family Sharing & Backup",
-    shareCardExportTitle: "Share & Export Options",
-    shareSecurityBadge: "Secure & Read-Only",
-    msgPreviewTitle:  "WhatsApp Message Preview:",
-    shareVaultReady:  "Vault Ready",
-    btnWhatsAppShare: "Send Report to Family via WhatsApp",
-    btnCopyReport:    "Copy Message Text",
     btnCsv:           "Download CSV",
-    btnJson:          "Download JSON",
-    btnLink:          "Share Link",
-    btnPrint:         "Print Doctor Report",
-    btnCopy:          "Copy",
-    btnCopied:        "Copied ✓",
-    tileCsvSub:       "For Excel & Sheets",
-    tileJsonSub:      "Full backup file",
-    tileLinkSub:      "Refresh link",
-    tilePrintSub:     "Medical summary sheet",
-
-    familyTitle:      "Family Monitor Lock",
-    familyDesc:       "Set a 4-digit PIN. Anyone opening the share link can only view your readings without altering any data.",
-    step1Title:       "1. Backup & PIN",
-    step1Desc:        "Set a 4-digit PIN or export JSON backup for your family",
-    step2Title:       "2. Family Import",
-    step2Desc:        "Family members drop the file here to easily view your logs",
-    step3Title:       "3. Read-Only Monitoring",
-    step3Desc:        "Safe remote monitoring with zero risk of accidental editing or deletion",
-    pinLabel:         "Family Security PIN",
-    pinHintText:      "Setting a PIN protects your data from being altered via share links",
-    importDropTitle:  "Drop JSON backup file here or click to browse",
-    importDropHint:   "BreatheWell health backup file (.json) supported",
-    importBtn:        "Import JSON",
-    importMergeBtn:   "Add New Records (Merge)",
-    importReplaceBtn: "Replace Entire Vault (Replace)",
-    importCancelBtn:  "Cancel",
-    btnTestView:      "Test How Family Sees This",
     disclaimerText:   "This tracker is for personal awareness and record-keeping. Always consult a registered physician for medical advice.",
-    pinPlaceholder:   "• • • •",
-    btnSetPin:        "Set PIN",
-    btnResetPin:      "Change PIN",
-    pinSetOk:         "PIN saved ✓",
-
     btnLoadDemo:      "🧪 Load Sample Data",
     btnClearAll:      "🗑️ Clear All Records",
 
@@ -522,7 +434,27 @@ function ht(key) {
   return (HT_T[htLang] && HT_T[htLang][key]) || HT_T.bn[key] || key;
 }
 
-const $ = id => document.getElementById(id);
+var $ = function(id) {
+  if (typeof id === "string") {
+    var cleanId = id.startsWith("#") ? id.slice(1) : id;
+    var el = document.getElementById(cleanId);
+    if (el) return el;
+  }
+  if (typeof window !== "undefined" && typeof window.jQuery === "function") {
+    return window.jQuery(id);
+  }
+  return null;
+};
+
+function escapeHtml(str) {
+  if (str == null) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 function htFormatDate(isoString) {
   const d = new Date(isoString);
@@ -657,7 +589,7 @@ function getBGAdvice(classificationKey, timing) {
 }
 
 /* ============================================================================
- * 7. FORM HANDLING & STEPPER / PRESET CONTROLS
+ * 7. FORM HANDLING
  * ============================================================================ */
 
 let bpPreview = null;
@@ -667,11 +599,9 @@ function validateBPForm() {
   let valid = true;
   const sys  = parseFloat($("bpSystolic")?.value);
   const dia  = parseFloat($("bpDiastolic")?.value);
-  const pulse = parseFloat($("bpPulse")?.value);
 
   const sysErr  = $("errBpSys");
   const diaErr  = $("errBpDia");
-  const pulErr  = $("errBpPulse");
 
   if (isNaN(sys) || sys < 60 || sys > 250) {
     if (sysErr) sysErr.textContent = ht("errSysRange");
@@ -691,15 +621,6 @@ function validateBPForm() {
     $("bpDiastolic")?.classList.remove("has-error");
   }
 
-  if (!isNaN(pulse) && $("bpPulse")?.value !== "" && (pulse < 30 || pulse > 220)) {
-    if (pulErr) pulErr.textContent = ht("errPulseRange");
-    $("bpPulse")?.classList.add("has-error");
-    valid = false;
-  } else {
-    if (pulErr) pulErr.textContent = "";
-    $("bpPulse")?.classList.remove("has-error");
-  }
-
   return valid;
 }
 
@@ -709,7 +630,6 @@ function handleBPSubmit(e) {
 
   const sys   = parseFloat($("bpSystolic").value);
   const dia   = parseFloat($("bpDiastolic").value);
-  const pulse = $("bpPulse").value ? parseFloat($("bpPulse").value) : null;
   const arm   = $("bpArm")?.value || "right";
   const date  = $("bpDate").value || htNowLocal();
   const notes = $("bpNotes").value.trim();
@@ -720,7 +640,7 @@ function handleBPSubmit(e) {
     type: "bp",
     id:   htUUID(),
     date: new Date(date).toISOString(),
-    sys, dia, pulse, arm, notes,
+    sys, dia, arm, notes,
     status: classification.key,
   };
 
@@ -741,7 +661,6 @@ function handleBPSubmit(e) {
 
   $("bpSystolic").value = "";
   $("bpDiastolic").value = "";
-  $("bpPulse").value = "";
   $("bpNotes").value = "";
   $("bpDate").value = htNowLocal();
   updateBPGauge(0, 0);
@@ -751,7 +670,6 @@ function renderBPPreview() {
   const wrap = $("bpPreviewWrap");
   if (!wrap || !bpPreview) return;
   const { record, classification } = bpPreview;
-  const pulse = record.pulse ? ` · ${record.pulse} ${ht("unitBpm")}` : "";
 
   wrap.innerHTML = `
     <div class="ht-reading-preview">
@@ -759,7 +677,7 @@ function renderBPPreview() {
       <div class="flex-grow-1">
         <div class="ht-stat-label">${ht("bpFormSub")}</div>
         <div class="big-val">${record.sys}/${record.dia}</div>
-        <div class="big-unit">${ht("unitMmhg")}${pulse}</div>
+        <div class="big-unit">${ht("unitMmhg")}</div>
       </div>
       <span class="ht-status-chip ${classification.cls}">
         ${classification.icon} ${bpLabel(classification.key)}
@@ -839,40 +757,6 @@ function renderBGPreview() {
     </div>`;
 }
 
-/** Nudges an input value by step */
-function htNudgeInput(id, delta, min = 0, max = 999) {
-  const el = $(id);
-  if (!el) return;
-  let val = parseFloat(el.value);
-  if (isNaN(val)) val = delta > 0 ? min : max;
-  else val += delta;
-  val = Math.max(min, Math.min(max, val));
-  el.value = val;
-  el.dispatchEvent(new Event("input", { bubbles: true }));
-}
-
-/** Sets preset values for BP */
-function htApplyBPPreset(sys, dia) {
-  const sEl = $("bpSystolic");
-  const dEl = $("bpDiastolic");
-  if (sEl) sEl.value = sys;
-  if (dEl) dEl.value = dia;
-  if (sEl) sEl.dispatchEvent(new Event("input", { bubbles: true }));
-  if (dEl) dEl.dispatchEvent(new Event("input", { bubbles: true }));
-}
-
-/** Sets preset values for BG */
-function htApplyBGPreset(val, timing) {
-  const vEl = $("bgValue");
-  const tEl = $("bgTiming");
-  if (vEl) vEl.value = val;
-  if (tEl && timing) {
-    tEl.value = timing;
-    htSelectTimingCard(timing);
-  }
-  if (vEl) vEl.dispatchEvent(new Event("input", { bubbles: true }));
-}
-
 /** Selects arm toggle pill */
 function htSelectArm(arm) {
   const select = $("bpArm");
@@ -894,31 +778,196 @@ function htSelectTimingCard(timing) {
 }
 
 /* ============================================================================
- * 8. LIVE DIAGNOSTIC SPECTRUM GAUGES
+ * 8. LIVE DIAGNOSTIC SPECTRUM GAUGES & INTERACTIVE CONTROLS
  * ============================================================================ */
 
+function calculateBPSpectrumPct(sys, dia) {
+  // Continuous percentage mapping along AHA 2017 gradient bands:
+  // 0% - 15%   : Low (<90 / <60)
+  // 15% - 45%  : Normal (90-120 / 60-80)
+  // 45% - 65%  : Elevated (120-129 / <80)
+  // 65% - 80%  : Stage 1 (130-139 / 80-89)
+  // 80% - 92%  : Stage 2 (140-180 / 90-120)
+  // 92% - 100% : Crisis (≥180 / ≥120)
+
+  if (sys >= 180 || dia >= 120) {
+    const ratio = Math.max((sys - 180) / 40, (dia - 120) / 30);
+    return Math.min(98, 92 + Math.max(0, ratio) * 6);
+  }
+  if (sys >= 140 || dia >= 90) {
+    const ratio = Math.max((sys - 140) / 40, (dia - 90) / 30);
+    return 80 + Math.min(1, Math.max(0, ratio)) * 12;
+  }
+  if (sys >= 130 || dia >= 80) {
+    const ratio = Math.max((sys - 130) / 10, (dia - 80) / 10);
+    return 65 + Math.min(1, Math.max(0, ratio)) * 15;
+  }
+  if (sys >= 120 && dia < 80) {
+    const ratio = (sys - 120) / 10;
+    return 45 + Math.min(1, Math.max(0, ratio)) * 20;
+  }
+  if (sys < 90 || dia < 60) {
+    const s = Math.max(50, sys || 80);
+    const ratio = (s - 50) / 40;
+    return Math.max(2, Math.min(15, 2 + ratio * 13));
+  }
+  // Normal (90-120 / 60-80)
+  const ratio = Math.max((sys - 90) / 30, (dia - 60) / 20);
+  return 15 + Math.min(1, Math.max(0, ratio)) * 30;
+}
+
 function updateBPGauge(sys, dia) {
-  const pointer = $("bpGaugePointer");
+  const pointer  = $("bpGaugePointer");
+  const badgeEl  = $("bpPointerBadge");
   const adviceEl = $("bpAdviceBox");
   const chipEl   = $("bpLiveChip");
 
-  if (!sys || !dia || sys < 60 || dia < 40) {
-    if (pointer) pointer.style.left = "32%";
-    if (adviceEl) adviceEl.innerHTML = `<span class="text-muted">${htLang === "bn" ? "সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও পরামর্শ দেখতে পাবেন।" : "Enter systolic and diastolic values to view live medical diagnostics."}</span>`;
+  const hasSys = !isNaN(sys) && sys >= 40;
+  const hasDia = !isNaN(dia) && dia >= 30;
+
+  if (!hasSys && !hasDia) {
+    if (pointer) {
+      pointer.style.left = "32%";
+      pointer.style.borderColor = "#16a34a";
+    }
+    if (badgeEl) badgeEl.textContent = "120/80";
+    if (adviceEl) {
+      adviceEl.className = "ht-advice-box normal";
+      adviceEl.innerHTML = `<span class="text-muted">${htLang === "bn" ? "সিস্টোলিক ও ডায়াস্টোলিক মান লিখুন অথবা উপরের স্পেকট্রামে সরাসরি ক্লিক করে পছন্দমতো মান সেট করুন।" : "Enter systolic & diastolic values or click directly anywhere on the spectrum meter."}</span>`;
+    }
     if (chipEl) chipEl.innerHTML = "";
+    document.querySelectorAll(".ht-gauge-lbl[data-bp-target]").forEach(b => b.classList.remove("active"));
     return;
   }
 
-  const cls = classifyBP(sys, dia);
-  if (pointer) pointer.style.left = `${cls.pct}%`;
+  // Handle partial input (only sys or only dia entered so far)
+  const evalSys = hasSys ? sys : 120;
+  const evalDia = hasDia ? dia : 80;
+
+  const cls = classifyBP(evalSys, evalDia);
+  const pct = Math.round(calculateBPSpectrumPct(evalSys, evalDia));
+
+  const colorMap = {
+    low: "#7c3aed",
+    normal: "#16a34a",
+    elevated: "#f59e0b",
+    high1: "#ea580c",
+    high2: "#dc2626",
+    crisis: "#991b1b"
+  };
+  const activeColor = colorMap[cls.key] || "#16a34a";
+
+  if (pointer) {
+    pointer.style.left = `${pct}%`;
+    pointer.style.borderColor = activeColor;
+  }
+
+  if (badgeEl) {
+    if (hasSys && hasDia) {
+      badgeEl.textContent = `${Math.round(sys)}/${Math.round(dia)}`;
+    } else if (hasSys) {
+      badgeEl.textContent = `${Math.round(sys)}/—`;
+    } else {
+      badgeEl.textContent = `—/${Math.round(dia)}`;
+    }
+  }
+
   if (chipEl) {
     chipEl.className = `ht-status-chip ${cls.cls}`;
     chipEl.innerHTML = `${cls.icon} ${bpLabel(cls.key)}`;
   }
+
   if (adviceEl) {
     adviceEl.className = `ht-advice-box ${cls.cls}`;
-    adviceEl.innerHTML = `<strong>${cls.icon} ${bpLabel(cls.key)}:</strong> ${getBPAdvice(cls.key)}`;
+    if (hasSys && hasDia) {
+      adviceEl.innerHTML = `<strong>${cls.icon} ${bpLabel(cls.key)} (${Math.round(sys)}/${Math.round(dia)} mmHg):</strong> ${getBPAdvice(cls.key)}`;
+    } else if (hasSys) {
+      const hint = htLang === "bn" ? "ডায়াস্টোলিক মান লিখলে আরও নির্ভুল বিশ্লেষণ ও চিকিৎসা পরামর্শ পাবেন।" : "Enter diastolic value for complete diagnostic guidance.";
+      adviceEl.innerHTML = `<strong>${cls.icon} ${bpLabel(cls.key)} (${Math.round(sys)} mmHg):</strong> ${hint}`;
+    } else {
+      const hint = htLang === "bn" ? "সিস্টোলিক মান লিখলে আরও নির্ভুল বিশ্লেষণ ও চিকিৎসা পরামর্শ পাবেন।" : "Enter systolic value for complete diagnostic guidance.";
+      adviceEl.innerHTML = `<strong>${cls.icon} ${bpLabel(cls.key)} (${Math.round(dia)} mmHg):</strong> ${hint}`;
+    }
   }
+
+  // Highlight active target category button
+  document.querySelectorAll(".ht-gauge-lbl[data-bp-target]").forEach(lbl => {
+    lbl.classList.toggle("active", lbl.dataset.bpTarget === cls.key);
+  });
+}
+
+function bindBPGaugeInteractions() {
+  const track = $("bpGaugeTrack");
+  if (track) {
+    track.addEventListener("click", e => {
+      const rect = track.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+
+      let sys, dia;
+      if (pct < 0.15) {
+        // Low (<90)
+        sys = Math.round(75 + (pct / 0.15) * 14);
+        dia = 55;
+      } else if (pct < 0.45) {
+        // Normal (90-120)
+        const sub = (pct - 0.15) / 0.30;
+        sys = Math.round(95 + sub * 24);
+        dia = Math.round(65 + sub * 14);
+      } else if (pct < 0.65) {
+        // Elevated (120-129)
+        const sub = (pct - 0.45) / 0.20;
+        sys = Math.round(121 + sub * 8);
+        dia = 78;
+      } else if (pct < 0.80) {
+        // Stage 1 (130-139)
+        const sub = (pct - 0.65) / 0.15;
+        sys = Math.round(131 + sub * 8);
+        dia = Math.round(82 + sub * 6);
+      } else if (pct < 0.92) {
+        // Stage 2 (140-179)
+        const sub = (pct - 0.80) / 0.12;
+        sys = Math.round(142 + sub * 36);
+        dia = Math.round(92 + sub * 24);
+      } else {
+        // Crisis (>=180)
+        const sub = Math.min(1, (pct - 0.92) / 0.08);
+        sys = Math.round(182 + sub * 28);
+        dia = Math.round(122 + sub * 18);
+      }
+
+      const sEl = $("bpSystolic");
+      const dEl = $("bpDiastolic");
+      if (sEl) sEl.value = sys;
+      if (dEl) dEl.value = dia;
+      updateBPGauge(sys, dia);
+      if (sEl) sEl.dispatchEvent(new Event("input", { bubbles: true }));
+      if (dEl) dEl.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+  }
+
+  const presets = {
+    low:      { sys: 85,  dia: 55 },
+    normal:   { sys: 120, dia: 80 },
+    elevated: { sys: 125, dia: 78 },
+    high1:    { sys: 135, dia: 85 },
+    crisis:   { sys: 185, dia: 120 }
+  };
+
+  document.querySelectorAll(".ht-gauge-lbl[data-bp-target]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.bpTarget;
+      const p = presets[target];
+      if (!p) return;
+      const sEl = $("bpSystolic");
+      const dEl = $("bpDiastolic");
+      if (sEl) sEl.value = p.sys;
+      if (dEl) dEl.value = p.dia;
+      updateBPGauge(p.sys, p.dia);
+      if (sEl) sEl.dispatchEvent(new Event("input", { bubbles: true }));
+      if (dEl) dEl.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+  });
 }
 
 function updateBGGauge(val, timing) {
@@ -952,66 +1001,86 @@ function updateBGGauge(val, timing) {
 }
 
 /* ============================================================================
- * 9. HISTORY LOG — RENDER, LIVE SEARCH & PAGINATION
+ * 9. HISTORY LOG — DATATABLES BOOTSTRAP 5 RENDER & ACTIONS
  * ============================================================================ */
 
 let historyTab = "all";
-let historyPage = 1;
-let historySearch = "";
+let htDataTable = null;
+
+function getDTLanguageConfig() {
+  const isBn = htLang === "bn";
+  return {
+    search: isBn ? "অনুসন্ধান:" : "Search:",
+    searchPlaceholder: isBn ? "তারিখ, মান বা নোট দিয়ে খুঁজুন..." : "Search date, value, or notes...",
+    lengthMenu: isBn ? "_MENU_ টি রেকর্ড প্রদর্শন" : "Show _MENU_ entries",
+    info: isBn ? "_TOTAL_ টির মধ্যে _START_ থেকে _END_ টি দেখানো হচ্ছে" : "Showing _START_ to _END_ of _TOTAL_ entries",
+    infoEmpty: isBn ? "কোনো রেকর্ড পাওয়া যায়নি" : "No entries to show",
+    infoFiltered: isBn ? "(মোট _MAX_ টি রেকর্ড থেকে ফিল্টার করা)" : "(filtered from _MAX_ total entries)",
+    zeroRecords: `
+      <div class="ht-empty py-4 my-2 text-center">
+        <span class="ht-empty-icon fs-1 d-block mb-2">🔍</span>
+        <div class="ht-empty-title fw-bold fs-6">${isBn ? "কোনো তথ্য মেলেনি" : "No matching records found"}</div>
+        <div class="ht-empty-desc text-muted small">${isBn ? "অন্য কোনো কি-ওয়ার্ড দিয়ে আবার চেষ্টা করুন" : "Try searching with different keywords"}</div>
+      </div>`,
+    emptyTable: `
+      <div class="ht-empty py-4 my-2 text-center">
+        <span class="ht-empty-icon fs-1 d-block mb-2">📋</span>
+        <div class="ht-empty-title fw-bold fs-6">${ht("noHistory")}</div>
+        <div class="ht-empty-desc text-muted small">${ht("noHistorySub")}</div>
+      </div>`,
+    paginate: {
+      first: isBn ? "প্রথম" : "First",
+      last: isBn ? "শেষ" : "Last",
+      next: isBn ? "পরবর্তী" : "Next",
+      previous: isBn ? "পূর্ববর্তী" : "Previous"
+    }
+  };
+}
 
 function renderHistory() {
-  const records = htLoadRecords();
-  let filtered = historyTab === "all" ? records : records.filter(r => r.type === historyTab);
+  const tbody = $("historyTbody");
+  const tableEl = $("historyTable");
+  if (!tbody || !tableEl) return;
 
-  if (historySearch) {
-    const q = historySearch.toLowerCase();
-    filtered = filtered.filter(r => {
-      const dateStr = htFormatDate(r.date).toLowerCase();
-      const notes = (r.notes || "").toLowerCase();
-      const valStr = r.type === "bp" ? `${r.sys}/${r.dia}` : `${r.value}`;
-      return dateStr.includes(q) || notes.includes(q) || valStr.includes(q);
-    });
+  if (htDataTable) {
+    try {
+      htDataTable.destroy();
+    } catch (e) {
+      console.warn("DataTable destroy error:", e);
+    }
+    htDataTable = null;
   }
 
-  const tbody = $("historyTbody");
-  const paginInfo = $("paginInfo");
-  const paginBtns = $("paginBtns");
-
-  if (!tbody) return;
+  const records = htLoadRecords();
+  const filtered = historyTab === "all" ? records : records.filter(r => r.type === historyTab);
 
   if (filtered.length === 0) {
     tbody.innerHTML = `
-      <tr><td colspan="6">
-        <div class="ht-empty">
-          <span class="ht-empty-icon">📋</span>
-          <div class="ht-empty-title">${ht("noHistory")}</div>
-          <div class="ht-empty-desc">${ht("noHistorySub")}</div>
-        </div>
-      </td></tr>`;
-    if (paginInfo) paginInfo.textContent = "";
-    if (paginBtns) paginBtns.innerHTML = "";
+      <tr>
+        <td colspan="6" class="text-center py-4 text-muted">
+          <div class="ht-empty">
+            <span class="ht-empty-icon fs-1 d-block mb-2">📋</span>
+            <div class="ht-empty-title fw-bold fs-6">${ht("noHistory")}</div>
+            <div class="ht-empty-desc small text-muted">${ht("noHistorySub")}</div>
+          </div>
+        </td>
+      </tr>`;
     return;
   }
 
-  const totalPages = Math.ceil(filtered.length / ROWS_PER_PAGE);
-  if (historyPage > totalPages) historyPage = totalPages;
-  const from = (historyPage - 1) * ROWS_PER_PAGE;
-  const to   = Math.min(from + ROWS_PER_PAGE, filtered.length);
-  const page = filtered.slice(from, to);
-
-  tbody.innerHTML = page.map((r, idx) => {
-    const delay = idx * 30;
+  tbody.innerHTML = filtered.map(r => {
+    const timeMs = new Date(r.date).getTime() || 0;
     if (r.type === "bp") {
       const cls = classifyBP(r.sys, r.dia);
       const pulse = r.pulse ? ` · ${r.pulse} ${ht("unitBpm")}` : "";
       return `
-        <tr style="animation-delay:${delay}ms">
-          <td><i class="bi bi-clock me-1 text-muted"></i>${htFormatDate(r.date)}</td>
-          <td><span class="badge bg-danger-subtle text-danger fw-bold">❤️ ${ht("tabBP")}</span></td>
-          <td><span class="ht-val-bp">${r.sys}/${r.dia}</span> <span class="text-muted small">${ht("unitMmhg")}${pulse}</span></td>
-          <td><span class="ht-status-chip ${cls.cls}">${cls.icon} ${bpLabel(cls.key)}</span></td>
-          <td class="text-muted small">${r.notes || "—"}</td>
-          <td>
+        <tr>
+          <td data-order="${timeMs}"><i class="bi bi-clock me-1 text-muted"></i>${htFormatDate(r.date)}</td>
+          <td data-order="bp"><span class="badge bg-danger-subtle text-danger fw-bold">❤️ ${ht("tabBP")}</span></td>
+          <td data-order="${r.sys}"><span class="ht-val-bp">${r.sys}/${r.dia}</span> <span class="text-muted small">${ht("unitMmhg")}${pulse}</span></td>
+          <td data-order="${cls.key}"><span class="ht-status-chip ${cls.cls}">${cls.icon} ${bpLabel(cls.key)}</span></td>
+          <td class="text-muted small">${escapeHtml(r.notes || "—")}</td>
+          <td class="text-end">
             <button class="ht-row-del" onclick="htDeleteRecord('${r.id}')" title="Delete" aria-label="Delete record">
               <i class="bi bi-trash3"></i>
             </button>
@@ -1021,13 +1090,13 @@ function renderHistory() {
       const cls = classifyBG(r.value, r.timing);
       const mmol = (r.value / 18.0182).toFixed(1);
       return `
-        <tr style="animation-delay:${delay}ms">
-          <td><i class="bi bi-clock me-1 text-muted"></i>${htFormatDate(r.date)}</td>
-          <td><span class="badge bg-purple-subtle text-purple fw-bold" style="background:#ede9fe;color:#6d28d9">🩸 ${ht("tabBG")}</span></td>
-          <td><span class="ht-val-bg">${r.value}</span> <span class="text-muted small">${ht("unitMgdl")} (${mmol} mmol/L)</span></td>
-          <td><span class="ht-status-chip ${cls.cls}">${cls.icon} ${cls.label}</span></td>
-          <td class="text-muted small">${r.notes || "—"}</td>
-          <td>
+        <tr>
+          <td data-order="${timeMs}"><i class="bi bi-clock me-1 text-muted"></i>${htFormatDate(r.date)}</td>
+          <td data-order="bg"><span class="badge bg-purple-subtle text-purple fw-bold" style="background:#ede9fe;color:#6d28d9">🩸 ${ht("tabBG")}</span></td>
+          <td data-order="${r.value}"><span class="ht-val-bg">${r.value}</span> <span class="text-muted small">${ht("unitMgdl")} (${mmol} mmol/L)</span></td>
+          <td data-order="${cls.key}"><span class="ht-status-chip ${cls.cls}">${cls.icon} ${cls.label}</span></td>
+          <td class="text-muted small">${escapeHtml(r.notes || "—")}</td>
+          <td class="text-end">
             <button class="ht-row-del" onclick="htDeleteRecord('${r.id}')" title="Delete" aria-label="Delete record">
               <i class="bi bi-trash3"></i>
             </button>
@@ -1036,34 +1105,21 @@ function renderHistory() {
     }
   }).join("");
 
-  if (paginInfo) {
-    paginInfo.textContent = ht("paginInfo")
-      .replace("{from}", from + 1)
-      .replace("{to}", to)
-      .replace("{total}", filtered.length);
-  }
-
-  if (paginBtns) {
-    let btns = `<button class="ht-page-btn" onclick="htChangePage(${historyPage - 1})" ${historyPage <= 1 ? "disabled" : ""}><i class="bi bi-chevron-left"></i></button>`;
-    for (let p = 1; p <= totalPages; p++) {
-      if (totalPages <= 7 || p === 1 || p === totalPages || Math.abs(p - historyPage) <= 1) {
-        btns += `<button class="ht-page-btn ${p === historyPage ? "active" : ""}" onclick="htChangePage(${p})">${p}</button>`;
-      } else if (Math.abs(p - historyPage) === 2) {
-        btns += `<button class="ht-page-btn" disabled>…</button>`;
-      }
+  if (typeof DataTable !== "undefined") {
+    try {
+      htDataTable = new DataTable(tableEl, {
+        order: [[0, "desc"]],
+        columnDefs: [
+          { orderable: false, targets: 5 }
+        ],
+        pageLength: 10,
+        lengthMenu: [5, 10, 25, 50],
+        language: getDTLanguageConfig()
+      });
+    } catch (err) {
+      console.error("Failed to initialize DataTable:", err);
     }
-    btns += `<button class="ht-page-btn" onclick="htChangePage(${historyPage + 1})" ${historyPage >= totalPages ? "disabled" : ""}><i class="bi bi-chevron-right"></i></button>`;
-    paginBtns.innerHTML = btns;
   }
-}
-
-function htChangePage(page) {
-  const records  = htLoadRecords();
-  const filtered = historyTab === "all" ? records : records.filter(r => r.type === historyTab);
-  const total    = Math.ceil(filtered.length / ROWS_PER_PAGE);
-  if (page < 1 || page > total) return;
-  historyPage = page;
-  renderHistory();
 }
 
 function htDeleteRecord(id) {
@@ -1090,6 +1146,18 @@ function htClearAllRecords() {
   checkCrisisAlert([]);
   htToast(ht("toastAllCleared"), "info", "bi-trash3");
 }
+
+window.htDeleteRecord = htDeleteRecord;
+window.htClearAllRecords = htClearAllRecords;
+window.htExportCSV = htExportCSV;
+window.htSetLang = htSetLang;
+window.htSetFormMode = htSetFormMode;
+window.htSetChartTimeframe = htSetChartTimeframe;
+window.htSelectArm = htSelectArm;
+window.htSelectTimingCard = htSelectTimingCard;
+window.htLoadDemoData = htLoadDemoData;
+window.updateBPGauge = updateBPGauge;
+window.bindBPGaugeInteractions = bindBPGaugeInteractions;
 
 /* ============================================================================
  * 10. INTERACTIVE SVG CHART ENGINE WITH TOOLTIPS & TIMEFRAMES
@@ -1126,7 +1194,6 @@ function renderBPChart() {
   wrap.innerHTML = renderLineChart(data, [
     { key: "sys",   color: "var(--ht-systolic)",  label: `${ht("lblSystolic")} (${ht("unitMmhg")})` },
     { key: "dia",   color: "var(--ht-diastolic)", label: `${ht("lblDiastolic")} (${ht("unitMmhg")})` },
-    { key: "pulse", color: "var(--ht-pulse)",     label: `${ht("lblPulse")} (${ht("unitBpm")})`, dashed: true },
   ], "bp");
 }
 
@@ -1453,77 +1520,6 @@ function checkCrisisAlert(records) {
   }
 }
 
-/* ============================================================================
- * 13. FAMILY DIRECT WHATSAPP & MULTI-CHANNEL SHARING
- * ============================================================================ */
-
-function generateFormattedHealthReport() {
-  const records = htLoadRecords();
-  const latestBP = records.find(r => r.type === "bp");
-  const latestBG = records.find(r => r.type === "bg");
-
-  const dateNow = new Date().toLocaleDateString(htLang === "bn" ? "bn-BD" : "en-GB", {
-    day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit"
-  });
-
-  const bpText = latestBP
-    ? `${latestBP.sys}/${latestBP.dia} mmHg (${bpLabel(latestBP.status)})`
-    : "রেকর্ড নেই / No entry";
-
-  const bgText = latestBG
-    ? `${latestBG.value} mg/dL (${bgTimingLabel(latestBG.timing)})`
-    : "রেকর্ড নেই / No entry";
-
-  const shareLink = htGenerateShareURL();
-
-  if (htLang === "bn") {
-    return `🏥 BreatheWell স্বাস্থ্য রিপোর্ট
-━━━━━━━━━━━━━━━━━━━━
-📅 তারিখ: ${dateNow}
-
-❤️ রক্তচাপ: ${bpText}
-🩸 ব্লাড সুগার: ${bgText}
-
-📊 সম্পূর্ণ চার্ট ও রিপোর্ট দেখুন:
-${shareLink}
-━━━━━━━━━━━━━━━━━━━━
-প্রতিদিনের নিঃশ্বাসে একটু প্রশান্তি — BreatheWell`;
-  } else {
-    return `🏥 BreatheWell Health Update
-━━━━━━━━━━━━━━━━━━━━
-📅 Date: ${dateNow}
-
-❤️ Blood Pressure: ${bpText}
-🩸 Blood Glucose: ${bgText}
-
-📊 View full history & charts:
-${shareLink}
-━━━━━━━━━━━━━━━━━━━━
-A little calm with every breath — BreatheWell`;
-  }
-}
-
-function htShareWhatsApp() {
-  const msg = generateFormattedHealthReport();
-  const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
-  window.open(url, "_blank");
-}
-
-function htCopyFormattedReport() {
-  const msg = generateFormattedHealthReport();
-  navigator.clipboard.writeText(msg).then(() => {
-    htToast(ht("toastReportCopied"), "success", "bi-whatsapp");
-  }).catch(() => {
-    const ta = document.createElement("textarea");
-    ta.value = msg;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    htToast(ht("toastReportCopied"), "success", "bi-whatsapp");
-  });
-}
-
 function htExportCSV() {
   const records = htLoadRecords();
   if (!records.length) return;
@@ -1562,276 +1558,6 @@ function htExportJSON() {
   link.click();
   URL.revokeObjectURL(url);
   htToast(ht("toastJSONDone"), "success", "bi-file-earmark-code");
-}
-
-function htGenerateShareURL() {
-  const records = htLoadRecords().slice(0, 30);
-  const payload = btoa(unescape(encodeURIComponent(JSON.stringify(records))));
-  const base    = window.location.href.split("?")[0];
-  return `${base}?view=${payload}`;
-}
-
-function htRefreshShareLink() {
-  const shareUrl = htGenerateShareURL();
-  const input = $("shareUrlInput");
-  if (input) input.value = shareUrl;
-
-  const msgBox = $("whatsappMsgPreview");
-  if (msgBox) msgBox.textContent = generateFormattedHealthReport();
-
-  const testLink = $("htBtnTestView");
-  if (testLink) testLink.href = shareUrl;
-
-  const statCount = $("htShareVaultCount");
-  if (statCount) {
-    const count = htLoadRecords().length;
-    statCount.textContent = htLang === "bn"
-      ? `${count.toLocaleString("bn-BD")}টি রেকর্ড প্রস্তুত`
-      : `${count} record(s) ready in vault`;
-  }
-}
-
-/* ============================================================================
- * 13b. FAMILY IMPORT & STAGED MERGE/REPLACE ENGINE (HEALTH TRACKER)
- * ============================================================================ */
-
-/** Staged records from a parsed health backup JSON */
-let stagedHealthRecords = [];
-let stagedHealthFilename = "";
-
-function htBindImportDropZone() {
-  const dropzone = $("htImportDropZone");
-  const input = $("htImportInput");
-  if (!dropzone || !input) return;
-
-  dropzone.addEventListener("click", e => {
-    if (e.target === input) return;
-    input.click();
-  });
-
-  dropzone.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      input.click();
-    }
-  });
-
-  input.addEventListener("change", () => {
-    if (input.files?.length) {
-      htStageImportFile(input.files[0]);
-    }
-  });
-
-  dropzone.addEventListener("dragover", e => {
-    e.preventDefault();
-    dropzone.classList.add("drag-over");
-  });
-
-  dropzone.addEventListener("dragleave", e => {
-    if (!dropzone.contains(e.relatedTarget)) {
-      dropzone.classList.remove("drag-over");
-    }
-  });
-
-  dropzone.addEventListener("drop", e => {
-    e.preventDefault();
-    dropzone.classList.remove("drag-over");
-    if (e.dataTransfer.files?.length) {
-      htStageImportFile(e.dataTransfer.files[0]);
-    }
-  });
-}
-
-function htStageImportFile(file) {
-  if (!file) return;
-  stagedHealthFilename = file.name;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const parsed = JSON.parse(ev.target.result);
-      const records = parsed.records || (Array.isArray(parsed) ? parsed : []);
-      if (!records.length) {
-        htToast(ht("toastImportEmpty"), "error", "bi-exclamation-triangle");
-        return;
-      }
-
-      stagedHealthRecords = records;
-      htRenderImportPreview(parsed.exported);
-    } catch (err) {
-      console.error("JSON parse error:", err);
-      htToast("Invalid JSON file", "error", "bi-x-circle");
-    }
-  };
-  reader.readAsText(file);
-}
-
-function htRenderImportPreview(exportedDate) {
-  const previewBox = $("htImportPreview");
-  const badge = $("htImportCountBadge");
-  const meta = $("htImportFileMeta");
-  const list = $("htImportList");
-  if (!previewBox || !badge || !list) return;
-
-  const count = stagedHealthRecords.length;
-  badge.textContent = htLang === "bn"
-    ? `${count.toLocaleString("bn-BD")}টি স্বাস্থ্য রেকর্ড পাওয়া গেছে`
-    : `${count} health record(s) found`;
-
-  if (meta) {
-    meta.textContent = stagedHealthFilename + (exportedDate ? ` · ${htFormatDate(exportedDate)}` : "");
-  }
-
-  list.innerHTML = stagedHealthRecords.slice(0, 10).map((r, i) => {
-    const isBP = r.type === "bp";
-    const typeLabel = isBP ? "রক্তচাপ (BP)" : "গ্লুকোজ (BG)";
-    const val = isBP ? `${r.sys}/${r.dia} mmHg` : `${r.value} mg/dL`;
-    const dt = r.date ? htFormatDate(r.date) : "";
-    return `<div class="ht-import-item-line">
-      <strong>${i + 1}. ${typeLabel}:</strong> ${val}
-      ${dt ? ` · <span class="text-muted">${dt}</span>` : ""}
-    </div>`;
-  }).join("") + (stagedHealthRecords.length > 10 ? `<div class="text-muted small mt-1">+ আরও ${stagedHealthRecords.length - 10}টি রেকর্ড...</div>` : "");
-
-  previewBox.classList.remove("d-none");
-  previewBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-
-function htExecuteMergeImport() {
-  if (!stagedHealthRecords.length) return;
-  const existing = htLoadRecords();
-  const existingIds = new Set(existing.map(r => r.id));
-  let addedCount = 0;
-
-  stagedHealthRecords.forEach(r => {
-    if (!r.id) r.id = htUUID();
-    if (!existingIds.has(r.id)) {
-      existing.push(r);
-      existingIds.add(r.id);
-      addedCount++;
-    }
-  });
-
-  htSaveRecords(existing);
-  htCancelImport();
-  renderHistory();
-  renderBPChart();
-  renderBGChart();
-  renderStats();
-  renderInsights();
-  htRefreshShareLink();
-
-  const countStr = htLang === "bn" ? addedCount.toLocaleString("bn-BD") : addedCount;
-  const msg = ht("toastImportMergeDone").replace("{n}", countStr);
-  htToast(msg, "success", "bi-check-circle-fill");
-}
-
-function htExecuteReplaceImport() {
-  if (!stagedHealthRecords.length) return;
-  const count = stagedHealthRecords.length;
-  stagedHealthRecords.forEach(r => { if (!r.id) r.id = htUUID(); });
-  htSaveRecords(stagedHealthRecords);
-  htCancelImport();
-  renderHistory();
-  renderBPChart();
-  renderBGChart();
-  renderStats();
-  renderInsights();
-  htRefreshShareLink();
-
-  const countStr = htLang === "bn" ? count.toLocaleString("bn-BD") : count;
-  const msg = ht("toastImportReplaceDone").replace("{n}", countStr);
-  htToast(msg, "success", "bi-arrow-repeat");
-}
-
-function htCancelImport() {
-  stagedHealthRecords = [];
-  stagedHealthFilename = "";
-  const previewBox = $("htImportPreview");
-  if (previewBox) previewBox.classList.add("d-none");
-  const input = $("htImportInput");
-  if (input) input.value = "";
-}
-
-function htCopyLink() {
-  const input = $("shareUrlInput");
-  if (!input) return;
-  navigator.clipboard.writeText(input.value).then(() => {
-    const btn = $("copyLinkBtn");
-    if (btn) {
-      btn.textContent = ht("btnCopied");
-      btn.classList.add("copied");
-      setTimeout(() => {
-        btn.textContent = ht("btnCopy");
-        btn.classList.remove("copied");
-      }, 2500);
-    }
-    htToast(ht("toastCopied"), "success", "bi-clipboard-check");
-  }).catch(() => {
-    input.select();
-    document.execCommand("copy");
-    htToast(ht("toastCopied"), "success", "bi-clipboard-check");
-  });
-}
-
-function htHandleViewMode() {
-  const params  = new URLSearchParams(window.location.search);
-  const payload = params.get("view");
-  if (!payload) return;
-
-  try {
-    const records = JSON.parse(decodeURIComponent(escape(atob(payload))));
-    const notice  = $("viewModeNotice");
-    if (notice) {
-      notice.classList.remove("d-none");
-      notice.innerHTML = `
-        <div class="alert alert-info d-flex align-items-center gap-2 mb-4" role="alert">
-          <i class="bi bi-eye-fill fs-5"></i>
-          <div>
-            <strong>${htLang === "bn" ? "পরিবার দেখার মোড" : "Family View Mode"}</strong> —
-            ${htLang === "bn"
-              ? `এটি একটি শেয়ার করা লাইভ ভিউ। মোট <strong>${records.length}</strong>টি রেকর্ড দেখানো হচ্ছে।`
-              : `Viewing shared data. <strong>${records.length}</strong> records shown.`}
-          </div>
-        </div>`;
-    }
-  } catch {
-    /* ignore */
-  }
-}
-
-/* ============================================================================
- * 14. FAMILY MONITOR — PIN AUTHENTICATION & VIEW
- * ============================================================================ */
-
-function htSetPin() {
-  const pinEl = $("familyPin");
-  if (!pinEl) return;
-  const pin = pinEl.value.trim();
-
-  if (!/^\d{4}$/.test(pin)) {
-    htToast(ht("errPinFormat"), "error", "bi-exclamation-circle");
-    pinEl.classList.add("has-error");
-    return;
-  }
-  pinEl.classList.remove("has-error");
-
-  localStorage.setItem(HT_PIN_KEY, pin);
-  htRefreshShareLink();
-
-  const btn = $("setPinBtn");
-  if (btn) {
-    btn.textContent = ht("pinSetOk");
-    setTimeout(() => { btn.textContent = ht("btnResetPin"); }, 2000);
-  }
-  htToast(ht("toastPinSaved"), "success", "bi-shield-lock");
-}
-
-function htRenderPinStatus() {
-  const existing = localStorage.getItem(HT_PIN_KEY);
-  const btn = $("setPinBtn");
-  const pinEl = $("familyPin");
-  if (btn) btn.textContent = existing ? ht("btnResetPin") : ht("btnSetPin");
-  if (pinEl && existing) pinEl.placeholder = "••••";
 }
 
 /* ============================================================================
@@ -1873,13 +1599,13 @@ function htLoadDemoData() {
   const now = new Date();
 
   const bpSamples = [
-    { sys: 118, dia: 76, pulse: 72, notes: "সকালে ঘুম থেকে উঠে স্বাভাবিক" },
-    { sys: 122, dia: 80, pulse: 75, notes: "ব্যায়ামের পর" },
-    { sys: 126, dia: 82, pulse: 74, notes: "অফিসের কাজের পর" },
-    { sys: 119, dia: 78, pulse: 70, notes: "বিশ্রামের পর" },
-    { sys: 132, dia: 84, pulse: 78, notes: "চা খাওয়ার পর" },
-    { sys: 120, dia: 79, pulse: 71, notes: "সন্ধ্যায় হাঁটাহাঁটির পর" },
-    { sys: 116, dia: 75, pulse: 68, notes: "ছুটির দিন সকালে" },
+    { sys: 118, dia: 76, notes: "সকালে ঘুম থেকে উঠে স্বাভাবিক" },
+    { sys: 122, dia: 80, notes: "ব্যায়ামের পর" },
+    { sys: 126, dia: 82, notes: "অফিসের কাজের পর" },
+    { sys: 119, dia: 78, notes: "বিশ্রামের পর" },
+    { sys: 132, dia: 84, notes: "চা খাওয়ার পর" },
+    { sys: 120, dia: 79, notes: "সন্ধ্যায় হাঁটাহাঁটির পর" },
+    { sys: 116, dia: 75, notes: "ছুটির দিন সকালে" },
   ];
 
   const bgSamples = [
@@ -1905,7 +1631,6 @@ function htLoadDemoData() {
       date: d.toISOString(),
       sys: bp.sys,
       dia: bp.dia,
-      pulse: bp.pulse,
       arm: "right",
       notes: bp.notes,
       status: classifyBP(bp.sys, bp.dia).key
@@ -1933,7 +1658,6 @@ function htLoadDemoData() {
   renderInsights();
   bindChartTooltips();
   checkCrisisAlert(demo);
-  htRefreshShareLink();
 
   htToast(ht("toastDemoLoaded"), "success", "bi-magic");
 }
@@ -1950,7 +1674,13 @@ function htSetLang(lang) {
 
   document.querySelectorAll("[data-ht-i18n]").forEach(el => {
     const key = el.dataset.htI18n;
-    if (key) el.textContent = ht(key);
+    if (!key) return;
+    const titleSpan = el.querySelector ? el.querySelector(".dt-column-title") : null;
+    if (titleSpan) {
+      titleSpan.textContent = ht(key);
+    } else {
+      el.textContent = ht(key);
+    }
   });
 
   document.querySelectorAll("[data-ht-i18n-ph]").forEach(el => {
@@ -1981,8 +1711,6 @@ function htSetLang(lang) {
   renderBPPreview();
   renderBGPreview();
   renderInsights();
-  htRenderPinStatus();
-  htRefreshShareLink();
 }
 
 /** Form mode switch: 'all' | 'bp' | 'bg' */
@@ -2023,7 +1751,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (bpDate) bpDate.value = htNowLocal();
   if (bgDate) bgDate.value = htNowLocal();
 
-  htHandleViewMode();
   htSetLang(htLang);
   bindChartTooltips();
   renderInsights();
@@ -2032,23 +1759,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // History Tab Switching
   document.querySelectorAll(".ht-tab[data-hist-tab]").forEach(btn => {
     btn.addEventListener("click", () => {
-      historyTab  = btn.dataset.histTab;
-      historyPage = 1;
+      historyTab = btn.dataset.histTab;
       document.querySelectorAll(".ht-tab[data-hist-tab]").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       renderHistory();
     });
   });
-
-  // History Search
-  const searchInput = $("historySearchInput");
-  if (searchInput) {
-    searchInput.addEventListener("input", e => {
-      historySearch = e.target.value.trim();
-      historyPage = 1;
-      renderHistory();
-    });
-  }
 
   // Form Mode Switcher
   document.querySelectorAll(".ht-mode-btn").forEach(btn => {
@@ -2095,35 +1811,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Export & Action buttons
   const csvBtn       = $("btnExportCSV");
-  const jsonBtn      = $("btnExportJSON");
-  const prtBtn       = $("btnPrint");
-  const lnkBtn       = $("btnShareLink");
-  const cpyBtn       = $("copyLinkBtn");
-  const pinBtn       = $("setPinBtn");
-  const waBtn        = $("btnShareWhatsApp");
-  const copyMsgBtn   = $("btnCopyMsg");
   const loadDemoBtn  = $("btnLoadDemo");
   const clearAllBtn  = $("btnClearAll");
 
   if (csvBtn)      csvBtn.addEventListener("click", htExportCSV);
-  if (jsonBtn)     jsonBtn.addEventListener("click", htExportJSON);
-  if (prtBtn)      prtBtn.addEventListener("click", () => window.print());
-  if (lnkBtn)      lnkBtn.addEventListener("click", htRefreshShareLink);
-  if (cpyBtn)      cpyBtn.addEventListener("click", htCopyLink);
-  if (pinBtn)      pinBtn.addEventListener("click", htSetPin);
-  if (waBtn)       waBtn.addEventListener("click", htShareWhatsApp);
-  if (copyMsgBtn)  copyMsgBtn.addEventListener("click", htCopyFormattedReport);
   if (loadDemoBtn) loadDemoBtn.addEventListener("click", htLoadDemoData);
   if (clearAllBtn) clearAllBtn.addEventListener("click", htClearAllRecords);
-
-  // Staged JSON Import listeners
-  htBindImportDropZone();
-  const mergeBtn = $("htBtnMergeImport");
-  const replaceBtn = $("htBtnReplaceImport");
-  const cancelBtn = $("htBtnCancelImport");
-  if (mergeBtn) mergeBtn.addEventListener("click", htExecuteMergeImport);
-  if (replaceBtn) replaceBtn.addEventListener("click", htExecuteReplaceImport);
-  if (cancelBtn) cancelBtn.addEventListener("click", htCancelImport);
 
   // Live input listening for BP gauge
   ["bpSystolic", "bpDiastolic"].forEach(id => {
@@ -2136,6 +1829,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Bind interactive clicks on spectrum track & category buttons
+  bindBPGaugeInteractions();
+  updateBPGauge(parseFloat($("bpSystolic")?.value) || 0, parseFloat($("bpDiastolic")?.value) || 0);
+
   // Live input listening for BG gauge
   const bgValEl   = $("bgValue");
   const bgTimingEl = $("bgTiming");
@@ -2147,7 +1844,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  htRefreshShareLink();
 
   // Mobile offcanvas sidebar drawer bindings
   document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
