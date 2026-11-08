@@ -91,6 +91,7 @@
   from {
     transform: translate(0, 0) scale(1) rotate(0deg);
   }
+
   to {
     transform: translate(16px, 12px) scale(1.07) rotate(8deg);
   }
@@ -133,6 +134,7 @@
   from {
     transform: translateY(0) scale(1);
   }
+
   to {
     transform: translateY(-24px) scale(1.08);
   }
@@ -228,10 +230,12 @@
 }
 
 @keyframes rxIconPulse {
+
   0%,
   100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.06);
   }
@@ -260,6 +264,7 @@
     transform: scale(0.9);
     opacity: 0.7;
   }
+
   100% {
     transform: scale(1.1);
     opacity: 0;
@@ -540,6 +545,7 @@
   0% {
     top: 0%;
   }
+
   100% {
     top: 98%;
   }
@@ -636,6 +642,7 @@
   0% {
     box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.4);
   }
+
   100% {
     box-shadow: none;
   }
@@ -858,6 +865,7 @@
     opacity: 0;
     transform: translateY(16px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1251,6 +1259,7 @@
 .rx-lb-prev {
   left: 15px;
 }
+
 .rx-lb-next {
   right: 15px;
 }
@@ -1287,9 +1296,11 @@
 .rx-toast.success {
   border-left-color: var(--rx-green);
 }
+
 .rx-toast.warn {
   border-left-color: var(--rx-amber);
 }
+
 .rx-toast.error {
   border-left-color: var(--rx-red);
 }
@@ -1299,6 +1310,7 @@
     transform: translateY(15px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -1317,6 +1329,7 @@
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
   }
+
   .rx-card-thumb {
     height: 120px;
   }
@@ -1329,6 +1342,7 @@
 }
 
 @media print {
+
   .rx-hero,
   .rx-upload-zone,
   .rx-form-card,
@@ -1365,7 +1379,84 @@
   .rx-hero-pills {
     flex-direction: column;
   }
+
   .rx-hero-pill {
     justify-content: center;
   }
+}
+
+/* ============================================================================
+ * 11. CLINICAL FORM ENHANCEMENTS & SAMPLE OCR ACTION
+ * ============================================================================ */
+.rx-sample-ocr-btn {
+  color: #0f766e;
+  background: #f0fdfa;
+  border: 1.5px dashed #0d9488;
+  transition: all 0.2s ease;
+}
+
+.rx-sample-ocr-btn:hover {
+  background: #ccfbf1;
+  color: #0d9488;
+  transform: translateY(-1px);
+}
+
+.btn-teal {
+  background-color: #0d9488 !important;
+  color: #ffffff !important;
+  border-color: #0d9488 !important;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-teal:hover {
+  background-color: #0f766e !important;
+  border-color: #0f766e !important;
+  transform: translateY(-1px);
+}
+
+.cp-card.ocr-highlight {
+  animation: rxCardHighlight 1.6s ease-out;
+}
+
+@keyframes rxCardHighlight {
+  0% {
+    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.45);
+    border-color: #0d9488;
+  }
+
+  100% {
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    border-color: var(--cp-slate-200, #e2e8f0);
+  }
+}
+
+.rx-card-file-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0f766e;
+  background-color: #f0fdfa;
+  border: 1px solid rgba(13, 148, 136, 0.28);
+  border-radius: 9999px;
+  padding: 0.2rem 0.65rem;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+#rxSaveModal .modal-content {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+#rxSaveModal .input-group-text {
+  font-size: 1rem;
+}
+
+#rxSaveModal .form-control:focus {
+  border-color: var(--rx-primary, #1769aa);
+  box-shadow: 0 0 0 3px rgba(23, 105, 170, 0.15);
 }

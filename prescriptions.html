@@ -53,6 +53,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/css/style.css">
     <link rel="stylesheet" href="asset/css/prescriptions.css">
+    <link rel="stylesheet" href="asset/css/create-prescription.css">
 </head>
 
 <body class="bn" data-page="rx">
@@ -252,9 +253,8 @@
                         <!-- Sample OCR Test Action Button -->
                         <div class="mt-3">
                             <button type="button"
-                                class="btn btn-sm w-100 d-inline-flex align-items-center justify-content-center gap-2 py-2 rounded-3 fw-semibold"
-                                id="btnSampleOcr"
-                                style="color:#0f766e; background:#f0fdfa; border: 1.5px dashed #0d9488;">
+                                class="btn btn-sm w-100 d-inline-flex align-items-center justify-content-center gap-2 py-2 rounded-3 fw-semibold rx-sample-ocr-btn"
+                                id="btnSampleOcr">
                                 <i class="bi bi-magic fs-6"></i>
                                 <span data-rx-i18n="btnSampleOcr">নমুনা প্রেসক্রিপশনে OCR পরীক্ষা করুন (Sample
                                     OCR)</span>
@@ -264,63 +264,118 @@
                         <!-- OCR info note -->
                         <p class="rx-upload-note mt-2">
                             <i class="bi bi-lightbulb-fill text-warning me-1"></i>
-                            ছবি আপলোড করলে OCR স্বয়ংক্রিয়ভাবে ডাক্তারের নাম ও ওষুধ পড়বে।
-                            PDF আপলোডে ম্যানুয়াল পূরণ প্রয়োজন।
+                            ছবি বা PDF আপলোড করলে OCR স্বয়ংক্রিয়ভাবে ডাক্তার, রোগী, ডায়াগনোসিস ও ওষুধ পড়বে।
                         </p>
                     </div>
 
-                    <!-- ── RIGHT: Prescription metadata form ─────────────────── -->
+                    <!-- ── RIGHT: Form Controls & Inputs (Clinical Editor from create-prescription.html) ──── -->
                     <div class="col-lg-7">
-                        <div class="rx-form-card">
-                            <div class="rx-form-header">
-                                <h3 data-rx-i18n="formTitle">প্রেসক্রিপশন তথ্য</h3>
-                                <p class="rx-form-sub" data-rx-i18n="formSub">ডাক্তারের তথ্য ও ওষুধের তালিকা যোগ করুন
-                                </p>
+                        <form id="rxForm" novalidate class="d-flex flex-column gap-3">
+
+                            <!-- Card 1: Doctor & Clinic Info -->
+                            <div class="cp-card">
+                                <div class="cp-card-header">
+                                    <h2 class="cp-card-title">
+                                        <i class="bi bi-person-badge-fill"></i>
+                                        <span data-rx-i18n="cardDoctorTitle">ডাক্তার ও হাসপাতালের তথ্য</span>
+                                    </h2>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="cp-label" for="rxDoctor" data-rx-i18n="lblDoctorName">ডাক্তারের
+                                            নাম</label>
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-person-fill cp-input-icon"></i>
+                                            <input type="text" id="rxDoctor" class="cp-input"
+                                                placeholder="Dr. A. Rahman" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="cp-label" for="rxDegrees" data-rx-i18n="lblDegrees">ডিগ্রি ও
+                                            বিশেষজ্ঞতা</label>
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-mortarboard-fill cp-input-icon"></i>
+                                            <input type="text" id="rxDegrees" class="cp-input"
+                                                placeholder="MBBS, FCPS (Medicine)">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="cp-label" for="rxRegNo" data-rx-i18n="lblRegNo">রেজিস্ট্রেশন
+                                            নম্বর</label>
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-hash cp-input-icon"></i>
+                                            <input type="text" id="rxRegNo" class="cp-input"
+                                                placeholder="Reg No: A-123456">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="cp-label" for="rxClinic" data-rx-i18n="lblHospitalName">হাসপাতাল /
+                                            ক্লিনিক</label>
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-hospital-fill cp-input-icon"></i>
+                                            <input type="text" id="rxClinic" class="cp-input"
+                                                placeholder="City General Hospital" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="cp-label" for="rxAddress"
+                                            data-rx-i18n="lblHospitalAddress">ঠিকানা</label>
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-geo-alt-fill cp-input-icon"></i>
+                                            <input type="text" id="rxAddress" class="cp-input"
+                                                placeholder="123 Health Avenue, Dhaka">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="cp-label" for="rxPhone" data-rx-i18n="lblHospitalPhone">মোবাইল /
+                                            হেল্পলাইন</label>
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-telephone-fill cp-input-icon"></i>
+                                            <input type="text" id="rxPhone" class="cp-input"
+                                                placeholder="Call: +880 1700-000000">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <form id="rxForm" novalidate>
-
+                            <!-- Card 2: Patient Info & Scheduling -->
+                            <div class="cp-card">
+                                <div class="cp-card-header">
+                                    <h2 class="cp-card-title">
+                                        <i class="bi bi-person-vcard-fill"></i>
+                                        <span data-rx-i18n="cardPatientTitle">রোগীর তথ্য ও সময়সূচী</span>
+                                    </h2>
+                                </div>
                                 <div class="row g-3">
-
-                                    <!-- Doctor name -->
                                     <div class="col-sm-6">
-                                        <label class="rx-label" for="rxDoctor" data-rx-i18n="lblDoctor">ডাক্তারের
+                                        <label class="cp-label" for="rxPatName" data-rx-i18n="lblPatientName">রোগীর
                                             নাম</label>
-                                        <div class="rx-input-wrap">
-                                            <i class="bi bi-person-badge-fill rx-input-icon"></i>
-                                            <input type="text" id="rxDoctor" class="rx-input" placeholder="Dr. ..."
-                                                autocomplete="off">
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-person-circle cp-input-icon"></i>
+                                            <input type="text" id="rxPatName" class="cp-input"
+                                                placeholder="Rahim Uddin">
                                         </div>
                                     </div>
-
-                                    <!-- Clinic / Hospital -->
-                                    <div class="col-sm-6">
-                                        <label class="rx-label" for="rxClinic" data-rx-i18n="lblClinic">ক্লিনিক /
-                                            হাসপাতাল</label>
-                                        <div class="rx-input-wrap">
-                                            <i class="bi bi-hospital-fill rx-input-icon"></i>
-                                            <input type="text" id="rxClinic" class="rx-input"
-                                                placeholder="হাসপাতালের নাম" autocomplete="off">
-                                        </div>
+                                    <div class="col-sm-2 col-4">
+                                        <label class="cp-label" for="rxAge" data-rx-i18n="lblAge">বয়স</label>
+                                        <input type="text" id="rxAge" class="cp-input cp-input-plain text-center"
+                                            placeholder="45">
                                     </div>
-
-                                    <!-- Prescription date -->
-                                    <div class="col-sm-6">
-                                        <label class="rx-label" for="rxDate" data-rx-i18n="lblDate">প্রেসক্রিপশনের
-                                            তারিখ</label>
-                                        <div class="rx-input-wrap">
-                                            <i class="bi bi-calendar3 rx-input-icon"></i>
-                                            <input type="date" id="rxDate" class="rx-input">
-                                        </div>
+                                    <div class="col-sm-2 col-4">
+                                        <label class="cp-label" for="rxSex" data-rx-i18n="lblSex">লিঙ্গ</label>
+                                        <input type="text" id="rxSex" class="cp-input cp-input-plain text-center"
+                                            placeholder="M">
                                     </div>
-
-                                    <!-- Urgency -->
+                                    <div class="col-sm-2 col-4">
+                                        <label class="cp-label" for="rxDate" data-rx-i18n="lblDate">তারিখ</label>
+                                        <input type="date" id="rxDate" class="cp-input cp-input-plain text-center">
+                                    </div>
                                     <div class="col-sm-6">
-                                        <label class="rx-label" for="rxUrgency"
+                                        <label class="cp-label" for="rxUrgency"
                                             data-rx-i18n="lblUrgency">জরুরিত্ব</label>
-                                        <div class="rx-input-wrap">
-                                            <i class="bi bi-flag-fill rx-input-icon"></i>
-                                            <select id="rxUrgency" class="rx-input rx-select">
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-flag-fill cp-input-icon"></i>
+                                            <select id="rxUrgency" class="cp-input">
                                                 <option value="normal" data-rx-i18n="urgNormal">স্বাভাবিক</option>
                                                 <option value="followup" data-rx-i18n="urgFollowup">ফলো-আপ প্রয়োজন
                                                 </option>
@@ -328,63 +383,208 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <!-- Medications tag input -->
-                                    <div class="col-12">
-                                        <label class="rx-label" data-rx-i18n="lblMeds">ওষুধের তালিকা</label>
-                                        <!-- Chip container — chips + text input coexist here -->
-                                        <div class="rx-med-tags-wrap" id="rxMedTagsWrap">
-                                            <input type="text" id="rxMedInput" class="rx-med-input"
-                                                placeholder="ওষুধের নাম লিখুন, Enter চাপুন"
-                                                data-rx-i18n-placeholder="medsPlaceholder" autocomplete="off">
-                                        </div>
-                                        <p class="rx-field-hint">
-                                            <i class="bi bi-info-circle me-1"></i>
-                                            প্রতিটি ওষুধের নাম লিখে Enter অথবা কমা (,) চাপুন
-                                        </p>
-                                    </div>
-
-                                    <!-- Diagnosis -->
                                     <div class="col-sm-6">
-                                        <label class="rx-label" for="rxDiagnosis" data-rx-i18n="lblDiagnosis">রোগনির্ণয়
-                                            / অসুস্থতা</label>
-                                        <div class="rx-input-wrap">
-                                            <i class="bi bi-clipboard2-pulse rx-input-icon"></i>
-                                            <input type="text" id="rxDiagnosis" class="rx-input"
-                                                placeholder="যেমন: উচ্চ রক্তচাপ, ডায়াবেটিস" autocomplete="off">
-                                        </div>
-                                    </div>
-
-                                    <!-- Refill date -->
-                                    <div class="col-sm-6">
-                                        <label class="rx-label" for="rxRefill" data-rx-i18n="lblRefill">পরবর্তী রিফিলের
+                                        <label class="cp-label" for="rxRefill" data-rx-i18n="lblRefill">পরবর্তী রিফিলের
                                             তারিখ</label>
-                                        <div class="rx-input-wrap">
-                                            <i class="bi bi-calendar-check rx-input-icon"></i>
-                                            <input type="date" id="rxRefill" class="rx-input">
+                                        <div class="cp-input-wrap">
+                                            <i class="bi bi-calendar-check cp-input-icon"></i>
+                                            <input type="date" id="rxRefill" class="cp-input">
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <!-- Notes -->
-                                    <div class="col-12">
-                                        <label class="rx-label" for="rxNotes" data-rx-i18n="lblNotes">নোট
-                                            (ঐচ্ছিক)</label>
-                                        <textarea id="rxNotes" class="rx-input rx-textarea" rows="3"
-                                            placeholder="অতিরিক্ত নির্দেশনা বা নোট…"></textarea>
-                                    </div>
-
-                                </div><!-- /row g-3 -->
-
-                                <!-- Save button -->
-                                <div class="mt-4">
-                                    <button type="submit" class="rx-save-btn">
-                                        <i class="bi bi-floppy-fill me-2"></i>
-                                        <span data-rx-i18n="btnSave">প্রেসক্রিপশন সংরক্ষণ করুন</span>
-                                    </button>
+                            <!-- Card 3: Clinical Examination & Vitals (O/E) -->
+                            <div class="cp-card">
+                                <div class="cp-card-header">
+                                    <h2 class="cp-card-title">
+                                        <i class="bi bi-clipboard2-pulse-fill"></i>
+                                        <span data-rx-i18n="cardClinicalTitle">ক্লিনিক্যাল হিস্ট্রি ও পরীক্ষা
+                                            (O/E)</span>
+                                    </h2>
                                 </div>
 
-                            </form><!-- /rxForm -->
-                        </div><!-- /rx-form-card -->
+                                <!-- Chief Complaints C/C -->
+                                <div class="mb-3">
+                                    <label class="cp-label" for="rxCCInput" data-rx-i18n="lblCC">প্রধান সমস্যা
+                                        (C/C)</label>
+                                    <div class="cp-chip-container" id="rxCCChipContainer"></div>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" id="rxCCInput" class="form-control"
+                                            placeholder="যেমন: Fever x 3 days (Enter চাপুন)">
+                                        <button type="button" class="btn btn-outline-secondary" id="btnRxCCAdd">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- History of Past Illness H/O -->
+                                <div class="mb-3">
+                                    <label class="cp-label" for="rxHOInput" data-rx-i18n="lblHO">অতীত রোগ ইতিহাস
+                                        (H/O)</label>
+                                    <div class="cp-chip-container" id="rxHOChipContainer"></div>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" id="rxHOInput" class="form-control"
+                                            placeholder="যেমন: DM x 5 years, HTN (Enter চাপুন)">
+                                        <button type="button" class="btn btn-outline-secondary" id="btnRxHOAdd">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- On Examination Vitals (O/E) -->
+                                <div class="mb-3">
+                                    <label class="cp-label" data-rx-i18n="lblOE">শারীরিক পরীক্ষা (O/E Vitals)</label>
+                                    <div class="row g-2">
+                                        <div class="col-sm-3 col-6">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text fw-bold">BP</span>
+                                                <input type="text" id="rxBp" class="form-control text-center"
+                                                    placeholder="120/80">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-6">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text fw-bold">Pulse</span>
+                                                <input type="text" id="rxPulse" class="form-control text-center"
+                                                    placeholder="72">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-6">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text fw-bold">Temp</span>
+                                                <input type="text" id="rxTemp" class="form-control text-center"
+                                                    placeholder="98.6">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-6">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text fw-bold">Weight</span>
+                                                <input type="text" id="rxWeight" class="form-control text-center"
+                                                    placeholder="65">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Investigations (Inv.) -->
+                                <div>
+                                    <label class="cp-label" for="rxInvInput" data-rx-i18n="lblInv">ল্যাব পরীক্ষা
+                                        (Inv.)</label>
+                                    <div class="cp-chip-container" id="rxInvChipContainer"></div>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" id="rxInvInput" class="form-control"
+                                            placeholder="যেমন: CBC, Random Blood Sugar (Enter চাপুন)">
+                                        <button type="button" class="btn btn-outline-secondary" id="btnRxInvAdd">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Treatment & Medications (Rx) -->
+                            <div class="cp-card">
+                                <div class="cp-card-header">
+                                    <h2 class="cp-card-title">
+                                        <i class="bi bi-capsule-pill"></i>
+                                        <span data-rx-i18n="cardTreatmentTitle">চিকিৎসা ও ওষুধ (Rx)</span>
+                                    </h2>
+                                </div>
+
+                                <!-- Diagnosis Dx -->
+                                <div class="mb-3">
+                                    <label class="cp-label" for="rxDiagnosis" data-rx-i18n="lblDx">রোগনির্ণয়
+                                        (Dx)</label>
+                                    <div class="cp-input-wrap">
+                                        <i class="bi bi-stethoscope cp-input-icon"></i>
+                                        <input type="text" id="rxDiagnosis" class="cp-input"
+                                            placeholder="Viral Fever (Suspected) - Flu" autocomplete="off">
+                                    </div>
+                                </div>
+
+                                <!-- Add Medicine Form Row -->
+                                <div class="p-3 bg-light rounded-3 border mb-3">
+                                    <span class="cp-label mb-2" data-rx-i18n="addMedicine">ওষুধ যোগ করুন</span>
+                                    <div class="row g-2 align-items-center">
+                                        <div class="col-md-5 col-12">
+                                            <input type="text" id="rxMedNameInput" class="form-control form-control-sm"
+                                                placeholder="ওষুধের নাম (e.g. Tab. Napa)">
+                                        </div>
+                                        <div class="col-md-2 col-4">
+                                            <select id="rxMedFormSelect" class="form-select form-select-sm">
+                                                <option value="Tab">Tab</option>
+                                                <option value="Cap">Cap</option>
+                                                <option value="Syr">Syr</option>
+                                                <option value="Inj">Inj</option>
+                                                <option value="Drops">Drops</option>
+                                                <option value="Sachet">Sachet</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-4">
+                                            <input type="text" id="rxMedDosageInput"
+                                                class="form-control form-control-sm text-center" value="1+0+1"
+                                                placeholder="1+0+1">
+                                        </div>
+                                        <div class="col-md-3 col-4">
+                                            <select id="rxMedTimingSelect" class="form-select form-select-sm">
+                                                <option value="After meal">After meal</option>
+                                                <option value="Before meal">Before meal</option>
+                                                <option value="With food">With food</option>
+                                                <option value="At bedtime">At bedtime</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-6">
+                                            <input type="text" id="rxMedDurationInput"
+                                                class="form-control form-control-sm" value="5 days"
+                                                placeholder="5 days">
+                                        </div>
+                                        <div class="col-md-5 col-6">
+                                            <input type="text" id="rxMedNoteInput" class="form-control form-control-sm"
+                                                placeholder="নির্দেশনা (ঐচ্ছিক)">
+                                        </div>
+                                        <div class="col-md-3 col-12 text-end">
+                                            <button type="button" class="btn btn-sm btn-teal text-white w-100"
+                                                id="btnRxAddMedicine">
+                                                <i class="bi bi-plus-circle me-1"></i> যোগ করুন
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Medicine Editor Table -->
+                                <div class="table-responsive">
+                                    <table class="cp-med-table w-100 mb-3">
+                                        <thead>
+                                            <tr>
+                                                <th data-rx-i18n="colMedName">ওষুধের নাম</th>
+                                                <th data-rx-i18n="colDosage">ডোজ</th>
+                                                <th data-rx-i18n="colTiming">সময়</th>
+                                                <th data-rx-i18n="colDuration">মেয়াদ</th>
+                                                <th data-rx-i18n="colAction">একশন</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="rxMedsTbody"></tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Doctor Advice / Notes -->
+                                <div class="mt-2">
+                                    <label class="cp-label" for="rxNotes" data-rx-i18n="lblAdvice">পরামর্শ ও
+                                        নির্দেশনা</label>
+                                    <textarea id="rxNotes" class="cp-textarea" rows="3"
+                                        placeholder="যেমন: প্রচুর পানি পান করুন, পর্যাপ্ত বিশ্রাম নিন..."></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Save Button Card -->
+                            <div class="mt-2">
+                                <button type="button" class="rx-save-btn w-100" id="btnOpenSaveModal">
+                                    <i class="bi bi-floppy-fill me-2"></i>
+                                    <span data-rx-i18n="btnSave">প্রেসক্রিপশন সংরক্ষণ করুন</span>
+                                </button>
+                            </div>
+
+                        </form>
                     </div><!-- /col-lg-7 -->
 
                 </div><!-- /row -->
@@ -444,6 +644,79 @@
             </div>
         </section>
 
+        <!-- ========================================================================
+             7. SAVE PRESCRIPTION MODAL (Create File Name & Confirm Save)
+             ======================================================================== -->
+        <div class="modal fade" id="rxSaveModal" tabindex="-1" aria-labelledby="rxSaveModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                    <div class="modal-header border-0 bg-primary text-white py-3 px-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-file-earmark-medical-fill fs-5"></i>
+                            <h2 class="modal-title fs-5 fw-bold mb-0" id="rxSaveModalTitle" data-rx-i18n="saveModalTitle">প্রেসক্রিপশন সংরক্ষণ</h2>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <p class="text-muted small mb-3" data-rx-i18n="saveModalSub">
+                            প্রেসক্রিপশনটি সহজে খুঁজে পাওয়ার জন্য একটি ফাইলের নাম নির্ধারণ করুন:
+                        </p>
+
+                        <!-- File Name Input Wrap -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-secondary small" for="rxSaveFileName" data-rx-i18n="lblCreateFileName">
+                                ফাইলের নাম তৈরি করুন
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light text-primary border-end-0">
+                                    <i class="bi bi-file-earmark-text-fill"></i>
+                                </span>
+                                <input type="text" id="rxSaveFileName" class="form-control border-start-0 ps-0"
+                                    placeholder="যেমন: Dr_Rahman_2026-11-09" data-rx-i18n-placeholder="phCreateFileName" autocomplete="off">
+                            </div>
+                            <div class="form-text text-xs text-muted mt-1">
+                                <i class="bi bi-info-circle me-1"></i><span data-rx-i18n="hintCreateFileName">ফাইল নামের মাধ্যমে পরবর্তীতে ভল্টে দ্রুত সার্চ ও ফিল্টার করতে পারবেন।</span>
+                            </div>
+                        </div>
+
+                        <!-- Summary Preview Box in Modal -->
+                        <div class="p-3 bg-light rounded-3 border">
+                            <div class="fw-bold text-dark small mb-2 d-flex align-items-center gap-1">
+                                <i class="bi bi-clipboard-pulse text-teal"></i>
+                                <span data-rx-i18n="saveModalSummary">সংরক্ষণ বিবরণী</span>
+                            </div>
+                            <div class="row g-2 text-xs text-muted">
+                                <div class="col-6">
+                                    <span class="fw-semibold text-secondary" data-rx-i18n="lblDoctorName">ডাক্তার:</span>
+                                    <span id="modalSummaryDoc" class="text-dark d-block text-truncate">—</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-semibold text-secondary" data-rx-i18n="lblPatientName">রোগী:</span>
+                                    <span id="modalSummaryPatient" class="text-dark d-block text-truncate">—</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-semibold text-secondary" data-rx-i18n="lblDate">তারিখ:</span>
+                                    <span id="modalSummaryDate" class="text-dark d-block">—</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-semibold text-secondary" data-rx-i18n="lblMeds">ওষুধ ও ফাইল:</span>
+                                    <span id="modalSummaryCounts" class="text-dark d-block">০টি ওষুধ · ০টি ফাইল</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 bg-light bg-opacity-50 py-3 px-4 d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-2 fw-semibold" data-bs-dismiss="modal" data-rx-i18n="btnClose">
+                            বাতিল
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary rounded-pill px-4 py-2 fw-semibold d-inline-flex align-items-center gap-1" id="btnConfirmSave">
+                            <i class="bi bi-floppy-fill"></i>
+                            <span data-rx-i18n="btnConfirmSave">সফলভাবে সংরক্ষণ করুন</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
