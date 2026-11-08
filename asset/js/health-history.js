@@ -1,24 +1,66 @@
 /**
  * ============================================================================
- * BreatheWell — History Log Controller (history-log.js)
- * DataTables Bootstrap 5, Record Management, CSV/JSON Exports & Deletions
+ * @file health-history.js
+ * @module BreatheWell/HealthHistory
+ * @description Health history and clinical log controller for BreatheWell.
+ *              Integrates DataTables 2 with Bootstrap 5 styling, supports multi-criteria
+ *              sorting, full-text record search, category tabs (All / BP / Glucose),
+ *              RFC 4180 CSV export with UTF-8 BOM, JSON database backups, single-record
+ *              deletion, and localized summary metrics counters.
+ * @author BreatheWell Development Team
+ * @version 2.4.0
+ * @license MIT
+ * ============================================================================
+ * 
+ * TABLE OF CONTENTS:
+ * 1. CONSTANTS, STORAGE KEYS & CONTROLLER STATE
+ * 2. INTERNATIONALIZATION (I18N) TRANSLATION DICTIONARY
+ * 3. DATA LAYER & CLINICAL CLASSIFIERS (AHA 2017 & ADA 2024)
+ * 4. SUMMARY METRICS COUNTERS COMPUTATION
+ * 5. DATATABLES 2 BOOTSTRAP 5 TABLE RENDERING
+ * 6. USER ACTIONS: DELETE, CLEAR ALL, CSV & JSON EXPORTS
+ * 7. SAMPLE CLINICAL TEST DATA GENERATOR
+ * 8. LANGUAGE TOGGLER & DOM SYNCHRONIZATION
+ * 9. DOM INITIALIZATION & EVENT LISTENERS
  * ============================================================================
  */
 
 (function () {
   "use strict";
 
+  /* ============================================================================
+   * 1. CONSTANTS, STORAGE KEYS & CONTROLLER STATE
+   * ============================================================================
+   */
+  /** @const {string} HT_KEY - Primary LocalStorage key for health records */
   const HT_KEY = "bw_health_records_v1";
+
+  /** @const {string} HT_KEY_LEGACY - Legacy fallback storage key */
+  const HT_KEY_LEGACY = "bw_health_tracker_records";
+
+  /** @const {string} HT_LANG_KEY - Storage key for language preference */
   const HT_LANG_KEY = "bw_ht_lang_v1";
+
+  /** @type {string} htLang - Active language code ('bn' | 'en') */
   let htLang = localStorage.getItem(HT_LANG_KEY) || localStorage.getItem("bw-lang") || "bn";
+
+  /** @type {string} currentTab - Active filter tab: 'all' | 'bp' | 'bg' */
   let currentTab = "all";
+
+  /** @type {Object|null} dataTableInstance - Active DataTables 2 instance */
   let dataTableInstance = null;
 
+  /**
+   * Shorthand element lookup helper.
+   * @param {string} id - Element ID.
+   * @returns {HTMLElement|null} Found element or null.
+   */
   const $ = id => document.getElementById(id);
 
   /* ============================================================================
-   * 1. TRANSLATION DICTIONARY
-   * ============================================================================ */
+   * 2. INTERNATIONALIZATION (I18N) TRANSLATION DICTIONARY
+   * ============================================================================
+   */
   const T = {
     bn: {
       navHome: "হোম",
@@ -106,29 +148,48 @@
     }
   };
 
+  /**
+   * Retrieves localized translation string.
+   * @param {string} key - Translation key.
+   * @returns {string} Localized text.
+   */
   function t(key) {
     return (T[htLang] && T[htLang][key]) || T.bn[key] || key;
   }
 
   /* ============================================================================
-   * 2. DATA LAYER & CLINICAL CLASSIFIERS
-   * ============================================================================ */
+   * 3. DATA LAYER & CLINICAL CLASSIFIERS (AHA 2017 & ADA 2024)
+   * ============================================================================
+   */
+  /**
+   * Loads records from LocalStorage, normalizes blood glucose units (mg/dL -> mmol/L),
+   * and sorts descending by date.
+   * @returns {Array<Object>} Sorted records array.
+   */
   function htLoadRecords() {
     try {
-      const raw = localStorage.getItem(HT_KEY);
+      const raw = localStorage.getItem(HT_KEY) || localStorage.getItem(HT_KEY_LEGACY);
       if (!raw) return [];
       const data = JSON.parse(raw);
       if (!Array.isArray(data)) return [];
 
       let migrated = false;
       data.forEach(r => {
-        if (r && r.type === "bg" && typeof r.value === "number" && r.value > 35) {
+        if (r && r.type === "bp") {
+          if (r.systolic && !r.sys) r.sys = Number(r.systolic);
+          if (r.diastolic && !r.dia) r.dia = Number(r.diastolic);
+          if (r.sys && !r.systolic) r.systolic = Number(r.sys);
+          if (r.dia && !r.diastolic) r.diastolic = Number(r.dia);
+        } else if (r && r.type === "bg" && typeof r.value === "number" && r.value > 35) {
           r.value = parseFloat((r.value / 18.0182).toFixed(1));
           migrated = true;
         }
       });
       if (migrated) {
-        try { localStorage.setItem(HT_KEY, JSON.stringify(data)); } catch (_) {}
+        try {
+          localStorage.setItem(HT_KEY, JSON.stringify(data));
+          localStorage.setItem(HT_KEY_LEGACY, JSON.stringify(data));
+        } catch (_) {}
       }
       data.sort((a, b) => new Date(b.date) - new Date(a.date));
       return data;
@@ -137,11 +198,26 @@
     }
   }
 
+  /**
+   * Persists health records atomically to storage.
+   * @param {Array<Object>} records - Array to save.
+   */
   function htSaveRecords(records) {
     records.sort((a, b) => new Date(b.date) - new Date(a.date));
-    localStorage.setItem(HT_KEY, JSON.stringify(records));
+    const str = JSON.stringify(records);
+    try {
+      localStorage.setItem(HT_KEY, str);
+      localStorage.setItem(HT_KEY_LEGACY, str);
+    } catch (e) {
+      console.warn("Storage save failed:", e);
+    }
   }
 
+  /**
+   * Formats an ISO date into localized human-readable format.
+   * @param {string} iso - ISO date string.
+   * @returns {string} Formatted string.
+   */
   function htFormatDate(iso) {
     if (!iso) return "—";
     const d = new Date(iso);
@@ -149,6 +225,11 @@
     return d.toLocaleString(htLang === "bn" ? "bn-BD" : "en-GB", opts);
   }
 
+  /**
+   * Escapes HTML entities to prevent Cross-Site Scripting (XSS).
+   * @param {string} str - Raw input text.
+   * @returns {string} Sanitized string.
+   */
   function escapeHtml(str) {
     if (!str) return "";
     return String(str)
@@ -159,6 +240,12 @@
       .replace(/'/g, "&#039;");
   }
 
+  /**
+   * Classifies blood pressure into clinical categories according to AHA 2017.
+   * @param {number} sys - Systolic mmHg.
+   * @param {number} dia - Diastolic mmHg.
+   * @returns {{key: string, label: string, cls: string, icon: string}} Classification object.
+   */
   function classifyBP(sys, dia) {
     if (sys >= 180 || dia >= 120) return { key: "crisis",   label: bpLabel("crisis"),   cls: "crisis",   icon: "🆘" };
     if (sys >= 140 || dia >= 90)  return { key: "high2",    label: bpLabel("high2"),    cls: "high2",    icon: "🚨" };
@@ -168,18 +255,29 @@
     return { key: "normal", label: bpLabel("normal"), cls: "normal", icon: "✅" };
   }
 
+  /**
+   * Returns localized category label for blood pressure.
+   * @param {string} key - Category key.
+   * @returns {string} Localized label.
+   */
   function bpLabel(key) {
     const map = {
-      normal:   { bn: "স্বাভাবিক",              en: "Normal"             },
-      elevated: { bn: "উচ্চতর",                 en: "Elevated"           },
-      high1:    { bn: "উচ্চ রক্তচাপ (পর্যায় ১)",en: "High BP – Stage 1" },
-      high2:    { bn: "উচ্চ রক্তচাপ (পর্যায় ২)",en: "High BP – Stage 2" },
-      crisis:   { bn: "জরুরি অবস্থা",           en: "Crisis"             },
-      low:      { bn: "নিম্ন রক্তচাপ",          en: "Low BP"             },
+      normal:   { bn: "স্বাভাবিক",               en: "Normal"             },
+      elevated: { bn: "উচ্চতর",                  en: "Elevated"           },
+      high1:    { bn: "উচ্চ রক্তচাপ (পর্যায় ১)", en: "High BP – Stage 1"  },
+      high2:    { bn: "উচ্চ রক্তচাপ (পর্যায় ২)", en: "High BP – Stage 2"  },
+      crisis:   { bn: "জরুরি অবস্থা",            en: "Crisis"             },
+      low:      { bn: "নিম্ন রক্তচাপ",           en: "Low BP"             },
     };
     return (map[key] && map[key][htLang]) || key;
   }
 
+  /**
+   * Classifies blood glucose according to ADA Standards of Care 2024.
+   * @param {number} val - Glucose in mmol/L.
+   * @param {string} [timing] - 'fasting' | 'postmeal' | 'random' | 'bedtime'.
+   * @returns {{key: string, cls: string, icon: string, label: string}} Classification object.
+   */
   function classifyBG(val, timing) {
     const t = timing || "fasting";
     const isPostOrRandom = t === "postmeal" || t === "random";
@@ -198,29 +296,38 @@
     return { key: "diabetic", cls: "high2", icon: "🚨", label: htLang === "bn" ? "ডায়াবেটিস" : "Diabetes" };
   }
 
+  /**
+   * Returns localized timing label.
+   * @param {string} timing - Timing code.
+   * @returns {string} Localized timing label.
+   */
   function bgTimingLabel(timing) {
     const map = {
-      fasting:  { bn: "খালি পেটে", en: "Fasting" },
-      postmeal: { bn: "খাবার পর",  en: "Post-meal" },
-      random:   { bn: "যেকোনো সময়", en: "Random" },
+      fasting:  { bn: "খালি পেটে",  en: "Fasting" },
+      postmeal: { bn: "খাবার পর",   en: "Post-meal" },
+      random:   { bn: "যেকোনো সময়",  en: "Random" },
       bedtime:  { bn: "ঘুমানোর আগে", en: "Bedtime" },
     };
     return (map[timing] && map[timing][htLang]) || timing;
   }
 
   /* ============================================================================
-   * 3. SUMMARY COUNTERS
-   * ============================================================================ */
+   * 4. SUMMARY METRICS COUNTERS COMPUTATION
+   * ============================================================================
+   */
+  /**
+   * Calculates total records count, BP readings, Glucose readings, and last active date.
+   */
   function renderSummary() {
     const records = htLoadRecords();
     const bpCount = records.filter(r => r.type === "bp").length;
     const bgCount = records.filter(r => r.type === "bg").length;
     const latest = records[0];
 
-    const totalEl = $("hlTotalCount");
-    const bpEl = $("hlBPCount");
-    const bgEl = $("hlBGCount");
-    const dateEl = $("hlLatestDate");
+    const totalEl = $("hhTotalCount") || $("hlTotalCount");
+    const bpEl = $("hhBPCount") || $("hlBPCount");
+    const bgEl = $("hhBGCount") || $("hlBGCount");
+    const dateEl = $("hhLatestDate") || $("hlLatestDate");
 
     if (totalEl) totalEl.textContent = records.length;
     if (bpEl) bpEl.textContent = bpCount;
@@ -229,8 +336,13 @@
   }
 
   /* ============================================================================
-   * 4. DATATABLES 2 BOOTSTRAP 5 RENDERING
-   * ============================================================================ */
+   * 5. DATATABLES 2 BOOTSTRAP 5 TABLE RENDERING
+   * ============================================================================
+   */
+  /**
+   * Returns localized configuration object for DataTables 2 internationalization.
+   * @returns {Object} DataTables language configuration.
+   */
   function getDTLanguageConfig() {
     const isBn = htLang === "bn";
     return {
@@ -241,18 +353,18 @@
       infoEmpty: isBn ? "কোনো রেকর্ড পাওয়া যায়নি" : "No entries to show",
       infoFiltered: isBn ? "(মোট _MAX_ টি রেকর্ড থেকে ফিল্টার করা)" : "(filtered from _MAX_ total entries)",
       zeroRecords: `
-        <div class="hl-empty-state py-4 my-2">
-          <span class="hl-empty-icon fs-1">🔍</span>
-          <div class="hl-empty-title">${isBn ? "কোনো মিল পাওয়া যায়নি" : "No matching records found"}</div>
+        <div class="hh-empty-state hl-empty-state py-4 my-2">
+          <span class="hh-empty-icon hl-empty-icon fs-1">🔍</span>
+          <div class="hh-empty-title hl-empty-title">${isBn ? "কোনো মিল পাওয়া যায়নি" : "No matching records found"}</div>
           <div class="small">${isBn ? "ভিন্ন কি-ওয়ার্ড দিয়ে আবার চেষ্টা করুন" : "Try searching with different terms"}</div>
         </div>`,
       emptyTable: `
-        <div class="hl-empty-state py-4 my-2">
-          <span class="hl-empty-icon fs-1">📋</span>
-          <div class="hl-empty-title">${t("noRecords")}</div>
+        <div class="hh-empty-state hl-empty-state py-4 my-2">
+          <span class="hh-empty-icon hl-empty-icon fs-1">📋</span>
+          <div class="hh-empty-title hl-empty-title">${t("noRecords")}</div>
           <div class="small mb-3">${t("noRecordsSub")}</div>
           <div class="d-flex justify-content-center gap-2">
-            <a href="health-tracker.html#entrySection" class="btn btn-sm btn-primary rounded-pill px-3">➕ নতুন রিডিং</a>
+            <a href="health-reading.html#entrySection" class="btn btn-sm btn-primary rounded-pill px-3">➕ নতুন রিডিং</a>
             <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="window.htLoadDemoData()">${t("loadDemoBtn")}</button>
           </div>
         </div>`,
@@ -265,6 +377,9 @@
     };
   }
 
+  /**
+   * Destroys existing DataTables instance, renders table body, and initializes DataTables 2.
+   */
   function renderTable() {
     const tableEl = $("historyLogTable");
     const tbody = $("historyLogTbody");
@@ -286,12 +401,12 @@
       tbody.innerHTML = `
         <tr>
           <td colspan="6" class="text-center py-4">
-            <div class="hl-empty-state">
-              <span class="hl-empty-icon fs-1">📋</span>
-              <div class="hl-empty-title">${t("noRecords")}</div>
+            <div class="hh-empty-state hl-empty-state">
+              <span class="hh-empty-icon hl-empty-icon fs-1">📋</span>
+              <div class="hh-empty-title hl-empty-title">${t("noRecords")}</div>
               <div class="small mb-3">${t("noRecordsSub")}</div>
               <div class="d-flex justify-content-center gap-2">
-                <a href="health-tracker.html#entrySection" class="btn btn-sm btn-primary rounded-pill px-3">➕ নতুন রিডিং</a>
+                <a href="health-reading.html#entrySection" class="btn btn-sm btn-primary rounded-pill px-3">➕ নতুন রিডিং</a>
                 <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="window.htLoadDemoData()">${t("loadDemoBtn")}</button>
               </div>
             </div>
@@ -309,11 +424,11 @@
           <tr>
             <td data-order="${timeMs}"><i class="bi bi-clock me-1 text-muted"></i>${htFormatDate(r.date)}</td>
             <td data-order="bp"><span class="badge bg-danger-subtle text-danger fw-bold">❤️ রক্তচাপ</span></td>
-            <td data-order="${r.sys}"><span class="hl-val-bp">${r.sys}/${r.dia}</span> <span class="text-muted small">${t("unitMmhg")}${armStr}</span></td>
+            <td data-order="${r.sys}"><span class="hh-val-bp hl-val-bp">${r.sys}/${r.dia}</span> <span class="text-muted small">${t("unitMmhg")}${armStr}</span></td>
             <td data-order="${cls.key}"><span class="ht-status-chip ${cls.cls}">${cls.icon} ${cls.label}</span></td>
             <td class="text-muted small">${escapeHtml(r.notes || "—")}</td>
             <td class="text-end">
-              <button class="hl-row-del" onclick="window.htDeleteRecord('${r.id}')" title="Delete" aria-label="Delete record">
+              <button class="hh-row-del hl-row-del" onclick="window.htDeleteRecord('${r.id}')" title="Delete" aria-label="Delete record">
                 <i class="bi bi-trash3"></i>
               </button>
             </td>
@@ -325,11 +440,11 @@
           <tr>
             <td data-order="${timeMs}"><i class="bi bi-clock me-1 text-muted"></i>${htFormatDate(r.date)}</td>
             <td data-order="bg"><span class="badge bg-purple-subtle text-purple fw-bold" style="background:#ede9fe;color:#6d28d9">🩸 গ্লুকোজ</span></td>
-            <td data-order="${r.value}"><span class="hl-val-bg">${Number(r.value).toFixed(1)}</span> <span class="text-muted small">${t("unitMmol")} (${mgdl} mg/dL · ${bgTimingLabel(r.timing)})</span></td>
+            <td data-order="${r.value}"><span class="hh-val-bg hl-val-bg">${Number(r.value).toFixed(1)}</span> <span class="text-muted small">${t("unitMmol")} (${mgdl} mg/dL · ${bgTimingLabel(r.timing)})</span></td>
             <td data-order="${cls.key}"><span class="ht-status-chip ${cls.cls}">${cls.icon} ${cls.label}</span></td>
             <td class="text-muted small">${escapeHtml(r.notes || "—")}</td>
             <td class="text-end">
-              <button class="hl-row-del" onclick="window.htDeleteRecord('${r.id}')" title="Delete" aria-label="Delete record">
+              <button class="hh-row-del hl-row-del" onclick="window.htDeleteRecord('${r.id}')" title="Delete" aria-label="Delete record">
                 <i class="bi bi-trash3"></i>
               </button>
             </td>
@@ -353,13 +468,19 @@
   }
 
   /* ============================================================================
-   * 5. ACTIONS: DELETE, CLEAR, EXPORT, DEMO
-   * ============================================================================ */
+   * 6. USER ACTIONS: DELETE, CLEAR ALL, CSV & JSON EXPORTS
+   * ============================================================================
+   */
+  /**
+   * Displays an accessible floating toast message.
+   * @param {string} msg - Message text.
+   * @param {"info"|"success"|"warning"} [type="info"] - Toast category.
+   */
   function hlToast(msg, type = "info") {
-    const stack = $("hlToastStack");
+    const stack = $("hhToastStack") || $("hlToastStack");
     if (!stack) return;
     const toast = document.createElement("div");
-    toast.className = `hl-toast ${type}`;
+    toast.className = `hh-toast hl-toast ${type}`;
     toast.innerHTML = `<i class="bi bi-info-circle-fill"></i><span>${msg}</span>`;
     stack.appendChild(toast);
     setTimeout(() => {
@@ -368,6 +489,10 @@
     }, 3200);
   }
 
+  /**
+   * Prompts user and deletes a single health record by ID.
+   * @param {string} id - Record ID.
+   */
   function htDeleteRecord(id) {
     if (!confirm(t("confirmDelete"))) return;
     const records = htLoadRecords().filter(r => r.id !== id);
@@ -377,14 +502,21 @@
     hlToast(t("toastDeleted"), "info");
   }
 
+  /**
+   * Prompts user and clears all health records from LocalStorage.
+   */
   function htClearAllRecords() {
     if (!confirm(t("confirmClearAll"))) return;
     localStorage.removeItem(HT_KEY);
+    localStorage.removeItem(HT_KEY_LEGACY);
     renderSummary();
     renderTable();
     hlToast(t("toastAllCleared"), "warning");
   }
 
+  /**
+   * Serializes all records into RFC 4180 compliant CSV with UTF-8 BOM encoding and triggers browser download.
+   */
   function htExportCSV() {
     const records = htLoadRecords();
     if (!records.length) {
@@ -395,9 +527,9 @@
     const rows = [["Type", "Date", "Systolic", "Diastolic", "Glucose (mmol/L)", "Timing", "Status", "Notes"]];
     records.forEach(r => {
       if (r.type === "bp") {
-        rows.push(["BP", r.date, r.sys, r.dia, "", "", r.status, r.notes || ""]);
+        rows.push(["BP", r.date, r.sys, r.dia, "", "", r.status || "", r.notes || ""]);
       } else {
-        rows.push(["BG", r.date, "", "", Number(r.value).toFixed(1), r.timing, r.status, r.notes || ""]);
+        rows.push(["BG", r.date, "", "", Number(r.value).toFixed(1), r.timing || "", r.status || "", r.notes || ""]);
       }
     });
 
@@ -412,6 +544,9 @@
     hlToast(t("toastCSVDone"), "success");
   }
 
+  /**
+   * Serializes all records into formatted JSON schema for backup and migration.
+   */
   function htExportJSON() {
     const records = htLoadRecords();
     if (!records.length) {
@@ -419,7 +554,7 @@
       return;
     }
 
-    const data = JSON.stringify({ version: "1.0", exportedAt: new Date().toISOString(), records }, null, 2);
+    const data = JSON.stringify({ version: "2.4.0", exportedAt: new Date().toISOString(), records }, null, 2);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -430,6 +565,13 @@
     hlToast(t("toastJSONDone"), "success");
   }
 
+  /* ============================================================================
+   * 7. SAMPLE CLINICAL TEST DATA GENERATOR
+   * ============================================================================
+   */
+  /**
+   * Injects 7 days of realistic diurnal BP and fasting/post-meal glucose data.
+   */
   function htLoadDemoData() {
     const demo = [];
     const now = new Date();
@@ -486,64 +628,93 @@
     hlToast(t("toastDemoLoaded"), "success");
   }
 
+  // Globally exposed actions across namespaces
+  window.hhDeleteRecord = htDeleteRecord;
   window.htDeleteRecord = htDeleteRecord;
+  window.hhClearAllRecords = htClearAllRecords;
   window.htClearAllRecords = htClearAllRecords;
+  window.hhExportCSV = htExportCSV;
+  window.hlExportCSV = htExportCSV;
   window.htExportCSV = htExportCSV;
+  window.hhExportJSON = htExportJSON;
+  window.hlExportJSON = htExportJSON;
   window.htExportJSON = htExportJSON;
+  window.hhLoadDemoData = htLoadDemoData;
   window.htLoadDemoData = htLoadDemoData;
 
   /* ============================================================================
-   * 6. LANGUAGE SWITCHER
-   * ============================================================================ */
+   * 8. LANGUAGE TOGGLER & DOM SYNCHRONIZATION
+   * ============================================================================
+   */
+  /**
+   * Sets active language, re-translates DOM nodes, and re-initializes DataTables.
+   * Supports both `data-hh-i18n` (modern) and `data-hl-i18n` (legacy) attributes.
+   * @param {"bn"|"en"} lang - Language code.
+   */
   function htSetLang(lang) {
     htLang = lang;
-    localStorage.setItem(HT_LANG_KEY, lang);
-    localStorage.setItem("bw-lang", lang);
+    try {
+      localStorage.setItem(HT_LANG_KEY, lang);
+      localStorage.setItem("bw-lang", lang);
+    } catch (_) {}
+
     document.documentElement.lang = lang;
     document.body.className = lang;
 
-    document.querySelectorAll("[data-hl-i18n]").forEach(el => {
-      const k = el.dataset.hlI18n;
+    document.querySelectorAll("[data-hh-i18n], [data-hl-i18n]").forEach(el => {
+      const k = el.dataset.hhI18n || el.dataset.hlI18n;
       if (k) el.textContent = t(k);
     });
 
-    const toggleBtn = $("hlLangToggle");
+    const toggleBtn = $("hhLangToggle") || $("hlLangToggle");
     if (toggleBtn) toggleBtn.textContent = lang === "bn" ? "English" : "বাংলা";
 
     renderSummary();
     renderTable();
   }
 
+  window.hhSetLang = htSetLang;
+  window.htSetLang = htSetLang;
+
   /* ============================================================================
-   * 7. BOOTSTRAP & EVENTS
-   * ============================================================================ */
-  document.addEventListener("DOMContentLoaded", () => {
+   * 9. DOM INITIALIZATION & EVENT LISTENERS
+   * ============================================================================
+   */
+  function init() {
     htSetLang(htLang);
 
-    // Language toggle
-    const langBtn = $("hlLangToggle");
+    // Language toggle in navbar
+    const langBtn = $("hhLangToggle") || $("hlLangToggle");
     if (langBtn) {
       langBtn.addEventListener("click", () => {
         htSetLang(htLang === "bn" ? "en" : "bn");
       });
     }
 
-    // Tabs
-    document.querySelectorAll(".hl-tab-btn").forEach(btn => {
+    // Category Tabs (All / Blood Pressure / Glucose)
+    document.querySelectorAll(".hh-tab-btn, .hl-tab-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         currentTab = btn.dataset.tab;
-        document.querySelectorAll(".hl-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === currentTab));
+        document.querySelectorAll(".hh-tab-btn, .hl-tab-btn").forEach(b => {
+          b.classList.toggle("active", b.dataset.tab === currentTab);
+        });
         renderTable();
       });
     });
 
-    // Mobile sidebar bindings
+    // Mobile sidebar language pills
     document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
       btn.addEventListener("click", () => {
         const target = btn.dataset.lang;
         if (target) htSetLang(target);
       });
     });
-  });
+  }
 
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
+

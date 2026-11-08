@@ -1,0 +1,486 @@
+/**
+ * ============================================================================
+ * @file health-demo.css
+ * @module BreatheWell/HealthDemo/Styles
+ * @description Dedicated Stylesheet for the BreatheWell Health Demo Lab & Preset Generator.
+ *              Encapsulates styles for clinical scenario presets (Normal, Prehypertensive,
+ *              Diabetic, Crisis), storage status inspector, parametric custom data generator,
+ *              live preview records stream, and floating toast notification stack.
+ * @author BreatheWell Development Team
+ * @version 2.4.0
+ * @license MIT
+ * ============================================================================
+ * 
+ * TABLE OF CONTENTS:
+ * 1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+ * 2. HERO BANNER & SUB-NAV NAVIGATION RIBBON
+ * 3. STORAGE TELEMETRY STATUS BAR PULL-UP
+ * 4. CLINICAL SCENARIO PRESET CARDS & BADGES
+ * 5. PARAMETRIC CUSTOM GENERATOR & PREVIEW PANELS
+ * 6. FLOATING TOAST NOTIFICATION STACK
+ * 7. RESPONSIVE BREAKPOINT OVERRIDES (MOBILE & TABLET)
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+ * ============================================================================
+ */
+:root {
+  /* Surfaces & Backgrounds */
+  --hd-surface: #ffffff;
+  --hd-surface-alt: #f8fafc;
+  --hd-border: #e2e8f0;
+
+  /* Typography Palette */
+  --hd-text-dark: #0f172a;
+  --hd-text-muted: #64748b;
+
+  /* Brand Accents */
+  --hd-primary: #1769aa;
+
+  /* Radii */
+  --hd-radius-sm: 10px;
+  --hd-radius-md: 16px;
+  --hd-radius-lg: 24px;
+
+  /* Depth Shadows */
+  --hd-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --hd-shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.07);
+  --hd-shadow-lg: 0 10px 30px -4px rgba(0, 0, 0, 0.1);
+
+  /* Animation Timings */
+  --hd-dur: 0.25s;
+  --hd-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Backward Compatibility Aliases */
+  --dd-surface: var(--hd-surface);
+  --dd-surface-alt: var(--hd-surface-alt);
+  --dd-border: var(--hd-border);
+  --dd-text-dark: var(--hd-text-dark);
+  --dd-text-muted: var(--hd-text-muted);
+  --dd-primary: var(--hd-primary);
+  --dd-radius-sm: var(--hd-radius-sm);
+  --dd-radius-md: var(--hd-radius-md);
+  --dd-radius-lg: var(--hd-radius-lg);
+  --dd-shadow-sm: var(--hd-shadow-sm);
+  --dd-shadow-md: var(--hd-shadow-md);
+  --dd-shadow-lg: var(--hd-shadow-lg);
+  --dd-dur: var(--hd-dur);
+  --dd-ease: var(--hd-ease);
+}
+
+/* ============================================================================
+ * 2. HERO BANNER & SUB-NAV NAVIGATION RIBBON
+ * ============================================================================
+ */
+.hd-hero,
+.dd-hero {
+  background: linear-gradient(145deg, #091e3a 0%, #173865 55%, #1e4976 100%);
+  color: #ffffff;
+  padding: 44px 0 95px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hd-hero::before,
+.dd-hero::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  right: -5%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hd-hero-badge,
+.dd-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #e9d5ff;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.hd-hero-title,
+.dd-hero-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.hd-hero-sub,
+.dd-hero-sub {
+  font-size: 0.98rem;
+  color: #cbd5e1;
+  max-width: 620px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.hd-quick-nav,
+.dd-quick-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hd-nav-btn,
+.dd-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--hd-dur) var(--hd-ease);
+}
+
+.hd-nav-btn:hover,
+.dd-nav-btn:hover {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hd-nav-btn.active,
+.dd-nav-btn.active {
+  background: #a855f7;
+  color: #ffffff;
+  border-color: #a855f7;
+}
+
+/* ============================================================================
+ * 3. STORAGE TELEMETRY STATUS BAR PULL-UP
+ * ============================================================================
+ */
+.hd-pull-up,
+.dd-pull-up {
+  margin-top: -65px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 32px;
+}
+
+.hd-status-bar,
+.dd-status-bar {
+  background: var(--hd-surface);
+  border: 1px solid var(--hd-border);
+  border-radius: var(--hd-radius-md);
+  padding: 18px 24px;
+  box-shadow: var(--hd-shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.hd-status-info,
+.dd-status-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hd-status-icon,
+.dd-status-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #f3e8ff;
+  color: #9333ea;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.hd-status-count,
+.dd-status-count {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--hd-text-dark);
+  line-height: 1.1;
+}
+
+.hd-status-lbl,
+.dd-status-lbl {
+  font-size: 0.78rem;
+  color: var(--hd-text-muted);
+  font-weight: 600;
+}
+
+.hd-status-actions,
+.dd-status-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================================
+ * 4. CLINICAL SCENARIO PRESET CARDS & BADGES
+ * ============================================================================
+ */
+.hd-scenario-card,
+.dd-scenario-card {
+  background: var(--hd-surface);
+  border: 1px solid var(--hd-border);
+  border-radius: var(--hd-radius-md);
+  padding: 22px;
+  box-shadow: var(--hd-shadow-sm);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--hd-dur), box-shadow var(--hd-dur), border-color var(--hd-dur);
+  position: relative;
+  overflow: hidden;
+}
+
+.hd-scenario-card:hover,
+.dd-scenario-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hd-shadow-lg);
+  border-color: #cbd5e1;
+}
+
+.hd-scenario-card::before,
+.dd-scenario-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--hd-accent, #3b82f6);
+}
+
+.hd-scenario-card.healthy, .dd-scenario-card.healthy { --hd-accent: #22c55e; --dd-accent: #22c55e; }
+.hd-scenario-card.bp-high, .dd-scenario-card.bp-high { --hd-accent: #ef4444; --dd-accent: #ef4444; }
+.hd-scenario-card.bg-diab, .dd-scenario-card.bg-diab { --hd-accent: #8b5cf6; --dd-accent: #8b5cf6; }
+.hd-scenario-card.crisis,  .dd-scenario-card.crisis  { --hd-accent: #dc2626; --dd-accent: #dc2626; }
+
+.hd-scenario-head,
+.dd-scenario-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.hd-scenario-icon,
+.dd-scenario-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  background: var(--hd-surface-alt);
+}
+
+.hd-scenario-title,
+.dd-scenario-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--hd-text-dark);
+  margin: 0 0 2px 0;
+  line-height: 1.25;
+}
+
+.hd-scenario-badge,
+.dd-scenario-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--hd-surface-alt);
+  color: var(--hd-text-muted);
+}
+
+.hd-scenario-desc,
+.dd-scenario-desc {
+  font-size: 0.84rem;
+  color: var(--hd-text-muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.hd-scenario-tags,
+.dd-scenario-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.hd-scenario-tag,
+.dd-scenario-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.hd-btn-generate,
+.dd-btn-generate {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--hd-accent, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--hd-dur);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hd-btn-generate:hover,
+.dd-btn-generate:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* ============================================================================
+ * 5. PARAMETRIC CUSTOM GENERATOR & PREVIEW PANELS
+ * ============================================================================
+ */
+.hd-panel-card,
+.dd-panel-card {
+  background: var(--hd-surface);
+  border: 1px solid var(--hd-border);
+  border-radius: var(--hd-radius-lg);
+  padding: 26px;
+  box-shadow: var(--hd-shadow-sm);
+  margin-bottom: 28px;
+}
+
+.hd-panel-title,
+.dd-panel-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--hd-text-dark);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hd-preview-item,
+.dd-preview-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--hd-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.86rem;
+}
+
+.hd-preview-item:last-child,
+.dd-preview-item:last-child {
+  border-bottom: none;
+}
+
+/* ============================================================================
+ * 6. FLOATING TOAST NOTIFICATION STACK
+ * ============================================================================
+ */
+.hd-toast-stack,
+.dd-toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hd-toast,
+.dd-toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 380px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: var(--hd-radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--hd-shadow-lg);
+  animation: hdSlideUp 0.3s var(--hd-ease) forwards;
+}
+
+.hd-toast.success, .dd-toast.success { border-left: 4px solid #22c55e; }
+.hd-toast.warning, .dd-toast.warning { border-left: 4px solid #f59e0b; }
+.hd-toast.info,    .dd-toast.info    { border-left: 4px solid #38bdf8; }
+
+@keyframes hdSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ddSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================================
+ * 7. RESPONSIVE BREAKPOINT OVERRIDES (MOBILE & TABLET)
+ * ============================================================================
+ */
+@media (max-width: 768px) {
+  .hd-hero,
+  .dd-hero {
+    padding: 32px 0 80px;
+  }
+
+  .hd-hero-title,
+  .dd-hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hd-pull-up,
+  .dd-pull-up {
+    margin-top: -45px;
+  }
+
+  .hd-status-bar,
+  .dd-status-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

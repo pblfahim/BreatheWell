@@ -1,27 +1,71 @@
 /**
  * ============================================================================
- * BreatheWell — Add Reading Controller (add-reading.js)
- * Live Diagnostic Spectrum Meters, Adaptive Form Controls, Real-time Validation
+ * @file health-reading.js
+ * @module BreatheWell/HealthReading
+ * @description Health reading controller handling blood pressure and blood glucose input validation,
+ *              live diagnostic spectrum meters compliant with AHA 2017 and ADA 2024 clinical standards,
+ *              LocalStorage persistence, i18n localization (Bengali & English), and WhatsApp summary generation.
+ * @author BreatheWell Development Team
+ * @version 2.4.0
+ * @license MIT
+ * ============================================================================
+ * 
+ * TABLE OF CONTENTS:
+ * 1. CONSTANTS, STORAGE KEYS & STATE INITIALIZATION
+ * 2. INTERNATIONALIZATION (I18N) DICTIONARY (BN & EN)
+ * 3. DATA LAYER (LOCALSTORAGE INTEROPERABILITY & SYNC)
+ * 4. CLINICAL DIAGNOSTIC ALGORITHMS (AHA 2017 & ADA 2024)
+ * 5. LIVE SPECTRUM METERS & READING PREVIEW CONTROLLERS
+ * 6. PULL-UP STATS CALCULATION & CRISIS DETECTION
+ * 7. ACCESSIBLE TOAST NOTIFICATIONS
+ * 8. FORM SUBMISSION HANDLERS & INPUT VALIDATION
+ * 9. ADAPTIVE FORM MODE SWITCHER (ALL / BP / BG)
+ * 10. LANGUAGE TOGGLER & DOM SYNC
+ * 11. BOOTSTRAP, EVENT LISTENERS & LIFECYCLE HOOKS
  * ============================================================================
  */
 
 (function () {
   "use strict";
 
+  /* ============================================================================
+   * 1. CONSTANTS, STORAGE KEYS & STATE INITIALIZATION
+   * ============================================================================
+   */
+  /** @const {string} HT_KEY_V1 - Primary LocalStorage key for normalized health records array */
   const HT_KEY_V1 = "bw_health_records_v1";
+
+  /** @const {string} HT_KEY_LEGACY - Fallback LocalStorage key for backward compatibility */
   const HT_KEY_LEGACY = "bw_health_tracker_records";
+
+  /** @const {string} HT_LANG_KEY - LocalStorage key storing user's selected language ('bn' | 'en') */
   const HT_LANG_KEY = "bw_ht_lang_v1";
 
-  let arLang = localStorage.getItem(HT_LANG_KEY) || localStorage.getItem("bw-lang") || "bn";
+  /** @type {string} hrLang - Active application language code */
+  let hrLang = localStorage.getItem(HT_LANG_KEY) || localStorage.getItem("bw-lang") || "bn";
+
+  /** @type {string} activeMode - Active form display layout: 'all' | 'bp' | 'bg' */
   let activeMode = "all";
+
+  /** @type {string} activeArm - Currently selected arm for BP measurement: 'right' | 'left' */
   let activeArm = "right";
+
+  /** @type {string} activeTiming - Timing context for blood glucose reading: 'fasting' | 'postmeal' | 'random' */
   let activeTiming = "fasting";
 
+  /**
+   * Helper utility for fast DOM element retrieval by ID.
+   * @param {string} id - The DOM element ID.
+   * @returns {HTMLElement|null} The DOM element or null if not found.
+   */
   const $ = id => document.getElementById(id);
 
   /* ============================================================================
-   * 1. INTERNATIONALIZATION (I18N)
-   * ============================================================================ */
+   * 2. INTERNATIONALIZATION (I18N) DICTIONARY (BN & EN)
+   * ============================================================================
+   * Bi-directional dictionary containing comprehensive clinical terminology,
+   * accessibility labels, and interface strings.
+   */
   const T = {
     bn: {
       navHome: "হোম",
@@ -79,28 +123,19 @@
       btnSendWA: "হোয়াটসঅ্যাপে শেয়ার করুন",
       footerTag: "প্রতিটি নিঃশ্বাসে একটু প্রশান্তি",
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
-      toastBPSaved: "✅ রক্তচাপ সফলভাবে সংরক্ষণ করা হয়েছে!",
-      toastBGSaved: "✅ গ্লুকোজ রিডিং সফলভাবে সংরক্ষণ করা হয়েছে!",
-      toastInvalidSysDia: "⚠️ সিস্টোলিক মান অবশ্যই ডায়াস্টোলিকের চেয়ে বেশি হতে হবে!",
-      toastEnterValidBP: "⚠️ অনুগ্রহ করে সঠিক সিস্টোলিক ও ডায়াস্টোলিক মান লিখুন!",
-      toastEnterValidBG: "⚠️ অনুগ্রহ করে সঠিক গ্লুকোজ মান লিখুন (১.০ থেকে ৩৫.০)!",
-      statusNormal: "স্বাভাবিক",
-      statusElevated: "উচ্চতর",
-      statusHigh1: "উচ্চ রক্তচাপ (পর্যায় ১)",
-      statusHigh2: "উচ্চ রক্তচাপ (পর্যায় ২)",
-      statusCrisis: "জরুরি ক্রাইসিস",
-      statusLow: "নিম্ন রক্তচাপ",
-      statusPrediab: "প্রি-ডায়াবেটিস",
-      statusDiabetic: "ডায়াবেটিস",
-      statusHypo: "হাইপোগ্লাইসেমিয়া (কম)",
       chipNormal: "✅ স্বাভাবিক",
       chipElevated: "⚠️ উচ্চতর",
       chipHigh: "🚨 উচ্চ রক্তচাপ",
       chipCrisis: "🛑 ক্রাইসিস",
-      chipLow: "ℹ️ কম",
+      chipLow: "ℹ️ নিম্ন",
       chipPrediab: "⚠️ প্রি-ডায়াবেটিস",
       chipDiabetic: "🚨 ডায়াবেটিস",
-      chipHypo: "⚠️ খুব কম"
+      chipHypo: "⚠️ কম (হাইপো)",
+      toastBPSaved: "✅ রক্তচাপ সফলভাবে সংরক্ষণ করা হয়েছে!",
+      toastBGSaved: "✅ গ্লুকোজ সফলভাবে সংরক্ষণ করা হয়েছে!",
+      toastEnterValidBP: "⚠️ অনুগ্রহ করে সঠিক সিস্টোলিক ও ডায়াস্টোলিক মান লিখুন।",
+      toastEnterValidBG: "⚠️ অনুগ্রহ করে সঠিক গ্লুকোজ মান লিখুন (১.০ - ৩৫.০)।",
+      toastInvalidSysDia: "⚠️ সিস্টোলিক মান অবশ্যই ডায়াস্টোলিক থেকে বেশি হতে হবে।"
     },
     en: {
       navHome: "Home",
@@ -109,94 +144,93 @@
       navHealth: "Health Tracker",
       navRx: "Prescriptions",
       navSafety: "Safety",
-      heroBadge: "Log New Health Measurements",
+      heroBadge: "Log New Clinical Measurement",
       heroTitle: "➕ Add Health Reading",
-      heroSub: "Easily log daily blood pressure and blood glucose readings with real-time spectrum analysis and clinical guidance.",
+      heroSub: "Log daily blood pressure and blood glucose with real-time diagnostic spectrum meters and instant evidence-based guidelines.",
       quickAdd: "➕ Add Reading",
       quickTrends: "📈 Trends & Charts",
       quickLog: "📋 History Log",
-      quickDemo: "🧪 Demo Data",
-      btnViewLog: "📋 View Past History",
-      statLatestBP: "Latest BP",
+      quickDemo: "🧪 Demo Lab",
+      btnViewLog: "📋 View History Log",
+      statLatestBP: "Latest Blood Pressure",
       statLatestBG: "Latest Glucose",
-      statToday: "Today's Logs",
-      statStreak: "Day Streak",
+      statToday: "Logged Today",
+      statStreak: "Logging Streak",
       days: "days",
       todayLabel: "Today",
       streakLabel: "Streak",
       crisisTitle: "Emergency Health Alert!",
-      crisisSub: "Your latest blood pressure or glucose reading is in a critical zone. Please rest and consult your physician immediately.",
-      modeAll: "Side-by-Side",
+      crisisSub: "Your latest blood pressure or blood glucose is in a critical range. Rest in a calm environment and consult a physician immediately if symptoms persist.",
+      modeAll: "Both Together",
       modeBP: "Blood Pressure",
       modeBG: "Blood Glucose",
       bpTitle: "Blood Pressure Entry",
       bpSub: "Systolic / Diastolic (mmHg)",
       bgTitle: "Blood Glucose Entry",
-      bgSub: "Diabetes Monitoring (mmol/L)",
+      bgSub: "Glycemic Monitoring (mmol/L)",
       lblSystolic: "Systolic",
       lblDiastolic: "Diastolic",
       lblGlucose: "Glucose Level",
       unitMmhg: "mmHg",
       unitMmol: "mmol/L",
-      gaugeTitleBP: "Live BP Diagnostic Spectrum Meter",
-      gaugeTitleBG: "Live Glucose Range Meter",
-      lblArm: "Measurement Arm",
+      gaugeTitleBP: "Live BP Diagnostic Spectrum",
+      gaugeTitleBG: "Live Glycemic Range Meter",
+      lblArm: "Which Arm?",
       armRight: "💪 Right Arm",
       armLeft: "💪 Left Arm",
       lblTiming: "Measurement Timing",
       timingFasting: "Fasting",
       timingPostmeal: "2h Post-Meal",
-      timingRandom: "Random",
+      timingRandom: "Random / Any Time",
       lblDate: "Date & Time",
       lblNotes: "Notes (Optional)",
-      phNotesBP: "e.g., After 10 mins rest, morning coffee...",
-      phNotesBG: "e.g., After sweets, before insulin...",
+      phNotesBP: "e.g., After 5 mins resting, after morning tea...",
+      phNotesBG: "e.g., Before breakfast, 2 hrs after lunch...",
       btnSaveBP: "Save Blood Pressure",
       btnSaveBG: "Save Blood Glucose",
-      waTitle: "Caregiver & Doctor Report",
-      waSub: "Quickly format and share recent readings directly via WhatsApp.",
+      waTitle: "Family & Physician WhatsApp Report",
+      waSub: "Share your latest clinical vitals directly with family or your physician via WhatsApp.",
       btnSendWA: "Share via WhatsApp",
-      footerTag: "Peace of mind with every breath",
-      footerDisclaimer: "For general wellness only. Not a medical substitute.",
-      toastBPSaved: "✅ Blood pressure reading saved successfully!",
-      toastBGSaved: "✅ Blood glucose reading saved successfully!",
-      toastInvalidSysDia: "⚠️ Systolic must be strictly higher than diastolic!",
-      toastEnterValidBP: "⚠️ Please enter valid systolic and diastolic values!",
-      toastEnterValidBG: "⚠️ Please enter a valid glucose value (1.0 to 35.0)!",
-      statusNormal: "Normal",
-      statusElevated: "Elevated",
-      statusHigh1: "High BP (Stage 1)",
-      statusHigh2: "High BP (Stage 2)",
-      statusCrisis: "Hypertensive Crisis",
-      statusLow: "Low BP (Hypotension)",
-      statusPrediab: "Pre-Diabetes",
-      statusDiabetic: "Diabetes",
-      statusHypo: "Hypoglycemia (Low)",
+      footerTag: "Peace of mind in every breath",
+      footerDisclaimer: "For wellness tracking only. Not a substitute for clinical diagnosis.",
       chipNormal: "✅ Normal",
       chipElevated: "⚠️ Elevated",
       chipHigh: "🚨 High BP",
       chipCrisis: "🛑 Crisis",
-      chipLow: "ℹ️ Low BP",
-      chipPrediab: "⚠️ Pre-Diabetes",
-      chipDiabetic: "🚨 Diabetes",
-      chipHypo: "⚠️ Too Low"
+      chipLow: "ℹ️ Low",
+      chipPrediab: "⚠️ Pre-diabetes",
+      chipDiabetic: "🚨 Diabetic",
+      chipHypo: "⚠️ Hypo (Low)",
+      toastBPSaved: "✅ Blood pressure saved successfully!",
+      toastBGSaved: "✅ Blood glucose saved successfully!",
+      toastEnterValidBP: "⚠️ Please enter valid systolic and diastolic values.",
+      toastEnterValidBG: "⚠️ Please enter a valid glucose value (1.0 - 35.0 mmol/L).",
+      toastInvalidSysDia: "⚠️ Systolic value must be strictly greater than diastolic."
     }
   };
 
   /* ============================================================================
-   * 2. DATA LAYER (LOCALSTORAGE INTEROP)
-   * ============================================================================ */
+   * 3. DATA LAYER (LOCALSTORAGE INTEROPERABILITY & SYNC)
+   * ============================================================================
+   */
+  /**
+   * Retrieves and normalizes stored records across both current and legacy storage keys.
+   * Sorts chronologically descending (newest record first).
+   * @returns {Array<Object>} Sorted array of health record objects.
+   */
   function loadRecords() {
     try {
-      let raw = localStorage.getItem(HT_KEY_V1) || localStorage.getItem(HT_KEY_LEGACY);
-      if (!raw) return [];
-      let data = JSON.parse(raw);
+      const rawV1 = localStorage.getItem(HT_KEY_V1);
+      const rawLegacy = localStorage.getItem(HT_KEY_LEGACY);
+      const raw = rawV1 || rawLegacy || "[]";
+      const data = JSON.parse(raw);
       if (!Array.isArray(data)) return [];
 
-      // Auto-migrate any legacy mg/dL BG (>35) to mmol/L
+      // Normalize schema variations (legacy sys/dia -> systolic/diastolic)
       data.forEach(r => {
-        if (r && r.type === "bg" && typeof r.value === "number" && r.value > 35) {
-          r.value = parseFloat((r.value / 18.0182).toFixed(1));
+        if (r.type === "bp") {
+          if (r.sys && !r.systolic) r.systolic = Number(r.sys);
+          if (r.dia && !r.diastolic) r.diastolic = Number(r.dia);
         }
       });
       data.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -206,6 +240,10 @@
     }
   }
 
+  /**
+   * Persists health records atomically to both primary and legacy LocalStorage keys.
+   * @param {Array<Object>} data - The records array to serialize and store.
+   */
   function saveRecords(data) {
     try {
       data.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -217,6 +255,11 @@
     }
   }
 
+  /**
+   * Formats a Date object into an ISO-like string suitable for `<input type="datetime-local">`.
+   * @param {Date} [date] - Target date or defaults to current moment.
+   * @returns {string} Formatted string "YYYY-MM-DDTHH:mm".
+   */
   function formatLocalIso(date) {
     const d = date || new Date();
     const off = d.getTimezoneOffset() * 60000;
@@ -224,51 +267,90 @@
   }
 
   /* ============================================================================
-   * 3. CLINICAL DIAGNOSTIC ALGORITHMS (AHA 2017 & ADA 2024)
-   * ============================================================================ */
+   * 4. CLINICAL DIAGNOSTIC ALGORITHMS (AHA 2017 & ADA 2024)
+   * ============================================================================
+   */
+  /**
+   * Classifies Blood Pressure readings according to the 2017 ACC/AHA Guideline.
+   *
+   * Thresholds:
+   * - Hypertensive Crisis: Systolic > 180 mmHg and/or Diastolic > 120 mmHg
+   * - Stage 2 Hypertension: Systolic >= 140 mmHg and/or Diastolic >= 90 mmHg
+   * - Stage 1 Hypertension: Systolic 130-139 mmHg or Diastolic 80-89 mmHg
+   * - Elevated BP: Systolic 120-129 mmHg and Diastolic < 80 mmHg
+   * - Normal BP: Systolic 90-119 mmHg and Diastolic 60-79 mmHg
+   * - Hypotension: Systolic < 90 mmHg or Diastolic < 60 mmHg
+   *
+   * @param {number} sys - Systolic blood pressure (mmHg).
+   * @param {number} dia - Diastolic blood pressure (mmHg).
+   * @returns {{category: string, pct: number, chip: string, cls: string}} Classification metadata.
+   */
   function classifyBP(sys, dia) {
     if (sys > 180 || dia > 120) {
-      return { category: "crisis", pct: 95, chip: T[arLang].chipCrisis, cls: "danger" };
+      return { category: "crisis", pct: 95, chip: T[hrLang].chipCrisis, cls: "danger" };
     }
     if (sys >= 140 || dia >= 90) {
-      return { category: "high2", pct: 80, chip: T[arLang].chipHigh, cls: "danger" };
+      return { category: "high2", pct: 80, chip: T[hrLang].chipHigh, cls: "danger" };
     }
     if ((sys >= 130 && sys <= 139) || (dia >= 80 && dia <= 89)) {
-      return { category: "high1", pct: 62, chip: T[arLang].chipHigh, cls: "danger" };
+      return { category: "high1", pct: 62, chip: T[hrLang].chipHigh, cls: "danger" };
     }
     if (sys >= 120 && sys <= 129 && dia < 80) {
-      return { category: "elevated", pct: 45, chip: T[arLang].chipElevated, cls: "elevated" };
+      return { category: "elevated", pct: 45, chip: T[hrLang].chipElevated, cls: "elevated" };
     }
     if (sys >= 90 && sys <= 119 && dia >= 60 && dia <= 79) {
-      return { category: "normal", pct: 28, chip: T[arLang].chipNormal, cls: "normal" };
+      return { category: "normal", pct: 28, chip: T[hrLang].chipNormal, cls: "normal" };
     }
     if (sys < 90 || dia < 60) {
-      return { category: "low", pct: 8, chip: T[arLang].chipLow, cls: "neutral" };
+      return { category: "low", pct: 8, chip: T[hrLang].chipLow, cls: "neutral" };
     }
-    return { category: "normal", pct: 28, chip: T[arLang].chipNormal, cls: "normal" };
+    return { category: "normal", pct: 28, chip: T[hrLang].chipNormal, cls: "normal" };
   }
 
+  /**
+   * Classifies Blood Glucose readings according to ADA Standards of Care 2024.
+   *
+   * Fasting targets:
+   * - Hypoglycemia: < 4.0 mmol/L
+   * - Normal: 4.0 - 5.5 mmol/L
+   * - Pre-diabetes: 5.6 - 6.9 mmol/L
+   * - Diabetes: >= 7.0 mmol/L
+   *
+   * Post-prandial (2-hour) / Random targets:
+   * - Hypoglycemia: < 4.0 mmol/L
+   * - Normal: <= 7.7 mmol/L
+   * - Pre-diabetes: 7.8 - 11.0 mmol/L
+   * - Diabetes: > 11.0 mmol/L
+   *
+   * @param {number|string} val - Blood glucose in mmol/L.
+   * @param {string} [timing] - 'fasting' | 'postmeal' | 'random'.
+   * @returns {{category: string, pct: number, chip: string, cls: string}} Classification metadata.
+   */
   function classifyBG(val, timing) {
     const v = parseFloat(val);
     const t = timing || activeTiming;
-    if (isNaN(v)) return { category: "normal", pct: 30, chip: T[arLang].chipNormal, cls: "normal" };
+    if (isNaN(v)) return { category: "normal", pct: 30, chip: T[hrLang].chipNormal, cls: "normal" };
 
     if (t === "fasting") {
-      if (v < 4.0) return { category: "hypo", pct: 8, chip: T[arLang].chipHypo, cls: "neutral" };
-      if (v <= 5.5) return { category: "normal", pct: 30, chip: T[arLang].chipNormal, cls: "normal" };
-      if (v <= 6.9) return { category: "prediab", pct: 60, chip: T[arLang].chipPrediab, cls: "elevated" };
-      return { category: "diabetic", pct: 90, chip: T[arLang].chipDiabetic, cls: "danger" };
+      if (v < 4.0) return { category: "hypo", pct: 8, chip: T[hrLang].chipHypo, cls: "neutral" };
+      if (v <= 5.5) return { category: "normal", pct: 30, chip: T[hrLang].chipNormal, cls: "normal" };
+      if (v <= 6.9) return { category: "prediab", pct: 60, chip: T[hrLang].chipPrediab, cls: "elevated" };
+      return { category: "diabetic", pct: 90, chip: T[hrLang].chipDiabetic, cls: "danger" };
     } else {
-      // Post-meal or Random
-      if (v < 4.0) return { category: "hypo", pct: 8, chip: T[arLang].chipHypo, cls: "neutral" };
-      if (v <= 7.7) return { category: "normal", pct: 35, chip: T[arLang].chipNormal, cls: "normal" };
-      if (v <= 11.0) return { category: "prediab", pct: 65, chip: T[arLang].chipPrediab, cls: "elevated" };
-      return { category: "diabetic", pct: 92, chip: T[arLang].chipDiabetic, cls: "danger" };
+      if (v < 4.0) return { category: "hypo", pct: 8, chip: T[hrLang].chipHypo, cls: "neutral" };
+      if (v <= 7.7) return { category: "normal", pct: 35, chip: T[hrLang].chipNormal, cls: "normal" };
+      if (v <= 11.0) return { category: "prediab", pct: 65, chip: T[hrLang].chipPrediab, cls: "elevated" };
+      return { category: "diabetic", pct: 92, chip: T[hrLang].chipDiabetic, cls: "danger" };
     }
   }
 
+  /**
+   * Generates localized clinical guidance commentary for blood pressure.
+   * @param {string} cat - Classification category key.
+   * @returns {string} Localized advice narrative.
+   */
   function getBPAdvice(cat) {
-    if (arLang === "en") {
+    if (hrLang === "en") {
       switch (cat) {
         case "normal": return "✅ Excellent! Blood pressure is within optimal healthy range (AHA 2017). Continue a balanced diet and regular exercise.";
         case "elevated": return "⚠️ Elevated range. Recommend reducing sodium intake, managing stress, and gentle daily walking.";
@@ -291,8 +373,14 @@
     }
   }
 
+  /**
+   * Generates localized clinical guidance commentary for blood glucose.
+   * @param {string} cat - Classification category key.
+   * @param {string} timing - Measurement timing mode.
+   * @returns {string} Localized advice narrative.
+   */
   function getBGAdvice(cat, timing) {
-    if (arLang === "en") {
+    if (hrLang === "en") {
       switch (cat) {
         case "normal": return `✅ Healthy glucose control (${timing}). Within ADA 2024 target range. Keep up healthy eating habits.`;
         case "prediab": return `⚠️ Pre-diabetic range (${timing}). Consider reducing refined sugars and simple carbs; increase fiber and daily movement.`;
@@ -312,8 +400,13 @@
   }
 
   /* ============================================================================
-   * 4. LIVE METERS & PREVIEW CONTROLLERS
-   * ============================================================================ */
+   * 5. LIVE SPECTRUM METERS & READING PREVIEW CONTROLLERS
+   * ============================================================================
+   */
+  /**
+   * Dynamically repositions the Blood Pressure spectrum meter pointer,
+   * updates status chips, diagnostic advice card, and preview banner.
+   */
   function updateBPMeter() {
     const sysEl = $("bpSystolic");
     const diaEl = $("bpDiastolic");
@@ -333,7 +426,7 @@
       if (badge) badge.textContent = "120/80";
       if (chip) {
         chip.className = "ht-status-chip normal ms-auto";
-        chip.textContent = T[arLang].chipNormal;
+        chip.textContent = T[hrLang].chipNormal;
       }
       if (advice) advice.innerHTML = `<span class="text-muted">${getBPAdvice("")}</span>`;
       if (preview) preview.innerHTML = "";
@@ -356,7 +449,7 @@
         <div class="ht-reading-preview alert alert-light border mt-3 mb-0 p-3 rounded-4 shadow-sm d-flex justify-content-between align-items-center">
           <div>
             <div class="fw-bold">${sys}/${dia} mmHg</div>
-            <div class="small text-muted">${activeArm === "right" ? T[arLang].armRight : T[arLang].armLeft}</div>
+            <div class="small text-muted">${activeArm === "right" ? T[hrLang].armRight : T[hrLang].armLeft}</div>
           </div>
           <span class="badge bg-${cls === 'normal' ? 'success' : (cls === 'elevated' ? 'warning' : 'danger')}-subtle text-${cls === 'normal' ? 'success' : (cls === 'elevated' ? 'warning' : 'danger')} px-3 py-2 rounded-pill fw-bold">${chipTxt}</span>
         </div>
@@ -364,6 +457,10 @@
     }
   }
 
+  /**
+   * Dynamically repositions the Blood Glucose range meter pointer,
+   * performs mmol/L to mg/dL conversion, updates status chips and guidance.
+   */
   function updateBGMeter() {
     const valEl = $("bgValue");
     if (!valEl) return;
@@ -381,7 +478,7 @@
       if (badge) badge.textContent = "5.6";
       if (chip) {
         chip.className = "ht-status-chip normal ms-auto";
-        chip.textContent = T[arLang].chipNormal;
+        chip.textContent = T[hrLang].chipNormal;
       }
       if (advice) advice.innerHTML = `<span class="text-muted">${getBGAdvice("", activeTiming)}</span>`;
       if (mgdlDisplay) mgdlDisplay.textContent = "—";
@@ -389,7 +486,7 @@
       return;
     }
 
-    // Convert mmol/L -> mg/dL
+    // Standard clinical conversion: 1 mmol/L = 18.0182 mg/dL
     const mgdl = Math.round(val * 18.0182);
     if (mgdlDisplay) mgdlDisplay.textContent = `${mgdl} mg/dL`;
 
@@ -409,7 +506,7 @@
         <div class="ht-reading-preview alert alert-light border mt-3 mb-0 p-3 rounded-4 shadow-sm d-flex justify-content-between align-items-center">
           <div>
             <div class="fw-bold">${val.toFixed(1)} mmol/L (${mgdl} mg/dL)</div>
-            <div class="small text-muted">${activeTiming === "fasting" ? T[arLang].timingFasting : (activeTiming === "postmeal" ? T[arLang].timingPostmeal : T[arLang].timingRandom)}</div>
+            <div class="small text-muted">${activeTiming === "fasting" ? T[hrLang].timingFasting : (activeTiming === "postmeal" ? T[hrLang].timingPostmeal : T[hrLang].timingRandom)}</div>
           </div>
           <span class="badge bg-${cls === 'normal' ? 'success' : (cls === 'elevated' ? 'warning' : 'danger')}-subtle text-${cls === 'normal' ? 'success' : (cls === 'elevated' ? 'warning' : 'danger')} px-3 py-2 rounded-pill fw-bold">${chipTxt}</span>
         </div>
@@ -418,8 +515,17 @@
   }
 
   /* ============================================================================
-   * 5. PULL-UP STATS & CRISIS CHECK
-   * ============================================================================ */
+   * 6. PULL-UP STATS CALCULATION & CRISIS DETECTION
+   * ============================================================================
+   */
+  /**
+   * Evaluates all historical records to populate the four pull-up metric cards:
+   * 1. Latest Blood Pressure (value, badge, timestamp)
+   * 2. Latest Blood Glucose (value, badge, timestamp)
+   * 3. Today's Total Readings
+   * 4. Consecutive Logging Streak (distinct calendar days)
+   * Also toggles the emergency hypertensive/hypoglycemic crisis alert banner.
+   */
   function renderStats() {
     const records = loadRecords();
     let latestBP = null;
@@ -448,11 +554,11 @@
         bpBadge.textContent = chip;
         bpBadge.className = `ht-stat-badge ${category === 'normal' ? 'normal' : (category === 'elevated' ? 'elevated' : 'critical')}`;
       }
-      if (bpSub) bpSub.textContent = new Date(latestBP.date).toLocaleDateString(arLang === "en" ? "en-US" : "bn-BD", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+      if (bpSub) bpSub.textContent = new Date(latestBP.date).toLocaleDateString(hrLang === "en" ? "en-US" : "bn-BD", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
     } else {
       if (bpVal) bpVal.textContent = "—";
       if (bpBadge) { bpBadge.textContent = "—"; bpBadge.className = "ht-stat-badge neutral"; }
-      if (bpSub) bpSub.textContent = "কোনো রেকর্ড নেই";
+      if (bpSub) bpSub.textContent = hrLang === "en" ? "No records" : "কোনো রেকর্ড নেই";
     }
 
     // 2. Latest BG
@@ -466,18 +572,18 @@
         bgBadge.textContent = chip;
         bgBadge.className = `ht-stat-badge ${category === 'normal' ? 'normal' : (category === 'prediab' ? 'elevated' : 'critical')}`;
       }
-      if (bgSub) bgSub.textContent = new Date(latestBG.date).toLocaleDateString(arLang === "en" ? "en-US" : "bn-BD", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+      if (bgSub) bgSub.textContent = new Date(latestBG.date).toLocaleDateString(hrLang === "en" ? "en-US" : "bn-BD", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
     } else {
       if (bgVal) bgVal.textContent = "—";
       if (bgBadge) { bgBadge.textContent = "—"; bgBadge.className = "ht-stat-badge neutral"; }
-      if (bgSub) bgSub.textContent = "কোনো রেকর্ড নেই";
+      if (bgSub) bgSub.textContent = hrLang === "en" ? "No records" : "কোনো রেকর্ড নেই";
     }
 
     // 3. Today Count
     const todayVal = $("statTodayVal");
     const todaySub = $("statTodaySub");
     if (todayVal) todayVal.textContent = String(todayCount);
-    if (todaySub) todaySub.textContent = `${todayCount} ${T[arLang].todayLabel}`;
+    if (todaySub) todaySub.textContent = `${todayCount} ${T[hrLang].todayLabel}`;
 
     // 4. Streak
     const streakVal = $("statStreakVal");
@@ -498,13 +604,18 @@
     updateWAPreview(latestBP, latestBG);
   }
 
+  /**
+   * Generates a pre-filled WhatsApp report string and binds it to the dispatch button.
+   * @param {Object|null} latestBP - Latest Blood Pressure record.
+   * @param {Object|null} latestBG - Latest Blood Glucose record.
+   */
   function updateWAPreview(latestBP, latestBG) {
     const waTextEl = $("waPreviewText");
     const waBtn = $("btnSendWA");
     if (!waTextEl || !waBtn) return;
 
     let msg = "";
-    if (arLang === "en") {
+    if (hrLang === "en") {
       msg = `*BreatheWell Health Report*\nDate: ${new Date().toLocaleDateString("en-US", { dateStyle: "medium" })}\n\n`;
       if (latestBP) {
         msg += `❤️ Blood Pressure: ${latestBP.systolic}/${latestBP.diastolic} mmHg (${latestBP.arm === "right" ? "Right Arm" : "Left Arm"})\n`;
@@ -529,19 +640,25 @@
   }
 
   /* ============================================================================
-   * 6. ACCESSIBLE TOAST NOTIFICATIONS
-   * ============================================================================ */
+   * 7. ACCESSIBLE TOAST NOTIFICATIONS
+   * ============================================================================
+   */
+  /**
+   * Displays an accessible floating toast message with automatic dismissal.
+   * @param {string} msg - Message to display.
+   * @param {"success"|"warning"|"danger"} [type="success"] - Notification style.
+   */
   function showToast(msg, type = "success") {
-    let stack = $("arToastStack");
+    let stack = $("hrToastStack") || $("arToastStack");
     if (!stack) {
       stack = document.createElement("div");
-      stack.id = "arToastStack";
-      stack.className = "ar-toast-stack";
+      stack.id = "hrToastStack";
+      stack.className = "hr-toast-stack";
       document.body.appendChild(stack);
     }
 
     const toast = document.createElement("div");
-    toast.className = `ar-toast ${type}`;
+    toast.className = `hr-toast ${type}`;
     toast.textContent = msg;
     stack.appendChild(toast);
 
@@ -555,8 +672,13 @@
   }
 
   /* ============================================================================
-   * 7. FORM SUBMISSIONS
-   * ============================================================================ */
+   * 8. FORM SUBMISSION HANDLERS & INPUT VALIDATION
+   * ============================================================================
+   */
+  /**
+   * Validates and commits a Blood Pressure entry to LocalStorage.
+   * @param {Event} e - Form submission event.
+   */
   function handleBPSubmit(e) {
     e.preventDefault();
     const sysEl = $("bpSystolic");
@@ -570,12 +692,12 @@
     const dia = parseInt(diaEl.value, 10);
 
     if (isNaN(sys) || isNaN(dia) || sys < 50 || dia < 30) {
-      showToast(T[arLang].toastEnterValidBP, "warning");
+      showToast(T[hrLang].toastEnterValidBP, "warning");
       return;
     }
 
     if (sys <= dia) {
-      showToast(T[arLang].toastInvalidSysDia, "danger");
+      showToast(T[hrLang].toastInvalidSysDia, "danger");
       return;
     }
 
@@ -593,7 +715,7 @@
     records.push(record);
     saveRecords(records);
 
-    showToast(T[arLang].toastBPSaved, "success");
+    showToast(T[hrLang].toastBPSaved, "success");
     renderStats();
 
     // Reset inputs, re-init datetime
@@ -604,6 +726,10 @@
     updateBPMeter();
   }
 
+  /**
+   * Validates and commits a Blood Glucose entry to LocalStorage.
+   * @param {Event} e - Form submission event.
+   */
   function handleBGSubmit(e) {
     e.preventDefault();
     const valEl = $("bgValue");
@@ -614,7 +740,7 @@
 
     const val = parseFloat(valEl.value);
     if (isNaN(val) || val < 1.0 || val > 35.0) {
-      showToast(T[arLang].toastEnterValidBG, "warning");
+      showToast(T[hrLang].toastEnterValidBG, "warning");
       return;
     }
 
@@ -632,7 +758,7 @@
     records.push(record);
     saveRecords(records);
 
-    showToast(T[arLang].toastBGSaved, "success");
+    showToast(T[hrLang].toastBGSaved, "success");
     renderStats();
 
     // Reset inputs, re-init datetime
@@ -643,8 +769,13 @@
   }
 
   /* ============================================================================
-   * 8. FORM MODE SWITCHER
-   * ============================================================================ */
+   * 9. ADAPTIVE FORM MODE SWITCHER (ALL / BP / BG)
+   * ============================================================================
+   */
+  /**
+   * Switches active form view mode between 'all' (split columns), 'bp' (centered single), and 'bg' (centered single).
+   * @param {"all"|"bp"|"bg"} mode - Selected layout mode.
+   */
   function setFormMode(mode) {
     activeMode = mode;
     const colBP = $("colBPForm");
@@ -680,71 +811,81 @@
   }
 
   /* ============================================================================
-   * 9. LANGUAGE TOGGLER & DOM SYNC
-   * ============================================================================ */
-  function arSetLang(lang) {
-    arLang = (lang === "en") ? "en" : "bn";
+   * 10. LANGUAGE TOGGLER & DOM SYNC
+   * ============================================================================
+   */
+  /**
+   * Updates application language, persists to storage, and re-renders all translated DOM nodes.
+   * Supports both `data-hr-i18n` (modern) and `data-ar-i18n` (legacy) attributes.
+   * @param {"bn"|"en"} lang - Language code to activate.
+   */
+  function hrSetLang(lang) {
+    hrLang = (lang === "en") ? "en" : "bn";
     try {
-      localStorage.setItem(HT_LANG_KEY, arLang);
-      localStorage.setItem("bw-lang", arLang);
+      localStorage.setItem(HT_LANG_KEY, hrLang);
+      localStorage.setItem("bw-lang", hrLang);
     } catch (_) {}
 
-    if (document.documentElement) document.documentElement.lang = arLang;
-    if (document.body) document.body.className = arLang;
+    if (document.documentElement) document.documentElement.lang = hrLang;
+    if (document.body) document.body.className = hrLang;
 
-    // Toggle button text
-    const langBtn = $("arLangToggle");
-    if (langBtn) langBtn.textContent = (arLang === "bn") ? "English" : "বাংলা";
+    // Toggle button text in navbar
+    const langBtn = $("hrLangToggle") || $("arLangToggle");
+    if (langBtn) langBtn.textContent = (hrLang === "bn") ? "English" : "বাংলা";
 
-    // Mobile pills
+    // Synchronize mobile sidebar language pills
     document.querySelectorAll(".mobile-lang-pill").forEach(p => {
-      p.classList.toggle("active", p.getAttribute("data-lang") === arLang);
+      p.classList.toggle("active", p.getAttribute("data-lang") === hrLang);
     });
 
-    // Translate all [data-ar-i18n]
-    document.querySelectorAll("[data-ar-i18n]").forEach(el => {
-      const k = el.getAttribute("data-ar-i18n");
-      if (T[arLang] && T[arLang][k]) {
-        el.textContent = T[arLang][k];
+    // Translate all [data-hr-i18n] and [data-ar-i18n]
+    document.querySelectorAll("[data-hr-i18n], [data-ar-i18n]").forEach(el => {
+      const k = el.getAttribute("data-hr-i18n") || el.getAttribute("data-ar-i18n");
+      if (T[hrLang] && T[hrLang][k]) {
+        el.textContent = T[hrLang][k];
       }
     });
 
-    // Translate placeholders [data-ar-i18n-ph]
-    document.querySelectorAll("[data-ar-i18n-ph]").forEach(el => {
-      const k = el.getAttribute("data-ar-i18n-ph");
-      if (T[arLang] && T[arLang][k]) {
-        el.placeholder = T[arLang][k];
+    // Translate input placeholders [data-hr-i18n-ph] and [data-ar-i18n-ph]
+    document.querySelectorAll("[data-hr-i18n-ph], [data-ar-i18n-ph]").forEach(el => {
+      const k = el.getAttribute("data-hr-i18n-ph") || el.getAttribute("data-ar-i18n-ph");
+      if (T[hrLang] && T[hrLang][k]) {
+        el.placeholder = T[hrLang][k];
       }
     });
 
-    // Re-render meters & stats
+    // Re-render live meters & pull-up stats
     updateBPMeter();
     updateBGMeter();
     renderStats();
   }
 
   /* ============================================================================
-   * 10. INITIALIZATION & EVENT BINDINGS
-   * ============================================================================ */
+   * 11. BOOTSTRAP, EVENT LISTENERS & LIFECYCLE HOOKS
+   * ============================================================================
+   */
+  /**
+   * Initializes date inputs, registers event handlers, and performs initial render.
+   */
   function init() {
-    // 1. Initial Dates
+    // 1. Initial Dates to Local Time
     const bpDate = $("bpDate");
     const bgDate = $("bgDate");
     const nowIso = formatLocalIso();
     if (bpDate && !bpDate.value) bpDate.value = nowIso;
     if (bgDate && !bgDate.value) bgDate.value = nowIso;
 
-    // 2. Language Toggle
-    const langBtn = $("arLangToggle");
+    // 2. Language Toggle Buttons
+    const langBtn = $("hrLangToggle") || $("arLangToggle");
     if (langBtn) {
       langBtn.addEventListener("click", () => {
-        arSetLang(arLang === "bn" ? "en" : "bn");
+        hrSetLang(hrLang === "bn" ? "en" : "bn");
       });
     }
 
     document.querySelectorAll(".mobile-lang-pill").forEach(pill => {
       pill.addEventListener("click", () => {
-        arSetLang(pill.getAttribute("data-lang"));
+        hrSetLang(pill.getAttribute("data-lang"));
       });
     });
 
@@ -754,7 +895,7 @@
     if (sysEl) sysEl.addEventListener("input", updateBPMeter);
     if (diaEl) diaEl.addEventListener("input", updateBPMeter);
 
-    // Target preset clicks on BP meter
+    // Target preset clicks on BP meter labels
     document.querySelectorAll("[data-bp-target]").forEach(btn => {
       btn.addEventListener("click", () => {
         const target = btn.getAttribute("data-bp-target");
@@ -773,7 +914,7 @@
     const valEl = $("bgValue");
     if (valEl) valEl.addEventListener("input", updateBGMeter);
 
-    // Target preset clicks on BG meter
+    // Target preset clicks on BG meter labels
     document.querySelectorAll("[data-bg-target]").forEach(btn => {
       btn.addEventListener("click", () => {
         const target = btn.getAttribute("data-bg-target");
@@ -825,12 +966,13 @@
     const bgForm = $("bgForm");
     if (bgForm) bgForm.addEventListener("submit", handleBGSubmit);
 
-    // Initial render & I18N
-    arSetLang(arLang);
+    // Initial render & I18N synchronization
+    hrSetLang(hrLang);
   }
 
-  // Global exposure for debugging if needed
-  window.arSetLang = arSetLang;
+  // Global window exposure for debugging and external invocation
+  window.hrSetLang = hrSetLang;
+  window.arSetLang = hrSetLang;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
@@ -838,3 +980,4 @@
     init();
   }
 })();
+

@@ -1,0 +1,229 @@
+/**
+ * ============================================================================
+ * @file health-reading.css
+ * @module BreatheWell/HealthReading/Styles
+ * @description Dedicated Stylesheet for the BreatheWell Health Reading Module.
+ *              Encapsulates styling for live diagnostic spectrum meters (AHA 2017 & ADA 2024),
+ *              adaptive segmented entry forms, pull-up statistics cards, WhatsApp report preview,
+ *              accessible toast notification stack, and fluid responsive design tokens.
+ * @author BreatheWell Development Team
+ * @version 2.4.0
+ * @license MIT
+ * ============================================================================
+ * 
+ * TABLE OF CONTENTS:
+ * 1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+ * 2. PULL-UP STATS CARD OVERLAP & ELEVATION
+ * 3. QUICK ACTION & SHARING UTILITY CARDS
+ * 4. WHATSAPP REPORT PREVIEW BOX
+ * 5. ACCESSIBLE FLOATING TOAST NOTIFICATION STACK
+ * 6. KEYFRAME ANIMATIONS & TRANSITIONS
+ * 7. RESPONSIVE BREAKPOINT OVERRIDES (MOBILE & TABLET)
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+ * ============================================================================
+ * Scoped variables defining color palette, corner radii, elevation shadows,
+ * and standard transition easing functions for the Health Reading interface.
+ */
+:root {
+  /* Surfaces & Backgrounds */
+  --hr-surface: #ffffff;
+  --hr-surface-alt: #f8fafc;
+  --hr-border: #e2e8f0;
+
+  /* Typography Colors */
+  --hr-text-dark: #0f172a;
+  --hr-text-muted: #64748b;
+
+  /* Brand Accents */
+  --hr-primary: #1769aa;
+  --hr-primary-light: #e0f2fe;
+
+  /* Radii */
+  --hr-radius-sm: 10px;
+  --hr-radius-md: 16px;
+  --hr-radius-lg: 24px;
+
+  /* Elevation Shadows (Layered depth) */
+  --hr-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --hr-shadow-md: 0 6px 20px -2px rgba(0, 0, 0, 0.08);
+  --hr-shadow-lg: 0 12px 36px -4px rgba(0, 0, 0, 0.12);
+
+  /* Animation Timings */
+  --hr-dur: 0.25s;
+  --hr-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Backward Compatibility Aliases */
+  --ar-surface: var(--hr-surface);
+  --ar-surface-alt: var(--hr-surface-alt);
+  --ar-border: var(--hr-border);
+  --ar-text-dark: var(--hr-text-dark);
+  --ar-text-muted: var(--hr-text-muted);
+  --ar-primary: var(--hr-primary);
+  --ar-primary-light: var(--hr-primary-light);
+  --ar-radius-sm: var(--hr-radius-sm);
+  --ar-radius-md: var(--hr-radius-md);
+  --ar-radius-lg: var(--hr-radius-lg);
+  --ar-shadow-sm: var(--hr-shadow-sm);
+  --ar-shadow-md: var(--hr-shadow-md);
+  --ar-shadow-lg: var(--hr-shadow-lg);
+  --ar-dur: var(--hr-dur);
+  --ar-ease: var(--hr-ease);
+}
+
+/* ============================================================================
+ * 2. PULL-UP STATS CARD OVERLAP & ELEVATION
+ * ============================================================================
+ * Overlaps the bottom edge of the hero banner to create a seamless modern
+ * layered appearance for latest Blood Pressure, Blood Glucose, and streak stats.
+ */
+.hr-pull-up,
+.ar-pull-up {
+  margin-top: -65px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 28px;
+}
+
+/* ============================================================================
+ * 3. QUICK ACTION & SHARING UTILITY CARDS
+ * ============================================================================
+ * Container card for auxiliary tools such as the one-click WhatsApp doctor
+ * and family sharing utility.
+ */
+.hr-tools-card,
+.ar-tools-card {
+  background: var(--hr-surface);
+  border: 1px solid var(--hr-border);
+  border-radius: var(--hr-radius-md);
+  padding: 24px;
+  box-shadow: var(--hr-shadow-sm);
+  transition: all var(--hr-dur) var(--hr-ease);
+}
+
+.hr-tools-card:hover,
+.ar-tools-card:hover {
+  box-shadow: var(--hr-shadow-md);
+}
+
+/* ============================================================================
+ * 4. WHATSAPP REPORT PREVIEW BOX
+ * ============================================================================
+ * Preformatted message container styling that renders clinical readings into
+ * a monospace, ready-to-dispatch WhatsApp text template.
+ */
+.hr-wa-preview,
+.ar-wa-preview {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #166534;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ============================================================================
+ * 5. ACCESSIBLE FLOATING TOAST NOTIFICATION STACK
+ * ============================================================================
+ * Fixed notification container anchored to the bottom-right of the viewport
+ * for transient user feedback (submission success, validation errors, warnings).
+ */
+.hr-toast-stack,
+.ar-toast-stack {
+  position: fixed;
+  bottom: 84px;
+  right: 20px;
+  z-index: 1080;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hr-toast,
+.ar-toast {
+  pointer-events: auto;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  animation: hrToastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hr-toast.success,
+.ar-toast.success {
+  background: #065f46;
+  border: 1px solid #10b981;
+}
+
+.hr-toast.warning,
+.ar-toast.warning {
+  background: #78350f;
+  border: 1px solid #f59e0b;
+}
+
+.hr-toast.danger,
+.ar-toast.danger {
+  background: #7f1d1d;
+  border: 1px solid #ef4444;
+}
+
+/* ============================================================================
+ * 6. KEYFRAME ANIMATIONS & TRANSITIONS
+ * ============================================================================
+ */
+@keyframes hrToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Backward compatibility animation alias */
+@keyframes arToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ============================================================================
+ * 7. RESPONSIVE BREAKPOINT OVERRIDES (MOBILE & TABLET)
+ * ============================================================================
+ */
+@media (max-width: 991.98px) {
+  .hr-pull-up,
+  .ar-pull-up {
+    margin-top: -45px;
+  }
+
+  .hr-toast-stack,
+  .ar-toast-stack {
+    bottom: 95px;
+    right: 16px;
+    left: 16px;
+    align-items: center;
+  }
+}
+

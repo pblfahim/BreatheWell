@@ -1,0 +1,499 @@
+/**
+ * ============================================================================
+ * @file health-history.css
+ * @module BreatheWell/HealthHistory/Styles
+ * @description Dedicated Stylesheet for the BreatheWell Health History & Detailed Log Module.
+ *              Encapsulates styles for DataTables 2 Bootstrap 5 integrations, clinical summary
+ *              counters, multi-criteria filtering tabs, export buttons (CSV/JSON), localized
+ *              pagination, status badge chips, responsive table layout, and floating toast stack.
+ * @author BreatheWell Development Team
+ * @version 2.4.0
+ * @license MIT
+ * ============================================================================
+ * 
+ * TABLE OF CONTENTS:
+ * 1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+ * 2. HERO BANNER & SUB-NAV NAVIGATION RIBBON
+ * 3. SUMMARY COUNTERS PULL-UP ROW
+ * 4. HISTORY TABLE CARD, SEGMENTED TABS & ACTIONS
+ * 5. DATATABLES 2 BOOTSTRAP 5 CUSTOM OVERRIDES
+ * 6. CLINICAL STATUS BADGES & ROW ACTION CONTROLS
+ * 7. EMPTY ARCHIVE STATE PLACEHOLDER
+ * 8. FLOATING TOAST NOTIFICATION STACK
+ * 9. RESPONSIVE MEDIA QUERIES (MOBILE & TABLET)
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+ * ============================================================================
+ */
+:root {
+  /* Surfaces & Backgrounds */
+  --hh-surface: #ffffff;
+  --hh-surface-alt: #f8fafc;
+  --hh-border: #e2e8f0;
+
+  /* Typography Palette */
+  --hh-text-dark: #0f172a;
+  --hh-text-muted: #64748b;
+
+  /* Brand Accents */
+  --hh-primary: #1769aa;
+  --hh-primary-light: #e0f2fe;
+
+  /* Corner Radii */
+  --hh-radius-sm: 10px;
+  --hh-radius-md: 16px;
+  --hh-radius-lg: 24px;
+
+  /* Depth Shadows */
+  --hh-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --hh-shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.07);
+  --hh-shadow-lg: 0 10px 30px -4px rgba(0, 0, 0, 0.1);
+
+  /* Animation Timings */
+  --hh-dur: 0.25s;
+  --hh-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Backward Compatibility Aliases */
+  --hl-surface: var(--hh-surface);
+  --hl-surface-alt: var(--hh-surface-alt);
+  --hl-border: var(--hh-border);
+  --hl-text-dark: var(--hh-text-dark);
+  --hl-text-muted: var(--hh-text-muted);
+  --hl-primary: var(--hh-primary);
+  --hl-primary-light: var(--hh-primary-light);
+  --hl-radius-sm: var(--hh-radius-sm);
+  --hl-radius-md: var(--hh-radius-md);
+  --hl-radius-lg: var(--hh-radius-lg);
+  --hl-shadow-sm: var(--hh-shadow-sm);
+  --hl-shadow-md: var(--hh-shadow-md);
+  --hl-shadow-lg: var(--hh-shadow-lg);
+  --hl-dur: var(--hh-dur);
+  --hl-ease: var(--hh-ease);
+}
+
+/* ============================================================================
+ * 2. HERO BANNER & SUB-NAV NAVIGATION RIBBON
+ * ============================================================================
+ */
+.hh-hero,
+.hl-hero {
+  background: linear-gradient(145deg, #091e3a 0%, #173865 55%, #1e4976 100%);
+  color: #ffffff;
+  padding: 44px 0 95px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hh-hero::before,
+.hl-hero::before {
+  content: "";
+  position: absolute;
+  bottom: -40%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hh-hero-badge,
+.hl-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #bae6fd;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.hh-hero-title,
+.hl-hero-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.hh-hero-sub,
+.hl-hero-sub {
+  font-size: 0.98rem;
+  color: #cbd5e1;
+  max-width: 620px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.hh-quick-nav,
+.hl-quick-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hh-nav-btn,
+.hl-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--hh-dur) var(--hh-ease);
+}
+
+.hh-nav-btn:hover,
+.hl-nav-btn:hover {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hh-nav-btn.active,
+.hl-nav-btn.active {
+  background: #38bdf8;
+  color: #042f2e;
+  border-color: #38bdf8;
+}
+
+/* ============================================================================
+ * 3. SUMMARY COUNTERS PULL-UP ROW
+ * ============================================================================
+ */
+.hh-pull-up,
+.hl-pull-up {
+  margin-top: -65px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 30px;
+}
+
+.hh-summary-card,
+.hl-summary-card {
+  background: var(--hh-surface);
+  border: 1px solid var(--hh-border);
+  border-radius: var(--hh-radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--hh-shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: transform var(--hh-dur);
+}
+
+.hh-summary-card:hover,
+.hl-summary-card:hover {
+  transform: translateY(-3px);
+}
+
+.hh-summary-icon,
+.hl-summary-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.hh-summary-icon.total, .hl-summary-icon.total { background: #e0f2fe; color: #0284c7; }
+.hh-summary-icon.bp,    .hl-summary-icon.bp    { background: #fee2e2; color: #dc2626; }
+.hh-summary-icon.bg,    .hl-summary-icon.bg    { background: #ede9fe; color: #7c3aed; }
+.hh-summary-icon.date,  .hl-summary-icon.date  { background: #dcfce7; color: #16a34a; }
+
+.hh-summary-val,
+.hl-summary-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--hh-text-dark);
+  line-height: 1.1;
+}
+
+.hh-summary-lbl,
+.hl-summary-lbl {
+  font-size: 0.76rem;
+  color: var(--hh-text-muted);
+  font-weight: 600;
+}
+
+/* ============================================================================
+ * 4. HISTORY TABLE CARD, SEGMENTED TABS & ACTIONS
+ * ============================================================================
+ */
+.hh-table-card,
+.hl-table-card {
+  background: var(--hh-surface);
+  border: 1px solid var(--hh-border);
+  border-radius: var(--hh-radius-lg);
+  box-shadow: var(--hh-shadow-sm);
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.hh-card-header,
+.hl-card-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--hh-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  background: #ffffff;
+}
+
+.hh-card-title,
+.hl-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--hh-text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Category Tabs */
+.hh-tabs,
+.hl-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--hh-surface-alt);
+  border: 1px solid var(--hh-border);
+  border-radius: var(--hh-radius-sm);
+  padding: 3px;
+}
+
+.hh-tab-btn,
+.hl-tab-btn {
+  padding: 5px 14px;
+  border-radius: 7px;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--hh-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--hh-dur);
+}
+
+.hh-tab-btn.active,
+.hl-tab-btn.active {
+  background: #ffffff;
+  color: var(--hh-primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Action Button Group */
+.hh-action-group,
+.hl-action-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================================
+ * 5. DATATABLES 2 BOOTSTRAP 5 CUSTOM OVERRIDES
+ * ============================================================================
+ */
+.hh-table-body,
+.hl-table-body {
+  padding: 20px 24px;
+}
+
+.hh-table thead th,
+.hl-table thead th {
+  background: var(--hh-surface-alt);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--hh-text-muted);
+  border-bottom: 2px solid var(--hh-border);
+  padding: 12px 14px;
+}
+
+.hh-table tbody td,
+.hl-table tbody td {
+  padding: 13px 14px;
+  font-size: 0.88rem;
+  border-bottom: 1px solid var(--hh-border);
+}
+
+.hh-val-bp,
+.hl-val-bp {
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.hh-val-bg,
+.hl-val-bg {
+  font-weight: 800;
+  color: #6d28d9;
+}
+
+/* ============================================================================
+ * 6. CLINICAL STATUS BADGES & ROW ACTION CONTROLS
+ * ============================================================================
+ */
+.ht-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.ht-status-chip.normal   { background: #dcfce7; color: #15803d; }
+.ht-status-chip.elevated { background: #fef3c7; color: #b45309; }
+.ht-status-chip.high1    { background: #ffedd5; color: #c2410c; }
+.ht-status-chip.high2    { background: #fee2e2; color: #b91c1c; }
+.ht-status-chip.crisis   { background: #991b1b; color: #ffffff; }
+.ht-status-chip.low      { background: #ede9fe; color: #6d28d9; }
+
+/* Delete Row Button */
+.hh-row-del,
+.hl-row-del {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #ef4444;
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all var(--hh-dur);
+}
+
+.hh-row-del:hover,
+.hl-row-del:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #dc2626;
+  transform: scale(1.05);
+}
+
+/* ============================================================================
+ * 7. EMPTY ARCHIVE STATE PLACEHOLDER
+ * ============================================================================
+ */
+.hh-empty-state,
+.hl-empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--hh-text-muted);
+}
+
+.hh-empty-icon,
+.hl-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.hh-empty-title,
+.hl-empty-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--hh-text-dark);
+  margin-bottom: 6px;
+}
+
+/* ============================================================================
+ * 8. FLOATING TOAST NOTIFICATION STACK
+ * ============================================================================
+ */
+.hh-toast-stack,
+.hl-toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hh-toast,
+.hl-toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 380px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: var(--hh-radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--hh-shadow-lg);
+  animation: hhSlideUp 0.3s var(--hh-ease) forwards;
+}
+
+.hh-toast.success, .hl-toast.success { border-left: 4px solid #22c55e; }
+.hh-toast.info,    .hl-toast.info    { border-left: 4px solid #38bdf8; }
+.hh-toast.warning, .hl-toast.warning { border-left: 4px solid #f59e0b; }
+
+@keyframes hhSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hlSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================================
+ * 9. RESPONSIVE MEDIA QUERIES (MOBILE & TABLET)
+ * ============================================================================
+ */
+@media (max-width: 768px) {
+  .hh-hero,
+  .hl-hero {
+    padding: 32px 0 80px;
+  }
+
+  .hh-hero-title,
+  .hl-hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hh-pull-up,
+  .hl-pull-up {
+    margin-top: -45px;
+  }
+
+  .hh-card-header,
+  .hl-card-header {
+    padding: 16px;
+  }
+
+  .hh-table-body,
+  .hl-table-body {
+    padding: 12px;
+  }
+}
+

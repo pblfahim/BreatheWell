@@ -4,20 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BreatheWell — নতুন রিডিং যোগ করুন (Add Health Reading)</title>
-  <meta name="description" content="দৈনিক রক্তচাপ ও রক্তের গ্লুকোজ (সুগার) পরিমাপ সংরক্ষণ, লাইভ ডায়াগনস্টিক স্পেকট্রাম নির্দেশক ও স্বাস্থ্য পর্যবেক্ষণ।">
+  <title>BreatheWell — নতুন স্বাস্থ্য রিডিং (Health Reading)</title>
+  <meta name="description"
+    content="দৈনিক রক্তচাপ ও রক্তের গ্লুকোজ (সুগার) পরিমাপ সংরক্ষণ, লাইভ ডায়াগনস্টিক স্পেকট্রাম নির্দেশক ও স্বাস্থ্য পর্যবেক্ষণ।">
   <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="asset/css/style.css">
   <link rel="stylesheet" href="asset/css/health-tracker.css">
-  <link rel="stylesheet" href="asset/css/add-reading.css">
+  <link rel="stylesheet" href="asset/css/health-reading.css">
 </head>
 
-<body class="bn" data-page="add-reading">
+<body class="bn" data-page="health-reading">
 
   <!-- Accessibility Skip Navigation Link -->
   <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main">মূল কনটেন্টে যান</a>
@@ -32,7 +35,8 @@
       </a>
       <div class="d-flex align-items-center gap-2 order-lg-3">
         <button class="lang-btn" id="arLangToggle" aria-label="Change language">English</button>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Open navigation">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+          aria-label="Open navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
@@ -40,8 +44,10 @@
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
           <li class="nav-item"><a class="nav-link" href="index.html" data-ar-i18n="navHome">হোম</a></li>
           <li class="nav-item"><a class="nav-link" href="exercises.html" data-ar-i18n="navExercises">অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-ar-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
-          <li class="nav-item"><a class="nav-link active" href="health-tracker.html" aria-current="page" data-ar-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-ar-i18n="navTest">শ্বাসের পরীক্ষা</a>
+          </li>
+          <li class="nav-item"><a class="nav-link active" href="health-reading.html" aria-current="page"
+              data-ar-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
           <li class="nav-item"><a class="nav-link" href="prescriptions.html" data-ar-i18n="navRx">প্রেসক্রিপশন</a></li>
           <li class="nav-item"><a class="nav-link" href="index.html#safety" data-ar-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
@@ -63,21 +69,22 @@
             </div>
             <h1 data-ar-i18n="heroTitle">➕ নতুন রিডিং যোগ করুন</h1>
             <p class="ht-hero-sub" data-ar-i18n="heroSub">
-              দৈনিক রক্তচাপ ও রক্তের গ্লুকোজ (সুগার) মান সহজে সংরক্ষণ করুন, লাইভ স্পেকট্রাম অ্যানালাইসিস এবং তাৎক্ষণিক চিকিৎসা নির্দেশিকা পান।
+              দৈনিক রক্তচাপ ও রক্তের গ্লুকোজ (সুগার) মান সহজে সংরক্ষণ করুন, লাইভ স্পেকট্রাম অ্যানালাইসিস এবং তাৎক্ষণিক
+              চিকিৎসা নির্দেশিকা পান।
             </p>
 
             <!-- Quick Action Shortcuts Ribbon -->
             <div class="ht-quick-nav-bar">
-              <a href="add-reading.html" class="ht-quick-nav-btn primary text-decoration-none">
+              <a href="health-reading.html" class="ht-quick-nav-btn primary text-decoration-none">
                 <span data-ar-i18n="quickAdd">➕ নতুন রিডিং</span>
               </a>
-              <a href="trends-charts.html" class="ht-quick-nav-btn text-decoration-none">
+              <a href="health-charts.html" class="ht-quick-nav-btn text-decoration-none">
                 <span data-ar-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
               </a>
-              <a href="history-log.html" class="ht-quick-nav-btn text-decoration-none">
+              <a href="health-history.html" class="ht-quick-nav-btn text-decoration-none">
                 <span data-ar-i18n="quickLog">📋 ইতিহাস লগ</span>
               </a>
-              <a href="demo-data.html" class="ht-quick-nav-btn text-decoration-none">
+              <a href="health-demo.html" class="ht-quick-nav-btn text-decoration-none">
                 <span data-ar-i18n="quickDemo">🧪 নমুনা ডেটা</span>
               </a>
             </div>
@@ -85,10 +92,7 @@
 
           <div class="col-lg-4 text-lg-end">
             <div class="d-flex flex-column gap-2 align-items-lg-end">
-              <a href="history-log.html" class="btn btn-outline-light rounded-pill px-3 py-1.5 small d-inline-flex align-items-center gap-2 text-decoration-none">
-                <i class="bi bi-clock-history"></i>
-                <span data-ar-i18n="btnViewLog">📋 পূর্বের ইতিহাস দেখুন</span>
-              </a>
+
             </div>
           </div>
         </div>
@@ -98,7 +102,7 @@
     <!-- ======================================================================
          3. PULL-UP STATS SUMMARY ROW
          ====================================================================== -->
-    <div class="ht-pull-up ar-pull-up">
+    <div class="ht-pull-up hr-pull-up ar-pull-up">
       <div class="container">
         <!-- Emergency Crisis Alert Banner -->
         <div id="crisisAlertBanner" class="ht-crisis-banner d-none mb-3">
@@ -106,7 +110,8 @@
           <div class="flex-grow-1">
             <h4 class="fw-bold mb-1" data-ar-i18n="crisisTitle">জরুরি স্বাস্থ্য সতর্কতা!</h4>
             <p class="mb-0 small" data-ar-i18n="crisisSub">
-              আপনার সর্বশেষ রক্তচাপ বা সুগারের মাত্রা আশঙ্কাজনক সীমায় রয়েছে। অবিলম্বে শান্ত হয়ে বিশ্রাম নিন এবং প্রয়োজনে ডাক্তারের সাথে যোগাযোগ করুন।
+              আপনার সর্বশেষ রক্তচাপ বা সুগারের মাত্রা আশঙ্কাজনক সীমায় রয়েছে। অবিলম্বে শান্ত হয়ে বিশ্রাম নিন এবং
+              প্রয়োজনে ডাক্তারের সাথে যোগাযোগ করুন।
             </p>
           </div>
         </div>
@@ -179,7 +184,7 @@
          4. ENTRY FORMS — BLOOD PRESSURE & BLOOD GLUCOSE
          ====================================================================== -->
     <section class="ht-section mt-1" id="entrySection">
-      <div class="container">
+      <div class="container" id="entryFormCard">
         <!-- Form Mode Switcher (Segmented Control) -->
         <div class="ht-mode-switch-wrap mb-4">
           <div class="ht-mode-switch" role="tablist">
@@ -218,7 +223,8 @@
                         <span data-ar-i18n="lblSystolic">সিস্টোলিক</span>
                         <span class="unit" data-ar-i18n="unitMmhg">mmHg</span>
                       </label>
-                      <input class="ht-input" type="number" id="bpSystolic" name="bpSystolic" placeholder="120" min="50" max="250" inputmode="numeric" required>
+                      <input class="ht-input" type="number" id="bpSystolic" name="bpSystolic" placeholder="120" min="50"
+                        max="250" inputmode="numeric" required>
                       <span class="ht-input-error" id="errBpSys"></span>
                     </div>
 
@@ -229,32 +235,39 @@
                         <span data-ar-i18n="lblDiastolic">ডায়াস্টোলিক</span>
                         <span class="unit" data-ar-i18n="unitMmhg">mmHg</span>
                       </label>
-                      <input class="ht-input" type="number" id="bpDiastolic" name="bpDiastolic" placeholder="80" min="30" max="150" inputmode="numeric" required>
+                      <input class="ht-input" type="number" id="bpDiastolic" name="bpDiastolic" placeholder="80"
+                        min="30" max="150" inputmode="numeric" required>
                       <span class="ht-input-error" id="errBpDia"></span>
                     </div>
                   </div>
                 </div>
 
-                <!-- Live BP Diagnostic Spectrum Meter -->
+                <!-- Live BP Diagnostic Spectrum Meter (AHA 2017) -->
                 <div class="ht-gauge-wrap" id="bpGaugeWrap">
                   <div class="ht-gauge-title">
                     <span data-ar-i18n="gaugeTitleBP">লাইভ রক্তচাপ স্পেকট্রাম নির্দেশক</span>
                     <span class="text-primary fw-bold"><i class="bi bi-activity"></i> AHA 2017</span>
                   </div>
-                  <div class="ht-gauge-track bp-track" id="bpGaugeTrack" role="slider" aria-label="Blood Pressure Spectrum" tabindex="0">
+                  <div class="ht-gauge-track bp-track" id="bpGaugeTrack" role="slider"
+                    aria-label="Blood Pressure Spectrum" tabindex="0">
                     <div class="ht-gauge-pointer" id="bpGaugePointer" style="left: 32%;">
                       <span class="ht-pointer-badge" id="bpPointerBadge">120/80</span>
                     </div>
                   </div>
                   <div class="ht-gauge-labels" id="bpGaugeLabels">
                     <button type="button" class="ht-gauge-lbl" data-bp-target="low">কম (&lt;90)</button>
-                    <button type="button" class="ht-gauge-lbl text-success" data-bp-target="normal">স্বাভাবিক (120/80)</button>
-                    <button type="button" class="ht-gauge-lbl text-warning" data-bp-target="elevated">উচ্চতর (125/80)</button>
-                    <button type="button" class="ht-gauge-lbl text-danger" data-bp-target="high1">উচ্চ রক্তচাপ (140/90)</button>
-                    <button type="button" class="ht-gauge-lbl text-danger-emphasis" data-bp-target="crisis">ক্রাইসিস (&gt;180)</button>
+                    <button type="button" class="ht-gauge-lbl text-success" data-bp-target="normal">স্বাভাবিক
+                      (120/80)</button>
+                    <button type="button" class="ht-gauge-lbl text-warning" data-bp-target="elevated">উচ্চতর
+                      (125/80)</button>
+                    <button type="button" class="ht-gauge-lbl text-danger" data-bp-target="high1">উচ্চ রক্তচাপ
+                      (140/90)</button>
+                    <button type="button" class="ht-gauge-lbl text-danger-emphasis" data-bp-target="crisis">ক্রাইসিস
+                      (&gt;180)</button>
                   </div>
                   <div class="ht-advice-box" id="bpAdviceBox">
-                    <span class="text-muted">সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও পরামর্শ দেখতে পাবেন।</span>
+                    <span class="text-muted">সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও পরামর্শ দেখতে
+                      পাবেন।</span>
                   </div>
                 </div>
 
@@ -277,7 +290,8 @@
                 <!-- Notes -->
                 <div class="ht-input-group">
                   <label class="ht-label" for="bpNotes" data-ar-i18n="lblNotes">নোট (ঐচ্ছিক)</label>
-                  <textarea class="ht-textarea" id="bpNotes" name="bpNotes" data-ar-i18n-ph="phNotesBP" placeholder="যেমন: বিশ্রামের পর, চা খাবার পর ইত্যাদি..."></textarea>
+                  <textarea class="ht-textarea" id="bpNotes" name="bpNotes" data-ar-i18n-ph="phNotesBP"
+                    placeholder="যেমন: বিশ্রামের পর, চা খাবার পর ইত্যাদি..."></textarea>
                 </div>
 
                 <!-- Submit Button -->
@@ -311,7 +325,8 @@
                     <span data-ar-i18n="lblGlucose">গ্লুকোজ মান</span>
                     <span class="unit" data-ar-i18n="unitMmol">mmol/L</span>
                   </label>
-                  <input class="ht-input" type="number" id="bgValue" name="bgValue" placeholder="5.6" min="1.0" max="35.0" step="0.1" inputmode="decimal" required>
+                  <input class="ht-input" type="number" id="bgValue" name="bgValue" placeholder="5.6" min="1.0"
+                    max="35.0" step="0.1" inputmode="decimal" required>
                   <div class="ht-unit-converter">
                     <span>রূপান্তর (mg/dL): <strong id="bgMgdlDisplay" class="text-primary">—</strong></span>
                     <span class="text-muted small">১ mmol/L ≈ ১৮ mg/dL</span>
@@ -339,22 +354,26 @@
                   <input type="hidden" id="bgTiming" name="bgTiming" value="fasting">
                 </div>
 
-                <!-- Live Glucose Range Meter -->
+                <!-- Live Glucose Range Meter (ADA 2024) -->
                 <div class="ht-gauge-wrap" id="bgGaugeWrap">
                   <div class="ht-gauge-title">
                     <span data-ar-i18n="gaugeTitleBG">লাইভ গ্লুকোজ রেঞ্জ নির্দেশক</span>
                     <span class="text-primary fw-bold"><i class="bi bi-activity"></i> ADA 2024</span>
                   </div>
-                  <div class="ht-gauge-track bg-track" id="bgGaugeTrack" role="slider" aria-label="Blood Glucose Range" tabindex="0">
+                  <div class="ht-gauge-track bg-track" id="bgGaugeTrack" role="slider" aria-label="Blood Glucose Range"
+                    tabindex="0">
                     <div class="ht-gauge-pointer" id="bgGaugePointer" style="left: 35%;">
                       <span class="ht-pointer-badge" id="bgPointerBadge">5.6</span>
                     </div>
                   </div>
                   <div class="ht-gauge-labels" id="bgGaugeLabels">
                     <button type="button" class="ht-gauge-lbl" data-bg-target="hypo">কম (&lt;৪.০)</button>
-                    <button type="button" class="ht-gauge-lbl text-success" data-bg-target="normal">স্বাভাবিক (৪.০-৫.৫)</button>
-                    <button type="button" class="ht-gauge-lbl text-warning" data-bg-target="prediab">প্রি-ডায়াবেটিস (৫.৬-৬.৯)</button>
-                    <button type="button" class="ht-gauge-lbl text-danger" data-bg-target="diabetic">ডায়াবেটিস (≥৭.০)</button>
+                    <button type="button" class="ht-gauge-lbl text-success" data-bg-target="normal">স্বাভাবিক
+                      (৪.০-৫.৫)</button>
+                    <button type="button" class="ht-gauge-lbl text-warning" data-bg-target="prediab">প্রি-ডায়াবেটিস
+                      (৫.৬-৬.৯)</button>
+                    <button type="button" class="ht-gauge-lbl text-danger" data-bg-target="diabetic">ডায়াবেটিস
+                      (≥৭.০)</button>
                   </div>
                   <div class="ht-advice-box" id="bgAdviceBox">
                     <span class="text-muted">গ্লুকোজ মান লিখলে লাইভ ডায়াবেটিস রেঞ্জ ও ডায়াগনস্টিক দেখতে পাবেন।</span>
@@ -370,7 +389,8 @@
                 <!-- Notes -->
                 <div class="ht-input-group">
                   <label class="ht-label" for="bgNotes" data-ar-i18n="lblNotes">নোট (ঐচ্ছিক)</label>
-                  <textarea class="ht-textarea" id="bgNotes" name="bgNotes" data-ar-i18n-ph="phNotesBG" placeholder="যেমন: মিষ্টি খাওয়ার পর, ইনসুলিনের আগে ইত্যাদি..."></textarea>
+                  <textarea class="ht-textarea" id="bgNotes" name="bgNotes" data-ar-i18n-ph="phNotesBG"
+                    placeholder="যেমন: মিষ্টি খাওয়ার পর, ইনসুলিনের আগে ইত্যাদি..."></textarea>
                 </div>
 
                 <!-- Submit Button -->
@@ -390,19 +410,21 @@
         <!-- 4.3 WhatsApp Share Utility Card -->
         <div class="row g-4 mt-2">
           <div class="col-12">
-            <div class="ar-tools-card">
+            <div class="hr-tools-card ar-tools-card">
               <div class="d-flex align-items-center gap-3 mb-3">
                 <div class="p-2.5 rounded-3 bg-success-subtle text-success fs-5">
                   <i class="bi bi-whatsapp"></i>
                 </div>
                 <div>
                   <h4 class="fw-bold mb-0" data-ar-i18n="waTitle">পারিবারিক ও ডক্টর রিপোর্ট</h4>
-                  <p class="text-muted small mb-0" data-ar-i18n="waSub">সংরক্ষিত সাম্প্রতিক রিডিং সরাসরি হোয়াটসঅ্যাপে আত্মীয় বা ডাক্তারকে পাঠান।</p>
+                  <p class="text-muted small mb-0" data-ar-i18n="waSub">সংরক্ষিত সাম্প্রতিক রিডিং সরাসরি হোয়াটসঅ্যাপে
+                    আত্মীয় বা ডাক্তারকে পাঠান।</p>
                 </div>
               </div>
-              <div class="ar-wa-preview mb-3" id="waPreviewText"></div>
+              <div class="hr-wa-preview ar-wa-preview mb-3" id="waPreviewText"></div>
               <div class="d-flex justify-content-end">
-                <a href="#" id="btnSendWA" target="_blank" rel="noopener noreferrer" class="btn btn-success rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
+                <a href="#" id="btnSendWA" target="_blank" rel="noopener noreferrer"
+                  class="btn btn-success rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
                   <i class="bi bi-whatsapp"></i>
                   <span data-ar-i18n="btnSendWA">হোয়াটসঅ্যাপে শেয়ার করুন</span>
                 </a>
@@ -419,8 +441,9 @@
        5. GLOBAL FOOTER
        ======================================================================== -->
   <footer>
-    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2 py-4">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-ar-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু প্রশান্তি</span></span>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-ar-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু
+          প্রশান্তি</span></span>
       <span data-ar-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -439,19 +462,23 @@
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
         <span class="nav-label" data-ar-i18n="navExercises">অনুশীলন</span>
       </a>
-      <a class="mobile-nav-link active" href="add-reading.html" aria-label="Add Reading">
+      <a class="mobile-nav-link active" href="health-reading.html" aria-label="Health Reading">
         <div class="nav-icon-wrap"><i class="bi bi-plus-circle-fill"></i></div>
         <span class="nav-label">এন্ট্রি</span>
       </a>
-      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="More">
+      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-label="More">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
         <span class="nav-label">আরও</span>
       </button>
     </div>
   </nav>
 
-  <!-- Mobile Sidebar Menu Drawer -->
-  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu" aria-labelledby="mobileSidebarMenuLabel">
+  <!-- ========================================================================
+       7. MOBILE SIDEBAR MENU OFFCANVAS DRAWER
+       ======================================================================== -->
+  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+    aria-labelledby="mobileSidebarMenuLabel">
     <div class="offcanvas-header mobile-sidebar-header">
       <div class="mobile-sidebar-brand">
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
@@ -460,7 +487,8 @@
           <p class="mobile-sidebar-subtitle">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
         </div>
       </div>
-      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
     </div>
     <div class="offcanvas-body mobile-sidebar-body">
       <!-- 1. Interactive Language Selector -->
@@ -505,7 +533,7 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item" href="health-tracker.html">
+        <a class="mobile-sidebar-nav-item active" href="health-reading.html">
           <div class="mobile-sidebar-icon-box text-danger"><i class="bi bi-heart-pulse-fill"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label" data-ar-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
@@ -514,7 +542,7 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item active ps-4" href="add-reading.html" aria-current="page">
+        <a class="mobile-sidebar-nav-item active ps-4" href="health-reading.html" aria-current="page">
           <div class="mobile-sidebar-icon-box text-danger"><i class="bi bi-plus-circle-fill"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">➕ নতুন রিডিং</span>
@@ -523,7 +551,7 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item ps-4" href="trends-charts.html">
+        <a class="mobile-sidebar-nav-item ps-4" href="health-charts.html">
           <div class="mobile-sidebar-icon-box text-info"><i class="bi bi-graph-up-arrow"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">📈 ট্রেন্ড চার্ট</span>
@@ -532,7 +560,7 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item ps-4" href="history-log.html">
+        <a class="mobile-sidebar-nav-item ps-4" href="health-history.html">
           <div class="mobile-sidebar-icon-box text-success"><i class="bi bi-clock-history"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">📋 ইতিহাস লগ</span>
@@ -541,7 +569,7 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item ps-4" href="demo-data.html">
+        <a class="mobile-sidebar-nav-item ps-4" href="health-demo.html">
           <div class="mobile-sidebar-icon-box text-warning"><i class="bi bi-flask"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">🧪 নমুনা ডেটা</span>
@@ -573,7 +601,8 @@
       <div class="mobile-sidebar-section-title">দ্রুত অ্যাকশন</div>
       <div class="mobile-sidebar-actions-grid">
         <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
-          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle"><i class="bi bi-heart-pulse-fill"></i></div>
+          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle"><i class="bi bi-heart-pulse-fill"></i>
+          </div>
           <div class="mobile-sidebar-action-text">
             <span class="mobile-sidebar-action-title">জরুরি শান্ত শ্বাস (SOS)</span>
             <span class="mobile-sidebar-action-sub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
@@ -581,7 +610,8 @@
         </a>
 
         <a class="mobile-sidebar-action-card" href="prescriptions.html">
-          <div class="mobile-sidebar-action-icon text-primary bg-primary-subtle"><i class="bi bi-file-earmark-medical-fill"></i></div>
+          <div class="mobile-sidebar-action-icon text-primary bg-primary-subtle"><i
+              class="bi bi-file-earmark-medical-fill"></i></div>
           <div class="mobile-sidebar-action-text">
             <span class="mobile-sidebar-action-title" data-ar-i18n="navRx">প্রেসক্রিপশন ভল্ট</span>
             <span class="mobile-sidebar-action-sub">ডিজিটাল প্রেসক্রিপশন ও OCR</span>
@@ -600,12 +630,11 @@
   </div>
 
   <!-- Toast Stack -->
-  <div class="ar-toast-stack" id="arToastStack"></div>
+  <div class="hr-toast-stack ar-toast-stack" id="hrToastStack"></div>
 
   <!-- Script Includes -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="asset/js/add-reading.js"></script>
+  <script src="asset/js/health-reading.js"></script>
 </body>
 
 </html>
-

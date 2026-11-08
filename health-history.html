@@ -4,21 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BreatheWell — স্বাস্থ্য ইতিহাস ও বিস্তারিত লগ (History Log)</title>
+  <title>BreatheWell — স্বাস্থ্য ইতিহাস ও বিস্তারিত লগ (Health History & Log)</title>
   <meta name="description" content="রক্তচাপ ও গ্লুকোজের সম্পূর্ণ ইতিহাস, ফিল্টারিং, অনুসন্ধান ও এক্সপোর্ট।">
   <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="asset/css/style.css">
   <link rel="stylesheet" href="asset/css/health-tracker.css">
-  <link rel="stylesheet" href="asset/css/history-log.css">
+  <link rel="stylesheet" href="asset/css/health-history.css">
 </head>
 
-<body class="bn" data-page="history">
+<body class="bn" data-page="health-history">
 
   <!-- Accessibility Skip Navigation Link -->
   <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main">মূল কনটেন্টে যান</a>
@@ -33,7 +35,8 @@
       </a>
       <div class="d-flex align-items-center gap-2 order-lg-3">
         <button class="lang-btn" id="hlLangToggle" aria-label="Change language">English</button>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Open navigation">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+          aria-label="Open navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
@@ -41,8 +44,10 @@
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
           <li class="nav-item"><a class="nav-link" href="index.html" data-hl-i18n="navHome">হোম</a></li>
           <li class="nav-item"><a class="nav-link" href="exercises.html" data-hl-i18n="navExercises">অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-hl-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
-          <li class="nav-item"><a class="nav-link active" href="health-tracker.html" aria-current="page" data-hl-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-hl-i18n="navTest">শ্বাসের পরীক্ষা</a>
+          </li>
+          <li class="nav-item"><a class="nav-link active" href="health-reading.html" aria-current="page"
+              data-hl-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
           <li class="nav-item"><a class="nav-link" href="prescriptions.html" data-hl-i18n="navRx">প্রেসক্রিপশন</a></li>
           <li class="nav-item"><a class="nav-link" href="index.html#safety" data-hl-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
@@ -69,16 +74,16 @@
 
             <!-- Quick Action Shortcuts Ribbon -->
             <div class="ht-quick-nav-bar">
-              <a href="add-reading.html" class="ht-quick-nav-btn text-decoration-none">
+              <a href="health-reading.html" class="ht-quick-nav-btn text-decoration-none">
                 <span data-hl-i18n="quickAdd">➕ নতুন রিডিং</span>
               </a>
-              <a href="trends-charts.html" class="ht-quick-nav-btn text-decoration-none">
+              <a href="health-charts.html" class="ht-quick-nav-btn text-decoration-none">
                 <span data-hl-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
               </a>
-              <a href="history-log.html" class="ht-quick-nav-btn primary text-decoration-none">
+              <a href="health-history.html" class="ht-quick-nav-btn primary text-decoration-none">
                 <span data-hl-i18n="quickLog">📋 ইতিহাস লগ</span>
               </a>
-              <a href="demo-data.html" class="ht-quick-nav-btn text-decoration-none">
+              <a href="health-demo.html" class="ht-quick-nav-btn text-decoration-none">
                 <span data-hl-i18n="quickDemo">🧪 নমুনা ডেটা</span>
               </a>
             </div>
@@ -86,11 +91,7 @@
 
           <div class="col-lg-4 text-lg-end">
             <div class="d-flex flex-column gap-2 align-items-lg-end">
-              <button class="btn btn-outline-light rounded-pill px-3 py-1.5 small d-inline-flex align-items-center gap-2"
-                onclick="hlExportCSV()">
-                <i class="bi bi-download"></i>
-                <span>CSV এক্সপোর্ট</span>
-              </button>
+
             </div>
           </div>
         </div>
@@ -100,49 +101,50 @@
     <!-- ======================================================================
          3. SUMMARY COUNTERS PULL-UP
          ====================================================================== -->
-    <div class="ht-pull-up hl-pull-up">
+    <div class="ht-pull-up hh-pull-up hl-pull-up">
       <div class="container">
         <div class="row g-3">
           <!-- Total Records -->
           <div class="col-6 col-lg-3">
-            <div class="hl-summary-card">
-              <div class="hl-summary-icon total"><i class="bi bi-journal-medical"></i></div>
+            <div class="hh-summary-card hl-summary-card">
+              <div class="hh-summary-icon hl-summary-icon total"><i class="bi bi-journal-medical"></i></div>
               <div>
-                <div class="hl-summary-val" id="hlTotalCount">0</div>
-                <div class="hl-summary-lbl">মোট পরিমাপ রেকর্ড</div>
+                <div class="hh-summary-val hl-summary-val" id="hlTotalCount">0</div>
+                <div class="hh-summary-lbl hl-summary-lbl">মোট পরিমাপ রেকর্ড</div>
               </div>
             </div>
           </div>
 
           <!-- Total BP -->
           <div class="col-6 col-lg-3">
-            <div class="hl-summary-card">
-              <div class="hl-summary-icon bp"><i class="bi bi-heart-pulse-fill"></i></div>
+            <div class="hh-summary-card hl-summary-card">
+              <div class="hh-summary-icon hl-summary-icon bp"><i class="bi bi-heart-pulse-fill"></i></div>
               <div>
-                <div class="hl-summary-val" id="hlBPCount">0</div>
-                <div class="hl-summary-lbl">রক্তচাপ রেকর্ড</div>
+                <div class="hh-summary-val hl-summary-val" id="hlBPCount">0</div>
+                <div class="hh-summary-lbl hl-summary-lbl">রক্তচাপ রেকর্ড</div>
               </div>
             </div>
           </div>
 
           <!-- Total BG -->
           <div class="col-6 col-lg-3">
-            <div class="hl-summary-card">
-              <div class="hl-summary-icon bg"><i class="bi bi-droplet-half"></i></div>
+            <div class="hh-summary-card hl-summary-card">
+              <div class="hh-summary-icon hl-summary-icon bg"><i class="bi bi-droplet-half"></i></div>
               <div>
-                <div class="hl-summary-val" id="hlBGCount">0</div>
-                <div class="hl-summary-lbl">গ্লুকোজ রেকর্ড</div>
+                <div class="hh-summary-val hl-summary-val" id="hlBGCount">0</div>
+                <div class="hh-summary-lbl hl-summary-lbl">গ্লুকোজ রেকর্ড</div>
               </div>
             </div>
           </div>
 
-          <!-- Latest Date -->
+          <!-- Last Updated Date -->
           <div class="col-6 col-lg-3">
-            <div class="hl-summary-card">
-              <div class="hl-summary-icon date"><i class="bi bi-clock-fill"></i></div>
+            <div class="hh-summary-card hl-summary-card">
+              <div class="hh-summary-icon hl-summary-icon date"><i class="bi bi-calendar-event"></i></div>
               <div>
-                <div class="hl-summary-val fs-6 text-truncate" id="hlLatestDate" style="max-width: 140px;">—</div>
-                <div class="hl-summary-lbl">সর্বশেষ আপডেট</div>
+                <div class="hh-summary-val hl-summary-val fs-6 text-truncate" id="hlLatestDate"
+                  style="max-width:140px;">—</div>
+                <div class="hh-summary-lbl hl-summary-lbl">সর্বশেষ রেকর্ড তারিখ</div>
               </div>
             </div>
           </div>
@@ -151,60 +153,62 @@
     </div>
 
     <!-- ======================================================================
-         4. MAIN DATATABLE SECTION
+         4. DETAILED LOG TABLE CARD
          ====================================================================== -->
     <section class="container pb-5">
-      <div class="hl-table-card">
-        <!-- Header with Tabs and Actions -->
-        <div class="hl-card-header">
-          <div class="d-flex align-items-center gap-3 flex-wrap">
-            <h2 class="hl-card-title">
+      <div class="hh-table-card hl-table-card">
+        <div class="hh-card-header hl-card-header">
+          <div class="d-flex align-items-center gap-3">
+            <h2 class="hh-card-title hl-card-title">
               <i class="bi bi-table text-primary"></i>
               <span data-hl-i18n="cardTitle">ইতিহাস ও পরিমাপ রেকর্ড</span>
             </h2>
 
-            <!-- Tabs -->
-            <div class="hl-tabs">
-              <button type="button" class="hl-tab-btn active" data-tab="all" data-hl-i18n="tabAll">সব</button>
-              <button type="button" class="hl-tab-btn" data-tab="bp" data-hl-i18n="tabBP">রক্তচাপ</button>
-              <button type="button" class="hl-tab-btn" data-tab="bg" data-hl-i18n="tabBG">গ্লুকোজ</button>
+            <!-- Filter Tabs -->
+            <div class="hh-tabs hl-tabs">
+              <button type="button" class="hh-tab-btn hl-tab-btn active" data-tab="all"
+                data-hl-i18n="tabAll">সব</button>
+              <button type="button" class="hh-tab-btn hl-tab-btn" data-tab="bp" data-hl-i18n="tabBP">রক্তচাপ</button>
+              <button type="button" class="hh-tab-btn hl-tab-btn" data-tab="bg" data-hl-i18n="tabBG">গ্লুকোজ</button>
             </div>
           </div>
 
           <!-- Action Buttons -->
-          <div class="hl-action-group">
-            <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1.5 fw-bold" onclick="window.htExportCSV()">
+          <div class="hh-action-group hl-action-group">
+            <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3"
+              onclick="window.hhExportCSV()">
               <i class="bi bi-file-earmark-spreadsheet me-1"></i>
               <span data-hl-i18n="btnCsv">CSV ডাউনলোড</span>
             </button>
-            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1.5 fw-bold" onclick="window.htExportJSON()">
+            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3"
+              onclick="window.hhExportJSON()">
               <i class="bi bi-file-earmark-code me-1"></i>
               <span data-hl-i18n="btnJson">JSON ব্যাকআপ</span>
             </button>
-            <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1.5 fw-bold" onclick="window.htClearAllRecords()">
+            <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3"
+              onclick="window.hhClearAllRecords()">
               <i class="bi bi-trash3 me-1"></i>
               <span data-hl-i18n="btnClearAll">সব মুছুন</span>
             </button>
           </div>
         </div>
 
-        <!-- Table Body -->
-        <div class="hl-table-body">
-          <div class="table-responsive">
-            <table id="historyLogTable" class="table table-striped table-hover align-middle w-100 hl-table" aria-label="Health History Records Log">
-              <thead>
-                <tr>
-                  <th scope="col" data-hl-i18n="colDate">তারিখ ও সময়</th>
-                  <th scope="col" data-hl-i18n="colType">ধরন</th>
-                  <th scope="col" data-hl-i18n="colReading">রিডিং মান</th>
-                  <th scope="col" data-hl-i18n="colStatus">অবস্থা ও শ্রেণী</th>
-                  <th scope="col" data-hl-i18n="colNotes">নোট</th>
-                  <th scope="col" class="text-end" data-orderable="false" data-hl-i18n="colAction">অ্যাকশন</th>
-                </tr>
-              </thead>
-              <tbody id="historyLogTbody"></tbody>
-            </table>
-          </div>
+        <div class="hh-table-body hl-table-body table-responsive">
+          <table id="historyLogTable" class="table table-hover align-middle hh-table hl-table w-100">
+            <thead>
+              <tr>
+                <th scope="col" data-hl-i18n="colDate">তারিখ ও সময়</th>
+                <th scope="col" data-hl-i18n="colType">ধরন</th>
+                <th scope="col" data-hl-i18n="colReading">রিডিং মান</th>
+                <th scope="col" data-hl-i18n="colStatus">অবস্থা ও শ্রেণী</th>
+                <th scope="col" data-hl-i18n="colNotes">নোট</th>
+                <th scope="col" class="text-end" data-hl-i18n="colAction">অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="historyLogTbody">
+              <!-- Dynamically populated via DataTables 2 -->
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -214,8 +218,9 @@
        5. GLOBAL FOOTER
        ======================================================================== -->
   <footer>
-    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2 py-4">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-hl-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু প্রশান্তি</span></span>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-hl-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু
+          প্রশান্তি</span></span>
       <span data-hl-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -234,18 +239,21 @@
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
         <span class="nav-label" data-hl-i18n="navExercises">অনুশীলন</span>
       </a>
-      <a class="mobile-nav-link active" href="history-log.html" aria-label="History Log">
+      <a class="mobile-nav-link active" href="health-history.html" aria-label="Health History">
         <div class="nav-icon-wrap"><i class="bi bi-clock-history"></i></div>
         <span class="nav-label">ইতিহাস</span>
       </a>
-      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="More">
+      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-label="More">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
         <span class="nav-label">আরও</span>
       </button>
     </div>
   </nav>
 
-  <!-- Mobile Sidebar Menu Drawer -->
+  <!-- ========================================================================
+       7. MOBILE SIDEBAR MENU OFFCANVAS DRAWER
+       ======================================================================== -->
   <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
     aria-labelledby="mobileSidebarMenuLabel">
     <div class="offcanvas-header mobile-sidebar-header">
@@ -276,9 +284,7 @@
       <div class="mobile-sidebar-section-title">পেজ ও মডিউল</div>
       <div class="mobile-sidebar-nav-list">
         <a class="mobile-sidebar-nav-item" href="index.html">
-          <div class="mobile-sidebar-icon-box text-primary">
-            <i class="bi bi-house-door-fill"></i>
-          </div>
+          <div class="mobile-sidebar-icon-box text-primary"><i class="bi bi-house-door-fill"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label" data-hl-i18n="navHome">হোম</span>
             <span class="mobile-sidebar-sub">মূল পাতা ও ফিচারসমূহ</span>
@@ -287,9 +293,7 @@
         </a>
 
         <a class="mobile-sidebar-nav-item" href="exercises.html">
-          <div class="mobile-sidebar-icon-box text-success">
-            <i class="bi bi-grid-fill"></i>
-          </div>
+          <div class="mobile-sidebar-icon-box text-success"><i class="bi bi-grid-fill"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label" data-hl-i18n="navExercises">অনুশীলন</span>
             <span class="mobile-sidebar-sub">শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি</span>
@@ -298,9 +302,7 @@
         </a>
 
         <a class="mobile-sidebar-nav-item" href="breath-test.html">
-          <div class="mobile-sidebar-icon-box text-info">
-            <i class="bi bi-stopwatch-fill"></i>
-          </div>
+          <div class="mobile-sidebar-icon-box text-info"><i class="bi bi-stopwatch-fill"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label" data-hl-i18n="navTest">শ্বাসের পরীক্ষা</span>
             <span class="mobile-sidebar-sub">BOLT ও BPM রেসপিরেটরি টেস্ট</span>
@@ -308,10 +310,8 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item" href="health-tracker.html">
-          <div class="mobile-sidebar-icon-box text-danger">
-            <i class="bi bi-heart-pulse-fill"></i>
-          </div>
+        <a class="mobile-sidebar-nav-item active" href="health-reading.html">
+          <div class="mobile-sidebar-icon-box text-danger"><i class="bi bi-heart-pulse-fill"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label" data-hl-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
             <span class="mobile-sidebar-sub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
@@ -319,10 +319,8 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item ps-4" href="add-reading.html">
-          <div class="mobile-sidebar-icon-box text-danger">
-            <i class="bi bi-plus-circle-fill"></i>
-          </div>
+        <a class="mobile-sidebar-nav-item ps-4" href="health-reading.html">
+          <div class="mobile-sidebar-icon-box text-danger"><i class="bi bi-plus-circle-fill"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">➕ নতুন রিডিং</span>
             <span class="mobile-sidebar-sub">রক্তচাপ ও গ্লুকোজ এন্ট্রি ফর্ম</span>
@@ -330,10 +328,8 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item ps-4" href="trends-charts.html">
-          <div class="mobile-sidebar-icon-box text-info">
-            <i class="bi bi-graph-up-arrow"></i>
-          </div>
+        <a class="mobile-sidebar-nav-item ps-4" href="health-charts.html">
+          <div class="mobile-sidebar-icon-box text-info"><i class="bi bi-graph-up-arrow"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">📈 ট্রেন্ড চার্ট</span>
             <span class="mobile-sidebar-sub">ভিজ্যুয়াল অ্যানালিটিক্স ও ধারাবাহিক চার্ট</span>
@@ -341,10 +337,8 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item active ps-4" href="history-log.html" aria-current="page">
-          <div class="mobile-sidebar-icon-box text-success">
-            <i class="bi bi-clock-history"></i>
-          </div>
+        <a class="mobile-sidebar-nav-item active ps-4" href="health-history.html" aria-current="page">
+          <div class="mobile-sidebar-icon-box text-success"><i class="bi bi-clock-history"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">📋 ইতিহাস লগ</span>
             <span class="mobile-sidebar-sub">ফিল্টারিং, অনুসন্ধান ও এক্সপোর্ট</span>
@@ -352,10 +346,8 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item ps-4" href="demo-data.html">
-          <div class="mobile-sidebar-icon-box text-warning">
-            <i class="bi bi-flask"></i>
-          </div>
+        <a class="mobile-sidebar-nav-item ps-4" href="health-demo.html">
+          <div class="mobile-sidebar-icon-box text-warning"><i class="bi bi-flask"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">🧪 নমুনা ডেটা</span>
             <span class="mobile-sidebar-sub">ক্লিনিক্যাল টেস্টিং ল্যাব ও জেনারেটর</span>
@@ -364,9 +356,7 @@
         </a>
 
         <a class="mobile-sidebar-nav-item" href="prescriptions.html">
-          <div class="mobile-sidebar-icon-box text-primary">
-            <i class="bi bi-file-earmark-medical-fill"></i>
-          </div>
+          <div class="mobile-sidebar-icon-box text-primary"><i class="bi bi-file-earmark-medical-fill"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label" data-hl-i18n="navRx">প্রেসক্রিপশন</span>
             <span class="mobile-sidebar-sub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
@@ -375,9 +365,7 @@
         </a>
 
         <a class="mobile-sidebar-nav-item" href="index.html#safety">
-          <div class="mobile-sidebar-icon-box text-warning">
-            <i class="bi bi-shield-check"></i>
-          </div>
+          <div class="mobile-sidebar-icon-box text-warning"><i class="bi bi-shield-check"></i></div>
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label" data-hl-i18n="navSafety">নিরাপত্তা</span>
             <span class="mobile-sidebar-sub">৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা</span>
@@ -390,8 +378,7 @@
       <div class="mobile-sidebar-section-title">দ্রুত অ্যাকশন</div>
       <div class="mobile-sidebar-actions-grid">
         <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
-          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
-            <i class="bi bi-heart-pulse-fill"></i>
+          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle"><i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-action-text">
             <span class="mobile-sidebar-action-title">জরুরি শান্ত শ্বাস (SOS)</span>
@@ -400,9 +387,8 @@
         </a>
 
         <a class="mobile-sidebar-action-card" href="prescriptions.html">
-          <div class="mobile-sidebar-action-icon text-primary bg-primary-subtle">
-            <i class="bi bi-file-earmark-medical-fill"></i>
-          </div>
+          <div class="mobile-sidebar-action-icon text-primary bg-primary-subtle"><i
+              class="bi bi-file-earmark-medical-fill"></i></div>
           <div class="mobile-sidebar-action-text">
             <span class="mobile-sidebar-action-title" data-hl-i18n="navRx">প্রেসক্রিপশন ভল্ট</span>
             <span class="mobile-sidebar-action-sub">ডিজিটাল প্রেসক্রিপশন ও OCR</span>
@@ -421,15 +407,14 @@
   </div>
 
   <!-- Toast Stack -->
-  <div class="hl-toast-stack" id="hlToastStack"></div>
+  <div class="hh-toast-stack hl-toast-stack" id="hlToastStack"></div>
 
   <!-- Script Includes -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
-  <script src="asset/js/history-log.js"></script>
+  <script src="asset/js/health-history.js"></script>
 </body>
 
 </html>
-
