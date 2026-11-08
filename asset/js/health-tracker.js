@@ -66,33 +66,33 @@ const BP_RANGES = [
 ];
 
 /**
- * Blood-glucose classification (mg/dL).
- * ADA 2024 guidelines.
+ * Blood-glucose classification (mmol/L).
+ * WHO / ADA clinical guidelines.
  */
 const BG_RANGES = {
   fasting: [
-    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",      cls: "low",      icon: "⬇️", min: 0,   max: 70   },
-    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal",            cls: "normal",   icon: "✅", min: 70,  max: 100  },
-    { key: "prediab",  label_bn: "প্রি-ডায়াবেটিস",      label_en: "Pre-diabetes",      cls: "elevated", icon: "⚠️", min: 100, max: 126  },
-    { key: "diabetic", label_bn: "ডায়াবেটিস",            label_en: "Diabetes (Fasting)",cls: "high2",    icon: "🚨", min: 126, max: 9999 },
+    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",       cls: "low",      icon: "⬇️", min: 0,   max: 4.0 },
+    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal",             cls: "normal",   icon: "✅", min: 4.0, max: 5.6 },
+    { key: "prediab",  label_bn: "প্রি-ডায়াবেটিস",      label_en: "Pre-diabetes",       cls: "elevated", icon: "⚠️", min: 5.6, max: 7.0 },
+    { key: "diabetic", label_bn: "ডায়াবেটিস",            label_en: "Diabetes (Fasting)", cls: "high2",    icon: "🚨", min: 7.0, max: 999  },
   ],
   postmeal: [
-    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",      cls: "low",      icon: "⬇️", min: 0,   max: 70   },
-    { key: "normal",   label_bn: "স্বাভাবিক (খাবার পর)", label_en: "Normal (Post-meal)",cls: "normal",   icon: "✅", min: 70,  max: 140  },
-    { key: "prediab",  label_bn: "প্রি-ডায়াবেটিস",      label_en: "Pre-diabetes",      cls: "elevated", icon: "⚠️", min: 140, max: 200  },
-    { key: "diabetic", label_bn: "ডায়াবেটিস",            label_en: "Diabetes",          cls: "high2",    icon: "🚨", min: 200, max: 9999 },
+    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",       cls: "low",      icon: "⬇️", min: 0,   max: 4.0 },
+    { key: "normal",   label_bn: "স্বাভাবিক (খাবার পর)", label_en: "Normal (Post-meal)", cls: "normal",   icon: "✅", min: 4.0, max: 7.8 },
+    { key: "prediab",  label_bn: "প্রি-ডায়াবেটিস",      label_en: "Pre-diabetes",       cls: "elevated", icon: "⚠️", min: 7.8, max: 11.1},
+    { key: "diabetic", label_bn: "ডায়াবেটিস",            label_en: "Diabetes",           cls: "high2",    icon: "🚨", min: 11.1, max: 999 },
   ],
   random: [
-    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",      cls: "low",      icon: "⬇️", min: 0,   max: 70   },
-    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal (Random)",   cls: "normal",   icon: "✅", min: 70,  max: 140  },
-    { key: "prediab",  label_bn: "মধ্যবর্তী",             label_en: "Intermediate",      cls: "elevated", icon: "⚠️", min: 140, max: 200  },
-    { key: "diabetic", label_bn: "ডায়াবেটিস সম্ভাব্য",   label_en: "Possible Diabetes", cls: "high2",    icon: "🚨", min: 200, max: 9999 },
+    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",       cls: "low",      icon: "⬇️", min: 0,   max: 4.0 },
+    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal (Random)",    cls: "normal",   icon: "✅", min: 4.0, max: 7.8 },
+    { key: "prediab",  label_bn: "মধ্যবর্তী",             label_en: "Intermediate",       cls: "elevated", icon: "⚠️", min: 7.8, max: 11.1},
+    { key: "diabetic", label_bn: "ডায়াবেটিস সম্ভাব্য",   label_en: "Possible Diabetes",  cls: "high2",    icon: "🚨", min: 11.1, max: 999 },
   ],
   bedtime: [
-    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",      cls: "low",      icon: "⬇️", min: 0,   max: 80   },
-    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal (Bedtime)",  cls: "normal",   icon: "✅", min: 80,  max: 140  },
-    { key: "prediab",  label_bn: "মধ্যবর্তী",             label_en: "Intermediate",      cls: "elevated", icon: "⚠️", min: 140, max: 180  },
-    { key: "diabetic", label_bn: "উচ্চ সুগার",           label_en: "High at Bedtime",   cls: "high2",    icon: "🚨", min: 180, max: 9999 },
+    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",       cls: "low",      icon: "⬇️", min: 0,   max: 4.4 },
+    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal (Bedtime)",   cls: "normal",   icon: "✅", min: 4.4, max: 7.8 },
+    { key: "prediab",  label_bn: "মধ্যবর্তী",             label_en: "Intermediate",       cls: "elevated", icon: "⚠️", min: 7.8, max: 10.0},
+    { key: "diabetic", label_bn: "উচ্চ সুগার",           label_en: "High at Bedtime",    cls: "high2",    icon: "🚨", min: 10.0, max: 999 },
   ]
 };
 
@@ -109,7 +109,21 @@ function htLoadRecords() {
     const raw = localStorage.getItem(HT_KEY);
     if (!raw) return [];
     const data = JSON.parse(raw);
-    return Array.isArray(data) ? data : [];
+    if (!Array.isArray(data)) return [];
+
+    // Auto-migrate legacy mg/dL BG readings (>35) to mmol/L
+    let migrated = false;
+    data.forEach(r => {
+      if (r && r.type === "bg" && typeof r.value === "number" && r.value > 35) {
+        r.value = parseFloat((r.value / 18.0182).toFixed(1));
+        migrated = true;
+      }
+    });
+    if (migrated) {
+      try { localStorage.setItem(HT_KEY, JSON.stringify(data)); } catch (_) {}
+    }
+    data.sort((a, b) => new Date(b.date) - new Date(a.date));
+    return data;
   } catch {
     return [];
   }
@@ -186,7 +200,7 @@ const HT_T = {
     unitBpm:          "bpm",
 
     bgFormTitle:      "রক্তের গ্লুকোজ এন্ট্রি",
-    bgFormSub:        "ডায়াবেটিস পর্যবেক্ষণ (mg/dL)",
+    bgFormSub:        "ডায়াবেটিস পর্যবেক্ষণ (mmol/L)",
     lblGlucose:       "গ্লুকোজ মান",
     lblTiming:        "পরিমাপের সময়",
     timingFasting:    "খালি পেটে",
@@ -194,6 +208,7 @@ const HT_T = {
     timingRandom:     "যেকোনো সময়",
     timingBedtime:    "ঘুমানোর আগে",
     btnSaveBG:        "গ্লুকোজ সংরক্ষণ করুন",
+    unitMmol:         "mmol/L",
     unitMgdl:         "mg/dL",
 
     gaugeTitleBP:     "লাইভ রক্তচাপ স্পেকট্রাম নির্দেশক",
@@ -249,7 +264,7 @@ const HT_T = {
 
     errSysRange:      "সিস্টোলিক মান ৬০–২৫০ এর মধ্যে হওয়া চাই",
     errDiaRange:      "ডায়াস্টোলিক মান ৪০–১৫০ এর মধ্যে হওয়া চাই",
-    errBGRange:       "গ্লুকোজ মান ২০–৬০০ এর মধ্যে হওয়া চাই",
+    errBGRange:       "গ্লুকোজ মান ১.০–৩৫.০ mmol/L এর মধ্যে হওয়া চাই",
     errPulseRange:    "নাড়ির স্পন্দন ৩০–২২০ এর মধ্যে হওয়া চাই",
     errPinFormat:     "পিন অবশ্যই ৪ সংখ্যার হতে হবে",
 
@@ -326,7 +341,7 @@ const HT_T = {
     unitBpm:          "bpm",
 
     bgFormTitle:      "Blood Glucose Entry",
-    bgFormSub:        "Diabetes Monitoring (mg/dL)",
+    bgFormSub:        "Diabetes Monitoring (mmol/L)",
     lblGlucose:       "Glucose Value",
     lblTiming:        "Timing",
     timingFasting:    "Fasting",
@@ -334,6 +349,7 @@ const HT_T = {
     timingRandom:     "Random",
     timingBedtime:    "Bedtime",
     btnSaveBG:        "Save Blood Glucose",
+    unitMmol:         "mmol/L",
     unitMgdl:         "mg/dL",
 
     gaugeTitleBP:     "Live BP Spectrum Meter",
@@ -389,7 +405,7 @@ const HT_T = {
 
     errSysRange:      "Systolic must be between 60–250 mmHg",
     errDiaRange:      "Diastolic must be between 40–150 mmHg",
-    errBGRange:       "Glucose must be between 20–600 mg/dL",
+    errBGRange:       "Glucose must be between 1.0–35.0 mmol/L",
     errPulseRange:    "Pulse must be between 30–220 bpm",
     errPinFormat:     "PIN must be exactly 4 digits",
 
@@ -465,8 +481,8 @@ function htFormatDate(isoString) {
 
 function htNowLocal() {
   const d = new Date();
-  d.setSeconds(0, 0);
-  return d.toISOString().slice(0, 16);
+  const offset = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - offset).toISOString().slice(0, 16);
 }
 
 function csvEsc(val) {
@@ -484,9 +500,9 @@ function classifyBP(sys, dia) {
     return { key: "crisis",   label: bpLabel("crisis"),   cls: "crisis",   icon: "🆘", pct: 96 };
   if (sys >= 140 || dia >= 90)
     return { key: "high2",    label: bpLabel("high2"),    cls: "high2",    icon: "🚨", pct: 86 };
-  if (sys >= 130 || dia >= 80)
+  if (sys >= 130 || dia > 80)
     return { key: "high1",    label: bpLabel("high1"),    cls: "high1",    icon: "🔴", pct: 72 };
-  if (sys >= 120 && dia < 80)
+  if (sys > 120 && dia <= 80)
     return { key: "elevated", label: bpLabel("elevated"), cls: "elevated", icon: "⚠️", pct: 54 };
   if (sys < 90 || dia < 60)
     return { key: "low",      label: bpLabel("low"),      cls: "low",      icon: "⬇️", pct: 10 };
@@ -539,17 +555,35 @@ function getBPAdvice(classificationKey) {
  * 6. BLOOD-GLUCOSE CLASSIFICATION & DIAGNOSTIC ADVICE ENGINE
  * ============================================================================ */
 
+function calculateBGSpectrumPct(val, timing) {
+  const t = timing || "fasting";
+  const hypoThreshold = 4.0;
+  const normalThreshold = (t === "postmeal" || t === "random") ? 7.8 : 5.6;
+  const diabeticThreshold = (t === "postmeal" || t === "random") ? 11.1 : 7.0;
+
+  if (val < hypoThreshold) {
+    return Math.max(6, Math.min(25, 6 + ((val - 2.0) / 2.0) * 19));
+  } else if (val < normalThreshold) {
+    return 25 + ((val - hypoThreshold) / (normalThreshold - hypoThreshold)) * 25;
+  } else if (val < diabeticThreshold) {
+    return 50 + ((val - normalThreshold) / (diabeticThreshold - normalThreshold)) * 25;
+  } else {
+    const excess = Math.min(8.0, val - diabeticThreshold);
+    return Math.min(95, 75 + (excess / 8.0) * 20);
+  }
+}
+
 function classifyBG(val, timing) {
   const ranges = BG_RANGES[timing] || BG_RANGES.random;
   for (const r of [...ranges].reverse()) {
     if (val >= r.min) {
-      const pct = Math.min(96, Math.max(8, ((val - 40) / 220) * 100));
+      const pct = Math.round(calculateBGSpectrumPct(val, timing));
       return {
         key:   r.key,
         label: htLang === "bn" ? r.label_bn : r.label_en,
         cls:   r.cls,
         icon:  r.icon,
-        pct:   Math.round(pct)
+        pct:   pct
       };
     }
   }
@@ -689,7 +723,7 @@ function validateBGForm() {
   const val = parseFloat($("bgValue")?.value);
   const errEl = $("errBgVal");
 
-  if (isNaN(val) || val < 20 || val > 600) {
+  if (isNaN(val) || val < 1.0 || val > 35.0) {
     if (errEl) errEl.textContent = ht("errBGRange");
     $("bgValue")?.classList.add("has-error");
     return false;
@@ -703,7 +737,7 @@ function handleBGSubmit(e) {
   e.preventDefault();
   if (!validateBGForm()) return;
 
-  const val    = parseFloat($("bgValue").value);
+  const val    = parseFloat(parseFloat($("bgValue").value).toFixed(1));
   const timing = $("bgTiming").value;
   const date   = $("bgDate").value || htNowLocal();
   const notes  = $("bgNotes").value.trim();
@@ -743,13 +777,14 @@ function renderBGPreview() {
   const wrap = $("bgPreviewWrap");
   if (!wrap || !bgPreview) return;
   const { record, classification } = bgPreview;
+  const mgdl = Math.round(record.value * 18.0182);
   wrap.innerHTML = `
     <div class="ht-reading-preview">
       <div class="ht-stat-icon bg">🩸</div>
       <div class="flex-grow-1">
         <div class="ht-stat-label">${bgTimingLabel(record.timing)}</div>
-        <div class="big-val">${record.value}</div>
-        <div class="big-unit">${ht("unitMgdl")}</div>
+        <div class="big-val">${Number(record.value).toFixed(1)}</div>
+        <div class="big-unit">${ht("unitMmol")} <span class="text-muted small">(${mgdl} mg/dL)</span></div>
       </div>
       <span class="ht-status-chip ${classification.cls}">
         ${classification.icon} ${classification.label}
@@ -773,8 +808,8 @@ function htSelectTimingCard(timing) {
   document.querySelectorAll(".ht-timing-card[data-timing]").forEach(card => {
     card.classList.toggle("active", card.dataset.timing === timing);
   });
-  const val = parseFloat($("bgValue")?.value);
-  if (!isNaN(val)) updateBGGauge(val, timing);
+  const val = parseFloat($("bgValue")?.value) || 0;
+  updateBGGauge(val, timing);
 }
 
 /* ============================================================================
@@ -798,11 +833,11 @@ function calculateBPSpectrumPct(sys, dia) {
     const ratio = Math.max((sys - 140) / 40, (dia - 90) / 30);
     return 80 + Math.min(1, Math.max(0, ratio)) * 12;
   }
-  if (sys >= 130 || dia >= 80) {
+  if (sys >= 130 || dia > 80) {
     const ratio = Math.max((sys - 130) / 10, (dia - 80) / 10);
     return 65 + Math.min(1, Math.max(0, ratio)) * 15;
   }
-  if (sys >= 120 && dia < 80) {
+  if (sys > 120 && dia <= 80) {
     const ratio = (sys - 120) / 10;
     return 45 + Math.min(1, Math.max(0, ratio)) * 20;
   }
@@ -835,8 +870,13 @@ function updateBPGauge(sys, dia) {
       adviceEl.className = "ht-advice-box normal";
       adviceEl.innerHTML = `<span class="text-muted">${htLang === "bn" ? "সিস্টোলিক ও ডায়াস্টোলিক মান লিখুন অথবা উপরের স্পেকট্রামে সরাসরি ক্লিক করে পছন্দমতো মান সেট করুন।" : "Enter systolic & diastolic values or click directly anywhere on the spectrum meter."}</span>`;
     }
-    if (chipEl) chipEl.innerHTML = "";
+    if (chipEl) {
+      chipEl.className = "ht-status-chip normal ms-auto";
+      chipEl.innerHTML = `✅ ${bpLabel("normal")}`;
+    }
     document.querySelectorAll(".ht-gauge-lbl[data-bp-target]").forEach(b => b.classList.remove("active"));
+    const normalBtn = document.querySelector('.ht-gauge-lbl[data-bp-target="normal"]');
+    if (normalBtn) normalBtn.classList.add("active");
     return;
   }
 
@@ -873,7 +913,7 @@ function updateBPGauge(sys, dia) {
   }
 
   if (chipEl) {
-    chipEl.className = `ht-status-chip ${cls.cls}`;
+    chipEl.className = `ht-status-chip ${cls.cls} ms-auto`;
     chipEl.innerHTML = `${cls.icon} ${bpLabel(cls.key)}`;
   }
 
@@ -892,14 +932,33 @@ function updateBPGauge(sys, dia) {
 
   // Highlight active target category button
   document.querySelectorAll(".ht-gauge-lbl[data-bp-target]").forEach(lbl => {
-    lbl.classList.toggle("active", lbl.dataset.bpTarget === cls.key);
+    const target = lbl.dataset.bpTarget;
+    const isActive = (target === cls.key) || (target === "high1" && (cls.key === "high1" || cls.key === "high2"));
+    lbl.classList.toggle("active", isActive);
   });
 }
 
+function renderBPGaugeLabels() {
+  const bpLabelsEl = $("bpGaugeLabels");
+  if (!bpLabelsEl) return;
+  const isBn = htLang === "bn";
+  bpLabelsEl.innerHTML = `
+    <button type="button" class="ht-gauge-lbl" data-bp-target="low">${isBn ? "কম (<90)" : "Low (<90)"}</button>
+    <button type="button" class="ht-gauge-lbl text-success" data-bp-target="normal">${isBn ? "স্বাভাবিক (120/80)" : "Normal (120/80)"}</button>
+    <button type="button" class="ht-gauge-lbl text-warning" data-bp-target="elevated">${isBn ? "উচ্চতর (125/80)" : "Elevated (125/80)"}</button>
+    <button type="button" class="ht-gauge-lbl text-danger" data-bp-target="high1">${isBn ? "উচ্চ রক্তচাপ (140/90)" : "High BP (140/90)"}</button>
+    <button type="button" class="ht-gauge-lbl text-danger-emphasis" data-bp-target="crisis">${isBn ? "ক্রাইসিস (>180)" : "Crisis (>180)"}</button>
+  `;
+}
+
 function bindBPGaugeInteractions() {
+  renderBPGaugeLabels();
+
   const track = $("bpGaugeTrack");
   if (track) {
-    track.addEventListener("click", e => {
+    let isDragging = false;
+
+    const setBPFromPointer = e => {
       const rect = track.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
       const pct = Math.max(0, Math.min(1, clickX / rect.width));
@@ -912,8 +971,8 @@ function bindBPGaugeInteractions() {
       } else if (pct < 0.45) {
         // Normal (90-120)
         const sub = (pct - 0.15) / 0.30;
-        sys = Math.round(95 + sub * 24);
-        dia = Math.round(65 + sub * 14);
+        sys = Math.round(95 + sub * 25);
+        dia = Math.round(65 + sub * 15);
       } else if (pct < 0.65) {
         // Elevated (120-129)
         const sub = (pct - 0.45) / 0.20;
@@ -941,21 +1000,47 @@ function bindBPGaugeInteractions() {
       if (sEl) sEl.value = sys;
       if (dEl) dEl.value = dia;
       updateBPGauge(sys, dia);
-      if (sEl) sEl.dispatchEvent(new Event("input", { bubbles: true }));
-      if (dEl) dEl.dispatchEvent(new Event("input", { bubbles: true }));
+    };
+
+    track.addEventListener("pointerdown", e => {
+      isDragging = true;
+      if (track.setPointerCapture) {
+        try { track.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      setBPFromPointer(e);
     });
+
+    track.addEventListener("pointermove", e => {
+      if (!isDragging) return;
+      setBPFromPointer(e);
+    });
+
+    const stopDragging = e => {
+      if (!isDragging) return;
+      isDragging = false;
+      const sEl = $("bpSystolic");
+      const dEl = $("bpDiastolic");
+      if (sEl) sEl.dispatchEvent(new Event("change", { bubbles: true }));
+      if (dEl) dEl.dispatchEvent(new Event("change", { bubbles: true }));
+    };
+
+    track.addEventListener("pointerup", stopDragging);
+    track.addEventListener("pointercancel", stopDragging);
   }
 
   const presets = {
     low:      { sys: 85,  dia: 55 },
     normal:   { sys: 120, dia: 80 },
     elevated: { sys: 125, dia: 78 },
-    high1:    { sys: 135, dia: 85 },
+    high1:    { sys: 140, dia: 90 },
     crisis:   { sys: 185, dia: 120 }
   };
 
-  document.querySelectorAll(".ht-gauge-lbl[data-bp-target]").forEach(btn => {
-    btn.addEventListener("click", () => {
+  const bpLabelsEl = $("bpGaugeLabels");
+  if (bpLabelsEl) {
+    bpLabelsEl.addEventListener("click", e => {
+      const btn = e.target.closest(".ht-gauge-lbl[data-bp-target]");
+      if (!btn) return;
       const target = btn.dataset.bpTarget;
       const p = presets[target];
       if (!p) return;
@@ -967,36 +1052,185 @@ function bindBPGaugeInteractions() {
       if (sEl) sEl.dispatchEvent(new Event("input", { bubbles: true }));
       if (dEl) dEl.dispatchEvent(new Event("input", { bubbles: true }));
     });
-  });
+  }
 }
 
 function updateBGGauge(val, timing) {
   const pointer  = $("bgGaugePointer");
+  const badgeEl  = $("bgPointerBadge");
   const adviceEl = $("bgAdviceBox");
   const chipEl   = $("bgLiveChip");
-  const mmolEl   = $("bgMmolDisplay");
+  const mgdlEl   = $("bgMgdlDisplay");
+  const labelsEl = $("bgGaugeLabels");
 
-  if (!val || val < 20) {
-    if (pointer) pointer.style.left = "35%";
-    if (adviceEl) adviceEl.innerHTML = `<span class="text-muted">${htLang === "bn" ? "গ্লুকোজ মান লিখলে লাইভ ডায়াবেটিস রেঞ্জ ও ডায়াগনস্টিক দেখতে পাবেন।" : "Enter glucose reading to view live diabetes range analysis."}</span>`;
-    if (chipEl) chipEl.innerHTML = "";
-    if (mmolEl) mmolEl.textContent = "—";
+  const activeTiming = timing || $("bgTiming")?.value || "fasting";
+  const hasVal = !isNaN(val) && val >= 1.0;
+
+  // Dynamically update gauge labels based on active timing
+  if (labelsEl) {
+    const isPostOrRandom = activeTiming === "postmeal" || activeTiming === "random";
+    const normalText = isPostOrRandom
+      ? (htLang === "bn" ? "স্বাভাবিক (৪.০-৭.৭)" : "Normal (4.0-7.7)")
+      : (htLang === "bn" ? "স্বাভাবিক (৪.০-৫.৫)" : "Normal (4.0-5.5)");
+    const prediabText = isPostOrRandom
+      ? (htLang === "bn" ? "প্রি-ডায়াবেটিস (৭.৮-১১.০)" : "Pre-diab (7.8-11.0)")
+      : (htLang === "bn" ? "প্রি-ডায়াবেটিস (৫.৬-৬.৯)" : "Pre-diab (5.6-6.9)");
+    const diabText = isPostOrRandom
+      ? (htLang === "bn" ? "ডায়াবেটিস (≥১১.১)" : "Diabetes (≥11.1)")
+      : (htLang === "bn" ? "ডায়াবেটিস (≥৭.০)" : "Diabetes (≥7.0)");
+
+    labelsEl.innerHTML = `
+      <button type="button" class="ht-gauge-lbl" data-bg-target="hypo">${htLang === "bn" ? "কম (<৪.০)" : "Low (<4.0)"}</button>
+      <button type="button" class="ht-gauge-lbl text-success" data-bg-target="normal">${normalText}</button>
+      <button type="button" class="ht-gauge-lbl text-warning" data-bg-target="prediab">${prediabText}</button>
+      <button type="button" class="ht-gauge-lbl text-danger" data-bg-target="diabetic">${diabText}</button>
+    `;
+  }
+
+  if (!hasVal) {
+    if (pointer) {
+      pointer.style.left = "35%";
+      pointer.style.borderColor = "#16a34a";
+    }
+    if (badgeEl) badgeEl.textContent = "5.6";
+    if (adviceEl) {
+      adviceEl.className = "ht-advice-box normal";
+      adviceEl.innerHTML = `<span class="text-muted">${htLang === "bn" ? "গ্লুকোজ মান লিখুন অথবা উপরের স্পেকট্রামে সরাসরি ক্লিক করে পছন্দমতো মান সেট করুন।" : "Enter glucose reading or click anywhere on the spectrum meter to set value."}</span>`;
+    }
+    if (chipEl) {
+      chipEl.className = "ht-status-chip normal ms-auto";
+      chipEl.innerHTML = `✅ ${htLang === "bn" ? "স্বাভাবিক" : "Normal"}`;
+    }
+    if (mgdlEl) mgdlEl.textContent = "—";
+    document.querySelectorAll(".ht-gauge-lbl[data-bg-target]").forEach(b => b.classList.remove("active"));
+    const normalBtn = document.querySelector('.ht-gauge-lbl[data-bg-target="normal"]');
+    if (normalBtn) normalBtn.classList.add("active");
     return;
   }
 
-  const cls = classifyBG(val, timing);
-  if (pointer) pointer.style.left = `${cls.pct}%`;
+  const cls = classifyBG(val, activeTiming);
+  const colorMap = {
+    hypo:     "#7c3aed",
+    normal:   "#16a34a",
+    prediab:  "#f59e0b",
+    diabetic: "#dc2626"
+  };
+  const activeColor = colorMap[cls.key] || "#16a34a";
+
+  if (pointer) {
+    pointer.style.left = `${cls.pct}%`;
+    pointer.style.borderColor = activeColor;
+  }
+
+  if (badgeEl) {
+    badgeEl.textContent = `${Number(val).toFixed(1)}`;
+  }
+
   if (chipEl) {
-    chipEl.className = `ht-status-chip ${cls.cls}`;
+    chipEl.className = `ht-status-chip ${cls.cls} ms-auto`;
     chipEl.innerHTML = `${cls.icon} ${cls.label}`;
   }
+
   if (adviceEl) {
     adviceEl.className = `ht-advice-box ${cls.cls}`;
-    adviceEl.innerHTML = `<strong>${cls.icon} ${cls.label}:</strong> ${getBGAdvice(cls.key, timing)}`;
+    adviceEl.innerHTML = `<strong>${cls.icon} ${cls.label} (${Number(val).toFixed(1)} mmol/L):</strong> ${getBGAdvice(cls.key, activeTiming)}`;
   }
-  if (mmolEl) {
-    const mmol = (val / 18.0182).toFixed(1);
-    mmolEl.textContent = `${mmol} mmol/L`;
+
+  if (mgdlEl) {
+    const mgdl = Math.round(val * 18.0182);
+    mgdlEl.textContent = `${mgdl} mg/dL`;
+  }
+
+  // Highlight active target category button
+  document.querySelectorAll(".ht-gauge-lbl[data-bg-target]").forEach(lbl => {
+    lbl.classList.toggle("active", lbl.dataset.bgTarget === cls.key);
+  });
+}
+
+function bindBGGaugeInteractions() {
+  const track = $("bgGaugeTrack");
+  if (track) {
+    let isDragging = false;
+
+    const setBGFromPointer = e => {
+      const rect = track.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+
+      const timing = $("bgTiming")?.value || "fasting";
+      const isPostOrRandom = timing === "postmeal" || timing === "random";
+      const normThresh = isPostOrRandom ? 7.8 : 5.6;
+      const diabThresh = isPostOrRandom ? 11.1 : 7.0;
+
+      let val;
+      if (pct < 0.25) {
+        val = 2.5 + (pct / 0.25) * 1.4;
+      } else if (pct < 0.50) {
+        const sub = (pct - 0.25) / 0.25;
+        val = 4.0 + sub * (normThresh - 4.0);
+      } else if (pct < 0.75) {
+        const sub = (pct - 0.50) / 0.25;
+        val = normThresh + sub * (diabThresh - normThresh);
+      } else {
+        const sub = (pct - 0.75) / 0.25;
+        val = diabThresh + sub * 6.0;
+      }
+
+      val = parseFloat(val.toFixed(1));
+      const valEl = $("bgValue");
+      if (valEl) {
+        valEl.value = val;
+        updateBGGauge(val, timing);
+      }
+    };
+
+    track.addEventListener("pointerdown", e => {
+      isDragging = true;
+      if (track.setPointerCapture) {
+        try { track.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      setBGFromPointer(e);
+    });
+
+    track.addEventListener("pointermove", e => {
+      if (!isDragging) return;
+      setBGFromPointer(e);
+    });
+
+    const stopDragging = e => {
+      if (!isDragging) return;
+      isDragging = false;
+      const valEl = $("bgValue");
+      if (valEl) valEl.dispatchEvent(new Event("change", { bubbles: true }));
+    };
+
+    track.addEventListener("pointerup", stopDragging);
+    track.addEventListener("pointercancel", stopDragging);
+  }
+
+  const bgLabelsEl = $("bgGaugeLabels");
+  if (bgLabelsEl) {
+    bgLabelsEl.addEventListener("click", e => {
+      const btn = e.target.closest(".ht-gauge-lbl[data-bg-target]");
+      if (!btn) return;
+      const target = btn.dataset.bgTarget;
+      const timing = $("bgTiming")?.value || "fasting";
+      const isPostOrRandom = timing === "postmeal" || timing === "random";
+
+      const targetValues = isPostOrRandom
+        ? { hypo: 3.5, normal: 6.5, prediab: 9.0, diabetic: 12.5 }
+        : { hypo: 3.5, normal: 5.2, prediab: 6.2, diabetic: 8.5 };
+
+      const val = targetValues[target];
+      if (val != null) {
+        const valEl = $("bgValue");
+        if (valEl) {
+          valEl.value = val.toFixed(1);
+          updateBGGauge(val, timing);
+          valEl.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      }
+    });
   }
 }
 
@@ -1088,12 +1322,12 @@ function renderHistory() {
         </tr>`;
     } else {
       const cls = classifyBG(r.value, r.timing);
-      const mmol = (r.value / 18.0182).toFixed(1);
+      const mgdl = Math.round(r.value * 18.0182);
       return `
         <tr>
           <td data-order="${timeMs}"><i class="bi bi-clock me-1 text-muted"></i>${htFormatDate(r.date)}</td>
           <td data-order="bg"><span class="badge bg-purple-subtle text-purple fw-bold" style="background:#ede9fe;color:#6d28d9">🩸 ${ht("tabBG")}</span></td>
-          <td data-order="${r.value}"><span class="ht-val-bg">${r.value}</span> <span class="text-muted small">${ht("unitMgdl")} (${mmol} mmol/L)</span></td>
+          <td data-order="${r.value}"><span class="ht-val-bg">${Number(r.value).toFixed(1)}</span> <span class="text-muted small">${ht("unitMmol")} (${mgdl} mg/dL)</span></td>
           <td data-order="${cls.key}"><span class="ht-status-chip ${cls.cls}">${cls.icon} ${cls.label}</span></td>
           <td class="text-muted small">${escapeHtml(r.notes || "—")}</td>
           <td class="text-end">
@@ -1158,6 +1392,8 @@ window.htSelectTimingCard = htSelectTimingCard;
 window.htLoadDemoData = htLoadDemoData;
 window.updateBPGauge = updateBPGauge;
 window.bindBPGaugeInteractions = bindBPGaugeInteractions;
+window.updateBGGauge = updateBGGauge;
+window.bindBGGaugeInteractions = bindBGGaugeInteractions;
 
 /* ============================================================================
  * 10. INTERACTIVE SVG CHART ENGINE WITH TOOLTIPS & TIMEFRAMES
@@ -1213,7 +1449,7 @@ function renderBGChart() {
   }
 
   wrap.innerHTML = renderLineChart(data, [
-    { key: "value", color: "var(--ht-glucose)", label: `${ht("lblGlucose")} (${ht("unitMgdl")})` },
+    { key: "value", color: "var(--ht-glucose)", label: `${ht("lblGlucose")} (${ht("unitMmol")})` },
   ], "bg");
 }
 
@@ -1256,18 +1492,19 @@ function renderLineChart(data, series, chartType) {
                     <text x="${W - PAD - 4}" y="${yTop + 12}" font-size="8.5" fill="#16a34a" font-weight="bold" text-anchor="end">Safe Zone (90–120)</text>`;
     }
   } else if (chartType === "bg") {
-    // Normal fasting/random: 70-140
-    const yTop = toXY(0, Math.min(maxVal, 140)).y;
-    const yBtm = toXY(0, Math.max(minVal, 70)).y;
+    // Normal fasting/random: 4.0 - 7.8 mmol/L
+    const yTop = toXY(0, Math.min(maxVal, 7.8)).y;
+    const yBtm = toXY(0, Math.max(minVal, 4.0)).y;
     if (yBtm > yTop) {
       targetBand = `<rect x="${PAD}" y="${yTop}" width="${drawW}" height="${yBtm - yTop}" fill="#22c55e" opacity="0.08"/>
-                    <text x="${W - PAD - 4}" y="${yTop + 12}" font-size="8.5" fill="#16a34a" font-weight="bold" text-anchor="end">Target Range (70–140)</text>`;
+                    <text x="${W - PAD - 4}" y="${yTop + 12}" font-size="8.5" fill="#16a34a" font-weight="bold" text-anchor="end">Target Range (4.0–7.8 mmol/L)</text>`;
     }
   }
 
   const gridLines = [0, 0.25, 0.5, 0.75, 1].map(t => {
     const y = PAD + drawH - t * drawH;
-    const v = Math.round(minVal + t * valRange);
+    const rawV = minVal + t * valRange;
+    const v = chartType === "bg" ? rawV.toFixed(1) : Math.round(rawV);
     return `<line x1="${PAD}" y1="${y}" x2="${W - PAD}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>
             <text x="${PAD - 6}" y="${y + 4}" font-size="9" fill="#94a3b8" text-anchor="end">${v}</text>`;
   }).join("");
@@ -1299,7 +1536,7 @@ function renderLineChart(data, series, chartType) {
       const d = data[i];
       const valText = chartType === "bp"
         ? `${d.sys}/${d.dia} mmHg${d.pulse ? " (" + d.pulse + " bpm)" : ""}`
-        : `${d.value} mg/dL (${bgTimingLabel(d.timing)})`;
+        : `${Number(d.value).toFixed(1)} mmol/L (${bgTimingLabel(d.timing)})`;
       return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="${s.color}" stroke="#fff" stroke-width="2"
         data-chart-tooltip="${valText} · ${htFormatDate(d.date)}"
         class="ht-chart-dot" style="cursor:pointer"/>`;
@@ -1387,8 +1624,8 @@ function renderStats() {
   const bgEl     = $("statBGVal");
   const bgSubEl  = $("statBGSub");
   const bgBadge  = $("statBGBadge");
-  if (bgEl) bgEl.textContent = latestBG ? `${latestBG.value}` : ht("statNoData");
-  if (bgSubEl) bgSubEl.textContent = latestBG ? `${ht("unitMgdl")} · ${bgTimingLabel(latestBG.timing)}` : "";
+  if (bgEl) bgEl.textContent = latestBG ? `${Number(latestBG.value).toFixed(1)}` : ht("statNoData");
+  if (bgSubEl) bgSubEl.textContent = latestBG ? `${ht("unitMmol")} · ${bgTimingLabel(latestBG.timing)}` : "";
   if (bgBadge) {
     if (latestBG) {
       const cls = classifyBG(latestBG.value, latestBG.timing);
@@ -1405,7 +1642,12 @@ function renderStats() {
   const todayEl = $("statTodayVal");
   if (todayEl) todayEl.textContent = todayCount;
   const todaySubEl = $("statTodaySub");
-  if (todaySubEl) todaySubEl.textContent = `${ht("readings")} · ${todayCount > 0 ? "আপডেট করা হয়েছে" : "আজকে মাপুন"}`;
+  if (todaySubEl) {
+    const todayMsg = todayCount > 0
+      ? (htLang === "bn" ? "আপডেট করা হয়েছে" : "Updated today")
+      : (htLang === "bn" ? "আজকে মাপুন" : "Log today");
+    todaySubEl.textContent = `${ht("readings")} · ${todayMsg}`;
+  }
 
   let streak = 0;
   const check = new Date();
@@ -1420,7 +1662,11 @@ function renderStats() {
   const streakEl    = $("statStreakVal");
   const streakSubEl = $("statStreakSub");
   if (streakEl)    streakEl.textContent    = streak;
-  if (streakSubEl) streakSubEl.textContent = streak > 0 ? `${streak} ${ht("days")} সক্রিয়` : "শুরু করুন";
+  if (streakSubEl) {
+    streakSubEl.textContent = streak > 0
+      ? (htLang === "bn" ? `${streak} ${ht("days")} সক্রিয়` : `${streak} ${ht("days")} active`)
+      : (htLang === "bn" ? "শুরু করুন" : "Start now");
+  }
 
   renderSparklines(bpRecs.slice(0, 10).reverse(), bgRecs.slice(0, 10).reverse());
 }
@@ -1440,7 +1686,7 @@ function renderSparklines(bpRecs, bgRecs) {
 
   if (bgSpark && bgRecs.length) {
     const vals = bgRecs.map(r => r.value);
-    const mx   = Math.max(...vals, 180);
+    const mx   = Math.max(...vals, 15);
     bgSpark.innerHTML = vals.map((v, i) => `
       <div class="ht-spark-bar ${i === vals.length - 1 ? "active" : ""}"
         style="height:${Math.max(4, Math.round((v / mx) * 26))}px;color:#8b5cf6;"></div>
@@ -1477,15 +1723,15 @@ function renderInsights() {
     avgDia = Math.round(bpWeek.reduce((s, r) => s + r.dia, 0) / bpWeek.length);
   }
   if (bgWeek.length) {
-    avgBG = Math.round(bgWeek.reduce((s, r) => s + r.value, 0) / bgWeek.length);
+    avgBG = (bgWeek.reduce((s, r) => s + r.value, 0) / bgWeek.length).toFixed(1);
   }
 
   const chipsEl = $("insightChips");
   if (chipsEl) {
     chipsEl.innerHTML = `
-      ${bpWeek.length ? `<span class="ht-insight-chip"><i class="bi bi-heart-pulse text-danger"></i> ৭ দিনের গড় রক্তচাপ: ${avgSys}/${avgDia} mmHg</span>` : ""}
-      ${bgWeek.length ? `<span class="ht-insight-chip"><i class="bi bi-droplet text-purple" style="color:#8b5cf6"></i> ৭ দিনের গড় গ্লুকোজ: ${avgBG} mg/dL</span>` : ""}
-      <span class="ht-insight-chip"><i class="bi bi-check-circle text-success"></i> মোট এন্ট্রি: ${weekRecs.length}টি</span>
+      ${bpWeek.length ? `<span class="ht-insight-chip"><i class="bi bi-heart-pulse text-danger"></i> ${htLang === "bn" ? "৭ দিনের গড় রক্তচাপ" : "7-day Avg BP"}: ${avgSys}/${avgDia} mmHg</span>` : ""}
+      ${bgWeek.length ? `<span class="ht-insight-chip"><i class="bi bi-droplet text-purple" style="color:#8b5cf6"></i> ${htLang === "bn" ? "৭ দিনের গড় গ্লুকোজ" : "7-day Avg Glucose"}: ${avgBG} mmol/L</span>` : ""}
+      <span class="ht-insight-chip"><i class="bi bi-check-circle text-success"></i> ${htLang === "bn" ? `মোট এন্ট্রি: ${weekRecs.length}টি` : `Total entries: ${weekRecs.length}`}</span>
     `;
   }
 
@@ -1511,7 +1757,7 @@ function checkCrisisAlert(records) {
   const latestBG = records.find(r => r.type === "bg");
 
   const bpCrisis = latestBP && (latestBP.sys >= 180 || latestBP.dia >= 120);
-  const bgCrisis = latestBG && (latestBG.value <= 50 || latestBG.value >= 350);
+  const bgCrisis = latestBG && (latestBG.value <= 2.8 || latestBG.value >= 19.4);
 
   if (bpCrisis || bgCrisis) {
     alertEl.classList.remove("d-none");
@@ -1522,15 +1768,18 @@ function checkCrisisAlert(records) {
 
 function htExportCSV() {
   const records = htLoadRecords();
-  if (!records.length) return;
+  if (!records.length) {
+    htToast(ht("noHistory"), "warning", "bi-exclamation-triangle");
+    return;
+  }
 
-  const rows = [["Type", "Date", "Systolic", "Diastolic", "Pulse", "Glucose", "Timing", "Status", "Notes"]];
+  const rows = [["Type", "Date", "Systolic (mmHg)", "Diastolic (mmHg)", "Pulse (bpm)", "Glucose (mmol/L)", "Timing", "Status", "Notes"]];
 
   records.forEach(r => {
     if (r.type === "bp") {
       rows.push(["BP", r.date, r.sys, r.dia, r.pulse || "", "", "", bpLabel(r.status), r.notes || ""]);
     } else {
-      rows.push(["BG", r.date, "", "", "", r.value, r.timing, r.status, r.notes || ""]);
+      rows.push(["BG", r.date, "", "", "", Number(r.value).toFixed(1), r.timing, r.status, r.notes || ""]);
     }
   });
 
@@ -1609,13 +1858,13 @@ function htLoadDemoData() {
   ];
 
   const bgSamples = [
-    { value: 92,  timing: "fasting",  notes: "খালি পেটে পরিমাপ" },
-    { value: 135, timing: "postmeal", notes: "দুপুরের খাবারের ২ ঘণ্টা পর" },
-    { value: 98,  timing: "fasting",  notes: "সকালের রিডিং" },
-    { value: 142, timing: "postmeal", notes: "রাতের খাবারের পর" },
-    { value: 88,  timing: "fasting",  notes: "নিয়ন্ত্রিত সুগার" },
-    { value: 128, timing: "random",   notes: "বিকালে পরিমাপ" },
-    { value: 94,  timing: "bedtime",  notes: "ঘুমানোর আগে" },
+    { value: 5.1, timing: "fasting",  notes: "খালি পেটে পরিমাপ" },
+    { value: 7.5, timing: "postmeal", notes: "দুপুরের খাবারের ২ ঘণ্টা পর" },
+    { value: 5.4, timing: "fasting",  notes: "সকালের রিডিং" },
+    { value: 7.9, timing: "postmeal", notes: "রাতের খাবারের পর" },
+    { value: 4.9, timing: "fasting",  notes: "নিয়ন্ত্রিত সুগার" },
+    { value: 7.1, timing: "random",   notes: "বিকালে পরিমাপ" },
+    { value: 5.2, timing: "bedtime",  notes: "ঘুমানোর আগে" },
   ];
 
   for (let i = 6; i >= 0; i--) {
@@ -1711,6 +1960,15 @@ function htSetLang(lang) {
   renderBPPreview();
   renderBGPreview();
   renderInsights();
+
+  renderBPGaugeLabels();
+  const sys = parseFloat($("bpSystolic")?.value);
+  const dia = parseFloat($("bpDiastolic")?.value);
+  updateBPGauge(sys, dia);
+
+  const bgVal = parseFloat($("bgValue")?.value);
+  const bgTiming = $("bgTiming")?.value || "fasting";
+  updateBGGauge(bgVal, bgTiming);
 }
 
 /** Form mode switch: 'all' | 'bp' | 'bg' */
@@ -1822,14 +2080,16 @@ document.addEventListener("DOMContentLoaded", () => {
   ["bpSystolic", "bpDiastolic"].forEach(id => {
     const el = $(id);
     if (!el) return;
-    el.addEventListener("input", () => {
-      const sys = parseFloat($("bpSystolic")?.value);
-      const dia = parseFloat($("bpDiastolic")?.value);
-      updateBPGauge(sys, dia);
+    ["input", "change", "keyup", "paste"].forEach(evt => {
+      el.addEventListener(evt, () => {
+        const sys = parseFloat($("bpSystolic")?.value);
+        const dia = parseFloat($("bpDiastolic")?.value);
+        updateBPGauge(sys, dia);
+      });
     });
   });
 
-  // Bind interactive clicks on spectrum track & category buttons
+  // Bind interactive clicks on BP spectrum track & category buttons
   bindBPGaugeInteractions();
   updateBPGauge(parseFloat($("bpSystolic")?.value) || 0, parseFloat($("bpDiastolic")?.value) || 0);
 
@@ -1837,12 +2097,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgValEl   = $("bgValue");
   const bgTimingEl = $("bgTiming");
   if (bgValEl) {
-    bgValEl.addEventListener("input", () => {
-      const val    = parseFloat(bgValEl.value);
-      const timing = bgTimingEl?.value || "fasting";
-      updateBGGauge(val, timing);
+    ["input", "change", "keyup", "paste"].forEach(evt => {
+      bgValEl.addEventListener(evt, () => {
+        const val    = parseFloat(bgValEl.value);
+        const timing = bgTimingEl?.value || "fasting";
+        updateBGGauge(val, timing);
+      });
     });
   }
+
+  // Bind interactive clicks on BG spectrum track & category buttons
+  bindBGGaugeInteractions();
+  updateBGGauge(parseFloat(bgValEl?.value) || 0, bgTimingEl?.value || "fasting");
 
 
   // Mobile offcanvas sidebar drawer bindings

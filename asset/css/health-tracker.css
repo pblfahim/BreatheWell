@@ -249,14 +249,16 @@ body[data-page="health"] {
   transform: translateY(-2px);
 }
 
-.ht-quick-nav-btn.primary {
+.ht-quick-nav-btn.primary,
+.ht-quick-nav-btn.active {
   background: #fff;
   color: #0d47a1;
   font-weight: 700;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
-.ht-quick-nav-btn.primary:hover {
+.ht-quick-nav-btn.primary:hover,
+.ht-quick-nav-btn.active:hover {
   background: #f0f7ff;
 }
 
@@ -597,6 +599,17 @@ body[data-page="health"] {
   margin-bottom: 20px;
 }
 
+.ht-card-header .ht-status-chip,
+.ht-card-header #bpLiveChip,
+.ht-card-header #bgLiveChip {
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: all var(--ht-dur-base) var(--ht-ease);
+}
+
 .ht-card-icon {
   width: 46px;
   height: 46px;
@@ -866,6 +879,43 @@ body[data-page="health"] {
   box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
 }
 
+/* Reading Preview Card */
+.ht-reading-preview {
+  margin-top: 16px;
+  background: var(--ht-surface-alt);
+  border: 1px solid var(--ht-border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ht-reading-preview .ht-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.ht-reading-preview .big-val {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ht-text-dark);
+  line-height: 1.15;
+}
+
+.ht-reading-preview .big-unit {
+  font-size: 0.72rem;
+  color: var(--ht-text-muted);
+  font-weight: 600;
+}
+
 /* ============================================================================
  * 8. LIVE DIAGNOSTIC SPECTRUM GAUGES & ADVICE CARDS
  * ============================================================================ */
@@ -1012,14 +1062,33 @@ body[data-page="health"] {
   color: #334155;
   line-height: 1.5;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all var(--ht-dur-fast) var(--ht-ease);
+}
+
+.ht-advice-box.low {
+  border-left-color: #7c3aed;
+  background: #faf5ff;
+}
+
+.ht-advice-box.normal {
+  border-left-color: #16a34a;
+  background: #f0fdf4;
 }
 
 .ht-advice-box.elevated {
   border-left-color: #f59e0b;
+  background: #fffbeb;
 }
 
+.ht-advice-box.high1 {
+  border-left-color: #ea580c;
+  background: #fff7ed;
+}
+
+.ht-advice-box.high2,
 .ht-advice-box.high {
   border-left-color: #dc2626;
+  background: #fef2f2;
 }
 
 .ht-advice-box.crisis {
@@ -1122,6 +1191,22 @@ body[data-page="health"] {
   background: #ffffff;
   color: #1769aa;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.ht-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ht-text-muted);
+}
+
+.ht-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .ht-chart-svg-wrap {

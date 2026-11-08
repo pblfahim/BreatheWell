@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BreatheWell — নমুনা ডেটা ল্যাব ও জেনারেটর (Demo Data)</title>
+  <meta name="description" content="ক্লিনিক্যাল টেস্টিং ও ডেমো ডেটা জেনারেটর — বিভিন্ন স্বাস্থ্য সিনারিও তৈরি ও পরীক্ষা করুন।">
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/health-tracker.css">
+  <link rel="stylesheet" href="asset/css/demo-data.css">
+</head>
+
+<body class="bn" data-page="demo">
+
+  <!-- Accessibility Skip Navigation Link -->
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main">মূল কনটেন্টে যান</a>
+
+  <!-- ========================================================================
+       1. GLOBAL DESKTOP NAVIGATION BAR
+       ======================================================================== -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html" aria-label="BreatheWell home">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell
+      </a>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <button class="lang-btn" id="ddLangToggle" aria-label="Change language">English</button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Open navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-dd-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-dd-i18n="navExercises">অনুশীলন</a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-dd-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
+          <li class="nav-item"><a class="nav-link active" href="health-tracker.html" aria-current="page" data-dd-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions.html" data-dd-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#safety" data-dd-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- ======================================================================
+         2. PAGE HERO BANNER & SUB-NAV RIBBON
+         ====================================================================== -->
+    <div class="ht-page-hero">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <div class="ht-hero-eyebrow">
+              <i class="bi bi-flask"></i>
+              <span data-dd-i18n="heroBadge">ক্লিনিক্যাল টেস্টিং ও নমুনা ডেটা জেনারেটর</span>
+            </div>
+            <h1 data-dd-i18n="heroTitle">🧪 নমুনা ডেটা ল্যাব ও জেনারেটর</h1>
+            <p class="ht-hero-sub" data-dd-i18n="heroSub">
+              বাস্তবসম্মত রক্তচাপ ও গ্লুকোজ ডেটা তৈরি করে চার্ট, অ্যানালিটিক্স ও লগিং সিস্টেম তাৎক্ষণিক পরীক্ষা করুন।
+            </p>
+
+            <!-- Quick Action Shortcuts Ribbon -->
+            <div class="ht-quick-nav-bar">
+              <a href="add-reading.html" class="ht-quick-nav-btn text-decoration-none">
+                <span data-dd-i18n="quickAdd">➕ নতুন রিডিং</span>
+              </a>
+              <a href="trends-charts.html" class="ht-quick-nav-btn text-decoration-none">
+                <span data-dd-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
+              </a>
+              <a href="history-log.html" class="ht-quick-nav-btn text-decoration-none">
+                <span data-dd-i18n="quickLog">📋 ইতিহাস লগ</span>
+              </a>
+              <a href="demo-data.html" class="ht-quick-nav-btn primary text-decoration-none">
+                <span data-dd-i18n="quickDemo">🧪 নমুনা ডেটা</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 text-lg-end">
+            <div class="d-flex flex-column gap-2 align-items-lg-end">
+              <a href="trends-charts.html"
+                class="btn btn-outline-light rounded-pill px-3 py-1.5 small d-inline-flex align-items-center gap-2 text-decoration-none">
+                <i class="bi bi-graph-up"></i>
+                <span data-dd-i18n="btnViewCharts">📈 ট্রেন্ড চার্টে দেখুন</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         3. STORAGE STATUS INSPECTOR PULL-UP
+         ====================================================================== -->
+    <div class="ht-pull-up dd-pull-up">
+      <div class="container">
+        <div class="dd-status-bar">
+          <div class="dd-status-info">
+            <div class="dd-status-icon"><i class="bi bi-database-check"></i></div>
+            <div>
+              <div class="dd-status-count" id="ddStorageCount">০ টি রেকর্ড</div>
+              <div class="dd-status-lbl" id="ddStorageSub">রক্তচাপ: ০টি · গ্লুকোজ: ০টি</div>
+            </div>
+          </div>
+
+          <div class="dd-status-actions">
+            <a href="trends-charts.html" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1.5 fw-bold">
+              <i class="bi bi-graph-up me-1"></i>
+              <span data-dd-i18n="btnViewCharts">📈 ট্রেন্ড চার্টে দেখুন</span>
+            </a>
+            <a href="history-log.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1.5 fw-bold">
+              <i class="bi bi-clock-history me-1"></i>
+              <span data-dd-i18n="btnViewLog">📋 ইতিহাস লগে দেখুন</span>
+            </a>
+            <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1.5 fw-bold" onclick="window.htClearAllRecords()">
+              <i class="bi bi-trash3 me-1"></i>
+              <span data-dd-i18n="btnClearAll">সব মুছুন</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         4. PRESET SCENARIO CARDS (ONE-CLICK)
+         ====================================================================== -->
+    <section class="container pb-5">
+      <div class="mb-4">
+        <h2 class="fs-4 fw-bold text-dark mb-1">🎯 এক-ক্লিকে ক্লিনিক্যাল সিনারিও তৈরি</h2>
+        <p class="text-muted small">যেকোনো একটি প্রোফাইল নির্বাচন করে এক ক্লিকে সংশ্লিষ্ট ডেটা তৈরি করে দেখুন চার্ট ও অ্যানালিটিক্স কীভাবে পরিবর্তিত হয়।</p>
+      </div>
+
+      <div class="row g-4 mb-5">
+        <!-- Scenario 1: Healthy -->
+        <div class="col-md-6 col-lg-3">
+          <div class="dd-scenario-card healthy">
+            <div class="dd-scenario-head">
+              <div class="dd-scenario-icon text-success"><i class="bi bi-check-circle-fill"></i></div>
+              <div>
+                <h3 class="dd-scenario-title">স্বাভাবিক জীবনধারা</h3>
+                <span class="dd-scenario-badge">৭ দিন · ১৪টি রেকর্ড</span>
+              </div>
+            </div>
+            <p class="dd-scenario-desc">নিয়ন্ত্রিত ও আদর্শ রক্তচাপ (১১৫–১২২/৭৫–৮০) এবং স্থিতিশীল ফাস্টিং ও পোস্ট-মিল সুগার লেভেল।</p>
+            <div class="dd-scenario-tags">
+              <span class="dd-scenario-tag">BP: 120/80</span>
+              <span class="dd-scenario-tag">BG: 5.2 mmol/L</span>
+            </div>
+            <button type="button" class="dd-btn-generate" onclick="window.generateHealthyScenario()">
+              <i class="bi bi-play-circle-fill"></i>
+              <span>প্রোফাইল লোড করুন</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Hypertension -->
+        <div class="col-md-6 col-lg-3">
+          <div class="dd-scenario-card bp-high">
+            <div class="dd-scenario-head">
+              <div class="dd-scenario-icon text-danger"><i class="bi bi-heart-pulse-fill"></i></div>
+              <div>
+                <h3 class="dd-scenario-title">উচ্চ রক্তচাপ প্রবণতা</h3>
+                <span class="dd-scenario-badge">১৪ দিন · ১৪টি রেকর্ড</span>
+              </div>
+            </div>
+            <p class="dd-scenario-desc">কর্মব্যস্ততা ও মানসিক চাপের পর রক্তচাপের পর্যায় ১ ও ২ স্তরে ওঠা-নামার ক্লিনিক্যাল ডেটা।</p>
+            <div class="dd-scenario-tags">
+              <span class="dd-scenario-tag">BP: 135–150</span>
+              <span class="dd-scenario-tag">AHA 2017 Alert</span>
+            </div>
+            <button type="button" class="dd-btn-generate" onclick="window.generateHypertensionScenario()">
+              <i class="bi bi-play-circle-fill"></i>
+              <span>প্রোফাইল লোড করুন</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scenario 3: Diabetes -->
+        <div class="col-md-6 col-lg-3">
+          <div class="dd-scenario-card bg-diab">
+            <div class="dd-scenario-head">
+              <div class="dd-scenario-icon" style="color:#8b5cf6"><i class="bi bi-droplet-half"></i></div>
+              <div>
+                <h3 class="dd-scenario-title">ডায়াবেটিস ট্র্যাকিং</h3>
+                <span class="dd-scenario-badge">১৪ দিন · ২৮টি রেকর্ড</span>
+              </div>
+            </div>
+            <p class="dd-scenario-desc">খালি পেটে ও খাবার পর গ্লুকোজ ওঠানামা (৬.৮–১২.০ mmol/L), প্রি-ডায়াবেটিস ও ডায়াবেটিস প্যাটার্ন।</p>
+            <div class="dd-scenario-tags">
+              <span class="dd-scenario-tag">BG: 7.5–11.5</span>
+              <span class="dd-scenario-tag">ADA 2024 Alert</span>
+            </div>
+            <button type="button" class="dd-btn-generate" onclick="window.generateDiabetesScenario()">
+              <i class="bi bi-play-circle-fill"></i>
+              <span>প্রোফাইল লোড করুন</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scenario 4: Crisis Alert -->
+        <div class="col-md-6 col-lg-3">
+          <div class="dd-scenario-card crisis">
+            <div class="dd-scenario-head">
+              <div class="dd-scenario-icon text-danger"><i class="bi bi-exclamation-triangle-fill"></i></div>
+              <div>
+                <h3 class="dd-scenario-title">ক্রাইসিস সিমুলেশন</h3>
+                <span class="dd-scenario-badge">জরুরি সতর্কতা টেস্ট</span>
+              </div>
+            </div>
+            <p class="dd-scenario-desc">চরম উচ্চ রক্তচাপ (১৯৫/১২৫) ও উচ্চ সুগার (২০.৪) যুক্ত করে সিস্টেমের জরুরি সতর্কতা পরীক্ষা করুন।</p>
+            <div class="dd-scenario-tags">
+              <span class="dd-scenario-tag">BP: 195/125</span>
+              <span class="dd-scenario-tag">Crisis Banner</span>
+            </div>
+            <button type="button" class="dd-btn-generate" onclick="window.generateCrisisScenario()">
+              <i class="bi bi-lightning-fill"></i>
+              <span>সিমুলেশন রান করুন</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================================
+           5. CUSTOM DATA GENERATOR & LIVE STORAGE INSPECTOR
+           ====================================================================== -->
+      <div class="row g-4">
+        <!-- Custom Generator -->
+        <div class="col-lg-5">
+          <div class="dd-panel-card">
+            <h2 class="dd-panel-title">
+              <i class="bi bi-sliders text-primary"></i>
+              <span>কাস্টম ডেটা জেনারেটর</span>
+            </h2>
+            <form id="ddCustomForm">
+              <div class="mb-3">
+                <label for="customDays" class="form-label small fw-bold text-muted">কত দিনের ডেটা তৈরি করতে চান?</label>
+                <select class="form-select" id="customDays">
+                  <option value="3">৩ দিন (দ্রুত টেস্ট)</option>
+                  <option value="7" selected>৭ দিন (এক সপ্তাহ)</option>
+                  <option value="14">১৪ দিন (দুই সপ্তাহ)</option>
+                  <option value="30">৩০ দিন (এক মাস)</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="customType" class="form-label small fw-bold text-muted">কোন ধরনের পরিমাপ?</label>
+                <select class="form-select" id="customType">
+                  <option value="both" selected>⚡ উভয় একসাথে (রক্তচাপ ও গ্লুকোজ)</option>
+                  <option value="bp">❤️ শুধু রক্তচাপ (Blood Pressure)</option>
+                  <option value="bg">🩸 শুধু গ্লুকোজ (Blood Glucose)</option>
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <label for="customProfile" class="form-label small fw-bold text-muted">স্বাস্থ্য প্রোফাইল মোড:</label>
+                <select class="form-select" id="customProfile">
+                  <option value="balanced" selected>সুস্থ ও স্বাভাবিক রেঞ্জ (Balanced)</option>
+                  <option value="elevated">উচ্চতর প্রবণতা (Elevated / Pre-condition)</option>
+                  <option value="random">অনিয়মিত মিশ্রণ (Random / Fluctuating)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 rounded-pill py-2.5 fw-bold shadow-sm">
+                <i class="bi bi-cpu-fill me-1"></i>
+                <span>কাস্টম ডেটা জেনারেট করুন</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Storage Inspector List -->
+        <div class="col-lg-7">
+          <div class="dd-panel-card">
+            <h2 class="dd-panel-title">
+              <i class="bi bi-eye-fill text-primary"></i>
+              <span>সংরক্ষিত সাম্প্রতিক রেকর্ডের প্রিভিউ</span>
+            </h2>
+            <div id="ddPreviewList"></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       6. GLOBAL FOOTER
+       ======================================================================== -->
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2 py-4">
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-dd-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু প্রশান্তি</span></span>
+      <span data-dd-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       7. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" aria-hidden="true"></div>
+    <div class="mobile-nav-items">
+      <a class="mobile-nav-link" href="index.html" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-dd-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-dd-i18n="navExercises">অনুশীলন</span>
+      </a>
+      <a class="mobile-nav-link active" href="demo-data.html" aria-label="Demo Data">
+        <div class="nav-icon-wrap"><i class="bi bi-flask"></i></div>
+        <span class="nav-label">ডেমো</span>
+      </a>
+      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="More">
+        <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
+        <span class="nav-label">আরও</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Sidebar Menu Drawer -->
+  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+    aria-labelledby="mobileSidebarMenuLabel">
+    <div class="offcanvas-header mobile-sidebar-header">
+      <div class="mobile-sidebar-brand">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <div>
+          <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
+          <p class="mobile-sidebar-subtitle">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mobile-sidebar-body">
+      <!-- 1. Interactive Language Selector -->
+      <div class="mobile-sidebar-lang-card">
+        <div class="mobile-sidebar-lang-info">
+          <i class="bi bi-translate text-primary"></i>
+          <span class="mobile-sidebar-lang-title">ভাষা পরিবর্তন</span>
+        </div>
+        <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
+          <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
+          <button type="button" class="mobile-lang-pill" data-lang="en">English</button>
+        </div>
+      </div>
+
+      <!-- 2. Main Navigation Links -->
+      <div class="mobile-sidebar-section-title">পেজ ও মডিউল</div>
+      <div class="mobile-sidebar-nav-list">
+        <a class="mobile-sidebar-nav-item" href="index.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-dd-i18n="navHome">হোম</span>
+            <span class="mobile-sidebar-sub">মূল পাতা ও ফিচারসমূহ</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="exercises.html">
+          <div class="mobile-sidebar-icon-box text-success">
+            <i class="bi bi-grid-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-dd-i18n="navExercises">অনুশীলন</span>
+            <span class="mobile-sidebar-sub">শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="breath-test.html">
+          <div class="mobile-sidebar-icon-box text-info">
+            <i class="bi bi-stopwatch-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-dd-i18n="navTest">শ্বাসের পরীক্ষা</span>
+            <span class="mobile-sidebar-sub">BOLT ও BPM রেসপিরেটরি টেস্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="health-tracker.html">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-dd-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-sub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item ps-4" href="add-reading.html">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-plus-circle-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label">➕ নতুন রিডিং</span>
+            <span class="mobile-sidebar-sub">রক্তচাপ ও গ্লুকোজ এন্ট্রি ফর্ম</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item ps-4" href="trends-charts.html">
+          <div class="mobile-sidebar-icon-box text-info">
+            <i class="bi bi-graph-up-arrow"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label">📈 ট্রেন্ড চার্ট</span>
+            <span class="mobile-sidebar-sub">ভিজ্যুয়াল অ্যানালিটিক্স ও ধারাবাহিক চার্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item ps-4" href="history-log.html">
+          <div class="mobile-sidebar-icon-box text-success">
+            <i class="bi bi-clock-history"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label">📋 ইতিহাস লগ</span>
+            <span class="mobile-sidebar-sub">ফিল্টারিং, অনুসন্ধান ও এক্সপোর্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item active ps-4" href="demo-data.html" aria-current="page">
+          <div class="mobile-sidebar-icon-box text-warning">
+            <i class="bi bi-flask"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label">🧪 নমুনা ডেটা</span>
+            <span class="mobile-sidebar-sub">ক্লিনিক্যাল টেস্টিং ল্যাব ও জেনারেটর</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="prescriptions.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-file-earmark-medical-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-dd-i18n="navRx">প্রেসক্রিপশন</span>
+            <span class="mobile-sidebar-sub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="index.html#safety">
+          <div class="mobile-sidebar-icon-box text-warning">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-dd-i18n="navSafety">নিরাপত্তা</span>
+            <span class="mobile-sidebar-sub">৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+      </div>
+
+      <!-- 3. Quick Action Utilities -->
+      <div class="mobile-sidebar-section-title">দ্রুত অ্যাকশন</div>
+      <div class="mobile-sidebar-actions-grid">
+        <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
+          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title">জরুরি শান্ত শ্বাস (SOS)</span>
+            <span class="mobile-sidebar-action-sub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
+          </div>
+        </a>
+
+        <a class="mobile-sidebar-action-card" href="prescriptions.html">
+          <div class="mobile-sidebar-action-icon text-primary bg-primary-subtle">
+            <i class="bi bi-file-earmark-medical-fill"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-dd-i18n="navRx">প্রেসক্রিপশন ভল্ট</span>
+            <span class="mobile-sidebar-action-sub">ডিজিটাল প্রেসক্রিপশন ও OCR</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Footer Disclaimer -->
+      <div class="mobile-sidebar-footer">
+        <p class="mobile-sidebar-disclaimer">
+          <i class="bi bi-info-circle me-1"></i>
+          <span data-dd-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Stack -->
+  <div class="dd-toast-stack" id="ddToastStack"></div>
+
+  <!-- Script Includes -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/demo-data.js"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,374 @@
+/**
+ * ============================================================================
+ * BreatheWell — Demo Data Stylesheet (demo-data.css)
+ * Clinical Scenario Presets, Custom Generator & Storage Inspector
+ * ============================================================================
+ */
+
+:root {
+  --dd-surface: #ffffff;
+  --dd-surface-alt: #f8fafc;
+  --dd-border: #e2e8f0;
+  --dd-text-dark: #0f172a;
+  --dd-text-muted: #64748b;
+  --dd-primary: #1769aa;
+  --dd-radius-sm: 10px;
+  --dd-radius-md: 16px;
+  --dd-radius-lg: 24px;
+  --dd-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --dd-shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.07);
+  --dd-shadow-lg: 0 10px 30px -4px rgba(0, 0, 0, 0.1);
+  --dd-dur: 0.25s;
+  --dd-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================================
+ * 1. HERO BANNER & SUB-NAV RIBBON
+ * ============================================================================ */
+.dd-hero {
+  background: linear-gradient(145deg, #091e3a 0%, #173865 55%, #1e4976 100%);
+  color: #ffffff;
+  padding: 44px 0 95px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dd-hero::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  right: -5%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.dd-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #e9d5ff;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.dd-hero-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.dd-hero-sub {
+  font-size: 0.98rem;
+  color: #cbd5e1;
+  max-width: 620px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.dd-quick-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dd-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--dd-dur) var(--dd-ease);
+}
+
+.dd-nav-btn:hover {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dd-nav-btn.active {
+  background: #a855f7;
+  color: #ffffff;
+  border-color: #a855f7;
+}
+
+/* ============================================================================
+ * 2. STORAGE STATUS PULL-UP
+ * ============================================================================ */
+.dd-pull-up {
+  margin-top: -65px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 32px;
+}
+
+.dd-status-bar {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-md);
+  padding: 18px 24px;
+  box-shadow: var(--dd-shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.dd-status-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dd-status-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #f3e8ff;
+  color: #9333ea;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.dd-status-count {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--dd-text-dark);
+  line-height: 1.1;
+}
+
+.dd-status-lbl {
+  font-size: 0.78rem;
+  color: var(--dd-text-muted);
+  font-weight: 600;
+}
+
+.dd-status-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================================
+ * 3. PRESET SCENARIO CARDS
+ * ============================================================================ */
+.dd-scenario-card {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-md);
+  padding: 22px;
+  box-shadow: var(--dd-shadow-sm);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--dd-dur), box-shadow var(--dd-dur), border-color var(--dd-dur);
+  position: relative;
+  overflow: hidden;
+}
+
+.dd-scenario-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--dd-shadow-lg);
+  border-color: #cbd5e1;
+}
+
+.dd-scenario-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--dd-accent, #3b82f6);
+}
+
+.dd-scenario-card.healthy { --dd-accent: #22c55e; }
+.dd-scenario-card.bp-high { --dd-accent: #ef4444; }
+.dd-scenario-card.bg-diab { --dd-accent: #8b5cf6; }
+.dd-scenario-card.crisis  { --dd-accent: #dc2626; }
+
+.dd-scenario-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.dd-scenario-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  background: var(--dd-surface-alt);
+}
+
+.dd-scenario-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--dd-text-dark);
+  margin: 0 0 2px 0;
+  line-height: 1.25;
+}
+
+.dd-scenario-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--dd-surface-alt);
+  color: var(--dd-text-muted);
+}
+
+.dd-scenario-desc {
+  font-size: 0.84rem;
+  color: var(--dd-text-muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.dd-scenario-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.dd-scenario-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.dd-btn-generate {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--dd-accent, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--dd-dur);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dd-btn-generate:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* ============================================================================
+ * 4. CUSTOM GENERATOR & PREVIEW CARDS
+ * ============================================================================ */
+.dd-panel-card {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-lg);
+  padding: 26px;
+  box-shadow: var(--dd-shadow-sm);
+  margin-bottom: 28px;
+}
+
+.dd-panel-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--dd-text-dark);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dd-preview-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--dd-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.86rem;
+}
+
+.dd-preview-item:last-child {
+  border-bottom: none;
+}
+
+/* ============================================================================
+ * 5. TOAST NOTIFICATIONS
+ * ============================================================================ */
+.dd-toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.dd-toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 380px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: var(--dd-radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--dd-shadow-lg);
+  animation: ddSlideUp 0.3s var(--dd-ease) forwards;
+}
+
+.dd-toast.success { border-left: 4px solid #22c55e; }
+.dd-toast.warning { border-left: 4px solid #f59e0b; }
+.dd-toast.info    { border-left: 4px solid #38bdf8; }
+
+@keyframes ddSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .dd-hero { padding: 32px 0 80px; }
+  .dd-hero-title { font-size: 1.7rem; }
+  .dd-pull-up { margin-top: -45px; }
+  .dd-status-bar { flex-direction: column; align-items: flex-start; }
+}
+

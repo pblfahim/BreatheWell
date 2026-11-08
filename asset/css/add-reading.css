@@ -1,0 +1,127 @@
+/**
+ * ============================================================================
+ * BreatheWell — Add Reading Stylesheet (add-reading.css)
+ * Diagnostic Spectrum Meters, Adaptive Form Controls, Real-time Visuals
+ * ============================================================================
+ */
+
+:root {
+  --ar-surface: #ffffff;
+  --ar-surface-alt: #f8fafc;
+  --ar-border: #e2e8f0;
+  --ar-text-dark: #0f172a;
+  --ar-text-muted: #64748b;
+  --ar-primary: #1769aa;
+  --ar-primary-light: #e0f2fe;
+  --ar-radius-sm: 10px;
+  --ar-radius-md: 16px;
+  --ar-radius-lg: 24px;
+  --ar-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --ar-shadow-md: 0 6px 20px -2px rgba(0, 0, 0, 0.08);
+  --ar-shadow-lg: 0 12px 36px -4px rgba(0, 0, 0, 0.12);
+  --ar-dur: 0.25s;
+  --ar-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================================
+ * 1. PULL-UP STATS OVERLAP
+ * ============================================================================ */
+.ar-pull-up {
+  margin-top: -65px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 28px;
+}
+
+/* Quick Actions Card */
+.ar-tools-card {
+  background: var(--ar-surface);
+  border: 1px solid var(--ar-border);
+  border-radius: var(--ar-radius-md);
+  padding: 24px;
+  box-shadow: var(--ar-shadow-sm);
+  transition: all var(--ar-dur) var(--ar-ease);
+}
+
+.ar-tools-card:hover {
+  box-shadow: var(--ar-shadow-md);
+}
+
+/* WhatsApp Message Preview Box */
+.ar-wa-preview {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.86rem;
+  color: #166534;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Toast Container */
+.ar-toast-stack {
+  position: fixed;
+  bottom: 84px;
+  right: 20px;
+  z-index: 1080;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.ar-toast {
+  pointer-events: auto;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  animation: arToastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ar-toast.success {
+  background: #065f46;
+  border: 1px solid #10b981;
+}
+
+.ar-toast.warning {
+  background: #78350f;
+  border: 1px solid #f59e0b;
+}
+
+.ar-toast.danger {
+  background: #7f1d1d;
+  border: 1px solid #ef4444;
+}
+
+@keyframes arToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .ar-pull-up {
+    margin-top: -45px;
+  }
+  .ar-toast-stack {
+    bottom: 95px;
+    right: 16px;
+    left: 16px;
+    align-items: center;
+  }
+}
+
