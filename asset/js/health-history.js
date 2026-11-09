@@ -72,10 +72,10 @@
       heroBadge: "বিস্তারিত স্বাস্থ্য রেকর্ড ও আর্কাইভ",
       heroTitle: "📋 স্বাস্থ্য ইতিহাস ও বিস্তারিত লগ",
       heroSub: "আপনার সংরক্ষিত রক্তচাপ ও গ্লুকোজ পরিমাপের পূর্ণাঙ্গ ইতিহাস, তাৎক্ষণিক অনুসন্ধান, ফিল্টারিং ও এক্সপোর্ট।",
-      quickAdd: "➕ নতুন রিডিং",
-      quickTrends: "📈 ট্রেন্ড চার্ট",
-      quickLog: "📋 ইতিহাস লগ",
-      quickDemo: "🧪 নমুনা ডেটা",
+      quickAdd: "নতুন রিডিং",
+      quickTrends: "ট্রেন্ড চার্ট",
+      quickLog: "ইতিহাস লগ",
+      quickDemo: "নমুনা ডেটা",
       cardTitle: "ইতিহাস ও পরিমাপ রেকর্ড",
       tabAll: "সব",
       tabBP: "রক্তচাপ",
@@ -114,10 +114,10 @@
       heroBadge: "Detailed Health Records & Archive",
       heroTitle: "📋 Health Records History & Log",
       heroSub: "Complete history of your logged blood pressure and blood glucose readings with instant search, filtering, and export.",
-      quickAdd: "➕ Add Reading",
-      quickTrends: "📈 Trends & Charts",
-      quickLog: "📋 History Log",
-      quickDemo: "🧪 Demo Data",
+      quickAdd: "Add Reading",
+      quickTrends: "Trends & Charts",
+      quickLog: "History Log",
+      quickDemo: "Demo Lab",
       cardTitle: "History & Health Logs",
       tabAll: "All",
       tabBP: "Blood Pressure",
@@ -709,6 +709,16 @@
         if (target) htSetLang(target);
       });
     });
+
+    // Dynamic Sticky Navbar Offset Synchronizer
+    function syncStickyNavOffset() {
+      const nav = document.querySelector("nav.navbar");
+      if (nav && document.documentElement && document.documentElement.style && document.documentElement.style.setProperty) {
+        document.documentElement.style.setProperty("--bw-navbar-height", `${nav.offsetHeight}px`);
+      }
+    }
+    syncStickyNavOffset();
+    window.addEventListener("resize", syncStickyNavOffset);
   }
 
   if (document.readyState === "loading") {

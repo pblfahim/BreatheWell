@@ -69,10 +69,10 @@
       heroBadge: "ক্লিনিক্যাল টেস্টিং ও নমুনা ডেটা জেনারেটর",
       heroTitle: "🧪 নমুনা ডেটা ল্যাব ও জেনারেটর",
       heroSub: "বাস্তবসম্মত রক্তচাপ ও গ্লুকোজ ডেটা তৈরি করে চার্ট, অ্যানালিটিক্স ও লগিং সিস্টেম তাৎক্ষণিক পরীক্ষা করুন।",
-      quickAdd: "➕ নতুন রিডিং",
-      quickTrends: "📈 ট্রেন্ড চার্ট",
-      quickLog: "📋 ইতিহাস লগ",
-      quickDemo: "🧪 নমুনা ডেটা",
+      quickAdd: "নতুন রিডিং",
+      quickTrends: "ট্রেন্ড চার্ট",
+      quickLog: "ইতিহাস লগ",
+      quickDemo: "নমুনা ডেটা",
       storageCountLbl: "বর্তমানে সংরক্ষিত রেকর্ড",
       btnViewCharts: "📈 ট্রেন্ড চার্টে দেখুন",
       btnViewLog: "📋 ইতিহাস লগে দেখুন",
@@ -93,10 +93,10 @@
       heroBadge: "Clinical Testing & Sample Data Generator",
       heroTitle: "🧪 Demo Data Lab & Generator",
       heroSub: "Generate realistic blood pressure and glucose test scenarios to inspect trend charts, analytics, and history logs.",
-      quickAdd: "➕ Add Reading",
-      quickTrends: "📈 Trends & Charts",
-      quickLog: "📋 History Log",
-      quickDemo: "🧪 Demo Data",
+      quickAdd: "Add Reading",
+      quickTrends: "Trends & Charts",
+      quickLog: "History Log",
+      quickDemo: "Demo Lab",
       storageCountLbl: "Currently Stored Records",
       btnViewCharts: "📈 View in Charts",
       btnViewLog: "📋 View in History Log",
@@ -609,6 +609,16 @@
         if (target) htSetLang(target);
       });
     });
+
+    // Dynamic Sticky Navbar Offset Synchronizer
+    function syncStickyNavOffset() {
+      const nav = document.querySelector("nav.navbar");
+      if (nav && document.documentElement && document.documentElement.style && document.documentElement.style.setProperty) {
+        document.documentElement.style.setProperty("--bw-navbar-height", `${nav.offsetHeight}px`);
+      }
+    }
+    syncStickyNavOffset();
+    window.addEventListener("resize", syncStickyNavOffset);
   }
 
   if (document.readyState === "loading") {

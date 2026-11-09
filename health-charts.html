@@ -57,49 +57,27 @@
 
   <main id="main">
     <!-- ======================================================================
-         2. PAGE HERO BANNER & SUB-NAV RIBBON
+         2. DARK GREEN TAB HEADER BAR
          ====================================================================== -->
-    <div class="ht-page-hero">
+    <div class="ht-hero-tab-bar">
       <div class="container">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-8">
-            <div class="ht-hero-eyebrow">
-              <i class="bi bi-graph-up-arrow"></i>
-              <span data-tc-i18n="heroBadge">ভিজ্যুয়াল অ্যানালিটিক্স ও ধারাবাহিক পর্যবেক্ষণ</span>
-            </div>
-            <h1 data-tc-i18n="heroTitle">📈 রক্তচাপ ও গ্লুকোজ ট্রেন্ড চার্ট</h1>
-            <p class="ht-hero-sub" data-tc-i18n="heroSub">
-              আপনার সংরক্ষিত স্বাস্থ্য তথ্যের ওপর ভিত্তি করে ইন্টারঅ্যাক্টিভ এসভিজি লাইন চার্ট, ক্লিনিক্যাল সেইফ জোন ও
-              গভীর পর্যবেক্ষণ।
-            </p>
-
-            <!-- Quick Action Shortcuts Ribbon -->
-            <div class="ht-quick-nav-bar">
-              <a href="health-reading.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hc-i18n="quickAdd" data-tc-i18n="quickAdd">➕ নতুন রিডিং</span>
-              </a>
-              <a href="#chartsSection" class="ht-quick-nav-btn primary active text-decoration-none" aria-current="page"
-                onclick="document.getElementById('chartsSection')?.scrollIntoView({behavior:'smooth'}); return false;">
-                <span data-hc-i18n="quickTrends" data-tc-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
-              </a>
-              <a href="health-history.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hc-i18n="quickLog" data-tc-i18n="quickLog">📋 ইতিহাস লগ</span>
-              </a>
-              <a href="health-demo.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hc-i18n="quickDemo" data-tc-i18n="quickDemo">🧪 নমুনা ডেটা</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 text-lg-end">
-            <div class="d-flex flex-column gap-2 align-items-lg-end">
-              <a href="health-history.html"
-                class="btn btn-outline-light rounded-pill px-3 py-1.5 small d-inline-flex align-items-center gap-2 text-decoration-none">
-                <i class="bi bi-clock-history"></i>
-                <span data-hc-i18n="btnViewLog" data-tc-i18n="btnViewLog">📋 ইতিহাস লগ দেখুন</span>
-              </a>
-            </div>
-          </div>
+        <div class="ht-hero-tabs" role="tablist" aria-label="Health Tracker Navigation">
+          <a href="health-reading.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">➕</span>
+            <span class="ht-hero-tab-text" data-hc-i18n="quickAdd" data-tc-i18n="quickAdd">নতুন রিডিং</span>
+          </a>
+          <a href="health-charts.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
+            <span class="ht-hero-tab-icon">📈</span>
+            <span class="ht-hero-tab-text" data-hc-i18n="quickTrends" data-tc-i18n="quickTrends">ট্রেন্ড চার্ট</span>
+          </a>
+          <a href="health-history.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">📋</span>
+            <span class="ht-hero-tab-text" data-hc-i18n="quickLog" data-tc-i18n="quickLog">ইতিহাস লগ</span>
+          </a>
+          <a href="health-demo.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">🧪</span>
+            <span class="ht-hero-tab-text" data-hc-i18n="quickDemo" data-tc-i18n="quickDemo">নমুনা ডেটা</span>
+          </a>
         </div>
       </div>
     </div>

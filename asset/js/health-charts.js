@@ -69,10 +69,10 @@
       heroBadge: "ভিজ্যুয়াল অ্যানালিটিক্স ও ধারাবাহিক পর্যবেক্ষণ",
       heroTitle: "📈 রক্তচাপ ও গ্লুকোজ ট্রেন্ড চার্ট",
       heroSub: "আপনার সংরক্ষিত স্বাস্থ্য তথ্যের ওপর ভিত্তি করে ইন্টারঅ্যাক্টিভ এসভিজি লাইন চার্ট, ক্লিনিক্যাল সেইফ জোন ও গভীর পর্যবেক্ষণ।",
-      quickAdd: "➕ নতুন রিডিং",
-      quickTrends: "📈 ট্রেন্ড চার্ট",
-      quickLog: "📋 ইতিহাস লগ",
-      quickDemo: "🧪 নমুনা ডেটা",
+      quickAdd: "নতুন রিডিং",
+      quickTrends: "ট্রেন্ড চার্ট",
+      quickLog: "ইতিহাস লগ",
+      quickDemo: "নমুনা ডেটা",
       btnViewLog: "📋 ইতিহাস লগ দেখুন",
       statAvgBP: "গড় রক্তচাপ",
       statAvgBG: "গড় গ্লুকোজ",
@@ -115,10 +115,10 @@
       heroBadge: "Visual Analytics & Continuous Monitoring",
       heroTitle: "📈 Blood Pressure & Glucose Trend Charts",
       heroSub: "Interactive SVG line charts with clinical target bands, rolling averages, and evidence-based insights.",
-      quickAdd: "➕ Add Reading",
-      quickTrends: "📈 Trends & Charts",
-      quickLog: "📋 History Log",
-      quickDemo: "🧪 Demo Lab",
+      quickAdd: "Add Reading",
+      quickTrends: "Trends & Charts",
+      quickLog: "History Log",
+      quickDemo: "Demo Lab",
       btnViewLog: "📋 View History Log",
       statAvgBP: "Average BP",
       statAvgBG: "Average Glucose",
@@ -830,6 +830,16 @@
         if (target) htSetLang(target);
       });
     });
+
+    // Dynamic Sticky Navbar Offset Synchronizer
+    function syncStickyNavOffset() {
+      const nav = document.querySelector("nav.navbar");
+      if (nav && document.documentElement && document.documentElement.style && document.documentElement.style.setProperty) {
+        document.documentElement.style.setProperty("--bw-navbar-height", `${nav.offsetHeight}px`);
+      }
+    }
+    syncStickyNavOffset();
+    window.addEventListener("resize", syncStickyNavOffset);
   }
 
   if (document.readyState === "loading") {

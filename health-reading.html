@@ -57,56 +57,38 @@
 
   <main id="main">
     <!-- ======================================================================
-         2. PAGE HERO BANNER & SUB-NAV RIBBON
+         2. DARK GREEN TAB HEADER BAR
          ====================================================================== -->
-    <div class="ht-page-hero">
+    <div class="ht-hero-tab-bar">
       <div class="container">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-8">
-            <div class="ht-hero-eyebrow">
-              <i class="bi bi-plus-circle-fill"></i>
-              <span data-ar-i18n="heroBadge">নতুন স্বাস্থ্য পরিমাপ অন্তর্ভুক্তি</span>
-            </div>
-            <h1 data-ar-i18n="heroTitle">➕ নতুন রিডিং যোগ করুন</h1>
-            <p class="ht-hero-sub" data-ar-i18n="heroSub">
-              দৈনিক রক্তচাপ ও রক্তের গ্লুকোজ (সুগার) মান সহজে সংরক্ষণ করুন, লাইভ স্পেকট্রাম অ্যানালাইসিস এবং তাৎক্ষণিক
-              চিকিৎসা নির্দেশিকা পান।
-            </p>
-
-            <!-- Quick Action Shortcuts Ribbon -->
-            <div class="ht-quick-nav-bar">
-              <a href="#entrySection" class="ht-quick-nav-btn primary active text-decoration-none" aria-current="page"
-                onclick="document.getElementById('entrySection')?.scrollIntoView({behavior:'smooth'}); return false;">
-                <span data-hr-i18n="quickAdd" data-ar-i18n="quickAdd">➕ নতুন রিডিং</span>
-              </a>
-              <a href="health-charts.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hr-i18n="quickTrends" data-ar-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
-              </a>
-              <a href="health-history.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hr-i18n="quickLog" data-ar-i18n="quickLog">📋 ইতিহাস লগ</span>
-              </a>
-              <a href="health-demo.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hr-i18n="quickDemo" data-ar-i18n="quickDemo">🧪 নমুনা ডেটা</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 text-lg-end">
-            <div class="d-flex flex-column gap-2 align-items-lg-end">
-
-            </div>
-          </div>
+        <div class="ht-hero-tabs" role="tablist" aria-label="Health Tracker Navigation">
+          <a href="health-reading.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
+            <span class="ht-hero-tab-icon">➕</span>
+            <span class="ht-hero-tab-text" data-hr-i18n="quickAdd" data-ar-i18n="quickAdd">নতুন রিডিং</span>
+          </a>
+          <a href="health-charts.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">📈</span>
+            <span class="ht-hero-tab-text" data-hr-i18n="quickTrends" data-ar-i18n="quickTrends">ট্রেন্ড চার্ট</span>
+          </a>
+          <a href="health-history.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">📋</span>
+            <span class="ht-hero-tab-text" data-hr-i18n="quickLog" data-ar-i18n="quickLog">ইতিহাস লগ</span>
+          </a>
+          <a href="health-demo.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">🧪</span>
+            <span class="ht-hero-tab-text" data-hr-i18n="quickDemo" data-ar-i18n="quickDemo">নমুনা ডেটা</span>
+          </a>
         </div>
       </div>
     </div>
 
     <!-- ======================================================================
-         3. PULL-UP STATS SUMMARY ROW
+         3. ENTRY FORMS — BLOOD PRESSURE & BLOOD GLUCOSE
          ====================================================================== -->
-    <div class="ht-pull-up hr-pull-up ar-pull-up">
-      <div class="container">
+    <section class="ht-section mt-1" id="entrySection">
+      <div class="container" id="entryFormCard">
         <!-- Emergency Crisis Alert Banner -->
-        <div id="crisisAlertBanner" class="ht-crisis-banner d-none mb-3">
+        <div id="crisisAlertBanner" class="ht-crisis-banner d-none mb-4">
           <div class="ht-crisis-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
           <div class="flex-grow-1">
             <h4 class="fw-bold mb-1" data-ar-i18n="crisisTitle">জরুরি স্বাস্থ্য সতর্কতা!</h4>
@@ -114,90 +96,6 @@
               আপনার সর্বশেষ রক্তচাপ বা সুগারের মাত্রা আশঙ্কাজনক সীমায় রয়েছে। অবিলম্বে শান্ত হয়ে বিশ্রাম নিন এবং
               প্রয়োজনে ডাক্তারের সাথে যোগাযোগ করুন।
             </p>
-          </div>
-        </div>
-
-        <div class="row g-3">
-          <!-- Latest BP -->
-          <div class="col-6 col-lg-3">
-            <div class="ht-stat-card card-bp">
-              <div class="ht-stat-top">
-                <div class="ht-stat-icon bp">❤️</div>
-                <span class="ht-stat-badge neutral" id="statBPBadge">—</span>
-              </div>
-              <div class="flex-grow-1 min-w-0">
-                <div class="ht-stat-label" data-ar-i18n="statLatestBP">সর্বশেষ রক্তচাপ</div>
-                <div class="ht-stat-value" id="statBPVal">—</div>
-                <div class="ht-stat-sub" id="statBPSub">—</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Latest BG -->
-          <div class="col-6 col-lg-3">
-            <div class="ht-stat-card card-bg">
-              <div class="ht-stat-top">
-                <div class="ht-stat-icon bg">🩸</div>
-                <span class="ht-stat-badge neutral" id="statBGBadge">—</span>
-              </div>
-              <div class="flex-grow-1 min-w-0">
-                <div class="ht-stat-label" data-ar-i18n="statLatestBG">সর্বশেষ গ্লুকোজ</div>
-                <div class="ht-stat-value" id="statBGVal">—</div>
-                <div class="ht-stat-sub" id="statBGSub">—</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Today Readings -->
-          <div class="col-6 col-lg-3">
-            <div class="ht-stat-card">
-              <div class="ht-stat-top">
-                <div class="ht-stat-icon today">📋</div>
-                <span class="ht-stat-badge normal" data-ar-i18n="todayLabel">আজকে</span>
-              </div>
-              <div class="flex-grow-1 min-w-0">
-                <div class="ht-stat-label" data-ar-i18n="statToday">আজকের রেকর্ড</div>
-                <div class="ht-stat-value" id="statTodayVal">0</div>
-                <div class="ht-stat-sub" id="statTodaySub">—</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Logging Streak -->
-          <div class="col-6 col-lg-3">
-            <div class="ht-stat-card card-streak">
-              <div class="ht-stat-top">
-                <div class="ht-stat-icon streak">🔥</div>
-                <span class="ht-stat-badge elevated" data-ar-i18n="streakLabel">ধারাবাহিকতা</span>
-              </div>
-              <div class="flex-grow-1 min-w-0">
-                <div class="ht-stat-label" data-ar-i18n="statStreak">ধারাবাহিক দিন</div>
-                <div class="ht-stat-value" id="statStreakVal">0</div>
-                <div class="ht-stat-sub" id="statStreakSub" data-ar-i18n="days">দিন</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================================================================
-         4. ENTRY FORMS — BLOOD PRESSURE & BLOOD GLUCOSE
-         ====================================================================== -->
-    <section class="ht-section mt-1" id="entrySection">
-      <div class="container" id="entryFormCard">
-        <!-- Form Mode Switcher (Segmented Control) -->
-        <div class="ht-mode-switch-wrap mb-4">
-          <div class="ht-mode-switch" role="tablist">
-            <button class="ht-mode-btn active" data-mode="all">
-              <i class="bi bi-layout-split"></i> <span data-ar-i18n="modeAll">উভয় একসাথে</span>
-            </button>
-            <button class="ht-mode-btn mode-bp" data-mode="bp">
-              <i class="bi bi-heart-pulse-fill"></i> <span data-ar-i18n="modeBP">রক্তচাপ</span>
-            </button>
-            <button class="ht-mode-btn mode-bg" data-mode="bg">
-              <i class="bi bi-droplet-half"></i> <span data-ar-i18n="modeBG">গ্লুকোজ</span>
-            </button>
           </div>
         </div>
 

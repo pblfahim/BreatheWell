@@ -74,10 +74,10 @@
       heroBadge: "নতুন স্বাস্থ্য পরিমাপ অন্তর্ভুক্তি",
       heroTitle: "➕ নতুন রিডিং যোগ করুন",
       heroSub: "দৈনিক রক্তচাপ ও রক্তের গ্লুকোজ (সুগার) মান সহজে সংরক্ষণ করুন, লাইভ স্পেকট্রাম অ্যানালাইসিস এবং তাৎক্ষণিক চিকিৎসা নির্দেশিকা পান।",
-      quickAdd: "➕ নতুন রিডিং",
-      quickTrends: "📈 ট্রেন্ড চার্ট",
-      quickLog: "📋 ইতিহাস লগ",
-      quickDemo: "🧪 নমুনা ডেটা",
+      quickAdd: "নতুন রিডিং",
+      quickTrends: "ট্রেন্ড চার্ট",
+      quickLog: "ইতিহাস লগ",
+      quickDemo: "নমুনা ডেটা",
       btnViewLog: "📋 পূর্বের ইতিহাস দেখুন",
       statLatestBP: "সর্বশেষ রক্তচাপ",
       statLatestBG: "সর্বশেষ গ্লুকোজ",
@@ -151,10 +151,10 @@
       heroBadge: "Log New Clinical Measurement",
       heroTitle: "➕ Add Health Reading",
       heroSub: "Log daily blood pressure and blood glucose with real-time diagnostic spectrum meters and instant evidence-based guidelines.",
-      quickAdd: "➕ Add Reading",
-      quickTrends: "📈 Trends & Charts",
-      quickLog: "📋 History Log",
-      quickDemo: "🧪 Demo Lab",
+      quickAdd: "Add Reading",
+      quickTrends: "Trends & Charts",
+      quickLog: "History Log",
+      quickDemo: "Demo Lab",
       btnViewLog: "📋 View History Log",
       statLatestBP: "Latest Blood Pressure",
       statLatestBG: "Latest Glucose",
@@ -789,79 +789,22 @@
   }
 
   /* ============================================================================
-   * 6. PULL-UP STATS CALCULATION & CRISIS DETECTION
+   * 6. CRISIS DETECTION & WHATSAPP PREVIEW CONTROLLER
    * ============================================================================
    */
   /**
-   * Evaluates all historical records to populate the four pull-up metric cards:
-   * 1. Latest Blood Pressure (value, badge, timestamp)
-   * 2. Latest Blood Glucose (value, badge, timestamp)
-   * 3. Today's Total Readings
-   * 4. Consecutive Logging Streak (distinct calendar days)
-   * Also toggles the emergency hypertensive/hypoglycemic crisis alert banner.
+   * Evaluates historical records to toggle emergency crisis alert banner and
+   * synchronize the family/physician WhatsApp sharing preview.
    */
   function renderStats() {
     const records = loadRecords();
     let latestBP = null;
     let latestBG = null;
-    const todayIso = new Date().toDateString();
-    let todayCount = 0;
-    const uniqueDays = new Set();
 
     records.forEach(r => {
-      const d = new Date(r.date);
-      if (d.toDateString() === todayIso) todayCount++;
-      uniqueDays.add(d.toDateString());
-
       if (r.type === "bp" && !latestBP) latestBP = r;
       if (r.type === "bg" && !latestBG) latestBG = r;
     });
-
-    // 1. Latest BP
-    const bpVal = $("statBPVal");
-    const bpBadge = $("statBPBadge");
-    const bpSub = $("statBPSub");
-    if (latestBP) {
-      if (bpVal) bpVal.textContent = `${latestBP.systolic}/${latestBP.diastolic}`;
-      const { category, chip } = classifyBP(latestBP.systolic, latestBP.diastolic, latestBP.age);
-      if (bpBadge) {
-        bpBadge.textContent = chip;
-        bpBadge.className = `ht-stat-badge ${category === 'optimal' || category === 'normal' ? 'normal' : (category === 'normal_high' ? 'elevated' : 'critical')}`;
-      }
-      if (bpSub) bpSub.textContent = new Date(latestBP.date).toLocaleDateString(hrLang === "en" ? "en-US" : "bn-BD", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
-    } else {
-      if (bpVal) bpVal.textContent = "—";
-      if (bpBadge) { bpBadge.textContent = "—"; bpBadge.className = "ht-stat-badge neutral"; }
-      if (bpSub) bpSub.textContent = hrLang === "en" ? "No records" : "কোনো রেকর্ড নেই";
-    }
-
-    // 2. Latest BG
-    const bgVal = $("statBGVal");
-    const bgBadge = $("statBGBadge");
-    const bgSub = $("statBGSub");
-    if (latestBG) {
-      if (bgVal) bgVal.textContent = `${parseFloat(latestBG.value).toFixed(1)} mmol/L`;
-      const { category, chip } = classifyBG(latestBG.value, latestBG.timing || "fasting");
-      if (bgBadge) {
-        bgBadge.textContent = chip;
-        bgBadge.className = `ht-stat-badge ${category === 'normal' ? 'normal' : (category === 'prediab' ? 'elevated' : 'critical')}`;
-      }
-      if (bgSub) bgSub.textContent = new Date(latestBG.date).toLocaleDateString(hrLang === "en" ? "en-US" : "bn-BD", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
-    } else {
-      if (bgVal) bgVal.textContent = "—";
-      if (bgBadge) { bgBadge.textContent = "—"; bgBadge.className = "ht-stat-badge neutral"; }
-      if (bgSub) bgSub.textContent = hrLang === "en" ? "No records" : "কোনো রেকর্ড নেই";
-    }
-
-    // 3. Today Count
-    const todayVal = $("statTodayVal");
-    const todaySub = $("statTodaySub");
-    if (todayVal) todayVal.textContent = String(todayCount);
-    if (todaySub) todaySub.textContent = `${todayCount} ${T[hrLang].todayLabel}`;
-
-    // 4. Streak
-    const streakVal = $("statStreakVal");
-    if (streakVal) streakVal.textContent = String(uniqueDays.size);
 
     // Crisis Banner Check
     const crisisBanner = $("crisisAlertBanner");
@@ -1242,6 +1185,16 @@
 
     const bgForm = $("bgForm");
     if (bgForm) bgForm.addEventListener("submit", handleBGSubmit);
+
+    // Dynamic Sticky Navbar Offset Synchronizer
+    function syncStickyNavOffset() {
+      const nav = document.querySelector("nav.navbar");
+      if (nav && document.documentElement && document.documentElement.style && document.documentElement.style.setProperty) {
+        document.documentElement.style.setProperty("--bw-navbar-height", `${nav.offsetHeight}px`);
+      }
+    }
+    syncStickyNavOffset();
+    window.addEventListener("resize", syncStickyNavOffset);
 
     // Initial render & I18N synchronization
     hrSetLang(hrLang);

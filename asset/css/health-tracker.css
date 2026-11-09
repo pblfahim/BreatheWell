@@ -107,6 +107,115 @@ body[data-page="health"] {
   color: #fff;
 }
 
+/* ============================================================================
+ * 3.1 HERO TAB BAR (STICKY NAVIGATION)
+ * ============================================================================ */
+:root {
+  --bw-navbar-height: 68px;
+}
+
+@media (max-width: 991px) {
+  :root {
+    --bw-navbar-height: 64px;
+  }
+}
+
+.ht-hero-tab-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--bw-navbar-height, 68px);
+  z-index: 1010;
+  background: #0f4c3a;
+  padding-top: 14px;
+  box-shadow: 0 4px 14px rgba(15, 76, 58, 0.16);
+  margin-bottom: 24px;
+  transition: top var(--ht-dur-fast) var(--ht-ease), box-shadow var(--ht-dur-fast) var(--ht-ease);
+}
+
+.ht-hero-tabs {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  margin-bottom: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ht-hero-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.ht-hero-tab {
+  flex: 1 1 0;
+  min-width: 140px;
+  max-width: 260px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px 12px 0 0;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: all var(--ht-dur-fast) var(--ht-ease);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.ht-hero-tab:hover {
+  background: #f0fdf4;
+  color: #0f4c3a;
+}
+
+.ht-hero-tab.active {
+  background: #e9f7ed;
+  color: #0f4c3a;
+  font-weight: 800;
+}
+
+.ht-hero-tab-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .ht-hero-tab-bar {
+    margin-bottom: 18px;
+  }
+
+  .ht-hero-tab {
+    min-width: 130px;
+    height: 44px;
+    font-size: 0.88rem;
+  }
+}
+
+/* Sibling pull-up margin adjustment when following Dark Green Tab Header Bar */
+.ht-hero-tab-bar + .ht-pull-up,
+.ht-hero-tab-bar + * .ht-pull-up,
+.ht-hero-tab-bar ~ .ht-pull-up,
+.ht-hero-tab-wrapper ~ .ht-pull-up {
+  margin-top: 24px !important;
+}
+
+@media (max-width: 991px) {
+  .ht-hero-tab-bar + .ht-pull-up,
+  .ht-hero-tab-bar ~ .ht-pull-up {
+    margin-top: 20px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .ht-hero-tab-bar + .ht-pull-up,
+  .ht-hero-tab-bar ~ .ht-pull-up {
+    margin-top: 16px !important;
+  }
+}
+
 /* Atmospheric animated background bubbles */
 .ht-page-hero::before,
 .ht-page-hero::after {
