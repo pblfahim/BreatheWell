@@ -118,7 +118,7 @@
       quickAdd: "Add Reading",
       quickTrends: "Trends & Charts",
       quickLog: "History Log",
-      quickDemo: "Demo Lab",
+      quickDemo: "Demo Data",
       btnViewLog: "📋 View History Log",
       statAvgBP: "Average BP",
       statAvgBG: "Average Glucose",

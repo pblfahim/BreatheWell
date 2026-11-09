@@ -96,7 +96,7 @@
       quickAdd: "Add Reading",
       quickTrends: "Trends & Charts",
       quickLog: "History Log",
-      quickDemo: "Demo Lab",
+      quickDemo: "Demo Data",
       storageCountLbl: "Currently Stored Records",
       btnViewCharts: "📈 View in Charts",
       btnViewLog: "📋 View in History Log",

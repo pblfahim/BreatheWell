@@ -154,7 +154,7 @@
       quickAdd: "Add Reading",
       quickTrends: "Trends & Charts",
       quickLog: "History Log",
-      quickDemo: "Demo Lab",
+      quickDemo: "Demo Data",
       btnViewLog: "📋 View History Log",
       statLatestBP: "Latest Blood Pressure",
       statLatestBG: "Latest Glucose",
@@ -1068,9 +1068,9 @@
       p.classList.toggle("active", p.getAttribute("data-lang") === hrLang);
     });
 
-    // Translate all [data-hr-i18n] and [data-ar-i18n]
-    document.querySelectorAll("[data-hr-i18n], [data-ar-i18n]").forEach(el => {
-      const k = el.getAttribute("data-hr-i18n") || el.getAttribute("data-ar-i18n");
+    // Translate all [data-hr-i18n], [data-ar-i18n] and [data-ht-i18n]
+    document.querySelectorAll("[data-hr-i18n], [data-ar-i18n], [data-ht-i18n]").forEach(el => {
+      const k = el.getAttribute("data-hr-i18n") || el.getAttribute("data-ar-i18n") || el.getAttribute("data-ht-i18n");
       if (T[hrLang] && T[hrLang][k]) {
         el.textContent = T[hrLang][k];
       }

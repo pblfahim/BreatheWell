@@ -66,13 +66,13 @@
             <span class="ht-hero-tab-icon">➕</span>
             <span class="ht-hero-tab-text" data-hc-i18n="quickAdd" data-tc-i18n="quickAdd">নতুন রিডিং</span>
           </a>
-          <a href="health-charts.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
-            <span class="ht-hero-tab-icon">📈</span>
-            <span class="ht-hero-tab-text" data-hc-i18n="quickTrends" data-tc-i18n="quickTrends">ট্রেন্ড চার্ট</span>
-          </a>
           <a href="health-history.html" class="ht-hero-tab text-decoration-none">
             <span class="ht-hero-tab-icon">📋</span>
             <span class="ht-hero-tab-text" data-hc-i18n="quickLog" data-tc-i18n="quickLog">ইতিহাস লগ</span>
+          </a>
+          <a href="health-charts.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
+            <span class="ht-hero-tab-icon">📈</span>
+            <span class="ht-hero-tab-text" data-hc-i18n="quickTrends" data-tc-i18n="quickTrends">ট্রেন্ড চার্ট</span>
           </a>
           <a href="health-demo.html" class="ht-hero-tab text-decoration-none">
             <span class="ht-hero-tab-icon">🧪</span>
@@ -83,81 +83,9 @@
     </div>
 
     <!-- ======================================================================
-         3. STATS PULL-UP ROW
-         ====================================================================== -->
-    <div class="ht-pull-up hc-pull-up tc-pull-up">
-      <div class="container">
-        <div class="row g-3">
-          <!-- 3.1 Latest BP Card -->
-          <div class="col-6 col-lg-3">
-            <div class="hc-stat-card tc-stat-card">
-              <div class="hc-stat-head tc-stat-head">
-                <span class="hc-stat-lbl tc-stat-lbl" data-tc-i18n="statLatestBP">সর্বশেষ রক্তচাপ</span>
-                <span class="hc-stat-badge tc-stat-badge neutral" id="tcStatBPBadge">—</span>
-              </div>
-              <div class="hc-stat-val tc-stat-val" id="tcStatBPVal">—</div>
-              <div class="hc-stat-sub tc-stat-sub" id="tcStatBPSub">—</div>
-              <div class="hc-sparkline tc-sparkline" id="tcBPSparkline"></div>
-            </div>
-          </div>
-
-          <!-- 3.2 Latest BG Card -->
-          <div class="col-6 col-lg-3">
-            <div class="hc-stat-card tc-stat-card">
-              <div class="hc-stat-head tc-stat-head">
-                <span class="hc-stat-lbl tc-stat-lbl" data-tc-i18n="statLatestBG">সর্বশেষ গ্লুকোজ</span>
-                <span class="hc-stat-badge tc-stat-badge neutral" id="tcStatBGBadge">—</span>
-              </div>
-              <div class="hc-stat-val tc-stat-val" id="tcStatBGVal">—</div>
-              <div class="hc-stat-sub tc-stat-sub" id="tcStatBGSub">—</div>
-              <div class="hc-sparkline tc-sparkline" id="tcBGSparkline"></div>
-            </div>
-          </div>
-
-          <!-- 3.3 Today Readings -->
-          <div class="col-6 col-lg-3">
-            <div class="hc-stat-card tc-stat-card">
-              <div class="hc-stat-head tc-stat-head">
-                <span class="hc-stat-lbl tc-stat-lbl" data-tc-i18n="statToday">আজকের রিডিং</span>
-                <i class="bi bi-calendar2-check text-primary"></i>
-              </div>
-              <div class="hc-stat-val tc-stat-val" id="tcStatTodayVal">0</div>
-              <div class="hc-stat-sub tc-stat-sub" id="tcStatTodaySub">—</div>
-            </div>
-          </div>
-
-          <!-- 3.4 Streak -->
-          <div class="col-6 col-lg-3">
-            <div class="hc-stat-card tc-stat-card">
-              <div class="hc-stat-head tc-stat-head">
-                <span class="hc-stat-lbl tc-stat-lbl" data-tc-i18n="statStreak">লগিং স্ট্রিক</span>
-                <i class="bi bi-fire text-warning"></i>
-              </div>
-              <div class="hc-stat-val tc-stat-val" id="tcStatStreakVal">0</div>
-              <div class="hc-stat-sub tc-stat-sub" id="tcStatStreakSub">—</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================================================================
          4. MAIN CHARTS CONTENT
          ====================================================================== -->
     <section class="container pb-5" id="chartsSection">
-
-      <!-- Smart Insights Banner -->
-      <div class="hc-insight-card tc-insight-card d-none" id="tcInsightCard">
-        <div class="hc-insight-head tc-insight-head">
-          <h2 class="hc-insight-title tc-insight-title">
-            <i class="bi bi-stars text-primary"></i>
-            <span data-tc-i18n="insightsTitle">স্মার্ট স্বাস্থ্য অ্যানালিটিক্স</span>
-          </h2>
-          <span class="badge bg-primary-subtle text-primary fw-bold">গত ১৪ দিনের রেকর্ড বিশ্লেষণ</span>
-        </div>
-        <div class="hc-insight-chips tc-insight-chips" id="tcInsightChips"></div>
-        <div class="hc-insight-body tc-insight-body" id="tcInsightBody"></div>
-      </div>
 
       <div class="row g-4">
 
@@ -231,6 +159,19 @@
 
             <div class="hc-chart-svg-wrap tc-chart-svg-wrap" id="bgChartWrap"></div>
           </div>
+        </div>
+
+        <!-- Smart Insights Banner -->
+        <div class="hc-insight-card tc-insight-card d-none" id="tcInsightCard">
+          <div class="hc-insight-head tc-insight-head">
+            <h2 class="hc-insight-title tc-insight-title">
+              <i class="bi bi-stars text-primary"></i>
+              <span data-tc-i18n="insightsTitle">স্মার্ট স্বাস্থ্য অ্যানালিটিক্স</span>
+            </h2>
+            <span class="badge bg-primary-subtle text-primary fw-bold">গত ১৪ দিনের রেকর্ড বিশ্লেষণ</span>
+          </div>
+          <div class="hc-insight-chips tc-insight-chips" id="tcInsightChips"></div>
+          <div class="hc-insight-body tc-insight-body" id="tcInsightBody"></div>
         </div>
 
       </div>
@@ -361,17 +302,6 @@
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item active ps-4" href="health-charts.html" aria-current="page">
-          <div class="mobile-sidebar-icon-box text-info">
-            <i class="bi bi-graph-up-arrow"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label">📈 ট্রেন্ড চার্ট</span>
-            <span class="mobile-sidebar-sub">ভিজ্যুয়াল অ্যানালিটিক্স ও ধারাবাহিক চার্ট</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
         <a class="mobile-sidebar-nav-item ps-4" href="health-history.html">
           <div class="mobile-sidebar-icon-box text-success">
             <i class="bi bi-clock-history"></i>
@@ -379,6 +309,17 @@
           <div class="mobile-sidebar-text">
             <span class="mobile-sidebar-label">📋 ইতিহাস লগ</span>
             <span class="mobile-sidebar-sub">ফিল্টারিং, অনুসন্ধান ও এক্সপোর্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item active ps-4" href="health-charts.html" aria-current="page">
+          <div class="mobile-sidebar-icon-box text-info">
+            <i class="bi bi-graph-up-arrow"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label">📈 ট্রেন্ড চার্ট</span>
+            <span class="mobile-sidebar-sub">ভিজ্যুয়াল অ্যানালিটিক্স ও ধারাবাহিক চার্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>

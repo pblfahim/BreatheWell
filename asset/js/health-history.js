@@ -117,7 +117,7 @@
       quickAdd: "Add Reading",
       quickTrends: "Trends & Charts",
       quickLog: "History Log",
-      quickDemo: "Demo Lab",
+      quickDemo: "Demo Data",
       cardTitle: "History & Health Logs",
       tabAll: "All",
       tabBP: "Blood Pressure",
