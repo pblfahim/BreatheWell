@@ -498,7 +498,7 @@
  * 9. RESPONSIVE MEDIA QUERIES (MOBILE & TABLET)
  * ============================================================================
  */
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
   .hh-hero,
   .hl-hero {
     padding: 32px 0 80px;
@@ -514,14 +514,136 @@
     margin-top: -45px;
   }
 
+  .hh-toast-stack,
+  .hl-toast-stack {
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 16px;
+    left: 16px;
+    align-items: center;
+  }
+
+  .hh-toast,
+  .hl-toast {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
   .hh-card-header,
   .hl-card-header {
-    padding: 16px;
+    padding: 16px 14px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .hh-card-header > div:first-child {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .hh-tabs,
+  .hl-tabs {
+    width: 100%;
+    display: flex;
+  }
+
+  .hh-tab-btn,
+  .hl-tab-btn {
+    flex: 1;
+    text-align: center;
+    padding: 7px 6px;
+    font-size: 0.82rem;
+  }
+
+  .hh-action-group,
+  .hl-action-group {
+    width: 100%;
+  }
+
+  .hh-action-group button,
+  .hl-action-group button {
+    width: 100%;
+    justify-content: center;
   }
 
   .hh-table-body,
   .hl-table-body {
-    padding: 12px;
+    padding: 12px 10px;
+  }
+
+  .hh-table thead th,
+  .hl-table thead th {
+    padding: 10px 8px;
+    font-size: 0.72rem;
+  }
+
+  .hh-table tbody td,
+  .hl-table tbody td {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+  }
+
+  /* DataTables 2 Mobile Overrides */
+  div.dt-container .dt-search,
+  div.dt-container .dt-length {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  div.dt-container .dt-search input {
+    width: 100% !important;
+    display: block;
+    margin: 4px 0 0 0 !important;
+  }
+
+  div.dt-container .dt-paging {
+    text-align: center;
+    overflow-x: auto;
+    padding: 6px 0;
+  }
+
+  div.dt-container .dt-paging .pagination {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2px;
   }
 }
+
+@media (max-width: 575.98px) {
+  .hh-summary-card,
+  .hl-summary-card {
+    padding: 10px 10px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+
+  .hh-summary-icon,
+  .hl-summary-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+  }
+
+  .hh-summary-val,
+  .hl-summary-val {
+    font-size: 1.2rem;
+  }
+
+  .hh-summary-lbl,
+  .hl-summary-lbl {
+    font-size: 0.66rem;
+    line-height: 1.2;
+  }
+
+  #hlLatestDate {
+    font-size: 0.72rem !important;
+    max-width: 90px !important;
+  }
+}
+
 

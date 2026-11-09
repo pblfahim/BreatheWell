@@ -644,7 +644,7 @@
  * 9. RESPONSIVE BREAKPOINT OVERRIDES (MOBILE & TABLET)
  * ============================================================================
  */
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
   .hc-hero,
   .tc-hero {
     padding: 32px 0 80px;
@@ -660,6 +660,22 @@
     margin-top: -45px;
   }
 
+  .hc-toast-stack,
+  .tc-toast-stack {
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 16px;
+    left: 16px;
+    align-items: center;
+  }
+
+  .hc-toast,
+  .tc-toast {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
   .hc-chart-card,
   .tc-chart-card {
     padding: 18px 14px;
@@ -670,5 +686,59 @@
   .tc-chart-svg {
     height: 210px;
   }
+
+  .hc-insight-card,
+  .tc-insight-card {
+    padding: 16px 14px;
+  }
 }
+
+@media (max-width: 575.98px) {
+  .hc-chart-header,
+  .tc-chart-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .hc-tf-group,
+  .tc-tf-group {
+    width: 100%;
+    display: flex;
+  }
+
+  .hc-tf-btn,
+  .tc-tf-btn {
+    flex: 1;
+    text-align: center;
+    padding: 6px 2px;
+    font-size: 0.72rem;
+  }
+
+  .hc-legend-row,
+  .tc-legend-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .hc-metric-chips,
+  .tc-metric-chips {
+    width: 100%;
+    margin-left: 0;
+    gap: 6px;
+  }
+
+  .hc-metric-chip,
+  .tc-metric-chip {
+    font-size: 0.7rem;
+    padding: 3px 7px;
+  }
+
+  .hc-chart-svg,
+  .tc-chart-svg {
+    height: 195px;
+  }
+}
+
 

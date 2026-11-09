@@ -272,17 +272,51 @@
  * ============================================================================
  */
 @media (max-width: 991.98px) {
-
   .hr-pull-up,
   .ar-pull-up {
     margin-top: -45px;
   }
 
+  .hr-tools-card,
+  .ar-tools-card {
+    padding: 20px 18px;
+    border-radius: var(--hr-radius-md);
+  }
+
   .hr-toast-stack,
   .ar-toast-stack {
-    bottom: 95px;
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
     right: 16px;
     left: 16px;
     align-items: center;
+  }
+
+  .hr-toast,
+  .ar-toast {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hr-tools-card,
+  .ar-tools-card {
+    padding: 16px 14px;
+  }
+
+  #btnSendWA {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ht-crisis-banner {
+    padding: 14px 14px;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 14px;
+  }
+
+  .ht-crisis-icon {
+    margin: 0 auto 6px;
   }
 }

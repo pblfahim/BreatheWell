@@ -1196,6 +1196,14 @@
     syncStickyNavOffset();
     window.addEventListener("resize", syncStickyNavOffset);
 
+    // Auto-scroll active tab into view on mobile touch devices
+    const activeHeroTab = document.querySelector(".ht-hero-tab.active");
+    if (activeHeroTab && typeof activeHeroTab.scrollIntoView === "function") {
+      try {
+        activeHeroTab.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+      } catch (_) {}
+    }
+
     // Initial render & I18N synchronization
     hrSetLang(hrLang);
   }

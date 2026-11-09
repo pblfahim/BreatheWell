@@ -376,6 +376,7 @@
 .hd-btn-generate,
 .dd-btn-generate {
   width: 100%;
+  margin-top: auto;
   padding: 10px 16px;
   border-radius: 12px;
   border: none;
@@ -489,7 +490,7 @@
  * 7. RESPONSIVE BREAKPOINT OVERRIDES (MOBILE & TABLET)
  * ============================================================================
  */
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
   .hd-hero,
   .dd-hero {
     padding: 32px 0 80px;
@@ -505,10 +506,82 @@
     margin-top: -45px;
   }
 
+  .hd-toast-stack,
+  .dd-toast-stack {
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 16px;
+    left: 16px;
+    align-items: center;
+  }
+
+  .hd-toast,
+  .dd-toast {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
   .hd-status-bar,
   .dd-status-bar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    padding: 16px 14px;
+    gap: 14px;
+  }
+
+  .hd-status-info,
+  .dd-status-info {
+    width: 100%;
+  }
+
+  .hd-status-actions,
+  .dd-status-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hd-status-actions a,
+  .hd-status-actions button,
+  .dd-status-actions a,
+  .dd-status-actions button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hd-scenario-card,
+  .dd-scenario-card {
+    padding: 18px 16px;
+  }
+
+  .hd-panel-card,
+  .dd-panel-card {
+    padding: 20px 16px;
   }
 }
+
+@media (max-width: 575.98px) {
+  .hd-status-icon,
+  .dd-status-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .hd-status-count,
+  .dd-status-count {
+    font-size: 1.2rem;
+  }
+
+  .hd-preview-item,
+  .dd-preview-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
 
