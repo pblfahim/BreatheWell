@@ -1,0 +1,1175 @@
+/**
+ * ============================================================================
+ * @file prescription-pad.css
+ * @module BreatheWell/PrescriptionPad/Styles
+ * @description Dedicated Stylesheet for the BreatheWell Live Digital Prescription Pad.
+ *              Encapsulates styling for the WYSIWYG paper prescription pad with real-time
+ *              direct in-place editing, subtle interactive focus affordances, clinical
+ *              item lists, dynamic medication schedule builder, uploadable signature box,
+ *              floating action toolbars, and pixel-perfect print (@media print) rules.
+ * @author BreatheWell Development Team
+ * @version 2.4.0
+ * @license MIT
+ * ============================================================================
+ * 
+ * TABLE OF CONTENTS:
+ * 1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+ * 2. HERO BANNER & ACTION TOOLBAR
+ * 3. DESK VIEW & PAPER PAD CONTAINER
+ * 4. REAL-TIME IN-PLACE EDITABLE CONTROLS & PLACEHOLDERS
+ * 5. DOCTOR & HOSPITAL HEADER LAYOUT
+ * 6. PATIENT DEMOGRAPHICS SUB-HEADER BAR
+ * 7. TWO-COLUMN CLINICAL BODY (C/C, H/O, O/E VITALS, INV, DX, RX, ADVICE)
+ * 8. INLINE MEDICINE ROWS & PRESET PILLS
+ * 9. FOOTER & UPLOADABLE DOCTOR'S SIGNATURE BOX
+ * 10. TOAST NOTIFICATION STACK & OCR MODALS
+ * 11. RESPONSIVE MOBILE & TABLET ADAPTATIONS (FLUID GRID & TOUCH TARGETS)
+ * 12. PIXEL-PERFECT PRINT STYLESHEET (@media print)
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+ * ============================================================================
+ */
+:root {
+  --pp-primary: var(--bw-primary, #1769aa);
+  --pp-primary-dark: var(--bw-primary-dark, #0d47a1);
+  --pp-primary-light: var(--bw-primary-light, #e8f3fb);
+  --pp-teal: var(--bw-teal, #0d9488);
+  --pp-teal-dark: #0f766e;
+  --pp-teal-light: #ccfbf1;
+  --pp-emerald: var(--bw-emerald, #10b981);
+  --pp-emerald-light: #d1fae5;
+  --pp-amber: var(--bw-amber, #f59e0b);
+  --pp-amber-light: #fef3c7;
+  --pp-rose: #ef4444;
+  --pp-rose-light: #fee2e2;
+
+  --pp-slate-50: #f8fafc;
+  --pp-slate-100: #f1f5f9;
+  --pp-slate-200: #e2e8f0;
+  --pp-slate-300: #cbd5e1;
+  --pp-slate-400: #94a3b8;
+  --pp-slate-500: #64748b;
+  --pp-slate-600: #475569;
+  --pp-slate-700: #334155;
+  --pp-slate-800: #1e293b;
+  --pp-slate-900: #0f172a;
+
+  --pp-white: #ffffff;
+  --pp-desk-bg: #e2e8f0;
+  --pp-paper-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+  --pp-paper-shadow-hover: 0 20px 35px -8px rgba(15, 23, 42, 0.18), 0 10px 14px -6px rgba(15, 23, 42, 0.1);
+
+  --pp-radius-sm: 6px;
+  --pp-radius-md: 10px;
+  --pp-radius-lg: 16px;
+  --pp-radius-xl: 24px;
+}
+
+/* ============================================================================
+ * 2. HERO BANNER & ACTION TOOLBAR
+ * ============================================================================
+ */
+.pp-hero {
+  background: linear-gradient(135deg, #093740 0%, #0d9488 60%, #14b8a6 100%);
+  color: var(--pp-white);
+  padding: 2.25rem 0 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.15);
+}
+
+.pp-hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pp-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pp-hero-title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.pp-hero-sub {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+/* Toolbar Card */
+.pp-toolbar-card {
+  background: rgba(15, 23, 42, 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--pp-radius-lg);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.pp-action-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--pp-radius-md);
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pp-btn:hover {
+  transform: translateY(-1px);
+}
+
+.pp-btn:active {
+  transform: translateY(0);
+}
+
+.pp-btn-primary {
+  background: var(--pp-white);
+  color: var(--pp-teal-dark);
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pp-btn-primary:hover {
+  background: #f8fafc;
+  color: #042f2e;
+}
+
+.pp-btn-success {
+  background: #10b981;
+  color: var(--pp-white);
+  font-weight: 700;
+}
+
+.pp-btn-success:hover {
+  background: #059669;
+  color: var(--pp-white);
+}
+
+.pp-btn-outline {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--pp-white);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.pp-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: var(--pp-white);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.pp-ocr-status {
+  background: rgba(15, 23, 42, 0.65);
+  border-radius: var(--pp-radius-md);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  color: var(--pp-white);
+}
+
+/* ============================================================================
+ * 3. DESK VIEW & PAPER PAD CONTAINER
+ * ============================================================================
+ */
+.pp-desk-section {
+  background: var(--pp-desk-bg);
+  padding: 2.5rem 0 4rem;
+  min-height: calc(100vh - 200px);
+}
+
+.pp-pad-outer {
+  background: #cbd5e1;
+  padding: 1.5rem;
+  border-radius: var(--pp-radius-xl);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.pp-pad-paper {
+  background: var(--pp-white);
+  border-radius: 4px;
+  box-shadow: var(--pp-paper-shadow);
+  padding: 2.75rem 2.5rem;
+  min-height: 900px;
+  position: relative;
+  font-family: "Inter", "Noto Sans Bengali", system-ui, sans-serif;
+  color: var(--pp-slate-900);
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.25s ease;
+}
+
+.pp-pad-paper:hover {
+  box-shadow: var(--pp-paper-shadow-hover);
+}
+
+/* Authentic Medical Watermark */
+.pp-pad-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  font-size: 8rem;
+  font-weight: 900;
+  color: rgba(13, 148, 136, 0.03);
+  pointer-events: none;
+  user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  z-index: 1;
+}
+
+/* Real-Time Editing Hint Badge */
+.pp-edit-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: rgba(13, 148, 136, 0.08);
+  color: var(--pp-teal-dark);
+  font-size: 0.725rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  user-select: none;
+}
+
+/* ============================================================================
+ * 4. REAL-TIME IN-PLACE EDITABLE CONTROLS & PLACEHOLDERS
+ * ============================================================================
+ */
+.pp-editable {
+  outline: none;
+  cursor: text;
+  border-radius: 3px;
+  transition: all 0.18s ease;
+  min-width: 20px;
+  display: inline-block;
+  padding: 0.05rem 0.2rem;
+}
+
+.pp-editable:hover {
+  background: rgba(13, 148, 136, 0.06);
+  box-shadow: 0 0 0 1px rgba(13, 148, 136, 0.25);
+}
+
+.pp-editable:focus {
+  background: rgba(13, 148, 136, 0.1);
+  box-shadow: 0 0 0 2px var(--pp-teal);
+}
+
+/* CSS data-placeholder implementation */
+.pp-editable:empty::before {
+  content: attr(data-placeholder);
+  color: var(--pp-slate-400);
+  font-style: italic;
+  font-weight: normal;
+  pointer-events: none;
+}
+
+/* Flash highlight animation for OCR auto-population */
+.pp-highlight {
+  animation: ppPulseGlow 1.6s ease-out;
+}
+
+@keyframes ppPulseGlow {
+  0% {
+    background-color: rgba(16, 185, 129, 0.35);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.4);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+/* ============================================================================
+ * 5. DOCTOR & HOSPITAL HEADER LAYOUT
+ * ============================================================================
+ */
+.pp-pad-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1.15rem;
+  border-bottom: 2.5px solid var(--pp-slate-900);
+  position: relative;
+  z-index: 2;
+}
+
+.pp-doc-info {
+  max-width: 58%;
+}
+
+.pp-doc-name {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--pp-slate-900);
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.pp-doc-degrees {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--pp-slate-700);
+  margin-bottom: 0.25rem;
+  line-height: 1.35;
+}
+
+.pp-doc-reg {
+  font-size: 0.775rem;
+  color: var(--pp-slate-500);
+  font-weight: 600;
+  margin: 0;
+}
+
+.pp-hosp-info {
+  text-align: right;
+  max-width: 40%;
+}
+
+.pp-hosp-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--pp-teal);
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.pp-hosp-address {
+  font-size: 0.8125rem;
+  color: var(--pp-slate-600);
+  margin-bottom: 0.2rem;
+}
+
+.pp-hosp-call {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--pp-slate-800);
+  margin: 0;
+}
+
+/* ============================================================================
+ * 6. PATIENT DEMOGRAPHICS SUB-HEADER BAR
+ * ============================================================================
+ */
+.pp-pad-patient-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1.5px dashed var(--pp-slate-300);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--pp-slate-800);
+  position: relative;
+  z-index: 2;
+}
+
+.pp-patient-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pp-patient-meta-label {
+  font-weight: 700;
+  color: var(--pp-slate-900);
+}
+
+.pp-patient-meta-val {
+  font-weight: 600;
+  color: var(--pp-slate-900);
+  min-width: 60px;
+}
+
+/* ============================================================================
+ * 7. TWO-COLUMN CLINICAL BODY (C/C, H/O, O/E VITALS, INV, DX, RX, ADVICE)
+ * ============================================================================
+ */
+.pp-pad-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1.75rem;
+  min-height: 600px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Left Sidebar (Clinical Examination) */
+.pp-pad-left-col {
+  border-right: 1.5px solid var(--pp-slate-300);
+  padding-right: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.pp-section-header-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dotted var(--pp-slate-300);
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.45rem;
+}
+
+.pp-pad-section-heading {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--pp-slate-900);
+  margin: 0;
+}
+
+.pp-add-item-btn {
+  background: transparent;
+  border: none;
+  color: var(--pp-teal);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.pp-add-item-btn:hover {
+  background: var(--pp-teal-light);
+  color: var(--pp-teal-dark);
+}
+
+/* Interactive List */
+.pp-pad-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--pp-slate-700);
+  line-height: 1.5;
+}
+
+.pp-pad-list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.15rem 0;
+  position: relative;
+}
+
+.pp-pad-list-item::before {
+  content: "•";
+  color: var(--pp-teal);
+  font-weight: 800;
+  margin-right: 0.35rem;
+}
+
+.pp-item-content {
+  flex-grow: 1;
+}
+
+.pp-item-remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--pp-slate-400);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  line-height: 1;
+  opacity: 0;
+  transition: all 0.15s ease;
+}
+
+.pp-pad-list-item:hover .pp-item-remove-btn,
+.pp-med-item:hover .pp-item-remove-btn {
+  opacity: 1;
+}
+
+.pp-item-remove-btn:hover {
+  color: var(--pp-rose);
+  transform: scale(1.15);
+}
+
+/* O/E Vital Pairs */
+.pp-oe-table {
+  width: 100%;
+  font-size: 0.8125rem;
+}
+
+.pp-oe-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.25rem 0;
+  border-bottom: 1px dotted rgba(203, 213, 225, 0.7);
+}
+
+.pp-oe-name {
+  font-weight: 700;
+  color: var(--pp-slate-800);
+}
+
+.pp-oe-val {
+  font-weight: 600;
+  color: var(--pp-slate-900);
+  text-align: right;
+}
+
+/* Right Main Column (Dx, Rx, Advice) */
+.pp-pad-right-col {
+  padding-left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.pp-pad-dx {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--pp-slate-900);
+  margin-bottom: 1.15rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px dotted var(--pp-slate-300);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.pp-pad-dx-label {
+  font-weight: 800;
+  color: var(--pp-teal-dark);
+}
+
+.pp-pad-rx-symbol {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--pp-slate-900);
+  line-height: 1;
+  margin-bottom: 0.85rem;
+}
+
+/* ============================================================================
+ * 8. INLINE MEDICINE ROWS & PRESET PILLS
+ * ============================================================================
+ */
+.pp-pad-med-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.pp-med-item {
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px dashed var(--pp-slate-200);
+  border-radius: var(--pp-radius-sm);
+  transition: background 0.15s ease;
+  position: relative;
+}
+
+.pp-med-item:hover {
+  background: #f8fafc;
+}
+
+.pp-med-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.pp-med-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  flex-grow: 1;
+}
+
+.pp-med-num {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--pp-slate-500);
+}
+
+.pp-med-form-select {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--pp-teal);
+  text-transform: uppercase;
+  background: var(--pp-teal-light);
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.pp-med-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--pp-slate-900);
+  min-width: 140px;
+}
+
+.pp-med-duration {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--pp-slate-600);
+  text-align: right;
+  min-width: 70px;
+}
+
+.pp-med-sub {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--pp-slate-600);
+  padding-left: 1.6rem;
+}
+
+.pp-med-dosage {
+  font-family: monospace;
+  font-weight: 700;
+  background: var(--pp-slate-100);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  color: var(--pp-slate-800);
+  border: 1px solid var(--pp-slate-200);
+  min-width: 45px;
+}
+
+.pp-med-timing {
+  font-size: 0.8125rem;
+  color: var(--pp-slate-700);
+  min-width: 75px;
+}
+
+.pp-med-note {
+  font-size: 0.775rem;
+  font-style: italic;
+  color: var(--pp-slate-500);
+  min-width: 60px;
+}
+
+/* Quick Add Button Bar under Medicines */
+.pp-med-action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-top: 1px dashed var(--pp-slate-200);
+  margin-bottom: 1.5rem;
+}
+
+.pp-add-med-btn {
+  background: var(--pp-teal-light);
+  border: 1px dashed var(--pp-teal);
+  color: var(--pp-teal-dark);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--pp-radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.15s ease;
+}
+
+.pp-add-med-btn:hover {
+  background: var(--pp-teal);
+  color: var(--pp-white);
+}
+
+.pp-quick-med-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pp-quick-med-pill {
+  font-size: 0.725rem;
+  font-weight: 600;
+  background: var(--pp-white);
+  border: 1px solid var(--pp-slate-300);
+  color: var(--pp-slate-600);
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pp-quick-med-pill:hover {
+  background: var(--pp-teal-light);
+  border-color: var(--pp-teal);
+  color: var(--pp-teal-dark);
+}
+
+/* Advice Section */
+.pp-pad-advice-section {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--pp-slate-200);
+}
+
+.pp-pad-advice-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--pp-slate-900);
+  margin-bottom: 0.35rem;
+}
+
+.pp-pad-advice-body {
+  font-size: 0.8125rem;
+  color: var(--pp-slate-700);
+  line-height: 1.6;
+  white-space: pre-line;
+  min-height: 50px;
+  width: 100%;
+}
+
+/* ============================================================================
+ * 9. FOOTER & UPLOADABLE DOCTOR'S SIGNATURE BOX
+ * ============================================================================
+ */
+.pp-pad-footer {
+  margin-top: 2.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px dotted var(--pp-slate-300);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.pp-pad-footer-note {
+  font-size: 0.725rem;
+  color: var(--pp-slate-400);
+  max-width: 60%;
+}
+
+.pp-pad-signature-box {
+  text-align: center;
+  width: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Signature upload trigger zone */
+.pp-sig-upload-zone {
+  border: 1.5px dashed var(--pp-slate-300);
+  background: var(--pp-slate-50);
+  border-radius: var(--pp-radius-md);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--pp-teal);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  margin-bottom: 0.4rem;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.pp-sig-upload-zone:hover {
+  background: var(--pp-teal-light);
+  border-color: var(--pp-teal);
+  color: var(--pp-teal-dark);
+}
+
+/* Signature preview container */
+.pp-sig-preview-wrap {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.35rem;
+}
+
+.pp-sig-img {
+  max-width: 100%;
+  max-height: 56px;
+  object-fit: contain;
+  filter: contrast(110%);
+}
+
+.pp-sig-remove-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--pp-rose);
+  color: var(--pp-white);
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease;
+}
+
+.pp-sig-remove-btn:hover {
+  transform: scale(1.15);
+}
+
+.pp-pad-signature-line {
+  border-top: 1.5px solid var(--pp-slate-800);
+  padding-top: 0.35rem;
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: var(--pp-slate-800);
+  width: 100%;
+  text-align: center;
+}
+
+/* ============================================================================
+ * 10. TOAST NOTIFICATION STACK & OCR MODALS
+ * ============================================================================
+ */
+.pp-toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1090;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.pp-toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 380px;
+  background: var(--pp-slate-900);
+  color: var(--pp-white);
+  border-radius: var(--pp-radius-md);
+  padding: 0.85rem 1.15rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: ppToastSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 4px solid var(--pp-teal);
+}
+
+.pp-toast.success {
+  border-left-color: var(--pp-emerald);
+}
+
+.pp-toast.warn {
+  border-left-color: var(--pp-amber);
+}
+
+.pp-toast.error {
+  border-left-color: var(--pp-rose);
+}
+
+@keyframes ppToastSlide {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+ * 11. RESPONSIVE MOBILE & TABLET ADAPTATIONS (FLUID GRID & TOUCH TARGETS)
+ * ============================================================================
+ */
+@media (max-width: 991.98px) {
+  .pp-pad-paper {
+    padding: 2rem 1.5rem;
+  }
+
+  .pp-pad-body {
+    grid-template-columns: 190px 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .pp-hero-title {
+    font-size: 1.55rem;
+  }
+
+  .pp-pad-outer {
+    padding: 0.45rem;
+    border-radius: var(--pp-radius-md);
+  }
+
+  .pp-pad-paper {
+    padding: 1.35rem 0.95rem;
+    min-height: auto;
+  }
+
+  .pp-pad-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pp-doc-info,
+  .pp-hosp-info {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .pp-pad-patient-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.6rem 0.35rem;
+  }
+
+  .pp-patient-meta-item {
+    font-size: 0.8125rem;
+  }
+
+  .pp-pad-body {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .pp-pad-left-col {
+    border-right: none;
+    border-bottom: 1.5px dashed var(--pp-slate-300);
+    padding-right: 0;
+    padding-bottom: 1.15rem;
+  }
+
+  .pp-pad-right-col {
+    padding-left: 0;
+  }
+
+  .pp-med-item {
+    padding: 0.65rem 0.25rem;
+  }
+
+  .pp-med-head {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .pp-med-sub {
+    padding-left: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .pp-med-action-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .pp-add-med-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .pp-quick-med-pills {
+    justify-content: center;
+  }
+
+  .pp-pad-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .pp-pad-footer-note {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .pp-pad-signature-box {
+    width: 190px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pp-hero-title {
+    font-size: 1.35rem;
+  }
+
+  .pp-pad-paper {
+    padding: 1rem 0.65rem;
+  }
+
+  .pp-pad-patient-bar {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .pp-action-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .pp-btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================================
+ * 12. PIXEL-PERFECT PRINT STYLESHEET (@media print)
+ * ============================================================================
+ */
+@media print {
+  /* Hide non-print chrome */
+  nav,
+  footer,
+  .pp-hero,
+  .pp-edit-badge,
+  .pp-add-item-btn,
+  .pp-item-remove-btn,
+  .pp-med-action-bar,
+  .pp-sig-upload-zone,
+  .pp-sig-remove-btn,
+  .pp-toast-stack,
+  .mobile-bottom-nav,
+  .mobile-sidebar-offcanvas,
+  #ppLangToggle {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 11pt !important;
+  }
+
+  .pp-desk-section {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .pp-pad-outer {
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .pp-pad-paper {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    min-height: auto !important;
+  }
+
+  .pp-editable {
+    box-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .pp-editable:empty::before {
+    display: none !important;
+  }
+
+  .pp-med-item:hover {
+    background: transparent !important;
+  }
+
+  .pp-med-form-select {
+    border: none !important;
+    background: transparent !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    padding: 0 !important;
+    appearance: none !important;
+  }
+
+  .pp-sig-preview-wrap {
+    height: 52px !important;
+  }
+
+  .pp-pad-watermark {
+    opacity: 0.04 !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+}

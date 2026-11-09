@@ -33,6 +33,10 @@ All patient biometrics, prescription scans, and exercise telemetry reside exclus
 |  |  - Two-Way Synchronized Editor & WYSIWYG Digital Doctor Prescription Pad                     |  |
 |  |  - Automated Clinical OCR Ingestion, Medication Builder & WhatsApp / Print Dispatch         |  |
 |  +---------------------------------------------------------------------------------------------+  |
+|  |                     prescription-pad.html (Live Dedicated Prescription Pad)                 |  |
+|  |  - Direct In-Place Real-Time Contenteditable WYSIWYG Hospital Paper Pad                    |  |
+|  |  - Pure Canvas Layout Without External Forms; Dynamic Chip Lists, Presets & 1-Click Vault   |  |
+|  +---------------------------------------------------------------------------------------------+  |
 +---------------------------------------------------------------------------------------------------+
 ```
 
@@ -52,12 +56,14 @@ BreatheWell/
 ├── health-demo.html              # Clinical scenario generator & LocalStorage telemetry inspector
 ├── prescriptions.html            # Clinical prescription vault, document gallery & OCR scanner
 ├── create-prescription.html      # Digital doctor prescription pad creator with live WYSIWYG
+├── prescription-pad.html         # Dedicated live WYSIWYG prescription pad with direct in-place editing
 │
 ├── asset/
 │   ├── css/
 │   │   ├── style.css             # Core design system tokens, hero 3D carousel, breathing animation
 │   │   ├── prescriptions.css     # Prescription vault gallery, drag-and-drop zone & lightbox
 │   │   ├── create-prescription.css # Studio editor layout, WYSIWYG digital pad & print styles
+│   │   ├── prescription-pad.css  # Dedicated live paper pad styles, in-place edit & print rules
 │   │   ├── health-reading.css    # Segmented entry forms, pull-up stats & live spectrum meters
 │   │   ├── health-charts.css     # SVG line chart containers, target safe bands & tooltips
 │   │   ├── health-history.css    # DataTables 2 Bootstrap 5 overrides, badges & export buttons
@@ -69,6 +75,7 @@ BreatheWell/
 │   │   ├── script.jt             # Byte-for-byte SHA256 mirror of script.js
 │   │   ├── prescriptions.js      # Vault engine: Tesseract.js v5 OCR, PDF parser, regex extraction
 │   │   ├── create-prescription.js # Digital prescription studio engine & live pad preview
+│   │   ├── prescription-pad.js   # Live paper pad controller, in-place edit sync & clinical presets
 │   │   ├── health-reading.js     # Vitals entry controller, AHA/ADA classification & meters
 │   │   ├── health-charts.js      # Responsive SVG time-series charts, sparklines & smart insights
 │   │   ├── health-history.js     # DataTables 2 controller, RFC 4180 CSV & JSON backup exporter
