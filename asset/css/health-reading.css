@@ -247,6 +247,7 @@
     opacity: 0;
     transform: translateY(16px) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -259,6 +260,7 @@
     opacity: 0;
     transform: translateY(16px) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -270,6 +272,7 @@
  * ============================================================================
  */
 @media (max-width: 991.98px) {
+
   .hr-pull-up,
   .ar-pull-up {
     margin-top: -45px;
@@ -283,4 +286,3 @@
     align-items: center;
   }
 }
-

@@ -419,7 +419,7 @@
       const timeMs = new Date(r.date).getTime() || 0;
       if (r.type === "bp") {
         const cls = classifyBP(r.sys, r.dia);
-        const armStr = r.arm ? ` (${r.arm === "left" ? "বাম হাত" : "ডান হাত"})` : "";
+        const armStr = r.age ? ` (${htLang === "en" ? `Age ${r.age}y` : `বয়স ${r.age} বছর`})` : (r.arm ? ` (${r.arm === "left" ? (htLang === "en" ? "Left Arm" : "বাম হাত") : (htLang === "en" ? "Right Arm" : "ডান হাত")})` : "");
         return `
           <tr>
             <td data-order="${timeMs}"><i class="bi bi-clock me-1 text-muted"></i>${htFormatDate(r.date)}</td>

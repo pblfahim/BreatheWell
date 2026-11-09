@@ -216,16 +216,27 @@
               </div>
 
               <form id="bpForm" novalidate autocomplete="off">
+                <!-- Age Input Field (Starts the Form) -->
+                <div class="ht-input-group">
+                  <label class="ht-label" for="bpAge">
+                    <span data-hr-i18n="lblAge" data-ar-i18n="lblAge">বয়স</span>
+                    <span class="unit" data-hr-i18n="unitYears" data-ar-i18n="unitYears">বছর / Years</span>
+                  </label>
+                  <input class="ht-input" type="number" id="bpAge" name="bpAge" placeholder="30" min="0" max="120"
+                    inputmode="numeric" required aria-describedby="errBpAge">
+                  <span class="ht-input-error" id="errBpAge"></span>
+                </div>
+
                 <!-- Systolic / Diastolic inline row -->
                 <div class="ht-input-group">
                   <div class="ht-input-row">
                     <div>
                       <label class="ht-label" for="bpSystolic">
-                        <span data-ar-i18n="lblSystolic">সিস্টোলিক</span>
-                        <span class="unit" data-ar-i18n="unitMmhg">mmHg</span>
+                        <span data-hr-i18n="lblSystolic" data-ar-i18n="lblSystolic">সিস্টোলিক</span>
+                        <span class="unit" data-hr-i18n="unitMmhg" data-ar-i18n="unitMmhg">mmHg</span>
                       </label>
-                      <input class="ht-input" type="number" id="bpSystolic" name="bpSystolic" placeholder="120" min="50"
-                        max="250" inputmode="numeric" required>
+                      <input class="ht-input" type="number" id="bpSystolic" name="bpSystolic" placeholder="120" min="40"
+                        max="260" inputmode="numeric" required aria-describedby="errBpSys">
                       <span class="ht-input-error" id="errBpSys"></span>
                     </div>
 
@@ -233,21 +244,21 @@
 
                     <div>
                       <label class="ht-label" for="bpDiastolic">
-                        <span data-ar-i18n="lblDiastolic">ডায়াস্টোলিক</span>
-                        <span class="unit" data-ar-i18n="unitMmhg">mmHg</span>
+                        <span data-hr-i18n="lblDiastolic" data-ar-i18n="lblDiastolic">ডায়াস্টোলিক</span>
+                        <span class="unit" data-hr-i18n="unitMmhg" data-ar-i18n="unitMmhg">mmHg</span>
                       </label>
                       <input class="ht-input" type="number" id="bpDiastolic" name="bpDiastolic" placeholder="80"
-                        min="30" max="150" inputmode="numeric" required>
+                        min="20" max="160" inputmode="numeric" required aria-describedby="errBpDia">
                       <span class="ht-input-error" id="errBpDia"></span>
                     </div>
                   </div>
                 </div>
 
-                <!-- Live BP Diagnostic Spectrum Meter (AHA 2017) -->
+                <!-- Live BP Diagnostic Spectrum Meter (Table 1 Reference) -->
                 <div class="ht-gauge-wrap" id="bpGaugeWrap">
                   <div class="ht-gauge-title">
-                    <span data-ar-i18n="gaugeTitleBP">লাইভ রক্তচাপ স্পেকট্রাম নির্দেশক</span>
-                    <span class="text-primary fw-bold"><i class="bi bi-activity"></i> AHA 2017</span>
+                    <span data-hr-i18n="gaugeTitleBP" data-ar-i18n="gaugeTitleBP">লাইভ রক্তচাপ স্পেকট্রাম নির্দেশক</span>
+                    <span class="text-primary fw-bold"><i class="bi bi-activity"></i> ব্লাড প্রেশার চার্ট</span>
                   </div>
                   <div class="ht-gauge-track bp-track" id="bpGaugeTrack" role="slider"
                     aria-label="Blood Pressure Spectrum" tabindex="0">
@@ -256,30 +267,15 @@
                     </div>
                   </div>
                   <div class="ht-gauge-labels" id="bpGaugeLabels">
-                    <button type="button" class="ht-gauge-lbl" data-bp-target="low">কম (&lt;90)</button>
-                    <button type="button" class="ht-gauge-lbl text-success" data-bp-target="normal">স্বাভাবিক
-                      (120/80)</button>
-                    <button type="button" class="ht-gauge-lbl text-warning" data-bp-target="elevated">উচ্চতর
-                      (125/80)</button>
-                    <button type="button" class="ht-gauge-lbl text-danger" data-bp-target="high1">উচ্চ রক্তচাপ
-                      (140/90)</button>
-                    <button type="button" class="ht-gauge-lbl text-danger-emphasis" data-bp-target="crisis">ক্রাইসিস
-                      (&gt;180)</button>
+                    <button type="button" class="ht-gauge-lbl" data-bp-target="low" data-hr-i18n="bpLowLabel">কম (&lt;90)</button>
+                    <button type="button" class="ht-gauge-lbl text-success active" data-bp-target="optimal" data-hr-i18n="bpOptimalLabel">সর্বোত্তম (&lt;120)</button>
+                    <button type="button" class="ht-gauge-lbl text-primary" data-bp-target="normal" data-hr-i18n="bpNormalLabel">স্বাভাবিক (120–129)</button>
+                    <button type="button" class="ht-gauge-lbl text-warning" data-bp-target="normal-high" data-hr-i18n="bpNormalHighLabel">স্বাভাবিক থেকে উচ্চ (130–139)</button>
+                    <button type="button" class="ht-gauge-lbl text-danger" data-bp-target="high" data-hr-i18n="bpHighLabel">উচ্চ (&gt;140)</button>
                   </div>
                   <div class="ht-advice-box" id="bpAdviceBox">
-                    <span class="text-muted">সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও পরামর্শ দেখতে
-                      পাবেন।</span>
+                    <span class="text-muted">বয়স, সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও বয়সভিত্তিক চার্ট অনুযায়ী পরামর্শ দেখতে পাবেন।</span>
                   </div>
-                </div>
-
-                <!-- Arm Toggle -->
-                <div class="ht-input-group">
-                  <label class="ht-label" data-ar-i18n="lblArm">কোন হাত?</label>
-                  <div class="ht-pill-toggle-group">
-                    <div class="ht-pill-toggle active" data-arm="right" data-ar-i18n="armRight">💪 ডান হাত</div>
-                    <div class="ht-pill-toggle" data-arm="left" data-ar-i18n="armLeft">💪 বাম হাত</div>
-                  </div>
-                  <input type="hidden" id="bpArm" name="bpArm" value="right">
                 </div>
 
                 <!-- Date & Time -->

@@ -47,9 +47,6 @@
   /** @type {string} activeMode - Active form display layout: 'all' | 'bp' | 'bg' */
   let activeMode = "all";
 
-  /** @type {string} activeArm - Currently selected arm for BP measurement: 'right' | 'left' */
-  let activeArm = "right";
-
   /** @type {string} activeTiming - Timing context for blood glucose reading: 'fasting' | 'postmeal' | 'random' */
   let activeTiming = "fasting";
 
@@ -98,6 +95,8 @@
       bpSub: "সিস্টোলিক / ডায়াস্টোলিক (mmHg)",
       bgTitle: "রক্তের গ্লুকোজ এন্ট্রি",
       bgSub: "ডায়াবেটিস পর্যবেক্ষণ (mmol/L)",
+      lblAge: "বয়স",
+      unitYears: "বছর",
       lblSystolic: "সিস্টোলিক",
       lblDiastolic: "ডায়াস্টোলিক",
       lblGlucose: "গ্লুকোজ মান",
@@ -105,9 +104,6 @@
       unitMmol: "mmol/L",
       gaugeTitleBP: "লাইভ রক্তচাপ স্পেকট্রাম নির্দেশক",
       gaugeTitleBG: "লাইভ গ্লুকোজ রেঞ্জ নির্দেশক",
-      lblArm: "কোন হাত?",
-      armRight: "💪 ডান হাত",
-      armLeft: "💪 বাম হাত",
       lblTiming: "পরিমাপের সময়",
       timingFasting: "খালি পেটে",
       timingPostmeal: "খাবার ২ ঘণ্টা পর",
@@ -123,16 +119,24 @@
       btnSendWA: "হোয়াটসঅ্যাপে শেয়ার করুন",
       footerTag: "প্রতিটি নিঃশ্বাসে একটু প্রশান্তি",
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
+      chipOptimal: "🌟 সর্বোত্তম",
       chipNormal: "✅ স্বাভাবিক",
+      chipNormalHigh: "⚠️ স্বাভাবিক থেকে উচ্চ",
+      chipHigh: "🚨 উচ্চ",
       chipElevated: "⚠️ উচ্চতর",
-      chipHigh: "🚨 উচ্চ রক্তচাপ",
       chipCrisis: "🛑 ক্রাইসিস",
-      chipLow: "ℹ️ নিম্ন",
+      chipLow: "ℹ️ কম",
       chipPrediab: "⚠️ প্রি-ডায়াবেটিস",
       chipDiabetic: "🚨 ডায়াবেটিস",
       chipHypo: "⚠️ কম (হাইপো)",
+      bpLowLabel: "কম (<৯০)",
+      bpOptimalLabel: "সর্বোত্তম (<১২০)",
+      bpNormalLabel: "স্বাভাবিক (১২০–১২৯)",
+      bpNormalHighLabel: "স্বাভাবিক-উচ্চ (১৩০–১৩৯)",
+      bpHighLabel: "উচ্চ (>১৪০)",
       toastBPSaved: "✅ রক্তচাপ সফলভাবে সংরক্ষণ করা হয়েছে!",
       toastBGSaved: "✅ গ্লুকোজ সফলভাবে সংরক্ষণ করা হয়েছে!",
+      toastEnterValidAge: "⚠️ অনুগ্রহ করে সঠিক বয়স লিখুন (০–১২০ বছর)।",
       toastEnterValidBP: "⚠️ অনুগ্রহ করে সঠিক সিস্টোলিক ও ডায়াস্টোলিক মান লিখুন।",
       toastEnterValidBG: "⚠️ অনুগ্রহ করে সঠিক গ্লুকোজ মান লিখুন (১.০ - ৩৫.০)।",
       toastInvalidSysDia: "⚠️ সিস্টোলিক মান অবশ্যই ডায়াস্টোলিক থেকে বেশি হতে হবে।"
@@ -168,6 +172,8 @@
       bpSub: "Systolic / Diastolic (mmHg)",
       bgTitle: "Blood Glucose Entry",
       bgSub: "Glycemic Monitoring (mmol/L)",
+      lblAge: "Age",
+      unitYears: "years",
       lblSystolic: "Systolic",
       lblDiastolic: "Diastolic",
       lblGlucose: "Glucose Level",
@@ -175,9 +181,6 @@
       unitMmol: "mmol/L",
       gaugeTitleBP: "Live BP Diagnostic Spectrum",
       gaugeTitleBG: "Live Glycemic Range Meter",
-      lblArm: "Which Arm?",
-      armRight: "💪 Right Arm",
-      armLeft: "💪 Left Arm",
       lblTiming: "Measurement Timing",
       timingFasting: "Fasting",
       timingPostmeal: "2h Post-Meal",
@@ -193,16 +196,24 @@
       btnSendWA: "Share via WhatsApp",
       footerTag: "Peace of mind in every breath",
       footerDisclaimer: "For wellness tracking only. Not a substitute for clinical diagnosis.",
+      chipOptimal: "🌟 Optimal",
       chipNormal: "✅ Normal",
+      chipNormalHigh: "⚠️ Normal to High",
+      chipHigh: "🚨 High",
       chipElevated: "⚠️ Elevated",
-      chipHigh: "🚨 High BP",
       chipCrisis: "🛑 Crisis",
       chipLow: "ℹ️ Low",
       chipPrediab: "⚠️ Pre-diabetes",
       chipDiabetic: "🚨 Diabetic",
       chipHypo: "⚠️ Hypo (Low)",
+      bpLowLabel: "Low (<90)",
+      bpOptimalLabel: "Optimal (<120)",
+      bpNormalLabel: "Normal (120-129)",
+      bpNormalHighLabel: "Normal-high (130-139)",
+      bpHighLabel: "High (>140)",
       toastBPSaved: "✅ Blood pressure saved successfully!",
       toastBGSaved: "✅ Blood glucose saved successfully!",
+      toastEnterValidAge: "⚠️ Please enter a valid age (0–120 years).",
       toastEnterValidBP: "⚠️ Please enter valid systolic and diastolic values.",
       toastEnterValidBG: "⚠️ Please enter a valid glucose value (1.0 - 35.0 mmol/L).",
       toastInvalidSysDia: "⚠️ Systolic value must be strictly greater than diastolic."
@@ -267,80 +278,180 @@
   }
 
   /* ============================================================================
-   * 4. CLINICAL DIAGNOSTIC ALGORITHMS (AHA 2017 & ADA 2024)
+   * 4. CLINICAL DIAGNOSTIC ALGORITHMS (BASED ON REFERENCE TABLES)
    * ============================================================================
    */
   /**
-   * Classifies Blood Pressure readings according to the 2017 ACC/AHA Guideline.
+   * Classifies Blood Pressure readings according to Table 1 of the clinical reference:
+   * - Low: Systolic < 90 or Diastolic < 60
+   * - Optimal: Systolic < 120 and Diastolic < 80 (with SBP >= 90 and DBP >= 60)
+   * - Normal: Systolic 120–129 or Diastolic 80–84
+   * - Normal to high: Systolic 130–139 or Diastolic 85–89
+   * - High: Systolic >= 140 or Diastolic >= 90
    *
-   * Thresholds:
-   * - Hypertensive Crisis: Systolic > 180 mmHg and/or Diastolic > 120 mmHg
-   * - Stage 2 Hypertension: Systolic >= 140 mmHg and/or Diastolic >= 90 mmHg
-   * - Stage 1 Hypertension: Systolic 130-139 mmHg or Diastolic 80-89 mmHg
-   * - Elevated BP: Systolic 120-129 mmHg and Diastolic < 80 mmHg
-   * - Normal BP: Systolic 90-119 mmHg and Diastolic 60-79 mmHg
-   * - Hypotension: Systolic < 90 mmHg or Diastolic < 60 mmHg
+   * Also computes continuous proportional spectrum gauge positioning (0% to 100%)
+   * and matches age & gender benchmarks according to Tables 2 and 3.
    *
    * @param {number} sys - Systolic blood pressure (mmHg).
    * @param {number} dia - Diastolic blood pressure (mmHg).
-   * @returns {{category: string, pct: number, chip: string, cls: string}} Classification metadata.
+   * @param {number|null} [age] - Age in years.
+   * @returns {{category: string, pct: number, chip: string, cls: string, age: number|null, ageBenchmark: Object|null}}
    */
-  function classifyBP(sys, dia) {
-    if (sys > 180 || dia > 120) {
-      return { category: "crisis", pct: 95, chip: T[hrLang].chipCrisis, cls: "danger" };
+  function classifyBP(sys, dia, age = null) {
+    const s = parseInt(sys, 10);
+    const d = parseInt(dia, 10);
+    const a = (age !== null && age !== "" && !isNaN(age)) ? parseInt(age, 10) : null;
+
+    if (isNaN(s) || isNaN(d)) {
+      return {
+        category: "optimal",
+        pct: 32,
+        chip: T[hrLang].chipOptimal || (hrLang === "bn" ? "🌟 সর্বোত্তম" : "🌟 Optimal"),
+        cls: "optimal",
+        age: a,
+        ageBenchmark: null
+      };
     }
-    if (sys >= 140 || dia >= 90) {
-      return { category: "high2", pct: 80, chip: T[hrLang].chipHigh, cls: "danger" };
+
+    let category = "optimal";
+    let chip = T[hrLang].chipOptimal || (hrLang === "bn" ? "🌟 সর্বোত্তম" : "🌟 Optimal");
+    let cls = "optimal";
+
+    // Table 1 Classification Rules
+    if (s < 90 || d < 60) {
+      category = "low";
+      chip = T[hrLang].chipLow;
+      cls = "low";
+    } else if (s >= 140 || d >= 90) {
+      category = "high";
+      chip = T[hrLang].chipHigh;
+      cls = "high";
+    } else if ((s >= 130 && s <= 139) || (d >= 85 && d <= 89)) {
+      category = "normal_high";
+      chip = T[hrLang].chipNormalHigh || (hrLang === "bn" ? "⚠️ স্বাভাবিক থেকে উচ্চ" : "⚠️ Normal to High");
+      cls = "normal_high";
+    } else if ((s >= 120 && s <= 129) || (d >= 80 && d <= 84)) {
+      category = "normal";
+      chip = T[hrLang].chipNormal;
+      cls = "normal";
+    } else {
+      category = "optimal";
+      chip = T[hrLang].chipOptimal || (hrLang === "bn" ? "🌟 সর্বোত্তম" : "🌟 Optimal");
+      cls = "optimal";
     }
-    if ((sys >= 130 && sys <= 139) || (dia >= 80 && dia <= 89)) {
-      return { category: "high1", pct: 62, chip: T[hrLang].chipHigh, cls: "danger" };
+
+    // Continuous Proportional Gauge Pointer Placement (0% to 100%)
+    // Zones:
+    // 0% - 18%: Low (<90)
+    // 18% - 45%: Optimal (90-119)
+    // 45% - 65%: Normal (120-129)
+    // 65% - 82%: Normal to high (130-139)
+    // 82% - 100%: High (>=140)
+    let pct = 32;
+    if (s < 90) {
+      pct = Math.max(4, Math.min(18, 4 + ((s - 50) / 40) * 14));
+    } else if (s < 120) {
+      pct = 18 + ((s - 90) / 30) * 27; // 90->18%, 119->44%
+    } else if (s < 130) {
+      pct = 45 + ((s - 120) / 10) * 20; // 120->45%, 129->63%
+    } else if (s < 140) {
+      pct = 65 + ((s - 130) / 10) * 17; // 130->65%, 139->80%
+    } else {
+      pct = Math.min(96, 82 + ((s - 140) / 50) * 14); // 140->82%, 190->96%
     }
-    if (sys >= 120 && sys <= 129 && dia < 80) {
-      return { category: "elevated", pct: 45, chip: T[hrLang].chipElevated, cls: "elevated" };
+
+    // If Diastolic puts patient into a higher category, adjust pointer smoothly
+    if (category === "high" && pct < 82) pct = 85;
+    else if (category === "normal_high" && pct < 65) pct = 70;
+    else if (category === "normal" && pct < 45) pct = 50;
+
+    // Age benchmark evaluation (Tables 2 & 3)
+    let ageBenchmark = null;
+    if (a !== null) {
+      ageBenchmark = getAgeBenchmarkData(a, s, d);
     }
-    if (sys >= 90 && sys <= 119 && dia >= 60 && dia <= 79) {
-      return { category: "normal", pct: 28, chip: T[hrLang].chipNormal, cls: "normal" };
-    }
-    if (sys < 90 || dia < 60) {
-      return { category: "low", pct: 8, chip: T[hrLang].chipLow, cls: "neutral" };
-    }
-    return { category: "normal", pct: 28, chip: T[hrLang].chipNormal, cls: "normal" };
+
+    return {
+      category,
+      pct: Math.round(pct),
+      chip,
+      cls,
+      age: a,
+      ageBenchmark
+    };
   }
 
   /**
-   * Classifies Blood Glucose readings according to ADA Standards of Care 2024.
-   *
-   * Fasting targets:
-   * - Hypoglycemia: < 4.0 mmol/L
-   * - Normal: 4.0 - 5.5 mmol/L
-   * - Pre-diabetes: 5.6 - 6.9 mmol/L
-   * - Diabetes: >= 7.0 mmol/L
-   *
-   * Post-prandial (2-hour) / Random targets:
-   * - Hypoglycemia: < 4.0 mmol/L
-   * - Normal: <= 7.7 mmol/L
-   * - Pre-diabetes: 7.8 - 11.0 mmol/L
-   * - Diabetes: > 11.0 mmol/L
-   *
-   * @param {number|string} val - Blood glucose in mmol/L.
-   * @param {string} [timing] - 'fasting' | 'postmeal' | 'random'.
-   * @returns {{category: string, pct: number, chip: string, cls: string}} Classification metadata.
+   * Retrieves pediatric and adult benchmark comparison data according to Tables 2 and 3.
+   * @param {number} age - Patient age in years.
+   * @param {number} s - Systolic reading.
+   * @param {number} d - Diastolic reading.
+   * @returns {Object} Benchmark comparison metadata.
    */
-  function classifyBG(val, timing) {
-    const v = parseFloat(val);
-    const t = timing || activeTiming;
-    if (isNaN(v)) return { category: "normal", pct: 30, chip: T[hrLang].chipNormal, cls: "normal" };
-
-    if (t === "fasting") {
-      if (v < 4.0) return { category: "hypo", pct: 8, chip: T[hrLang].chipHypo, cls: "neutral" };
-      if (v <= 5.5) return { category: "normal", pct: 30, chip: T[hrLang].chipNormal, cls: "normal" };
-      if (v <= 6.9) return { category: "prediab", pct: 60, chip: T[hrLang].chipPrediab, cls: "elevated" };
-      return { category: "diabetic", pct: 90, chip: T[hrLang].chipDiabetic, cls: "danger" };
+  function getAgeBenchmarkData(age, s, d) {
+    const isBn = hrLang === "bn";
+    if (age < 1) {
+      return {
+        type: "pediatric",
+        groupLabel: isBn ? "নবজাতক / শিশু (১ মাস পর্যন্ত)" : "Newborns (up to 1 month)",
+        refSys: "60–90",
+        refDia: "20–60",
+        inRange: s >= 60 && s <= 90 && d >= 20 && d <= 60
+      };
+    } else if (age >= 1 && age <= 3) {
+      return {
+        type: "pediatric",
+        groupLabel: isBn ? "টডলার (১–৩ বছর)" : "Toddlers (1–3 years)",
+        refSys: "95–105",
+        refDia: "53–66",
+        inRange: s >= 95 && s <= 105 && d >= 53 && d <= 66
+      };
+    } else if (age >= 4 && age <= 5) {
+      return {
+        type: "pediatric",
+        groupLabel: isBn ? "প্রিস্কুলার (৩–৫ বছর)" : "Preschoolers (3–5 years)",
+        refSys: "95–110",
+        refDia: "56–70",
+        inRange: s >= 95 && s <= 110 && d >= 56 && d <= 70
+      };
+    } else if (age >= 6 && age <= 12) {
+      return {
+        type: "pediatric",
+        groupLabel: isBn ? "স্কুলগামী শিশু (৬–১২ বছর)" : "School-aged children (6–12 years)",
+        refSys: "97–112",
+        refDia: "57–71",
+        inRange: s >= 97 && s <= 112 && d >= 57 && d <= 71
+      };
+    } else if (age >= 13 && age <= 17) {
+      return {
+        type: "pediatric",
+        groupLabel: isBn ? "কিশোর-কিশোরী (১৩–১৭ বছর)" : "Adolescents (13–17 years)",
+        refSys: "112–128",
+        refDia: "66–80",
+        inRange: s >= 112 && s <= 128 && d >= 66 && d <= 80
+      };
+    } else if (age >= 18 && age <= 39) {
+      return {
+        type: "adult",
+        groupLabel: isBn ? "প্রাপ্তবয়স্ক (১৮–৩৯ বছর)" : "Adults (18–39 years)",
+        women: "110/68 mm Hg",
+        men: "119/70 mm Hg"
+      };
+    } else if (age >= 40 && age <= 59) {
+      return {
+        type: "adult",
+        groupLabel: isBn ? "প্রাপ্তবয়স্ক (৪০–৫৯ বছর)" : "Adults (40–59 years)",
+        women: "122/74 mm Hg",
+        men: "124/77 mm Hg"
+      };
     } else {
-      if (v < 4.0) return { category: "hypo", pct: 8, chip: T[hrLang].chipHypo, cls: "neutral" };
-      if (v <= 7.7) return { category: "normal", pct: 35, chip: T[hrLang].chipNormal, cls: "normal" };
-      if (v <= 11.0) return { category: "prediab", pct: 65, chip: T[hrLang].chipPrediab, cls: "elevated" };
-      return { category: "diabetic", pct: 92, chip: T[hrLang].chipDiabetic, cls: "danger" };
+      // 60+
+      return {
+        type: "adult",
+        groupLabel: isBn ? "প্রবীণ (৬০+ বছর)" : "Seniors (60+ years)",
+        women: "139/68 mm Hg",
+        men: "133/69 mm Hg"
+      };
     }
   }
 
@@ -352,25 +463,140 @@
   function getBPAdvice(cat) {
     if (hrLang === "en") {
       switch (cat) {
-        case "normal": return "✅ Excellent! Blood pressure is within optimal healthy range (AHA 2017). Continue a balanced diet and regular exercise.";
-        case "elevated": return "⚠️ Elevated range. Recommend reducing sodium intake, managing stress, and gentle daily walking.";
-        case "high1": return "🚨 Stage 1 Hypertension. Regular monitoring recommended. Consult physician regarding lifestyle or medication.";
-        case "high2": return "🚨 Stage 2 Hypertension. Blood pressure is significantly elevated. Physician consultation required.";
-        case "crisis": return "🛑 Hypertensive Crisis. Rest in a calm environment for 5 mins. If it remains high, seek immediate emergency care!";
-        case "low": return "ℹ️ Low blood pressure (Hypotension). Ensure adequate hydration and electrolytes. Consult doctor if feeling dizzy.";
-        default: return "Enter systolic and diastolic values to view live clinical guidance.";
+        case "optimal": return "🌟 Optimal blood pressure (<120 / <80 mmHg). Around 120/80 mm Hg is considered a typical blood pressure reading.";
+        case "normal": return "✅ Normal blood pressure (120–129 / 80–84 mmHg). Healthy range.";
+        case "normal_high": return "⚠️ Normal to high blood pressure (130–139 / 85–89 mmHg). Lifestyle moderation advised.";
+        case "high": return "🚨 High blood pressure (>140 / >90 mmHg). Consult physician for medical advice.";
+        case "low": return "ℹ️ Low blood pressure (<90 / <60 mmHg). Maintain adequate hydration.";
+        default: return "Enter age, systolic, and diastolic values to view live clinical guidance.";
       }
     } else {
       switch (cat) {
-        case "normal": return "✅ চমৎকার! রক্তচাপ সম্পূর্ণ স্বাভাবিক সীমায় রয়েছে (AHA 2017)। সুষম খাবার ও নিয়মিত হাঁটাচলা বজায় রাখুন।";
-        case "elevated": return "⚠️ রক্তচাপ কিছুটা উচ্চতর। লবণের পরিমাণ কমান, পর্যাপ্ত পানি পান করুন এবং মানসিক চাপমুক্ত থাকুন।";
-        case "high1": return "🚨 স্টেজ-১ উচ্চ রক্তচাপ। নিয়মিত ট্র্যাকিং করুন এবং চিকিৎসকের সাথে জীবনযাত্রা বা ওষুধ নিয়ে পরামর্শ করুন।";
-        case "high2": return "🚨 স্টেজ-২ উচ্চ রক্তচাপ। রক্তচাপ বিপজ্জনক মাত্রায় উন্নীত। দ্রুত চিকিৎসকের পরামর্শ গ্রহণ করুন।";
-        case "crisis": return "🛑 জরুরি ক্রাইসিস মাত্রা! অবিলম্বে শান্ত হয়ে শুয়ে থাকুন। ৫ মিনিট পরও একই থাকলে জরুরি হাসপাতালে যোগাযোগ করুন!";
-        case "low": return "ℹ️ নিম্ন রক্তচাপ (হাইপোটেনশন)। পর্যাপ্ত পানি ও স্যালাইন পান করুন। মাথা ঘোরানো থাকলে ডাক্তারের পরামর্শ নিন।";
-        default: return "সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও পরামর্শ দেখতে পাবেন।";
+        case "optimal": return "🌟 সর্বোত্তম রক্তচাপ (<১২০ / <৮০ mmHg)। সাধারণত ১২০/৮০ mmHg একটি আদর্শ রিডিং হিসেবে বিবেচনা করা হয়।";
+        case "normal": return "✅ স্বাভাবিক রক্তচাপ (১২০–১২৯ / ৮০–৮৪ mmHg)।";
+        case "normal_high": return "⚠️ স্বাভাবিক থেকে উচ্চ রক্তচাপ (১৩০–১৩৯ / ৮৫–৮৯ mmHg)। জীবনযাত্রার সচেতনতা প্রয়োজন।";
+        case "high": return "🚨 উচ্চ রক্তচাপ (>১৪০ / >৯০ mmHg)। চিকিৎসকের পরামর্শ গ্রহণ করুন।";
+        case "low": return "ℹ️ নিম্ন রক্তচাপ (<৯০ / <৬০ mmHg)। পর্যাপ্ত পানি ও স্যালাইন গ্রহণ করুন।";
+        default: return "বয়স, সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও পরামর্শ দেখতে পাবেন।";
       }
     }
+  }
+
+  /**
+   * Generates rich HTML clinical advice based on the 3 tables from the reference image.
+   * @param {string} category - Table 1 category.
+   * @param {number} sys - Systolic reading.
+   * @param {number} dia - Diastolic reading.
+   * @param {number|null} age - Patient age.
+   * @param {Object|null} ageBenchmark - Benchmark metadata.
+   * @returns {string} Rich HTML advice content.
+   */
+  function getBPAdviceHTML(category, sys, dia, age, ageBenchmark) {
+    const isBn = hrLang === "bn";
+    let title = "";
+    let guidance = "";
+
+    if (isBn) {
+      switch (category) {
+        case "optimal":
+          title = "🌟 সর্বোত্তম রক্তচাপ (Optimal: <120 / <80 mmHg)";
+          guidance = "চমৎকার! আপনার রক্তচাপ সম্পূর্ণ আদর্শ ও সর্বোত্তম স্বাস্থ্যকর সীমায় রয়েছে। সুষম পুষ্টিকর খাবার ও নিয়মিত শরীরচর্চা বজায় রাখুন।";
+          break;
+        case "normal":
+          title = "✅ স্বাভাবিক রক্তচাপ (Normal: 120–129 / 80–84 mmHg)";
+          guidance = "আপনার রক্তচাপ স্বাভাবিক সীমায় রয়েছে। স্বাস্থ্যকর জীবনধারা, পরিমিত লবণ গ্রহণ ও মানসিক প্রশান্তি বজায় রাখুন।";
+          break;
+        case "normal_high":
+          title = "⚠️ স্বাভাবিক থেকে উচ্চ (Normal to High: 130–139 / 85–89 mmHg)";
+          guidance = "রক্তচাপ স্বাভাবিক থেকে কিছুটা উচ্চতর। সোডিয়াম/লবণ খাওয়ার পরিমাণ কমান, নিয়মিত ৩০ মিনিট হাঁটুন এবং স্ট্রেস ম্যানেজমেন্ট করুন।";
+          break;
+        case "high":
+          title = "🚨 উচ্চ রক্তচাপ (High: >140 / >90 mmHg)";
+          guidance = "উচ্চ রক্তচাপ শনাক্ত হয়েছে। বিলম্ব না করে একজন চিকিৎসকের পরামর্শ নিন এবং নিয়মিত রক্তচাপ ট্র্যাকিং বজায় রাখুন।";
+          break;
+        case "low":
+          title = "ℹ️ নিম্ন রক্তচাপ (Low: <90 / <60 mmHg)";
+          guidance = "রক্তচাপ স্বাভাবিকের চেয়ে কম। পর্যাপ্ত পানি, ডাবের পানি ও ওরাল স্যালাইন পান করুন। মাথা ঘোরানো থাকলে ডাক্তারের পরামর্শ নিন।";
+          break;
+        default:
+          title = "রক্তচাপ নির্দেশনা";
+          guidance = "বয়স, সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও চার্ট অনুযায়ী পরামর্শ দেখতে পাবেন।";
+      }
+    } else {
+      switch (category) {
+        case "optimal":
+          title = "🌟 Optimal Blood Pressure (<120 / <80 mmHg)";
+          guidance = "Excellent! Blood pressure is within the optimal healthy target range. Keep up a balanced diet and regular physical activity.";
+          break;
+        case "normal":
+          title = "✅ Normal Blood Pressure (120–129 / 80–84 mmHg)";
+          guidance = "Blood pressure is in the normal range. Maintain healthy eating habits and regular daily movement.";
+          break;
+        case "normal_high":
+          title = "⚠️ Normal to High (130–139 / 85–89 mmHg)";
+          guidance = "Blood pressure is slightly elevated. Recommend reducing sodium/salt intake, managing stress, and gentle daily walking.";
+          break;
+        case "high":
+          title = "🚨 High Blood Pressure (>140 / >90 mmHg)";
+          guidance = "High blood pressure detected. Prompt physician consultation recommended along with lifestyle and dietary adjustments.";
+          break;
+        case "low":
+          title = "ℹ️ Low Blood Pressure (<90 / <60 mmHg)";
+          guidance = "Blood pressure is below standard levels. Ensure adequate hydration and electrolytes. Consult doctor if experiencing dizziness.";
+          break;
+        default:
+          title = "Blood Pressure Guidance";
+          guidance = "Enter age, systolic, and diastolic values to view live clinical guidance.";
+      }
+    }
+
+    // Typical reading reference from image
+    const typicalText = isBn
+      ? "সাধারণত ১২০/৮০ mmHg মানকে একটি সাধারণ ও আদর্শ রক্তচাপ রিডিং হিসেবে বিবেচনা করা হয়।"
+      : "Around 120/80 mm Hg is often considered a typical blood pressure reading.";
+
+    // Age & Gender benchmark box
+    let ageBenchmarkHtml = "";
+    if (ageBenchmark) {
+      if (ageBenchmark.type === "adult") {
+        ageBenchmarkHtml = `
+          <div class="mt-2 p-2 bg-light border rounded-3 small">
+            <div class="fw-bold text-dark mb-1">
+              <i class="bi bi-people-fill text-primary me-1"></i>${isBn ? `বয়সভিত্তিক গড় রক্তচাপ (${ageBenchmark.groupLabel}):` : `Average BP by age and gender (${ageBenchmark.groupLabel}):`}
+            </div>
+            <div class="d-flex flex-wrap gap-3 text-secondary">
+              <div>👩 ${isBn ? "নারী (Women)" : "Women"}: <strong class="text-dark">${ageBenchmark.women}</strong></div>
+              <div>👨 ${isBn ? "পুরুষ (Men)" : "Men"}: <strong class="text-dark">${ageBenchmark.men}</strong></div>
+            </div>
+          </div>
+        `;
+      } else if (ageBenchmark.type === "pediatric") {
+        const rangeStatus = ageBenchmark.inRange
+          ? (isBn ? `<span class="badge bg-success-subtle text-success ms-1">গড় রেঞ্জের মধ্যে রয়েছে</span>` : `<span class="badge bg-success-subtle text-success ms-1">Within average range</span>`)
+          : (isBn ? `<span class="badge bg-warning-subtle text-warning-emphasis ms-1">গড় রেঞ্জ থেকে ভিন্ন</span>` : `<span class="badge bg-warning-subtle text-warning-emphasis ms-1">Outside typical range</span>`);
+
+        ageBenchmarkHtml = `
+          <div class="mt-2 p-2 bg-light border rounded-3 small">
+            <div class="fw-bold text-dark mb-1">
+              <i class="bi bi-person-heart text-primary me-1"></i>${isBn ? `শিশু ও কিশোরদের গড় রক্তচাপ (${ageBenchmark.groupLabel}):` : `Average BP for children and teens (${ageBenchmark.groupLabel}):`} ${rangeStatus}
+            </div>
+            <div class="d-flex flex-wrap gap-3 text-secondary">
+              <div>${isBn ? "সিস্টোলিক (উপরের সংখ্যা)" : "Systolic"}: <strong class="text-dark">${ageBenchmark.refSys} mm Hg</strong></div>
+              <div>${isBn ? "ডায়াস্টোলিক (নিচের সংখ্যা)" : "Diastolic"}: <strong class="text-dark">${ageBenchmark.refDia} mm Hg</strong></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    return `
+      <div class="ht-advice-header d-flex justify-content-between align-items-center mb-1">
+        <strong class="fs-6">${title}</strong>
+      </div>
+      <div class="text-muted small mb-1"><i class="bi bi-info-circle me-1"></i>${typicalText}</div>
+      ${ageBenchmarkHtml}
+      <div class="ht-advice-guidance mt-2">${guidance}</div>
+    `;
   }
 
   /**
@@ -405,15 +631,30 @@
    */
   /**
    * Dynamically repositions the Blood Pressure spectrum meter pointer,
-   * updates status chips, diagnostic advice card, and preview banner.
+   * evaluates Table 1 category, age and gender benchmarks from Tables 2 & 3,
+   * updates status chips, active spectrum labels, diagnostic advice card, and preview banner.
    */
   function updateBPMeter() {
+    const ageEl = $("bpAge");
     const sysEl = $("bpSystolic");
     const diaEl = $("bpDiastolic");
     if (!sysEl || !diaEl) return;
 
-    const sys = parseInt(sysEl.value, 10);
-    const dia = parseInt(diaEl.value, 10);
+    const ageVal = ageEl ? ageEl.value.trim() : "";
+    const sysVal = sysEl.value.trim();
+    const diaVal = diaEl.value.trim();
+
+    const age = ageVal !== "" ? parseInt(ageVal, 10) : null;
+    const sys = parseInt(sysVal, 10);
+    const dia = parseInt(diaVal, 10);
+
+    const errAge = $("errBpAge");
+    const errSys = $("errBpSys");
+    const errDia = $("errBpDia");
+
+    if (errAge) errAge.textContent = "";
+    if (errSys) errSys.textContent = "";
+    if (errDia) errDia.textContent = "";
 
     const pointer = $("bpGaugePointer");
     const badge = $("bpPointerBadge");
@@ -425,33 +666,66 @@
       if (pointer) pointer.style.left = "32%";
       if (badge) badge.textContent = "120/80";
       if (chip) {
-        chip.className = "ht-status-chip normal ms-auto";
-        chip.textContent = T[hrLang].chipNormal;
+        chip.className = "ht-status-chip optimal ms-auto";
+        chip.textContent = T[hrLang].chipOptimal || (hrLang === "bn" ? "🌟 সর্বোত্তম" : "🌟 Optimal");
       }
-      if (advice) advice.innerHTML = `<span class="text-muted">${getBPAdvice("")}</span>`;
+      if (advice) {
+        advice.className = "ht-advice-box optimal";
+        advice.innerHTML = `<span class="text-muted">${getBPAdvice("")}</span>`;
+      }
       if (preview) preview.innerHTML = "";
       return;
     }
 
-    const { category, pct, chip: chipTxt, cls } = classifyBP(sys, dia);
+    if (age !== null && (isNaN(age) || age < 0 || age > 120)) {
+      if (errAge) errAge.textContent = hrLang === "bn" ? "সঠিক বয়স লিখুন (০–১২০ বছর)" : "Please enter valid age (0–120 yrs)";
+    }
+
+    if (sys <= dia) {
+      if (errDia) errDia.textContent = hrLang === "bn" ? "সিস্টোলিক অবশ্যই ডায়াস্টোলিক থেকে বেশি হতে হবে" : "Systolic must be strictly greater than diastolic";
+      if (chip) {
+        chip.className = "ht-status-chip neutral ms-auto";
+        chip.textContent = "—";
+      }
+      return;
+    }
+
+    const { category, pct, chip: chipTxt, cls, ageBenchmark } = classifyBP(sys, dia, age);
 
     if (pointer) pointer.style.left = `${pct}%`;
-    if (badge) badge.textContent = `${sys}/${dia}`;
+    if (badge) badge.textContent = `${sys}/${dia}${age !== null ? ` (${age}y)` : ""}`;
+
     if (chip) {
       chip.className = `ht-status-chip ${cls} ms-auto`;
       chip.textContent = chipTxt;
     }
+
+    // Highlight active label on the spectrum meter
+    document.querySelectorAll("#bpGaugeLabels [data-bp-target]").forEach(btn => {
+      const target = btn.getAttribute("data-bp-target");
+      let matches = false;
+      if (target === "low" && category === "low") matches = true;
+      else if (target === "optimal" && category === "optimal") matches = true;
+      else if (target === "normal" && category === "normal") matches = true;
+      else if (target === "normal-high" && category === "normal_high") matches = true;
+      else if (target === "high" && category === "high") matches = true;
+      btn.classList.toggle("active", matches);
+    });
+
     if (advice) {
-      advice.innerHTML = `<span class="text-${cls === 'normal' ? 'success' : (cls === 'elevated' ? 'warning' : 'danger')} fw-bold">${getBPAdvice(category)}</span>`;
+      advice.className = `ht-advice-box ${cls}`;
+      advice.innerHTML = getBPAdviceHTML(category, sys, dia, age, ageBenchmark);
     }
+
     if (preview) {
+      const ageLabel = age !== null ? (hrLang === "bn" ? `বয়স: ${age} বছর` : `Age: ${age} yrs`) : "";
       preview.innerHTML = `
         <div class="ht-reading-preview alert alert-light border mt-3 mb-0 p-3 rounded-4 shadow-sm d-flex justify-content-between align-items-center">
           <div>
-            <div class="fw-bold">${sys}/${dia} mmHg</div>
-            <div class="small text-muted">${activeArm === "right" ? T[hrLang].armRight : T[hrLang].armLeft}</div>
+            <div class="fw-bold fs-5">${sys}/${dia} mmHg</div>
+            <div class="small text-muted">${ageLabel ? ageLabel + " · " : ""}${chipTxt}</div>
           </div>
-          <span class="badge bg-${cls === 'normal' ? 'success' : (cls === 'elevated' ? 'warning' : 'danger')}-subtle text-${cls === 'normal' ? 'success' : (cls === 'elevated' ? 'warning' : 'danger')} px-3 py-2 rounded-pill fw-bold">${chipTxt}</span>
+          <span class="badge bg-${cls === 'optimal' || cls === 'normal' ? 'success' : (cls === 'normal_high' ? 'warning' : (cls === 'low' ? 'info' : 'danger'))}-subtle text-${cls === 'optimal' || cls === 'normal' ? 'success' : (cls === 'normal_high' ? 'warning' : (cls === 'low' ? 'info' : 'danger'))} px-3 py-2 rounded-pill fw-bold">${chipTxt}</span>
         </div>
       `;
     }
@@ -549,10 +823,10 @@
     const bpSub = $("statBPSub");
     if (latestBP) {
       if (bpVal) bpVal.textContent = `${latestBP.systolic}/${latestBP.diastolic}`;
-      const { category, chip } = classifyBP(latestBP.systolic, latestBP.diastolic);
+      const { category, chip } = classifyBP(latestBP.systolic, latestBP.diastolic, latestBP.age);
       if (bpBadge) {
         bpBadge.textContent = chip;
-        bpBadge.className = `ht-stat-badge ${category === 'normal' ? 'normal' : (category === 'elevated' ? 'elevated' : 'critical')}`;
+        bpBadge.className = `ht-stat-badge ${category === 'optimal' || category === 'normal' ? 'normal' : (category === 'normal_high' ? 'elevated' : 'critical')}`;
       }
       if (bpSub) bpSub.textContent = new Date(latestBP.date).toLocaleDateString(hrLang === "en" ? "en-US" : "bn-BD", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
     } else {
@@ -618,7 +892,8 @@
     if (hrLang === "en") {
       msg = `*BreatheWell Health Report*\nDate: ${new Date().toLocaleDateString("en-US", { dateStyle: "medium" })}\n\n`;
       if (latestBP) {
-        msg += `❤️ Blood Pressure: ${latestBP.systolic}/${latestBP.diastolic} mmHg (${latestBP.arm === "right" ? "Right Arm" : "Left Arm"})\n`;
+        const ageStr = latestBP.age ? ` · Age: ${latestBP.age} yrs` : "";
+        msg += `❤️ Blood Pressure: ${latestBP.systolic}/${latestBP.diastolic} mmHg${ageStr}\n`;
       }
       if (latestBG) {
         msg += `🩸 Blood Glucose: ${parseFloat(latestBG.value).toFixed(1)} mmol/L (${latestBG.timing || "Fasting"})\n`;
@@ -627,7 +902,8 @@
     } else {
       msg = `*BreatheWell স্বাস্থ্য রিপোর্ট*\nতারিখ: ${new Date().toLocaleDateString("bn-BD", { dateStyle: "medium" })}\n\n`;
       if (latestBP) {
-        msg += `❤️ রক্তচাপ: ${latestBP.systolic}/${latestBP.diastolic} mmHg (${latestBP.arm === "right" ? "ডান হাত" : "বাম হাত"})\n`;
+        const ageStr = latestBP.age ? ` · বয়স: ${latestBP.age} বছর` : "";
+        msg += `❤️ রক্তচাপ: ${latestBP.systolic}/${latestBP.diastolic} mmHg${ageStr}\n`;
       }
       if (latestBG) {
         msg += `🩸 গ্লুকোজ: ${parseFloat(latestBG.value).toFixed(1)} mmol/L (${latestBG.timing === "fasting" ? "খালি পেটে" : (latestBG.timing === "postmeal" ? "খাবার পর" : "যেকোনো সময়")})\n`;
@@ -681,12 +957,22 @@
    */
   function handleBPSubmit(e) {
     e.preventDefault();
+    const ageEl = $("bpAge");
     const sysEl = $("bpSystolic");
     const diaEl = $("bpDiastolic");
     const dateEl = $("bpDate");
     const notesEl = $("bpNotes");
 
     if (!sysEl || !diaEl) return;
+
+    let age = null;
+    if (ageEl && ageEl.value.trim() !== "") {
+      age = parseInt(ageEl.value.trim(), 10);
+      if (isNaN(age) || age < 0 || age > 120) {
+        showToast(T[hrLang].toastEnterValidAge || (hrLang === "bn" ? "সঠিক বয়স লিখুন (০–১২০ বছর)" : "Please enter valid age (0–120 yrs)"), "warning");
+        return;
+      }
+    }
 
     const sys = parseInt(sysEl.value, 10);
     const dia = parseInt(diaEl.value, 10);
@@ -704,9 +990,9 @@
     const record = {
       id: "bp_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
       type: "bp",
+      age: age,
       systolic: sys,
       diastolic: dia,
-      arm: activeArm,
       date: dateEl && dateEl.value ? new Date(dateEl.value).toISOString() : new Date().toISOString(),
       notes: notesEl ? notesEl.value.trim() : ""
     };
@@ -719,6 +1005,7 @@
     renderStats();
 
     // Reset inputs, re-init datetime
+    if (ageEl) ageEl.value = "";
     sysEl.value = "";
     diaEl.value = "";
     if (notesEl) notesEl.value = "";
@@ -890,21 +1177,23 @@
     });
 
     // 3. Real-time Meter Listeners
+    const ageEl = $("bpAge");
     const sysEl = $("bpSystolic");
     const diaEl = $("bpDiastolic");
+    if (ageEl) ageEl.addEventListener("input", updateBPMeter);
     if (sysEl) sysEl.addEventListener("input", updateBPMeter);
     if (diaEl) diaEl.addEventListener("input", updateBPMeter);
 
-    // Target preset clicks on BP meter labels
+    // Target preset clicks on BP meter labels (Table 1 Reference)
     document.querySelectorAll("[data-bp-target]").forEach(btn => {
       btn.addEventListener("click", () => {
         const target = btn.getAttribute("data-bp-target");
-        let s = 120, d = 80;
+        let s = 115, d = 75;
         if (target === "low") { s = 85; d = 55; }
-        else if (target === "normal") { s = 118; d = 78; }
-        else if (target === "elevated") { s = 126; d = 78; }
-        else if (target === "high1") { s = 135; d = 85; }
-        else if (target === "crisis") { s = 185; d = 115; }
+        else if (target === "optimal") { s = 115; d = 75; }
+        else if (target === "normal") { s = 124; d = 82; }
+        else if (target === "normal-high") { s = 135; d = 86; }
+        else if (target === "high") { s = 145; d = 95; }
         if (sysEl) sysEl.value = s;
         if (diaEl) diaEl.value = d;
         updateBPMeter();
@@ -928,19 +1217,7 @@
       });
     });
 
-    // 4. Arm Selector Toggle
-    document.querySelectorAll("[data-arm]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("[data-arm]").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        activeArm = btn.getAttribute("data-arm");
-        const bpArmHidden = $("bpArm");
-        if (bpArmHidden) bpArmHidden.value = activeArm;
-        updateBPMeter();
-      });
-    });
-
-    // 5. BG Timing Cards
+    // 4. BG Timing Cards
     document.querySelectorAll(".ht-timing-card").forEach(card => {
       card.addEventListener("click", () => {
         document.querySelectorAll(".ht-timing-card").forEach(c => c.classList.remove("active"));
