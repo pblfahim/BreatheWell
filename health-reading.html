@@ -75,17 +75,18 @@
 
             <!-- Quick Action Shortcuts Ribbon -->
             <div class="ht-quick-nav-bar">
-              <a href="health-reading.html" class="ht-quick-nav-btn primary text-decoration-none">
-                <span data-ar-i18n="quickAdd">➕ নতুন রিডিং</span>
+              <a href="#entrySection" class="ht-quick-nav-btn primary active text-decoration-none" aria-current="page"
+                onclick="document.getElementById('entrySection')?.scrollIntoView({behavior:'smooth'}); return false;">
+                <span data-hr-i18n="quickAdd" data-ar-i18n="quickAdd">➕ নতুন রিডিং</span>
               </a>
               <a href="health-charts.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-ar-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
+                <span data-hr-i18n="quickTrends" data-ar-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
               </a>
               <a href="health-history.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-ar-i18n="quickLog">📋 ইতিহাস লগ</span>
+                <span data-hr-i18n="quickLog" data-ar-i18n="quickLog">📋 ইতিহাস লগ</span>
               </a>
               <a href="health-demo.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-ar-i18n="quickDemo">🧪 নমুনা ডেটা</span>
+                <span data-hr-i18n="quickDemo" data-ar-i18n="quickDemo">🧪 নমুনা ডেটা</span>
               </a>
             </div>
           </div>

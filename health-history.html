@@ -75,23 +75,28 @@
             <!-- Quick Action Shortcuts Ribbon -->
             <div class="ht-quick-nav-bar">
               <a href="health-reading.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hl-i18n="quickAdd">➕ নতুন রিডিং</span>
+                <span data-hh-i18n="quickAdd" data-hl-i18n="quickAdd">➕ নতুন রিডিং</span>
               </a>
               <a href="health-charts.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hl-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
+                <span data-hh-i18n="quickTrends" data-hl-i18n="quickTrends">📈 ট্রেন্ড চার্ট</span>
               </a>
-              <a href="health-history.html" class="ht-quick-nav-btn primary text-decoration-none">
-                <span data-hl-i18n="quickLog">📋 ইতিহাস লগ</span>
+              <a href="#historySection" class="ht-quick-nav-btn primary active text-decoration-none" aria-current="page"
+                onclick="document.getElementById('historySection')?.scrollIntoView({behavior:'smooth'}); return false;">
+                <span data-hh-i18n="quickLog" data-hl-i18n="quickLog">📋 ইতিহাস লগ</span>
               </a>
               <a href="health-demo.html" class="ht-quick-nav-btn text-decoration-none">
-                <span data-hl-i18n="quickDemo">🧪 নমুনা ডেটা</span>
+                <span data-hh-i18n="quickDemo" data-hl-i18n="quickDemo">🧪 নমুনা ডেটা</span>
               </a>
             </div>
           </div>
 
           <div class="col-lg-4 text-lg-end">
             <div class="d-flex flex-column gap-2 align-items-lg-end">
-
+              <button type="button" class="btn btn-outline-light rounded-pill px-3 py-1.5 small d-inline-flex align-items-center gap-2"
+                onclick="window.hhExportCSV ? window.hhExportCSV() : (window.hlExportCSV ? window.hlExportCSV() : null)">
+                <i class="bi bi-download"></i>
+                <span data-hh-i18n="btnCsv" data-hl-i18n="btnCsv">CSV এক্সপোর্ট</span>
+              </button>
             </div>
           </div>
         </div>
@@ -155,7 +160,7 @@
     <!-- ======================================================================
          4. DETAILED LOG TABLE CARD
          ====================================================================== -->
-    <section class="container pb-5">
+    <section class="container pb-5" id="historySection">
       <div class="hh-table-card hl-table-card">
         <div class="hh-card-header hl-card-header">
           <div class="d-flex align-items-center gap-3">
