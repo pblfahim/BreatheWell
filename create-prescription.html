@@ -1,3 +1,36 @@
+<!--
+  ============================================================================
+  BreatheWell - Digital Prescription Creator Studio (create-prescription.html)
+  ============================================================================
+  Description:
+    Interactive digital hospital prescription pad authoring engine for BreatheWell.
+    Enables healthcare providers, caregivers, and patients to create, preview,
+    and export clinical prescriptions in real time. Features split-screen
+    two-way synchronization between input form cards and a pixel-perfect
+    WYSIWYG prescription pad modeled on real hospital charts.
+    Includes OCR document scanning, dynamic clinical chip tagging (C/C, H/O, Inv),
+    structured medication schedule builder, pixel-perfect print layout,
+    and WhatsApp report sharing.
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass for keyboard and screen-reader users.
+    - Global Desktop Navigation: Sticky navbar with active prescription indicator.
+    - Hero Studio Toolbar: Action bar with OCR Upload, New Form, Save to Vault, Print/PDF, and Share.
+    - Split-Screen Editor Grid:
+      - Left Column: Form Controls (Doctor & Clinic Info, Patient Demographics, Clinical Exams & Vitals, Medications).
+      - Right Column: Live WYSIWYG Digital Doctor Prescription Pad Paper Preview.
+    - Toast Notification Stack: Accessible feedback for saves, copies, and exports.
+    - Mobile Bottom App Drawer: Native mobile touch navigation dock (< 992px).
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle (CDN)
+    - Bootstrap Icons 1.11.3 (CDN)
+    - Google Fonts: Inter & Noto Sans Bengali
+    - Stylesheet: asset/css/style.css
+    - Stylesheet: asset/css/create-prescription.css
+    - Application Engine: asset/js/create-prescription.js
+  ============================================================================
+-->
 <!doctype html>
 <html lang="bn">
 

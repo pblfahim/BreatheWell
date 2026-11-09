@@ -39,6 +39,7 @@
 const HT_KEY = "bw_health_tracker_records";
 
 /** localStorage key for user's family PIN */
+const HT_PIN_KEY = "bw_ht_pin";
 
 /** localStorage key for language preference */
 const HT_LANG_KEY = "bw_lang";

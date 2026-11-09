@@ -1,3 +1,35 @@
+<!--
+  ============================================================================
+  BreatheWell - Health Demo Lab & Synthetic Generator (health-demo.html)
+  ============================================================================
+  Description:
+    Clinical testing sandbox and synthetic health telemetry generator for
+    BreatheWell. Generates physiologically accurate, randomized biometric
+    datasets modeling healthy/normotensive, prehypertensive, stage 1/2
+    hypertension, diabetic, and crisis profiles for evaluating charts, logs,
+    and alert systems without manual data entry.
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass for keyboard and screen-reader users.
+    - Global Desktop Navigation: Sticky navbar with active health tracker indicator.
+    - Hero Sub-Navigation Ribbon: Dark green tab bar connecting Reading, History, Charts, and Demo.
+    - Storage Telemetry Status Bar: Live gauge showing current records count, bytes used, and reset controls.
+    - Clinical Scenario Preset Cards: One-click generators for Healthy (7d), Hypertension (14d), Diabetes (14d), and Crisis (3d).
+    - Custom Parametric Generator Panel: Form enabling custom profile, day count (3 to 60), and variability selection.
+    - Live Records Stream: Scrollable preview showing recently synthesized records.
+    - Floating Toast Stack: Real-time feedback when datasets are populated or purged.
+    - Mobile Bottom App Drawer: Native mobile touch navigation dock (< 992px).
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle (CDN)
+    - Bootstrap Icons 1.11.3 (CDN)
+    - Google Fonts: Inter & Noto Sans Bengali
+    - Stylesheet: asset/css/style.css
+    - Stylesheet: asset/css/health-tracker.css
+    - Stylesheet: asset/css/health-demo.css
+    - Application Engine: asset/js/health-demo.js
+  ============================================================================
+-->
 <!DOCTYPE html>
 <html lang="bn">
 

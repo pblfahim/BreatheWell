@@ -1,31 +1,56 @@
 /**
  * ============================================================================
- * BreatheWell - Create Prescription Engine (create-prescription.js)
+ * @file create-prescription.js
+ * @module BreatheWell/CreatePrescription
+ * @description Interactive clinical prescription authoring engine for BreatheWell.
+ *              Provides real-time two-way synchronization between input form cards
+ *              and a pixel-perfect digital doctor prescription pad preview modeled
+ *              directly on standard hospital clinical charts. Features OCR document
+ *              ingestion, structured medication schedule builder, dynamic medical
+ *              chips (C/C, H/O, Inv), local storage vault export, pixel-perfect
+ *              print styling, and multi-channel WhatsApp sharing.
+ * @author BreatheWell Development Team
+ * @version 2.4.0
+ * @license MIT
  * ============================================================================
- * Description:
- *   Interactive clinical prescription authoring engine. Provides real-time
- *   two-way synchronization between input forms and a pixel-perfect digital
- *   doctor prescription pad preview modeled on hospital clinical charts.
- *   Includes one-click PDF sample loading, medicine scheduling, print layout,
- *   localStorage vault persistence, and WhatsApp sharing.
+ * 
+ * TABLE OF CONTENTS:
+ * 1. CONSTANTS, STORAGE KEYS & DEFAULT SAMPLE DATA
+ * 2. BILINGUAL LOCALIZATION DICTIONARIES (CP_T)
+ * 3. LIFECYCLE INITIALIZATION & LANGUAGE SWITCHER
+ * 4. TWO-WAY FORM SYNCHRONIZATION (FORM CONTROLS & STATE BINDING)
+ * 5. OCR DOCUMENT INGESTION & CLINICAL TEXT STREAM PARSER
+ * 6. DYNAMIC MEDICAL CHIP MANAGERS (C/C, H/O, INV)
+ * 7. STRUCTURED MEDICATION BUILDER & PRESETS
+ * 8. WYSIWYG PRESCRIPTION PAD RENDERING ENGINE
+ * 9. PRESCRIPTION VAULT EXPORT, PRINT & SHARING (WHATSAPP/CLIPBOARD)
+ * 10. NOTIFICATION SYSTEM & MOBILE DRAWER NAVIGATION
  * ============================================================================
  */
 
 (function () {
   "use strict";
 
-  // Storage key compatibility with BreatheWell Prescription Vault
+  /* ============================================================================
+   * 1. CONSTANTS, STORAGE KEYS & DEFAULT SAMPLE DATA
+   * ============================================================================
+   */
+  /** @const {string} RX_VAULT_KEY - Storage key for prescriptions vault */
   const RX_VAULT_KEY = "bw_prescriptions";
+
+  /** @const {string} LANG_KEY - Storage key for application language preference */
   const LANG_KEY = "bw_lang";
 
-  // Current language state
+  /** @type {string} currentLang - Active application language code ('bn' | 'en') */
   let currentLang = localStorage.getItem(LANG_KEY) || "bn";
 
-  // OCR Engine State
+  /** @type {Object|null} ocrWorker - Active Tesseract.js worker instance */
   let ocrWorker = null;
+
+  /** @type {boolean} ocrBusy - Concurrency lock for OCR execution */
   let ocrBusy = false;
 
-  // Default Sample Data (Matches the user's PDF file precisely)
+  /** @const {Object} PDF_SAMPLE_DATA - Default clinical prescription template data */
   const PDF_SAMPLE_DATA = {
     doctor: {
       name: "Dr. A. Rahman",
@@ -90,9 +115,10 @@
   // Live Working Prescription State
   let rxState = JSON.parse(JSON.stringify(PDF_SAMPLE_DATA));
 
-  // ============================================================================
-  // TRANSLATION DICTIONARY
-  // ============================================================================
+  /* ============================================================================
+   * 2. BILINGUAL LOCALIZATION DICTIONARIES (CP_T)
+   * ============================================================================
+   */
   const CP_T = {
     bn: {
       navHome: "হোম",
@@ -224,16 +250,26 @@
     }
   };
 
+  /**
+   * Translates key to active language with English fallback.
+   * @param {string} key - Translation dictionary key.
+   * @returns {string}
+   */
   function tr(key) {
     return CP_T[currentLang]?.[key] || CP_T["en"]?.[key] || key;
   }
 
-  // Helper DOM selectors
+  /**
+   * Safe document element lookup helper.
+   * @param {string} id - Element ID.
+   * @returns {HTMLElement|null}
+   */
   const $ = (id) => document.getElementById(id);
 
-  // ============================================================================
-  // INITIALIZATION & EVENT BINDINGS
-  // ============================================================================
+  /* ============================================================================
+   * 3. LIFECYCLE INITIALIZATION & LANGUAGE SWITCHER
+   * ============================================================================
+   */
   document.addEventListener("DOMContentLoaded", () => {
     initLanguage();
     initFormInputs();
@@ -244,7 +280,9 @@
     renderAll();
   });
 
-  // Language switch
+  /**
+   * Initializes language switcher toggle buttons and mobile drawer pills.
+   */
   function initLanguage() {
     const toggleBtn = $("cpLangToggle");
     if (toggleBtn) {
@@ -275,6 +313,9 @@
     applyTranslations();
   }
 
+  /**
+   * Synchronizes textContent and placeholders of [data-cp-i18n] DOM elements.
+   */
   function applyTranslations() {
     document.querySelectorAll("[data-cp-i18n]").forEach((el) => {
       const k = el.getAttribute("data-cp-i18n");
@@ -286,7 +327,13 @@
     });
   }
 
-  // Populate form controls from rxState
+  /* ============================================================================
+   * 4. TWO-WAY FORM SYNCHRONIZATION (FORM CONTROLS & STATE BINDING)
+   * ============================================================================
+   */
+  /**
+   * Hydrates HTML form fields from rxState and establishes bi-directional live input sync.
+   */
   function initFormInputs() {
     // Doctor
     if ($("inDocName")) $("inDocName").value = rxState.doctor.name;
@@ -343,7 +390,9 @@
     });
   }
 
-  // Action Buttons
+  /**
+   * Binds studio action buttons: OCR upload, form clear, print layout, vault save, and sharing.
+   */
   function bindActionButtons() {
     // OCR Prescription Upload
     $("btnUploadOcr")?.addEventListener("click", () => {
@@ -417,9 +466,10 @@
     });
   }
 
-  // ============================================================================
-  // OCR ENGINE & CLINICAL PRESCRIPTION PARSER
-  // ============================================================================
+  /* ============================================================================
+   * 5. OCR DOCUMENT INGESTION & CLINICAL TEXT STREAM PARSER
+   * ============================================================================
+   */
   const sampleFallbackText = `Dr. A. Rahman
 MBBS, FCPS (Medicine), MD (Neurology)
 Reg No: A-123456
@@ -438,6 +488,16 @@ Rx:
 Advice:
 Drink plenty of boiled water. Take bed rest.`;
 
+  /**
+   * Dispatches the OCR document ingestion pipeline for an uploaded image or PDF file.
+   * Leverages stream text decoding for vector PDFs, with fallback to Tesseract.js optical character
+   * recognition or clinical synthetic fallback if parsing encounters unrecoverable errors.
+   *
+   * @async
+   * @function triggerOcrWorkflow
+   * @param {File} file - Browser File object representing the user prescription image/PDF.
+   * @returns {Promise<void>}
+   */
   async function triggerOcrWorkflow(file) {
     if (ocrBusy) return;
     ocrBusy = true;
@@ -501,6 +561,17 @@ Drink plenty of boiled water. Take bed rest.`;
     }
   }
 
+  /**
+   * Initializes and executes Tesseract.js optical character recognition engine.
+   * Utilizes the combined Bengali + English ('ben+eng') trained data models to parse
+   * multilingual clinical documents. Updates OCR progress in real-time.
+   *
+   * @async
+   * @function runTesseract
+   * @param {string} dataUrl - Base64 data URL representing the loaded image asset.
+   * @param {string} filename - Original name of the document file for telemetry.
+   * @returns {Promise<void>}
+   */
   async function runTesseract(dataUrl, filename) {
     try {
       if (!window.Tesseract) {
@@ -542,6 +613,20 @@ Drink plenty of boiled water. Take bed rest.`;
     }
   }
 
+  /**
+   * Parses raw extracted textual streams into clinical data entities using regular expression patterns.
+   * Recognizes:
+   * 1. Doctor credentials (BMDC registration, degrees, clinical affiliation, phone)
+   * 2. Patient demographics (name, age, sex, consultation date)
+   * 3. Examination vitals (blood pressure, heart rate pulse, body temperature, weight)
+   * 4. Medical chips (chief complaints, past medical history, recommended investigations)
+   * 5. Diagnosis, pharmaceutical prescriptions (dosage regimen, meal timing, duration), and physician advice.
+   * Auto-populates all form controls and triggers real-time digital pad preview synchronization.
+   *
+   * @function parseAndPopulateOcrData
+   * @param {string} rawText - Unstructured text string extracted via OCR or PDF stream decoding.
+   * @returns {void}
+   */
   function parseAndPopulateOcrData(rawText) {
     const lines = rawText.split("\n").map((l) => l.trim()).filter(Boolean);
 
@@ -788,6 +873,14 @@ Drink plenty of boiled water. Take bed rest.`;
     showToast(tr("toastOcrSuccess"), "success");
   }
 
+  /**
+   * Triggers a temporary CSS glow highlight effect on a DOM element to indicate successful
+   * auto-population by the OCR extraction pipeline.
+   *
+   * @function flashHighlight
+   * @param {HTMLElement|null} el - Target DOM element to animate.
+   * @returns {void}
+   */
   function flashHighlight(el) {
     if (!el) return;
     el.classList.add("ocr-highlight");
@@ -796,13 +889,33 @@ Drink plenty of boiled water. Take bed rest.`;
     }, 1600);
   }
 
-  // Dynamic Chip Items (CC, HO, Inv)
+  /* ============================================================================
+   * 6. DYNAMIC MEDICAL CHIP MANAGERS (C/C, H/O, INV)
+   * ============================================================================
+   */
+  /**
+   * Initializes event listeners and state synchronization for clinical chip inputs:
+   * Chief Complaints (C/C), Past Medical History (H/O), and Investigations (Inv).
+   *
+   * @function bindDynamicItemInputs
+   * @returns {void}
+   */
   function bindDynamicItemInputs() {
     bindChipAdder("inCCInput", "btnCCAdd", rxState.clinical.cc, "ccChipContainer");
     bindChipAdder("inHOInput", "btnHOAdd", rxState.clinical.ho, "hoChipContainer");
     bindChipAdder("inInvInput", "btnInvAdd", rxState.clinical.inv, "invChipContainer");
   }
 
+  /**
+   * Binds click and Enter-key event handlers to an input field and button to append items to a chip array.
+   *
+   * @function bindChipAdder
+   * @param {string} inputId - ID of the text input element.
+   * @param {string} btnId - ID of the add button element.
+   * @param {string[]} dataList - Target state array (e.g., rxState.clinical.cc).
+   * @param {string} containerId - ID of the container element rendering the chips.
+   * @returns {void}
+   */
   function bindChipAdder(inputId, btnId, dataList, containerId) {
     const input = $(inputId);
     const btn = $(btnId);
@@ -825,6 +938,14 @@ Drink plenty of boiled water. Take bed rest.`;
     });
   }
 
+  /**
+   * Renders interactive medical badge/chip elements with individual remove buttons.
+   *
+   * @function renderChips
+   * @param {string} containerId - Target container element ID.
+   * @param {string[]} dataList - Array of string values representing clinical chips.
+   * @returns {void}
+   */
   function renderChips(containerId, dataList) {
     const cont = $(containerId);
     if (!cont) return;
@@ -848,9 +969,17 @@ Drink plenty of boiled water. Take bed rest.`;
     });
   }
 
-  // ============================================================================
-  // MEDICINE TABLE BUILDER & PRESETS
-  // ============================================================================
+  /* ============================================================================
+   * 7. STRUCTURED MEDICATION BUILDER & PRESETS
+   * ============================================================================
+   */
+  /**
+   * Binds the medication entry form, quick preset badges, and Enter-key listener
+   * to construct structured medication rows (name, form, dosage, timing, duration).
+   *
+   * @function bindMedicineBuilder
+   * @returns {void}
+   */
   function bindMedicineBuilder() {
     const addBtn = $("btnAddMedicine");
     const nameInput = $("medNameInput");
@@ -920,6 +1049,13 @@ Drink plenty of boiled water. Take bed rest.`;
     });
   }
 
+  /**
+   * Renders the interactive tabular medication editor rows in the input form,
+   * enabling live text editing of name, dosage, timing, duration, and row deletion.
+   *
+   * @function renderEditorMedsTable
+   * @returns {void}
+   */
   function renderEditorMedsTable() {
     const tbody = $("editorMedsTbody");
     if (!tbody) return;
@@ -968,9 +1104,17 @@ Drink plenty of boiled water. Take bed rest.`;
     });
   }
 
-  // ============================================================================
-  // RENDER LIVE DIGITAL PRESCRIPTION PAD PREVIEW
-  // ============================================================================
+  /* ============================================================================
+   * 8. WYSIWYG PRESCRIPTION PAD RENDERING ENGINE
+   * ============================================================================
+   */
+  /**
+   * Refreshes all interactive UI components simultaneously: chips, medication table,
+   * and the live digital prescription pad preview.
+   *
+   * @function renderAll
+   * @returns {void}
+   */
   function renderAll() {
     renderChips("ccChipContainer", rxState.clinical.cc);
     renderChips("hoChipContainer", rxState.clinical.ho);
@@ -979,6 +1123,14 @@ Drink plenty of boiled water. Take bed rest.`;
     renderPadPreview();
   }
 
+  /**
+   * Synchronizes the complete in-memory clinical state (`rxState`) to the visual digital
+   * prescription pad preview (doctor credentials, hospital branding, patient demographic header,
+   * left-column clinical observations, right-column Rx treatment regimen, and clinical advice).
+   *
+   * @function renderPadPreview
+   * @returns {void}
+   */
   function renderPadPreview() {
     // 1. Doctor Header
     if ($("padDocName")) $("padDocName").textContent = rxState.doctor.name || "Dr. Rahman";
@@ -1056,7 +1208,7 @@ Drink plenty of boiled water. Take bed rest.`;
       padMedContainer.innerHTML = "";
       if (!rxState.treatment.meds.length) {
         padMedContainer.innerHTML = `
-          <div class="text-muted py-4 ps-2" style="font-size:0.875rem;">
+          <div class="text-muted py-4 ps-2 small">
             <em>Type '/' to add medicine or commands...</em>
           </div>
         `;
@@ -1090,9 +1242,17 @@ Drink plenty of boiled water. Take bed rest.`;
     }
   }
 
-  // ============================================================================
-  // VAULT STORAGE, WHATSAPP & CLIPBOARD
-  // ============================================================================
+  /* ============================================================================
+   * 9. PRESCRIPTION VAULT EXPORT, PRINT & SHARING (WHATSAPP/CLIPBOARD)
+   * ============================================================================
+   */
+  /**
+   * Persists the current prescription as a structured clinical object in localStorage
+   * under the `bw_prescriptions` vault key. Compatible with prescriptions.html records.
+   *
+   * @function savePrescriptionToVault
+   * @returns {void}
+   */
   function savePrescriptionToVault() {
     try {
       const all = JSON.parse(localStorage.getItem(RX_VAULT_KEY) || "[]");
@@ -1123,6 +1283,14 @@ Drink plenty of boiled water. Take bed rest.`;
     }
   }
 
+  /**
+   * Generates a beautifully formatted plaintext markdown summary of the prescription,
+   * including physician credentials, patient demographics, clinical examination findings,
+   * medications list, and physician instructions.
+   *
+   * @function generateFormattedSummaryText
+   * @returns {string} Plaintext formatted medical summary.
+   */
   function generateFormattedSummaryText() {
     const s = rxState;
     return `📋 *MEDICAL PRESCRIPTION*
@@ -1153,12 +1321,25 @@ ${s.treatment.advice || "Adequate rest and hydration."}
 *BreatheWell Digital Health Platform*`;
   }
 
+  /**
+   * Opens WhatsApp Web / Mobile URL scheme with the pre-filled clinical prescription summary.
+   *
+   * @function shareViaWhatsApp
+   * @returns {void}
+   */
   function shareViaWhatsApp() {
     const text = encodeURIComponent(generateFormattedSummaryText());
     const url = `https://wa.me/?text=${text}`;
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
+  /**
+   * Copies the formatted prescription summary text to the system clipboard
+   * with fallback support for older browsers or non-HTTPS environments.
+   *
+   * @function copyPrescriptionSummary
+   * @returns {void}
+   */
   function copyPrescriptionSummary() {
     const text = generateFormattedSummaryText();
     navigator.clipboard.writeText(text).then(
@@ -1176,9 +1357,18 @@ ${s.treatment.advice || "Adequate rest and hydration."}
     );
   }
 
-  // ============================================================================
-  // TOAST NOTIFICATION SYSTEM
-  // ============================================================================
+  /* ============================================================================
+   * 10. NOTIFICATION SYSTEM & MOBILE DRAWER NAVIGATION
+   * ============================================================================
+   */
+  /**
+   * Renders a floating toast alert badge in the notification container stack.
+   *
+   * @function showToast
+   * @param {string} message - Feedback message text to present.
+   * @param {"info"|"success"|"warn"|"error"} [type="info"] - Visual toast style variant.
+   * @returns {void}
+   */
   function showToast(message, type = "info") {
     let stack = $("cpToastStack");
     if (!stack) {
@@ -1213,9 +1403,13 @@ ${s.treatment.advice || "Adequate rest and hydration."}
     }, 3500);
   }
 
-  // ============================================================================
-  // MOBILE NAVIGATION & DRAWER SUPPORT
-  // ============================================================================
+  /**
+   * Initializes offcanvas drawer event handling, auto-closing the drawer upon link clicks
+   * and properly routing cross-page anchor transitions.
+   *
+   * @function initMobileSidebar
+   * @returns {void}
+   */
   function initMobileSidebar() {
     const sidebar = $("mobileSidebarMenu");
     if (!sidebar) return;
@@ -1252,6 +1446,13 @@ ${s.treatment.advice || "Adequate rest and hydration."}
     });
   }
 
+  /**
+   * Sanitizes arbitrary string input to prevent XSS injection vulnerabilities.
+   *
+   * @function escapeHtml
+   * @param {string|number|null|undefined} str - Raw input value.
+   * @returns {string} HTML-escaped string.
+   */
   function escapeHtml(str) {
     if (!str) return "";
     return String(str)

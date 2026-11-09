@@ -1,3 +1,37 @@
+<!--
+  ============================================================================
+  BreatheWell - Health Reading Entry Studio (health-reading.html)
+  ============================================================================
+  Description:
+    Clinical physiological telemetry capture module for BreatheWell. Provides
+    adaptive entry forms for cardiovascular (Systolic/Diastolic BP, Heart Rate)
+    and glycemic vitals (Blood Glucose: Fasting, Postprandial, Random).
+    Includes real-time diagnostic spectrum meters compliant with AHA 2017
+    and ADA 2024 standards, pull-up historical statistics, WhatsApp report
+    generator, and offline LocalStorage persistence.
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass for keyboard and screen-reader users.
+    - Global Desktop Navigation: Sticky navbar with active health tracker indicator.
+    - Hero Sub-Navigation Ribbon: Dark green tab bar switching between Reading, History, Charts, and Demo.
+    - Crisis Alert Banner: High-priority warning triggered by hypertensive/glycemic crisis.
+    - Adaptive Form Studio: Segmented control switching between Combined, BP-only, and Glucose-only layouts.
+    - Live Diagnostic Spectrum Meters: Color-coded visual gauge showing clinical stages.
+    - Summary Stats Pull-Up: Quick-glance cards showing latest averages and sparklines.
+    - WhatsApp Share Generator: Formatted clinical summary text generator.
+    - Toast Notification Stack: Accessible ARIA live notification system.
+    - Mobile Bottom App Drawer: Native mobile touch navigation dock (< 992px).
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle (CDN)
+    - Bootstrap Icons 1.11.3 (CDN)
+    - Google Fonts: Inter & Noto Sans Bengali
+    - Stylesheet: asset/css/style.css
+    - Stylesheet: asset/css/health-tracker.css
+    - Stylesheet: asset/css/health-reading.css
+    - Application Engine: asset/js/health-reading.js
+  ============================================================================
+-->
 <!DOCTYPE html>
 <html lang="bn">
 

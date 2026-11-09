@@ -1,3 +1,36 @@
+<!--
+  ============================================================================
+  BreatheWell - Health History & Clinical Log (health-history.html)
+  ============================================================================
+  Description:
+    Comprehensive clinical historical record archive for BreatheWell. Features
+    DataTables 2 integration with Bootstrap 5 styling, multi-column sorting,
+    real-time full-text search, category filtering tabs (All, Blood Pressure,
+    Blood Glucose), RFC 4180 compliant CSV export with UTF-8 BOM, JSON database
+    backup download, single-record deletion modal, and summary counter stats.
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass for keyboard and screen-reader users.
+    - Global Desktop Navigation: Sticky navbar with active health tracker indicator.
+    - Hero Sub-Navigation Ribbon: Dark green tab bar connecting Reading, History, Charts, and Demo.
+    - Summary Counters Row: Quick metrics showing total, BP entries, Glucose entries, and abnormal readings.
+    - History Table Card: Filter tabs, search bar, and action buttons (CSV Export, JSON Backup, Clear All).
+    - DataTables 2 Interactive Grid: Responsive table with date, type, metrics, classification badge, and action delete.
+    - Record Deletion Confirm Modal: Accessible Bootstrap modal preventing accidental record loss.
+    - Floating Toast Stack: Notification stack for export status and record mutations.
+    - Mobile Bottom App Drawer: Native mobile touch navigation dock (< 992px).
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle (CDN)
+    - Bootstrap Icons 1.11.3 (CDN)
+    - DataTables 2.1.8 & Bootstrap 5 integration (CDN)
+    - Google Fonts: Inter & Noto Sans Bengali
+    - Stylesheet: asset/css/style.css
+    - Stylesheet: asset/css/health-tracker.css
+    - Stylesheet: asset/css/health-history.css
+    - Application Engine: asset/js/health-history.js
+  ============================================================================
+-->
 <!DOCTYPE html>
 <html lang="bn">
 

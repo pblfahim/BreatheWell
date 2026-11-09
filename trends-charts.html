@@ -1,3 +1,36 @@
+<!--
+  ============================================================================
+  BreatheWell - Health Charts & Visual Trends (health-charts.html)
+  ============================================================================
+  Description:
+    Interactive clinical time-series visual analytics engine for BreatheWell.
+    Renders pure SVG multi-line trend graphs, cubic Bézier sparklines, shaded
+    clinical safe zones (AHA 2017 & ADA 2024 target bands), multi-timeframe
+    filtering (7, 14, 30 days, All), touch/hover tooltip inspection, and
+    algorithmic health insight summaries.
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass for keyboard and screen-reader users.
+    - Global Desktop Navigation: Sticky navbar with active health tracker indicator.
+    - Hero Sub-Navigation Ribbon: Dark green tab bar connecting Reading, History, Charts, and Demo.
+    - Summary Pull-Up Metrics: Total readings count, BP rolling average, Glucose average, and target compliance %.
+    - Timeframe Filter Bar: Segmented control (7 Days, 14 Days, 30 Days, All Records).
+    - Blood Pressure SVG Chart: Dual-curve (Systolic/Diastolic) time-series with normal target band (90-120 / 60-80).
+    - Blood Glucose SVG Chart: Time-series curve with fasting (4.0-5.6) and postmeal (4.0-7.8) safe zones.
+    - Smart Clinical Insights Card: Rule-based health evaluations and recommended breathing sessions.
+    - Floating Toast Stack: Notification feedback for demo generation and data updates.
+    - Mobile Bottom App Drawer: Native mobile touch navigation dock (< 992px).
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle (CDN)
+    - Bootstrap Icons 1.11.3 (CDN)
+    - Google Fonts: Inter & Noto Sans Bengali
+    - Stylesheet: asset/css/style.css
+    - Stylesheet: asset/css/health-tracker.css
+    - Stylesheet: asset/css/health-charts.css
+    - Application Engine: asset/js/health-charts.js
+  ============================================================================
+-->
 <!DOCTYPE html>
 <html lang="bn">
 
