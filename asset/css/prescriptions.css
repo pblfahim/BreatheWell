@@ -90,8 +90,13 @@
 }
 
 @keyframes rxGlowDrift {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(30px, 20px) scale(1.15); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(30px, 20px) scale(1.15);
+  }
 }
 
 /* Animated ambient particles */
@@ -131,6 +136,7 @@
   from {
     transform: translateY(0) scale(1);
   }
+
   to {
     transform: translateY(-24px) scale(1.08);
   }
@@ -164,8 +170,17 @@
 }
 
 @keyframes rxPulseDot {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.6; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 0.6;
+  }
 }
 
 .rx-hero-title {
@@ -284,8 +299,13 @@
 }
 
 @keyframes rx3DFloat {
-  0% { transform: rotateY(-8deg) rotateX(4deg) translateY(0); }
-  100% { transform: rotateY(-4deg) rotateX(2deg) translateY(-10px); }
+  0% {
+    transform: rotateY(-8deg) rotateX(4deg) translateY(0);
+  }
+
+  100% {
+    transform: rotateY(-4deg) rotateX(2deg) translateY(-10px);
+  }
 }
 
 .rx-3d-card-header {
@@ -340,10 +360,23 @@
 }
 
 @keyframes rxScan3D {
-  0% { top: 0%; opacity: 0; }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
 }
 
 .rx-3d-pat-row {
@@ -414,8 +447,13 @@
 }
 
 @keyframes rxSatelliteFloat {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-8px); }
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-8px);
+  }
 }
 
 /* ============================================================================
@@ -501,8 +539,13 @@
 }
 
 @keyframes rxShimmerSweep {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .rx-storage-bar-fill.warn {
@@ -749,6 +792,266 @@
   display: flex;
   align-items: center;
   gap: 0.65rem;
+}
+
+/* ============================================================================
+ * OCR INTERACTIVE ENHANCEMENT TOOLBAR
+ * ============================================================================ */
+.rx-ocr-toolbar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04), 0 4px 14px rgba(15, 23, 42, 0.02);
+  margin-bottom: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rx-ocr-toolbar:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.06);
+}
+
+.rx-ocr-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Language Selector Group */
+.rx-ocr-lang-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.rx-ocr-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 0;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.rx-ocr-select {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 5px 28px 5px 10px;
+  height: 36px;
+  width: auto;
+  min-width: 155px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rx-ocr-select:hover {
+  background-color: #ffffff;
+  border-color: #94a3b8;
+}
+
+.rx-ocr-select:focus {
+  background-color: #ffffff;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+  outline: none;
+}
+
+/* Tools & Actions Group */
+.rx-ocr-tools-group {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Rotation Button Group [ ↺ | ↻ ] */
+.rx-ocr-rot-group {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 2px;
+  display: inline-flex;
+  gap: 2px;
+}
+
+.rx-ocr-btn-rot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 30px;
+  padding: 0;
+  border: none !important;
+  background: transparent;
+  color: #475569;
+  border-radius: 6px !important;
+  font-size: 0.95rem;
+  transition: all 0.15s ease;
+}
+
+.rx-ocr-btn-rot:hover {
+  background: #ffffff;
+  color: #0d9488;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.rx-ocr-btn-rot:active {
+  transform: scale(0.92);
+}
+
+/* High Contrast Toggle Button */
+.rx-ocr-btn-enhance {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.rx-ocr-btn-enhance:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+.rx-ocr-btn-enhance.active {
+  background: #f0fdfa;
+  border-color: #0d9488;
+  color: #0f766e;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px #0d9488, 0 1px 3px rgba(13, 148, 136, 0.12);
+}
+
+.rx-ocr-btn-enhance.active i {
+  color: #0d9488;
+}
+
+/* Re-run Scan Button */
+.rx-ocr-btn-rerun {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: #0d9488;
+  border: 1px solid #0d9488;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(13, 148, 136, 0.2);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.rx-ocr-btn-rerun:hover {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.28);
+}
+
+.rx-ocr-btn-rerun:active {
+  transform: translateY(0);
+}
+
+.rx-ocr-btn-rerun i {
+  transition: transform 0.3s ease;
+}
+
+.rx-ocr-btn-rerun:hover i {
+  transform: rotate(90deg);
+}
+
+/* Responsive Breakpoints for OCR Toolbar */
+@media (max-width: 767.98px) {
+  .rx-ocr-toolbar {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .rx-ocr-toolbar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .rx-ocr-lang-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .rx-ocr-select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .rx-ocr-tools-group {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rx-ocr-rot-group {
+    flex-shrink: 0;
+  }
+
+  .rx-ocr-btn-enhance {
+    flex: 1 1 auto;
+    font-size: 0.76rem;
+    padding: 0 10px;
+    height: 38px;
+  }
+
+  .rx-ocr-btn-rerun {
+    flex: 1 1 auto;
+    font-size: 0.78rem;
+    padding: 0 12px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 420px) {
+  .rx-ocr-tools-group {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .rx-ocr-btn-enhance {
+    flex: 1 1 calc(100% - 78px);
+    font-size: 0.75rem;
+  }
+
+  .rx-ocr-btn-rerun {
+    width: 100%;
+    flex: 1 1 100%;
+    height: 40px;
+    font-size: 0.82rem;
+  }
 }
 
 .rx-ocr-scanning {
