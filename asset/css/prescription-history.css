@@ -789,3 +789,178 @@
   }
 }
 
+/* ============================================================================
+ * 7. VIEW FORMAT TOGGLE & DATA TABLE VIEW (Styled as Health History Table)
+ * ============================================================================ */
+.ph-view-toggle {
+  background: var(--ph-surface-alt);
+  border: 1px solid var(--ph-border);
+  border-radius: 9999px;
+  padding: 3px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ph-btn-toggle {
+  border: none;
+  border-radius: 9999px !important;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748b;
+  padding: 0.42rem 1rem;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ph-btn-toggle:hover {
+  color: var(--ph-text);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ph-btn-toggle.active {
+  background: var(--ph-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25);
+}
+
+/* Table Card */
+.ph-table-card {
+  background: var(--ph-surface);
+  border: 1px solid var(--ph-border);
+  border-radius: var(--ph-radius-xl);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.ph-table-card-header {
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--ph-border);
+  background: #ffffff;
+}
+
+.ph-table-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ph-text);
+  margin: 0;
+}
+
+/* Table overrides matching health-history */
+.ph-data-table {
+  margin-bottom: 0 !important;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.ph-data-table thead th {
+  background: var(--ph-surface-alt);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #475569;
+  border-bottom: 2px solid var(--ph-border);
+  padding: 13px 14px;
+  white-space: nowrap;
+}
+
+.ph-data-table tbody td {
+  padding: 13px 14px;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--ph-border);
+  vertical-align: middle;
+}
+
+.ph-data-table tbody tr:hover td {
+  background: #f8fafc;
+}
+
+.ph-tbl-doc {
+  font-weight: 700;
+  color: var(--ph-text);
+  display: block;
+}
+
+.ph-tbl-clinic {
+  font-size: 0.74rem;
+  color: var(--ph-text-muted);
+  display: block;
+}
+
+.ph-tbl-pat {
+  font-weight: 600;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ph-tbl-age {
+  font-size: 0.72rem;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.ph-tbl-meds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 290px;
+}
+
+.ph-tbl-file-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #0f766e;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ph-tbl-file-badge:hover {
+  background: #0d9488;
+  color: #ffffff;
+  border-color: #0d9488;
+}
+
+/* DataTables pagination & length styling */
+.dataTables_wrapper .dataTables_length select {
+  border: 1px solid var(--ph-border);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.82rem;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid var(--ph-border);
+  border-radius: 9999px;
+  padding: 5px 12px;
+  font-size: 0.84rem;
+  margin-left: 8px;
+}
+
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+  font-size: 0.82rem;
+  color: var(--ph-text-muted);
+  padding: 14px 16px;
+}
+
+.dataTables_wrapper .pagination .page-item.active .page-link {
+  background-color: var(--ph-primary);
+  border-color: var(--ph-primary);
+}
+
