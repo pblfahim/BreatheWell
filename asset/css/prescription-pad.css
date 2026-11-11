@@ -137,6 +137,53 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
+/* Action Toolbar Bar (Below Tab Navigation) */
+.pp-action-toolbar-bar .pp-toolbar-card {
+  background: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--pp-radius-lg);
+  padding: 0.85rem 1.25rem;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+.pp-action-toolbar-bar .pp-btn-outline-dark {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--pp-radius-md);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.pp-action-toolbar-bar .pp-btn-outline-dark:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.pp-action-toolbar-bar .pp-btn-primary {
+  background: #0d9488;
+  border-color: #0d9488;
+  color: #ffffff;
+}
+
+.pp-action-toolbar-bar .pp-btn-primary:hover {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #ffffff;
+}
+
 .pp-action-group {
   display: flex;
   flex-wrap: wrap;

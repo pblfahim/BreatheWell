@@ -15,8 +15,8 @@ This directory contains comprehensive product specifications, engineering standa
      - Guided Breathing Studio & Audio/TTS Engine (`exercises.html`)
      - Respiratory Assessments Lab: BOLT & BPM Counter (`breath-test.html`)
      - Clinical Vitals Health Tracker: BP & Blood Glucose Engines (`health-tracker.html`)
-     - Prescription & Medication Vault with Client OCR (`prescriptions.html`)
-     - **Digital Prescription Creator Studio & Interactive Pad (`create-prescription.html`)**
+     - Prescription & Medication Vault with Client OCR (`prescriptions-volt.html`)
+     - **Digital Prescription Creator Studio & Interactive Pad (`prescription-create.html`)**
    - Bilingual localization architecture (255 core keys with 100% parity).
    - Client-side storage schemas, canvas image compression, and security guidelines.
 

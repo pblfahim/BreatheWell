@@ -16,7 +16,7 @@ All patient biometrics, prescription scans, and exercise telemetry reside exclus
 |                                  BreatheWell Page Architecture                                    |
 |                                                                                                   |
 |  +--------------------+   +--------------------+   +--------------------+   +------------------+  |
-|  |     index.html     |   |   exercises.html   |   |  breath-test.html  |   | prescriptions.html| |
+|  |     index.html     |   |   exercises.html   |   |  breath-test.html  |   | prescriptions-volt.html| |
 |  |  Home Wellness Hub |   | Guided Respiration |   |  BOLT & BPM Labs   |   | Vault & OCR Lab  |  |
 |  +--------------------+   +--------------------+   +--------------------+   +------------------+  |
 |                                                                                                   |
@@ -29,7 +29,7 @@ All patient biometrics, prescription scans, and exercise telemetry reside exclus
 |  +---------------------------------------------------------------------------------------------+  |
 |                                                                                                   |
 |  +---------------------------------------------------------------------------------------------+  |
-|  |                     create-prescription.html (Digital Rx Creator Studio)                    |  |
+|  |                     prescription-create.html (Digital Rx Creator Studio)                    |  |
 |  |  - Two-Way Synchronized Editor & WYSIWYG Digital Doctor Prescription Pad                     |  |
 |  |  - Automated Clinical OCR Ingestion, Medication Builder & WhatsApp / Print Dispatch         |  |
 |  +---------------------------------------------------------------------------------------------+  |
@@ -54,15 +54,15 @@ BreatheWell/
 ├── trends-charts.html            # Backward-compatible alias/mirror of health-charts.html
 ├── health-history.html           # High-density clinical records table powered by DataTables 2
 ├── health-demo.html              # Clinical scenario generator & LocalStorage telemetry inspector
-├── prescriptions.html            # Clinical prescription vault, document gallery & OCR scanner
-├── create-prescription.html      # Digital doctor prescription pad creator with live WYSIWYG
+├── prescriptions-volt.html            # Clinical prescription vault, document gallery & OCR scanner
+├── prescription-create.html      # Digital doctor prescription pad creator with live WYSIWYG
 ├── prescription-pad.html         # Dedicated live WYSIWYG prescription pad with direct in-place editing
 │
 ├── asset/
 │   ├── css/
 │   │   ├── style.css             # Core design system tokens, hero 3D carousel, breathing animation
-│   │   ├── prescriptions.css     # Prescription vault gallery, drag-and-drop zone & lightbox
-│   │   ├── create-prescription.css # Studio editor layout, WYSIWYG digital pad & print styles
+│   │   ├── prescriptions-volt.css     # Prescription vault gallery, drag-and-drop zone & lightbox
+│   │   ├── prescription-create.css # Studio editor layout, WYSIWYG digital pad & print styles
 │   │   ├── prescription-pad.css  # Dedicated live paper pad styles, in-place edit & print rules
 │   │   ├── health-reading.css    # Segmented entry forms, pull-up stats & live spectrum meters
 │   │   ├── health-charts.css     # SVG line chart containers, target safe bands & tooltips
@@ -73,8 +73,8 @@ BreatheWell/
 │   ├── js/
 │   │   ├── script.js             # Core application engine (breathing, routing, audio, TTS, i18n)
 │   │   ├── script.jt             # Byte-for-byte SHA256 mirror of script.js
-│   │   ├── prescriptions.js      # Vault engine: Tesseract.js v5 OCR, PDF parser, regex extraction
-│   │   ├── create-prescription.js # Digital prescription studio engine & live pad preview
+│   │   ├── prescriptions-volt.js      # Vault engine: Tesseract.js v5 OCR, PDF parser, regex extraction
+│   │   ├── prescription-create.js # Digital prescription studio engine & live pad preview
 │   │   ├── prescription-pad.js   # Live paper pad controller, in-place edit sync & clinical presets
 │   │   ├── health-reading.js     # Vitals entry controller, AHA/ADA classification & meters
 │   │   ├── health-charts.js      # Responsive SVG time-series charts, sparklines & smart insights
@@ -128,7 +128,7 @@ BreatheWell/
   - Standards-compliant RFC 4180 CSV export with UTF-8 Byte Order Mark (BOM) for seamless Microsoft Excel rendering.
   - Full JSON database backup and restoration.
 
-### 3.4 Prescription Vault & Dual-Engine OCR (`prescriptions.html`, `create-prescription.html`)
+### 3.4 Prescription Vault & Dual-Engine OCR (`prescriptions-volt.html`, `prescription-create.html`)
 - **Dual-Engine Text Extraction:**
   1. *Vector PDF Extraction:* Decodes PDF stream objects (`/Tj`, `/TJ`) with character map extraction for digital vector prescriptions.
   2. *Tesseract.js v5 OCR:* Client-side optical character recognition supporting combined Bengali + English (`ben+eng`) trained language models.

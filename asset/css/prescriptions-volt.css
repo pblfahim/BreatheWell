@@ -1,10 +1,10 @@
 /*
  * ============================================================================
- * BreatheWell - Prescription Vault Stylesheet (prescriptions.css)
+ * BreatheWell - Prescription Vault Stylesheet (prescriptions-volt.css)
  * ============================================================================
  * Description:
- *   Modern design system for prescriptions.html.
- *   Provides the authentic prescriptions.html form aesthetic with enhanced
+ *   Modern design system for prescriptions-volt.html.
+ *   Provides the authentic prescriptions-volt.html form aesthetic with enhanced
  *   two-column layout, real-time OCR scanning visuals, drag-and-drop zone,
  *   medication tag chips, responsive prescription card gallery, and lightbox.
  * ============================================================================
@@ -463,6 +463,18 @@
   margin-top: -55px;
   position: relative;
   z-index: 10;
+}
+
+.ht-hero-tab-bar ~ .rx-pull-up,
+.ht-hero-tab-bar + .rx-pull-up {
+  margin-top: 16px !important;
+}
+
+@media (min-width: 768px) {
+  .ht-hero-tab-bar ~ .rx-pull-up,
+  .ht-hero-tab-bar + .rx-pull-up {
+    margin-top: 24px !important;
+  }
 }
 
 .rx-storage-card {

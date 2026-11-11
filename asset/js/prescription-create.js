@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * @file create-prescription.js
+ * @file prescription-create.js
  * @module BreatheWell/CreatePrescription
  * @description Interactive clinical prescription authoring engine for BreatheWell.
  *              Provides real-time two-way synchronization between input form cards
@@ -131,6 +131,10 @@
       heroEyebrow: "ডিজিটাল প্রেসক্রিপশন মেকার",
       heroTitle: "প্রেসক্রিপশন তৈরি করুন",
       heroSub: "ডাক্তারের ব্যবস্থাপত্র তৈরি করুন, প্রিন্ট করুন এবং ভল্টে সংরক্ষণ করুন।",
+      tabVault: "প্রেসক্রিপশন ভল্ট",
+      tabHistory: "প্রেসক্রিপশন ইতিহাস",
+      tabCreate: "প্রেসক্রিপশন তৈরি",
+      tabPad: "ডিজিটাল প্যাড",
       btnUploadOcr: "প্রেসক্রিপশন আপলোড (OCR)",
       ocrScanning: "ছবি স্ক্যান ও টেক্সট পড়া হচ্ছে...",
       ocrSuccess: "OCR সফল: প্রেসক্রিপশনের তথ্য ও ওষুধ ফর্মটিতে পূরণ করা হয়েছে!",
@@ -195,6 +199,10 @@
       heroEyebrow: "Digital Prescription Studio",
       heroTitle: "Create Prescription",
       heroSub: "Design, print, and save clinical medical prescriptions with instant PDF paper preview.",
+      tabVault: "Prescription Vault",
+      tabHistory: "Prescription History",
+      tabCreate: "Create Prescription",
+      tabPad: "Digital Pad",
       btnUploadOcr: "Upload Prescription (OCR)",
       ocrScanning: "Scanning image & analyzing text...",
       ocrSuccess: "OCR Success: Prescription info & medicines populated!",
@@ -1248,7 +1256,7 @@ Drink plenty of boiled water. Take bed rest.`;
    */
   /**
    * Persists the current prescription as a structured clinical object in localStorage
-   * under the `bw_prescriptions` vault key. Compatible with prescriptions.html records.
+   * under the `bw_prescriptions` vault key. Compatible with prescriptions-volt.html records.
    *
    * @function savePrescriptionToVault
    * @returns {void}
@@ -1433,7 +1441,7 @@ ${s.treatment.advice || "Adequate rest and hydration."}
         }
 
         // Current page scroll top
-        if (href === "create-prescription.html" || href.endsWith("create-prescription.html")) {
+        if (href === "prescription-create.html" || href.endsWith("prescription-create.html")) {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: "smooth" });
           return;

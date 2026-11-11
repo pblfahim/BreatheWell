@@ -1,15 +1,15 @@
 /**
  * ============================================================================
- * BreatheWell - Clinical Prescription Vault Engine (prescriptions.js)
+ * BreatheWell - Clinical Prescription Vault Engine (prescriptions-volt.js)
  * ============================================================================
- * @file        asset/js/prescriptions.js
+ * @file        asset/js/prescriptions-volt.js
  * @module      BreatheWell/PrescriptionVault
  * @author      BreatheWell Health Informatics Team
  * @version     2.0.0
  * @license     MIT
  * @description
  *   Production-grade, client-side clinical application engine for
- *   prescriptions.html. Integrates multi-format file uploads (JPG, PNG, WebP,
+ *   prescriptions-volt.html. Integrates multi-format file uploads (JPG, PNG, WebP,
  *   PDF), in-browser canvas image compression, Tesseract.js v5 OCR text
  *   extraction, a comprehensive clinical regex parser, dynamic medical chip
  *   managers (C/C, H/O, Inv), structured medication schedule builder,
@@ -136,6 +136,10 @@ Urgency: Normal`;
       heroTitle: "প্রেসক্রিপশন ভল্ট",
       heroSub: "আপনার ডাক্তারের প্রেসক্রিপশন নিরাপদে সংরক্ষণ ও পর্যবেক্ষণ করুন।",
       heroCreatePrescription: "প্রেসক্রিপশন তৈরি করুন",
+      tabVault: "প্রেসক্রিপশন ভল্ট",
+      tabHistory: "প্রেসক্রিপশন ইতিহাস",
+      tabCreate: "প্রেসক্রিপশন তৈরি",
+      tabPad: "ডিজিটাল প্যাড",
       btnCreateDigitalRx: "ডিজিটাল প্রেসক্রিপশন তৈরি",
       storageLabel: "স্টোরেজ ব্যবহার",
       storageCount: "টি প্রেসক্রিপশন",
@@ -252,6 +256,10 @@ Urgency: Normal`;
       heroTitle: "Prescription Vault",
       heroSub: "Store and monitor your doctor's prescriptions securely.",
       heroCreatePrescription: "Create Prescription",
+      tabVault: "Prescription Vault",
+      tabHistory: "Prescription History",
+      tabCreate: "Create Prescription",
+      tabPad: "Digital Pad",
       btnCreateDigitalRx: "Create Digital Rx",
       storageLabel: "Storage used",
       storageCount: "prescriptions",
@@ -2293,7 +2301,7 @@ Urgency: Normal`;
           return;
         }
 
-        if (href === "prescriptions.html" || href.endsWith("prescriptions.html")) {
+        if (href === "prescriptions-volt.html" || href.endsWith("prescriptions-volt.html")) {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: "smooth" });
           return;

@@ -968,10 +968,13 @@ main {
 }
 
 @keyframes buddyShadowBreathe {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(0.85);
     opacity: 0.45;
   }
+
   50% {
     transform: scale(1.22);
     opacity: 0.9;
@@ -1004,6 +1007,7 @@ main {
   from {
     transform: rotateX(68deg) rotateY(-18deg) rotateZ(0deg);
   }
+
   to {
     transform: rotateX(68deg) rotateY(-18deg) rotateZ(360deg);
   }
@@ -1013,6 +1017,7 @@ main {
   from {
     transform: rotateX(62deg) rotateY(22deg) rotateZ(360deg);
   }
+
   to {
     transform: rotateX(62deg) rotateY(22deg) rotateZ(0deg);
   }
@@ -1047,7 +1052,7 @@ main {
   height: 100%;
   border-radius: 50%;
   background: radial-gradient(circle at 32% 26%, #ffffff 0%, #d8f1ff 30%, #7ecaf8 70%, #0ea5e9 95%, #0284c7 100%);
-  box-shadow: 
+  box-shadow:
     0 28px 75px rgba(14, 165, 233, 0.42),
     0 12px 28px rgba(2, 132, 199, 0.28),
     inset -16px -20px 38px rgba(3, 105, 161, 0.35),
@@ -1067,6 +1072,7 @@ main {
 }
 
 @keyframes buddyBreathe3D {
+
   0%,
   100% {
     transform: scale(0.92) translateY(0);
@@ -1557,6 +1563,7 @@ main {
     transform: rotateX(85deg) translateZ(-40px) scale(0.9);
     opacity: 0.55;
   }
+
   100% {
     transform: rotateX(85deg) translateZ(-40px) scale(1.12);
     opacity: 0.95;
@@ -1569,7 +1576,7 @@ main {
   border: 1.5px solid rgba(255, 255, 255, 0.95);
   border-radius: 26px;
   padding: 24px 26px;
-  box-shadow: 
+  box-shadow:
     0 32px 75px -15px rgba(15, 23, 42, 0.2),
     0 16px 36px -10px rgba(2, 132, 199, 0.16),
     0 0 0 1px rgba(255, 255, 255, 0.95) inset,
@@ -1589,9 +1596,11 @@ main {
   0% {
     transform: rotateY(-9deg) rotateX(7deg) translateY(0) translateZ(0);
   }
+
   50% {
     transform: rotateY(-5deg) rotateX(4deg) translateY(-11px) translateZ(16px);
   }
+
   100% {
     transform: rotateY(-11deg) rotateX(9deg) translateY(-4px) translateZ(6px);
   }
@@ -1599,7 +1608,7 @@ main {
 
 .hero-vitals-console:hover {
   transform: rotateY(-3deg) rotateX(3deg) translateY(-14px) translateZ(28px) scale(1.03);
-  box-shadow: 
+  box-shadow:
     0 42px 95px -18px rgba(15, 23, 42, 0.25),
     0 22px 48px -10px rgba(2, 132, 199, 0.24),
     0 0 0 1px rgba(255, 255, 255, 1) inset;
@@ -1732,6 +1741,7 @@ main {
 }
 
 @keyframes heartbeatAnim {
+
   0%,
   100% {
     transform: scale(1);
@@ -1769,6 +1779,7 @@ main {
 }
 
 @keyframes dropletBounce {
+
   0%,
   100% {
     transform: translateY(0) scale(1);
@@ -1799,6 +1810,7 @@ main {
 }
 
 @keyframes pulseRotateBounce {
+
   0%,
   100% {
     transform: scale(1);
@@ -1880,7 +1892,7 @@ main {
   border: 1.5px solid rgba(255, 255, 255, 0.95);
   border-radius: 26px;
   padding: 24px 26px;
-  box-shadow: 
+  box-shadow:
     0 32px 75px -15px rgba(13, 148, 136, 0.24),
     0 16px 36px -10px rgba(15, 23, 42, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.95) inset,
@@ -1913,7 +1925,7 @@ main {
 
 .hero-rx-console:hover {
   transform: rotateY(3deg) rotateX(3deg) translateY(-14px) translateZ(28px) scale(1.03);
-  box-shadow: 
+  box-shadow:
     0 42px 95px -18px rgba(13, 148, 136, 0.3),
     0 22px 48px -10px rgba(20, 184, 166, 0.22),
     0 0 0 1px rgba(255, 255, 255, 1) inset;
@@ -2029,6 +2041,7 @@ main {
 }
 
 @keyframes ocrPulse {
+
   0%,
   100% {
     transform: scale(0.85);
@@ -2120,6 +2133,7 @@ main {
 }
 
 @keyframes stampBadgeGlow {
+
   0%,
   100% {
     transform: scale(1);
@@ -2141,7 +2155,7 @@ main {
   border: 1.5px solid rgba(255, 255, 255, 0.92);
   border-radius: 14px;
   padding: 8px 14px;
-  box-shadow: 
+  box-shadow:
     0 14px 32px -4px rgba(15, 23, 42, 0.12),
     0 4px 10px -2px rgba(15, 23, 42, 0.06),
     inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
@@ -2223,6 +2237,7 @@ main {
 }
 
 @keyframes floatPillA {
+
   0%,
   100% {
     transform: translateY(0) translateZ(55px) rotate(0deg);
@@ -2234,6 +2249,7 @@ main {
 }
 
 @keyframes floatPillB {
+
   0%,
   100% {
     transform: translateY(0) translateZ(65px) rotate(0deg);
@@ -2245,6 +2261,7 @@ main {
 }
 
 @keyframes floatPillC {
+
   0%,
   100% {
     transform: translateY(0) translateZ(50px) rotate(0deg);
@@ -2256,6 +2273,7 @@ main {
 }
 
 @keyframes floatPillD {
+
   0%,
   100% {
     transform: translateY(0) translateZ(60px) rotate(0deg);
@@ -3286,7 +3304,7 @@ main {
 
 .form-select {
   border-radius: 12px;
-  min-height: 48px;
+  min-height: 38px;
   border-color: #d6e4ef;
 }
 
@@ -5307,4 +5325,151 @@ footer {
   color: #64748b;
   margin-bottom: 0;
   line-height: 1.35;
+}
+
+/* ============================================================================
+ * DARK GREEN TAB HEADER BAR (STICKY NAVIGATION)
+ * ============================================================================ */
+:root {
+  --bw-navbar-height: 68px;
+}
+
+@media (max-width: 991px) {
+  :root {
+    --bw-navbar-height: 64px;
+  }
+}
+
+.ht-hero-tab-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--bw-navbar-height, 68px);
+  z-index: 1010;
+  background: #0f4c3a;
+  padding-top: 14px;
+  box-shadow: 0 4px 14px rgba(15, 76, 58, 0.16);
+  margin-bottom: 24px;
+  transition: top 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ht-hero-tabs {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  margin-bottom: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ht-hero-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.ht-hero-tab {
+  flex: 1 1 0;
+  min-width: 140px;
+  max-width: 260px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px 12px 0 0;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.ht-hero-tab:hover {
+  background: #f0fdf4;
+  color: #0f4c3a;
+}
+
+.ht-hero-tab.active {
+  background: #e9f7ed;
+  color: #0f4c3a;
+  font-weight: 800;
+}
+
+.ht-hero-tab-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+/* Tablet (768px - 991px): tabs stretch evenly across container */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .ht-hero-tab-bar {
+    padding-top: 12px;
+    margin-bottom: 20px;
+  }
+
+  .ht-hero-tabs {
+    gap: 6px;
+  }
+
+  .ht-hero-tab {
+    flex: 1 1 0;
+    max-width: none;
+    min-width: 0;
+    height: 46px;
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+}
+
+/* Mobile (<768px): smooth touch-scrollable tabs */
+@media (max-width: 767.98px) {
+  .ht-hero-tab-bar {
+    padding-top: 10px;
+    margin-bottom: 16px;
+  }
+
+  .ht-hero-tabs {
+    gap: 5px;
+    padding: 0 2px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ht-hero-tab {
+    flex: 0 0 auto;
+    min-width: 116px;
+    height: 42px;
+    font-size: 0.84rem;
+    padding: 0 12px;
+    gap: 6px;
+    border-radius: 10px 10px 0 0;
+    scroll-snap-align: start;
+  }
+
+  .ht-hero-tab-icon {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small mobile devices (<400px) */
+@media (max-width: 399.98px) {
+  .ht-hero-tab {
+    min-width: 104px;
+    height: 38px;
+    font-size: 0.78rem;
+    padding: 0 8px;
+    gap: 4px;
+  }
+
+  .ht-hero-tab-icon {
+    font-size: 0.88rem;
+  }
+}
+
+@media print {
+  .ht-hero-tab-bar {
+    display: none !important;
+  }
 }

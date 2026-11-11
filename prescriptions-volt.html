@@ -1,6 +1,6 @@
 <!--
   ============================================================================
-  BreatheWell - Prescription Vault (prescriptions.html)
+  BreatheWell - Prescription Vault (prescriptions-volt.html)
   ============================================================================
   Description:
     A fully client-side, localStorage-based prescription management page.
@@ -28,9 +28,9 @@
     - Bootstrap Icons 1.11.3 (CDN)
     - Inter & Noto Sans Bengali typography (Google Fonts)
     - Stylesheet: asset/css/style.css
-    - Stylesheet: asset/css/prescriptions.css
+    - Stylesheet: asset/css/prescriptions-volt.css
     - OCR Engine: Tesseract.js v5 (CDN — Bengali + English)
-    - Application Engine: asset/js/prescriptions.js
+    - Application Engine: asset/js/prescriptions-volt.js
   ============================================================================
 -->
 <!doctype html>
@@ -52,8 +52,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/css/style.css">
-    <link rel="stylesheet" href="asset/css/prescriptions.css">
-    <link rel="stylesheet" href="asset/css/create-prescription.css">
+    <link rel="stylesheet" href="asset/css/prescriptions-volt.css">
+    <link rel="stylesheet" href="asset/css/prescription-create.css">
 </head>
 
 <body class="bn" data-page="rx">
@@ -87,7 +87,7 @@
                     <li class="nav-item"><a class="nav-link" href="health-reading.html"
                             data-rx-i18n="navHealth">স্বাস্থ্য
                             ট্র্যাকার</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="prescriptions.html" aria-current="page"
+                    <li class="nav-item"><a class="nav-link active" href="prescriptions-volt.html" aria-current="page"
                             data-rx-i18n="navRx">প্রেসক্রিপশন</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.html#safety"
                             data-rx-i18n="navSafety">নিরাপত্তা</a></li>
@@ -105,129 +105,27 @@
         <div id="rxViewNotice" class="d-none"></div>
 
         <!-- ======================================================================
-         3. HERO BANNER
-         ====================================================================== -->
-        <div class="rx-hero">
-            <!-- Animated ambient background particles & mesh glows -->
-            <div class="rx-hero-glow glow-1" aria-hidden="true"></div>
-            <div class="rx-hero-glow glow-2" aria-hidden="true"></div>
-            <div class="rx-hero-particle p1" aria-hidden="true"></div>
-            <div class="rx-hero-particle p2" aria-hidden="true"></div>
-            <div class="rx-hero-particle p3" aria-hidden="true"></div>
-
-            <div class="container position-relative">
-                <div class="row align-items-center g-4">
-                    <div class="col-lg-7">
-                        <!-- Eyebrow label -->
-                        <div class="rx-hero-eyebrow">
-                            <span class="rx-eyebrow-pulse" aria-hidden="true"></span>
-                            <i class="bi bi-clipboard2-pulse-fill"></i>
-                            <span data-rx-i18n="heroEyebrow">ডিজিটাল স্বাস্থ্য সংরক্ষণ</span>
-                        </div>
-
-                        <!-- Page headline -->
-                        <h1 class="rx-hero-title" data-rx-i18n="heroTitle">প্রেসক্রিপশন ভল্ট</h1>
-                        <p class="rx-hero-sub" data-rx-i18n="heroSub">
-                            আপনার ডাক্তারের প্রেসক্রিপশন নিরাপদে সংরক্ষণ ও পর্যবেক্ষণ করুন।
-                        </p>
-
-                        <!-- Quick-action pills -->
-                        <div class="rx-hero-pills mt-4">
-                            <button class="rx-hero-pill primary rx-edit-only" id="rxHeroBtnUpload">
-                                <i class="bi bi-cloud-arrow-up-fill"></i>
-                                <span>আপলোড করুন</span>
-                            </button>
-                            <a class="rx-hero-pill text-decoration-none" href="create-prescription.html">
-                                <i class="bi bi-pencil-square text-teal"></i>
-                                <span data-rx-i18n="heroCreatePrescription">প্রেসক্রিপশন তৈরি করুন</span>
-                            </a>
-                            <a class="rx-hero-pill text-decoration-none" href="prescription-pad.html">
-                                <i class="bi bi-file-earmark-medical-fill text-teal"></i>
-                                <span>লাইভ প্যাড</span>
-                            </a>
-                            <button class="rx-hero-pill" id="rxHeroBtnGallery">
-                                <i class="bi bi-grid-3x3-gap-fill"></i>
-                                <span>গ্যালারি দেখুন</span>
-                            </button>
-                        </div>
-
-                        <!-- Hero Feature Badges -->
-                        <div class="rx-hero-feature-tags mt-4 pt-2">
-                            <span class="rx-hero-tag">
-                                <i class="bi bi-shield-check text-emerald"></i>
-                                <span>১০০% এনক্রিপ্টেড ও সুরক্ষিত</span>
-                            </span>
-                            <span class="rx-hero-tag">
-                                <i class="bi bi-cpu-fill text-teal-light"></i>
-                                <span>স্মার্ট এআই ওসিআর</span>
-                            </span>
-                            <span class="rx-hero-tag">
-                                <i class="bi bi-bell-fill text-warning"></i>
-                                <span>রিফিল রিমাইন্ডার</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Decorative 3D clinical prescription showcase card -->
-                    <div class="col-lg-5 d-none d-lg-flex justify-content-center">
-                        <div class="rx-hero-3d-scene">
-                            <!-- Floating 3D Prescription Card -->
-                            <div class="rx-3d-card">
-                                <div class="rx-3d-card-header">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="rx-3d-doc-avatar">
-                                            <i class="bi bi-person-fill"></i>
-                                        </div>
-                                        <div>
-                                            <div class="rx-3d-doc-name">Dr. A. Rahman</div>
-                                            <div class="rx-3d-doc-dept">MBBS, FCPS · City Hospital</div>
-                                        </div>
-                                    </div>
-                                    <span
-                                        class="badge bg-white bg-opacity-25 text-white border border-white border-opacity-25 rounded-pill text-xs px-2 py-0.5">Verified
-                                        Rx</span>
-                                </div>
-                                <div class="rx-3d-card-body">
-                                    <div class="rx-3d-scanline" aria-hidden="true"></div>
-                                    <div class="rx-3d-pat-row">
-                                        <span><i class="bi bi-person me-1"></i>Rahim Uddin (45)</span>
-                                        <span class="text-white-50">09/11/2026</span>
-                                    </div>
-                                    <div class="rx-3d-med-list">
-                                        <div class="rx-3d-med-item">
-                                            <span
-                                                class="badge bg-teal-subtle text-teal border border-teal-subtle me-1">Tab</span>
-                                            <span>Napa Extend (665mg)</span>
-                                            <span class="ms-auto text-white-75">1+0+1</span>
-                                        </div>
-                                        <div class="rx-3d-med-item">
-                                            <span
-                                                class="badge bg-info-subtle text-info border border-info-subtle me-1">Cap</span>
-                                            <span>Seclo (20mg)</span>
-                                            <span class="ms-auto text-white-75">1+0+1</span>
-                                        </div>
-                                    </div>
-                                    <div class="rx-3d-card-footer">
-                                        <span
-                                            class="badge bg-success bg-opacity-20 text-success-light border border-success border-opacity-25 rounded-pill text-xs">
-                                            <i class="bi bi-check2-circle me-1"></i>OCR Parsed
-                                        </span>
-                                        <span class="text-white-50 text-xs">Next Refill: 14 days</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Floating Satellite Micro-Badges -->
-                            <div class="rx-floating-satellite s1">
-                                <i class="bi bi-activity text-teal"></i>
-                                <span>BP: 120/80</span>
-                            </div>
-                            <div class="rx-floating-satellite s2">
-                                <i class="bi bi-file-earmark-check-fill text-warning"></i>
-                                <span>PDF / Image</span>
-                            </div>
-                        </div>
-                    </div>
+             2. DARK GREEN TAB HEADER BAR
+             ====================================================================== -->
+        <div class="ht-hero-tab-bar">
+            <div class="container">
+                <div class="ht-hero-tabs" role="tablist" aria-label="Prescription Navigation">
+                    <a href="prescriptions-volt.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
+                        <span class="ht-hero-tab-icon">🗄️</span>
+                        <span class="ht-hero-tab-text" data-rx-i18n="tabVault">প্রেসক্রিপশন ভল্ট</span>
+                    </a>
+                    <a href="prescription-history.html" class="ht-hero-tab text-decoration-none">
+                        <span class="ht-hero-tab-icon">📜</span>
+                        <span class="ht-hero-tab-text" data-rx-i18n="tabHistory">প্রেসক্রিপশন ইতিহাস</span>
+                    </a>
+                    <a href="prescription-create.html" class="ht-hero-tab text-decoration-none">
+                        <span class="ht-hero-tab-icon">✍️</span>
+                        <span class="ht-hero-tab-text" data-rx-i18n="tabCreate">প্রেসক্রিপশন তৈরি</span>
+                    </a>
+                    <a href="prescription-pad.html" class="ht-hero-tab text-decoration-none">
+                        <span class="ht-hero-tab-icon">📋</span>
+                        <span class="ht-hero-tab-text" data-rx-i18n="tabPad">ডিজিটাল প্যাড</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -283,18 +181,6 @@
                         </h2>
                         <p class="text-xs text-muted mb-0">ছবি বা পিডিএফ ড্র্যাগ করে তাৎক্ষণিক এআই ওসিআর দিয়ে সব তথ্য
                             ফর্মটিতে রূপান্তর করুন</p>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <a href="create-prescription.html"
-                            class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 rounded-pill px-3 py-1.5 fw-semibold text-decoration-none shadow-sm">
-                            <i class="bi bi-pencil-square"></i>
-                            <span data-rx-i18n="btnCreateDigitalRx">ডিজিটাল প্রেসক্রিপশন তৈরি</span>
-                        </a>
-                        <a href="prescription-pad.html"
-                            class="btn btn-sm btn-outline-success d-inline-flex align-items-center gap-1 rounded-pill px-3 py-1.5 fw-semibold text-decoration-none shadow-sm">
-                            <i class="bi bi-file-earmark-medical-fill"></i>
-                            <span>লাইভ প্যাড</span>
-                        </a>
                     </div>
                 </div>
 
@@ -370,22 +256,20 @@
                                                 <option value="ben">শুধুমাত্র বাংলা</option>
                                             </select>
                                         </div>
+                                        <!-- Rotation Tool Group -->
+                                        <div class="btn-group rx-ocr-rot-group" role="group" aria-label="Rotate image">
+                                            <button type="button" class="btn rx-ocr-btn-rot" id="btnRotateOcrLeft"
+                                                title="বাম দিকে ঘোরান (Rotate 90° Left)" aria-label="Rotate Left">
+                                                <i class="bi bi-arrow-counterclockwise"></i>
+                                            </button>
+                                            <button type="button" class="btn rx-ocr-btn-rot" id="btnRotateOcrRight"
+                                                title="ডান দিকে ঘোরান (Rotate 90° Right)" aria-label="Rotate Right">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                        </div>
 
                                         <!-- Image Adjustment & OCR Actions Module -->
                                         <div class="rx-ocr-tools-group">
-                                            <!-- Rotation Tool Group -->
-                                            <div class="btn-group rx-ocr-rot-group" role="group"
-                                                aria-label="Rotate image">
-                                                <button type="button" class="btn rx-ocr-btn-rot" id="btnRotateOcrLeft"
-                                                    title="বাম দিকে ঘোরান (Rotate 90° Left)" aria-label="Rotate Left">
-                                                    <i class="bi bi-arrow-counterclockwise"></i>
-                                                </button>
-                                                <button type="button" class="btn rx-ocr-btn-rot" id="btnRotateOcrRight"
-                                                    title="ডান দিকে ঘোরান (Rotate 90° Right)" aria-label="Rotate Right">
-                                                    <i class="bi bi-arrow-clockwise"></i>
-                                                </button>
-                                            </div>
-
                                             <!-- High Contrast Toggle Button -->
                                             <button type="button" class="btn rx-ocr-btn-enhance active"
                                                 id="btnEnhanceOcr"
@@ -425,7 +309,7 @@
                         </div>
                     </div>
 
-                    <!-- ── RIGHT: Form Controls & Inputs (Clinical Editor from create-prescription.html) ──── -->
+                    <!-- ── RIGHT: Form Controls & Inputs (Clinical Editor from prescription-create.html) ──── -->
                     <div class="col-lg-12">
                         <form id="row rxForm" novalidate class="d-flex flex-column gap-3">
 
@@ -783,62 +667,6 @@
             </div><!-- /container -->
         </section>
 
-        <!-- ======================================================================
-         6. GALLERY SECTION — saved prescription cards
-         ====================================================================== -->
-        <section id="rxGallerySection" class="rx-section rx-section-alt">
-            <div class="container">
-
-                <!-- Section heading -->
-                <div class="rx-section-heading d-flex flex-wrap align-items-center justify-content-between gap-2">
-                    <div>
-                        <h2 class="rx-section-title mb-1">
-                            <i class="bi bi-grid-3x3-gap-fill me-2 text-teal"></i>
-                            <span data-rx-i18n="galleryTitle">সংরক্ষিত প্রেসক্রিপশন</span>
-                        </h2>
-                        <p class="text-xs text-muted mb-0">ভল্টে সংরক্ষিত সব প্রেসক্রিপশন সহজেই খুঁজুন, ফিল্টার করুন এবং
-                            সম্পূর্ণ স্ক্রিনে দেখুন</p>
-                    </div>
-                </div>
-
-                <!-- Filter / Search / Sort toolbar -->
-                <div class="rx-toolbar">
-
-                    <!-- Live search input -->
-                    <div class="rx-search-wrap">
-                        <i class="bi bi-search rx-search-icon"></i>
-                        <input type="search" id="rxSearch" class="rx-search-input"
-                            placeholder="ডাক্তার, ওষুধ বা ফাইলের নাম খুঁজুন..." data-rx-i18n-placeholder="searchPh"
-                            aria-label="Search prescriptions">
-                    </div>
-
-                    <!-- Category filter pills -->
-                    <div class="rx-filter-bar" role="group" aria-label="Filter by urgency">
-                        <button class="rx-filter-pill active" data-filter="all" data-rx-i18n="filterAll">সব</button>
-                        <button class="rx-filter-pill" data-filter="normal"
-                            data-rx-i18n="filterNormal">স্বাভাবিক</button>
-                        <button class="rx-filter-pill" data-filter="followup"
-                            data-rx-i18n="filterFollowup">ফলো-আপ</button>
-                        <button class="rx-filter-pill" data-filter="urgent" data-rx-i18n="filterUrgent">জরুরি</button>
-                    </div>
-
-                    <!-- Sort select -->
-                    <div class="rx-sort-wrap">
-                        <i class="bi bi-sort-down rx-sort-icon"></i>
-                        <select id="rxSortSelect" class="rx-sort-select" aria-label="Sort prescriptions">
-                            <option value="new" data-rx-i18n="sortNew">নতুন আগে</option>
-                            <option value="old" data-rx-i18n="sortOld">পুরনো আগে</option>
-                            <option value="doctor" data-rx-i18n="sortDoctor">ডাক্তার</option>
-                        </select>
-                    </div>
-
-                </div><!-- /rx-toolbar -->
-
-                <!-- Gallery card grid — populated by rxRenderGallery() -->
-                <div class="rx-gallery" id="rxGallery" aria-live="polite" aria-label="Prescription gallery"></div>
-
-            </div>
-        </section>
 
         <!-- ========================================================================
              7. SAVE PRESCRIPTION MODAL (Create File Name & Confirm Save)
@@ -1107,7 +935,7 @@
                     <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
                 </a>
 
-                <a class="mobile-sidebar-nav-item active" href="prescriptions.html" aria-current="page">
+                <a class="mobile-sidebar-nav-item active" href="prescriptions-volt.html" aria-current="page">
                     <div class="mobile-sidebar-icon-box text-primary">
                         <i class="bi bi-file-earmark-medical-fill"></i>
                     </div>
@@ -1222,7 +1050,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <script src="asset/js/prescriptions.js"></script>
+    <script src="asset/js/prescriptions-volt.js"></script>
 
 </body>
 

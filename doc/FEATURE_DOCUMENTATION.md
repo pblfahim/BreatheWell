@@ -36,7 +36,7 @@
 |                                Application Logic Engines                                |
 |  +-----------------+  +-----------------+  +----------------------+  +----------------+ |
 |  |  Cadence & TTS  |  |  Chart & Gauges |  | Client OCR & Gallery |  | Rx Pad Creator | |
-|  |  (script.js/.jt)|  | (health-tracker)|  |  (prescriptions.js)  |  | (create-rx.js) | |
+|  |  (script.js/.jt)|  | (health-tracker)|  |  (prescriptions-volt.js)  |  | (create-rx.js) | |
 |  +-----------------+  +-----------------+  +----------------------+  +----------------+ |
 |  +------------------------------------------------------------------------------------+ |
 |  |                 Bilingual i18n Localization Engine (255 keys & 100% Parity)        | |
@@ -67,7 +67,7 @@
 #### 1.1 Desktop Navigation Bar (`>= 992px`)
 - **Location:** Sticky top navbar across all pages.
 - **Brand Identity:** High-contrast SVG vector wind logo and responsive typography.
-- **Navigation Links:** Active link indicators dynamically matched to current URL (`index.html`, `exercises.html`, `breath-test.html`, `health-tracker.html`, `prescriptions.html`, `create-prescription.html`).
+- **Navigation Links:** Active link indicators dynamically matched to current URL (`index.html`, `exercises.html`, `breath-test.html`, `health-tracker.html`, `prescriptions-volt.html`, `prescription-create.html`).
 - **Interactive Language Switcher:** Dual-pill toggle (`বাং` / `EN`) with instant DOM re-rendering and persistence to `localStorage.getItem("bw_lang")`.
 
 #### 1.2 Mobile Bottom Application Bar (`< 992px`)
@@ -139,7 +139,7 @@
 
 ---
 
-### Module 6: Prescription & Medication Vault (`prescriptions.html`)
+### Module 6: Prescription & Medication Vault (`prescriptions-volt.html`)
 
 - **Image Compression & Storage Guard:** In-browser canvas downsampling (max 1200px, 72% JPEG quality) to prevent storage exhaustion, with 4MB quota warning meter.
 - **Regex-Driven Client OCR:** Auto-extracts doctor name, clinic, date, and medications from pasted or scanned text.
@@ -148,12 +148,12 @@
 
 ---
 
-### Module 7: Digital Prescription Creator Studio (`create-prescription.html`)
+### Module 7: Digital Prescription Creator Studio (`prescription-create.html`)
 
 > Modeled directly on modern hospital prescription pad architecture (Dr. A. Rahman, City General Hospital layout).
 
 #### 7.1 Architecture & Split-View Experience
-- **Dedicated Application Engine:** `asset/js/create-prescription.js` & `asset/css/create-prescription.css`.
+- **Dedicated Application Engine:** `asset/js/prescription-create.js` & `asset/css/prescription-create.css`.
 - **Left Column: Interactive Clinical Editor:**
   - **Doctor & Clinic Card:** Doctor name, qualifications/degrees, registration number, hospital/clinic name, address, and phone hotline.
   - **Patient Information Card:** Patient name, age, sex (M/F/Other), and consultation date.
@@ -181,7 +181,7 @@
   - ⚡ **"Load Sample (From PDF)":** Instantly loads the exact data from the clinical PDF file.
   - 🧹 **"New / Clear":** Clears all fields to create a fresh patient prescription.
   - 🖨️ **"Print / Save PDF":** Activates dedicated `@media print` rules, suppressing all web chrome, navigation, buttons, and toasts to produce an authentic hospital prescription sheet on A4 paper.
-  - 💾 **"Save to Vault":** Saves the structured record directly into `bw_prescriptions` in `localStorage`, syncing automatically with the gallery in `prescriptions.html`.
+  - 💾 **"Save to Vault":** Saves the structured record directly into `bw_prescriptions` in `localStorage`, syncing automatically with the gallery in `prescriptions-volt.html`.
   - 📱 **"Share WhatsApp":** Generates an internationally formatted clinical summary for instant WhatsApp transmission to patients, family members, or pharmacies.
   - 📋 **"Copy Text":** One-click copy of the complete prescription text.
 
@@ -196,8 +196,8 @@ BreatheWell/
 |-- breath-test.html           # Respiratory lab (BOLT & resting BPM counter)
 |-- test.html                  # Alias/mirror for respiratory assessment lab
 |-- health-tracker.html        # Clinical vitals tracking (BP & Blood Glucose)
-|-- prescriptions.html         # Digital prescription vault & refill scheduler
-|-- create-prescription.html   # Digital prescription creator studio & pad
+|-- prescriptions-volt.html         # Digital prescription vault & refill scheduler
+|-- prescription-create.html   # Digital prescription creator studio & pad
 |-- README.md                  # Quick-start installation and overview guide
 |-- doc/                       # Comprehensive documentation suite
 |   |-- README.md              # Master documentation index
@@ -208,14 +208,14 @@ BreatheWell/
     |-- css/
     |   |-- style.css          # Core design system & mobile drawer styling
     |   |-- health-tracker.css # Vitals tracker styling, gauges & chart skins
-    |   |-- prescriptions.css  # Prescription gallery, tags & lightbox styles
-    |   |-- create-prescription.css # Studio layout, paper pad, & print styles
+    |   |-- prescriptions-volt.css  # Prescription gallery, tags & lightbox styles
+    |   |-- prescription-create.css # Studio layout, paper pad, & print styles
     |-- js/
     |   |-- script.js          # Core engine (Breathing, BOLT, i18n, Drawer)
     |   |-- script.jt          # Byte-for-byte mirrored script verification copy
     |   |-- health-tracker.js  # Vitals logging, AHA/ADA engines, charts, export
-    |   |-- prescriptions.js   # Image optimizer, OCR, schedule, refill engine
-    |   |-- create-prescription.js # Interactive prescription pad authoring engine
+    |   |-- prescriptions-volt.js   # Image optimizer, OCR, schedule, refill engine
+    |   |-- prescription-create.js # Interactive prescription pad authoring engine
     |-- image/
         |-- logo.svg           # High-resolution vector brand mark
         |-- favicon.svg        # Browser tab favicon

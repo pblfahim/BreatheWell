@@ -41,8 +41,8 @@ BreatheWell addresses these critical challenges by offering:
 2. **Guided Respiration Studio (`exercises.html`):** 4 clinical breathing practices, 3 difficulty tiers, visual breathing guide, audio chiming, speech synthesis, and canvas confetti.
 3. **Respiratory Assessment Lab (`breath-test.html` / `test.html`):** Body Oxygen Level Test (BOLT) stopwatch and resting Breaths Per Minute (BPM) tap counter with local telemetry.
 4. **Clinical Vitals Health Tracker (`health-tracker.html`):** AHA blood pressure and ADA blood glucose tracking, SVG sparklines, trend graphs, CSV export, and family PIN security lock.
-5. **Prescription & Medication Vault (`prescriptions.html`):** Canvas image compression, regex client OCR parser, dosage scheduling, and refill countdown alerts.
-6. **Digital Prescription Creator Studio (`create-prescription.html`):** Interactive hospital prescription pad authoring engine with doctor info, patient vitals, C/C, H/O, O/E, Inv, Dx, Rx medicines table, advice, one-click PDF sample pre-fill, pixel-perfect print layout, and WhatsApp sharing.
+5. **Prescription & Medication Vault (`prescriptions-volt.html`):** Canvas image compression, regex client OCR parser, dosage scheduling, and refill countdown alerts.
+6. **Digital Prescription Creator Studio (`prescription-create.html`):** Interactive hospital prescription pad authoring engine with doctor info, patient vitals, C/C, H/O, O/E, Inv, Dx, Rx medicines table, advice, one-click PDF sample pre-fill, pixel-perfect print layout, and WhatsApp sharing.
 7. **Mobile Navigation Drawer (`#mobileSidebarMenu`):** Responsive offcanvas drawer (< 992px) with language switcher, main links, and Emergency SOS quick card.
 
 ### 3.2 Out-of-Scope (Boundaries)

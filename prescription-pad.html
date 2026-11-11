@@ -80,7 +80,7 @@
           <li class="nav-item"><a class="nav-link" href="exercises.html" data-pp-i18n="navExercises">অনুশীলন</a></li>
           <li class="nav-item"><a class="nav-link" href="breath-test.html" data-pp-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
           <li class="nav-item"><a class="nav-link" href="health-reading.html" data-pp-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link" href="prescriptions.html" data-pp-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-pp-i18n="navRx">প্রেসক্রিপশন</a></li>
           <li class="nav-item"><a class="nav-link active" href="prescription-pad.html" aria-current="page" data-pp-i18n="navPad">প্রেসক্রিপশন প্যাড</a></li>
           <li class="nav-item"><a class="nav-link" href="index.html#safety" data-pp-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
@@ -90,55 +90,69 @@
 
   <main id="main">
 
-    <!-- ========================================================================
-         2. HERO BANNER & CONTROL TOOLBAR
-         ======================================================================== -->
-    <div class="pp-hero">
+    <!-- ======================================================================
+         2. DARK GREEN TAB HEADER BAR
+         ====================================================================== -->
+    <div class="ht-hero-tab-bar">
       <div class="container">
-        <div class="row align-items-center g-3">
-          <div class="col-lg-7">
-            <div class="pp-hero-eyebrow">
-              <i class="bi bi-file-earmark-medical-fill"></i>
-              <span data-pp-i18n="heroEyebrow">লাইভ প্রেসক্রিপশন প্যাড (WYSIWYG)</span>
+        <div class="ht-hero-tabs" role="tablist" aria-label="Prescription Navigation">
+          <a href="prescriptions-volt.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">🗄️</span>
+            <span class="ht-hero-tab-text" data-pp-i18n="tabVault">প্রেসক্রিপশন ভল্ট</span>
+          </a>
+          <a href="prescription-history.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">📜</span>
+            <span class="ht-hero-tab-text" data-pp-i18n="tabHistory">প্রেসক্রিপশন ইতিহাস</span>
+          </a>
+          <a href="prescription-create.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">✍️</span>
+            <span class="ht-hero-tab-text" data-pp-i18n="tabCreate">প্রেসক্রিপশন তৈরি</span>
+          </a>
+          <a href="prescription-pad.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
+            <span class="ht-hero-tab-icon">📋</span>
+            <span class="ht-hero-tab-text" data-pp-i18n="tabPad">ডিজিটাল প্যাড</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         3. ACTION TOOLBAR
+         ====================================================================== -->
+    <div class="pp-action-toolbar-bar mb-4">
+      <div class="container">
+        <div class="pp-toolbar-card">
+          <div class="d-flex flex-wrap align-items-center justify-content-between w-100 gap-2">
+            <div class="pp-action-group">
+              <input type="file" id="ppOcrFileInput" accept="image/*,application/pdf" class="d-none" aria-label="Upload prescription file for OCR">
+              <button type="button" class="pp-btn pp-btn-primary" id="btnUploadOcr">
+                <i class="bi bi-cloud-arrow-up-fill"></i>
+                <span data-pp-i18n="btnUploadOcr">প্রেসক্রিপশন আপলোড (OCR)</span>
+              </button>
+              <button type="button" class="pp-btn pp-btn-outline-dark" id="btnClearPad">
+                <i class="bi bi-eraser-fill"></i>
+                <span data-pp-i18n="btnClear">নতুন প্যাড</span>
+              </button>
             </div>
-            <h1 class="pp-hero-title" data-pp-i18n="heroTitle">ডিজিটাল প্রেসক্রিপশন প্যাড</h1>
-            <p class="pp-hero-sub" data-pp-i18n="heroSub">
-              সরাসরি প্রেসক্রিপশন প্যাডে ক্লিক করে রিয়েল-টাইমে সম্পাদন করুন, প্রিন্ট করুন এবং ভল্টে সংরক্ষণ করুন।
-            </p>
-          </div>
-          <div class="col-lg-5">
-            <div class="pp-toolbar-card">
-              <div class="pp-action-group justify-content-between">
-                <input type="file" id="ppOcrFileInput" accept="image/*,application/pdf" class="d-none" aria-label="Upload prescription file for OCR">
-                <button type="button" class="pp-btn pp-btn-primary" id="btnUploadOcr">
-                  <i class="bi bi-cloud-arrow-up-fill"></i>
-                  <span data-pp-i18n="btnUploadOcr">প্রেসক্রিপশন আপলোড (OCR)</span>
-                </button>
-                <button type="button" class="pp-btn pp-btn-outline" id="btnClearPad">
-                  <i class="bi bi-eraser-fill"></i>
-                  <span data-pp-i18n="btnClear">নতুন প্যাড</span>
-                </button>
-              </div>
-              <!-- OCR status banner -->
-              <div class="pp-ocr-status d-none" id="ppOcrStatus" aria-live="polite"></div>
-              <div class="pp-action-group justify-content-end pt-2 border-top border-light border-opacity-10">
-                <button type="button" class="pp-btn pp-btn-success" id="btnSaveToVault">
-                  <i class="bi bi-floppy-fill"></i>
-                  <span data-pp-i18n="btnSaveVault">ভল্টে সংরক্ষণ</span>
-                </button>
-                <button type="button" class="pp-btn pp-btn-outline" id="btnPrintPad">
-                  <i class="bi bi-printer-fill"></i>
-                  <span data-pp-i18n="btnPrint">প্রিন্ট / PDF</span>
-                </button>
-                <button type="button" class="pp-btn pp-btn-outline pp-btn-icon-mobile" id="btnShareWhatsApp" title="Share via WhatsApp" aria-label="Share via WhatsApp">
-                  <i class="bi bi-whatsapp"></i>
-                </button>
-                <button type="button" class="pp-btn pp-btn-outline pp-btn-icon-mobile" id="btnCopySummary" title="Copy Text Summary" aria-label="Copy Text Summary">
-                  <i class="bi bi-clipboard-check"></i>
-                </button>
-              </div>
+            <div class="pp-action-group">
+              <button type="button" class="pp-btn pp-btn-success" id="btnSaveToVault">
+                <i class="bi bi-floppy-fill"></i>
+                <span data-pp-i18n="btnSaveVault">ভল্টে সংরক্ষণ</span>
+              </button>
+              <button type="button" class="pp-btn pp-btn-outline-dark" id="btnPrintPad">
+                <i class="bi bi-printer-fill"></i>
+                <span data-pp-i18n="btnPrint">প্রিন্ট / PDF</span>
+              </button>
+              <button type="button" class="pp-btn pp-btn-outline-dark pp-btn-icon-mobile" id="btnShareWhatsApp" title="Share via WhatsApp" aria-label="Share via WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+              </button>
+              <button type="button" class="pp-btn pp-btn-outline-dark pp-btn-icon-mobile" id="btnCopySummary" title="Copy Text Summary" aria-label="Copy Text Summary">
+                <i class="bi bi-clipboard-check"></i>
+              </button>
             </div>
           </div>
+          <!-- OCR status banner -->
+          <div class="pp-ocr-status d-none w-100 mt-2" id="ppOcrStatus" aria-live="polite"></div>
         </div>
       </div>
     </div>
@@ -431,7 +445,7 @@ Follow up after 3-5 days if fever persists.
             <i class="bi bi-heart-pulse-fill text-danger"></i>
             <span data-pp-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
           </a>
-          <a class="mobile-sidebar-nav-item" href="prescriptions.html">
+          <a class="mobile-sidebar-nav-item" href="prescriptions-volt.html">
             <i class="bi bi-capsule text-warning"></i>
             <span data-pp-i18n="navRx">প্রেসক্রিপশন ভল্ট</span>
           </a>
@@ -439,7 +453,7 @@ Follow up after 3-5 days if fever persists.
             <i class="bi bi-file-earmark-medical-fill text-teal"></i>
             <span data-pp-i18n="navPad">লাইভ প্রেসক্রিপশন প্যাড</span>
           </a>
-          <a class="mobile-sidebar-nav-item" href="create-prescription.html">
+          <a class="mobile-sidebar-nav-item" href="prescription-create.html">
             <i class="bi bi-pencil-square text-info"></i>
             <span>প্রেসক্রিপশন স্টুডিও (ফর্ম সহ)</span>
           </a>

@@ -47,7 +47,7 @@
 
 ### Milestone 6 (M6): Digital Prescription Creator Studio & Interactive Pad
 - **Version:** `v1.5.0` — **COMPLETED**
-- Dedicated clinical authoring suite (`create-prescription.html`, `create-prescription.css`, `create-prescription.js`).
+- Dedicated clinical authoring suite (`prescription-create.html`, `prescription-create.css`, `prescription-create.js`).
 - Complete hospital prescription pad layout based on clinical PDF standards (Dr. A. Rahman, City General Hospital):
   - Doctor & Clinic header (degrees, reg no, address, phone)
   - Patient vital header bar (name, age, sex, date)
