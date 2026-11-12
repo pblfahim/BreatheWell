@@ -120,8 +120,8 @@ Urgency: Normal`;
     bn: {
       navHome: "হোম",
       navHomeSub: "মুখ্য পাতা",
-      navExercises: "অনুশীলন",
-      navExercisesSub: "৪টি শ্বাসপ্রশ্বাস টেকনিক",
+      navExercises: "শ্বাসের অনুশীলন",
+      navExercisesSub: "শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট",
       navTest: "শ্বাসের পরীক্ষা",
       navTestSub: "BOLT ও শ্বাস গণনা ল্যাব",
       navHealth: "স্বাস্থ্য ট্র্যাকার",
@@ -240,8 +240,8 @@ Urgency: Normal`;
     en: {
       navHome: "Home",
       navHomeSub: "Main Dashboard",
-      navExercises: "Exercises",
-      navExercisesSub: "4 Breathing Techniques",
+      navExercises: "Breathing Exercises",
+      navExercisesSub: "Breathing exercises & BOLT test",
       navTest: "Breath Test",
       navTestSub: "BOLT & Rate Assessment",
       navHealth: "Health Tracker",

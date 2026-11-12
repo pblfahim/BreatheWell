@@ -3165,7 +3165,7 @@ main {
 }
 
 .page-head {
-  padding: 42px 0 25px;
+  padding: 0px 0 25px;
 }
 
 .breadcrumb {
@@ -5502,5 +5502,29 @@ footer {
 @media print {
   .ht-hero-tab-bar {
     display: none !important;
+  }
+}
+
+/* ============================================================================
+ * EXERCISE & TEST SUITE HERO TAB BAR ADAPTATIONS
+ * ============================================================================
+ */
+/* Hide tab bar on exercises page during active meditation/breathing session */
+body[data-page="exercises"]:has(#session.active) .ht-hero-tab-bar,
+body[data-page="exercises"]:has(#complete.active) .ht-hero-tab-bar {
+  display: none !important;
+}
+
+/* Two-tab layout stretching for equal balance across all viewports */
+.ht-hero-tabs:has(> .ht-hero-tab:nth-child(2):last-child) .ht-hero-tab {
+  flex: 1 1 0;
+  max-width: 260px;
+}
+
+@media (max-width: 767.98px) {
+  .ht-hero-tabs:has(> .ht-hero-tab:nth-child(2):last-child) .ht-hero-tab {
+    flex: 1 1 0;
+    max-width: none;
+    min-width: 0;
   }
 }

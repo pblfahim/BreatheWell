@@ -34,7 +34,7 @@
   const NAV_T = {
     bn: {
       navHome: "হোম",
-      navExercises: "অনুশীলন",
+      navExercises: "শ্বাসের অনুশীলন",
       navTest: "শ্বাসের পরীক্ষা",
       navHealth: "স্বাস্থ্য ট্র্যাকার",
       navHealthShort: "স্বাস্থ্য",
@@ -44,7 +44,7 @@
       sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
       navPagesTitle: "পেজ ও মডিউল",
       navHomeSub: "মূল পাতা ও ফিচারসমূহ",
-      navExercisesSub: "শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি",
+      navExercisesSub: "শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট",
       navTestSub: "BOLT ও BPM রেসপিরেটরি টেস্ট",
       navHealthSub: "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
       navRxSub: "ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR",
@@ -60,7 +60,7 @@
     },
     en: {
       navHome: "Home",
-      navExercises: "Exercises",
+      navExercises: "Breathing Exercises",
       navTest: "Breath Test",
       navHealth: "Health Tracker",
       navHealthShort: "Health",
@@ -70,7 +70,7 @@
       sidebarBrandSub: "Digital Health & Mindfulness",
       navPagesTitle: "Pages & Modules",
       navHomeSub: "Main page & features",
-      navExercisesSub: "Breathing exercise library",
+      navExercisesSub: "Breathing exercises & BOLT test",
       navTestSub: "BOLT & BPM respiratory tests",
       navHealthSub: "Blood pressure & diabetes logs",
       navRxSub: "Digital prescription vault & OCR",

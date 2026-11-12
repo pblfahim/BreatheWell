@@ -64,7 +64,7 @@
   const T = {
     bn: {
       navHome: "হোম",
-      navExercises: "অনুশীলন",
+      navExercises: "শ্বাসের অনুশীলন",
       navTest: "শ্বাসের পরীক্ষা",
       navHealth: "স্বাস্থ্য ট্র্যাকার",
       navRx: "প্রেসক্রিপশন",
@@ -106,7 +106,7 @@
     },
     en: {
       navHome: "Home",
-      navExercises: "Exercises",
+      navExercises: "Breathing Exercises",
       navTest: "Breath Test",
       navHealth: "Health Tracker",
       navRx: "Prescriptions",
