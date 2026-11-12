@@ -645,7 +645,7 @@
     currentViewFormat = format === "table" ? "table" : "grid";
     try {
       localStorage.setItem(VIEW_KEY, currentViewFormat);
-    } catch (_) {}
+    } catch (_) { }
 
     const btnGrid = $("btnViewGrid");
     const btnTable = $("btnViewTable");
@@ -665,7 +665,7 @@
           setTimeout(() => {
             try {
               dataTableInstance.columns.adjust();
-            } catch (_) {}
+            } catch (_) { }
           }, 50);
         }
       } else {
@@ -1032,7 +1032,7 @@
         try {
           const bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(sidebar);
           bsOffcanvas?.hide();
-        } catch (_) {}
+        } catch (_) { }
 
         if (link.dataset.action === "emergency-sos" || href.includes("#safety")) {
           e.preventDefault();

@@ -87,7 +87,7 @@
   // Initialize PDF.js worker if pdfjsLib is loaded
   if (typeof window !== "undefined" && window.pdfjsLib) {
     window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      "asset/vendor/pdfjs/pdf.worker.min.js";
   }
 
   // Default Clinical Sample Text (Matches Dr. A. Rahman Clinical Hospital Prescription)
@@ -2037,12 +2037,12 @@ Urgency: Normal`;
     // Medications chips
     const medsHTML = r.meds?.length
       ? r.meds
-          .slice(0, 3)
-          .map((m) => `<span class="rx-card-med-chip">${escapeHtml(m)}</span>`)
-          .join("") +
-        (r.meds.length > 3
-          ? `<span class="rx-card-med-more">${tr("moreMeds").replace("{n}", r.meds.length - 3)}</span>`
-          : "")
+        .slice(0, 3)
+        .map((m) => `<span class="rx-card-med-chip">${escapeHtml(m)}</span>`)
+        .join("") +
+      (r.meds.length > 3
+        ? `<span class="rx-card-med-more">${tr("moreMeds").replace("{n}", r.meds.length - 3)}</span>`
+        : "")
       : "";
 
     // Refill status
@@ -2082,24 +2082,22 @@ Urgency: Normal`;
           ${moreBadge}
         </div>
         <div class="rx-card-body">
-          ${
-            r.fileName
-              ? `<div class="rx-card-file-badge mb-1" title="${escapeHtml(r.fileName)}"><i class="bi bi-file-earmark-medical me-1"></i>${escapeHtml(r.fileName)}</div>`
-              : ""
-          }
+          ${r.fileName
+        ? `<div class="rx-card-file-badge mb-1" title="${escapeHtml(r.fileName)}"><i class="bi bi-file-earmark-medical me-1"></i>${escapeHtml(r.fileName)}</div>`
+        : ""
+      }
           <h3 class="rx-card-doctor">${escapeHtml(r.doctor || "—")}</h3>
           <div class="rx-card-clinic">${escapeHtml(r.clinic || "—")}${r.degrees ? ` · <small class="text-muted">${escapeHtml(r.degrees)}</small>` : ""}</div>
-          ${
-            r.patName || r.vitals?.bp || r.diagnosis
-              ? `
+          ${r.patName || r.vitals?.bp || r.diagnosis
+        ? `
             <div class="d-flex flex-wrap gap-1 my-1">
               ${r.patName ? `<span class="badge bg-secondary-subtle text-secondary border text-xs"><i class="bi bi-person me-1"></i>${escapeHtml(r.patName)}${r.age ? ` (${r.age})` : ""}</span>` : ""}
               ${r.vitals?.bp ? `<span class="badge bg-info-subtle text-info-emphasis border text-xs">BP: ${escapeHtml(r.vitals.bp)}</span>` : ""}
               ${r.diagnosis ? `<span class="badge bg-warning-subtle text-warning-emphasis border text-xs">${escapeHtml(r.diagnosis)}</span>` : ""}
             </div>
           `
-              : ""
-          }
+        : ""
+      }
           ${medsHTML ? `<div class="rx-card-meds">${medsHTML}</div>` : ""}
           <div class="rx-card-footer">
             <span class="rx-card-date"><i class="bi bi-calendar3"></i> ${rxFmtDate(r.prescDate)}</span>
@@ -2304,7 +2302,7 @@ Urgency: Normal`;
         try {
           const bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(sidebar);
           bsOffcanvas?.hide();
-        } catch (_) {}
+        } catch (_) { }
 
         if (link.dataset.action === "emergency-sos" || href.includes("#safety")) {
           e.preventDefault();

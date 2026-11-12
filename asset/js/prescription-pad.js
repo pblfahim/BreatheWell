@@ -1277,10 +1277,10 @@ ${s.treatment.advice || "Adequate rest and hydration."}
       type === "success"
         ? "bi-check-circle-fill text-success"
         : type === "warn"
-        ? "bi-exclamation-triangle-fill text-warning"
-        : type === "error"
-        ? "bi-x-circle-fill text-danger"
-        : "bi-info-circle-fill text-info";
+          ? "bi-exclamation-triangle-fill text-warning"
+          : type === "error"
+            ? "bi-x-circle-fill text-danger"
+            : "bi-info-circle-fill text-info";
 
     toast.innerHTML = `
       <i class="bi ${iconClass} fs-5"></i>
@@ -1311,7 +1311,7 @@ ${s.treatment.advice || "Adequate rest and hydration."}
         try {
           const bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(sidebar);
           bsOffcanvas?.hide();
-        } catch (_) {}
+        } catch (_) { }
 
         if (link.dataset.action === "emergency-sos" || href.includes("#safety")) {
           e.preventDefault();

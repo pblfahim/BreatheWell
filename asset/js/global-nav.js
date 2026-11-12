@@ -139,7 +139,7 @@
       localStorage.setItem(LANG_KEY, lang);
       localStorage.setItem(RX_LANG_KEY, lang);
       localStorage.setItem(HT_LANG_KEY, lang);
-    } catch (_) {}
+    } catch (_) { }
 
     applyNavTranslations(lang);
 
@@ -150,7 +150,7 @@
           detail: { lang }
         })
       );
-    } catch (_) {}
+    } catch (_) { }
   }
 
   /**
@@ -207,7 +207,7 @@
           try {
             const inst = window.bootstrap?.Offcanvas?.getInstance(sidebar);
             if (inst) inst.hide();
-          } catch (_) {}
+          } catch (_) { }
         });
       });
     }

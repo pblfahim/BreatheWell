@@ -189,7 +189,7 @@
         try {
           localStorage.setItem(HT_KEY, JSON.stringify(data));
           localStorage.setItem(HT_KEY_LEGACY, JSON.stringify(data));
-        } catch (_) {}
+        } catch (_) { }
       }
       data.sort((a, b) => new Date(b.date) - new Date(a.date));
       return data;
@@ -247,11 +247,11 @@
    * @returns {{key: string, label: string, cls: string, icon: string}} Classification object.
    */
   function classifyBP(sys, dia) {
-    if (sys >= 180 || dia >= 120) return { key: "crisis",   label: bpLabel("crisis"),   cls: "crisis",   icon: "🆘" };
-    if (sys >= 140 || dia >= 90)  return { key: "high2",    label: bpLabel("high2"),    cls: "high2",    icon: "🚨" };
-    if (sys >= 130 || dia > 80)   return { key: "high1",    label: bpLabel("high1"),    cls: "high1",    icon: "🔴" };
-    if (sys > 120 && dia <= 80)   return { key: "elevated", label: bpLabel("elevated"), cls: "elevated", icon: "⚠️" };
-    if (sys < 90 || dia < 60)     return { key: "low",      label: bpLabel("low"),      cls: "low",      icon: "⬇️" };
+    if (sys >= 180 || dia >= 120) return { key: "crisis", label: bpLabel("crisis"), cls: "crisis", icon: "🆘" };
+    if (sys >= 140 || dia >= 90) return { key: "high2", label: bpLabel("high2"), cls: "high2", icon: "🚨" };
+    if (sys >= 130 || dia > 80) return { key: "high1", label: bpLabel("high1"), cls: "high1", icon: "🔴" };
+    if (sys > 120 && dia <= 80) return { key: "elevated", label: bpLabel("elevated"), cls: "elevated", icon: "⚠️" };
+    if (sys < 90 || dia < 60) return { key: "low", label: bpLabel("low"), cls: "low", icon: "⬇️" };
     return { key: "normal", label: bpLabel("normal"), cls: "normal", icon: "✅" };
   }
 
@@ -262,12 +262,12 @@
    */
   function bpLabel(key) {
     const map = {
-      normal:   { bn: "স্বাভাবিক",               en: "Normal"             },
-      elevated: { bn: "উচ্চতর",                  en: "Elevated"           },
-      high1:    { bn: "উচ্চ রক্তচাপ (পর্যায় ১)", en: "High BP – Stage 1"  },
-      high2:    { bn: "উচ্চ রক্তচাপ (পর্যায় ২)", en: "High BP – Stage 2"  },
-      crisis:   { bn: "জরুরি অবস্থা",            en: "Crisis"             },
-      low:      { bn: "নিম্ন রক্তচাপ",           en: "Low BP"             },
+      normal: { bn: "স্বাভাবিক", en: "Normal" },
+      elevated: { bn: "উচ্চতর", en: "Elevated" },
+      high1: { bn: "উচ্চ রক্তচাপ (পর্যায় ১)", en: "High BP – Stage 1" },
+      high2: { bn: "উচ্চ রক্তচাপ (পর্যায় ২)", en: "High BP – Stage 2" },
+      crisis: { bn: "জরুরি অবস্থা", en: "Crisis" },
+      low: { bn: "নিম্ন রক্তচাপ", en: "Low BP" },
     };
     return (map[key] && map[key][htLang]) || key;
   }
@@ -282,7 +282,7 @@
     const t = timing || "fasting";
     const isPostOrRandom = t === "postmeal" || t === "random";
     const normMax = isPostOrRandom ? 7.8 : 5.6;
-    const preMax  = isPostOrRandom ? 11.1 : 7.0;
+    const preMax = isPostOrRandom ? 11.1 : 7.0;
 
     if (val < 4.0) {
       return { key: "hypo", cls: "low", icon: "⬇️", label: htLang === "bn" ? "হাইপোগ্লাইসেমিয়া" : "Hypoglycemia" };
@@ -303,10 +303,10 @@
    */
   function bgTimingLabel(timing) {
     const map = {
-      fasting:  { bn: "খালি পেটে",  en: "Fasting" },
-      postmeal: { bn: "খাবার পর",   en: "Post-meal" },
-      random:   { bn: "যেকোনো সময়",  en: "Random" },
-      bedtime:  { bn: "ঘুমানোর আগে", en: "Bedtime" },
+      fasting: { bn: "খালি পেটে", en: "Fasting" },
+      postmeal: { bn: "খাবার পর", en: "Post-meal" },
+      random: { bn: "যেকোনো সময়", en: "Random" },
+      bedtime: { bn: "ঘুমানোর আগে", en: "Bedtime" },
     };
     return (map[timing] && map[timing][htLang]) || timing;
   }
@@ -585,13 +585,13 @@
       { sys: 116, dia: 75, notes: "ছুটির দিন সকালে" },
     ];
     const bgSamples = [
-      { value: 5.1, timing: "fasting",  notes: "খালি পেটে পরিমাপ" },
+      { value: 5.1, timing: "fasting", notes: "খালি পেটে পরিমাপ" },
       { value: 7.5, timing: "postmeal", notes: "দুপুরের খাবারের ২ ঘণ্টা পর" },
-      { value: 5.4, timing: "fasting",  notes: "সকালের রিডিং" },
+      { value: 5.4, timing: "fasting", notes: "সকালের রিডিং" },
       { value: 7.9, timing: "postmeal", notes: "রাতের খাবারের পর" },
-      { value: 4.9, timing: "fasting",  notes: "নিয়ন্ত্রিত সুগার" },
-      { value: 7.1, timing: "random",   notes: "বিকালে পরিমাপ" },
-      { value: 5.2, timing: "bedtime",  notes: "ঘুমানোর আগে" },
+      { value: 4.9, timing: "fasting", notes: "নিয়ন্ত্রিত সুগার" },
+      { value: 7.1, timing: "random", notes: "বিকালে পরিমাপ" },
+      { value: 5.2, timing: "bedtime", notes: "ঘুমানোর আগে" },
     ];
 
     for (let i = 6; i >= 0; i--) {
@@ -656,7 +656,7 @@
     try {
       localStorage.setItem(HT_LANG_KEY, lang);
       localStorage.setItem("bw-lang", lang);
-    } catch (_) {}
+    } catch (_) { }
 
     document.documentElement.lang = lang;
     document.body.className = lang;
@@ -733,7 +733,7 @@
     if (activeHeroTab && typeof activeHeroTab.scrollIntoView === "function") {
       try {
         activeHeroTab.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
-      } catch (_) {}
+      } catch (_) { }
     }
   }
 

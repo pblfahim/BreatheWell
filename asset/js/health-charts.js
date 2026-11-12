@@ -562,7 +562,7 @@
       if (pts.length < 2) return "";
 
       const polyPoints = pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
-      const areaPoints = `${pts[0].x.toFixed(1)},${PAD + drawH} ${polyPoints} ${pts[pts.length-1].x.toFixed(1)},${PAD + drawH}`;
+      const areaPoints = `${pts[0].x.toFixed(1)},${PAD + drawH} ${polyPoints} ${pts[pts.length - 1].x.toFixed(1)},${PAD + drawH}`;
 
       const dots = pts.map((p, i) => {
         const d = data[i];
@@ -771,7 +771,7 @@
     try {
       localStorage.setItem(HT_LANG_KEY, lang);
       localStorage.setItem("bw-lang", lang);
-    } catch (_) {}
+    } catch (_) { }
 
     document.documentElement.lang = lang;
     document.body.className = lang;
@@ -854,7 +854,7 @@
     if (activeHeroTab && typeof activeHeroTab.scrollIntoView === "function") {
       try {
         activeHeroTab.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
-      } catch (_) {}
+      } catch (_) { }
     }
   }
 

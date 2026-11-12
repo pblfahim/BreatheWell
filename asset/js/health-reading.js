@@ -1054,7 +1054,7 @@
     try {
       localStorage.setItem(HT_LANG_KEY, hrLang);
       localStorage.setItem("bw-lang", hrLang);
-    } catch (_) {}
+    } catch (_) { }
 
     if (document.documentElement) document.documentElement.lang = hrLang;
     if (document.body) document.body.className = hrLang;
@@ -1209,7 +1209,7 @@
     if (activeHeroTab && typeof activeHeroTab.scrollIntoView === "function") {
       try {
         activeHeroTab.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
-      } catch (_) {}
+      } catch (_) { }
     }
 
     // Initial render & I18N synchronization
