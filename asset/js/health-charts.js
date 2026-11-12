@@ -781,7 +781,7 @@
       if (k) el.textContent = t(k);
     });
 
-    const toggleBtn = $("hcLangToggle") || $("tcLangToggle");
+    const toggleBtn = $("langToggle") || $("hcLangToggle") || $("tcLangToggle");
     if (toggleBtn) toggleBtn.textContent = lang === "bn" ? "English" : "বাংলা";
 
     renderStats();
@@ -803,10 +803,18 @@
     htSetLang(htLang);
 
     // Language toggle button in navbar
-    const langBtn = $("hcLangToggle") || $("tcLangToggle");
+    const langBtn = $("langToggle") || $("hcLangToggle") || $("tcLangToggle");
     if (langBtn) {
       langBtn.addEventListener("click", () => {
         htSetLang(htLang === "bn" ? "en" : "bn");
+      });
+    }
+
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("bwLanguageChanged", (e) => {
+        if (e.detail && e.detail.lang && e.detail.lang !== htLang) {
+          htSetLang(e.detail.lang);
+        }
       });
     }
 

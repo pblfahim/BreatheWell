@@ -4921,12 +4921,20 @@ footer {
 }
 
 .drawer-handle-pill {
-  width: 36px;
-  height: 4px;
+  width: 38px;
+  height: 5px;
   background: #cbd5e1;
   border-radius: 999px;
   margin: 2px auto 6px auto;
-  opacity: 0.85;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.drawer-handle-pill:hover,
+.drawer-handle-pill:active {
+  background: var(--bw-primary);
+  transform: scaleX(1.15);
 }
 
 .mobile-nav-items {
@@ -5016,7 +5024,30 @@ footer {
   }
 
   .navbar-toggler {
-    display: none !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--bw-line);
+    border-radius: var(--bw-radius-sm);
+    background: #ffffff;
+    color: var(--bw-primary-dark);
+    box-shadow: var(--bw-shadow-sm);
+    transition: all 0.2s ease;
+  }
+
+  .navbar-toggler:hover,
+  .navbar-toggler:focus {
+    background: var(--bw-surface-alt);
+    border-color: #cbd5e1;
+    color: var(--bw-primary);
+  }
+
+  .navbar-toggler-icon {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   .toast-container {

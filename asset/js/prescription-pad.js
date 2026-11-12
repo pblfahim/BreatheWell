@@ -260,7 +260,7 @@
   function initLanguage() {
     applyTranslations();
 
-    const topToggle = $("ppLangToggle");
+    const topToggle = $("langToggle") || $("ppLangToggle");
     if (topToggle) {
       topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
       topToggle.addEventListener("click", () => {
@@ -269,6 +269,17 @@
         topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
         applyTranslations();
         updateDrawerLangPills();
+      });
+    }
+
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("bwLanguageChanged", (e) => {
+        if (e.detail && e.detail.lang && e.detail.lang !== currentLang) {
+          currentLang = e.detail.lang;
+          if (topToggle) topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
+          applyTranslations();
+          updateDrawerLangPills();
+        }
       });
     }
 

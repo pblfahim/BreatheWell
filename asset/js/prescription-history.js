@@ -957,7 +957,7 @@
   function initLanguage() {
     applyTranslations();
 
-    const topToggle = $("phLangToggle") || $("rxLangToggle");
+    const topToggle = $("langToggle") || $("phLangToggle") || $("rxLangToggle");
     if (topToggle) {
       topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
       topToggle.addEventListener("click", () => {
@@ -968,6 +968,19 @@
         phUpdateStorage();
         phRenderGallery();
         phRenderTable();
+      });
+    }
+
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("bwLanguageChanged", (e) => {
+        if (e.detail && e.detail.lang && e.detail.lang !== currentLang) {
+          currentLang = e.detail.lang;
+          if (topToggle) topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
+          applyTranslations();
+          phUpdateStorage();
+          phRenderGallery();
+          phRenderTable();
+        }
       });
     }
 

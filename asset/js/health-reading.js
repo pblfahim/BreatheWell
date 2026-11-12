@@ -1060,7 +1060,7 @@
     if (document.body) document.body.className = hrLang;
 
     // Toggle button text in navbar
-    const langBtn = $("hrLangToggle") || $("arLangToggle");
+    const langBtn = $("langToggle") || $("hrLangToggle") || $("arLangToggle");
     if (langBtn) langBtn.textContent = (hrLang === "bn") ? "English" : "বাংলা";
 
     // Synchronize mobile sidebar language pills
@@ -1106,10 +1106,18 @@
     if (bgDate && !bgDate.value) bgDate.value = nowIso;
 
     // 2. Language Toggle Buttons
-    const langBtn = $("hrLangToggle") || $("arLangToggle");
+    const langBtn = $("langToggle") || $("hrLangToggle") || $("arLangToggle");
     if (langBtn) {
       langBtn.addEventListener("click", () => {
         hrSetLang(hrLang === "bn" ? "en" : "bn");
+      });
+    }
+
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("bwLanguageChanged", (e) => {
+        if (e.detail && e.detail.lang && e.detail.lang !== hrLang) {
+          hrSetLang(e.detail.lang);
+        }
       });
     }
 

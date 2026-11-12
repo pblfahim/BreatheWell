@@ -397,7 +397,7 @@ Urgency: Normal`;
   }
 
   function initLanguage() {
-    const toggleBtn = $("rxLangToggle") || $("langToggle");
+    const toggleBtn = $("langToggle") || $("rxLangToggle");
     if (toggleBtn) {
       toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
       toggleBtn.addEventListener("click", () => {
@@ -406,6 +406,17 @@ Urgency: Normal`;
         toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
         applyTranslations();
         rxRenderGallery();
+      });
+    }
+
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("bwLanguageChanged", (e) => {
+        if (e.detail && e.detail.lang && e.detail.lang !== currentLang) {
+          currentLang = e.detail.lang;
+          if (toggleBtn) toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
+          applyTranslations();
+          rxRenderGallery();
+        }
       });
     }
 

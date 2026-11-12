@@ -292,7 +292,7 @@
    * Initializes language switcher toggle buttons and mobile drawer pills.
    */
   function initLanguage() {
-    const toggleBtn = $("cpLangToggle");
+    const toggleBtn = $("langToggle") || $("cpLangToggle");
     if (toggleBtn) {
       toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
       toggleBtn.addEventListener("click", () => {
@@ -301,6 +301,17 @@
         toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
         applyTranslations();
         renderAll();
+      });
+    }
+
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("bwLanguageChanged", (e) => {
+        if (e.detail && e.detail.lang && e.detail.lang !== currentLang) {
+          currentLang = e.detail.lang;
+          if (toggleBtn) toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
+          applyTranslations();
+          renderAll();
+        }
       });
     }
 

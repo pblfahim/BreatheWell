@@ -61,28 +61,31 @@
   <!-- ========================================================================
        1. GLOBAL DESKTOP NAVIGATION BAR
        ======================================================================== -->
+  <!-- ========================================================================
+       TOP NAVBAR (BreatheWell Global Navigation)
+       ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0" href="index.html" aria-label="BreatheWell home">
-        <span class="brand-mark"><i class="bi bi-wind"></i></span>BreatheWell
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html" aria-label="BreatheWell home">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <span>BreatheWell</span>
       </a>
       <div class="d-flex align-items-center gap-2 order-lg-3">
-        <button class="lang-btn" id="tcLangToggle" aria-label="Change language">English</button>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
-          aria-label="Open navigation">
+        <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
+        <button class="navbar-toggler border-0 p-1 shadow-none" type="button"
+          data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
+          aria-label="Open mobile navigation drawer">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link" href="index.html" data-tc-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link" href="exercises.html" data-tc-i18n="navExercises">অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-tc-i18n="navTest">শ্বাসের পরীক্ষা</a>
-          </li>
-          <li class="nav-item"><a class="nav-link active" href="health-reading.html" aria-current="page"
-              data-tc-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-tc-i18n="navRx">প্রেসক্রিপশন</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html#safety" data-tc-i18n="navSafety">নিরাপত্তা</a></li>
+          <li class="nav-item"><a class="nav-link " href="index.html" data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">অনুশীলন</a></li>
+          <li class="nav-item"><a class="nav-link " href="breath-test.html" data-i18n="navTest">শ্বাসের পরীক্ষা</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link " href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
       </div>
     </div>
@@ -216,42 +219,56 @@
   <!-- ========================================================================
        5. GLOBAL FOOTER
        ======================================================================== -->
+  <!-- ========================================================================
+       FOOTER (BreatheWell Global Footer)
+       ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-tc-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটু
-          প্রশান্তি</span></span>
-      <span data-tc-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
 
   <!-- ========================================================================
        6. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
+  <!-- ========================================================================
+       MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
-    <div class="drawer-handle-pill" aria-hidden="true"></div>
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0" aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
     <div class="mobile-nav-items">
-      <a class="mobile-nav-link" href="index.html" aria-label="Home">
+      <a class="mobile-nav-link " href="index.html" aria-label="Home">
         <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
-        <span class="nav-label" data-tc-i18n="navHome">হোম</span>
+        <span class="nav-label" data-i18n="navHome">হোম</span>
       </a>
-      <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
+      <a class="mobile-nav-link " href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-tc-i18n="navExercises">অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">অনুশীলন</span>
       </a>
-      <a class="mobile-nav-link active" href="health-charts.html" aria-label="Health Charts">
-        <div class="nav-icon-wrap"><i class="bi bi-graph-up"></i></div>
-        <span class="nav-label">ট্রেন্ড</span>
+      <a class="mobile-nav-link active" aria-current="page" href="health-reading.html" aria-label="Health Tracker">
+        <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
+        <span class="nav-label" data-i18n="navHealthShort">স্বাস্থ্য</span>
       </a>
-      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas"
-        data-bs-target="#mobileSidebarMenu" aria-label="More">
+      <a class="mobile-nav-link " href="prescriptions-volt.html" aria-label="Prescriptions">
+        <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
+        <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+      </a>
+      <button type="button" class="mobile-nav-link " id="mobileMoreBtn"
+        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
+        aria-label="More navigation options">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
-        <span class="nav-label">আরও</span>
+        <span class="nav-label" data-i18n="navMore">আরও</span>
       </button>
     </div>
   </nav>
 
   <!-- ========================================================================
        7. MOBILE SIDEBAR MENU OFFCANVAS DRAWER
+       ======================================================================== -->
+  <!-- ========================================================================
+       MOBILE SIDEBAR / APP DRAWER (< 992px)
+       Sliding drawer navigation menu from the right side
        ======================================================================== -->
   <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
     aria-labelledby="mobileSidebarMenuLabel">
@@ -260,7 +277,7 @@
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
         <div>
           <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
-          <p class="mobile-sidebar-subtitle">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+          <p class="mobile-sidebar-subtitle" data-i18n="sidebarBrandSub">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
         </div>
       </div>
       <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
@@ -271,7 +288,7 @@
       <div class="mobile-sidebar-lang-card">
         <div class="mobile-sidebar-lang-info">
           <i class="bi bi-translate text-primary"></i>
-          <span class="mobile-sidebar-lang-title">ভাষা পরিবর্তন</span>
+          <span class="mobile-sidebar-lang-title" data-i18n="langSelectTitle">ভাষা পরিবর্তন</span>
         </div>
         <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
           <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
@@ -280,139 +297,95 @@
       </div>
 
       <!-- 2. Main Navigation Links -->
-      <div class="mobile-sidebar-section-title">পেজ ও মডিউল</div>
+      <div class="mobile-sidebar-section-title" data-i18n="navPagesTitle">পেজ ও মডিউল</div>
       <div class="mobile-sidebar-nav-list">
-        <a class="mobile-sidebar-nav-item" href="index.html">
+        <a class="mobile-sidebar-nav-item " href="index.html">
           <div class="mobile-sidebar-icon-box text-primary">
             <i class="bi bi-house-door-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-tc-i18n="navHome">হোম</span>
-            <span class="mobile-sidebar-sub">মূল পাতা ও ফিচারসমূহ</span>
+            <span class="mobile-sidebar-label" data-i18n="navHome">হোম</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHomeSub">মূল পাতা ও ফিচারসমূহ</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item" href="exercises.html">
+        <a class="mobile-sidebar-nav-item " href="exercises.html">
           <div class="mobile-sidebar-icon-box text-success">
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-tc-i18n="navExercises">অনুশীলন</span>
-            <span class="mobile-sidebar-sub">শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">অনুশীলন</span>
+            <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম লাইব্রেরি</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item" href="breath-test.html">
+        <a class="mobile-sidebar-nav-item " href="breath-test.html">
           <div class="mobile-sidebar-icon-box text-info">
             <i class="bi bi-stopwatch-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-tc-i18n="navTest">শ্বাসের পরীক্ষা</span>
-            <span class="mobile-sidebar-sub">BOLT ও BPM রেসপিরেটরি টেস্ট</span>
+            <span class="mobile-sidebar-label" data-i18n="navTest">শ্বাসের পরীক্ষা</span>
+            <span class="mobile-sidebar-sub" data-i18n="navTestSub">BOLT ও BPM রেসপিরেটরি টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item active" href="health-reading.html">
+        <a class="mobile-sidebar-nav-item active" aria-current="page" href="health-reading.html">
           <div class="mobile-sidebar-icon-box text-danger">
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-tc-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
-            <span class="mobile-sidebar-sub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item ps-4" href="health-reading.html">
-          <div class="mobile-sidebar-icon-box text-danger">
-            <i class="bi bi-plus-circle-fill"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label">➕ নতুন রিডিং</span>
-            <span class="mobile-sidebar-sub">রক্তচাপ ও গ্লুকোজ এন্ট্রি ফর্ম</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item ps-4" href="health-history.html">
-          <div class="mobile-sidebar-icon-box text-success">
-            <i class="bi bi-clock-history"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label">📋 ইতিহাস লগ</span>
-            <span class="mobile-sidebar-sub">ফিল্টারিং, অনুসন্ধান ও এক্সপোর্ট</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item active ps-4" href="health-charts.html" aria-current="page">
-          <div class="mobile-sidebar-icon-box text-info">
-            <i class="bi bi-graph-up-arrow"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label">📈 ট্রেন্ড চার্ট</span>
-            <span class="mobile-sidebar-sub">ভিজ্যুয়াল অ্যানালিটিক্স ও ধারাবাহিক চার্ট</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item ps-4" href="health-demo.html">
-          <div class="mobile-sidebar-icon-box text-warning">
-            <i class="bi bi-flask"></i>
-          </div>
-          <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label">🧪 নমুনা ডেটা</span>
-            <span class="mobile-sidebar-sub">ক্লিনিক্যাল টেস্টিং ল্যাব ও জেনারেটর</span>
-          </div>
-          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
-        </a>
-
-        <a class="mobile-sidebar-nav-item" href="prescriptions-volt.html">
+        <a class="mobile-sidebar-nav-item " href="prescriptions-volt.html">
           <div class="mobile-sidebar-icon-box text-primary">
             <i class="bi bi-file-earmark-medical-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-tc-i18n="navRx">প্রেসক্রিপশন</span>
-            <span class="mobile-sidebar-sub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
+            <span class="mobile-sidebar-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+            <span class="mobile-sidebar-sub" data-i18n="navRxSub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
 
-        <a class="mobile-sidebar-nav-item" href="index.html#safety">
+        <a class="mobile-sidebar-nav-item " href="index.html#safety">
           <div class="mobile-sidebar-icon-box text-warning">
             <i class="bi bi-shield-check"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-tc-i18n="navSafety">নিরাপত্তা</span>
-            <span class="mobile-sidebar-sub">৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা</span>
+            <span class="mobile-sidebar-label" data-i18n="navSafety">নিরাপত্তা</span>
+            <span class="mobile-sidebar-sub" data-i18n="navSafetySub">৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
         </a>
       </div>
 
       <!-- 3. Quick Action Utilities -->
-      <div class="mobile-sidebar-section-title">দ্রুত অ্যাকশন</div>
+      <div class="mobile-sidebar-section-title" data-i18n="quickToolsTitle">দ্রুত অ্যাকশন</div>
       <div class="mobile-sidebar-actions-grid">
         <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
           <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-action-text">
-            <span class="mobile-sidebar-action-title">জরুরি শান্ত শ্বাস (SOS)</span>
-            <span class="mobile-sidebar-action-sub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
+            <span class="mobile-sidebar-action-title" data-i18n="quickEmergencyLabel">জরুরি শান্ত শ্বাস (SOS)</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickEmergencySub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
           </div>
         </a>
 
-        <a class="mobile-sidebar-action-card" href="prescriptions-volt.html">
-          <div class="mobile-sidebar-action-icon text-primary bg-primary-subtle">
-            <i class="bi bi-file-earmark-medical-fill"></i>
+        <a class="mobile-sidebar-action-card" href="breath-test.html">
+          <div class="mobile-sidebar-action-icon text-info bg-info-subtle">
+            <i class="bi bi-speedometer2"></i>
           </div>
           <div class="mobile-sidebar-action-text">
-            <span class="mobile-sidebar-action-title" data-tc-i18n="navRx">প্রেসক্রিপশন ভল্ট</span>
-            <span class="mobile-sidebar-action-sub">ডিজিটাল প্রেসক্রিপশন ও OCR</span>
+            <span class="mobile-sidebar-action-title" data-i18n="quickTestLabel">ফুসফুস পরীক্ষা</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickTestSub">BOLT ও BPM স্কোর জানুন</span>
           </div>
         </a>
       </div>
@@ -421,7 +394,7 @@
       <div class="mobile-sidebar-footer">
         <p class="mobile-sidebar-disclaimer">
           <i class="bi bi-info-circle me-1"></i>
-          <span data-tc-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+          <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
         </p>
       </div>
     </div>
@@ -432,6 +405,7 @@
 
   <!-- Script Includes -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/global-nav.js"></script>
   <script src="asset/js/health-charts.js"></script>
 </body>
 

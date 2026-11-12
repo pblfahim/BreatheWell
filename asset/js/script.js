@@ -1173,6 +1173,14 @@ if (langToggleBtn) {
   langToggleBtn.addEventListener("click", () => setLang(lang === "bn" ? "en" : "bn"));
 }
 
+if (typeof window !== "undefined" && window.addEventListener) {
+  window.addEventListener("bwLanguageChanged", (e) => {
+    if (e.detail && e.detail.lang && e.detail.lang !== lang) {
+      setLang(e.detail.lang);
+    }
+  });
+}
+
 /* ============================================================================
  * 5. CLIENT-SIDE ROUTING & NAVIGATION CONTROLLER
  * ============================================================================
