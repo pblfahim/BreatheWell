@@ -252,7 +252,7 @@
  * 3. EDITOR STUDIO GRID LAYOUT
  * ============================================================================ */
 .cp-studio-section {
-  padding: 2.25rem 0 4.5rem;
+  padding: 1rem 0 3rem;
   background: #f8fafc;
 }
 
@@ -882,6 +882,7 @@
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -919,12 +920,22 @@
   }
 
   .cp-pad-header {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 0.75rem;
   }
 
-  .cp-hosp-info {
+  .cp-doc-info {
+    max-width: 58%;
+    flex: 1 1 55%;
     text-align: left;
+  }
+
+  .cp-hosp-info {
+    max-width: 42%;
+    flex: 1 1 42%;
+    text-align: right;
   }
 }
 
@@ -959,6 +970,7 @@
     border-color: #0d9488;
     transform: scale(1.01);
   }
+
   100% {
     background-color: #ffffff;
     border-color: inherit;
@@ -967,81 +979,232 @@
 }
 
 /* ============================================================================
+ * 9.5. BOTTOM CREATE ACTION BUTTON & MODAL
+ * ============================================================================ */
+.cp-btn-create-row {
+  margin-top: 1.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px dashed var(--cp-slate-300, #cbd5e1);
+}
+
+.cp-btn-create-main {
+  background: linear-gradient(135deg, #1769aa 0%, #0d9488 100%);
+  border: none;
+  color: #ffffff;
+  padding: 0.9rem 2.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 50rem;
+  box-shadow: 0 8px 24px rgba(23, 105, 170, 0.25);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+}
+
+.cp-btn-create-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(23, 105, 170, 0.35);
+  color: #ffffff;
+}
+
+.cp-btn-create-main:active {
+  transform: translateY(0.5px) scale(0.99);
+}
+
+/* ============================================================================
  * 10. PIXEL-PERFECT PRINT STYLESHEET (@media print)
  * ============================================================================ */
 @media print {
-  /* Hide all website UI, navigation, buttons, controls */
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-size: 11pt !important;
-  }
 
+  /* Hide all non-printable chrome and website UI */
+  header,
+  nav,
+  footer,
   .navbar,
-  .mobile-bottom-nav,
-  .mobile-sidebar-offcanvas,
+  .ht-hero-tab-bar,
   .cp-hero,
+  .cp-action-toolbar-bar,
   .cp-editor-column,
+  .cp-btn-create-row,
   .cp-toast-stack,
   .cp-preview-toolbar,
-  footer,
-  #navMenu {
+  .cp-ocr-status,
+  .mobile-bottom-nav,
+  .mobile-sidebar-offcanvas,
+  .modal,
+  .modal-backdrop,
+  #cpLangToggle,
+  #navMenu,
+  .skip-link {
     display: none !important;
   }
 
-  .cp-studio-section {
-    padding: 0 !important;
-    background: transparent !important;
-  }
-
-  .container {
-    max-width: 100% !important;
+  /* Unconstrain body and isolate visibility to .cp-pad-outer */
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
     padding: 0 !important;
     margin: 0 !important;
-  }
-
-  .col-lg-6 {
     width: 100% !important;
+    height: auto !important;
+    font-size: 11pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  .cp-pad-outer {
-    background: transparent !important;
+  body * {
+    visibility: hidden;
+  }
+
+  /* ONLY PRINTABLE AREA: cp-pad-outer with prescription data */
+  .cp-pad-outer,
+  .cp-pad-outer * {
+    visibility: visible;
+  }
+
+  main,
+  .cp-studio-section,
+  .container,
+  .row,
+  [class*="col-"] {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
     padding: 0 !important;
-    box-shadow: none !important;
-  }
-
-  .cp-pad-paper {
-    box-shadow: none !important;
     border: none !important;
-    padding: 0.5in 0.4in !important;
-    min-height: auto !important;
-    width: 100% !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
+  /* Printable pad outer container */
+  .cp-pad-outer {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  /* Digital Pad Paper & Clinical Prescription Data */
+  .cp-pad-paper {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    min-height: auto !important;
+  }
+
+  /* Doctor & Hospital Header side by side like real prescription */
   .cp-pad-header {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
     border-bottom: 2pt solid #000000 !important;
+    padding-bottom: 1rem !important;
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+    gap: 1.5rem !important;
+  }
+
+  .cp-doc-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    width: 58% !important;
+    max-width: 58% !important;
+    flex: 0 0 58% !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  .cp-hosp-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    text-align: right !important;
+    width: 40% !important;
+    max-width: 40% !important;
+    flex: 0 0 40% !important;
+    padding: 0 !important;
+    border: none !important;
   }
 
   .cp-hosp-name {
     color: #0d9488 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .cp-pad-patient-bar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem 1.5rem !important;
+    padding: 0.55rem 0.85rem !important;
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    margin-bottom: 1.25rem !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   .cp-pad-body {
-    display: grid !important;
-    grid-template-columns: 210px 1fr !important;
+    display: flex !important;
     gap: 1.5rem !important;
   }
 
   .cp-pad-left-col {
+    width: 32% !important;
+    flex: 0 0 32% !important;
     border-right: 1.5pt solid #cccccc !important;
-    padding-right: 1.15rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .cp-pad-right-col {
+    width: 68% !important;
+    flex: 0 0 68% !important;
+    padding-left: 0.5rem !important;
+  }
+
+  .cp-pad-med-item {
+    background: transparent !important;
+    border-bottom: 1px dotted #cbd5e1 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .cp-pad-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    margin-top: 2rem !important;
+    padding-top: 1rem !important;
+    border-top: 1px solid #e2e8f0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   @page {
-    margin: 0.5in;
     size: A4 portrait;
+    margin: 12mm 15mm 12mm 15mm;
   }
 }
-

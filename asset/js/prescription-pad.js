@@ -63,66 +63,40 @@
 
   /**
    * Default starting clinical state modeled on standard hospital prescription charts.
+   * Starts as a clean blank pad canvas ready for interactive drafting.
    */
   const DEFAULT_SAMPLE_DATA = {
     doctor: {
-      name: "Dr. A. Rahman",
-      degrees: "MBBS, FCPS (Medicine), MD (Neurology)",
-      regNo: "Reg No: A-123456",
-      hospital: "City General Hospital",
-      address: "123 Health Avenue, Dhaka",
-      phone: "Call: +880 1700-000000",
+      name: "",
+      degrees: "",
+      regNo: "",
+      hospital: "",
+      address: "",
+      phone: "",
       signature: ""
     },
     patient: {
-      name: "Rahim Uddin",
-      age: "45",
-      sex: "M",
+      name: "",
+      serial: "",
+      age: "",
+      sex: "",
       date: new Date().toLocaleDateString("en-US")
     },
     clinical: {
-      cc: ["Fever x 3 days", "Headache"],
-      ho: ["DM x 5 years"],
+      cc: [],
+      ho: [],
       oe: {
-        bp: "120/80",
-        pulse: "72",
-        temp: "98.6",
-        weight: "65"
+        bp: "",
+        pulse: "",
+        temp: "",
+        weight: ""
       },
-      inv: ["CBC", "Random Blood Sugar"]
+      inv: []
     },
     treatment: {
-      dx: "- Viral Fever (Suspected) - Flu",
-      meds: [
-        {
-          id: "m_1",
-          name: "Napa Extend (665mg)",
-          form: "Tab",
-          dosage: "1+0+1",
-          timing: "After meal",
-          duration: "5 days",
-          note: "for fever"
-        },
-        {
-          id: "m_2",
-          name: "Fexo (120mg)",
-          form: "Tab",
-          dosage: "0+0+1",
-          timing: "After meal",
-          duration: "7 days",
-          note: ""
-        },
-        {
-          id: "m_3",
-          name: "Oral Rehydration Salt (ORS)",
-          form: "Syr",
-          dosage: "As needed",
-          timing: "With water",
-          duration: "3 days",
-          note: "drink frequently"
-        }
-      ],
-      advice: "Drink plenty of boiled water & oral fluids.\nTake complete bed rest for 3 days.\nTepid sponge on forehead if temperature > 101°F.\nFollow up after 3-5 days if fever persists."
+      dx: "",
+      meds: [],
+      advice: ""
     }
   };
 
@@ -136,9 +110,9 @@
   const PP_T = {
     bn: {
       navHome: "হোম",
-      navExercises: "শ্বাসের অনুশীলন",
+      navExercises: "শ্বাস ব্যায়াম",
       navTest: "শ্বাসের পরীক্ষা",
-      navHealth: "স্বাস্থ্য ট্র্যাকার",
+      navHealth: "হেলথ ট্র্যাকার",
       navRx: "প্রেসক্রিপশন ভল্ট",
       navPad: "প্রেসক্রিপশন প্যাড",
       navSafety: "নিরাপত্তা",
@@ -158,6 +132,13 @@
       btnClear: "নতুন প্যাড",
       btnPrint: "প্রিন্ট / PDF",
       btnSaveVault: "ভল্টে সংরক্ষণ",
+      btnCreatePrescription: "প্রেসক্রিপশন তৈরি করুন",
+      modalCreateTitle: "নতুন প্রেসক্রিপশন তৈরি",
+      lblModalPatientName: "রোগীর নাম",
+      lblModalSerialNo: "সিরিয়াল নম্বর",
+      lblSerialNo: "SL No:",
+      btnCancel: "বাতিল",
+      btnModalSubmit: "তৈরি করুন",
       editHintBadge: "সরাসরি প্যাডে ক্লিক করে পরিবর্তন করুন",
       lblPatName: "Name:",
       lblAge: "Age:",
@@ -179,7 +160,15 @@
       toastCopied: "প্রেসক্রিপশন বিবরণ ক্লিপবোর্ডে কপি করা হয়েছে!",
       toastSigUploaded: "ডাক্তারের স্বাক্ষর সফলভাবে যুক্ত হয়েছে!",
       toastSigRemoved: "স্বাক্ষর মুছে ফেলা হয়েছে।",
-      confirmClear: "আপনি কি প্যাডের সমস্ত তথ্য খালি করে নতুন প্রেসক্রিপশন শুরু করতে চান?"
+      emptyMedsText: "ওষুধের তালিকা খালি। নিচের '+ নতুন ওষুধ যোগ করুন' বাটনে ক্লিক করুন।",
+      confirmClear: "আপনি কি প্যাডের সমস্ত তথ্য খালি করে নতুন প্রেসক্রিপশন শুরু করতে চান?",
+      phDocName: "ডাঃ নাম লিখুন",
+      phDocDegrees: "ডিগ্রি ও বিশেষজ্ঞতা",
+      phDocReg: "রেজিস্ট্রেশন নম্বর",
+      phHospName: "হাসপাতাল / ক্লিনিকের নাম",
+      phHospAddress: "ঠিকানা",
+      phHospPhone: "মোবাইল / হেল্পলাইন",
+      phDx: "রোগনির্ণয় / Diagnosis লিখুন"
     },
     en: {
       navHome: "Home",
@@ -205,6 +194,13 @@
       btnClear: "New Pad",
       btnPrint: "Print / PDF",
       btnSaveVault: "Save to Vault",
+      btnCreatePrescription: "Create Prescription",
+      modalCreateTitle: "Create New Prescription",
+      lblModalPatientName: "Patient Name",
+      lblModalSerialNo: "Serial Number",
+      lblSerialNo: "SL No:",
+      btnCancel: "Cancel",
+      btnModalSubmit: "Create",
       editHintBadge: "Click anywhere on the pad to edit in-place",
       lblPatName: "Name:",
       lblAge: "Age:",
@@ -226,7 +222,15 @@
       toastCopied: "Prescription summary copied to clipboard!",
       toastSigUploaded: "Doctor signature uploaded successfully!",
       toastSigRemoved: "Doctor signature removed.",
-      confirmClear: "Are you sure you want to clear the pad and start a new prescription?"
+      emptyMedsText: "Medication list is empty. Click '+ Add Medicine' below.",
+      confirmClear: "Are you sure you want to clear the pad and start a new prescription?",
+      phDocName: "Doctor's Name",
+      phDocDegrees: "Degrees & Specialty",
+      phDocReg: "Registration Number",
+      phHospName: "Hospital / Clinic Name",
+      phHospAddress: "Address",
+      phHospPhone: "Mobile / Helpline",
+      phDx: "Write Diagnosis"
     }
   };
 
@@ -263,15 +267,9 @@
     const topToggle = $("langToggle") || $("ppLangToggle");
     if (topToggle) {
       topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
-      topToggle.addEventListener("click", () => {
-        currentLang = currentLang === "bn" ? "en" : "bn";
-        localStorage.setItem(LANG_KEY, currentLang);
-        topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
-        applyTranslations();
-        updateDrawerLangPills();
-      });
     }
 
+    // Language synchronization (handled globally by global-nav.js)
     if (typeof window !== "undefined" && window.addEventListener) {
       window.addEventListener("bwLanguageChanged", (e) => {
         if (e.detail && e.detail.lang && e.detail.lang !== currentLang) {
@@ -321,6 +319,11 @@
       const key = el.dataset.ppI18n;
       if (key) el.textContent = tr(key);
     });
+
+    document.querySelectorAll("[data-pp-i18n-ph]").forEach((el) => {
+      const key = el.dataset.ppI18nPh;
+      if (key && tr(key)) el.setAttribute("data-placeholder", tr(key));
+    });
   }
 
   /* ============================================================================
@@ -343,15 +346,16 @@
 
     // Patient details
     if ($("padPatName")) $("padPatName").textContent = s.patient.name || "";
+    if ($("padSerialNo")) $("padSerialNo").textContent = s.patient.serial || "";
     if ($("padAge")) $("padAge").textContent = s.patient.age || "";
     if ($("padSex")) $("padSex").textContent = s.patient.sex || "";
     if ($("padDate")) $("padDate").textContent = s.patient.date || new Date().toLocaleDateString("en-US");
 
     // Vitals
-    if ($("padBpVal")) $("padBpVal").textContent = s.clinical.oe.bp || "120/80";
-    if ($("padPulseVal")) $("padPulseVal").textContent = s.clinical.oe.pulse || "72";
-    if ($("padTempVal")) $("padTempVal").textContent = s.clinical.oe.temp || "98.6";
-    if ($("padWeightVal")) $("padWeightVal").textContent = s.clinical.oe.weight || "65";
+    if ($("padBpVal")) $("padBpVal").textContent = s.clinical.oe.bp || "";
+    if ($("padPulseVal")) $("padPulseVal").textContent = s.clinical.oe.pulse || "";
+    if ($("padTempVal")) $("padTempVal").textContent = s.clinical.oe.temp || "";
+    if ($("padWeightVal")) $("padWeightVal").textContent = s.clinical.oe.weight || "";
 
     // Diagnosis & Advice
     if ($("padDxVal")) $("padDxVal").textContent = s.treatment.dx || "";
@@ -378,6 +382,7 @@
 
     // 2. Patient fields
     bindContentEditable("padPatName", (val) => { rxPadState.patient.name = val; });
+    bindContentEditable("padSerialNo", (val) => { rxPadState.patient.serial = val; });
     bindContentEditable("padAge", (val) => { rxPadState.patient.age = val; });
     bindContentEditable("padSex", (val) => { rxPadState.patient.sex = val; });
     bindContentEditable("padDate", (val) => { rxPadState.patient.date = val; });
@@ -547,8 +552,8 @@
     const meds = rxPadState.treatment.meds;
     if (!meds.length) {
       container.innerHTML = `
-        <div class="text-muted py-4 ps-2 small fst-italic">
-          ওষুধের তালিকা খালি। নিচের '+ নতুন ওষুধ যোগ করুন' বাটনে ক্লিক করুন।
+        <div class="pp-med-empty-hint text-muted py-4 ps-2 small fst-italic">
+          ${tr("emptyMedsText")}
         </div>
       `;
       return;
@@ -730,7 +735,7 @@
       if (confirm(tr("confirmClear"))) {
         rxPadState = {
           doctor: { name: "", degrees: "", regNo: "", hospital: "", address: "", phone: "", signature: "" },
-          patient: { name: "", age: "", sex: "", date: new Date().toLocaleDateString("en-US") },
+          patient: { name: "", serial: "", age: "", sex: "", date: new Date().toLocaleDateString("en-US") },
           clinical: { cc: [], ho: [], oe: { bp: "", pulse: "", temp: "", weight: "" }, inv: [] },
           treatment: { dx: "", meds: [], advice: "" }
         };
@@ -742,8 +747,60 @@
     // 4. Save to Vault button
     $("btnSaveToVault")?.addEventListener("click", savePrescriptionToVault);
 
+    // Create Prescription Modal Form Submission & State Sync
+    const openModalBtn = $("btnOpenCreateModal");
+    if (openModalBtn) {
+      openModalBtn.addEventListener("click", () => {
+        if ($("modalPatientName")) $("modalPatientName").value = rxPadState.patient.name || "";
+        if ($("modalSerialNumber")) $("modalSerialNumber").value = rxPadState.patient.serial || "";
+      });
+    }
+
+    const modalEl = $("createPrescriptionModal");
+    if (modalEl) {
+      modalEl.addEventListener("shown.bs.modal", () => {
+        if ($("modalPatientName")) {
+          $("modalPatientName").focus();
+          $("modalPatientName").select();
+        }
+      });
+    }
+
+    const createForm = $("createPrescriptionModalForm");
+    if (createForm) {
+      createForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const pName = $("modalPatientName")?.value.trim() || "";
+        const sNo = $("modalSerialNumber")?.value.trim() || "";
+
+        rxPadState.patient.name = pName;
+        rxPadState.patient.serial = sNo;
+
+        if ($("padPatName")) $("padPatName").textContent = pName || "";
+        if ($("padSerialNo")) $("padSerialNo").textContent = sNo || "";
+
+        if (modalEl && window.bootstrap?.Modal) {
+          const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+          bsModal.hide();
+        }
+
+        savePrescriptionToVault();
+      });
+    }
+
     // 5. Print Pad button
     $("btnPrintPad")?.addEventListener("click", () => {
+      // Ensure open modal is closed before launching print dialog
+      const modalEl = $("createPrescriptionModal");
+      if (modalEl && window.bootstrap?.Modal) {
+        const bsModal = bootstrap.Modal.getInstance(modalEl);
+        if (bsModal) bsModal.hide();
+      }
+      // Populate current date if left blank
+      if ($("padDate") && !$("padDate").textContent.trim()) {
+        $("padDate").textContent = new Date().toLocaleDateString("en-US");
+        rxPadState.patient.date = $("padDate").textContent;
+      }
       window.print();
     });
 
@@ -1073,6 +1130,12 @@ Drink plenty of boiled water. Take complete bed rest for 3 days.`;
       rxPadState.patient.name = patMatch[1].split(/[\n|]/)[0].trim();
     }
 
+    // Patient Serial / ID match if any
+    const serialMatch = rawText.match(/(?:Serial(?:\s*No|\s*#)?|SL(?:\s*No|\s*#)?|সিরিয়াল|সিরিয়াল)\s*[:.-]?\s*([A-Za-z0-9#-]+)/i);
+    if (serialMatch) {
+      rxPadState.patient.serial = serialMatch[1].trim();
+    }
+
     // 6. Age & Sex
     const ageMatch = rawText.match(/(?:Age|বয়স)\s*[:.-]?\s*(\d{1,3})/i);
     if (ageMatch) rxPadState.patient.age = ageMatch[1].trim();
@@ -1172,11 +1235,14 @@ Drink plenty of boiled water. Take complete bed rest for 3 days.`;
         prescDate: rxPadState.patient.date || new Date().toISOString().split("T")[0],
         doctor: rxPadState.doctor.name || "Dr. A. Rahman",
         clinic: rxPadState.doctor.hospital || "City General Hospital",
+        patName: rxPadState.patient.name || "",
+        patientName: rxPadState.patient.name || "",
+        serialNo: rxPadState.patient.serial || "",
         meds: rxPadState.treatment.meds.map((m) => m.name),
         diagnosis: rxPadState.treatment.dx || "Clinical Consultation",
         refillDate: "",
         urgency: "normal",
-        notes: `C/C: ${rxPadState.clinical.cc.join(", ")} | Vitals: BP ${rxPadState.clinical.oe.bp}, Pulse ${rxPadState.clinical.oe.pulse} | Advice: ${rxPadState.treatment.advice}`,
+        notes: `Patient: ${rxPadState.patient.name || "–"} (SL: ${rxPadState.patient.serial || "–"}) | C/C: ${rxPadState.clinical.cc.join(", ")} | Vitals: BP ${rxPadState.clinical.oe.bp}, Pulse ${rxPadState.clinical.oe.pulse} | Advice: ${rxPadState.treatment.advice}`,
         files: [],
         digitalPrescriptionData: JSON.parse(JSON.stringify(rxPadState))
       };
@@ -1204,7 +1270,7 @@ Drink plenty of boiled water. Take complete bed rest for 3 days.`;
 🏥 *Hospital:* ${s.doctor.hospital}
 📍 ${s.doctor.address} | ${s.doctor.phone}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 *Patient:* ${s.patient.name} | *Age:* ${s.patient.age} | *Sex:* ${s.patient.sex}
+👤 *Patient:* ${s.patient.name}${s.patient.serial ? ` (SL: ${s.patient.serial})` : ""} | *Age:* ${s.patient.age} | *Sex:* ${s.patient.sex}
 📅 *Date:* ${s.patient.date}
 
 🩺 *Diagnosis (Dx):* ${s.treatment.dx || "N/A"}

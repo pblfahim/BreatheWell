@@ -35,6 +35,7 @@
       btnBannerRegister: "রেজিস্ট্রেশন",
       badgeTierPro: "BreatheWell প্রো সদস্য",
       badgeJoinedPrefix: "যুক্ত হয়েছেন:",
+      profileJoinedDefault: "যুক্ত হয়েছেন: Jan 2024",
       btnEditAvatar: "ছবি পরিবর্তন",
       btnExportDataHeader: "ডেটা এক্সপোর্ট",
       btnLogoutHeader: "লগআউট",
@@ -62,7 +63,7 @@
       placeholderMedicalNotes: "যেমন: মৃদু অ্যাজমা, সাইনাস প্রবণতা...",
       btnSaveProfile: "তথ্য সংরক্ষণ করুন",
       btnSaveProfileLoading: "সংরক্ষণ হচ্ছে...",
-      secDailyGoal: "দৈনিক শ্বাসের অনুশীলন লক্ষ্য",
+      secDailyGoal: "দৈনিক শ্বাস ব্যায়াম লক্ষ্য",
       subDailyGoal: "প্রতিদিন কত মিনিট মননশীল শ্বাস চর্চা করতে চান তা নির্ধারণ করুন",
       unitMins: "মিনিট",
       secAudioPrefs: "শব্দ ও অডিও নির্দেশনা",
@@ -76,11 +77,11 @@
       btnSavePrefs: "পছন্দসমূহ আপডেট করুন",
       secAchievements: "স্বাস্থ্য ও মননশীল মাইলফলকসমূহ",
       badgeFirstBreathTitle: "প্রথম শ্বাস",
-      badgeFirstBreathDesc: "BreatheWell-এ আপনার প্রথম শ্বাসের অনুশীলন সফলভাবে সম্পন্ন করেছেন।",
+      badgeFirstBreathDesc: "BreatheWell-এ আপনার প্রথম শ্বাস ব্যায়াম সফলভাবে সম্পন্ন করেছেন।",
       badgeBoltTitle: "ফুসফুস পথিকৃৎ",
       badgeBoltDesc: "প্রথমবারের মতো নিজের BOLT রেসপিরেটরি স্কোর নির্ণয় করেছেন।",
       badgeStreakTitle: "৭ দিনের স্ট্রিক",
-      badgeStreakDesc: "টানা ৭ দিন নিয়মিত শ্বাস-প্রশ্বাসের অনুশীলন অব্যাহত রেখেছেন।",
+      badgeStreakDesc: "টানা ৭ দিন নিয়মিত শ্বাস-প্রশ্বাস ব্যায়াম অব্যাহত রেখেছেন।",
       badgeDeepCalmTitle: "গভীর প্রশান্তির সাধক",
       badgeDeepCalmDesc: "একটানা ১৫ মিনিটের গভীর রিলাক্সেশন অনুশীলন সম্পন্ন করেছেন।",
       badgeRxVaultTitle: "ডিজিটাল স্বাস্থ্য রক্ষক",
@@ -165,6 +166,7 @@
       btnBannerRegister: "Register",
       badgeTierPro: "BreatheWell Pro Member",
       badgeJoinedPrefix: "Member since:",
+      profileJoinedDefault: "Member since: Jan 2024",
       btnEditAvatar: "Change Avatar",
       btnExportDataHeader: "Export Data",
       btnLogoutHeader: "Log Out",
@@ -477,9 +479,9 @@
           year: "numeric",
           month: "short"
         });
-        heroJoined.textContent = `${tr("badgeJoinedPrefix")} ${dateStr}`;
+        heroJoined.innerHTML = `<i class="bi bi-calendar3"></i> <span>${tr("badgeJoinedPrefix")} ${dateStr}</span>`;
       } catch (_) {
-        heroJoined.textContent = `${tr("badgeJoinedPrefix")} 2024`;
+        heroJoined.innerHTML = `<i class="bi bi-calendar3"></i> <span>${tr("badgeJoinedPrefix")} 2024</span>`;
       }
     }
 
@@ -1125,6 +1127,11 @@
       }
     });
 
+    const inputEmerg = $("profileInputEmergency");
+    if (inputEmerg) inputEmerg.placeholder = tr("placeholderEmergencyContact");
+    const inputNotes = $("profileInputNotes");
+    if (inputNotes) inputNotes.placeholder = tr("placeholderMedicalNotes");
+
     const langBtn = $("langToggle");
     if (langBtn) {
       langBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
@@ -1192,24 +1199,12 @@
     const btnConfirmReset = $("btnConfirmResetAction");
     if (btnConfirmReset) btnConfirmReset.addEventListener("click", handleResetHistory);
 
-    // Language synchronization
+    // Language synchronization (handled globally by global-nav.js)
     window.addEventListener("bwLanguageChanged", (e) => {
       if (e.detail?.lang && e.detail.lang !== currentLang) {
         applyLanguage(e.detail.lang);
       }
     });
-
-    const langToggleBtn = $("langToggle");
-    if (langToggleBtn) {
-      langToggleBtn.addEventListener("click", () => {
-        const next = currentLang === "bn" ? "en" : "bn";
-        if (window.bwGlobalNav?.setLanguage) {
-          window.bwGlobalNav.setLanguage(next);
-        } else {
-          applyLanguage(next);
-        }
-      });
-    }
   }
 
   if (document.readyState === "loading") {

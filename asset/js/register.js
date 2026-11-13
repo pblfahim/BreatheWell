@@ -146,6 +146,8 @@
       condHeart: "হৃদরোগ",
       familyAddHint: "একাধিক সদস্য (বাবা, মা, সন্তান, দাদা-দাদী) ক্রমান্বয়ে যোগ করতে পারবেন।",
       btnAddMoreMembers: "+ আরো সদস্য যোগ করুন",
+      pwStrengthLabel: "পাসওয়ার্ড মান:",
+      btnAgreeModal: "সম্মত আছি",
       footerTag: "প্রতিটি নিঃশ্বাসে একটি প্রশান্তি",
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।"
     },
@@ -271,6 +273,8 @@
       condHeart: "Heart Condition",
       familyAddHint: "You can add multiple family members one after another.",
       btnAddMoreMembers: "+ Add Another Member",
+      pwStrengthLabel: "Password strength:",
+      btnAgreeModal: "I Agree",
       footerTag: "Peace in every breath",
       footerDisclaimer: "For general wellness. Not a substitute for medical advice."
     }
@@ -898,24 +902,12 @@
     const form = $("registerForm");
     if (form) form.addEventListener("submit", handleRegistration);
 
-    // Language synchronization
+    // Language synchronization (handled globally by global-nav.js)
     window.addEventListener("bwLanguageChanged", (e) => {
       if (e.detail?.lang && e.detail.lang !== currentLang) {
         applyLanguage(e.detail.lang);
       }
     });
-
-    const langToggleBtn = $("langToggle");
-    if (langToggleBtn) {
-      langToggleBtn.addEventListener("click", () => {
-        const next = currentLang === "bn" ? "en" : "bn";
-        if (window.bwGlobalNav?.setLanguage) {
-          window.bwGlobalNav.setLanguage(next);
-        } else {
-          applyLanguage(next);
-        }
-      });
-    }
   }
 
   // DOM Ready

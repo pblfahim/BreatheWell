@@ -61,9 +61,9 @@
   const T = {
     bn: {
       navHome: "হোম",
-      navExercises: "শ্বাসের অনুশীলন",
+      navExercises: "শ্বাস ব্যায়াম",
       navTest: "শ্বাসের পরীক্ষা",
-      navHealth: "স্বাস্থ্য ট্র্যাকার",
+      navHealth: "হেলথ ট্র্যাকার",
       navRx: "প্রেসক্রিপশন",
       navSafety: "নিরাপত্তা",
       heroBadge: "ভিজ্যুয়াল অ্যানালিটিক্স ও ধারাবাহিক পর্যবেক্ষণ",
@@ -103,6 +103,7 @@
       insightStableBG: "আপনার রক্তের গ্লুকোজ বেশিরভাগ সময় নির্ধারিত ক্লিনিক্যাল টার্গেটের মধ্যে রয়েছে।",
       insightHighBG: "মনোযোগ দিন: সাম্প্রতিক কিছু সুগার রিডিং স্বাভাবিক মাত্রার ওপরে ছিল। খাদ্যাভ্যাস ও নিয়মিত ওষুধ যাচাই করুন।",
       insightNeedsMore: "আরও অন্তর্দৃষ্টি পাওয়ার জন্য প্রতিদিন নিয়মিত রক্তচাপ ও সুগার পরিমাপ করুন।",
+      statAnalysisHint: "গত ১৪ দিনের রেকর্ড বিশ্লেষণ",
       toastDemoLoaded: "✅ ৭ দিনের ক্লিনিক্যাল নমুনা ডেটা সফলভাবে লোড হয়েছে!"
     },
     en: {
@@ -149,6 +150,7 @@
       insightStableBG: "Your blood glucose control is well maintained within clinical ADA 2024 targets.",
       insightHighBG: "Attention: Several recent glycemic readings were above target. Review nutrition and medication adherence.",
       insightNeedsMore: "Log readings consistently across morning and evening to generate deeper analytical insights.",
+      statAnalysisHint: "Last 14 Days Record Analysis",
       toastDemoLoaded: "✅ 7-day clinical demo data successfully loaded!"
     }
   };
@@ -802,14 +804,7 @@
   function init() {
     htSetLang(htLang);
 
-    // Language toggle button in navbar
-    const langBtn = $("langToggle") || $("hcLangToggle") || $("tcLangToggle");
-    if (langBtn) {
-      langBtn.addEventListener("click", () => {
-        htSetLang(htLang === "bn" ? "en" : "bn");
-      });
-    }
-
+    // Note: global-nav.js manages #langToggle. health-charts.js listens to 'bwLanguageChanged'.
     if (typeof window !== "undefined" && window.addEventListener) {
       window.addEventListener("bwLanguageChanged", (e) => {
         if (e.detail && e.detail.lang && e.detail.lang !== htLang) {

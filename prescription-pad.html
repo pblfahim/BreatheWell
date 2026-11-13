@@ -67,7 +67,8 @@
        ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html" aria-label="BreatheWell home">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
         <span>BreatheWell</span>
       </a>
@@ -76,10 +77,14 @@
       </div>
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html" data-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"
+              data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a>
+          </li>
+          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
+              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
+          </li>
           <li class="nav-item"><a class="nav-link " href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
       </div>
@@ -117,27 +122,21 @@
     <!-- ======================================================================
          3. ACTION TOOLBAR
          ====================================================================== -->
-    <div class="pp-action-toolbar-bar mb-4">
+    <div class="pp-action-toolbar-bar pt-2">
       <div class="container">
         <div class="pp-toolbar-card">
           <div class="d-flex flex-wrap align-items-center justify-content-between w-100 gap-2">
             <div class="pp-action-group">
-              <input type="file" id="ppOcrFileInput" accept="image/*,application/pdf" class="d-none"
-                aria-label="Upload prescription file for OCR">
-              <button type="button" class="pp-btn pp-btn-primary" id="btnUploadOcr">
-                <i class="bi bi-cloud-arrow-up-fill"></i>
-                <span data-pp-i18n="btnUploadOcr">প্রেসক্রিপশন আপলোড (OCR)</span>
-              </button>
               <button type="button" class="pp-btn pp-btn-outline-dark" id="btnClearPad">
                 <i class="bi bi-eraser-fill"></i>
                 <span data-pp-i18n="btnClear">নতুন প্যাড</span>
               </button>
+              <div class="pp-edit-badge" aria-hidden="true">
+                <i class="bi bi-pencil-fill"></i>
+                <span data-pp-i18n="editHintBadge">সরাসরি প্যাডে ক্লিক করে পরিবর্তন করুন</span>
+              </div>
             </div>
             <div class="pp-action-group">
-              <button type="button" class="pp-btn pp-btn-success" id="btnSaveToVault">
-                <i class="bi bi-floppy-fill"></i>
-                <span data-pp-i18n="btnSaveVault">ভল্টে সংরক্ষণ</span>
-              </button>
               <button type="button" class="pp-btn pp-btn-outline-dark" id="btnPrintPad">
                 <i class="bi bi-printer-fill"></i>
                 <span data-pp-i18n="btnPrint">প্রিন্ট / PDF</span>
@@ -169,12 +168,6 @@
             <div class="pp-pad-outer">
               <div class="pp-pad-paper" id="printablePrescriptionPad">
 
-                <!-- Real-Time Interactive Editing Hint Badge -->
-                <div class="pp-edit-badge" aria-hidden="true">
-                  <i class="bi bi-pencil-fill"></i>
-                  <span data-pp-i18n="editHintBadge">সরাসরি প্যাডে ক্লিক করে পরিবর্তন করুন</span>
-                </div>
-
                 <!-- Watermark Background -->
                 <div class="pp-pad-watermark" aria-hidden="true">BreatheWell</div>
 
@@ -182,19 +175,19 @@
                 <div class="pp-pad-header">
                   <div class="pp-doc-info">
                     <h2 class="pp-doc-name pp-editable" id="padDocName" contenteditable="true" spellcheck="false"
-                      data-placeholder="ডাঃ নাম লিখুন">Dr. A. Rahman</h2>
+                      data-pp-i18n-ph="phDocName" data-placeholder="ডাঃ নাম লিখুন"></h2>
                     <p class="pp-doc-degrees pp-editable" id="padDocDegrees" contenteditable="true" spellcheck="false"
-                      data-placeholder="ডিগ্রি ও বিশেষজ্ঞতা">MBBS, FCPS (Medicine), MD (Neurology)</p>
+                      data-pp-i18n-ph="phDocDegrees" data-placeholder="ডিগ্রি ও বিশেষজ্ঞতা"></p>
                     <p class="pp-doc-reg pp-editable" id="padDocReg" contenteditable="true" spellcheck="false"
-                      data-placeholder="রেজিস্ট্রেশন নম্বর">Reg No: A-123456</p>
+                      data-pp-i18n-ph="phDocReg" data-placeholder="রেজিস্ট্রেশন নম্বর"></p>
                   </div>
                   <div class="pp-hosp-info">
                     <h2 class="pp-hosp-name pp-editable" id="padHospName" contenteditable="true" spellcheck="false"
-                      data-placeholder="হাসপাতাল / ক্লিনিকের নাম">City General Hospital</h2>
+                      data-pp-i18n-ph="phHospName" data-placeholder="হাসপাতাল / ক্লিনিকের নাম"></h2>
                     <p class="pp-hosp-address pp-editable" id="padHospAddress" contenteditable="true" spellcheck="false"
-                      data-placeholder="ঠিকানা">123 Health Avenue, Dhaka</p>
+                      data-pp-i18n-ph="phHospAddress" data-placeholder="ঠিকানা"></p>
                     <p class="pp-hosp-call pp-editable" id="padHospCall" contenteditable="true" spellcheck="false"
-                      data-placeholder="মোবাইল / হেল্পলাইন">Call: +880 1700-000000</p>
+                      data-pp-i18n-ph="phHospPhone" data-placeholder="মোবাইল / হেল্পলাইন"></p>
                   </div>
                 </div>
 
@@ -203,22 +196,23 @@
                   <div class="pp-patient-meta-item">
                     <span class="pp-patient-meta-label" data-pp-i18n="lblPatName">Name:</span>
                     <span class="pp-patient-meta-val pp-editable" id="padPatName" contenteditable="true"
-                      spellcheck="false" data-placeholder="রোগীর নাম">Rahim Uddin</span>
+                      spellcheck="false" data-placeholder="রোগীর নাম"></span>
                   </div>
+
                   <div class="pp-patient-meta-item">
                     <span class="pp-patient-meta-label" data-pp-i18n="lblAge">Age:</span>
                     <span class="pp-patient-meta-val pp-editable text-center" id="padAge" contenteditable="true"
-                      spellcheck="false" data-placeholder="বয়স">45</span>
+                      spellcheck="false" data-placeholder="বয়স"></span>
                   </div>
                   <div class="pp-patient-meta-item">
                     <span class="pp-patient-meta-label" data-pp-i18n="lblSex">Sex:</span>
                     <span class="pp-patient-meta-val pp-editable text-center" id="padSex" contenteditable="true"
-                      spellcheck="false" data-placeholder="M/F">M</span>
+                      spellcheck="false" data-placeholder="M/F"></span>
                   </div>
                   <div class="pp-patient-meta-item">
                     <span class="pp-patient-meta-label" data-pp-i18n="lblDate">Date:</span>
                     <span class="pp-patient-meta-val pp-editable" id="padDate" contenteditable="true" spellcheck="false"
-                      data-placeholder="তারিখ">11/6/2026</span>
+                      data-placeholder="তারিখ"></span>
                   </div>
                 </div>
 
@@ -259,22 +253,22 @@
                         <div class="pp-oe-row">
                           <span class="pp-oe-name">BP:</span>
                           <span class="pp-oe-val pp-editable" id="padBpVal" contenteditable="true" spellcheck="false"
-                            data-placeholder="120/80">120/80</span>
+                            data-placeholder="120/80"></span>
                         </div>
                         <div class="pp-oe-row">
                           <span class="pp-oe-name">Pulse:</span>
                           <span class="pp-oe-val pp-editable" id="padPulseVal" contenteditable="true" spellcheck="false"
-                            data-placeholder="72">72</span>
+                            data-placeholder="72"></span>
                         </div>
                         <div class="pp-oe-row">
                           <span class="pp-oe-name">Temp:</span>
                           <span class="pp-oe-val pp-editable" id="padTempVal" contenteditable="true" spellcheck="false"
-                            data-placeholder="98.6">98.6</span>
+                            data-placeholder="98.6"></span>
                         </div>
                         <div class="pp-oe-row">
                           <span class="pp-oe-name">Weight:</span>
                           <span class="pp-oe-val pp-editable" id="padWeightVal" contenteditable="true"
-                            spellcheck="false" data-placeholder="65">65</span>
+                            spellcheck="false" data-placeholder="65"></span>
                         </div>
                       </div>
                     </div>
@@ -299,7 +293,7 @@
                     <div class="pp-pad-dx">
                       <span class="pp-pad-dx-label">Dx:</span>
                       <span class="pp-editable flex-grow-1" id="padDxVal" contenteditable="true" spellcheck="false"
-                        data-placeholder="রোগনির্ণয় / Diagnosis লিখুন">- Viral Fever (Suspected) - Flu</span>
+                        data-pp-i18n-ph="phDx" data-placeholder="রোগনির্ণয় / Diagnosis লিখুন"></span>
                     </div>
 
                     <!-- Large Cursive Rx Symbol -->
@@ -334,12 +328,7 @@
                     <div class="pp-pad-advice-section">
                       <h3 class="pp-pad-advice-title" data-pp-i18n="lblAdvice">Advice</h3>
                       <div class="pp-pad-advice-body pp-editable" id="padAdviceText" contenteditable="true"
-                        spellcheck="false" data-placeholder="পরামর্শ ও সাধারণ নির্দেশনা লিখুন...">
-                        Drink plenty of boiled water & oral fluids.
-                        Take complete bed rest for 3 days.
-                        Tepid sponge on forehead if temperature > 101°F.
-                        Follow up after 3-5 days if fever persists.
-                      </div>
+                        spellcheck="false" data-placeholder="পরামর্শ ও সাধারণ নির্দেশনা লিখুন..."></div>
                     </div>
 
                   </div>
@@ -379,11 +368,70 @@
             </div><!-- /pp-pad-outer -->
 
           </div>
+
+          <!-- Bottom Action: Create Prescription Button -->
+          <div class="col-12 text-center pp-btn-create-row">
+            <button type="button" class="pp-btn-create-main" id="btnOpenCreateModal" data-bs-toggle="modal"
+              data-bs-target="#createPrescriptionModal">
+              <i class="bi bi-plus-circle-fill fs-5"></i>
+              <span data-pp-i18n="btnCreatePrescription">প্রেসক্রিপশন তৈরি করুন</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
   </main>
+
+  <!-- ========================================================================
+       MODAL: CREATE PRESCRIPTION (Patient Name & Serial Number)
+       ======================================================================== -->
+  <div class="modal fade" id="createPrescriptionModal" tabindex="-1" aria-labelledby="createPrescriptionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow border-0 rounded-4">
+        <div class="modal-header border-bottom py-3 px-4">
+          <h2 class="modal-title fs-5 fw-bold text-dark d-flex align-items-center gap-2 mb-0"
+            id="createPrescriptionModalLabel">
+            <i class="bi bi-file-earmark-medical-fill text-primary"></i>
+            <span data-pp-i18n="modalCreateTitle">নতুন প্রেসক্রিপশন তৈরি</span>
+          </h2>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="createPrescriptionModalForm">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-dark" for="modalPatientName">
+                <i class="bi bi-person-fill text-primary me-1"></i>
+                <span data-pp-i18n="lblModalPatientName">Patient Name</span>
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control form-control-lg rounded-3" id="modalPatientName"
+                placeholder="e.g. Rahim Uddin" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-dark" for="modalSerialNumber">
+                <i class="bi bi-hash text-primary me-1"></i>
+                <span data-pp-i18n="lblModalSerialNo">Serial Number</span>
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control form-control-lg rounded-3" id="modalSerialNumber"
+                placeholder="e.g. SL-2026-001" required>
+            </div>
+          </div>
+          <div class="modal-footer border-top py-3 px-4 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-outline-secondary px-4 rounded-3" data-bs-dismiss="modal"
+              data-pp-i18n="btnCancel">বাতিল</button>
+            <button type="submit" class="btn btn-primary px-4 rounded-3 d-flex align-items-center gap-2"
+              id="btnSubmitCreateModal">
+              <i class="bi bi-check-circle-fill"></i>
+              <span data-pp-i18n="btnModalSubmit">তৈরি করুন</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- ========================================================================
        5. GLOBAL FOOTER
@@ -393,7 +441,8 @@
        ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
       <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -405,7 +454,8 @@
        MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
-    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0" aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
     <div class="mobile-nav-items">
       <a class="mobile-nav-link " href="index.html" aria-label="Home">
         <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
@@ -413,7 +463,7 @@
       </a>
       <a class="mobile-nav-link " href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
       </a>
       <a class="mobile-nav-link " href="health-reading.html" aria-label="Health Tracker">
         <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
@@ -423,9 +473,8 @@
         <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
         <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
       </a>
-      <button type="button" class="mobile-nav-link " id="mobileMoreBtn"
-        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
-        aria-label="More navigation options">
+      <button type="button" class="mobile-nav-link " id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
         <span class="nav-label" data-i18n="navMore">আরও</span>
       </button>
@@ -484,7 +533,7 @@
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
             <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -495,7 +544,7 @@
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
             <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>

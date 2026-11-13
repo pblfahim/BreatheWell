@@ -29,12 +29,12 @@ const T = {
   bn: {
     skip: "মূল কনটেন্টে যান",
     navHome: "হোম",
-    navExercises: "শ্বাসের অনুশীলন",
+    navExercises: "শ্বাস ব্যায়াম",
     navTest: "শ্বাসের পরীক্ষা",
-    tabExercises: "শ্বাসের অনুশীলন",
+    tabExercises: "শ্বাস ব্যায়াম",
     tabBreathTest: "শ্বাসের পরীক্ষা",
     navSafety: "নিরাপত্তা",
-    navHealth: "স্বাস্থ্য ট্র্যাকার",
+    navHealth: "হেলথ ট্র্যাকার",
     navRx: "প্রেসক্রিপশন",
     navMore: "আরও",
     sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
@@ -54,7 +54,7 @@ const T = {
     heroEyebrow: "প্রতিদিনের ছোট্ট বিরতি",
     heroBadge: "সহজ ও আনন্দদায়ক মাইন্ডফুলনেস ✨",
     heroTitle: "প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি",
-    heroDesc: "সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে ধীরে চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।",
+    heroDesc: "সহজ নির্দেশিত শ্বাস-প্রশ্বাস ব্যায়ামের মাধ্যমে ধীরে চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।",
     startBreathing: "অনুশীলন শুরু করুন",
     explore: "অনুশীলন দেখুন",
     noAccount: "অ্যাকাউন্ট প্রয়োজন নেই",
@@ -124,7 +124,7 @@ const T = {
     featuredDesc: "নিজের স্বাচ্ছন্দ্য অনুযায়ী একটি সহজ অনুশীলন নির্বাচন করুন।",
     allExercises: "সব অনুশীলন",
     exploreEyebrow: "প্রয়োজন অনুযায়ী নির্বাচন",
-    exploreHeading: "শ্বাসের অনুশীলন অন্বেষণ করুন",
+    exploreHeading: "শ্বাস ব্যায়াম অন্বেষণ করুন",
     exploreSub: "আপনার বর্তমান শারীরিক ও মানসিক অবস্থা অনুযায়ী সঠিক কৌশলটি বেছে নিন। প্রতিটি অনুশীলনের রয়েছে সুনির্দিষ্ট বিজ্ঞানসম্মত উপকারিতা।",
     goalAll: "সব অনুশীলন (৪টি)",
     goalStress: "🌿 চাপ ও উদ্বেগ",
@@ -259,9 +259,13 @@ const T = {
     checkDesc: "অনুশীলন শুরুর আগে মাত্র ২০ সেকেন্ডে নিচের ৩টি বিষয় নিশ্চিত করে নিন:",
     checkProgressLabel: "চেকলিস্ট অগ্রগতি:",
     checkItem1: "আমি একটি নিরাপদ, শান্ত ও আরামদায়ক স্থানে বসেছি বা শুয়েছি।",
+    checkItem1Hint: "শারীরিক ভারসাম্য বজায় রাখতে শক্ত আসন বা বিছানা বেছে নিন।",
     checkItem2: "আমি গাড়ি চালাচ্ছি না, সাঁতার কাটছি না বা ঝুঁকিপূর্ণ কাজ করছি না।",
+    checkItem2Hint: "কোনো ধরনের একাগ্রতামুখী বা বিপদসংকুল পরিস্থিতিতে গভীর শ্বাসচর্চা করবেন না।",
     checkItem3: "অস্বস্তি বা মাথা ঘোরা অনুভব করামাত্র আমি স্বাভাবিক শ্বাসে ফিরে যাব।",
+    checkItem3Hint: "শরীরের সিগন্যালকে সর্বোচ্চ অগ্রাধিকার দিন, কখনই জোর করবেন না।",
     checkReadyBadge: "🎉 আপনি সম্পূর্ণ প্রস্তুত ও নিরাপদ!",
+    checkReadySub: "আপনার প্রস্তুতি চমৎকার। স্বাচ্ছন্দ্যের সাথে অনুশীলন উপভোগ করুন।",
     checkReadyBtn: "অনুশীলন শুরু করুন",
     checkResetBtn: "রিসেট",
     condAsthmaTitle: "অ্যাজমা ও সিওপিডি (Asthma & COPD)",
@@ -275,13 +279,17 @@ const T = {
     emergencyTitle: "🆘 তাৎক্ষণিক স্থিরতা ও প্রশান্তি প্রোটোকল",
     emergencyDesc: "অনুশীলনে কোনো কারণে মাথা ঘুরলে বা অস্বস্তি লাগলে নিচের বোতামে চাপুন। এটি তৎক্ষণাৎ সেশন থামিয়ে শরীরকে শান্ত করবে:",
     emergencyBtnText: "তাৎক্ষণিক স্বাভাবিক শ্বাসে ফিরুন (ইমার্জেন্সি রিসেট)",
+    emStep1: "১ম ধাপ",
+    emStep2: "২য় ধাপ",
+    emStep3: "৩য় ধাপ",
+    emStep4: "৪র্থ ধাপ",
     emergencyStep1: "১. চোখ বন্ধ করুন এবং কেবল ধীরে ধীরে ফুসফুসের সব বাতাস ছেড়ে দিন।",
     emergencyStep2: "২. দুই পা মেঝেতে শক্তভাবে স্পর্শ করান এবং পায়ের নিচে মাটির অস্তিত্ব অনুভব করুন।",
     emergencyStep3: "৩. কোনো নির্দিষ্ট ছন্দ ছাড়া নিজের স্বাভাবিক গতিতে ৫টি শান্ত শ্বাস নিন।",
     emergencyStep4: "৪. চোখ খুলে এক ঢোক পানি পান করুন এবং ১ মিনিট বিশ্রাম নিন।",
     emergencyToastMsg: "শান্ত হোন। সেশন বন্ধ করা হয়েছে। আরাম করে স্বাভাবিক শ্বাস নিন।",
     libraryEyebrow: "প্রয়োজন অনুযায়ী নির্বাচন",
-    libraryTitle: "আপনার শ্বাসের অনুশীলন বেছে নিন",
+    libraryTitle: "আপনার শ্বাস ব্যায়াম বেছে নিন",
     libraryDesc: "প্রতিটি অনুশীলনের সময় ও নির্দেশনা দেখে নিজের উপযোগীটি নির্বাচন করুন।",
     filterAll: "সব",
     filterBeginner: "শুরুর জন্য",
@@ -610,9 +618,13 @@ const T = {
     checkDesc: "Take 20 seconds before starting to verify these 3 essential safety items:",
     checkProgressLabel: "Checklist Progress:",
     checkItem1: "I am seated or lying down comfortably in a safe, stable place.",
+    checkItem1Hint: "Choose a solid chair or bed to maintain physical stability.",
     checkItem2: "I am not driving, in water, or operating any equipment.",
+    checkItem2Hint: "Never perform deep breathwork in alert-critical or risky situations.",
     checkItem3: "I will stop immediately and breathe naturally if I feel any discomfort.",
+    checkItem3Hint: "Prioritize body feedback above all; never strain or force.",
     checkReadyBadge: "🎉 You are fully ready and safe to practice!",
+    checkReadySub: "Your preparation is excellent. Enjoy your comfortable breathing session.",
     checkReadyBtn: "Start Practice Now",
     checkResetBtn: "Reset",
     condAsthmaTitle: "Asthma & Respiratory Conditions",
@@ -626,6 +638,10 @@ const T = {
     emergencyTitle: "🆘 Instant Calming & Grounding Protocol",
     emergencyDesc: "If you feel overwhelmed, breathless, or lightheaded, trigger this emergency calm reset to stop and ground yourself:",
     emergencyBtnText: "Trigger Grounding & Calming Reset",
+    emStep1: "Step 1",
+    emStep2: "Step 2",
+    emStep3: "Step 3",
+    emStep4: "Step 4",
     emergencyStep1: "1. Close your eyes and softly sigh out all the air from your lungs.",
     emergencyStep2: "2. Plant both feet firmly on the ground and feel the solid surface beneath you.",
     emergencyStep3: "3. Take 5 unforced, natural breaths at whatever pace feels easiest.",
@@ -1013,10 +1029,8 @@ function setLang(next) {
   if (typeof initHeroBreathGuide === "function") initHeroBreathGuide();
 }
 
-const langToggleBtn = $("langToggle");
-if (langToggleBtn) {
-  langToggleBtn.addEventListener("click", () => setLang(lang === "bn" ? "en" : "bn"));
-}
+// Note: global-nav.js acts as the single source of truth for #langToggle clicks.
+// script.js listens cleanly to 'bwLanguageChanged' below to stay in perfect sync.
 
 if (typeof window !== "undefined" && window.addEventListener) {
   window.addEventListener("bwLanguageChanged", (e) => {

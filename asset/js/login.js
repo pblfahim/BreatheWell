@@ -64,6 +64,9 @@
       labelRecoveryCode: "নিরাপত্তা কোড",
       labelNewPassword: "নতুন পাসওয়ার্ড লিখুন",
       btnConfirmReset: "পাসওয়ার্ড পরিবর্তন সম্পন্ন করুন",
+      forgotSimulatedNotice: "সিমুলেটেড কোড তৈরি হয়েছে! নিচে কোডটি দেখে নিশ্চিত করুন:",
+      phForgotCode: "৬-সংখ্যার কোড লিখুন",
+      phForgotNewPw: "নতুন পাসওয়ার্ড",
       resetSuccessMsg: "পাসওয়ার্ড সফলভাবে আপডেট হয়েছে! নতুন পাসওয়ার্ড দিয়ে লগইন করুন।",
       invalidResetCode: "কোড সঠিক নয়। আবার চেষ্টা করুন।",
       emptyNewPass: "নতুন পাসওয়ার্ড নূন্যতম ৬ অক্ষরের হতে হবে।",
@@ -164,6 +167,9 @@
       labelRecoveryCode: "Security Code",
       labelNewPassword: "Enter New Password",
       btnConfirmReset: "Update Password",
+      forgotSimulatedNotice: "Simulated verification code generated! Review the code below:",
+      phForgotCode: "Enter 6-digit code",
+      phForgotNewPw: "New password",
       resetSuccessMsg: "Password updated successfully! Please log in with your new password.",
       invalidResetCode: "Invalid security code. Please check and try again.",
       emptyNewPass: "New password must be at least 6 characters.",
@@ -327,6 +333,10 @@
     if (emailInput) emailInput.placeholder = tr("placeholderEmail");
     const passInput = $("loginPassword");
     if (passInput) passInput.placeholder = tr("placeholderPassword");
+    const forgotCodeInput = $("forgotCodeInput") || $("forgotRecoveryCode");
+    if (forgotCodeInput) forgotCodeInput.placeholder = tr("phForgotCode");
+    const forgotNewPassInput = $("forgotNewPassword");
+    if (forgotNewPassInput) forgotNewPassInput.placeholder = tr("phForgotNewPw");
 
     // Update Language Toggle Button
     const langBtn = $("langToggle");
@@ -914,24 +924,12 @@
     const btnConfirmPass = $("btnConfirmNewPassword");
     if (btnConfirmPass) btnConfirmPass.addEventListener("click", handleConfirmReset);
 
-    // Language change synchronizer
+    // Language change synchronizer (handled globally by global-nav.js)
     window.addEventListener("bwLanguageChanged", (e) => {
       if (e.detail?.lang && e.detail.lang !== currentLang) {
         applyLanguage(e.detail.lang);
       }
     });
-
-    const langToggleBtn = $("langToggle");
-    if (langToggleBtn) {
-      langToggleBtn.addEventListener("click", () => {
-        const next = currentLang === "bn" ? "en" : "bn";
-        if (window.bwGlobalNav?.setLanguage) {
-          window.bwGlobalNav.setLanguage(next);
-        } else {
-          applyLanguage(next);
-        }
-      });
-    }
   }
 
   // DOM Ready

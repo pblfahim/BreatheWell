@@ -58,12 +58,12 @@ let currentFormMode = "all";
  * AHA 2017 guidelines.
  */
 const BP_RANGES = [
-  { key: "low",      label_bn: "নিম্ন রক্তচাপ",          label_en: "Hypotension",           cls: "low",      icon: "⬇️", sys: [0, 90],    dia: [0, 60]   },
-  { key: "normal",   label_bn: "স্বাভাবিক",              label_en: "Normal",                cls: "normal",   icon: "✅", sys: [90, 120],  dia: [60, 80]  },
-  { key: "elevated", label_bn: "উচ্চতর",                 label_en: "Elevated",              cls: "elevated", icon: "⚠️", sys: [120, 130], dia: [60, 80]  },
-  { key: "high1",    label_bn: "উচ্চ রক্তচাপ (পর্যায় ১)", label_en: "High BP – Stage 1",     cls: "high1",    icon: "🔴", sys: [130, 140], dia: [80, 90]  },
-  { key: "high2",    label_bn: "উচ্চ রক্তচাপ (পর্যায় ২)", label_en: "High BP – Stage 2",     cls: "high2",    icon: "🚨", sys: [140, 180], dia: [90, 120] },
-  { key: "crisis",   label_bn: "জরুরি অবস্থা",           label_en: "Hypertensive Crisis",   cls: "crisis",   icon: "🆘", sys: [180, 999], dia: [120, 999]},
+  { key: "low", label_bn: "নিম্ন রক্তচাপ", label_en: "Hypotension", cls: "low", icon: "⬇️", sys: [0, 90], dia: [0, 60] },
+  { key: "normal", label_bn: "স্বাভাবিক", label_en: "Normal", cls: "normal", icon: "✅", sys: [90, 120], dia: [60, 80] },
+  { key: "elevated", label_bn: "উচ্চতর", label_en: "Elevated", cls: "elevated", icon: "⚠️", sys: [120, 130], dia: [60, 80] },
+  { key: "high1", label_bn: "উচ্চ রক্তচাপ (পর্যায় ১)", label_en: "High BP – Stage 1", cls: "high1", icon: "🔴", sys: [130, 140], dia: [80, 90] },
+  { key: "high2", label_bn: "উচ্চ রক্তচাপ (পর্যায় ২)", label_en: "High BP – Stage 2", cls: "high2", icon: "🚨", sys: [140, 180], dia: [90, 120] },
+  { key: "crisis", label_bn: "জরুরি অবস্থা", label_en: "Hypertensive Crisis", cls: "crisis", icon: "🆘", sys: [180, 999], dia: [120, 999] },
 ];
 
 /**
@@ -72,28 +72,28 @@ const BP_RANGES = [
  */
 const BG_RANGES = {
   fasting: [
-    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",       cls: "low",      icon: "⬇️", min: 0,   max: 4.0 },
-    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal",             cls: "normal",   icon: "✅", min: 4.0, max: 5.6 },
-    { key: "prediab",  label_bn: "প্রি-ডায়াবেটিস",      label_en: "Pre-diabetes",       cls: "elevated", icon: "⚠️", min: 5.6, max: 7.0 },
-    { key: "diabetic", label_bn: "ডায়াবেটিস",            label_en: "Diabetes (Fasting)", cls: "high2",    icon: "🚨", min: 7.0, max: 999  },
+    { key: "hypo", label_bn: "হাইপোগ্লাইসেমিয়া", label_en: "Hypoglycemia", cls: "low", icon: "⬇️", min: 0, max: 4.0 },
+    { key: "normal", label_bn: "স্বাভাবিক", label_en: "Normal", cls: "normal", icon: "✅", min: 4.0, max: 5.6 },
+    { key: "prediab", label_bn: "প্রি-ডায়াবেটিস", label_en: "Pre-diabetes", cls: "elevated", icon: "⚠️", min: 5.6, max: 7.0 },
+    { key: "diabetic", label_bn: "ডায়াবেটিস", label_en: "Diabetes (Fasting)", cls: "high2", icon: "🚨", min: 7.0, max: 999 },
   ],
   postmeal: [
-    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",       cls: "low",      icon: "⬇️", min: 0,   max: 4.0 },
-    { key: "normal",   label_bn: "স্বাভাবিক (খাবার পর)", label_en: "Normal (Post-meal)", cls: "normal",   icon: "✅", min: 4.0, max: 7.8 },
-    { key: "prediab",  label_bn: "প্রি-ডায়াবেটিস",      label_en: "Pre-diabetes",       cls: "elevated", icon: "⚠️", min: 7.8, max: 11.1},
-    { key: "diabetic", label_bn: "ডায়াবেটিস",            label_en: "Diabetes",           cls: "high2",    icon: "🚨", min: 11.1, max: 999 },
+    { key: "hypo", label_bn: "হাইপোগ্লাইসেমিয়া", label_en: "Hypoglycemia", cls: "low", icon: "⬇️", min: 0, max: 4.0 },
+    { key: "normal", label_bn: "স্বাভাবিক (খাবার পর)", label_en: "Normal (Post-meal)", cls: "normal", icon: "✅", min: 4.0, max: 7.8 },
+    { key: "prediab", label_bn: "প্রি-ডায়াবেটিস", label_en: "Pre-diabetes", cls: "elevated", icon: "⚠️", min: 7.8, max: 11.1 },
+    { key: "diabetic", label_bn: "ডায়াবেটিস", label_en: "Diabetes", cls: "high2", icon: "🚨", min: 11.1, max: 999 },
   ],
   random: [
-    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",       cls: "low",      icon: "⬇️", min: 0,   max: 4.0 },
-    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal (Random)",    cls: "normal",   icon: "✅", min: 4.0, max: 7.8 },
-    { key: "prediab",  label_bn: "মধ্যবর্তী",             label_en: "Intermediate",       cls: "elevated", icon: "⚠️", min: 7.8, max: 11.1},
-    { key: "diabetic", label_bn: "ডায়াবেটিস সম্ভাব্য",   label_en: "Possible Diabetes",  cls: "high2",    icon: "🚨", min: 11.1, max: 999 },
+    { key: "hypo", label_bn: "হাইপোগ্লাইসেমিয়া", label_en: "Hypoglycemia", cls: "low", icon: "⬇️", min: 0, max: 4.0 },
+    { key: "normal", label_bn: "স্বাভাবিক", label_en: "Normal (Random)", cls: "normal", icon: "✅", min: 4.0, max: 7.8 },
+    { key: "prediab", label_bn: "মধ্যবর্তী", label_en: "Intermediate", cls: "elevated", icon: "⚠️", min: 7.8, max: 11.1 },
+    { key: "diabetic", label_bn: "ডায়াবেটিস সম্ভাব্য", label_en: "Possible Diabetes", cls: "high2", icon: "🚨", min: 11.1, max: 999 },
   ],
   bedtime: [
-    { key: "hypo",     label_bn: "হাইপোগ্লাইসেমিয়া",   label_en: "Hypoglycemia",       cls: "low",      icon: "⬇️", min: 0,   max: 4.4 },
-    { key: "normal",   label_bn: "স্বাভাবিক",            label_en: "Normal (Bedtime)",   cls: "normal",   icon: "✅", min: 4.4, max: 7.8 },
-    { key: "prediab",  label_bn: "মধ্যবর্তী",             label_en: "Intermediate",       cls: "elevated", icon: "⚠️", min: 7.8, max: 10.0},
-    { key: "diabetic", label_bn: "উচ্চ সুগার",           label_en: "High at Bedtime",    cls: "high2",    icon: "🚨", min: 10.0, max: 999 },
+    { key: "hypo", label_bn: "হাইপোগ্লাইসেমিয়া", label_en: "Hypoglycemia", cls: "low", icon: "⬇️", min: 0, max: 4.4 },
+    { key: "normal", label_bn: "স্বাভাবিক", label_en: "Normal (Bedtime)", cls: "normal", icon: "✅", min: 4.4, max: 7.8 },
+    { key: "prediab", label_bn: "মধ্যবর্তী", label_en: "Intermediate", cls: "elevated", icon: "⚠️", min: 7.8, max: 10.0 },
+    { key: "diabetic", label_bn: "উচ্চ সুগার", label_en: "High at Bedtime", cls: "high2", icon: "🚨", min: 10.0, max: 999 },
   ]
 };
 
@@ -121,7 +121,7 @@ function htLoadRecords() {
       }
     });
     if (migrated) {
-      try { localStorage.setItem(HT_KEY, JSON.stringify(data)); } catch (_) {}
+      try { localStorage.setItem(HT_KEY, JSON.stringify(data)); } catch (_) { }
     }
     data.sort((a, b) => new Date(b.date) - new Date(a.date));
     return data;
@@ -164,285 +164,285 @@ let htLang = localStorage.getItem(HT_LANG_KEY) || "bn";
 
 const HT_T = {
   bn: {
-    pageTitle:        "স্বাস্থ্য পর্যবেক্ষণ",
-    pageEyebrow:      "দৈনিক স্বাস্থ্য লগ",
-    pageHeadline:     "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
-    pageSub:          "প্রতিদিনের রক্তচাপ ও ব্লাড সুগার সহজে ট্র্যাক করুন এবং লাইভ বিশ্লেষণ ও ট্রেন্ড পর্যবেক্ষণ করুন।",
-    heroPillBP:       "রক্তচাপ ট্র্যাকিং",
-    heroPillBG:       "সুগার পর্যবেক্ষণ",
+    pageTitle: "স্বাস্থ্য পর্যবেক্ষণ",
+    pageEyebrow: "দৈনিক স্বাস্থ্য লগ",
+    pageHeadline: "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
+    pageSub: "প্রতিদিনের রক্তচাপ ও ব্লাড সুগার সহজে ট্র্যাক করুন এবং লাইভ বিশ্লেষণ ও ট্রেন্ড পর্যবেক্ষণ করুন।",
+    heroPillBP: "রক্তচাপ ট্র্যাকিং",
+    heroPillBG: "সুগার পর্যবেক্ষণ",
 
-    quickNavAdd:      "➕ নতুন রিডিং",
-    quickNavCharts:   "📈 ট্রেন্ড চার্ট",
-    quickNavLog:      "📋 ইতিহাস লগ",
-    quickNavDemo:     "🧪 নমুনা ডেটা",
+    quickNavAdd: "➕ নতুন রিডিং",
+    quickNavCharts: "📈 ট্রেন্ড চার্ট",
+    quickNavLog: "📋 ইতিহাস লগ",
+    quickNavDemo: "🧪 নমুনা ডেটা",
 
-    statBPTitle:      "সর্বশেষ রক্তচাপ",
-    statBGTitle:      "সর্বশেষ গ্লুকোজ",
-    statTodayTitle:   "আজকের রেকর্ড",
-    statStreakTitle:  "ধারাবাহিক দিন",
-    statNoData:       "কোনো ডেটা নেই",
+    statBPTitle: "সর্বশেষ রক্তচাপ",
+    statBGTitle: "সর্বশেষ গ্লুকোজ",
+    statTodayTitle: "আজকের রেকর্ড",
+    statStreakTitle: "ধারাবাহিক দিন",
+    statNoData: "কোনো ডেটা নেই",
 
-    modeAll:          "⚡ উভয় একসাথে",
-    modeBP:           "❤️ শুধু রক্তচাপ",
-    modeBG:           "🩸 শুধু গ্লুকোজ",
+    modeAll: "⚡ উভয় একসাথে",
+    modeBP: "❤️ শুধু রক্তচাপ",
+    modeBG: "🩸 শুধু গ্লুকোজ",
 
-    bpFormTitle:      "রক্তচাপ এন্ট্রি",
-    bpFormSub:        "সিস্টোলিক / ডায়াস্টোলিক (mmHg)",
-    lblSystolic:      "সিস্টোলিক",
-    lblDiastolic:     "ডায়াস্টোলিক",
-    lblPulse:         "নাড়ির স্পন্দন",
-    lblArm:           "কোন হাত?",
-    armLeft:          "বাম হাত",
-    armRight:         "ডান হাত",
-    lblDate:          "তারিখ ও সময়",
-    lblNotes:         "নোট (ঐচ্ছিক)",
-    btnSaveBP:        "রক্তচাপ সংরক্ষণ করুন",
-    unitMmhg:         "mmHg",
-    unitBpm:          "bpm",
+    bpFormTitle: "রক্তচাপ এন্ট্রি",
+    bpFormSub: "সিস্টোলিক / ডায়াস্টোলিক (mmHg)",
+    lblSystolic: "সিস্টোলিক",
+    lblDiastolic: "ডায়াস্টোলিক",
+    lblPulse: "নাড়ির স্পন্দন",
+    lblArm: "কোন হাত?",
+    armLeft: "বাম হাত",
+    armRight: "ডান হাত",
+    lblDate: "তারিখ ও সময়",
+    lblNotes: "নোট (ঐচ্ছিক)",
+    btnSaveBP: "রক্তচাপ সংরক্ষণ করুন",
+    unitMmhg: "mmHg",
+    unitBpm: "bpm",
 
-    bgFormTitle:      "রক্তের গ্লুকোজ এন্ট্রি",
-    bgFormSub:        "ডায়াবেটিস পর্যবেক্ষণ (mmol/L)",
-    lblGlucose:       "গ্লুকোজ মান",
-    lblTiming:        "পরিমাপের সময়",
-    timingFasting:    "খালি পেটে",
-    timingPostmeal:   "খাবার ২ ঘণ্টা পর",
-    timingRandom:     "যেকোনো সময়",
-    timingBedtime:    "ঘুমানোর আগে",
-    btnSaveBG:        "গ্লুকোজ সংরক্ষণ করুন",
-    unitMmol:         "mmol/L",
-    unitMgdl:         "mg/dL",
+    bgFormTitle: "রক্তের গ্লুকোজ এন্ট্রি",
+    bgFormSub: "ডায়াবেটিস পর্যবেক্ষণ (mmol/L)",
+    lblGlucose: "গ্লুকোজ মান",
+    lblTiming: "পরিমাপের সময়",
+    timingFasting: "খালি পেটে",
+    timingPostmeal: "খাবার ২ ঘণ্টা পর",
+    timingRandom: "যেকোনো সময়",
+    timingBedtime: "ঘুমানোর আগে",
+    btnSaveBG: "গ্লুকোজ সংরক্ষণ করুন",
+    unitMmol: "mmol/L",
+    unitMgdl: "mg/dL",
 
-    gaugeTitleBP:     "লাইভ রক্তচাপ স্পেকট্রাম নির্দেশক",
-    gaugeTitleBG:     "লাইভ গ্লুকোজ রেঞ্জ নির্দেশক",
+    gaugeTitleBP: "লাইভ রক্তচাপ স্পেকট্রাম নির্দেশক",
+    gaugeTitleBG: "লাইভ গ্লুকোজ রেঞ্জ নির্দেশক",
 
-    insightTitle:     "সাপ্তাহিক স্বাস্থ্য বিশ্লেষণ ও পরামর্শ",
-    insightRelaxTip:  "রক্তচাপ নিয়ন্ত্রণ ও মানসিক স্থিরতা বজায় রাখতে BreatheWell-এর ৪-৭-৮ বা বক্স ব্রিদিং ৫ মিনিট অনুশীলন করতে পারেন।",
-    btnStartBreathing:"শ্বাসের অনুশীলন শুরু করুন",
+    insightTitle: "সাপ্তাহিক স্বাস্থ্য বিশ্লেষণ ও পরামর্শ",
+    insightRelaxTip: "রক্তচাপ নিয়ন্ত্রণ ও মানসিক স্থিরতা বজায় রাখতে BreatheWell-এর ৪-৭-৮ বা বক্স ব্রিদিং ৫ মিনিট অনুশীলন করতে পারেন।",
+    btnStartBreathing: "শ্বাস ব্যায়াম শুরু করুন",
 
-    chartBPTitle:     "রক্তচাপের ধারাবাহিক প্রবণতা",
-    chartBGTitle:     "গ্লুকোজের ধারাবাহিক প্রবণতা",
-    chartNoData:      "চার্টের জন্য পর্যাপ্ত ডেটা নেই",
-    chartNoDataSub:   "কমপক্ষে দুটি রিডিং যোগ করুন",
+    chartBPTitle: "রক্তচাপের ধারাবাহিক প্রবণতা",
+    chartBGTitle: "গ্লুকোজের ধারাবাহিক প্রবণতা",
+    chartNoData: "চার্টের জন্য পর্যাপ্ত ডেটা নেই",
+    chartNoDataSub: "কমপক্ষে দুটি রিডিং যোগ করুন",
 
-    tf7d:             "৭ দিন",
-    tf14d:            "১৪ দিন",
-    tf30d:            "৩০ দিন",
-    tfAll:            "সব রেকর্ড",
+    tf7d: "৭ দিন",
+    tf14d: "১৪ দিন",
+    tf30d: "৩০ দিন",
+    tfAll: "সব রেকর্ড",
 
-    historyTitle:     "ইতিহাস ও বিস্তারিত রেকর্ড",
-    searchPlaceholder:"তারিখ, মান বা নোট দিয়ে খুঁজুন...",
-    tabAll:           "সব",
-    tabBP:            "রক্তচাপ",
-    tabBG:            "গ্লুকোজ",
-    colDate:          "তারিখ ও সময়",
-    colType:          "ধরন",
-    colValue:         "রিডিং মান",
-    colStatus:        "অবস্থা",
-    colNotes:         "নোট",
-    colAction:        "মুছুন",
-    noHistory:        "এখনো কোনো রেকর্ড নেই",
-    noHistorySub:     "উপরের ফর্মে ডেটা যোগ করুন অথবা নমুনা ডেটা দিয়ে দেখুন",
-    paginInfo:        "{from}–{to} / {total}টি রেকর্ড",
+    historyTitle: "ইতিহাস ও বিস্তারিত রেকর্ড",
+    searchPlaceholder: "তারিখ, মান বা নোট দিয়ে খুঁজুন...",
+    tabAll: "সব",
+    tabBP: "রক্তচাপ",
+    tabBG: "গ্লুকোজ",
+    colDate: "তারিখ ও সময়",
+    colType: "ধরন",
+    colValue: "রিডিং মান",
+    colStatus: "অবস্থা",
+    colNotes: "নোট",
+    colAction: "মুছুন",
+    noHistory: "এখনো কোনো রেকর্ড নেই",
+    noHistorySub: "উপরের ফর্মে ডেটা যোগ করুন অথবা নমুনা ডেটা দিয়ে দেখুন",
+    paginInfo: "{from}–{to} / {total}টি রেকর্ড",
 
-    btnCsv:           "CSV ডাউনলোড",
-    disclaimerText:   "এই ট্র্যাকারটি ব্যক্তিগত সচেতনতা ও রেকর্ড রাখার জন্য। চিকিৎসার প্রয়োজনে সর্বদা রেজিষ্টার্ড চিকিৎসকের পরামর্শ নিন।",
-    btnLoadDemo:      "🧪 নমুনা ডেটা যোগ করুন",
-    btnClearAll:      "🗑️ সব ডেটা মুছুন",
+    btnCsv: "CSV ডাউনলোড",
+    disclaimerText: "এই ট্র্যাকারটি ব্যক্তিগত সচেতনতা ও রেকর্ড রাখার জন্য। চিকিৎসার প্রয়োজনে সর্বদা রেজিষ্টার্ড চিকিৎসকের পরামর্শ নিন।",
+    btnLoadDemo: "🧪 নমুনা ডেটা যোগ করুন",
+    btnClearAll: "🗑️ সব ডেটা মুছুন",
 
-    toastBPSaved:     "রক্তচাপ সফলভাবে সংরক্ষিত হয়েছে!",
-    toastBGSaved:     "রক্তের গ্লুকোজ সংরক্ষিত হয়েছে!",
-    toastDeleted:     "রেকর্ড মুছে ফেলা হয়েছে",
-    toastCopied:      "লিংক ক্লিপবোর্ডে কপি হয়েছে",
-    toastReportCopied:"স্বাস্থ্য রিপোর্ট কপি হয়েছে",
-    toastCSVDone:     "CSV ফাইল ডাউনলোড হয়েছে",
-    toastJSONDone:    "JSON ফাইল ডাউনলোড হয়েছে",
-    toastPinSaved:    "পারিবারিক পিন সংরক্ষিত হয়েছে",
-    toastDemoLoaded:  "৭ দিনের নমুনা ডেটা সফলভাবে যোগ হয়েছে!",
-    toastAllCleared:  "সব স্বাস্থ্য রেকর্ড মুছে ফেলা হয়েছে।",
+    toastBPSaved: "রক্তচাপ সফলভাবে সংরক্ষিত হয়েছে!",
+    toastBGSaved: "রক্তের গ্লুকোজ সংরক্ষিত হয়েছে!",
+    toastDeleted: "রেকর্ড মুছে ফেলা হয়েছে",
+    toastCopied: "লিংক ক্লিপবোর্ডে কপি হয়েছে",
+    toastReportCopied: "স্বাস্থ্য রিপোর্ট কপি হয়েছে",
+    toastCSVDone: "CSV ফাইল ডাউনলোড হয়েছে",
+    toastJSONDone: "JSON ফাইল ডাউনলোড হয়েছে",
+    toastPinSaved: "পারিবারিক পিন সংরক্ষিত হয়েছে",
+    toastDemoLoaded: "৭ দিনের নমুনা ডেটা সফলভাবে যোগ হয়েছে!",
+    toastAllCleared: "সব স্বাস্থ্য রেকর্ড মুছে ফেলা হয়েছে।",
     toastImportEmpty: "ফাইলে কোনো স্বাস্থ্য রেকর্ড পাওয়া যায়নি",
     toastImportMergeDone: "{n}টি নতুন রেকর্ড ভল্টে যোগ করা হয়েছে!",
     toastImportReplaceDone: "ভল্ট সফলভাবে প্রতিস্থাপিত হয়েছে ({n}টি রেকর্ড)!",
 
-    errSysRange:      "সিস্টোলিক মান ৬০–২৫০ এর মধ্যে হওয়া চাই",
-    errDiaRange:      "ডায়াস্টোলিক মান ৪০–১৫০ এর মধ্যে হওয়া চাই",
-    errBGRange:       "গ্লুকোজ মান ১.০–৩৫.০ mmol/L এর মধ্যে হওয়া চাই",
-    errPulseRange:    "নাড়ির স্পন্দন ৩০–২২০ এর মধ্যে হওয়া চাই",
-    errPinFormat:     "পিন অবশ্যই ৪ সংখ্যার হতে হবে",
+    errSysRange: "সিস্টোলিক মান ৬০–২৫০ এর মধ্যে হওয়া চাই",
+    errDiaRange: "ডায়াস্টোলিক মান ৪০–১৫০ এর মধ্যে হওয়া চাই",
+    errBGRange: "গ্লুকোজ মান ১.০–৩৫.০ mmol/L এর মধ্যে হওয়া চাই",
+    errPulseRange: "নাড়ির স্পন্দন ৩০–২২০ এর মধ্যে হওয়া চাই",
+    errPinFormat: "পিন অবশ্যই ৪ সংখ্যার হতে হবে",
 
-    confirmDelete:    "এই রেকর্ড মুছে ফেলবেন?",
-    confirmClearAll:  "আপনি কি নিশ্চিত যে সব রেকর্ড মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।",
-    days:             "দিন",
-    readings:         "টি রিডিং",
+    confirmDelete: "এই রেকর্ড মুছে ফেলবেন?",
+    confirmClearAll: "আপনি কি নিশ্চিত যে সব রেকর্ড মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।",
+    days: "দিন",
+    readings: "টি রিডিং",
 
     crisisAlertTitle: "জরুরি স্বাস্থ্য সতর্কতা!",
-    crisisAlertMsg:   "আপনার সর্বশেষ রক্তচাপ বা সুগারের মাত্রা আশঙ্কাজনক সীমায় রয়েছে। অবিলম্বে শান্ত হয়ে বিশ্রাম নিন এবং প্রয়োজনে ডাক্তারের সাথে যোগাযোগ করুন।",
+    crisisAlertMsg: "আপনার সর্বশেষ রক্তচাপ বা সুগারের মাত্রা আশঙ্কাজনক সীমায় রয়েছে। অবিলম্বে শান্ত হয়ে বিশ্রাম নিন এবং প্রয়োজনে ডাক্তারের সাথে যোগাযোগ করুন।",
 
-    navHome:          "হোম",
-    navExercises:     "শ্বাসের অনুশীলন",
-    navTest:          "শ্বাসের পরীক্ষা",
-    navSafety:        "নিরাপত্তা",
-    navHealth:        "স্বাস্থ্য",
-    navRx:            "প্রেসক্রিপশন",
-    navMore:          "আরও",
-    sidebarBrandSub:  "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
-    navPagesTitle:    "পেজ ও মডিউল",
-    navHomeSub:       "মূল পাতা ও ফিচারসমূহ",
-    navExercisesSub:  "শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট",
-    navTestSub:       "BOLT ও BPM রেসপিরেটরি টেস্ট",
-    navHealthSub:     "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
-    navRxSub:         "ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR",
-    navSafetySub:     "৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা",
-    quickToolsTitle:  "দ্রুত অ্যাকশন",
+    navHome: "হোম",
+    navExercises: "শ্বাস ব্যায়াম",
+    navTest: "শ্বাসের পরীক্ষা",
+    navSafety: "নিরাপত্তা",
+    navHealth: "স্বাস্থ্য",
+    navRx: "প্রেসক্রিপশন",
+    navMore: "আরও",
+    sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
+    navPagesTitle: "পেজ ও মডিউল",
+    navHomeSub: "মূল পাতা ও ফিচারসমূহ",
+    navExercisesSub: "শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট",
+    navTestSub: "BOLT ও BPM রেসপিরেটরি টেস্ট",
+    navHealthSub: "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
+    navRxSub: "ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR",
+    navSafetySub: "৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা",
+    quickToolsTitle: "দ্রুত অ্যাকশন",
     quickEmergencyLabel: "জরুরি শান্ত শ্বাস (SOS)",
     quickEmergencySub: "৪টি ধাপে তাৎক্ষণিক প্রশান্তি",
-    quickTestLabel:   "ফুসফুস পরীক্ষা",
-    quickTestSub:     "BOLT ও BPM স্কোর জানুন",
-    langSelectTitle:  "ভাষা পরিবর্তন",
-    skip:             "মূল কনটেন্টে যান",
-    langToggle:       "English",
+    quickTestLabel: "ফুসফুস পরীক্ষা",
+    quickTestSub: "BOLT ও BPM স্কোর জানুন",
+    langSelectTitle: "ভাষা পরিবর্তন",
+    skip: "মূল কনটেন্টে যান",
+    langToggle: "English",
 
-    footerTag:        "প্রতিটি নিঃশ্বাসে একটু প্রশান্তি",
+    footerTag: "প্রতিটি নিঃশ্বাসে একটু প্রশান্তি",
     footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
   },
   en: {
-    pageTitle:        "Health Monitor",
-    pageEyebrow:      "Daily Health Log",
-    pageHeadline:     "Blood Pressure & Diabetes Tracker",
-    pageSub:          "Effortlessly log blood pressure and sugar levels, view instant diagnostics, and monitor long-term trends.",
-    heroPillBP:       "BP Tracking",
-    heroPillBG:       "Glucose Monitor",
+    pageTitle: "Health Monitor",
+    pageEyebrow: "Daily Health Log",
+    pageHeadline: "Blood Pressure & Diabetes Tracker",
+    pageSub: "Effortlessly log blood pressure and sugar levels, view instant diagnostics, and monitor long-term trends.",
+    heroPillBP: "BP Tracking",
+    heroPillBG: "Glucose Monitor",
 
-    quickNavAdd:      "➕ Add Reading",
-    quickNavCharts:   "📈 Trends & Charts",
-    quickNavLog:      "📋 History Log",
-    quickNavDemo:     "🧪 Demo Data",
+    quickNavAdd: "➕ Add Reading",
+    quickNavCharts: "📈 Trends & Charts",
+    quickNavLog: "📋 History Log",
+    quickNavDemo: "🧪 Demo Data",
 
-    statBPTitle:      "Latest BP",
-    statBGTitle:      "Latest Glucose",
-    statTodayTitle:   "Today's Records",
-    statStreakTitle:  "Day Streak",
-    statNoData:       "No data",
+    statBPTitle: "Latest BP",
+    statBGTitle: "Latest Glucose",
+    statTodayTitle: "Today's Records",
+    statStreakTitle: "Day Streak",
+    statNoData: "No data",
 
-    modeAll:          "⚡ Side by Side",
-    modeBP:           "❤️ BP Only",
-    modeBG:           "🩸 Glucose Only",
+    modeAll: "⚡ Side by Side",
+    modeBP: "❤️ BP Only",
+    modeBG: "🩸 Glucose Only",
 
-    bpFormTitle:      "Blood Pressure Entry",
-    bpFormSub:        "Systolic / Diastolic (mmHg)",
-    lblSystolic:      "Systolic",
-    lblDiastolic:     "Diastolic",
-    lblPulse:         "Pulse Rate",
-    lblArm:           "Which Arm?",
-    armLeft:          "Left arm",
-    armRight:         "Right arm",
-    lblDate:          "Date & Time",
-    lblNotes:         "Notes (optional)",
-    btnSaveBP:        "Save Blood Pressure",
-    unitMmhg:         "mmHg",
-    unitBpm:          "bpm",
+    bpFormTitle: "Blood Pressure Entry",
+    bpFormSub: "Systolic / Diastolic (mmHg)",
+    lblSystolic: "Systolic",
+    lblDiastolic: "Diastolic",
+    lblPulse: "Pulse Rate",
+    lblArm: "Which Arm?",
+    armLeft: "Left arm",
+    armRight: "Right arm",
+    lblDate: "Date & Time",
+    lblNotes: "Notes (optional)",
+    btnSaveBP: "Save Blood Pressure",
+    unitMmhg: "mmHg",
+    unitBpm: "bpm",
 
-    bgFormTitle:      "Blood Glucose Entry",
-    bgFormSub:        "Diabetes Monitoring (mmol/L)",
-    lblGlucose:       "Glucose Value",
-    lblTiming:        "Timing",
-    timingFasting:    "Fasting",
-    timingPostmeal:   "Post-meal (2h)",
-    timingRandom:     "Random",
-    timingBedtime:    "Bedtime",
-    btnSaveBG:        "Save Blood Glucose",
-    unitMmol:         "mmol/L",
-    unitMgdl:         "mg/dL",
+    bgFormTitle: "Blood Glucose Entry",
+    bgFormSub: "Diabetes Monitoring (mmol/L)",
+    lblGlucose: "Glucose Value",
+    lblTiming: "Timing",
+    timingFasting: "Fasting",
+    timingPostmeal: "Post-meal (2h)",
+    timingRandom: "Random",
+    timingBedtime: "Bedtime",
+    btnSaveBG: "Save Blood Glucose",
+    unitMmol: "mmol/L",
+    unitMgdl: "mg/dL",
 
-    gaugeTitleBP:     "Live BP Spectrum Meter",
-    gaugeTitleBG:     "Live Glucose Range Meter",
+    gaugeTitleBP: "Live BP Spectrum Meter",
+    gaugeTitleBG: "Live Glucose Range Meter",
 
-    insightTitle:     "Weekly Health Insights & Guidance",
-    insightRelaxTip:  "To help naturally regulate blood pressure and nervous tension, practice 5 minutes of BreatheWell Relaxing or Box Breathing.",
-    btnStartBreathing:"Start Breathing Exercise",
+    insightTitle: "Weekly Health Insights & Guidance",
+    insightRelaxTip: "To help naturally regulate blood pressure and nervous tension, practice 5 minutes of BreatheWell Relaxing or Box Breathing.",
+    btnStartBreathing: "Start Breathing Exercise",
 
-    chartBPTitle:     "Blood Pressure Trends",
-    chartBGTitle:     "Blood Glucose Trends",
-    chartNoData:      "Not enough data for chart",
-    chartNoDataSub:   "Add at least two readings",
+    chartBPTitle: "Blood Pressure Trends",
+    chartBGTitle: "Blood Glucose Trends",
+    chartNoData: "Not enough data for chart",
+    chartNoDataSub: "Add at least two readings",
 
-    tf7d:             "7 Days",
-    tf14d:            "14 Days",
-    tf30d:            "30 Days",
-    tfAll:            "All",
+    tf7d: "7 Days",
+    tf14d: "14 Days",
+    tf30d: "30 Days",
+    tfAll: "All",
 
-    historyTitle:     "Detailed History Records",
-    searchPlaceholder:"Search by date, value, or notes...",
-    tabAll:           "All",
-    tabBP:            "Blood Pressure",
-    tabBG:            "Glucose",
-    colDate:          "Date & Time",
-    colType:          "Type",
-    colValue:         "Reading Value",
-    colStatus:        "Status",
-    colNotes:         "Notes",
-    colAction:        "Action",
-    noHistory:        "No records yet",
-    noHistorySub:     "Add your readings above or explore with sample data",
-    paginInfo:        "{from}–{to} of {total} records",
+    historyTitle: "Detailed History Records",
+    searchPlaceholder: "Search by date, value, or notes...",
+    tabAll: "All",
+    tabBP: "Blood Pressure",
+    tabBG: "Glucose",
+    colDate: "Date & Time",
+    colType: "Type",
+    colValue: "Reading Value",
+    colStatus: "Status",
+    colNotes: "Notes",
+    colAction: "Action",
+    noHistory: "No records yet",
+    noHistorySub: "Add your readings above or explore with sample data",
+    paginInfo: "{from}–{to} of {total} records",
 
-    btnCsv:           "Download CSV",
-    disclaimerText:   "This tracker is for personal awareness and record-keeping. Always consult a registered physician for medical advice.",
-    btnLoadDemo:      "🧪 Load Sample Data",
-    btnClearAll:      "🗑️ Clear All Records",
+    btnCsv: "Download CSV",
+    disclaimerText: "This tracker is for personal awareness and record-keeping. Always consult a registered physician for medical advice.",
+    btnLoadDemo: "🧪 Load Sample Data",
+    btnClearAll: "🗑️ Clear All Records",
 
-    toastBPSaved:     "Blood pressure saved successfully!",
-    toastBGSaved:     "Blood glucose saved successfully!",
-    toastDeleted:     "Record deleted",
-    toastCopied:      "Link copied to clipboard",
-    toastReportCopied:"Health report copied to clipboard",
-    toastCSVDone:     "CSV downloaded",
-    toastJSONDone:    "JSON downloaded",
-    toastPinSaved:    "Family PIN saved",
-    toastDemoLoaded:  "7 days of realistic sample data loaded!",
-    toastAllCleared:  "All health records cleared.",
+    toastBPSaved: "Blood pressure saved successfully!",
+    toastBGSaved: "Blood glucose saved successfully!",
+    toastDeleted: "Record deleted",
+    toastCopied: "Link copied to clipboard",
+    toastReportCopied: "Health report copied to clipboard",
+    toastCSVDone: "CSV downloaded",
+    toastJSONDone: "JSON downloaded",
+    toastPinSaved: "Family PIN saved",
+    toastDemoLoaded: "7 days of realistic sample data loaded!",
+    toastAllCleared: "All health records cleared.",
     toastImportEmpty: "No health records found in file",
     toastImportMergeDone: "{n} new record(s) added to health vault!",
     toastImportReplaceDone: "Health vault replaced successfully ({n} records)!",
 
-    errSysRange:      "Systolic must be between 60–250 mmHg",
-    errDiaRange:      "Diastolic must be between 40–150 mmHg",
-    errBGRange:       "Glucose must be between 1.0–35.0 mmol/L",
-    errPulseRange:    "Pulse must be between 30–220 bpm",
-    errPinFormat:     "PIN must be exactly 4 digits",
+    errSysRange: "Systolic must be between 60–250 mmHg",
+    errDiaRange: "Diastolic must be between 40–150 mmHg",
+    errBGRange: "Glucose must be between 1.0–35.0 mmol/L",
+    errPulseRange: "Pulse must be between 30–220 bpm",
+    errPinFormat: "PIN must be exactly 4 digits",
 
-    confirmDelete:    "Delete this record?",
-    confirmClearAll:  "Are you sure you want to clear all health records? This action cannot be undone.",
-    days:             "days",
-    readings:         "readings",
+    confirmDelete: "Delete this record?",
+    confirmClearAll: "Are you sure you want to clear all health records? This action cannot be undone.",
+    days: "days",
+    readings: "readings",
 
     crisisAlertTitle: "Urgent Health Alert!",
-    crisisAlertMsg:   "Your latest reading falls into a critical range. Please rest comfortably and consult a healthcare professional promptly.",
+    crisisAlertMsg: "Your latest reading falls into a critical range. Please rest comfortably and consult a healthcare professional promptly.",
 
-    navHome:          "Home",
-    navExercises:     "Breathing Exercises",
-    navTest:          "Breath Test",
-    navSafety:        "Safety",
-    navHealth:        "Health",
-    navRx:            "Prescriptions",
-    navMore:          "More",
-    sidebarBrandSub:  "Digital Health & Mindfulness",
-    navPagesTitle:    "Pages & Modules",
-    navHomeSub:       "Home page & core features",
-    navExercisesSub:  "Breathing exercises & BOLT test",
-    navTestSub:       "BOLT & BPM respiratory tests",
-    navHealthSub:     "Blood pressure & diabetes tracker",
-    navRxSub:         "Digital prescription vault & OCR",
-    navSafetySub:     "3 core safety rules & guidance",
-    quickToolsTitle:  "Quick Tools",
+    navHome: "Home",
+    navExercises: "Breathing Exercises",
+    navTest: "Breath Test",
+    navSafety: "Safety",
+    navHealth: "Health",
+    navRx: "Prescriptions",
+    navMore: "More",
+    sidebarBrandSub: "Digital Health & Mindfulness",
+    navPagesTitle: "Pages & Modules",
+    navHomeSub: "Home page & core features",
+    navExercisesSub: "Breathing exercises & BOLT test",
+    navTestSub: "BOLT & BPM respiratory tests",
+    navHealthSub: "Blood pressure & diabetes tracker",
+    navRxSub: "Digital prescription vault & OCR",
+    navSafetySub: "3 core safety rules & guidance",
+    quickToolsTitle: "Quick Tools",
     quickEmergencyLabel: "Emergency Calm Breath (SOS)",
     quickEmergencySub: "Immediate calmness in 4 quick steps",
-    quickTestLabel:   "Breath Fitness Test",
-    quickTestSub:     "Check BOLT & BPM breath score",
-    langSelectTitle:  "Language",
-    skip:             "Skip to main content",
-    langToggle:       "বাংলা",
+    quickTestLabel: "Breath Fitness Test",
+    quickTestSub: "Check BOLT & BPM breath score",
+    langSelectTitle: "Language",
+    skip: "Skip to main content",
+    langToggle: "বাংলা",
 
-    footerTag:        "A little calm with every breath",
+    footerTag: "A little calm with every breath",
     footerDisclaimer: "For general wellness. Not a substitute for medical advice.",
   }
 };
@@ -451,7 +451,7 @@ function ht(key) {
   return (HT_T[htLang] && HT_T[htLang][key]) || HT_T.bn[key] || key;
 }
 
-var $ = function(id) {
+var $ = function (id) {
   if (typeof id === "string") {
     var cleanId = id.startsWith("#") ? id.slice(1) : id;
     var el = document.getElementById(cleanId);
@@ -498,26 +498,26 @@ function csvEsc(val) {
 
 function classifyBP(sys, dia) {
   if (sys >= 180 || dia >= 120)
-    return { key: "crisis",   label: bpLabel("crisis"),   cls: "crisis",   icon: "🆘", pct: 96 };
+    return { key: "crisis", label: bpLabel("crisis"), cls: "crisis", icon: "🆘", pct: 96 };
   if (sys >= 140 || dia >= 90)
-    return { key: "high2",    label: bpLabel("high2"),    cls: "high2",    icon: "🚨", pct: 86 };
+    return { key: "high2", label: bpLabel("high2"), cls: "high2", icon: "🚨", pct: 86 };
   if (sys >= 130 || dia > 80)
-    return { key: "high1",    label: bpLabel("high1"),    cls: "high1",    icon: "🔴", pct: 72 };
+    return { key: "high1", label: bpLabel("high1"), cls: "high1", icon: "🔴", pct: 72 };
   if (sys > 120 && dia <= 80)
     return { key: "elevated", label: bpLabel("elevated"), cls: "elevated", icon: "⚠️", pct: 54 };
   if (sys < 90 || dia < 60)
-    return { key: "low",      label: bpLabel("low"),      cls: "low",      icon: "⬇️", pct: 10 };
-  return   { key: "normal",   label: bpLabel("normal"),   cls: "normal",   icon: "✅", pct: 32 };
+    return { key: "low", label: bpLabel("low"), cls: "low", icon: "⬇️", pct: 10 };
+  return { key: "normal", label: bpLabel("normal"), cls: "normal", icon: "✅", pct: 32 };
 }
 
 function bpLabel(key) {
   const map = {
-    normal:   { bn: "স্বাভাবিক",              en: "Normal"             },
-    elevated: { bn: "উচ্চতর",                 en: "Elevated"           },
-    high1:    { bn: "উচ্চ রক্তচাপ (পর্যায় ১)",en: "High BP – Stage 1" },
-    high2:    { bn: "উচ্চ রক্তচাপ (পর্যায় ২)",en: "High BP – Stage 2" },
-    crisis:   { bn: "জরুরি অবস্থা",           en: "Crisis"             },
-    low:      { bn: "নিম্ন রক্তচাপ",          en: "Hypotension"        },
+    normal: { bn: "স্বাভাবিক", en: "Normal" },
+    elevated: { bn: "উচ্চতর", en: "Elevated" },
+    high1: { bn: "উচ্চ রক্তচাপ (পর্যায় ১)", en: "High BP – Stage 1" },
+    high2: { bn: "উচ্চ রক্তচাপ (পর্যায় ২)", en: "High BP – Stage 2" },
+    crisis: { bn: "জরুরি অবস্থা", en: "Crisis" },
+    low: { bn: "নিম্ন রক্তচাপ", en: "Hypotension" },
   };
   return (map[key] && map[key][htLang]) || key;
 }
@@ -580,11 +580,11 @@ function classifyBG(val, timing) {
     if (val >= r.min) {
       const pct = Math.round(calculateBGSpectrumPct(val, timing));
       return {
-        key:   r.key,
+        key: r.key,
         label: htLang === "bn" ? r.label_bn : r.label_en,
-        cls:   r.cls,
-        icon:  r.icon,
-        pct:   pct
+        cls: r.cls,
+        icon: r.icon,
+        pct: pct
       };
     }
   }
@@ -593,10 +593,10 @@ function classifyBG(val, timing) {
 
 function bgTimingLabel(timing) {
   const map = {
-    fasting:  { bn: "খালি পেটে",     en: "Fasting"   },
-    postmeal: { bn: "খাবার ২ ঘণ্টা পর",en: "Post-meal" },
-    random:   { bn: "যেকোনো সময়",   en: "Random"    },
-    bedtime:  { bn: "ঘুমানোর আগে",   en: "Bedtime"   }
+    fasting: { bn: "খালি পেটে", en: "Fasting" },
+    postmeal: { bn: "খাবার ২ ঘণ্টা পর", en: "Post-meal" },
+    random: { bn: "যেকোনো সময়", en: "Random" },
+    bedtime: { bn: "ঘুমানোর আগে", en: "Bedtime" }
   };
   return (map[timing] && map[timing][htLang]) || timing;
 }
@@ -632,11 +632,11 @@ let bgPreview = null;
 
 function validateBPForm() {
   let valid = true;
-  const sys  = parseFloat($("bpSystolic")?.value);
-  const dia  = parseFloat($("bpDiastolic")?.value);
+  const sys = parseFloat($("bpSystolic")?.value);
+  const dia = parseFloat($("bpDiastolic")?.value);
 
-  const sysErr  = $("errBpSys");
-  const diaErr  = $("errBpDia");
+  const sysErr = $("errBpSys");
+  const diaErr = $("errBpDia");
 
   if (isNaN(sys) || sys < 60 || sys > 250) {
     if (sysErr) sysErr.textContent = ht("errSysRange");
@@ -663,17 +663,17 @@ function handleBPSubmit(e) {
   e.preventDefault();
   if (!validateBPForm()) return;
 
-  const sys   = parseFloat($("bpSystolic").value);
-  const dia   = parseFloat($("bpDiastolic").value);
-  const arm   = $("bpArm")?.value || "right";
-  const date  = $("bpDate").value || htNowLocal();
+  const sys = parseFloat($("bpSystolic").value);
+  const dia = parseFloat($("bpDiastolic").value);
+  const arm = $("bpArm")?.value || "right";
+  const date = $("bpDate").value || htNowLocal();
   const notes = $("bpNotes").value.trim();
 
   const classification = classifyBP(sys, dia);
 
   const record = {
     type: "bp",
-    id:   htUUID(),
+    id: htUUID(),
     date: new Date(date).toISOString(),
     sys, dia, arm, notes,
     status: classification.key,
@@ -738,16 +738,16 @@ function handleBGSubmit(e) {
   e.preventDefault();
   if (!validateBGForm()) return;
 
-  const val    = parseFloat(parseFloat($("bgValue").value).toFixed(1));
+  const val = parseFloat(parseFloat($("bgValue").value).toFixed(1));
   const timing = $("bgTiming").value;
-  const date   = $("bgDate").value || htNowLocal();
-  const notes  = $("bgNotes").value.trim();
+  const date = $("bgDate").value || htNowLocal();
+  const notes = $("bgNotes").value.trim();
 
   const classification = classifyBG(val, timing);
 
   const record = {
     type: "bg",
-    id:   htUUID(),
+    id: htUUID(),
     date: new Date(date).toISOString(),
     value: val, timing, notes,
     status: classification.key,
@@ -770,7 +770,7 @@ function handleBGSubmit(e) {
 
   $("bgValue").value = "";
   $("bgNotes").value = "";
-  $("bgDate").value  = htNowLocal();
+  $("bgDate").value = htNowLocal();
   updateBGGauge(0, timing);
 }
 
@@ -853,10 +853,10 @@ function calculateBPSpectrumPct(sys, dia) {
 }
 
 function updateBPGauge(sys, dia) {
-  const pointer  = $("bpGaugePointer");
-  const badgeEl  = $("bpPointerBadge");
+  const pointer = $("bpGaugePointer");
+  const badgeEl = $("bpPointerBadge");
   const adviceEl = $("bpAdviceBox");
-  const chipEl   = $("bpLiveChip");
+  const chipEl = $("bpLiveChip");
 
   const hasSys = !isNaN(sys) && sys >= 40;
   const hasDia = !isNaN(dia) && dia >= 30;
@@ -1006,7 +1006,7 @@ function bindBPGaugeInteractions() {
     track.addEventListener("pointerdown", e => {
       isDragging = true;
       if (track.setPointerCapture) {
-        try { track.setPointerCapture(e.pointerId); } catch (_) {}
+        try { track.setPointerCapture(e.pointerId); } catch (_) { }
       }
       setBPFromPointer(e);
     });
@@ -1030,11 +1030,11 @@ function bindBPGaugeInteractions() {
   }
 
   const presets = {
-    low:      { sys: 85,  dia: 55 },
-    normal:   { sys: 120, dia: 80 },
+    low: { sys: 85, dia: 55 },
+    normal: { sys: 120, dia: 80 },
     elevated: { sys: 125, dia: 78 },
-    high1:    { sys: 140, dia: 90 },
-    crisis:   { sys: 185, dia: 120 }
+    high1: { sys: 140, dia: 90 },
+    crisis: { sys: 185, dia: 120 }
   };
 
   const bpLabelsEl = $("bpGaugeLabels");
@@ -1057,11 +1057,11 @@ function bindBPGaugeInteractions() {
 }
 
 function updateBGGauge(val, timing) {
-  const pointer  = $("bgGaugePointer");
-  const badgeEl  = $("bgPointerBadge");
+  const pointer = $("bgGaugePointer");
+  const badgeEl = $("bgPointerBadge");
   const adviceEl = $("bgAdviceBox");
-  const chipEl   = $("bgLiveChip");
-  const mgdlEl   = $("bgMgdlDisplay");
+  const chipEl = $("bgLiveChip");
+  const mgdlEl = $("bgMgdlDisplay");
   const labelsEl = $("bgGaugeLabels");
 
   const activeTiming = timing || $("bgTiming")?.value || "fasting";
@@ -1111,9 +1111,9 @@ function updateBGGauge(val, timing) {
 
   const cls = classifyBG(val, activeTiming);
   const colorMap = {
-    hypo:     "#7c3aed",
-    normal:   "#16a34a",
-    prediab:  "#f59e0b",
+    hypo: "#7c3aed",
+    normal: "#16a34a",
+    prediab: "#f59e0b",
     diabetic: "#dc2626"
   };
   const activeColor = colorMap[cls.key] || "#16a34a";
@@ -1188,7 +1188,7 @@ function bindBGGaugeInteractions() {
     track.addEventListener("pointerdown", e => {
       isDragging = true;
       if (track.setPointerCapture) {
-        try { track.setPointerCapture(e.pointerId); } catch (_) {}
+        try { track.setPointerCapture(e.pointerId); } catch (_) { }
       }
       setBGFromPointer(e);
     });
@@ -1429,8 +1429,8 @@ function renderBPChart() {
   }
 
   wrap.innerHTML = renderLineChart(data, [
-    { key: "sys",   color: "var(--ht-systolic)",  label: `${ht("lblSystolic")} (${ht("unitMmhg")})` },
-    { key: "dia",   color: "var(--ht-diastolic)", label: `${ht("lblDiastolic")} (${ht("unitMmhg")})` },
+    { key: "sys", color: "var(--ht-systolic)", label: `${ht("lblSystolic")} (${ht("unitMmhg")})` },
+    { key: "dia", color: "var(--ht-diastolic)", label: `${ht("lblDiastolic")} (${ht("unitMmhg")})` },
   ], "bp");
 }
 
@@ -1530,7 +1530,7 @@ function renderLineChart(data, series, chartType) {
     if (pts.length < 2) return "";
 
     const polyPoints = pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
-    const areaPoints = `${pts[0].x.toFixed(1)},${PAD + drawH} ${polyPoints} ${pts[pts.length-1].x.toFixed(1)},${PAD + drawH}`;
+    const areaPoints = `${pts[0].x.toFixed(1)},${PAD + drawH} ${polyPoints} ${pts[pts.length - 1].x.toFixed(1)},${PAD + drawH}`;
     const dash = s.dashed ? 'stroke-dasharray="5 3"' : "";
 
     const dots = pts.map((p, i) => {
@@ -1572,7 +1572,7 @@ function bindChartTooltips() {
         const y = e.clientY - wrapRect.top;
         tooltip.textContent = dot.dataset.chartTooltip;
         tooltip.style.left = `${x}px`;
-        tooltip.style.top  = `${y}px`;
+        tooltip.style.top = `${y}px`;
         tooltip.classList.add("visible");
       } else {
         tooltip.classList.remove("visible");
@@ -1601,13 +1601,13 @@ function htSetChartTimeframe(tf) {
 
 function renderStats() {
   const records = htLoadRecords();
-  const bpRecs  = records.filter(r => r.type === "bp");
-  const bgRecs  = records.filter(r => r.type === "bg");
+  const bpRecs = records.filter(r => r.type === "bp");
+  const bgRecs = records.filter(r => r.type === "bg");
 
   const latestBP = bpRecs[0];
-  const bpEl     = $("statBPVal");
-  const bpSubEl  = $("statBPSub");
-  const bpBadge  = $("statBPBadge");
+  const bpEl = $("statBPVal");
+  const bpSubEl = $("statBPSub");
+  const bpBadge = $("statBPBadge");
   if (bpEl) bpEl.textContent = latestBP ? `${latestBP.sys}/${latestBP.dia}` : ht("statNoData");
   if (bpSubEl) bpSubEl.textContent = latestBP ? `${ht("unitMmhg")} · ${htFormatDate(latestBP.date).split(",")[0]}` : "";
   if (bpBadge) {
@@ -1622,9 +1622,9 @@ function renderStats() {
   }
 
   const latestBG = bgRecs[0];
-  const bgEl     = $("statBGVal");
-  const bgSubEl  = $("statBGSub");
-  const bgBadge  = $("statBGBadge");
+  const bgEl = $("statBGVal");
+  const bgSubEl = $("statBGSub");
+  const bgBadge = $("statBGBadge");
   if (bgEl) bgEl.textContent = latestBG ? `${Number(latestBG.value).toFixed(1)}` : ht("statNoData");
   if (bgSubEl) bgSubEl.textContent = latestBG ? `${ht("unitMmol")} · ${bgTimingLabel(latestBG.timing)}` : "";
   if (bgBadge) {
@@ -1660,9 +1660,9 @@ function renderStats() {
     streak++;
     check.setDate(check.getDate() - 1);
   }
-  const streakEl    = $("statStreakVal");
+  const streakEl = $("statStreakVal");
   const streakSubEl = $("statStreakSub");
-  if (streakEl)    streakEl.textContent    = streak;
+  if (streakEl) streakEl.textContent = streak;
   if (streakSubEl) {
     streakSubEl.textContent = streak > 0
       ? (htLang === "bn" ? `${streak} ${ht("days")} সক্রিয়` : `${streak} ${ht("days")} active`)
@@ -1678,7 +1678,7 @@ function renderSparklines(bpRecs, bgRecs) {
 
   if (bpSpark && bpRecs.length) {
     const vals = bpRecs.map(r => r.sys);
-    const mx   = Math.max(...vals, 140);
+    const mx = Math.max(...vals, 140);
     bpSpark.innerHTML = vals.map((v, i) => `
       <div class="ht-spark-bar ${i === vals.length - 1 ? "active" : ""}"
         style="height:${Math.max(4, Math.round((v / mx) * 26))}px;color:#ef4444;"></div>
@@ -1687,7 +1687,7 @@ function renderSparklines(bpRecs, bgRecs) {
 
   if (bgSpark && bgRecs.length) {
     const vals = bgRecs.map(r => r.value);
-    const mx   = Math.max(...vals, 15);
+    const mx = Math.max(...vals, 15);
     bgSpark.innerHTML = vals.map((v, i) => `
       <div class="ht-spark-bar ${i === vals.length - 1 ? "active" : ""}"
         style="height:${Math.max(4, Math.round((v / mx) * 26))}px;color:#8b5cf6;"></div>
@@ -1784,12 +1784,12 @@ function htExportCSV() {
     }
   });
 
-  const csv    = rows.map(r => r.map(csvEsc).join(",")).join("\n");
-  const blob   = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-  const url    = URL.createObjectURL(blob);
-  const link   = document.createElement("a");
-  link.href    = url;
-  link.download = `breathewell-health-${new Date().toISOString().slice(0,10)}.csv`;
+  const csv = rows.map(r => r.map(csvEsc).join(",")).join("\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `breathewell-health-${new Date().toISOString().slice(0, 10)}.csv`;
   link.click();
   URL.revokeObjectURL(url);
   htToast(ht("toastCSVDone"), "success", "bi-file-earmark-spreadsheet");
@@ -1799,12 +1799,12 @@ function htExportJSON() {
   const records = htLoadRecords();
   if (!records.length) return;
 
-  const json   = JSON.stringify({ exported: new Date().toISOString(), records }, null, 2);
-  const blob   = new Blob([json], { type: "application/json" });
-  const url    = URL.createObjectURL(blob);
-  const link   = document.createElement("a");
-  link.href    = url;
-  link.download = `breathewell-health-${new Date().toISOString().slice(0,10)}.json`;
+  const json = JSON.stringify({ exported: new Date().toISOString(), records }, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `breathewell-health-${new Date().toISOString().slice(0, 10)}.json`;
   link.click();
   URL.revokeObjectURL(url);
   htToast(ht("toastJSONDone"), "success", "bi-file-earmark-code");
@@ -1826,8 +1826,8 @@ function htToast(message, type = "info", iconClass) {
   const stack = $("htToastStack");
   if (!stack) return;
 
-  const toast  = document.createElement("div");
-  const icon   = iconClass || TOAST_ICONS[type] || TOAST_ICONS.info;
+  const toast = document.createElement("div");
+  const icon = iconClass || TOAST_ICONS[type] || TOAST_ICONS.info;
   toast.className = `ht-toast ${type}`;
   toast.innerHTML = `
     <div class="ht-toast-icon"><i class="bi ${icon}"></i></div>
@@ -1859,13 +1859,13 @@ function htLoadDemoData() {
   ];
 
   const bgSamples = [
-    { value: 5.1, timing: "fasting",  notes: "খালি পেটে পরিমাপ" },
+    { value: 5.1, timing: "fasting", notes: "খালি পেটে পরিমাপ" },
     { value: 7.5, timing: "postmeal", notes: "দুপুরের খাবারের ২ ঘণ্টা পর" },
-    { value: 5.4, timing: "fasting",  notes: "সকালের রিডিং" },
+    { value: 5.4, timing: "fasting", notes: "সকালের রিডিং" },
     { value: 7.9, timing: "postmeal", notes: "রাতের খাবারের পর" },
-    { value: 4.9, timing: "fasting",  notes: "নিয়ন্ত্রিত সুগার" },
-    { value: 7.1, timing: "random",   notes: "বিকালে পরিমাপ" },
-    { value: 5.2, timing: "bedtime",  notes: "ঘুমানোর আগে" },
+    { value: 4.9, timing: "fasting", notes: "নিয়ন্ত্রিত সুগার" },
+    { value: 7.1, timing: "random", notes: "বিকালে পরিমাপ" },
+    { value: 5.2, timing: "bedtime", notes: "ঘুমানোর আগে" },
   ];
 
   for (let i = 6; i >= 0; i--) {
@@ -2060,20 +2060,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgForm = $("bgForm");
   if (bgForm) bgForm.addEventListener("submit", handleBGSubmit);
 
-  // Language toggle
-  const htLangBtn = $("htLangToggle");
-  if (htLangBtn) {
-    htLangBtn.addEventListener("click", () => {
-      htSetLang(htLang === "bn" ? "en" : "bn");
-    });
-  }
+  // Language change synchronizer (handled globally by global-nav.js)
+  window.addEventListener("bwLanguageChanged", (e) => {
+    if (e.detail?.lang && e.detail.lang !== htLang) {
+      htSetLang(e.detail.lang);
+    }
+  });
 
   // Export & Action buttons
-  const csvBtn       = $("btnExportCSV");
-  const loadDemoBtn  = $("btnLoadDemo");
-  const clearAllBtn  = $("btnClearAll");
+  const csvBtn = $("btnExportCSV");
+  const loadDemoBtn = $("btnLoadDemo");
+  const clearAllBtn = $("btnClearAll");
 
-  if (csvBtn)      csvBtn.addEventListener("click", htExportCSV);
+  if (csvBtn) csvBtn.addEventListener("click", htExportCSV);
   if (loadDemoBtn) loadDemoBtn.addEventListener("click", htLoadDemoData);
   if (clearAllBtn) clearAllBtn.addEventListener("click", htClearAllRecords);
 
@@ -2095,12 +2094,12 @@ document.addEventListener("DOMContentLoaded", () => {
   updateBPGauge(parseFloat($("bpSystolic")?.value) || 0, parseFloat($("bpDiastolic")?.value) || 0);
 
   // Live input listening for BG gauge
-  const bgValEl   = $("bgValue");
+  const bgValEl = $("bgValue");
   const bgTimingEl = $("bgTiming");
   if (bgValEl) {
     ["input", "change", "keyup", "paste"].forEach(evt => {
       bgValEl.addEventListener(evt, () => {
-        const val    = parseFloat(bgValEl.value);
+        const val = parseFloat(bgValEl.value);
         const timing = bgTimingEl?.value || "fasting";
         updateBGGauge(val, timing);
       });

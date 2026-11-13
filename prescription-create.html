@@ -63,7 +63,8 @@
        ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html" aria-label="BreatheWell home">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
         <span>BreatheWell</span>
       </a>
@@ -72,10 +73,14 @@
       </div>
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html" data-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"
+              data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a>
+          </li>
+          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
+              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
+          </li>
           <li class="nav-item"><a class="nav-link " href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
       </div>
@@ -113,34 +118,27 @@
     <!-- ======================================================================
          3. ACTION TOOLBAR
          ====================================================================== -->
-    <div class="cp-action-toolbar-bar mb-4">
+    <div class="cp-action-toolbar-bar pt-2">
       <div class="container">
         <div class="cp-toolbar-card">
           <div class="d-flex flex-wrap align-items-center justify-content-between w-100 gap-2">
             <div class="cp-action-btn-group">
-              <input type="file" id="cpOcrFileInput" accept="image/*,application/pdf" class="d-none" aria-label="Upload prescription file for OCR">
-              <button type="button" class="cp-btn cp-btn-primary" id="btnUploadOcr">
-                <i class="bi bi-cloud-arrow-up-fill"></i>
-                <span data-cp-i18n="btnUploadOcr">প্রেসক্রিপশন আপলোড (OCR)</span>
-              </button>
               <button type="button" class="cp-btn cp-btn-outline-dark" id="btnClearForm">
                 <i class="bi bi-eraser-fill"></i>
                 <span data-cp-i18n="btnClear">নতুন ফর্ম</span>
               </button>
             </div>
             <div class="cp-action-btn-group">
-              <button type="button" class="cp-btn cp-btn-success" id="btnSaveToVault">
-                <i class="bi bi-floppy-fill"></i>
-                <span data-cp-i18n="btnSaveVault">ভল্টে সংরক্ষণ</span>
-              </button>
               <button type="button" class="cp-btn cp-btn-outline-dark" id="btnPrintPrescription">
                 <i class="bi bi-printer-fill"></i>
                 <span data-cp-i18n="btnPrint">প্রিন্ট / PDF</span>
               </button>
-              <button type="button" class="cp-btn cp-btn-outline-dark" id="btnShareWhatsApp" title="Share via WhatsApp" aria-label="Share via WhatsApp">
+              <button type="button" class="cp-btn cp-btn-outline-dark" id="btnShareWhatsApp" title="Share via WhatsApp"
+                aria-label="Share via WhatsApp">
                 <i class="bi bi-whatsapp"></i>
               </button>
-              <button type="button" class="cp-btn cp-btn-outline-dark" id="btnCopySummary" title="Copy Text Summary" aria-label="Copy Text Summary">
+              <button type="button" class="cp-btn cp-btn-outline-dark" id="btnCopySummary" title="Copy Text Summary"
+                aria-label="Copy Text Summary">
                 <i class="bi bi-clipboard-check"></i>
               </button>
             </div>
@@ -232,15 +230,22 @@
                     <input type="text" id="inPatName" class="cp-input" placeholder="Rahim Uddin">
                   </div>
                 </div>
-                <div class="col-sm-2 col-4">
+                <div class="col-sm-6">
+                  <label class="cp-label" for="inSerialNo" data-cp-i18n="lblSerialNo">সিরিয়াল নম্বর</label>
+                  <div class="cp-input-wrap">
+                    <i class="bi bi-hash cp-input-icon"></i>
+                    <input type="text" id="inSerialNo" class="cp-input" placeholder="SL-001">
+                  </div>
+                </div>
+                <div class="col-sm-4 col-4">
                   <label class="cp-label" for="inAge" data-cp-i18n="lblAge">বয়স</label>
                   <input type="text" id="inAge" class="cp-input cp-input-plain text-center" placeholder="45">
                 </div>
-                <div class="col-sm-2 col-4">
+                <div class="col-sm-4 col-4">
                   <label class="cp-label" for="inSex" data-cp-i18n="lblSex">লিঙ্গ</label>
                   <input type="text" id="inSex" class="cp-input cp-input-plain text-center" placeholder="M">
                 </div>
-                <div class="col-sm-2 col-4">
+                <div class="col-sm-4 col-4">
                   <label class="cp-label" for="inDate" data-cp-i18n="lblDate">তারিখ</label>
                   <input type="text" id="inDate" class="cp-input cp-input-plain text-center" placeholder="11/6/2026">
                 </div>
@@ -262,6 +267,7 @@
                 <div class="cp-chip-container" id="ccChipContainer"></div>
                 <div class="input-group">
                   <input type="text" id="inCCInput" class="form-control form-control-sm"
+                    data-cp-placeholder="phCC"
                     placeholder="যেমন: Fever x 3 days (Enter চাপুন)">
                   <button type="button" class="btn btn-sm btn-outline-secondary" id="btnCCAdd">
                     <i class="bi bi-plus-lg"></i>
@@ -275,6 +281,7 @@
                 <div class="cp-chip-container" id="hoChipContainer"></div>
                 <div class="input-group">
                   <input type="text" id="inHOInput" class="form-control form-control-sm"
+                    data-cp-placeholder="phHO"
                     placeholder="যেমন: DM x 5 years, HTN (Enter চাপুন)">
                   <button type="button" class="btn btn-sm btn-outline-secondary" id="btnHOAdd">
                     <i class="bi bi-plus-lg"></i>
@@ -319,6 +326,7 @@
                 <div class="cp-chip-container" id="invChipContainer"></div>
                 <div class="input-group">
                   <input type="text" id="inInvInput" class="form-control form-control-sm"
+                    data-cp-placeholder="phInv"
                     placeholder="যেমন: CBC, Random Blood Sugar (Enter চাপুন)">
                   <button type="button" class="btn btn-sm btn-outline-secondary" id="btnInvAdd">
                     <i class="bi bi-plus-lg"></i>
@@ -356,7 +364,7 @@
 
               <!-- Quick Popular Medicine Presets -->
               <div class="mb-3">
-                <span class="cp-label mb-1">জনপ্রিয় ওষুধ প্রিসেট:</span>
+                <span class="cp-label mb-1" data-cp-i18n="presetMedsLabel">জনপ্রিয় ওষুধ প্রিসেট:</span>
                 <div class="cp-preset-pills">
                   <button type="button" class="cp-preset-pill cp-med-preset-pill" data-med="Tab. Napa Extend (665mg)"
                     data-dosage="1+0+1" data-timing="After meal" data-duration="5 days">Napa Extend</button>
@@ -377,6 +385,7 @@
                 <div class="row g-2 align-items-center">
                   <div class="col-md-5 col-12">
                     <input type="text" id="medNameInput" class="form-control form-control-sm"
+                      data-cp-placeholder="phMedName"
                       placeholder="ওষুধের নাম (e.g. Tab. Napa)">
                   </div>
                   <div class="col-md-2 col-4">
@@ -407,12 +416,12 @@
                   </div>
                   <div class="col-md-5 col-6">
                     <input type="text" id="medNoteInput" class="form-control form-control-sm"
+                      data-cp-placeholder="phMedNote"
                       placeholder="নির্দেশনা (ঐচ্ছিক)">
                   </div>
                   <div class="col-md-3 col-12 text-end">
-                    <button type="button" class="btn btn-sm btn-teal text-white w-100" id="btnAddMedicine"
-                      style="background:#0d9488;">
-                      <i class="bi bi-plus-circle me-1"></i> যোগ করুন
+                    <button type="button" class="btn btn-sm btn-teal text-white w-100" id="btnAddMedicine">
+                      <i class="bi bi-plus-circle me-1"></i> <span data-cp-i18n="btnAddMedicine">যোগ করুন</span>
                     </button>
                   </div>
                 </div>
@@ -468,6 +477,10 @@
                   <div class="cp-patient-meta-item">
                     <span class="cp-patient-meta-label">Name:</span>
                     <span class="cp-patient-meta-val" id="padPatName">Rahim Uddin</span>
+                  </div>
+                  <div class="cp-patient-meta-item">
+                    <span class="cp-patient-meta-label">SL No:</span>
+                    <span class="cp-patient-meta-val" id="padSerialNo">#001</span>
                   </div>
                   <div class="cp-patient-meta-item">
                     <span class="cp-patient-meta-label">Age:</span>
@@ -584,6 +597,15 @@
             </div><!-- /cp-pad-outer -->
           </div>
 
+          <!-- Bottom Action: Create Prescription Button -->
+          <div class="col-12 text-center cp-btn-create-row">
+            <button type="button" class="cp-btn-create-main" id="btnOpenCreateModal" data-bs-toggle="modal"
+              data-bs-target="#createPrescriptionModal">
+              <i class="bi bi-plus-circle-fill fs-5"></i>
+              <span data-cp-i18n="btnCreatePrescription">প্রেসক্রিপশন তৈরি করুন</span>
+            </button>
+          </div>
+
         </div><!-- /row g-4 -->
       </div><!-- /container -->
     </section>
@@ -591,8 +613,55 @@
   </main>
 
   <!-- ========================================================================
-       4. GLOBAL FOOTER
+       MODAL: CREATE PRESCRIPTION (Patient Name & Serial Number)
        ======================================================================== -->
+  <div class="modal fade" id="createPrescriptionModal" tabindex="-1" aria-labelledby="createPrescriptionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow border-0 rounded-4">
+        <div class="modal-header border-bottom py-3 px-4">
+          <h2 class="modal-title fs-5 fw-bold text-dark d-flex align-items-center gap-2 mb-0"
+            id="createPrescriptionModalLabel">
+            <i class="bi bi-file-earmark-medical-fill text-primary"></i>
+            <span data-cp-i18n="modalCreateTitle">নতুন প্রেসক্রিপশন তৈরি</span>
+          </h2>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="createPrescriptionModalForm">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-dark" for="modalPatientName">
+                <i class="bi bi-person-fill text-primary me-1"></i>
+                <span data-cp-i18n="lblModalPatientName">Patient Name</span>
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control form-control-lg rounded-3" id="modalPatientName"
+                placeholder="e.g. Rahim Uddin" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-dark" for="modalSerialNumber">
+                <i class="bi bi-hash text-primary me-1"></i>
+                <span data-cp-i18n="lblModalSerialNo">Serial Number</span>
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control form-control-lg rounded-3" id="modalSerialNumber"
+                placeholder="e.g. SL-2026-001" required>
+            </div>
+          </div>
+          <div class="modal-footer border-top py-3 px-4 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-outline-secondary px-4 rounded-3" data-bs-dismiss="modal"
+              data-cp-i18n="btnCancel">বাতিল</button>
+            <button type="submit" class="btn btn-primary px-4 rounded-3 d-flex align-items-center gap-2"
+              id="btnSubmitCreateModal">
+              <i class="bi bi-check-circle-fill"></i>
+              <span data-cp-i18n="btnModalSubmit">তৈরি করুন</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- ========================================================================
        4. GLOBAL FOOTER
        ======================================================================== -->
@@ -601,7 +670,8 @@
        ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
       <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -613,7 +683,8 @@
        MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
-    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0" aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
     <div class="mobile-nav-items">
       <a class="mobile-nav-link " href="index.html" aria-label="Home">
         <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
@@ -621,7 +692,7 @@
       </a>
       <a class="mobile-nav-link " href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
       </a>
       <a class="mobile-nav-link " href="health-reading.html" aria-label="Health Tracker">
         <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
@@ -631,9 +702,8 @@
         <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
         <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
       </a>
-      <button type="button" class="mobile-nav-link " id="mobileMoreBtn"
-        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
-        aria-label="More navigation options">
+      <button type="button" class="mobile-nav-link " id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
         <span class="nav-label" data-i18n="navMore">আরও</span>
       </button>
@@ -693,7 +763,7 @@
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
             <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -704,7 +774,7 @@
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
             <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -779,4 +849,3 @@
 </body>
 
 </html>
-

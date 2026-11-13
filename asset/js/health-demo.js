@@ -61,9 +61,9 @@
   const T = {
     bn: {
       navHome: "হোম",
-      navExercises: "শ্বাসের অনুশীলন",
+      navExercises: "শ্বাস ব্যায়াম",
       navTest: "শ্বাসের পরীক্ষা",
-      navHealth: "স্বাস্থ্য ট্র্যাকার",
+      navHealth: "হেলথ ট্র্যাকার",
       navRx: "প্রেসক্রিপশন",
       navSafety: "নিরাপত্তা",
       heroBadge: "ক্লিনিক্যাল টেস্টিং ও নমুনা ডেটা জেনারেটর",
@@ -80,6 +80,24 @@
       confirmClear: "⚠️ আপনি কি সমস্ত রেকর্ড মুছে ফেলতে চান?",
       toastCleared: "সমস্ত রেকর্ড সফলভাবে মুছে ফেলা হয়েছে",
       toastGenerated: "নমুনা ডেটা সফলভাবে তৈরি ও সংরক্ষিত হয়েছে!",
+      scenarioTitle: "🎯 এক-ক্লিকে ক্লিনিক্যাল সিনারিও তৈরি",
+      scenarioSub: "যেকোনো একটি প্রোফাইল নির্বাচন করে এক ক্লিকে সংশ্লিষ্ট ডেটা তৈরি করে দেখুন চার্ট ও অ্যানালিটিক্স কীভাবে পরিবর্তিত হয়।",
+      customGenTitle: "কাস্টম ডেটা জেনারেটর",
+      lblCustomDays: "কত দিনের ডেটা তৈরি করতে চান?",
+      lblCustomType: "কোন ধরনের পরিমাপ?",
+      lblCustomProfile: "স্বাস্থ্য প্রোফাইল মোড:",
+      btnGenerateCustom: "কাস্টম ডেটা জেনারেট করুন",
+      previewTitle: "সংরক্ষিত সাম্প্রতিক রেকর্ডের প্রিভিউ",
+      optDays3: "৩ দিন (দ্রুত টেস্ট)",
+      optDays7: "৭ দিন (এক সপ্তাহ)",
+      optDays14: "১৪ দিন (দুই সপ্তাহ)",
+      optDays30: "৩০ দিন (এক মাস)",
+      optTypeBoth: "⚡ উভয় একসাথে (রক্তচাপ ও গ্লুকোজ)",
+      optTypeBp: "❤️ শুধু রক্তচাপ (Blood Pressure)",
+      optTypeBg: "🩸 শুধু গ্লুকোজ (Blood Glucose)",
+      optProfBalanced: "সুস্থ ও স্বাভাবিক রেঞ্জ (Balanced)",
+      optProfElevated: "উচ্চতর প্রবণতা (Elevated / Pre-condition)",
+      optProfRandom: "অনিয়মিত মিশ্রণ (Random / Fluctuating)",
       footerTag: "প্রতিটি নিঃশ্বাসে একটু প্রশান্তি",
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।"
     },
@@ -104,6 +122,24 @@
       confirmClear: "⚠️ Are you sure you want to clear all records?",
       toastCleared: "All records cleared successfully",
       toastGenerated: "Demo records generated and saved successfully!",
+      scenarioTitle: "🎯 One-Click Clinical Scenarios",
+      scenarioSub: "Select any health profile to instantly generate realistic test data and observe dynamic chart fluctuations.",
+      customGenTitle: "Custom Data Generator",
+      lblCustomDays: "Number of days to generate?",
+      lblCustomType: "Measurement types?",
+      lblCustomProfile: "Clinical Profile Mode:",
+      btnGenerateCustom: "Generate Custom Data",
+      previewTitle: "Preview of Stored Health Records",
+      optDays3: "3 Days (Quick Test)",
+      optDays7: "7 Days (1 Week)",
+      optDays14: "14 Days (2 Weeks)",
+      optDays30: "30 Days (1 Month)",
+      optTypeBoth: "⚡ Both (Blood Pressure & Glucose)",
+      optTypeBp: "❤️ Blood Pressure Only",
+      optTypeBg: "🩸 Blood Glucose Only",
+      optProfBalanced: "Healthy & Balanced Range",
+      optProfElevated: "Elevated Trend / Pre-condition",
+      optProfRandom: "Random / Fluctuating",
       footerTag: "Peace of mind with every breath",
       footerDisclaimer: "For wellness tracking only. Not a medical substitute."
     }
@@ -591,14 +627,7 @@
   function init() {
     htSetLang(htLang);
 
-    // Language toggle in navbar
-    const langBtn = $("langToggle") || $("hdLangToggle") || $("ddLangToggle");
-    if (langBtn) {
-      langBtn.addEventListener("click", () => {
-        htSetLang(htLang === "bn" ? "en" : "bn");
-      });
-    }
-
+    // Note: global-nav.js manages #langToggle. health-demo.js listens to 'bwLanguageChanged'.
     if (typeof window !== "undefined" && window.addEventListener) {
       window.addEventListener("bwLanguageChanged", (e) => {
         if (e.detail && e.detail.lang && e.detail.lang !== htLang) {

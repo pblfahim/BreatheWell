@@ -2,21 +2,21 @@
 <html lang="bn">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সংরক্ষিত প্রেসক্রিপশন ইতিহাস - BreatheWell</title>
-    <meta name="description"
-        content="BreatheWell - ভল্টে সংরক্ষিত সব প্রেসক্রিপশন সহজে খুঁজুন, ফিল্টার করুন, ফুলস্ক্রিনে দেখুন এবং রিফিল ট্র্যাক করুন।">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সংরক্ষিত প্রেসক্রিপশন ইতিহাস - BreatheWell</title>
+  <meta name="description"
+    content="BreatheWell - ভল্টে সংরক্ষিত সব প্রেসক্রিপশন সহজে খুঁজুন, ফিল্টার করুন, ফুলস্ক্রিনে দেখুন এবং রিফিল ট্র্যাক করুন।">
 
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
 
-    <!-- CSS Dependencies -->
-    <link href="asset/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="asset/vendor/datatables/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="asset/css/style.css">
-    <link rel="stylesheet" href="asset/css/prescription-history.css">
+  <!-- CSS Dependencies -->
+  <link href="asset/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/vendor/datatables/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/prescription-history.css">
 </head>
 
 <body class="bn" data-page="prescription-history">
@@ -32,7 +32,8 @@
        ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html" aria-label="BreatheWell home">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
         <span>BreatheWell</span>
       </a>
@@ -41,206 +42,214 @@
       </div>
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html" data-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"
+              data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a>
+          </li>
+          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
+              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
+          </li>
           <li class="nav-item"><a class="nav-link " href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-    <main id="main">
+  <main id="main">
 
-        <!-- ======================================================================
+    <!-- ======================================================================
              2. DARK GREEN TAB HEADER BAR
              ====================================================================== -->
-        <div class="ht-hero-tab-bar">
-            <div class="container">
-                <div class="ht-hero-tabs" role="tablist" aria-label="Prescription Navigation">
-                    <a href="prescriptions-volt.html" class="ht-hero-tab text-decoration-none">
-                        <span class="ht-hero-tab-icon">🗄️</span>
-                        <span class="ht-hero-tab-text" data-ph-i18n="tabVault">প্রেসক্রিপশন ভল্ট</span>
-                    </a>
-                    <a href="prescription-history.html" class="ht-hero-tab active text-decoration-none"
-                        aria-current="page">
-                        <span class="ht-hero-tab-icon">📜</span>
-                        <span class="ht-hero-tab-text" data-ph-i18n="tabHistory">প্রেসক্রিপশন ইতিহাস</span>
-                    </a>
-                    <a href="prescription-create.html" class="ht-hero-tab text-decoration-none">
-                        <span class="ht-hero-tab-icon">✍️</span>
-                        <span class="ht-hero-tab-text" data-ph-i18n="tabCreate">প্রেসক্রিপশন তৈরি</span>
-                    </a>
-                    <a href="prescription-pad.html" class="ht-hero-tab text-decoration-none">
-                        <span class="ht-hero-tab-icon">📋</span>
-                        <span class="ht-hero-tab-text" data-ph-i18n="tabPad">ডিজিটাল প্যাড</span>
-                    </a>
-                </div>
-            </div>
+    <div class="ht-hero-tab-bar">
+      <div class="container">
+        <div class="ht-hero-tabs" role="tablist" aria-label="Prescription Navigation">
+          <a href="prescriptions-volt.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">🗄️</span>
+            <span class="ht-hero-tab-text" data-ph-i18n="tabVault">প্রেসক্রিপশন ভল্ট</span>
+          </a>
+          <a href="prescription-history.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
+            <span class="ht-hero-tab-icon">📜</span>
+            <span class="ht-hero-tab-text" data-ph-i18n="tabHistory">প্রেসক্রিপশন ইতিহাস</span>
+          </a>
+          <a href="prescription-create.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">✍️</span>
+            <span class="ht-hero-tab-text" data-ph-i18n="tabCreate">প্রেসক্রিপশন তৈরি</span>
+          </a>
+          <a href="prescription-pad.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">📋</span>
+            <span class="ht-hero-tab-text" data-ph-i18n="tabPad">ডিজিটাল প্যাড</span>
+          </a>
         </div>
-
-        <!-- ======================================================================
-             3. MAIN GALLERY SECTION — saved prescription cards
-             ====================================================================== -->
-        <section id="phGallerySection" class="ph-section">
-            <div class="container">
-
-                <!-- Filter / Search / Sort Toolbar -->
-                <div class="ph-toolbar">
-
-                    <!-- Live search input -->
-                    <div class="ph-search-wrap">
-                        <i class="bi bi-search ph-search-icon"></i>
-                        <input type="search" id="phSearch" class="ph-search-input"
-                            placeholder="ডাক্তার, ওষুধ বা ফাইলের নাম খুঁজুন..." data-ph-i18n-placeholder="searchPh"
-                            aria-label="Search prescriptions">
-                    </div>
-
-                    <!-- Category filter pills -->
-                    <div class="ph-filter-bar" role="group" aria-label="Filter by urgency">
-                        <button type="button" class="ph-filter-pill active" data-filter="all"
-                            data-ph-i18n="filterAll">সবগুলো</button>
-                        <button type="button" class="ph-filter-pill" data-filter="normal"
-                            data-ph-i18n="filterNormal">স্বাভাবিক</button>
-                        <button type="button" class="ph-filter-pill" data-filter="followup"
-                            data-ph-i18n="filterFollowup">ফলো-আপ</button>
-                        <button type="button" class="ph-filter-pill" data-filter="urgent"
-                            data-ph-i18n="filterUrgent">জরুরি</button>
-                    </div>
-
-                    <!-- Sort select -->
-                    <div class="ph-sort-wrap">
-                        <i class="bi bi-sort-down ph-sort-icon"></i>
-                        <select id="phSortSelect" class="ph-sort-select" aria-label="Sort prescriptions">
-                            <option value="new" data-ph-i18n="sortNew">নতুন আগে</option>
-                            <option value="old" data-ph-i18n="sortOld">পুরনো আগে</option>
-                            <option value="doctor" data-ph-i18n="sortDoctor">ডাক্তারের নাম</option>
-                        </select>
-                    </div>
-
-                    <!-- View Format Switcher: Grid vs Table -->
-                    <div class="ph-view-toggle ms-md-auto" role="group" aria-label="View format switch">
-                        <button type="button" class="btn btn-sm ph-btn-toggle active" id="btnViewGrid" data-view="grid" title="কার্ড গ্রিড ভিউ">
-                            <i class="bi bi-grid-3x3-gap-fill me-1"></i>
-                            <span data-ph-i18n="viewGrid">কার্ড গ্রিড</span>
-                        </button>
-                        <button type="button" class="btn btn-sm ph-btn-toggle" id="btnViewTable" data-view="table" title="ডেটা টেবিল ভিউ">
-                            <i class="bi bi-table me-1"></i>
-                            <span data-ph-i18n="viewTable">ডেটা টেবিল</span>
-                        </button>
-                    </div>
-
-                </div><!-- /ph-toolbar -->
-
-                <!-- Format A: Gallery card grid — populated by phRenderGallery() -->
-                <div class="ph-gallery-view-wrap" id="phGalleryViewWrap">
-                    <div class="ph-gallery" id="phGallery" aria-live="polite" aria-label="Prescription gallery"></div>
-                </div>
-
-                <!-- Format B: Data Table View — styled as health-history table -->
-                <div class="ph-table-view-wrap d-none" id="phTableViewWrap">
-                    <div class="ph-table-card">
-                        <div class="ph-table-card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-table text-teal fs-5"></i>
-                                <h3 class="ph-table-card-title" data-ph-i18n="tableCardTitle">প্রেসক্রিপশন ডেটা টেবিল</h3>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5" id="btnExportCsv">
-                                    <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    <span data-ph-i18n="btnExportCsv">CSV এক্সপোর্ট</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="table-responsive ph-table-responsive p-3">
-                            <table id="prescriptionHistoryTable" class="table table-hover align-middle ph-data-table w-100">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" data-ph-i18n="thDate">তারিখ ও সময়</th>
-                                        <th scope="col" data-ph-i18n="thDoctor">ডাক্তার ও হাসপাতাল</th>
-                                        <th scope="col" data-ph-i18n="thPatient">রোগীর তথ্য</th>
-                                        <th scope="col" data-ph-i18n="thMeds">ওষুধসমূহ (Rx)</th>
-                                        <th scope="col" data-ph-i18n="thStatus">ক্যাটাগরি ও রিফিল</th>
-                                        <th scope="col" data-ph-i18n="thFiles">সংযুক্তি</th>
-                                        <th scope="col" class="text-end" data-ph-i18n="thAction">অ্যাকশন</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="phTableTbody">
-                                    <!-- Populated dynamically via JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
-
-    <!-- ========================================================================
-         4. FULL-SCREEN LIGHTBOX VIEWER
-         ======================================================================== -->
-    <div class="ph-lightbox" id="phLightbox" role="dialog" aria-modal="true" aria-label="Prescription viewer">
-        <div class="ph-lightbox-frame">
-
-            <!-- Top bar: title, metadata, actions -->
-            <div class="ph-lightbox-topbar">
-                <div class="ph-lb-info">
-                    <h3 class="ph-lightbox-title" id="lbTitle"></h3>
-                    <p class="ph-lightbox-meta" id="lbMeta"></p>
-                </div>
-                <div class="ph-lightbox-actions">
-                    <button type="button" class="ph-lb-btn download" id="lbDownload" aria-label="Download file">
-                        <i class="bi bi-download"></i>
-                        <span data-ph-i18n="btnDownload">ডাউনলোড</span>
-                    </button>
-                    <button type="button" class="ph-lb-btn close" id="lbCloseBtn" aria-label="Close lightbox">
-                        <i class="bi bi-x-lg"></i>
-                        <span data-ph-i18n="btnClose">বন্ধ করুন</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- File thumbnail strip (shown when prescription has multiple files) -->
-            <div class="ph-lb-strip" id="lbStrip"></div>
-
-            <!-- Main viewer area — populated with <img> or <iframe> for PDF -->
-            <div class="ph-lb-viewer" id="lbViewer"></div>
-
-            <!-- Previous / Next navigation buttons -->
-            <button type="button" class="ph-lb-nav ph-lb-prev" id="lbPrev" aria-label="Previous file">
-                <i class="bi bi-chevron-left"></i>
-            </button>
-            <button type="button" class="ph-lb-nav ph-lb-next" id="lbNext" aria-label="Next file">
-                <i class="bi bi-chevron-right"></i>
-            </button>
-
-        </div>
+      </div>
     </div>
 
-    <!-- ========================================================================
+    <!-- ======================================================================
+             3. MAIN GALLERY SECTION — saved prescription cards
+             ====================================================================== -->
+    <section id="phGallerySection" class="pt-2">
+      <div class="container">
+
+        <!-- Filter / Search / Sort Toolbar -->
+        <div class="ph-toolbar">
+
+          <!-- Live search input -->
+          <div class="ph-search-wrap">
+            <i class="bi bi-search ph-search-icon"></i>
+            <input type="search" id="phSearch" class="ph-search-input"
+              placeholder="ডাক্তার, ওষুধ বা ফাইলের নাম খুঁজুন..." data-ph-i18n-placeholder="searchPh"
+              aria-label="Search prescriptions">
+          </div>
+
+          <!-- Category filter pills -->
+          <div class="ph-filter-bar" role="group" aria-label="Filter by urgency">
+            <button type="button" class="ph-filter-pill active" data-filter="all"
+              data-ph-i18n="filterAll">সবগুলো</button>
+            <button type="button" class="ph-filter-pill" data-filter="normal"
+              data-ph-i18n="filterNormal">স্বাভাবিক</button>
+            <button type="button" class="ph-filter-pill" data-filter="followup"
+              data-ph-i18n="filterFollowup">ফলো-আপ</button>
+            <button type="button" class="ph-filter-pill" data-filter="urgent" data-ph-i18n="filterUrgent">জরুরি</button>
+          </div>
+
+          <!-- Sort select -->
+          <div class="ph-sort-wrap">
+            <i class="bi bi-sort-down ph-sort-icon"></i>
+            <select id="phSortSelect" class="ph-sort-select" aria-label="Sort prescriptions">
+              <option value="new" data-ph-i18n="sortNew">নতুন আগে</option>
+              <option value="old" data-ph-i18n="sortOld">পুরনো আগে</option>
+              <option value="doctor" data-ph-i18n="sortDoctor">ডাক্তারের নাম</option>
+            </select>
+          </div>
+
+          <!-- View Format Switcher: Grid vs Table -->
+          <div class="ph-view-toggle ms-md-auto" role="group" aria-label="View format switch">
+            <button type="button" class="btn btn-sm ph-btn-toggle active" id="btnViewGrid" data-view="grid"
+              data-ph-i18n-title="titleViewGrid" title="কার্ড গ্রিড ভিউ">
+              <i class="bi bi-grid-3x3-gap-fill me-1"></i>
+              <span data-ph-i18n="viewGrid">কার্ড গ্রিড</span>
+            </button>
+            <button type="button" class="btn btn-sm ph-btn-toggle" id="btnViewTable" data-view="table"
+              data-ph-i18n-title="titleViewTable" title="ডেটা টেবিল ভিউ">
+              <i class="bi bi-table me-1"></i>
+              <span data-ph-i18n="viewTable">ডেটা টেবিল</span>
+            </button>
+          </div>
+
+        </div><!-- /ph-toolbar -->
+
+        <!-- Format A: Gallery card grid — populated by phRenderGallery() -->
+        <div class="ph-gallery-view-wrap" id="phGalleryViewWrap">
+          <div class="ph-gallery" id="phGallery" aria-live="polite" aria-label="Prescription gallery"></div>
+        </div>
+
+        <!-- Format B: Data Table View — styled as health-history table -->
+        <div class="ph-table-view-wrap d-none" id="phTableViewWrap">
+          <div class="ph-table-card">
+            <div class="ph-table-card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-table text-teal fs-5"></i>
+                <h3 class="ph-table-card-title" data-ph-i18n="tableCardTitle">প্রেসক্রিপশন ডেটা টেবিল</h3>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <button type="button"
+                  class="btn btn-sm btn-outline-success rounded-pill px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5"
+                  id="btnExportCsv">
+                  <i class="bi bi-file-earmark-spreadsheet"></i>
+                  <span data-ph-i18n="btnExportCsv">CSV এক্সপোর্ট</span>
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive ph-table-responsive p-3">
+              <table id="prescriptionHistoryTable" class="table table-hover align-middle ph-data-table w-100">
+                <thead>
+                  <tr>
+                    <th scope="col" data-ph-i18n="thDate">তারিখ ও সময়</th>
+                    <th scope="col" data-ph-i18n="thDoctor">ডাক্তার ও হাসপাতাল</th>
+                    <th scope="col" data-ph-i18n="thPatient">রোগীর তথ্য</th>
+                    <th scope="col" data-ph-i18n="thMeds">ওষুধসমূহ (Rx)</th>
+                    <th scope="col" data-ph-i18n="thStatus">ক্যাটাগরি ও রিফিল</th>
+                    <th scope="col" data-ph-i18n="thFiles">সংযুক্তি</th>
+                    <th scope="col" class="text-end" data-ph-i18n="thAction">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="phTableTbody">
+                  <!-- Populated dynamically via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+         4. FULL-SCREEN LIGHTBOX VIEWER
+         ======================================================================== -->
+  <div class="ph-lightbox" id="phLightbox" role="dialog" aria-modal="true" aria-label="Prescription viewer">
+    <div class="ph-lightbox-frame">
+
+      <!-- Top bar: title, metadata, actions -->
+      <div class="ph-lightbox-topbar">
+        <div class="ph-lb-info">
+          <h3 class="ph-lightbox-title" id="lbTitle"></h3>
+          <p class="ph-lightbox-meta" id="lbMeta"></p>
+        </div>
+        <div class="ph-lightbox-actions">
+          <button type="button" class="ph-lb-btn download" id="lbDownload" aria-label="Download file">
+            <i class="bi bi-download"></i>
+            <span data-ph-i18n="btnDownload">ডাউনলোড</span>
+          </button>
+          <button type="button" class="ph-lb-btn close" id="lbCloseBtn" aria-label="Close lightbox">
+            <i class="bi bi-x-lg"></i>
+            <span data-ph-i18n="btnClose">বন্ধ করুন</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- File thumbnail strip (shown when prescription has multiple files) -->
+      <div class="ph-lb-strip" id="lbStrip"></div>
+
+      <!-- Main viewer area — populated with <img> or <iframe> for PDF -->
+      <div class="ph-lb-viewer" id="lbViewer"></div>
+
+      <!-- Previous / Next navigation buttons -->
+      <button type="button" class="ph-lb-nav ph-lb-prev" id="lbPrev" aria-label="Previous file">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <button type="button" class="ph-lb-nav ph-lb-next" id="lbNext" aria-label="Next file">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
        5. GLOBAL FOOTER
        ======================================================================== -->
-    <!-- ========================================================================
+  <!-- ========================================================================
        FOOTER (BreatheWell Global Footer)
        ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
       <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
 
-    <!-- ========================================================================
+  <!-- ========================================================================
        6. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
-    <!-- ========================================================================
+  <!-- ========================================================================
        MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
-    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0" aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
     <div class="mobile-nav-items">
       <a class="mobile-nav-link " href="index.html" aria-label="Home">
         <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
@@ -248,7 +257,7 @@
       </a>
       <a class="mobile-nav-link " href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
       </a>
       <a class="mobile-nav-link " href="health-reading.html" aria-label="Health Tracker">
         <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
@@ -258,19 +267,18 @@
         <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
         <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
       </a>
-      <button type="button" class="mobile-nav-link " id="mobileMoreBtn"
-        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
-        aria-label="More navigation options">
+      <button type="button" class="mobile-nav-link " id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
         <span class="nav-label" data-i18n="navMore">আরও</span>
       </button>
     </div>
   </nav>
 
-    <!-- ========================================================================
+  <!-- ========================================================================
        7. MOBILE SIDEBAR DRAWER (< 992px)
        ======================================================================== -->
-    <!-- ========================================================================
+  <!-- ========================================================================
        MOBILE SIDEBAR / APP DRAWER (< 992px)
        Sliding drawer navigation menu from the right side
        ======================================================================== -->
@@ -319,7 +327,7 @@
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
             <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -330,7 +338,7 @@
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
             <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -393,19 +401,19 @@
     </div>
   </div>
 
-    <!-- ========================================================================
+  <!-- ========================================================================
        8. TOAST NOTIFICATION STACK
        ======================================================================== -->
-    <div class="rx-toast-stack" id="rxToastStack" aria-live="polite" aria-atomic="false"></div>
+  <div class="rx-toast-stack" id="rxToastStack" aria-live="polite" aria-atomic="false"></div>
 
-    <!-- ========================================================================
+  <!-- ========================================================================
        9. SCRIPTS
        ======================================================================== -->
-    <script src="asset/vendor/jquery/jquery-3.7.1.min.js"></script>
-    <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="asset/vendor/datatables/dataTables.min.js"></script>
-    <script src="asset/vendor/datatables/dataTables.bootstrap5.min.js"></script>
-    <script src="asset/js/global-nav.js"></script>
+  <script src="asset/vendor/jquery/jquery-3.7.1.min.js"></script>
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/vendor/datatables/dataTables.min.js"></script>
+  <script src="asset/vendor/datatables/dataTables.bootstrap5.min.js"></script>
+  <script src="asset/js/global-nav.js"></script>
   <script src="asset/js/prescription-history.js"></script>
 
 </body>

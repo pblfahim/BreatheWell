@@ -120,11 +120,11 @@ Urgency: Normal`;
     bn: {
       navHome: "হোম",
       navHomeSub: "মুখ্য পাতা",
-      navExercises: "শ্বাসের অনুশীলন",
+      navExercises: "শ্বাস ব্যায়াম",
       navExercisesSub: "শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট",
       navTest: "শ্বাসের পরীক্ষা",
       navTestSub: "BOLT ও শ্বাস গণনা ল্যাব",
-      navHealth: "স্বাস্থ্য ট্র্যাকার",
+      navHealth: "হেলথ ট্র্যাকার",
       navHealthSub: "রক্তচাপ ও গ্লুকোজ পর্যবেক্ষণ",
       navRx: "প্রেসক্রিপশন",
       navRxSub: "ব্যবস্থাপত্র ভল্ট ও স্ক্যান",
@@ -235,7 +235,27 @@ Urgency: Normal`;
       sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ভল্ট",
       footerTag: "প্রতিটি নিঃশ্বাসে একটু প্রশান্তি",
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
-      skip: "মূল কনটেন্টে যান"
+      skip: "মূল কনটেন্টে যান",
+      optOcrAuto: "অটো (বাংলা + Eng)",
+      optOcrEn: "English Only",
+      optOcrBn: "শুধুমাত্র বাংলা",
+      titleRotateLeft: "বাম দিকে ঘোরান (Rotate 90° Left)",
+      titleRotateRight: "ডান দিকে ঘোরান (Rotate 90° Right)",
+      titleEnhance: "অ্যাডাপ্টিভ কনট্রাস্ট ও শ্যাডো রিমুভার ফিল্টার",
+      titleRerunOcr: "পুনরায় OCR স্ক্যান চালান",
+      ocrTipTitle: "স্মার্ট ওসিআর সুবিধা:",
+      ocrTipDesc: "ছবি বা PDF আপলোড করলে সিস্টেম স্বয়ংক্রিয়ভাবে ডাক্তার, রোগী, ডায়াগনোসিস ও প্রেসক্রিপশনের ওষুধ শনাক্ত করে ডানদিকের ফর্মটিতে পূরণ করে দিবে।",
+      btnAddMedicine: "যোগ করুন",
+      vaultSecured: "ভল্ট সুরক্ষিত",
+      rawTextTitle: "এক্সট্রাক্টকৃত র-টেক্সট (Raw OCR Text):",
+      phRawText: "OCR টেক্সট এখানে প্রদর্শিত হবে...",
+      rawTipLabel: "টিপস:",
+      rawTipDesc: "প্রেসক্রিপশনে ডাক্তারের হাতের লেখা বা অস্পষ্ট কোনো তথ্য থাকলে তা উপরে ঠিক করে 'ফর্মে রি-পার্স করুন' চাপুন। সঙ্গে সঙ্গে ডাক্তার, রোগী, ওষুধ ও ভাইটালস সঠিক ফিল্ডে আপডেট হয়ে যাবে।",
+      phCC: "যেমন: Fever x 3 days (Enter চাপুন)",
+      phHO: "যেমন: DM x 5 years, HTN (Enter চাপুন)",
+      phInv: "যেমন: CBC, Random Blood Sugar (Enter চাপুন)",
+      phMedName: "ওষুধের নাম (e.g. Tab. Napa)",
+      phMedNote: "নির্দেশনা (ঐচ্ছিক)"
     },
     en: {
       navHome: "Home",
@@ -355,7 +375,27 @@ Urgency: Normal`;
       sidebarBrandSub: "Digital Health Vault",
       footerTag: "A touch of serenity with every breath",
       footerDisclaimer: "For wellness guidance only. Not medical advice.",
-      skip: "Skip to main content"
+      skip: "Skip to main content",
+      optOcrAuto: "Auto (Bengali + English)",
+      optOcrEn: "English Only",
+      optOcrBn: "Bengali Only",
+      titleRotateLeft: "Rotate 90° Left",
+      titleRotateRight: "Rotate 90° Right",
+      titleEnhance: "Adaptive Contrast & Shadow Removal Filter",
+      titleRerunOcr: "Re-run OCR Scan",
+      ocrTipTitle: "Smart OCR Feature:",
+      ocrTipDesc: "Upload an image or PDF and the system will automatically extract doctor, patient, diagnosis, and medications into the form.",
+      btnAddMedicine: "Add Medicine",
+      vaultSecured: "Vault Secured",
+      rawTextTitle: "Extracted Raw OCR Text:",
+      phRawText: "OCR text will appear here...",
+      rawTipLabel: "Tips:",
+      rawTipDesc: "If any handwriting or text is inaccurate, correct it above and click 'Re-parse into Form' to immediately update all clinical fields.",
+      phCC: "e.g. Fever x 3 days (Press Enter)",
+      phHO: "e.g. DM x 5 years, HTN (Press Enter)",
+      phInv: "e.g. CBC, Random Blood Sugar (Press Enter)",
+      phMedName: "Medicine name (e.g. Tab. Napa)",
+      phMedNote: "Instruction (Optional)"
     }
   };
 
@@ -400,15 +440,9 @@ Urgency: Normal`;
     const toggleBtn = $("langToggle") || $("rxLangToggle");
     if (toggleBtn) {
       toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
-      toggleBtn.addEventListener("click", () => {
-        currentLang = currentLang === "bn" ? "en" : "bn";
-        localStorage.setItem(LANG_KEY, currentLang);
-        toggleBtn.textContent = currentLang === "bn" ? "English" : "বাংলা";
-        applyTranslations();
-        rxRenderGallery();
-      });
     }
 
+    // Language synchronization (handled globally by global-nav.js)
     if (typeof window !== "undefined" && window.addEventListener) {
       window.addEventListener("bwLanguageChanged", (e) => {
         if (e.detail && e.detail.lang && e.detail.lang !== currentLang) {
@@ -452,6 +486,11 @@ Urgency: Normal`;
     document.querySelectorAll("[data-rx-i18n-placeholder]").forEach((el) => {
       const k = el.getAttribute("data-rx-i18n-placeholder");
       if (k && tr(k)) el.placeholder = tr(k);
+    });
+
+    document.querySelectorAll("[data-rx-i18n-title]").forEach((el) => {
+      const k = el.getAttribute("data-rx-i18n-title");
+      if (k && tr(k)) el.setAttribute("title", tr(k));
     });
   }
 

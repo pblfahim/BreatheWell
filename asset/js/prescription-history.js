@@ -52,9 +52,9 @@
   const PH_T = {
     bn: {
       navHome: "হোম",
-      navExercises: "শ্বাসের অনুশীলন",
+      navExercises: "শ্বাস ব্যায়াম",
       navTest: "শ্বাসের পরীক্ষা",
-      navHealth: "স্বাস্থ্য ট্র্যাকার",
+      navHealth: "হেলথ ট্র্যাকার",
       navRx: "প্রেসক্রিপশন",
       navSafety: "নিরাপত্তা",
       navMore: "আরও",
@@ -105,6 +105,8 @@
       langSelectTitle: "ভাষা পরিবর্তন",
       quickToolsTitle: "দ্রুত অ্যাকশন",
       navPagesTitle: "পেজ ও মডিউল",
+      titleViewGrid: "কার্ড গ্রিড ভিউ",
+      titleViewTable: "ডেটা টেবিল ভিউ",
       footerTag: "প্রতিটি নিঃশ্বাসে একটি প্রশান্তি",
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
       sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ভল্ট"
@@ -164,6 +166,8 @@
       langSelectTitle: "Language Selection",
       quickToolsTitle: "Quick Actions",
       navPagesTitle: "Pages & Modules",
+      titleViewGrid: "Card Grid View",
+      titleViewTable: "Data Table View",
       footerTag: "A touch of serenity with every breath",
       footerDisclaimer: "For general wellness only. Not medical advice.",
       sidebarBrandSub: "Digital Health Vault"
@@ -960,17 +964,9 @@
     const topToggle = $("langToggle") || $("phLangToggle") || $("rxLangToggle");
     if (topToggle) {
       topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
-      topToggle.addEventListener("click", () => {
-        currentLang = currentLang === "bn" ? "en" : "bn";
-        localStorage.setItem(LANG_KEY, currentLang);
-        topToggle.textContent = currentLang === "bn" ? "English" : "বাংলা";
-        applyTranslations();
-        phUpdateStorage();
-        phRenderGallery();
-        phRenderTable();
-      });
     }
 
+    // Language synchronization (handled globally by global-nav.js)
     if (typeof window !== "undefined" && window.addEventListener) {
       window.addEventListener("bwLanguageChanged", (e) => {
         if (e.detail && e.detail.lang && e.detail.lang !== currentLang) {
@@ -1017,6 +1013,11 @@
     document.querySelectorAll("[data-ph-i18n-placeholder], [data-rx-i18n-placeholder]").forEach((el) => {
       const k = el.getAttribute("data-ph-i18n-placeholder") || el.getAttribute("data-rx-i18n-placeholder");
       if (k && tr(k)) el.placeholder = tr(k);
+    });
+
+    document.querySelectorAll("[data-ph-i18n-title], [data-rx-i18n-title]").forEach((el) => {
+      const k = el.getAttribute("data-ph-i18n-title") || el.getAttribute("data-rx-i18n-title");
+      if (k && tr(k)) el.setAttribute("title", tr(k));
     });
   }
 

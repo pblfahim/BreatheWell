@@ -63,7 +63,8 @@
        ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html" aria-label="BreatheWell home">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
         <span>BreatheWell</span>
       </a>
@@ -72,10 +73,14 @@
       </div>
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html" data-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"
+              data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a>
+          </li>
+          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
+              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
+          </li>
           <li class="nav-item"><a class="nav-link " href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
       </div>
@@ -112,7 +117,7 @@
     <!-- ======================================================================
          3. SUMMARY COUNTERS PULL-UP
          ====================================================================== -->
-    <div class="ht-pull-up hh-pull-up hl-pull-up">
+    <div class="pt-2 ht-pull-up hh-pull-up hl-pull-up">
       <div class="container">
         <div class="row g-3">
           <!-- Total Records -->
@@ -121,7 +126,7 @@
               <div class="hh-summary-icon hl-summary-icon total"><i class="bi bi-journal-medical"></i></div>
               <div>
                 <div class="hh-summary-val hl-summary-val" id="hlTotalCount">0</div>
-                <div class="hh-summary-lbl hl-summary-lbl">মোট পরিমাপ রেকর্ড</div>
+                <div class="hh-summary-lbl hl-summary-lbl" data-hh-i18n="statTotalLogs">মোট পরিমাপ রেকর্ড</div>
               </div>
             </div>
           </div>
@@ -132,7 +137,7 @@
               <div class="hh-summary-icon hl-summary-icon bp"><i class="bi bi-heart-pulse-fill"></i></div>
               <div>
                 <div class="hh-summary-val hl-summary-val" id="hlBPCount">0</div>
-                <div class="hh-summary-lbl hl-summary-lbl">রক্তচাপ রেকর্ড</div>
+                <div class="hh-summary-lbl hl-summary-lbl" data-hh-i18n="statBpLogs">রক্তচাপ রেকর্ড</div>
               </div>
             </div>
           </div>
@@ -143,7 +148,7 @@
               <div class="hh-summary-icon hl-summary-icon bg"><i class="bi bi-droplet-half"></i></div>
               <div>
                 <div class="hh-summary-val hl-summary-val" id="hlBGCount">0</div>
-                <div class="hh-summary-lbl hl-summary-lbl">গ্লুকোজ রেকর্ড</div>
+                <div class="hh-summary-lbl hl-summary-lbl" data-hh-i18n="statBgLogs">গ্লুকোজ রেকর্ড</div>
               </div>
             </div>
           </div>
@@ -153,9 +158,8 @@
             <div class="hh-summary-card hl-summary-card">
               <div class="hh-summary-icon hl-summary-icon date"><i class="bi bi-calendar-event"></i></div>
               <div>
-                <div class="hh-summary-val hl-summary-val fs-6 text-truncate" id="hlLatestDate"
-                  style="max-width:140px;">—</div>
-                <div class="hh-summary-lbl hl-summary-lbl">সর্বশেষ রেকর্ড তারিখ</div>
+                <div class="hh-summary-val hl-summary-val fs-6 text-truncate" id="hlLatestDate">—</div>
+                <div class="hh-summary-lbl hl-summary-lbl" data-hh-i18n="statLastDate">সর্বশেষ রেকর্ড তারিখ</div>
               </div>
             </div>
           </div>
@@ -223,7 +227,8 @@
        ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
       <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -235,7 +240,8 @@
        MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
-    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0" aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
     <div class="mobile-nav-items">
       <a class="mobile-nav-link " href="index.html" aria-label="Home">
         <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
@@ -243,7 +249,7 @@
       </a>
       <a class="mobile-nav-link " href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
       </a>
       <a class="mobile-nav-link active" aria-current="page" href="health-reading.html" aria-label="Health Tracker">
         <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
@@ -253,9 +259,8 @@
         <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
         <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
       </a>
-      <button type="button" class="mobile-nav-link " id="mobileMoreBtn"
-        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
-        aria-label="More navigation options">
+      <button type="button" class="mobile-nav-link " id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
         <span class="nav-label" data-i18n="navMore">আরও</span>
       </button>
@@ -314,7 +319,7 @@
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
             <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -325,7 +330,7 @@
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
             <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>

@@ -62,7 +62,8 @@
        ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html" aria-label="BreatheWell home">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
         <span>BreatheWell</span>
       </a>
@@ -71,10 +72,14 @@
       </div>
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html" data-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"
+              data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a>
+          </li>
+          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
+              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
+          </li>
           <li class="nav-item"><a class="nav-link " href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
       </div>
@@ -111,7 +116,7 @@
     <!-- ======================================================================
          3. STORAGE STATUS INSPECTOR PULL-UP
          ====================================================================== -->
-    <div class="ht-pull-up hd-pull-up dd-pull-up">
+    <div class="pt-2 ht-pull-up hd-pull-up dd-pull-up">
       <div class="container">
         <div class="hd-status-bar dd-status-bar">
           <div class="hd-status-info dd-status-info">
@@ -148,106 +153,9 @@
          ====================================================================== -->
     <section class="container" id="demoSection">
       <div class="mb-4">
-        <h2 class="fs-4 fw-bold text-dark mb-1">🎯 এক-ক্লিকে ক্লিনিক্যাল সিনারিও তৈরি</h2>
-        <p class="text-muted small">যেকোনো একটি প্রোফাইল নির্বাচন করে এক ক্লিকে সংশ্লিষ্ট ডেটা তৈরি করে দেখুন চার্ট ও
+        <h2 class="fs-4 fw-bold text-dark mb-1" data-hd-i18n="scenarioTitle">🎯 এক-ক্লিকে ক্লিনিক্যাল সিনারিও তৈরি</h2>
+        <p class="text-muted small" data-hd-i18n="scenarioSub">যেকোনো একটি প্রোফাইল নির্বাচন করে এক ক্লিকে সংশ্লিষ্ট ডেটা তৈরি করে দেখুন চার্ট ও
           অ্যানালিটিক্স কীভাবে পরিবর্তিত হয়।</p>
-      </div>
-
-      <div class="row g-4 mb-5">
-        <!-- Scenario 1: Healthy -->
-        <div class="col-md-6 col-lg-3">
-          <div class="hd-scenario-card dd-scenario-card healthy">
-            <div class="hd-scenario-head dd-scenario-head">
-              <div class="hd-scenario-icon dd-scenario-icon text-success"><i class="bi bi-check-circle-fill"></i></div>
-              <div>
-                <h3 class="hd-scenario-title dd-scenario-title">স্বাভাবিক জীবনধারা</h3>
-                <span class="hd-scenario-badge dd-scenario-badge">৭ দিন · ১৪টি রেকর্ড</span>
-              </div>
-            </div>
-            <p class="hd-scenario-desc dd-scenario-desc">নিয়ন্ত্রিত ও আদর্শ রক্তচাপ (১১৫–১২২/৭৫–৮০) এবং স্থিতিশীল
-              ফাস্টিং ও পোস্ট-মিল সুগার লেভেল।</p>
-            <div class="hd-scenario-tags dd-scenario-tags">
-              <span class="hd-scenario-tag dd-scenario-tag">BP: 120/80</span>
-              <span class="hd-scenario-tag dd-scenario-tag">BG: 5.2 mmol/L</span>
-            </div>
-            <button type="button" class="hd-btn-generate dd-btn-generate" onclick="window.generateHealthyScenario()">
-              <i class="bi bi-play-circle-fill"></i>
-              <span>প্রোফাইল লোড করুন</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Scenario 2: Hypertension -->
-        <div class="col-md-6 col-lg-3">
-          <div class="hd-scenario-card dd-scenario-card bp-high">
-            <div class="hd-scenario-head dd-scenario-head">
-              <div class="hd-scenario-icon dd-scenario-icon text-danger"><i class="bi bi-heart-pulse-fill"></i></div>
-              <div>
-                <h3 class="hd-scenario-title dd-scenario-title">উচ্চ রক্তচাপ প্রবণতা</h3>
-                <span class="hd-scenario-badge dd-scenario-badge">১৪ দিন · ১৪টি রেকর্ড</span>
-              </div>
-            </div>
-            <p class="hd-scenario-desc dd-scenario-desc">কর্মব্যস্ততা ও মানসিক চাপের পর রক্তচাপের পর্যায় ১ ও ২ স্তরে
-              ওঠা-নামার ক্লিনিক্যাল ডেটা।</p>
-            <div class="hd-scenario-tags dd-scenario-tags">
-              <span class="hd-scenario-tag dd-scenario-tag">BP: 135–150</span>
-              <span class="hd-scenario-tag dd-scenario-tag">AHA 2017 Alert</span>
-            </div>
-            <button type="button" class="hd-btn-generate dd-btn-generate"
-              onclick="window.generateHypertensionScenario()">
-              <i class="bi bi-play-circle-fill"></i>
-              <span>প্রোফাইল লোড করুন</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Scenario 3: Diabetes -->
-        <div class="col-md-6 col-lg-3">
-          <div class="hd-scenario-card dd-scenario-card bg-diab">
-            <div class="hd-scenario-head dd-scenario-head">
-              <div class="hd-scenario-icon dd-scenario-icon" style="color:#8b5cf6"><i class="bi bi-droplet-half"></i>
-              </div>
-              <div>
-                <h3 class="hd-scenario-title dd-scenario-title">ডায়াবেটিস ট্র্যাকিং</h3>
-                <span class="hd-scenario-badge dd-scenario-badge">১৪ দিন · ২৮টি রেকর্ড</span>
-              </div>
-            </div>
-            <p class="hd-scenario-desc dd-scenario-desc">খালি পেটে ও খাবার পর গ্লুকোজ ওঠানামা (৬.৮–১২.০ mmol/L),
-              প্রি-ডায়াবেটিস ও ডায়াবেটিস প্যাটার্ন।</p>
-            <div class="hd-scenario-tags dd-scenario-tags">
-              <span class="hd-scenario-tag dd-scenario-tag">BG: 7.5–11.5</span>
-              <span class="hd-scenario-tag dd-scenario-tag">ADA 2024 Alert</span>
-            </div>
-            <button type="button" class="hd-btn-generate dd-btn-generate" onclick="window.generateDiabetesScenario()">
-              <i class="bi bi-play-circle-fill"></i>
-              <span>প্রোফাইল লোড করুন</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Scenario 4: Crisis Alert -->
-        <div class="col-md-6 col-lg-3">
-          <div class="hd-scenario-card dd-scenario-card crisis">
-            <div class="hd-scenario-head dd-scenario-head">
-              <div class="hd-scenario-icon dd-scenario-icon text-danger"><i class="bi bi-exclamation-triangle-fill"></i>
-              </div>
-              <div>
-                <h3 class="hd-scenario-title dd-scenario-title">ক্রাইসিস সিমুলেশন</h3>
-                <span class="hd-scenario-badge dd-scenario-badge">জরুরি সতর্কতা টেস্ট</span>
-              </div>
-            </div>
-            <p class="hd-scenario-desc dd-scenario-desc">চরম উচ্চ রক্তচাপ (১৯৫/১২৫) ও উচ্চ সুগার (২০.৪) যুক্ত করে
-              সিস্টেমের জরুরি সতর্কতা পরীক্ষা করুন।</p>
-            <div class="hd-scenario-tags dd-scenario-tags">
-              <span class="hd-scenario-tag dd-scenario-tag">BP: 195/125</span>
-              <span class="hd-scenario-tag dd-scenario-tag">Crisis Banner</span>
-            </div>
-            <button type="button" class="hd-btn-generate dd-btn-generate" onclick="window.generateCrisisScenario()">
-              <i class="bi bi-lightning-fill"></i>
-              <span>সিমুলেশন রান করুন</span>
-            </button>
-          </div>
-        </div>
       </div>
 
       <!-- ======================================================================
@@ -259,40 +167,40 @@
           <div class="hd-panel-card dd-panel-card">
             <h2 class="hd-panel-title dd-panel-title">
               <i class="bi bi-sliders text-primary"></i>
-              <span>কাস্টম ডেটা জেনারেটর</span>
+              <span data-hd-i18n="customGenTitle">কাস্টম ডেটা জেনারেটর</span>
             </h2>
             <form id="ddCustomForm">
               <div class="mb-3">
-                <label for="customDays" class="form-label small fw-bold text-muted">কত দিনের ডেটা তৈরি করতে চান?</label>
+                <label for="customDays" class="form-label small fw-bold text-muted" data-hd-i18n="lblCustomDays">কত দিনের ডেটা তৈরি করতে চান?</label>
                 <select class="form-select" id="customDays">
-                  <option value="3">৩ দিন (দ্রুত টেস্ট)</option>
-                  <option value="7" selected>৭ দিন (এক সপ্তাহ)</option>
-                  <option value="14">১৪ দিন (দুই সপ্তাহ)</option>
-                  <option value="30">৩০ দিন (এক মাস)</option>
+                  <option value="3" data-hd-i18n="optDays3">৩ দিন (দ্রুত টেস্ট)</option>
+                  <option value="7" selected data-hd-i18n="optDays7">৭ দিন (এক সপ্তাহ)</option>
+                  <option value="14" data-hd-i18n="optDays14">১৪ দিন (দুই সপ্তাহ)</option>
+                  <option value="30" data-hd-i18n="optDays30">৩০ দিন (এক মাস)</option>
                 </select>
               </div>
 
               <div class="mb-3">
-                <label for="customType" class="form-label small fw-bold text-muted">কোন ধরনের পরিমাপ?</label>
+                <label for="customType" class="form-label small fw-bold text-muted" data-hd-i18n="lblCustomType">কোন ধরনের পরিমাপ?</label>
                 <select class="form-select" id="customType">
-                  <option value="both" selected>⚡ উভয় একসাথে (রক্তচাপ ও গ্লুকোজ)</option>
-                  <option value="bp">❤️ শুধু রক্তচাপ (Blood Pressure)</option>
-                  <option value="bg">🩸 শুধু গ্লুকোজ (Blood Glucose)</option>
+                  <option value="both" selected data-hd-i18n="optTypeBoth">⚡ উভয় একসাথে (রক্তচাপ ও গ্লুকোজ)</option>
+                  <option value="bp" data-hd-i18n="optTypeBp">❤️ শুধু রক্তচাপ (Blood Pressure)</option>
+                  <option value="bg" data-hd-i18n="optTypeBg">🩸 শুধু গ্লুকোজ (Blood Glucose)</option>
                 </select>
               </div>
 
               <div class="mb-4">
-                <label for="customProfile" class="form-label small fw-bold text-muted">স্বাস্থ্য প্রোফাইল মোড:</label>
+                <label for="customProfile" class="form-label small fw-bold text-muted" data-hd-i18n="lblCustomProfile">স্বাস্থ্য প্রোফাইল মোড:</label>
                 <select class="form-select" id="customProfile">
-                  <option value="balanced" selected>সুস্থ ও স্বাভাবিক রেঞ্জ (Balanced)</option>
-                  <option value="elevated">উচ্চতর প্রবণতা (Elevated / Pre-condition)</option>
-                  <option value="random">অনিয়মিত মিশ্রণ (Random / Fluctuating)</option>
+                  <option value="balanced" selected data-hd-i18n="optProfBalanced">সুস্থ ও স্বাভাবিক রেঞ্জ (Balanced)</option>
+                  <option value="elevated" data-hd-i18n="optProfElevated">উচ্চতর প্রবণতা (Elevated / Pre-condition)</option>
+                  <option value="random" data-hd-i18n="optProfRandom">অনিয়মিত মিশ্রণ (Random / Fluctuating)</option>
                 </select>
               </div>
 
               <button type="submit" class="btn btn-primary w-100 rounded-pill py-2.5 fw-bold shadow-sm">
                 <i class="bi bi-cpu-fill me-1"></i>
-                <span>কাস্টম ডেটা জেনারেট করুন</span>
+                <span data-hd-i18n="btnGenerateCustom">কাস্টম ডেটা জেনারেট করুন</span>
               </button>
             </form>
           </div>
@@ -303,7 +211,7 @@
           <div class="hd-panel-card dd-panel-card">
             <h2 class="hd-panel-title dd-panel-title">
               <i class="bi bi-eye-fill text-primary"></i>
-              <span>সংরক্ষিত সাম্প্রতিক রেকর্ডের প্রিভিউ</span>
+              <span data-hd-i18n="previewTitle">সংরক্ষিত সাম্প্রতিক রেকর্ডের প্রিভিউ</span>
             </h2>
             <div id="ddPreviewList"></div>
           </div>
@@ -321,7 +229,8 @@
        ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
       <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -333,7 +242,8 @@
        MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
-    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0" aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
     <div class="mobile-nav-items">
       <a class="mobile-nav-link " href="index.html" aria-label="Home">
         <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
@@ -341,7 +251,7 @@
       </a>
       <a class="mobile-nav-link " href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
       </a>
       <a class="mobile-nav-link active" aria-current="page" href="health-reading.html" aria-label="Health Tracker">
         <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
@@ -351,9 +261,8 @@
         <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
         <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
       </a>
-      <button type="button" class="mobile-nav-link " id="mobileMoreBtn"
-        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
-        aria-label="More navigation options">
+      <button type="button" class="mobile-nav-link " id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
         <span class="nav-label" data-i18n="navMore">আরও</span>
       </button>
@@ -412,7 +321,7 @@
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
             <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -423,7 +332,7 @@
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
             <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>

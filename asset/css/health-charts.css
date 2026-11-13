@@ -419,6 +419,11 @@
   display: inline-block;
 }
 
+.tc-dot-systolic { background: var(--hc-systolic); }
+.tc-dot-diastolic { background: var(--hc-diastolic); }
+.tc-dot-glucose { background: var(--hc-glucose); }
+.tc-icon-glucose { color: #8b5cf6; }
+
 .hc-metric-chips,
 .tc-metric-chips {
   display: flex;

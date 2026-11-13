@@ -31,12 +31,12 @@ const T = {
   bn: {
     skip: "মূল কনটেন্টে যান",
     navHome: "হোম",
-    navExercises: "শ্বাসের অনুশীলন",
+    navExercises: "শ্বাস ব্যায়াম",
     navTest: "শ্বাসের পরীক্ষা",
-    tabExercises: "শ্বাসের অনুশীলন",
+    tabExercises: "শ্বাস ব্যায়াম",
     tabBreathTest: "শ্বাসের পরীক্ষা",
     navSafety: "নিরাপত্তা",
-    navHealth: "স্বাস্থ্য ট্র্যাকার",
+    navHealth: "হেলথ ট্র্যাকার",
     navRx: "প্রেসক্রিপশন",
     navMore: "আরও",
     sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
@@ -56,7 +56,7 @@ const T = {
     heroEyebrow: "প্রতিদিনের ছোট্ট বিরতি",
     heroBadge: "সহজ ও আনন্দদায়ক মাইন্ডফুলনেস ✨",
     heroTitle: "প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি",
-    heroDesc: "সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে ধীরে চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।",
+    heroDesc: "সহজ নির্দেশিত শ্বাস-প্রশ্বাস ব্যায়ামের মাধ্যমে ধীরে চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।",
     startBreathing: "অনুশীলন শুরু করুন",
     explore: "অনুশীলন দেখুন",
     noAccount: "অ্যাকাউন্ট প্রয়োজন নেই",
@@ -126,7 +126,7 @@ const T = {
     featuredDesc: "নিজের স্বাচ্ছন্দ্য অনুযায়ী একটি সহজ অনুশীলন নির্বাচন করুন।",
     allExercises: "সব অনুশীলন",
     exploreEyebrow: "প্রয়োজন অনুযায়ী নির্বাচন",
-    exploreHeading: "শ্বাসের অনুশীলন অন্বেষণ করুন",
+    exploreHeading: "শ্বাস ব্যায়াম অন্বেষণ করুন",
     exploreSub: "আপনার বর্তমান শারীরিক ও মানসিক অবস্থা অনুযায়ী সঠিক কৌশলটি বেছে নিন। প্রতিটি অনুশীলনের রয়েছে সুনির্দিষ্ট বিজ্ঞানসম্মত উপকারিতা।",
     goalAll: "সব অনুশীলন (৪টি)",
     goalStress: "🌿 চাপ ও উদ্বেগ",
@@ -283,7 +283,7 @@ const T = {
     emergencyStep4: "৪. চোখ খুলে এক ঢোক পানি পান করুন এবং ১ মিনিট বিশ্রাম নিন।",
     emergencyToastMsg: "শান্ত হোন। সেশন বন্ধ করা হয়েছে। আরাম করে স্বাভাবিক শ্বাস নিন।",
     libraryEyebrow: "প্রয়োজন অনুযায়ী নির্বাচন",
-    libraryTitle: "আপনার শ্বাসের অনুশীলন বেছে নিন",
+    libraryTitle: "আপনার শ্বাস ব্যায়াম বেছে নিন",
     libraryDesc: "প্রতিটি অনুশীলনের সময় ও নির্দেশনা দেখে নিজের উপযোগীটি নির্বাচন করুন।",
     filterAll: "সব",
     filterBeginner: "শুরুর জন্য",
@@ -369,6 +369,8 @@ const T = {
     phaseExhale: "শ্বাস ছাড়ুন",
     phaseHold: "ধরে রাখুন",
     phaseRest: "বিরতি",
+    phasePrepare: "প্রস্তুত",
+    sessionLevelBadgeDefault: "লেভেল ২",
     safetyItems: [
       "আরামদায়কভাবে বসুন বা নিরাপদ স্থানে শুয়ে পড়ুন।",
       "শ্বাস ধীরে ও স্বাভাবিকভাবে নিন; জোর করে গভীর শ্বাস নেবেন না।",
@@ -720,6 +722,8 @@ const T = {
     phaseExhale: "Breathe out",
     phaseHold: "Hold",
     phaseRest: "Rest",
+    phasePrepare: "Ready",
+    sessionLevelBadgeDefault: "Level 2",
     safetyItems: [
       "Sit comfortably or lie down somewhere safe.",
       "Breathe gently and naturally; do not force deep breaths.",
@@ -1156,11 +1160,7 @@ function setLang(next) {
   loadTestHistory();
 }
 
-const langToggleBtn = $("langToggle");
-if (langToggleBtn) {
-  langToggleBtn.addEventListener("click", () => setLang(lang === "bn" ? "en" : "bn"));
-}
-
+// Language synchronization (handled globally by global-nav.js)
 if (typeof window !== "undefined" && window.addEventListener) {
   window.addEventListener("bwLanguageChanged", (e) => {
     if (e.detail && e.detail.lang && e.detail.lang !== lang) {

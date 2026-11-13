@@ -2593,6 +2593,18 @@ main {
   box-shadow: 0 6px 16px rgba(23, 105, 170, 0.06);
 }
 
+.safety-check-progress {
+  height: 6px;
+}
+
+.safety-check-progress-bar {
+  width: 0%;
+}
+
+.emergency-desc-text {
+  max-width: 540px;
+}
+
 .emergency-panel {
   background: linear-gradient(180deg, #ffffff 0%, #fffbfb 100%);
   border-color: #fecaca !important;

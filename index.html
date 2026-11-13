@@ -34,7 +34,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1769aa">
   <meta name="description"
-    content="BreatheWell — বাংলা ও ইংরেজিতে সহজ, নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলন ও সক্ষমতা পরীক্ষা।">
+    content="BreatheWell — বাংলা ও ইংরেজিতে সহজ, নির্দেশিত শ্বাস-প্রশ্বাস ব্যায়াম ও সক্ষমতা পরীক্ষা।">
   <title>BreatheWell | শ্বাসে প্রশান্তি ও সক্ষমতা পরীক্ষা</title>
   <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
   <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
@@ -58,7 +58,8 @@
        ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html" aria-label="BreatheWell home">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
         <span>BreatheWell</span>
       </a>
@@ -67,10 +68,14 @@
       </div>
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html" data-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a></li>
-          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"
+              data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a>
+          </li>
+          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
+              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
+          </li>
           <li class="nav-item"><a class="nav-link " href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
       </div>
@@ -104,7 +109,7 @@
                     <span class="badge-text" data-i18n="heroBadge">সহজ ও আনন্দদায়ক মাইন্ডফুলনেস ✨</span>
                   </div>
                   <h1 class="hero-title" data-i18n="heroTitle">প্রতিটি নিঃশ্বাসে খুঁজে নিন প্রশান্তি</h1>
-                  <p class="hero-subtitle my-3" data-i18n="heroDesc">সহজ নির্দেশিত শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে
+                  <p class="hero-subtitle my-3" data-i18n="heroDesc">সহজ নির্দেশিত শ্বাস-প্রশ্বাস ব্যায়ামের মাধ্যমে
                     ধীরে চলুন, আরাম করুন এবং বর্তমান মুহূর্তে মনোযোগ দিন।</p>
 
                   <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
@@ -141,8 +146,8 @@
                           <div class="orbit-ring orbit-ring-3"></div>
 
                           <!-- Central 3D Glowing Core Orb with Breathing Animation -->
-                          <div class="core-breathing-sphere hero-buddy-orb" id="heroBuddyOrb" onclick="tapHeroBuddy()" role="button" tabindex="0"
-                            aria-label="3D Breathing Orb - Tap for a mindful breath">
+                          <div class="core-breathing-sphere hero-buddy-orb" id="heroBuddyOrb" onclick="tapHeroBuddy()"
+                            role="button" tabindex="0" aria-label="3D Breathing Orb - Tap for a mindful breath">
                             <div class="sphere-glow-layer"></div>
                             <div class="sphere-inner-pulse">
                               <i class="bi bi-lungs-fill core-lung-icon"></i>
@@ -156,7 +161,8 @@
 
                       <!-- Live Inhale/Exhale Guide Pill -->
                       <div class="hero-orb-caption text-center">
-                        <span class="hero-orb-guide-pill" id="heroOrbGuide" data-i18n="heroLiveBreathing">মৃদু শ্বাস নিন...</span>
+                        <span class="hero-orb-guide-pill" id="heroOrbGuide" data-i18n="heroLiveBreathing">মৃদু শ্বাস
+                          নিন...</span>
                         <div class="hero-tap-hint-text"><i class="bi bi-hand-index-thumb me-1"></i><span
                             data-i18n="heroOrbTap">আমাকে ট্যাপ করুন!</span></div>
                       </div>
@@ -474,7 +480,7 @@
             <div class="d-flex flex-wrap justify-content-between align-items-end gap-3">
               <div>
                 <div class="eyebrow mb-2" data-i18n="exploreEyebrow">প্রয়োজন অনুযায়ী নির্বাচন</div>
-                <h2 class="section-title mb-0" data-i18n="exploreHeading">শ্বাসের অনুশীলন অন্বেষণ করুন</h2>
+                <h2 class="section-title mb-0" data-i18n="exploreHeading">শ্বাস ব্যায়াম অন্বেষণ করুন</h2>
               </div>
               <div>
               </div>
@@ -692,8 +698,8 @@
                   </div>
                 </div>
 
-                <div class="progress mb-4" style="height: 6px;">
-                  <div class="progress-bar bg-primary" id="safetyCheckProgressBar" role="progressbar" style="width: 0%;"
+                <div class="progress mb-4 safety-check-progress">
+                  <div class="progress-bar bg-primary safety-check-progress-bar" id="safetyCheckProgressBar" role="progressbar"
                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
@@ -705,7 +711,7 @@
                     <div>
                       <strong class="d-block text-dark small mb-1" data-i18n="checkItem1">আমি একটি নিরাপদ, শান্ত ও
                         আরামদায়ক স্থানে বসেছি বা শুয়েছি।</strong>
-                      <span class="text-muted" style="font-size: 0.8rem;">শারীরিক ভারসাম্য বজায় রাখতে শক্ত আসন বা বিছানা
+                      <span class="text-muted extra-small" data-i18n="checkItem1Hint">শারীরিক ভারসাম্য বজায় রাখতে শক্ত আসন বা বিছানা
                         বেছে নিন।</span>
                     </div>
                   </label>
@@ -717,7 +723,7 @@
                     <div>
                       <strong class="d-block text-dark small mb-1" data-i18n="checkItem2">আমি গাড়ি চালাচ্ছি না, সাঁতার
                         কাটছি না বা ঝুঁকিপূর্ণ কাজ করছি না।</strong>
-                      <span class="text-muted" style="font-size: 0.8rem;">কোনো ধরনের একাগ্রতামুখী বা বিপদসংকুল
+                      <span class="text-muted extra-small" data-i18n="checkItem2Hint">কোনো ধরনের একাগ্রতামুখী বা বিপদসংকুল
                         পরিস্থিতিতে গভীর শ্বাসচর্চা করবেন না।</span>
                     </div>
                   </label>
@@ -729,7 +735,7 @@
                     <div>
                       <strong class="d-block text-dark small mb-1" data-i18n="checkItem3">অস্বস্তি বা মাথা ঘোরা অনুভব
                         করামাত্র আমি স্বাভাবিক শ্বাসে ফিরে যাব।</strong>
-                      <span class="text-muted" style="font-size: 0.8rem;">শরীরের সিগন্যালকে সর্বোচ্চ অগ্রাধিকার দিন,
+                      <span class="text-muted extra-small" data-i18n="checkItem3Hint">শরীরের সিগন্যালকে সর্বোচ্চ অগ্রাধিকার দিন,
                         কখনই জোর করবেন না।</span>
                     </div>
                   </label>
@@ -743,7 +749,7 @@
                     <i class="bi bi-shield-fill-check fs-4 text-success flex-shrink-0"></i>
                     <div>
                       <strong class="d-block" data-i18n="checkReadyBadge">🎉 আপনি সম্পূর্ণ প্রস্তুত ও নিরাপদ!</strong>
-                      <span class="small text-secondary">আপনার প্রস্তুতি চমৎকার। স্বাচ্ছন্দ্যের সাথে অনুশীলন উপভোগ
+                      <span class="small text-secondary" data-i18n="checkReadySub">আপনার প্রস্তুতি চমৎকার। স্বাচ্ছন্দ্যের সাথে অনুশীলন উপভোগ
                         করুন।</span>
                     </div>
                   </div>
@@ -824,7 +830,7 @@
                 </div>
                 <h3 class="h5 fw-bold mb-2 text-dark" data-i18n="emergencyTitle">🆘 তাৎক্ষণিক স্থিরতা ও প্রশান্তি
                   প্রোটোকল</h3>
-                <p class="small text-secondary mb-4 mx-auto" style="max-width: 540px;" data-i18n="emergencyDesc">
+                <p class="small text-secondary mb-4 mx-auto emergency-desc-text" data-i18n="emergencyDesc">
                   অনুশীলনে কোনো কারণে মাথা ঘুরলে বা অস্বস্তি লাগলে নিচের বোতামে চাপুন। এটি তৎক্ষণাৎ সেশন থামিয়ে শরীরকে
                   শান্ত করবে:
                 </p>
@@ -839,28 +845,28 @@
                 <div class="row g-3 text-start mt-2" id="emergencyStepsRow">
                   <div class="col-sm-6 col-lg-3">
                     <div class="emergency-step-box p-3 rounded-3 border bg-white h-100">
-                      <div class="step-num text-danger fw-bold mb-1">১ম ধাপ</div>
+                      <div class="step-num text-danger fw-bold mb-1" data-i18n="emStep1">১ম ধাপ</div>
                       <p class="small text-secondary mb-0" data-i18n="emergencyStep1">১. চোখ বন্ধ করুন এবং কেবল ধীরে
                         ধীরে ফুসফুসের সব বাতাস ছেড়ে দিন।</p>
                     </div>
                   </div>
                   <div class="col-sm-6 col-lg-3">
                     <div class="emergency-step-box p-3 rounded-3 border bg-white h-100">
-                      <div class="step-num text-danger fw-bold mb-1">২য় ধাপ</div>
+                      <div class="step-num text-danger fw-bold mb-1" data-i18n="emStep2">২য় ধাপ</div>
                       <p class="small text-secondary mb-0" data-i18n="emergencyStep2">২. দুই পা মেঝেতে শক্তভাবে স্পর্শ
                         করান এবং পায়ের নিচে মাটির অস্তিত্ব অনুভব করুন।</p>
                     </div>
                   </div>
                   <div class="col-sm-6 col-lg-3">
                     <div class="emergency-step-box p-3 rounded-3 border bg-white h-100">
-                      <div class="step-num text-danger fw-bold mb-1">৩য় ধাপ</div>
+                      <div class="step-num text-danger fw-bold mb-1" data-i18n="emStep3">৩য় ধাপ</div>
                       <p class="small text-secondary mb-0" data-i18n="emergencyStep3">৩. কোনো নির্দিষ্ট ছন্দ ছাড়া নিজের
                         স্বাভাবিক গতিতে ৫টি শান্ত শ্বাস নিন।</p>
                     </div>
                   </div>
                   <div class="col-sm-6 col-lg-3">
                     <div class="emergency-step-box p-3 rounded-3 border bg-white h-100">
-                      <div class="step-num text-danger fw-bold mb-1">৪র্থ ধাপ</div>
+                      <div class="step-num text-danger fw-bold mb-1" data-i18n="emStep4">৪র্থ ধাপ</div>
                       <p class="small text-secondary mb-0" data-i18n="emergencyStep4">৪. চোখ খুলে এক ঢোক পানি পান করুন
                         এবং ১ মিনিট বিশ্রাম নিন।</p>
                     </div>
@@ -908,7 +914,8 @@
        ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
       <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -920,7 +927,8 @@
        MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
        ======================================================================== -->
   <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
-    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0" aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
     <div class="mobile-nav-items">
       <a class="mobile-nav-link active" aria-current="page" href="index.html" aria-label="Home">
         <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
@@ -928,7 +936,7 @@
       </a>
       <a class="mobile-nav-link " href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
       </a>
       <a class="mobile-nav-link " href="health-reading.html" aria-label="Health Tracker">
         <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
@@ -938,9 +946,8 @@
         <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
         <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
       </a>
-      <button type="button" class="mobile-nav-link " id="mobileMoreBtn"
-        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu"
-        aria-label="More navigation options">
+      <button type="button" class="mobile-nav-link " id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
         <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
         <span class="nav-label" data-i18n="navMore">আরও</span>
       </button>
@@ -1000,7 +1007,7 @@
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
             <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -1011,7 +1018,7 @@
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
             <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>

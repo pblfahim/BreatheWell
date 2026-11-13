@@ -69,7 +69,7 @@
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
           <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link" href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a>
           </li>
           <li class="nav-item"><a class="nav-link" href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
               ট্র্যাকার</a></li>
@@ -154,7 +154,8 @@
                   </label>
                   <div class="reg-input-wrap">
                     <i class="bi bi-person auth-input-icon reg-input-icon"></i>
-                    <input type="text" id="regFullName" class="reg-input" placeholder="যেমন: তাহমিদ হাসান"
+                    <input type="text" id="regFullName" class="reg-input"
+                      data-i18n-placeholder="placeholderFullName" placeholder="যেমন: তাহমিদ হাসান"
                       autocomplete="name" required>
                   </div>
                   <div class="reg-error-feedback" id="nameError"></div>
@@ -199,7 +200,8 @@
                   </label>
                   <div class="reg-input-wrap">
                     <i class="bi bi-lock auth-input-icon reg-input-icon"></i>
-                    <input type="password" id="regPassword" class="reg-input" placeholder="কমপক্ষে ৬টি অক্ষর লিখুন"
+                    <input type="password" id="regPassword" class="reg-input"
+                      data-i18n-placeholder="placeholderPassword" placeholder="কমপক্ষে ৬টি অক্ষর লিখুন"
                       autocomplete="new-password" required>
                     <button type="button" class="reg-password-toggle" id="btnTogglePassword1"
                       aria-label="Toggle password visibility">
@@ -214,7 +216,7 @@
                       <div class="password-meter-fill" id="passwordMeterFill"></div>
                     </div>
                     <div class="password-meter-status">
-                      <span class="small text-muted">পাসওয়ার্ড মান:</span>
+                      <span class="small text-muted" data-i18n="pwStrengthLabel">পাসওয়ার্ড মান:</span>
                       <span class="password-meter-label" id="passwordMeterLabel"></span>
                     </div>
                     <div class="password-rules-row">
@@ -238,6 +240,7 @@
                   <div class="reg-input-wrap">
                     <i class="bi bi-shield-check auth-input-icon reg-input-icon"></i>
                     <input type="password" id="regConfirmPassword" class="reg-input"
+                      data-i18n-placeholder="placeholderConfirmPassword"
                       placeholder="পুনরায় পাসওয়ার্ড লিখুন" autocomplete="new-password" required>
                     <button type="button" class="reg-password-toggle" id="btnTogglePassword2"
                       aria-label="Toggle confirm password visibility">
@@ -295,10 +298,12 @@
 
                     <!-- 2. Member Name -->
                     <div class="reg-family-field">
-                      <label for="regMemberName" class="reg-family-label" data-i18n="labelMemberName">সদস্যের নাম</label>
+                      <label for="regMemberName" class="reg-family-label" data-i18n="labelMemberName">সদস্যের
+                        নাম</label>
                       <div class="reg-input-wrap">
                         <i class="bi bi-person auth-input-icon reg-input-icon"></i>
                         <input type="text" id="regMemberName" class="reg-input reg-family-input"
+                          data-i18n-placeholder="placeholderFullName"
                           placeholder="যেমন: মো. রফিকুল ইসলাম">
                       </div>
                     </div>
@@ -319,7 +324,8 @@
                   <div class="reg-family-action-row">
                     <div class="reg-family-hint">
                       <i class="bi bi-info-circle-fill text-primary me-1"></i>
-                      <span data-i18n="familyAddHint">একাধিক সদস্য (বাবা, মা, সন্তান, দাদা-দাদী) ক্রমান্বয়ে যোগ করতে পারবেন।</span>
+                      <span data-i18n="familyAddHint">একাধিক সদস্য (বাবা, মা, সন্তান, দাদা-দাদী) ক্রমান্বয়ে যোগ করতে
+                        পারবেন।</span>
                     </div>
                     <button type="button" class="btn-add-reg-member" id="btnAddRegMember">
                       <i class="bi bi-person-plus-fill me-1"></i>
@@ -404,7 +410,8 @@
        ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
       <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -429,7 +436,7 @@
             পরামর্শ নিন।
           </p>
           <div class="d-flex justify-content-end mt-4">
-            <button type="button" class="btn btn-primary btn-sm px-4 fw-bold" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-primary btn-sm px-4 fw-bold" data-bs-dismiss="modal" data-i18n="btnAgreeModal">
               সম্মত আছি
             </button>
           </div>
@@ -451,7 +458,7 @@
       </a>
       <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
       </a>
       <a class="mobile-nav-link" href="health-reading.html" aria-label="Health Tracker">
         <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
@@ -517,7 +524,7 @@
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
             <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -528,7 +535,7 @@
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
             <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>

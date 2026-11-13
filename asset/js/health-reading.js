@@ -66,9 +66,9 @@
   const T = {
     bn: {
       navHome: "হোম",
-      navExercises: "শ্বাসের অনুশীলন",
+      navExercises: "শ্বাস ব্যায়াম",
       navTest: "শ্বাসের পরীক্ষা",
-      navHealth: "স্বাস্থ্য ট্র্যাকার",
+      navHealth: "হেলথ ট্র্যাকার",
       navRx: "প্রেসক্রিপশন",
       navSafety: "নিরাপত্তা",
       heroBadge: "নতুন স্বাস্থ্য পরিমাপ অন্তর্ভুক্তি",
@@ -134,12 +134,19 @@
       bpNormalLabel: "স্বাভাবিক (১২০–১২৯)",
       bpNormalHighLabel: "স্বাভাবিক-উচ্চ (১৩০–১৩৯)",
       bpHighLabel: "উচ্চ (>১৪০)",
+      bgTargetHypo: "কম (<৪.০)",
+      bgTargetNormal: "স্বাভাবিক (৪.০-৫.৫)",
+      bgTargetPrediab: "প্রি-ডায়াবেটিস (৫.৬-৬.৯)",
+      bgTargetDiabetic: "ডায়াবেটিস (≥৭.০)",
       toastBPSaved: "✅ রক্তচাপ সফলভাবে সংরক্ষণ করা হয়েছে!",
       toastBGSaved: "✅ গ্লুকোজ সফলভাবে সংরক্ষণ করা হয়েছে!",
       toastEnterValidAge: "⚠️ অনুগ্রহ করে সঠিক বয়স লিখুন (০–১২০ বছর)।",
       toastEnterValidBP: "⚠️ অনুগ্রহ করে সঠিক সিস্টোলিক ও ডায়াস্টোলিক মান লিখুন।",
       toastEnterValidBG: "⚠️ অনুগ্রহ করে সঠিক গ্লুকোজ মান লিখুন (১.০ - ৩৫.০)।",
-      toastInvalidSysDia: "⚠️ সিস্টোলিক মান অবশ্যই ডায়াস্টোলিক থেকে বেশি হতে হবে।"
+      toastInvalidSysDia: "⚠️ সিস্টোলিক মান অবশ্যই ডায়াস্টোলিক থেকে বেশি হতে হবে।",
+      bpAdviceDefault: "বয়স, সিস্টোলিক ও ডায়াস্টোলিক মান লিখলে লাইভ স্বাস্থ্য নির্দেশক ও বয়সভিত্তিক চার্ট অনুযায়ী পরামর্শ দেখতে পাবেন।",
+      lblConvertMgdl: "রূপান্তর (mg/dL):",
+      lblConvertRatio: "১ mmol/L ≈ ১৮ mg/dL"
     },
     en: {
       navHome: "Home",
@@ -211,12 +218,19 @@
       bpNormalLabel: "Normal (120-129)",
       bpNormalHighLabel: "Normal-high (130-139)",
       bpHighLabel: "High (>140)",
+      bgTargetHypo: "Low (<4.0)",
+      bgTargetNormal: "Normal (4.0-5.5)",
+      bgTargetPrediab: "Pre-diabetes (5.6-6.9)",
+      bgTargetDiabetic: "Diabetes (≥7.0)",
       toastBPSaved: "✅ Blood pressure saved successfully!",
       toastBGSaved: "✅ Blood glucose saved successfully!",
       toastEnterValidAge: "⚠️ Please enter a valid age (0–120 years).",
       toastEnterValidBP: "⚠️ Please enter valid systolic and diastolic values.",
       toastEnterValidBG: "⚠️ Please enter a valid glucose value (1.0 - 35.0 mmol/L).",
-      toastInvalidSysDia: "⚠️ Systolic value must be strictly greater than diastolic."
+      toastInvalidSysDia: "⚠️ Systolic value must be strictly greater than diastolic.",
+      bpAdviceDefault: "Enter age, systolic, and diastolic values to view live clinical guidance and age-based benchmark charts.",
+      lblConvertMgdl: "Converted (mg/dL):",
+      lblConvertRatio: "1 mmol/L ≈ 18 mg/dL"
     }
   };
 
@@ -851,7 +865,7 @@
       if (latestBG) {
         msg += `🩸 গ্লুকোজ: ${parseFloat(latestBG.value).toFixed(1)} mmol/L (${latestBG.timing === "fasting" ? "খালি পেটে" : (latestBG.timing === "postmeal" ? "খাবার পর" : "যেকোনো সময়")})\n`;
       }
-      msg += `\nBreatheWell ডিজিটাল স্বাস্থ্য ট্র্যাকারের মাধ্যমে সংরক্ষিত।`;
+      msg += `\nBreatheWell ডিজিটাল হেলথ ট্র্যাকারের মাধ্যমে সংরক্ষিত।`;
     }
 
     waTextEl.textContent = msg;
@@ -1105,14 +1119,7 @@
     if (bpDate && !bpDate.value) bpDate.value = nowIso;
     if (bgDate && !bgDate.value) bgDate.value = nowIso;
 
-    // 2. Language Toggle Buttons
-    const langBtn = $("langToggle") || $("hrLangToggle") || $("arLangToggle");
-    if (langBtn) {
-      langBtn.addEventListener("click", () => {
-        hrSetLang(hrLang === "bn" ? "en" : "bn");
-      });
-    }
-
+    // Note: global-nav.js manages #langToggle. health-reading.js listens to 'bwLanguageChanged'.
     if (typeof window !== "undefined" && window.addEventListener) {
       window.addEventListener("bwLanguageChanged", (e) => {
         if (e.detail && e.detail.lang && e.detail.lang !== hrLang) {

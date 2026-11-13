@@ -320,3 +320,11 @@
     margin: 0 auto 6px;
   }
 }
+
+#bpGaugePointer {
+  left: 32%;
+}
+
+#bgGaugePointer {
+  left: 35%;
+}

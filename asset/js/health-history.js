@@ -64,9 +64,9 @@
   const T = {
     bn: {
       navHome: "হোম",
-      navExercises: "শ্বাসের অনুশীলন",
+      navExercises: "শ্বাস ব্যায়াম",
       navTest: "শ্বাসের পরীক্ষা",
-      navHealth: "স্বাস্থ্য ট্র্যাকার",
+      navHealth: "হেলথ ট্র্যাকার",
       navRx: "প্রেসক্রিপশন",
       navSafety: "নিরাপত্তা",
       heroBadge: "বিস্তারিত স্বাস্থ্য রেকর্ড ও আর্কাইভ",
@@ -101,6 +101,10 @@
       toastCSVDone: "CSV ফাইল প্রস্তুত ও ডাউনলোড সম্পন্ন!",
       toastJSONDone: "JSON ব্যাকআপ সফলভাবে ডাউনলোড হয়েছে!",
       toastDemoLoaded: "৭ দিনের নমুনা ডেটা সফলভাবে লোড হয়েছে!",
+      statTotalLogs: "মোট পরিমাপ রেকর্ড",
+      statBpLogs: "রক্তচাপ রেকর্ড",
+      statBgLogs: "গ্লুকোজ রেকর্ড",
+      statLastDate: "সর্বশেষ রেকর্ড তারিখ",
       footerTag: "প্রতিটি নিঃশ্বাসে একটু প্রশান্তি",
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।"
     },
@@ -143,6 +147,10 @@
       toastCSVDone: "CSV export downloaded successfully!",
       toastJSONDone: "JSON backup downloaded successfully!",
       toastDemoLoaded: "7 days of sample records loaded!",
+      statTotalLogs: "Total Health Logs",
+      statBpLogs: "Blood Pressure Logs",
+      statBgLogs: "Blood Glucose Logs",
+      statLastDate: "Last Logged Date",
       footerTag: "Peace of mind with every breath",
       footerDisclaimer: "For wellness tracking only. Not a medical substitute."
     }
@@ -683,14 +691,7 @@
   function init() {
     htSetLang(htLang);
 
-    // Language toggle in navbar
-    const langBtn = $("langToggle") || $("hhLangToggle") || $("hlLangToggle");
-    if (langBtn) {
-      langBtn.addEventListener("click", () => {
-        htSetLang(htLang === "bn" ? "en" : "bn");
-      });
-    }
-
+    // Note: global-nav.js manages #langToggle. health-history.js listens to 'bwLanguageChanged'.
     if (typeof window !== "undefined" && window.addEventListener) {
       window.addEventListener("bwLanguageChanged", (e) => {
         if (e.detail && e.detail.lang && e.detail.lang !== htLang) {

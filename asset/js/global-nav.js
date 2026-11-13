@@ -33,8 +33,10 @@
   // Master Navigation & Chrome Translations Dictionary
   const NAV_T = {
     bn: {
+      skip: "মূল কনটেন্টে যান",
+      brandTagline: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
       navHome: "হোম",
-      navExercises: "শ্বাসের অনুশীলন",
+      navExercises: "শ্বাস ব্যায়াম",
       navTest: "শ্বাসের পরীক্ষা",
       navHealth: "স্বাস্থ্য ট্র্যাকার",
       navHealthShort: "স্বাস্থ্য",
@@ -65,6 +67,8 @@
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।"
     },
     en: {
+      skip: "Skip to main content",
+      brandTagline: "Digital Health & Mindfulness",
       navHome: "Home",
       navExercises: "Breathing Exercises",
       navTest: "Breath Test",
@@ -103,7 +107,7 @@
    */
   function getCurrentLang() {
     try {
-      return localStorage.getItem(LANG_KEY) || "bn";
+      return localStorage.getItem(LANG_KEY) || localStorage.getItem("bw-lang") || "bn";
     } catch (_) {
       return "bn";
     }
@@ -119,6 +123,20 @@
       const key = el.getAttribute("data-i18n");
       if (key && dict[key] !== undefined) {
         el.textContent = dict[key];
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-title");
+      if (key && dict[key] !== undefined) {
+        el.setAttribute("title", dict[key]);
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-aria");
+      if (key && dict[key] !== undefined) {
+        el.setAttribute("aria-label", dict[key]);
       }
     });
 
@@ -151,6 +169,7 @@
       localStorage.setItem(LANG_KEY, lang);
       localStorage.setItem(RX_LANG_KEY, lang);
       localStorage.setItem(HT_LANG_KEY, lang);
+      localStorage.setItem("bw-lang", lang);
     } catch (_) { }
 
     applyNavTranslations(lang);
@@ -212,10 +231,13 @@
     const lang = getCurrentLang();
     applyNavTranslations(lang);
 
-    // Header Language Toggle Button
+    // Header Language Toggle Button (Single Source of Truth)
     const langBtn = document.getElementById("langToggle");
-    if (langBtn) {
-      langBtn.addEventListener("click", () => {
+    if (langBtn && !langBtn.dataset.bwGlobalBound) {
+      langBtn.dataset.bwGlobalBound = "true";
+      langBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const nextLang = getCurrentLang() === "bn" ? "en" : "bn";
         setGlobalLanguage(nextLang);
       });

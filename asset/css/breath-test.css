@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ============================================================================
  * @file breath-test.css
  * @module BreatheWell/BreathTest/Styles
@@ -129,6 +129,14 @@
 .result-score-number {
   font-variant-numeric: tabular-nums;
   letter-spacing: -1.5px;
+}
+
+.result-score-detail {
+  max-width: 480px;
+}
+
+.test-instruction-body {
+  max-width: 500px;
 }
 
 .personalized-recommendation {

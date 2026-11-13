@@ -264,14 +264,13 @@
  * ============================================================================
  */
 .pp-desk-section {
-  background: var(--pp-desk-bg);
-  padding: 2.5rem 0 4rem;
+  padding: 1rem 0 3rem;
   min-height: calc(100vh - 200px);
 }
 
 .pp-pad-outer {
   background: #cbd5e1;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: var(--pp-radius-xl);
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
 }
@@ -299,7 +298,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-25deg);
-  font-size: 8rem;
+  font-size: 5rem;
   font-weight: 900;
   color: rgba(13, 148, 136, 0.03);
   pointer-events: none;
@@ -311,19 +310,17 @@
 
 /* Real-Time Editing Hint Badge */
 .pp-edit-badge {
-  position: absolute;
-  top: 1rem;
-  right: 1.25rem;
+  position: static;
   background: rgba(13, 148, 136, 0.08);
   color: var(--pp-teal-dark);
-  font-size: 0.725rem;
-  font-weight: 700;
-  padding: 0.25rem 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
   border-radius: 9999px;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  border: 1px solid rgba(13, 148, 136, 0.2);
+  gap: 0.45rem;
+  border: 1px solid rgba(13, 148, 136, 0.22);
   user-select: none;
 }
 
@@ -372,6 +369,7 @@
     background-color: rgba(16, 185, 129, 0.35);
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.4);
   }
+
   100% {
     background-color: transparent;
     box-shadow: none;
@@ -384,31 +382,45 @@
  */
 .pp-pad-header {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   padding-bottom: 1.15rem;
   border-bottom: 2.5px solid var(--pp-slate-900);
   position: relative;
   z-index: 2;
+  width: 100%;
+  gap: 1.5rem;
 }
 
 .pp-doc-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
   max-width: 58%;
+  flex: 0 0 58%;
+}
+
+.pp-doc-info .pp-editable {
+  display: block;
+  width: 100%;
+  text-align: left;
 }
 
 .pp-doc-name {
   font-size: 1.55rem;
   font-weight: 800;
   color: var(--pp-slate-900);
-  margin-bottom: 0.25rem;
-  line-height: 1.2;
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
 }
 
 .pp-doc-degrees {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--pp-slate-700);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
   line-height: 1.35;
 }
 
@@ -420,22 +432,33 @@
 }
 
 .pp-hosp-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   text-align: right;
   max-width: 40%;
+  flex: 0 0 40%;
+}
+
+.pp-hosp-info .pp-editable {
+  display: block;
+  width: 100%;
+  text-align: right;
 }
 
 .pp-hosp-name {
   font-size: 1.35rem;
   font-weight: 800;
   color: var(--pp-teal);
-  margin-bottom: 0.25rem;
-  line-height: 1.2;
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
 }
 
 .pp-hosp-address {
   font-size: 0.8125rem;
   color: var(--pp-slate-600);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.35;
 }
 
 .pp-hosp-call {
@@ -443,6 +466,7 @@
   font-weight: 600;
   color: var(--pp-slate-800);
   margin: 0;
+  line-height: 1.35;
 }
 
 /* ============================================================================
@@ -641,7 +665,7 @@
 
 .pp-pad-rx-symbol {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
   font-style: italic;
   color: var(--pp-slate-900);
@@ -991,6 +1015,7 @@
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -1004,6 +1029,7 @@
 
 /* ── TABLET & MOBILE WATERMARK SUPPRESSION (<= 1024px) ────────────────────── */
 @media (max-width: 1024px) {
+
   /* Hide watermark on all mobile and tablet viewports for clean, unobtrusive readability */
   .pp-pad-watermark {
     display: none !important;
@@ -1130,34 +1156,43 @@
     border-radius: var(--pp-radius-sm);
   }
 
-  /* Interactive Hint Badge sits cleanly above Doctor header on mobile */
+  /* Interactive Hint Badge in toolbar on mobile */
   .pp-edit-badge {
     position: static;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
-    width: 100%;
-    margin-bottom: 0.85rem;
+    width: auto;
+    margin: 0.25rem 0;
     padding: 0.35rem 0.75rem;
     font-size: 0.75rem;
   }
 
-  /* Header stacks neatly */
+  /* Doctor & Hospital Header side by side like real prescription */
   .pp-pad-header {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 0.75rem;
     padding-bottom: 0.85rem;
+    width: 100%;
   }
 
-  .pp-doc-info,
-  .pp-hosp-info {
-    max-width: 100%;
+  .pp-doc-info {
+    max-width: 58%;
+    flex: 1 1 55%;
     text-align: left;
+    align-items: flex-start;
+    padding: 0;
+    border: none;
   }
 
   .pp-hosp-info {
-    padding-top: 0.65rem;
-    border-top: 1px dashed var(--pp-slate-200);
+    max-width: 42%;
+    flex: 1 1 42%;
+    text-align: right;
+    align-items: flex-end;
+    padding: 0;
+    border: none;
   }
 
   .pp-doc-name {
@@ -1438,6 +1473,7 @@
 
 /* ── TOUCH DEVICE AFFORDANCES (@media hover: none) ────────────────────────── */
 @media (hover: none) and (pointer: coarse) {
+
   /* Hide watermark on all touch mobile and tablet devices */
   .pp-pad-watermark {
     display: none !important;
@@ -1477,14 +1513,55 @@
 }
 
 /* ============================================================================
+ * 11.5. BOTTOM CREATE ACTION BUTTON & MODAL
+ * ============================================================================ */
+.pp-btn-create-row {
+  margin-top: 1.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px dashed var(--pp-slate-300, #cbd5e1);
+}
+
+.pp-btn-create-main {
+  background: linear-gradient(135deg, #1769aa 0%, #0d9488 100%);
+  border: none;
+  color: #ffffff;
+  padding: 0.9rem 2.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 50rem;
+  box-shadow: 0 8px 24px rgba(23, 105, 170, 0.25);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+}
+
+.pp-btn-create-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(23, 105, 170, 0.35);
+  color: #ffffff;
+}
+
+.pp-btn-create-main:active {
+  transform: translateY(0.5px) scale(0.99);
+}
+
+/* ============================================================================
  * 12. PIXEL-PERFECT PRINT STYLESHEET (@media print)
  * ============================================================================
  */
 @media print {
-  /* Hide non-print chrome */
+
+  /* Hide all non-printable chrome and website UI */
+  header,
   nav,
   footer,
+  .navbar,
+  .ht-hero-tab-bar,
   .pp-hero,
+  .pp-action-toolbar-bar,
+  .pp-btn-create-row,
   .pp-edit-badge,
   .pp-add-item-btn,
   .pp-item-remove-btn,
@@ -1494,47 +1571,189 @@
   .pp-toast-stack,
   .mobile-bottom-nav,
   .mobile-sidebar-offcanvas,
-  #ppLangToggle {
+  .modal,
+  .modal-backdrop,
+  #ppLangToggle,
+  .skip-link {
     display: none !important;
   }
 
+  /* Unconstrain body and isolate visibility to .pp-pad-outer */
+  html,
   body {
     background: #ffffff !important;
     color: #000000 !important;
     padding: 0 !important;
     margin: 0 !important;
-    font-size: 11pt !important;
-  }
-
-  .pp-desk-section {
-    background: transparent !important;
-    padding: 0 !important;
-  }
-
-  .pp-pad-outer {
-    background: transparent !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-
-  .pp-pad-paper {
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
     width: 100% !important;
+    height: auto !important;
+    font-size: 11pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  /* ONLY PRINTABLE AREA: pp-pad-outer with prescription data */
+  .pp-pad-outer,
+  .pp-pad-outer * {
+    visibility: visible;
+  }
+
+  main,
+  .pp-desk-section,
+  .container,
+  .row,
+  [class*="col-"] {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Printable pad outer container */
+  .pp-pad-outer {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  /* Digital Pad Paper & Clinical Prescription Data */
+  .pp-pad-paper {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
     min-height: auto !important;
+  }
+
+  /* Header in printable area: Doctor Info (left) and Hospital Info (right) side by side */
+  .pp-pad-header {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    border-bottom: 2px solid #0f172a !important;
+    padding-bottom: 1rem !important;
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+    gap: 1.5rem !important;
+  }
+
+  .pp-doc-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    width: 58% !important;
+    max-width: 58% !important;
+    flex: 0 0 58% !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  .pp-doc-info .pp-editable {
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  .pp-hosp-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    text-align: right !important;
+    width: 40% !important;
+    max-width: 40% !important;
+    flex: 0 0 40% !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  .pp-hosp-info .pp-editable {
+    display: block !important;
+    width: 100% !important;
+    text-align: right !important;
+  }
+
+  .pp-pad-patient-bar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem 1.5rem !important;
+    padding: 0.55rem 0.85rem !important;
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    margin-bottom: 1.25rem !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .pp-pad-body {
+    display: flex !important;
+    gap: 1.5rem !important;
+  }
+
+  .pp-pad-left-col {
+    width: 32% !important;
+    flex: 0 0 32% !important;
+    border-right: 1px solid #cbd5e1 !important;
+    padding-right: 1rem !important;
+  }
+
+  .pp-pad-right-col {
+    width: 68% !important;
+    flex: 0 0 68% !important;
+    padding-left: 0.5rem !important;
   }
 
   .pp-editable {
     box-shadow: none !important;
     background: transparent !important;
     border: none !important;
+    outline: none !important;
   }
 
-  .pp-editable:empty::before {
+  /* Suppress empty placeholder labels and editor controls when printing */
+  .pp-editable:empty::before,
+  .pp-med-empty-hint,
+  .pp-pad-list-item.text-muted,
+  .pp-add-item-btn,
+  .pp-item-remove-btn,
+  .pp-med-action-bar,
+  .pp-sig-upload-zone,
+  .pp-sig-remove-btn,
+  .pp-edit-badge {
     display: none !important;
+    visibility: hidden !important;
+  }
+
+  .pp-med-item {
+    background: transparent !important;
+    border-bottom: 1px dotted #cbd5e1 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   .pp-med-item:hover {
@@ -1559,8 +1778,19 @@
     opacity: 0.04 !important;
   }
 
+  .pp-pad-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    margin-top: 2rem !important;
+    padding-top: 1rem !important;
+    border-top: 1px solid #e2e8f0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
   @page {
     size: A4 portrait;
-    margin: 15mm 15mm 15mm 15mm;
+    margin: 12mm 15mm 12mm 15mm;
   }
 }

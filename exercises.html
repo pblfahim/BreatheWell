@@ -34,8 +34,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1769aa">
   <meta name="description"
-    content="BreatheWell — আপনার উপযোগী শ্বাস-প্রশ্বাসের অনুশীলন বেছে নিন এবং ধাপে ধাপে মাইন্ডফুলনেস চর্চা করুন।">
-  <title>BreatheWell | শ্বাসের অনুশীলন</title>
+    content="BreatheWell — আপনার উপযোগী শ্বাস-প্রশ্বাস ব্যায়াম বেছে নিন এবং ধাপে ধাপে মাইন্ডফুলনেস চর্চা করুন।">
+  <title>BreatheWell | শ্বাস ব্যায়াম</title>
   <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
   <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
   <link href="asset/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -69,7 +69,7 @@
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
           <li class="nav-item"><a class="nav-link " href="index.html" data-i18n="navHome">হোম</a></li>
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="exercises.html"
-              data-i18n="navExercises">শ্বাসের অনুশীলন</a></li>
+              data-i18n="navExercises">শ্বাস ব্যায়াম</a></li>
           <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
               ট্র্যাকার</a></li>
           <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
@@ -89,7 +89,7 @@
         <div class="ht-hero-tabs" role="tablist" aria-label="Exercise & Breath Test Navigation">
           <a href="exercises.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
             <span class="ht-hero-tab-icon">🌬️</span>
-            <span class="ht-hero-tab-text" data-i18n="tabExercises">শ্বাসের অনুশীলন</span>
+            <span class="ht-hero-tab-text" data-i18n="tabExercises">শ্বাস ব্যায়াম</span>
           </a>
           <a href="breath-test.html" class="ht-hero-tab text-decoration-none">
             <span class="ht-hero-tab-icon">⏱️</span>
@@ -103,9 +103,9 @@
          3. SCREEN 1: EXERCISE LIBRARY & GOAL FILTERING
          ======================================================================== -->
     <section id="library" class="screen active">
-      <div class="container py-4 pb-5">
+      <div class="container">
         <div class="page-head pb-3">
-          <h1 class="section-title mb-2" data-i18n="libraryTitle">আপনার শ্বাসের অনুশীলন বেছে নিন</h1>
+          <h1 class="section-title mb-2" data-i18n="libraryTitle">আপনার শ্বাস ব্যায়াম বেছে নিন</h1>
         </div>
         <!-- Quick Goal Pills -->
         <div class="explore-goals d-flex flex-wrap gap-2 mb-4" id="exploreGoalPills">
@@ -215,7 +215,7 @@
               <div class="d-flex align-items-center gap-2">
                 <span id="sessionName"></span>
                 <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 small"
-                  id="sessionLevelBadge">লেভেল ২</span>
+                  id="sessionLevelBadge" data-i18n="sessionLevelBadgeDefault">লেভেল ২</span>
               </div>
               <span class="timer" id="remainingTime">01:00</span>
             </div>
@@ -269,15 +269,15 @@
                 <div class="orb-inner-ripple"></div>
                 <div class="orb-center-content">
                   <div class="breath-icon-wrap mb-1"><i class="bi bi-wind" id="phaseIcon"></i></div>
-                  <div class="breath-label" id="phaseLabel">প্রস্তুত</div>
+                  <div class="breath-label" id="phaseLabel" data-i18n="phasePrepare">প্রস্তুত</div>
                   <div class="phase-count" id="phaseCount">৩</div>
                 </div>
               </div>
             </div>
 
             <div class="mb-3">
-              <h2 class="h3 fw-bold mb-2" id="instructionText">আরাম করে বসুন</h2>
-              <p class="text-secondary mb-0" id="subInstruction">অনুশীলন শুরু হচ্ছে</p>
+              <h2 class="h3 fw-bold mb-2" id="instructionText" data-i18n="prepare">প্রস্তুত হন</h2>
+              <p class="text-secondary mb-0" id="subInstruction" data-i18n="prepareSub">আরাম করে বসুন বা শুয়ে পড়ুন</p>
             </div>
             <div class="d-flex justify-content-center gap-3 mt-4">
               <button class="control-btn primary" id="pauseBtn" onclick="togglePause()" aria-label="Pause"><i
@@ -542,7 +542,8 @@
        ======================================================================== -->
   <footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি
+          প্রশান্তি</span></span>
       <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
     </div>
   </footer>
@@ -563,7 +564,7 @@
       </a>
       <a class="mobile-nav-link active" aria-current="page" href="exercises.html" aria-label="Exercises">
         <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
-        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
       </a>
       <a class="mobile-nav-link " href="health-reading.html" aria-label="Health Tracker">
         <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
@@ -634,7 +635,7 @@
             <i class="bi bi-grid-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
             <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
@@ -645,7 +646,7 @@
             <i class="bi bi-heart-pulse-fill"></i>
           </div>
           <div class="mobile-sidebar-text">
-            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
             <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
           </div>
           <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
