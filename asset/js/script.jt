@@ -1,42 +1,21 @@
 /**
  * ============================================================================
- * BreatheWell — Core Client-Side Application Engine
+ * BreatheWell - Home Page Application Engine (script.js)
  * ============================================================================
+ * @file        asset/js/script.js
+ * @module      BreatheWell/Home
+ * @description Dedicated controller for BreatheWell Landing & Home Experience:
+ *                1. Bilingual Localization Engine (Bengali / English)
+ *                2. Interactive Hero BreatheBuddy Mascot & Live Rhythm Stage
+ *                3. Multi-Module Hero Carousel Slider (Auto-rotation, swipe, dots)
+ *                4. Featured Breathing Exercises Grid & Goal-based Filtering
+ *                5. Interactive 4-Pillar Safety Hub & Pre-Session Readiness System
+ *                6. Respiratory Assessment Teaser Callout
+ *                7. Cross-Page Routing & Navigation Orchestration
  *
- * @file        script.jt / script.js
- * @description Central client-side JavaScript engine for the BreatheWell
- *              mindfulness and respiratory wellness web platform.
- *              Provides multi-page & single-page client routing, an interactive
- *              guided breathing engine driven by requestAnimationFrame,
- *              SpeechSynthesis audio cues, Web Audio API harmonic sound
- *              synthesis, procedural confetti celebration particle system,
- *              BOLT & BPM breath capacity self-assessments, multi-tier
- *              progression cadences, and bilingual localization (Bengali/English).
- *
- * @version     2.4.0
- * @author      BreatheWell Engineering Team
- * @license     MIT
- *
- * ----------------------------------------------------------------------------
- * TABLE OF CONTENTS
- * ----------------------------------------------------------------------------
- * 1.  BILINGUAL LOCALIZATION DICTIONARIES (i18n: bn, en)
- * 2.  EXERCISE CATALOG & MULTI-LEVEL PROGRESSION DEFINITIONS
- * 3.  GLOBAL RUNTIME STATE & DOM SELECTOR HELPERS
- * 4.  LOCALIZATION HELPERS & LANGUAGE SWITCH CONTROLLER
- * 5.  CLIENT-SIDE ROUTING & NAVIGATION CONTROLLER
- * 6.  HERO BREATHEBUDDY MASCOT & LIVE RHYTHM GUIDE
- * 7.  EXERCISE CARDS RENDERING & INTERACTIVE LEVEL PICKER
- * 8.  EXERCISE DETAILS & CADENCE LEVEL SELECTOR
- * 9.  INTERACTIVE SAFETY HUB & READINESS PROTOCOL
- * 10. GUIDED BREATHING SESSION ENGINE (Timer & requestAnimationFrame Loop)
- * 11. AUDIO GUIDANCE (SpeechSynthesis & Web Audio Chime Synthesizer)
- * 12. CELEBRATION ENGINE: ANIMATED CHAMPION CUP & CONFETTI CANVAS
- * 13. POST-SESSION MINDFUL MOOD REFLECTION CHECK-IN
- * 14. SOCIAL MEDIA SHARING & CLIPBOARD COPY UTILITIES
- * 15. RESPIRATORY ASSESSMENT ENGINE (BOLT & BPM COUNTER)
- * 16. LOCAL STORAGE PERSISTENCE & HISTORY TRACKING
- * 17. MULTI-PAGE DEEP LINKING & APPLICATION LIFECYCLE
+ * NOTE: Modular page scripts have been extracted for enhanced performance:
+ *       - Breathing Exercises Studio -> asset/js/exercises.js
+ *       - Respiratory Assessment Engine -> asset/js/breath-test.js
  * ============================================================================
  */
 
@@ -751,6 +730,7 @@ const T = {
   }
 };
 
+
 /* ============================================================================
  * 2. EXERCISE CATALOG & MULTI-LEVEL PROGRESSION DEFINITIONS
  * ============================================================================
@@ -968,132 +948,29 @@ const exercises = [
   }
 ];
 
+
 /* ============================================================================
  * 3. GLOBAL RUNTIME STATE & DOM SELECTOR HELPERS
  * ============================================================================
  */
-
-/** @type {string} Active application language code ('bn' or 'en'). */
 let lang = localStorage.getItem("bw-lang") || "bn";
-
-/** @type {Exercise} Currently selected exercise for details or session. */
 let selected = exercises[0];
-
-/** @type {string} Active progression level ('beginner', 'intermediate', 'advanced'). */
 let selectedLevel = "intermediate";
-
-/** @type {string} Active exercise category filter ('all' or 'beginner'). */
 let filter = "all";
-
-/** @type {string} Active wellness goal filter tag ('all', 'stress', 'focus', etc.). */
 let exploreGoal = "all";
-
-/** @type {Object|null} Runtime state machine of the active guided breathing session. */
-let run = null;
-
-/** @type {number|null} Animation frame request ID for cancelAnimationFrame(). */
-let raf = null;
-
-/** @type {boolean} Indicates whether the active session timer is currently paused. */
-let paused = false;
-
-/** @type {boolean} Indicates whether SpeechSynthesis voice guidance is enabled. */
-let audioEnabled = false;
-
-// Sharing & Persistence State
-/** @type {Object|null} Snapshot of the most recently finished breathing session. */
-let lastCompletedSession = null;
-
-/** @type {Object|null} Snapshot of the most recent BOLT or BPM assessment result. */
-let lastTestResult = null;
-
-// Breathing Test State
-/** @type {'bolt'|'bpm'} Active assessment mode on the breath test screen. */
-let activeTestTab = 'bolt';
-
-/** @type {boolean} Indicates whether a breath test stopwatch/countdown is active. */
-let testRunning = false;
-
-/** @type {number} High-resolution timestamp (performance.now()) when test started. */
-let testStartTime = 0;
-
-/** @type {number|null} Interval ID for the test stopwatch/countdown timer. */
-let testInterval = null;
-
-/** @type {number|null} Interval ID for the 3-2-1 get-ready preparation countdown. */
-let testCountInterval = null;
-
-/** @type {number} Accumulated breath tap counter during 30s BPM assessment. */
-let bpmTaps = 0;
-
-/** @type {number} Remaining seconds in the 30-second breath rate counter. */
-let bpmCountdown = 30;
-
-/** @type {string} Exercise ID recommended to the user based on test score. */
-let recommendedExerciseId = 'relax46';
 
 /* ============================================================================
  * 4. LOCALIZATION HELPERS & LANGUAGE SWITCH CONTROLLER
  * ============================================================================
  */
-
-/**
- * Shorthand document.getElementById lookup.
- * @param {string} id - Element ID.
- * @returns {HTMLElement|null}
- */
 const $ = id => document.getElementById(id);
-
-/**
- * Translates an i18n key in the current language with fallback to key name.
- * @param {string} k - Translation key.
- * @returns {string} Localized string.
- */
 const tr = k => T[lang][k] ?? k;
-
-/**
- * Resolves localized name for an exercise.
- * @param {Exercise} e - Exercise object.
- * @returns {string}
- */
 const exName = e => e.name[lang];
-
-/**
- * Resolves localized description for an exercise.
- * @param {Exercise} e - Exercise object.
- * @returns {string}
- */
 const exDesc = e => e.desc[lang];
-
-/**
- * Resolves localized badge tag for an exercise.
- * @param {Exercise} e - Exercise object.
- * @returns {string}
- */
 const exBadge = e => e.badge[lang];
-
-/**
- * Resolves localized physiological benefit summary.
- * @param {Exercise} e - Exercise object.
- * @returns {string}
- */
 const exBenefit = e => e.benefit[lang];
-
-/**
- * Resolves localized optimal timing statement.
- * @param {Exercise} e - Exercise object.
- * @returns {string}
- */
 const exWhen = e => e.when[lang];
 
-/**
- * Resolves the array of phase tuples [phaseName, durationInSeconds] for an exercise
- * based on selected level.
- *
- * @param {Exercise} ex - Target exercise definition.
- * @param {string} lvlKey - Level key ('beginner', 'intermediate', 'advanced').
- * @returns {Array<[string, number]>} Phase tuple list.
- */
 function getLevelPhases(ex, lvlKey) {
   if (ex && ex.levels && ex.levels[lvlKey]) {
     return ex.levels[lvlKey].phases;
@@ -1101,12 +978,6 @@ function getLevelPhases(ex, lvlKey) {
   return ex ? ex.phases : [["inhale", 4], ["exhale", 6]];
 }
 
-/**
- * Returns localized label for an exercise progression level.
- *
- * @param {string} lvlKey - Level key ('beginner', 'intermediate', 'advanced').
- * @returns {string} Localized level title.
- */
 function getLevelLabel(lvlKey) {
   const map = {
     beginner: { bn: "লেভেল ১ · শুরুর জন্য", en: "Level 1 · Beginner" },
@@ -1116,12 +987,6 @@ function getLevelLabel(lvlKey) {
   return map[lvlKey] ? map[lvlKey][lang] : lvlKey;
 }
 
-/**
- * Switches global language, updates localStorage, triggers full DOM translation,
- * and refreshes all active card lists, details views, and hero guides.
- *
- * @param {string} next - Target language code ('bn' or 'en').
- */
 function setLang(next) {
   lang = next;
   localStorage.setItem("bw-lang", lang);
@@ -1145,31 +1010,7 @@ function setLang(next) {
   localStorage.setItem("bw_lang", lang);
   localStorage.setItem("bw_rx_lang", lang);
   renderCards();
-  const detailsEl = $("details");
-  if (detailsEl && detailsEl.classList.contains("active")) renderDetails();
-  if (run) {
-    updateSessionText();
-    const sessionLevelBadge = $("sessionLevelBadge");
-    if (sessionLevelBadge) sessionLevelBadge.textContent = getLevelLabel(run.level);
-  }
-  const completeEl = $("complete");
-  if (completeEl && completeEl.classList.contains("active")) {
-    renderSummary(lastCompletedSession?.cycles || 0, run?.elapsed || 0, getLevelLabel(run?.level || selectedLevel), lastCompletedSession?.level || selectedLevel);
-    if (currentSessionMood) {
-      const feedback = $("moodFeedback");
-      if (feedback && !feedback.classList.contains("d-none")) {
-        const msgMap = {
-          calm: tr("moodCalmMsg"),
-          refreshed: tr("moodRefreshedMsg"),
-          focused: tr("moodFocusedMsg"),
-          sleepy: tr("moodSleepyMsg")
-        };
-        feedback.textContent = msgMap[currentSessionMood] || "";
-      }
-    }
-  }
-  initHeroBreathGuide();
-  loadTestHistory();
+  if (typeof initHeroBreathGuide === "function") initHeroBreathGuide();
 }
 
 const langToggleBtn = $("langToggle");
@@ -1334,6 +1175,7 @@ function go(id) {
   }
 }
 
+
 /* ============================================================================
  * 6. HERO BREATHEBUDDY MASCOT & LIVE RHYTHM GUIDE
  * ============================================================================
@@ -1435,14 +1277,10 @@ function spawnBuddyHearts() {
   }
 }
 
+
 /* ============================================================================
  * 7. EXERCISE CARDS RENDERING & INTERACTIVE LEVEL PICKER
  * ============================================================================
- */
-
-/**
- * Tracks the actively selected progression level on each exercise card.
- * @type {Object<string, string>}
  */
 const cardSelectedLevels = {
   relax46: "beginner",
@@ -1451,13 +1289,6 @@ const cardSelectedLevels = {
   mindful: "beginner"
 };
 
-/**
- * Formats a concise cadence string for an exercise and level (e.g. "4s-6s", "4s-4s-4s-4s").
- *
- * @param {Exercise} ex - Target exercise.
- * @param {string} [lvlKey="beginner"] - Level key.
- * @returns {string} Formatted cadence text with seconds units.
- */
 function getCadenceText(ex, lvlKey = "beginner") {
   const lvlObj = ex.levels ? ex.levels[lvlKey] : null;
   const phases = lvlObj ? lvlObj.phases : ex.phases;
@@ -1468,79 +1299,28 @@ function getCadenceText(ex, lvlKey = "beginner") {
   return phases.map(p => p[1] + secUnit).join("-");
 }
 
-/**
- * Returns localized compact level title for card badges.
- *
- * @param {Exercise} ex - Target exercise.
- * @param {string} [lvlKey="beginner"] - Level key.
- * @returns {string} Localized badge title.
- */
 function getLevelShortName(ex, lvlKey = "beginner") {
-  if (ex && ex.levels && ex.levels[lvlKey] && ex.levels[lvlKey].name) {
-    return ex.levels[lvlKey].name[lang];
+  const lvlObj = ex.levels ? ex.levels[lvlKey] : null;
+  if (lvlObj && lvlObj.label && lvlObj.label[lang]) {
+    return lvlObj.label[lang].split("·").pop().trim();
   }
-  if (lvlKey === "beginner" || lvlKey === 1) return lang === "bn" ? "লেভেল ১ · সহজ" : "Level 1 · Gentle";
-  if (lvlKey === "intermediate" || lvlKey === 2) return lang === "bn" ? "লেভেল ২ · ক্লাসিক" : "Level 2 · Classic";
-  if (lvlKey === "advanced" || lvlKey === 3) return lang === "bn" ? "লেভেল ৩ · গভীর" : "Level 3 · Deep";
-  return lang === "bn" ? "লেভেল ১" : "Level 1";
+  return getLevelLabel(lvlKey).split("·").pop().trim();
 }
 
-/**
- * Event handler for the interactive 1-click L1/L2/L3 level chips on cards.
- * Updates the card cadence pill, re-animates the soundwave bars, and syncs
- * the active level in cardSelectedLevels.
- *
- * @param {string} exId - Exercise ID.
- * @param {string} lvlKey - Selected level key ('beginner', 'intermediate', 'advanced').
- * @param {HTMLElement} btnEl - The clicked chip button element.
- */
-function selectCardLevel(exId, lvlKey, btnEl) {
-  cardSelectedLevels[exId] = lvlKey;
-  const card = btnEl.closest(".exercise-card");
-  if (card) {
-    card.querySelectorAll(".level-chip").forEach(c => c.classList.remove("active"));
-    btnEl.classList.add("active");
-
-    const ex = exercises.find(e => e.id === exId);
-    if (ex) {
-      const activeNameEl = card.querySelector(`#activeLvlName_${exId}`);
-      if (activeNameEl) {
-        activeNameEl.style.opacity = '0';
-        setTimeout(() => {
-          activeNameEl.textContent = getLevelShortName(ex, lvlKey);
-          activeNameEl.style.opacity = '1';
-        }, 100);
-      }
-      const cadenceEl = card.querySelector(".art-cadence-pill");
-      if (cadenceEl) {
-        const textSpan = cadenceEl.querySelector(".cadence-text");
-        if (textSpan) {
-          textSpan.textContent = getCadenceText(ex, lvlKey);
-        } else {
-          cadenceEl.innerHTML = `
-            <span class="cadence-wave" aria-hidden="true">
-              <span class="cadence-bar bar-1"></span>
-              <span class="cadence-bar bar-2"></span>
-              <span class="cadence-bar bar-3"></span>
-            </span>
-            <span class="cadence-text">${getCadenceText(ex, lvlKey)}</span>
-          `;
-        }
-        cadenceEl.classList.remove("cadence-pulse-update");
-        void cadenceEl.offsetWidth;
-        cadenceEl.classList.add("cadence-pulse-update");
-      }
-    }
+function selectCardLevel(id, lvlKey, btnEl) {
+  cardSelectedLevels[id] = lvlKey;
+  const cardEl = btnEl ? btnEl.closest(".exercise-card") : null;
+  if (cardEl) {
+    cardEl.querySelectorAll(".level-chip").forEach(c => c.classList.remove("active"));
+    if (btnEl) btnEl.classList.add("active");
+    const nameEl = $("activeLvlName_" + id);
+    const ex = exercises.find(e => e.id === id);
+    if (nameEl && ex) nameEl.textContent = getLevelShortName(ex, lvlKey);
+    const cadenceEl = document.querySelector("#cadencePill_" + id + " .cadence-text");
+    if (cadenceEl && ex) cadenceEl.textContent = getCadenceText(ex, lvlKey);
   }
 }
 
-/**
- * Generates the responsive HTML markup string for an exercise card component.
- *
- * @param {Exercise} e - Exercise data object.
- * @param {number} [index=0] - Card index for staggered CSS entrance animations.
- * @returns {string} Card HTML string.
- */
 function cardHTML(e, index = 0) {
   const iconFile = e.image || 'mindful.svg';
   const curLevelKey = cardSelectedLevels[e.id] || "beginner";
@@ -1617,26 +1397,15 @@ function cardHTML(e, index = 0) {
 }
 
 /**
- * Renders exercise cards into the Featured grid (#featuredCards) on the Home page
- * and into the Library grid (#libraryCards) on the Exercises page, applying
- * active goal and category filters.
+ * Renders exercise cards into the Featured grid (#featuredCards) on the Home page.
  */
 function renderCards() {
   const featEl = $("featuredCards");
-  const libEl = $("libraryCards");
   const goalFilteredList = exploreGoal === "all"
     ? exercises
-    : exercises.filter(e => e.tag === exploreGoal);
-
+    : exercises.filter(e => e.tag === exploreGoal || (e.goals && e.goals.includes(exploreGoal)));
   if (featEl) {
     featEl.innerHTML = goalFilteredList.map((e, i) => cardHTML(e, i)).join("");
-  }
-  if (libEl) {
-    const hasGoalPills = !!$("exploreGoalPills");
-    const libList = hasGoalPills
-      ? goalFilteredList
-      : exercises.filter(e => filter === "all" || e.category === filter || (filter === "beginner" && e.level === "beginner"));
-    libEl.innerHTML = libList.map((e, i) => cardHTML(e, i)).join("");
   }
 }
 
@@ -1654,140 +1423,24 @@ if (goalPillsEl) {
   });
 }
 
-const filtersEl = $("filters");
-if (filtersEl) {
-  filtersEl.addEventListener("click", e => {
-    let b = e.target.closest("[data-filter]");
-    if (!b) return;
-    filter = b.dataset.filter;
-    document.querySelectorAll(".filter-btn").forEach(x => {
-      x.classList.toggle("btn-primary", x === b);
-      x.classList.toggle("btn-outline-primary", x !== b);
-    });
-    renderCards();
-  });
-}
-
-/* ============================================================================
- * 8. EXERCISE DETAILS & CADENCE LEVEL SELECTOR
- * ============================================================================
- */
-
 /**
- * Launches a guided breathing session directly from a card or button.
- * Navigates across pages if the session screen is not on the current page.
- *
- * @param {string} id - Exercise identifier.
+ * Cross-page redirect: Launches a guided session directly from a featured card.
  */
 function quickStartSession(id) {
-  selected = exercises.find(e => e.id === id) || exercises[0];
-  selectedLevel = cardSelectedLevels[id] || "beginner";
-  if (!$("session")) {
-    window.location.href = `exercises.html?exercise=${id}&level=${selectedLevel}&action=start`;
-    return;
-  }
-  startSession();
+  const lvl = cardSelectedLevels[id] || "beginner";
+  window.location.href = `exercises.html?exercise=${id}&level=${lvl}&action=start`;
 }
 
 /**
- * Opens the exercise details view with full science explanation and pattern steps.
- * Handles cross-page navigation if invoked from outside exercises.html.
- *
- * @param {string} id - Exercise identifier.
+ * Cross-page redirect: Opens the exercise details view on exercises.html.
  */
 function openDetails(id) {
-  selected = exercises.find(e => e.id === id) || exercises[0];
-  selectedLevel = cardSelectedLevels[id] || "beginner";
-  if (!$("details")) {
-    window.location.href = `exercises.html?exercise=${id}&level=${selectedLevel}&action=details`;
-    return;
-  }
-  renderDetails();
-  go("details");
+  const lvl = cardSelectedLevels[id] || "beginner";
+  window.location.href = `exercises.html?exercise=${id}&level=${lvl}&action=details`;
 }
 
 /**
- * Selects an active cadence progression level on the details screen and updates UI.
- *
- * @param {string} lvl - Level key ('beginner', 'intermediate', 'advanced').
- */
-function selectLevel(lvl) {
-  selectedLevel = lvl;
-  document.querySelectorAll(".level-pill-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.level === lvl);
-  });
-  updateLevelDetails();
-}
-
-/**
- * Refreshes the details screen level badge, description, and phase pattern cards.
- */
-function updateLevelDetails() {
-  const badgeEl = $("detailLevelBadge");
-  if (badgeEl) badgeEl.textContent = getLevelLabel(selectedLevel);
-
-  const descEl = $("detailLevelDesc");
-  if (descEl && selected && selected.levels && selected.levels[selectedLevel]) {
-    descEl.textContent = selected.levels[selectedLevel].desc[lang];
-  }
-
-  const patternEl = $("detailPattern");
-  if (patternEl && selected) {
-    const phases = getLevelPhases(selected, selectedLevel);
-    if (phases[0][0] === "natural") {
-      patternEl.innerHTML = `<div class="col-12"><div class="pattern-step"><strong>${lang === "bn" ? "স্বাভাবিক মননশীল শ্বাস" : "Natural Mindful Breathing"}</strong><small>${lang === "bn" ? "কোনো নির্দিষ্ট সময় নির্ধারিত নয় (সহজ উপস্থিতি)" : "No forced timing (gentle awareness)"}</small></div></div>`;
-    } else {
-      patternEl.innerHTML = phases.map(p => `
-        <div class="col-${phases.length === 4 ? 6 : 6}">
-          <div class="pattern-step">
-            <strong>${phaseName(p[0])}</strong>
-            <small>${p[1]} ${lang === "bn" ? "সেকেন্ড" : "seconds"}</small>
-          </div>
-        </div>
-      `).join("");
-    }
-  }
-}
-
-/**
- * Populates the exercise details screen with the currently selected exercise's
- * title, illustration, description, and progression levels.
- */
-function renderDetails() {
-  const detailsEl = $("details");
-  if (!detailsEl) return;
-  const art = detailsEl.querySelector(".detail-visual");
-  if (art) {
-    art.className = "detail-visual h-100 art-" + (selected.id === "diaphragmatic" ? "diaph" : selected.id === "relax46" ? "relax" : selected.id === "box" ? "box" : "mindful");
-    let iconFile = selected.image || 'mindful.svg';
-    art.innerHTML = `<div class="orb"><div class="orb-core"><img src="asset/image/${iconFile}" width="64" height="64" alt="${exName(selected)}"></div></div>`;
-  }
-  const titleEl = $("detailTitle");
-  if (titleEl) titleEl.textContent = exName(selected);
-  const descEl = $("detailDesc");
-  if (descEl) descEl.textContent = exDesc(selected);
-
-  selectLevel(selectedLevel);
-}
-
-/**
- * Translates phase technical key into human-friendly localized title.
- *
- * @param {string} p - Phase type ('inhale', 'hold', 'exhale', 'rest', 'natural').
- * @returns {string} Localized phase name.
- */
-function phaseName(p) {
-  return ({
-    inhale: tr("inhale"),
-    exhale: tr("exhale"),
-    hold: tr("hold"),
-    rest: tr("rest"),
-    natural: lang === "bn" ? "স্বাভাবিক" : "Natural"
-  })[p];
-}
-
-/**
- * Displays the modal containing safety guidelines and clinical disclaimers.
+ * Opens Safety Information modal.
  */
 function showSafety() {
   const safetyList = $("safetyList");
@@ -1932,623 +1585,6 @@ function goToSafety() {
   }
 }
 
-/* ============================================================================
- * 10. GUIDED BREATHING SESSION ENGINE (Timer & requestAnimationFrame Loop)
- * ============================================================================
- */
-
-/**
- * Initializes and starts a new guided breathing practice session.
- * Configures the active duration (minimum 60s), audio guidance, level phase sequence,
- * resets the circular SVG progress ring, transitions to the 'session' screen,
- * and kicks off the high-precision requestAnimationFrame animation loop.
- */
-function startSession() {
-  if (run) stopRun(false);
-  const durationSelect = $("durationSelect");
-  const audioSelect = $("audioSelect");
-  const duration = Number(durationSelect?.value || 60);
-  audioEnabled = audioSelect?.value === "on" && "speechSynthesis" in window;
-  const phases = getLevelPhases(selected, selectedLevel);
-
-  run = {
-    exercise: selected,
-    level: selectedLevel,
-    phases: phases,
-    duration,
-    elapsed: 0,
-    completedCycles: 0,
-    phaseIndex: 0,
-    phaseElapsed: 0,
-    startedAt: performance.now(),
-    lastFrame: performance.now(),
-    prepareRemaining: 3,
-    preparing: true,
-    pausedTotal: 0
-  };
-  paused = false;
-
-  const sessionName = $("sessionName");
-  if (sessionName) sessionName.textContent = exName(selected);
-  const sessionLevelBadge = $("sessionLevelBadge");
-  if (sessionLevelBadge) sessionLevelBadge.textContent = getLevelLabel(selectedLevel);
-  const pauseBtn = $("pauseBtn");
-  if (pauseBtn) {
-    pauseBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
-    pauseBtn.setAttribute("aria-label", tr("pause"));
-  }
-  const progressBar = $("progressBar");
-  if (progressBar) progressBar.style.width = "0%";
-  const remainingTime = $("remainingTime");
-  if (remainingTime) remainingTime.textContent = formatTime(duration);
-
-  const breathStage = $("breathStage");
-  if (breathStage) {
-    breathStage.className = "breath-stage preparing";
-    breathStage.style.setProperty("--phase-duration", "3s");
-  }
-  const breathRing = $("breathRing");
-  if (breathRing) {
-    breathRing.className = "breath-ring";
-    breathRing.style.setProperty("--phase-duration", "3s");
-  }
-  const progRing = $("phaseProgressRing");
-  if (progRing) progRing.style.strokeDashoffset = "892.21";
-  const iconEl = $("phaseIcon");
-  if (iconEl) iconEl.className = "bi bi-wind";
-
-  const phaseLabel = $("phaseLabel");
-  if (phaseLabel) phaseLabel.textContent = tr("prepare");
-  const phaseCount = $("phaseCount");
-  if (phaseCount) phaseCount.textContent = "3";
-  const instructionText = $("instructionText");
-  if (instructionText) instructionText.textContent = tr("prepareSub");
-  const subInstruction = $("subInstruction");
-  if (subInstruction) subInstruction.textContent = tr("sessionStarted");
-
-  go("session");
-  speak(tr("prepare"));
-  raf = requestAnimationFrame(tick);
-}
-
-/**
- * Formats a duration in seconds into a standard MM:SS string representation.
- *
- * @param {number} s - Duration in seconds.
- * @returns {string} Formatted MM:SS time string (e.g. "01:30").
- */
-function formatTime(s) {
-  s = Math.max(0, Math.ceil(s));
-  return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
-}
-
-/**
- * Re-evaluates and updates the active exercise title and level badge in the session header
- * when language changes during an active run.
- */
-function updateSessionText() {
-  if (!run) return;
-  const sessionName = $("sessionName");
-  if (sessionName) sessionName.textContent = exName(run.exercise);
-  const sessionLevelBadge = $("sessionLevelBadge");
-  if (sessionLevelBadge) sessionLevelBadge.textContent = getLevelLabel(run.level);
-}
-
-/**
- * Returns the currently active phase tuple for the ongoing session.
- *
- * @returns {[string, number]} Phase tuple array (e.g. ['inhale', 4] or ['natural', 5]).
- */
-function currentPhase() {
-  return run.phases[run.phaseIndex];
-}
-
-/**
- * High-precision animation frame tick loop executed via requestAnimationFrame.
- * Clamps delta-time (dt <= 0.25s) to guard against browser background throttling spikes,
- * manages the 3-second preparation countdown, progresses cycle phases, updates the
- * SVG circular progress ring stroke offset, and triggers session completion.
- *
- * @param {DOMHighResTimeStamp} now - Timestamp provided by requestAnimationFrame.
- */
-function tick(now) {
-  if (!run || paused) return;
-  let dt = Math.min((now - run.lastFrame) / 1000, .25);
-  run.lastFrame = now;
-
-  if (run.preparing) {
-    run.prepareRemaining -= dt;
-    const phaseCount = $("phaseCount");
-    if (phaseCount) phaseCount.textContent = Math.max(0, Math.ceil(run.prepareRemaining));
-
-    let prepPct = Math.max(0, Math.min(1, 1 - (run.prepareRemaining / 3)));
-    const progRing = $("phaseProgressRing");
-    if (progRing) progRing.style.strokeDashoffset = (892.21 * (1 - prepPct)).toFixed(2);
-
-    if (run.prepareRemaining <= 0) {
-      run.preparing = false;
-      enterPhase();
-    }
-  } else {
-    run.elapsed += dt;
-    run.phaseElapsed += dt;
-    let p = currentPhase(), dur = p[0] === "natural" ? 5 : p[1];
-    if (p[0] === "natural") {
-      if (run.phaseElapsed >= dur) {
-        run.phaseElapsed %= dur;
-        run.completedCycles++;
-      }
-    } else if (run.phaseElapsed >= dur) {
-      run.phaseElapsed -= dur;
-      run.phaseIndex++;
-      if (run.phaseIndex >= run.phases.length) {
-        run.phaseIndex = 0;
-        run.completedCycles++;
-      }
-      enterPhase();
-    }
-
-    let phasePct = dur > 0 ? Math.max(0, Math.min(1, run.phaseElapsed / dur)) : 0;
-    const progRing = $("phaseProgressRing");
-    if (progRing) progRing.style.strokeDashoffset = (892.21 * (1 - phasePct)).toFixed(2);
-
-    const phaseCount = $("phaseCount");
-    if (phaseCount) phaseCount.textContent = p[0] === "natural" ? "" : Math.max(0, Math.ceil(dur - run.phaseElapsed));
-  }
-
-  const remaining = Math.max(0, run.duration - run.elapsed);
-  const remainingTime = $("remainingTime");
-  if (remainingTime) remainingTime.textContent = formatTime(remaining);
-  const progressBar = $("progressBar");
-  if (progressBar) progressBar.style.width = Math.min(100, run.elapsed / run.duration * 100) + "%";
-
-  if (run.elapsed >= run.duration) {
-    completeSession();
-    return;
-  }
-  raf = requestAnimationFrame(tick);
-}
-
-/**
- * Transitions the visual breathing stage into the current phase.
- * Configures the CSS custom property '--phase-duration', updates stage class names
- * for expanding/contracting circle animations, updates phase icons and instructional copy,
- * and triggers voice guidance via Web Speech API.
- */
-function enterPhase() {
-  let p = currentPhase(), type = p[0], dur = type === "natural" ? 5 : p[1];
-
-  const breathStage = $("breathStage");
-  if (breathStage) {
-    breathStage.className = "breath-stage " + type;
-    breathStage.dataset.exercise = run.exercise.id;
-    breathStage.style.setProperty("--phase-duration", dur + "s");
-  }
-
-  const breathRing = $("breathRing");
-  if (breathRing) {
-    breathRing.className = "breath-ring " + (type === "natural" ? "rest" : type);
-    breathRing.dataset.exercise = run.exercise.id;
-    breathRing.style.setProperty("--phase-duration", dur + "s");
-  }
-
-  const iconEl = $("phaseIcon");
-  if (iconEl) {
-    const iconMap = {
-      inhale: "bi bi-arrow-up-circle-fill text-primary",
-      hold: "bi bi-pause-circle-fill text-info",
-      exhale: "bi bi-arrow-down-circle-fill text-primary",
-      rest: "bi bi-heart-fill text-success",
-      natural: "bi bi-flower1 text-success"
-    };
-    iconEl.className = iconMap[type] || "bi bi-wind";
-  }
-
-  const phaseLabel = $("phaseLabel");
-  if (phaseLabel) {
-    phaseLabel.textContent = type === "natural" ? (lang === "bn" ? "স্বাভাবিক শ্বাস" : "Natural breath") : phaseName(type);
-  }
-  const instructionText = $("instructionText");
-  if (instructionText) {
-    instructionText.textContent = type === "natural" ? (lang === "bn" ? "শ্বাসের স্বাভাবিক অনুভূতি লক্ষ্য করুন" : "Notice your natural breath") : phaseName(type);
-  }
-  const subInstruction = $("subInstruction");
-  if (subInstruction) {
-    subInstruction.textContent = type === "natural" ? (lang === "bn" ? "শ্বাসের গতি বদলানোর চেষ্টা করবেন না" : "Do not try to change its rhythm") : (lang === "bn" ? "ধীরে ও স্বচ্ছন্দে" : "Gently and comfortably");
-  }
-  const phaseCount = $("phaseCount");
-  if (phaseCount) {
-    phaseCount.textContent = type === "natural" ? "" : dur;
-  }
-  speak(type === "natural" ? (lang === "bn" ? "স্বাভাবিকভাবে শ্বাস নিন" : "Breathe naturally") : phaseName(type));
-}
-
-/**
- * Toggles the pause state of an ongoing breathing exercise session.
- * When paused, cancels requestAnimationFrame, cancels speech utterances,
- * freezes CSS breathing transitions, and toggles the pause/resume icon.
- */
-function togglePause() {
-  if (!run) return;
-  paused = !paused;
-  const breathStage = $("breathStage");
-  const breathRing = $("breathRing");
-  const instructionText = $("instructionText");
-  const subInstruction = $("subInstruction");
-  const pauseBtn = $("pauseBtn");
-
-  if (paused) {
-    cancelAnimationFrame(raf);
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
-    if (breathStage) breathStage.classList.add("paused");
-    if (breathRing) breathRing.style.transitionDuration = ".1s";
-    if (instructionText) instructionText.textContent = tr("paused");
-    if (subInstruction) subInstruction.textContent = tr("pausedSub");
-    if (pauseBtn) {
-      pauseBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
-      pauseBtn.setAttribute("aria-label", tr("resume"));
-    }
-  } else {
-    run.lastFrame = performance.now();
-    if (breathStage) breathStage.classList.remove("paused");
-    if (pauseBtn) {
-      pauseBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
-      pauseBtn.setAttribute("aria-label", tr("pause"));
-    }
-    if (run.preparing) {
-      if (instructionText) instructionText.textContent = tr("prepareSub");
-    } else {
-      enterPhase();
-    }
-    raf = requestAnimationFrame(tick);
-  }
-}
-
-/**
- * Prompts the user with a confirmation alert before halting an active session prematurely.
- */
-function confirmStop() {
-  if (!run) return;
-  if (confirm(tr("confirmStop"))) {
-    stopRun(true);
-  }
-}
-
-/**
- * Cleanly halts and tears down an ongoing breathing exercise session.
- * Cancels active animation frames, clears any pending speech synthesis,
- * resets the stage styling, and optionally navigates to the exercise library.
- *
- * @param {boolean} showHome - Whether to navigate back to the exercise library view.
- */
-function stopRun(showHome) {
-  cancelAnimationFrame(raf);
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-  run = null;
-  paused = false;
-  const breathStage = $("breathStage");
-  if (breathStage) breathStage.className = "breath-stage";
-  if (showHome) go("library");
-}
-
-/* ============================================================================
- * 11. AUDIO GUIDANCE (SpeechSynthesis & Web Audio Chime Synthesizer)
- * ============================================================================
- */
-
-/**
- * Vocalizes guidance instructions and phase changes using the Web Speech API.
- * Uses a relaxed playback rate (0.88x) and selects the appropriate BCP 47 language tag.
- *
- * @param {string} text - The instruction text to speak aloud.
- */
-function speak(text) {
-  if (!audioEnabled || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  let u = new SpeechSynthesisUtterance(text);
-  u.lang = lang === "bn" ? "bn-BD" : "en-US";
-  u.rate = .88;
-  window.speechSynthesis.speak(u);
-}
-
-/**
- * Synthesizes a celebratory four-note harmonic chord (C5, E5, G5, C6) using the Web Audio API.
- * Employs exponential gain attenuation envelopes for a crystal-clear, chime-like bell effect.
- * Completely self-contained and operates offline without external audio files.
- */
-function playCelebrationChime() {
-  try {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return;
-    const ctx = new AudioContextClass();
-    if (ctx.state === "suspended") {
-      ctx.resume();
-    }
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Triumphant harmonic chord)
-    notes.forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
-
-      gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + idx * 0.1 + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.1 + 0.85);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(ctx.currentTime + idx * 0.1);
-      osc.stop(ctx.currentTime + idx * 0.1 + 0.9);
-    });
-  } catch (err) {
-    // Non-blocking: AudioContext blocked or not supported
-  }
-}
-
-/* ============================================================================
- * 12. CELEBRATION ENGINE: ANIMATED CHAMPION CUP & CONFETTI CANVAS
- * ============================================================================
- */
-
-/**
- * Handles graceful session completion when the target timer reaches zero.
- * Cancels timers, captures completed metrics into `lastCompletedSession`,
- * displays the summary screen, triggers confetti physics, and sounds the victory chime.
- */
-function completeSession() {
-  cancelAnimationFrame(raf);
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-  const completed = run.completedCycles, elapsed = run.elapsed;
-  const lvlName = getLevelLabel(run.level);
-  const curLevel = run.level;
-  lastCompletedSession = {
-    exName: exName(run.exercise),
-    levelName: lvlName,
-    duration: formatTime(elapsed || 0),
-    cycles: completed,
-    level: curLevel
-  };
-  renderSummary(completed, elapsed, lvlName, curLevel);
-  checkNativeShareSupport();
-  resetMoodSelection();
-  go("complete");
-
-  setTimeout(() => {
-    triggerConfetti(65);
-    playCelebrationChime();
-  }, 220);
-}
-
-/**
- * Populates the completion celebration summary card with session metrics,
- * level progression badges, and tap hint for the interactive Champion Cup.
- *
- * @param {number} cycles - Completed breathing cycle count.
- * @param {number} elapsed - Total elapsed seconds.
- * @param {string} lvlName - Localized progression level label.
- * @param {string|number} curLevel - Active level identifier.
- */
-function renderSummary(cycles, elapsed, lvlName, curLevel) {
-  const summaryName = $("summaryName");
-  if (summaryName) summaryName.textContent = exName(selected);
-  const summaryLevel = $("summaryLevel");
-  if (summaryLevel) summaryLevel.textContent = lvlName || getLevelLabel(selectedLevel);
-  const summaryDuration = $("summaryDuration");
-  if (summaryDuration) summaryDuration.textContent = formatTime(elapsed || 0);
-  const summaryCycles = $("summaryCycles");
-  if (summaryCycles) summaryCycles.textContent = cycles + " " + tr("cycleUnit");
-
-  const lvl = curLevel || lastCompletedSession?.level || selectedLevel;
-  const achievementText = $("achievementText");
-  if (achievementText) {
-    if (lvl === 1) achievementText.textContent = tr("badgeLevel1");
-    else if (lvl === 2) achievementText.textContent = tr("badgeLevel2");
-    else if (lvl === 3) achievementText.textContent = tr("badgeLevel3");
-    else achievementText.textContent = tr("badgeMindfulMaster");
-  }
-
-  const cupBox = $("championCupBox");
-  if (cupBox) {
-    cupBox.classList.remove("cup-bounce-anim");
-  }
-
-  const tapHint = $("tapCupHint");
-  if (tapHint) {
-    tapHint.textContent = tr("tapCupConfetti");
-  }
-}
-
-/** @type {Array<Object>} Active confetti particle simulation instances. */
-let confettiParticles = [];
-
-/** @type {number|null} requestAnimationFrame loop ID for active confetti animation. */
-let confettiAnimationId = null;
-
-/**
- * Spawns a burst of physics-based celebration confetti particles rendered on an HTML5 canvas.
- * Particles feature randomized trajectories, gravity, angular velocity, colors, and shapes.
- *
- * @param {number} [count=55] - Number of confetti particles to spawn.
- */
-function triggerConfetti(count = 55) {
-  const canvas = $("confettiCanvas");
-  if (!canvas) return;
-  const parent = canvas.parentElement;
-  const width = (canvas.width = parent ? parent.clientWidth : window.innerWidth);
-  const height = (canvas.height = parent ? parent.clientHeight : window.innerHeight);
-
-  const colors = [
-    "#FFD700", "#F59E0B", "#10B981", "#06B6D4", "#38BDF8",
-    "#EC4899", "#8B5CF6", "#F97316", "#A7F3D0", "#FDE047"
-  ];
-
-  const originX = width / 2;
-  const originY = Math.min(180, height * 0.3);
-
-  for (let i = 0; i < count; i++) {
-    const angle = Math.PI * 2 * Math.random();
-    const velocity = 4 + Math.random() * 8;
-    confettiParticles.push({
-      x: originX + (Math.random() - 0.5) * 60,
-      y: originY + (Math.random() - 0.5) * 40,
-      vx: Math.cos(angle) * velocity,
-      vy: Math.sin(angle) * velocity - 3.5,
-      size: 6 + Math.random() * 7,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      rotation: Math.random() * 360,
-      rotationSpeed: (Math.random() - 0.5) * 14,
-      opacity: 1,
-      shape: Math.random() > 0.4 ? "rect" : (Math.random() > 0.5 ? "circle" : "star"),
-      gravity: 0.16 + Math.random() * 0.12,
-      life: 0,
-      maxLife: 130 + Math.random() * 70
-    });
-  }
-
-  if (!confettiAnimationId) {
-    renderConfettiLoop();
-  }
-}
-
-/**
- * 2D Canvas rendering loop for the physics-based confetti engine.
- * Updates velocity, gravity drag, rotational transforms, and alpha decay.
- */
-function renderConfettiLoop() {
-  const canvas = $("confettiCanvas");
-  if (!canvas) {
-    confettiParticles = [];
-    confettiAnimationId = null;
-    return;
-  }
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = confettiParticles.length - 1; i >= 0; i--) {
-    const p = confettiParticles[i];
-    p.life++;
-    p.x += p.vx;
-    p.y += p.vy;
-    p.vy += p.gravity;
-    p.vx *= 0.985;
-    p.rotation += p.rotationSpeed;
-
-    if (p.life > p.maxLife - 25) {
-      p.opacity = Math.max(0, (p.maxLife - p.life) / 25);
-    }
-
-    ctx.save();
-    ctx.translate(p.x, p.y);
-    ctx.rotate((p.rotation * Math.PI) / 180);
-    ctx.globalAlpha = p.opacity;
-    ctx.fillStyle = p.color;
-
-    if (p.shape === "rect") {
-      ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size * 0.65);
-    } else if (p.shape === "circle") {
-      ctx.beginPath();
-      ctx.arc(0, 0, p.size / 2.3, 0, Math.PI * 2);
-      ctx.fill();
-    } else {
-      ctx.beginPath();
-      for (let s = 0; s < 4; s++) {
-        ctx.lineTo(Math.cos((s * 90 * Math.PI) / 180) * p.size, Math.sin((s * 90 * Math.PI) / 180) * p.size);
-        ctx.lineTo(Math.cos(((s * 90 + 45) * Math.PI) / 180) * (p.size * 0.38), Math.sin(((s * 90 + 45) * Math.PI) / 180) * (p.size * 0.38));
-      }
-      ctx.closePath();
-      ctx.fill();
-    }
-    ctx.restore();
-
-    if (p.life >= p.maxLife || p.y > canvas.height + 25) {
-      confettiParticles.splice(i, 1);
-    }
-  }
-
-  if (confettiParticles.length > 0) {
-    confettiAnimationId = requestAnimationFrame(renderConfettiLoop);
-  } else {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    confettiAnimationId = null;
-  }
-}
-
-/**
- * Click handler for the interactive Champion Cup on the celebration screen.
- * Triggers an energetic bounce animation, bursts fresh confetti, plays the celebratory chime,
- * and updates the tap hint to an enthusiastic cheer.
- */
-function celebrateAgain() {
-  const cupBox = $("championCupBox");
-  if (cupBox) {
-    cupBox.classList.remove("cup-bounce-anim");
-    void cupBox.offsetWidth;
-    cupBox.classList.add("cup-bounce-anim");
-  }
-
-  triggerConfetti(45);
-  playCelebrationChime();
-
-  const hint = $("tapCupHint");
-  if (hint) {
-    hint.textContent = tr("tapCupCheers");
-    setTimeout(() => {
-      if (hint) hint.textContent = tr("tapCupConfetti");
-    }, 2400);
-  }
-}
-
-/* ============================================================================
- * 13. POST-SESSION MINDFUL MOOD REFLECTION CHECK-IN
- * ============================================================================
- */
-
-/** @type {string|null} Currently selected post-session mood key ('calm', 'refreshed', 'focused', 'sleepy'). */
-let currentSessionMood = null;
-
-/**
- * Clears the active mood selection state and hides the reflection feedback message.
- */
-function resetMoodSelection() {
-  currentSessionMood = null;
-  const allBtns = document.querySelectorAll("#moodOptions .mood-btn");
-  allBtns.forEach(b => b.classList.remove("active"));
-  const feedback = $("moodFeedback");
-  if (feedback) feedback.classList.add("d-none");
-}
-
-/**
- * Records the user's post-session emotional reflection check-in and renders
- * a warm, affirming feedback message with a smooth fade-in transition.
- *
- * @param {string} moodKey - Selected mood identifier ('calm', 'refreshed', 'focused', 'sleepy').
- * @param {HTMLElement} btnEl - Button element that received the user's click/tap.
- */
-function selectMood(moodKey, btnEl) {
-  currentSessionMood = moodKey;
-  const allBtns = document.querySelectorAll("#moodOptions .mood-btn");
-  allBtns.forEach(b => b.classList.remove("active"));
-  if (btnEl) btnEl.classList.add("active");
-
-  const feedback = $("moodFeedback");
-  if (!feedback) return;
-
-  const msgMap = {
-    calm: tr("moodCalmMsg"),
-    refreshed: tr("moodRefreshedMsg"),
-    focused: tr("moodFocusedMsg"),
-    sleepy: tr("moodSleepyMsg")
-  };
-
-  feedback.textContent = msgMap[moodKey] || "";
-  feedback.classList.remove("d-none");
-  feedback.style.animation = "none";
-  void feedback.offsetWidth;
-  feedback.style.animation = "moodFadeIn 0.35s ease";
-}
 
 /* ============================================================================
  * 14. SOCIAL MEDIA SHARING & CLIPBOARD COPY UTILITIES
@@ -2692,840 +1728,12 @@ function toast(message) {
   if (appToast) bootstrap.Toast.getOrCreateInstance(appToast).show();
 }
 
-/* ============================================================================
- * 15. RESPIRATORY ASSESSMENT ENGINE (BOLT & BPM) & AUDIO SYNTHESIZER
- * ============================================================================
- */
-
-let testAudioCtx = null;
-let testSoundEnabled = localStorage.getItem("bw_test_sound") !== "false";
-let currentHistoryFilter = "all";
-
-/**
- * Initializes and lazily resumes the Web Audio API context on first user interaction.
- * @returns {AudioContext|null}
- */
-function getTestAudioContext() {
-  if (!testAudioCtx && (window.AudioContext || window.webkitAudioContext)) {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    testAudioCtx = new AudioCtx();
-  }
-  if (testAudioCtx && testAudioCtx.state === "suspended") {
-    testAudioCtx.resume();
-  }
-  return testAudioCtx;
-}
-
-/**
- * Plays a pleasant synthetic audio tone using Web Audio oscillator.
- * @param {number} freq - Frequency in Hz
- * @param {number} duration - Tone duration in seconds
- * @param {OscillatorType} type - Waveform type ('sine', 'triangle')
- * @param {number} vol - Output volume (0.0 - 1.0)
- */
-function playTestTone(freq, duration = 0.12, type = "sine", vol = 0.15) {
-  if (!testSoundEnabled) return;
-  try {
-    const ctx = getTestAudioContext();
-    if (!ctx) return;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    gain.gain.setValueAtTime(vol, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + duration);
-  } catch (e) { }
-}
-
-/**
- * Countdown beep cue for test preparation.
- * @param {boolean} isFinal - True on final start countdown tick
- */
-function playCountdownBeep(isFinal = false) {
-  if (isFinal) {
-    playTestTone(880, 0.28, "triangle", 0.22);
-  } else {
-    playTestTone(440, 0.14, "sine", 0.16);
-  }
-}
-
-/**
- * Soft tactile audio feedback on BPM breath recording tap.
- */
-function playTapSound() {
-  playTestTone(620, 0.08, "sine", 0.18);
-}
-
-/**
- * Harmonious celebration arpeggio upon test completion.
- */
-function playCelebrationChime() {
-  if (!testSoundEnabled) return;
-  [523, 659, 784, 1046].forEach((f, idx) => {
-    setTimeout(() => playTestTone(f, 0.22, "triangle", 0.14), idx * 100);
-  });
-}
-
-/**
- * Toggles sound effects on/off and persists state in localStorage.
- */
-function toggleTestSound() {
-  testSoundEnabled = !testSoundEnabled;
-  localStorage.setItem("bw_test_sound", testSoundEnabled ? "true" : "false");
-  updateTestSoundUI();
-  if (testSoundEnabled) playTestTone(660, 0.15, "triangle", 0.2);
-}
-
-/**
- * Updates sound toggle button icon and text.
- */
-function updateTestSoundUI() {
-  const icon = $("testSoundIcon");
-  const label = $("testSoundLabel");
-  if (icon) {
-    icon.className = testSoundEnabled ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
-  }
-  if (label) {
-    label.textContent = testSoundEnabled ? tr("soundOn") : tr("soundOff");
-  }
-}
-
-/**
- * Switches the active diagnostic test protocol between BOLT and BPM.
- * @param {'bolt'|'bpm'} tab - The target test tab identifier.
- */
-function switchTestTab(tab) {
-  if (testRunning) stopCurrentTest();
-  activeTestTab = tab;
-
-  const boltBtn = $("tabBoltBtn");
-  const bpmBtn = $("tabBpmBtn");
-  if (boltBtn && bpmBtn) {
-    boltBtn.classList.toggle("active", tab === 'bolt');
-    bpmBtn.classList.toggle("active", tab === 'bpm');
-    boltBtn.setAttribute("aria-selected", tab === 'bolt' ? "true" : "false");
-    bpmBtn.setAttribute("aria-selected", tab === 'bpm' ? "true" : "false");
-  }
-
-  const iconEl = $("testModeIcon");
-  const titleEl = $("testInstructionTitle");
-  const bodyEl = $("testInstructionBody");
-  const noticeEl = $("testStageNotice");
-  const bpmBox = $("bpmCounterBox");
-  const phaseLabel = $("boltPhaseLabel");
-
-  if (tab === 'bolt') {
-    if (iconEl) iconEl.className = "bi bi-stopwatch text-primary fs-2";
-    if (titleEl) titleEl.textContent = tr("boltStepHeader");
-    if (bodyEl) bodyEl.textContent = tr("boltSteps");
-    if (noticeEl) noticeEl.textContent = tr("tapWhenUrge");
-    if (phaseLabel) phaseLabel.textContent = tr("testActiveHolding");
-    if (bpmBox) bpmBox.classList.add("d-none");
-
-    // Update 3 Step cards for BOLT
-    if ($("step1Title")) $("step1Title").textContent = tr("step1Title");
-    if ($("step1Desc")) $("step1Desc").textContent = tr("step1Desc");
-    if ($("step2Title")) $("step2Title").textContent = tr("step2Title");
-    if ($("step2Desc")) $("step2Desc").textContent = tr("step2Desc");
-    if ($("step3Title")) $("step3Title").textContent = tr("step3Title");
-    if ($("step3Desc")) $("step3Desc").textContent = tr("step3Desc");
-  } else {
-    if (iconEl) iconEl.className = "bi bi-activity text-info fs-2";
-    if (titleEl) titleEl.textContent = tr("bpmStepHeader");
-    if (bodyEl) bodyEl.textContent = tr("bpmSteps");
-    if (noticeEl) noticeEl.textContent = tr("bpmActiveNotice");
-    if (phaseLabel) phaseLabel.textContent = tr("testActiveBpm");
-    if (bpmBox) bpmBox.classList.remove("d-none");
-
-    // Update 3 Step cards for BPM
-    if ($("step1Title")) $("step1Title").textContent = tr("bpmStep1Title");
-    if ($("step1Desc")) $("step1Desc").textContent = tr("bpmStep1Desc");
-    if ($("step2Title")) $("step2Title").textContent = tr("bpmStep2Title");
-    if ($("step2Desc")) $("step2Desc").textContent = tr("bpmStep2Desc");
-    if ($("step3Title")) $("step3Title").textContent = tr("bpmStep3Title");
-    if ($("step3Desc")) $("step3Desc").textContent = tr("bpmStep3Desc");
-  }
-  resetTest();
-}
-
-/**
- * Triggers a 3-second animated preparatory countdown with audio cues.
- */
-function initiateTest() {
-  getTestAudioContext();
-  const startBtn = $("startTestBtn");
-  const countBox = $("testCountdownBox");
-  const countNum = $("testCountdownNum");
-  const activeStage = $("testActiveStage");
-
-  if (startBtn) startBtn.classList.add("d-none");
-  if (countBox) countBox.classList.remove("d-none");
-  if (activeStage) activeStage.classList.add("d-none");
-
-  let c = 3;
-  if (countNum) countNum.textContent = c;
-  playCountdownBeep(false);
-
-  testCountInterval = setInterval(() => {
-    c--;
-    if (c > 0) {
-      if (countNum) {
-        countNum.textContent = c;
-        countNum.classList.remove("animate-pop");
-        void countNum.offsetWidth; // Reflow for animation re-trigger
-        countNum.classList.add("animate-pop");
-      }
-      playCountdownBeep(false);
-    } else {
-      clearInterval(testCountInterval);
-      testCountInterval = null;
-      playCountdownBeep(true);
-      if (countBox) countBox.classList.add("d-none");
-      startActiveTest();
-    }
-  }, 1000);
-}
-
-/**
- * Launches the active assessment timer and drives the circular SVG progress arc.
- */
-function startActiveTest() {
-  testRunning = true;
-  testStartTime = performance.now();
-  const activeStage = $("testActiveStage");
-  if (activeStage) activeStage.classList.remove("d-none");
-
-  const stopBtn = $("stopTestBtn");
-  const tapBpmBtn = $("tapBpmBtn");
-  const svgCircle = $("boltSvgProgress");
-
-  if (svgCircle) {
-    svgCircle.style.strokeDashoffset = "660";
-  }
-
-  if (activeTestTab === 'bolt') {
-    if (stopBtn) stopBtn.classList.remove("d-none");
-    if (tapBpmBtn) tapBpmBtn.classList.add("d-none");
-
-    const timerDisp = $("boltTimerDisplay");
-    testInterval = setInterval(() => {
-      let elapsedMs = performance.now() - testStartTime;
-      let sec = (elapsedMs / 1000).toFixed(1);
-      let secNum = parseFloat(sec);
-      if (timerDisp) timerDisp.textContent = sec + "s";
-
-      // Drive SVG circular stroke (target scale 40s)
-      if (svgCircle) {
-        const circumference = 660;
-        const pct = Math.min(1, secNum / 40);
-        svgCircle.style.strokeDashoffset = circumference * (1 - pct);
-      }
-
-      // Real-time milestone feedback
-      const badge = $("boltMilestoneBadge");
-      const text = $("boltMilestoneText");
-      if (badge && text) {
-        if (secNum < 10) {
-          text.textContent = lang === "bn" ? "সহনশীলতা পর্যায়..." : "Initial phase...";
-          badge.className = "bolt-milestone-badge bg-primary bg-opacity-10 text-primary";
-        } else if (secNum < 20) {
-          text.textContent = lang === "bn" ? "১০ সে. অতিক্রম (মাঝারি)" : "10s Passed (Moderate)";
-          badge.className = "bolt-milestone-badge bg-warning bg-opacity-10 text-warning-emphasis";
-        } else if (secNum < 30) {
-          text.textContent = lang === "bn" ? "২০ সে. অতিক্রম (ভালো)" : "20s Passed (Good Health)";
-          badge.className = "bolt-milestone-badge bg-info bg-opacity-10 text-info-emphasis";
-        } else {
-          text.textContent = lang === "bn" ? "৩০+ সে. (চমৎকার স্তর!)" : "30s+ (Optimal Mastery!)";
-          badge.className = "bolt-milestone-badge bg-success bg-opacity-10 text-success";
-        }
-      }
-    }, 100);
-  } else {
-    bpmTaps = 0;
-    bpmCountdown = 30;
-    const bpmCountNum = $("bpmCountNum");
-    if (bpmCountNum) bpmCountNum.textContent = "0";
-    const bpmRateEst = $("bpmRateEst");
-    if (bpmRateEst) bpmRateEst.textContent = "--";
-
-    const countdownText = $("bpmCountdownText");
-    if (countdownText) countdownText.textContent = lang === "bn" ? `বাকি সময়: ${bpmCountdown} সেকেন্ড` : `Time left: ${bpmCountdown}s`;
-
-    if (stopBtn) stopBtn.classList.add("d-none");
-    if (tapBpmBtn) tapBpmBtn.classList.remove("d-none");
-
-    const timerDisp = $("boltTimerDisplay");
-    testInterval = setInterval(() => {
-      bpmCountdown--;
-      let elapsedSec = Math.max(0, 30 - bpmCountdown);
-      if (timerDisp) timerDisp.textContent = elapsedSec + "s";
-      if (countdownText) countdownText.textContent = lang === "bn" ? `বাকি সময়: ${Math.max(0, bpmCountdown)} সেকেন্ড` : `Time left: ${Math.max(0, bpmCountdown)}s`;
-
-      // Drive SVG circular stroke
-      if (svgCircle) {
-        const circumference = 660;
-        const pct = Math.min(1, elapsedSec / 30);
-        svgCircle.style.strokeDashoffset = circumference * (1 - pct);
-      }
-
-      if (bpmCountdown <= 0) {
-        stopCurrentTest();
-      }
-    }, 1000);
-  }
-}
-
-/**
- * Tap listener for BPM assessment; records each full breath cycle tap and updates UI.
- */
-function recordBpmBreath() {
-  if (!testRunning || activeTestTab !== 'bpm') return;
-  bpmTaps++;
-  playTapSound();
-  if (navigator.vibrate) {
-    try { navigator.vibrate(25); } catch (e) { }
-  }
-
-  const countEl = $("bpmCountNum");
-  if (countEl) countEl.textContent = bpmTaps;
-
-  // Live estimated rate calculation
-  const elapsedSec = Math.max(1, (performance.now() - testStartTime) / 1000);
-  const estRate = Math.round((bpmTaps / elapsedSec) * 60);
-  const rateEstEl = $("bpmRateEst");
-  if (rateEstEl) rateEstEl.textContent = estRate + " BPM";
-}
-
-/**
- * Halts an active assessment, cleans up intervals, calculates scores,
- * and delegates to renderBoltResult or renderBpmResult.
- */
-function stopCurrentTest() {
-  if (!testRunning) return;
-  testRunning = false;
-  if (testInterval) {
-    clearInterval(testInterval);
-    testInterval = null;
-  }
-  if (testCountInterval) {
-    clearInterval(testCountInterval);
-    testCountInterval = null;
-  }
-
-  playCelebrationChime();
-  const durationSec = Math.max(0.1, (performance.now() - testStartTime) / 1000);
-
-  if (activeTestTab === 'bolt') {
-    renderBoltResult(durationSec);
-  } else {
-    let rate = Math.round((bpmTaps / Math.min(30, durationSec)) * 60);
-    renderBpmResult(rate);
-  }
-}
-
-/**
- * Animates a numeric score counter element counting up smoothly from 0.
- * @param {HTMLElement} el - Target counter element
- * @param {number} target - Final value
- * @param {string} suffix - e.g. "s" or " BPM"
- */
-function animateScoreCounter(el, target, suffix = "") {
-  if (!el) return;
-  const duration = 650;
-  const startTime = performance.now();
-  function tick(now) {
-    const p = Math.min(1, (now - startTime) / duration);
-    const ease = 1 - Math.pow(1 - p, 3); // ease-out cubic
-    const val = Math.round(target * ease);
-    el.textContent = val + suffix;
-    if (p < 1) {
-      requestAnimationFrame(tick);
-    } else {
-      el.textContent = target + suffix;
-    }
-  }
-  requestAnimationFrame(tick);
-}
-
-/**
- * Evaluates the BOLT score against clinical respiratory standards:
- * @param {number} sec - Measured breath-hold duration in seconds.
- */
-function renderBoltResult(sec) {
-  const roundedSec = Math.round(sec);
-  const scoreNum = $("resultScoreNum");
-  const scoreGrade = $("resultScoreGrade");
-  const scoreDetail = $("resultScoreDetail");
-  const recTitle = $("recExerciseTitle");
-  const recReason = $("recExerciseReason");
-  const needle = $("spectrumNeedle");
-  const specBadge = $("spectrumScoreBadge");
-
-  // Animate score number
-  animateScoreCounter(scoreNum, roundedSec, "s");
-
-  let grade = "", detail = "", recId = "";
-  let pCo2 = "", pO2 = "", pNervous = "";
-  let needlePct = 20;
-
-  if (roundedSec < 10) {
-    grade = lang === "bn" ? "খুব কম (উচ্চ মানসিক চাপ ও দুর্বল CO2 সহনশীলতা)" : "Low (Elevated Stress & Low CO2 Tolerance)";
-    detail = lang === "bn"
-      ? "আপনার স্কোর ইঙ্গিত করে যে আপনি হয়তো অতিরিক্ত বা অগভীরভাবে শ্বাস নিচ্ছেন। এটি শরীরকে ক্লান্ত ও নার্ভাস রাখে। ডায়াফ্রামেটিক ব্রিদিং দিয়ে পেটের মাধ্যমে গভীর শ্বাস নেওয়ার অভ্যাস তৈরি করা জরুরি।"
-      : "Your score indicates potential over-breathing or shallow upper-chest breathing. Oxygen delivery to cells is constricted. Diaphragmatic breathing is highly recommended.";
-    recId = "diaphragmatic";
-    pCo2 = tr("levelLow");
-    pO2 = tr("levelLow");
-    pNervous = lang === "bn" ? "উত্তেজিত" : "Aroused";
-    needlePct = Math.min(24, Math.max(5, (roundedSec / 10) * 24));
-  } else if (roundedSec < 20) {
-    grade = lang === "bn" ? "মাঝারি কার্যকারিতা (উন্নতির সুযোগ রয়েছে)" : "Moderate Respiratory Efficiency";
-    detail = lang === "bn"
-      ? "আপনার শ্বাসের ছন্দ তুলনামূলক স্বাভাবিক হলেও মানসিক চাপের সময় শ্বাস দ্রুত হয়ে পড়ার সম্ভাবনা থাকে। ৪–৬ রিল্যাক্সিং ব্রিদিং আপনার স্নায়ুতন্ত্রকে শান্ত ও সুষম রাখবে।"
-      : "You have a reasonable baseline, but prolonged exhalations will train your nervous system to stay grounded under stress.";
-    recId = "relax46";
-    pCo2 = tr("levelFair");
-    pO2 = tr("levelFair");
-    pNervous = lang === "bn" ? "সতর্ক" : "Alert";
-    needlePct = 25 + ((roundedSec - 10) / 10) * 24;
-  } else if (roundedSec < 30) {
-    grade = lang === "bn" ? "ভালো ও সুষম শ্বাস-প্রশ্বাস" : "Good Respiratory Health & Control";
-    detail = lang === "bn"
-      ? "আপনার ফুসফুসের কার্যকারিতা ও অক্সিজেন সহনশীলতা যথেষ্ট ভালো। মনোযোগ ও মানসিক স্থিরতা বজায় রাখতে বক্স ব্রিদিং আপনার জন্য সবচেয়ে উপযোগী।"
-      : "Great breath endurance and CO2 tolerance. Your autonomic nervous system is well-regulated. Box breathing will sharpen your concentration.";
-    recId = "box";
-    pCo2 = tr("levelGood");
-    pO2 = tr("levelGood");
-    pNervous = tr("levelGood");
-    needlePct = 50 + ((roundedSec - 20) / 10) * 24;
-  } else {
-    grade = lang === "bn" ? "চমৎকার ও উচ্চ স্তরের নিয়ন্ত্রণ" : "Optimal Respiratory Mastery";
-    detail = lang === "bn"
-      ? "আপনার শ্বাসপ্রশ্বাস প্রক্রিয়া অত্যন্ত সুশৃঙ্খল ও শান্ত। প্রাকৃতিক মননশীল শ্বাসের মাধ্যমে এই ভারসাম্য বজায় রাখুন।"
-      : "Outstanding lung efficiency and nervous system balance. Natural mindful breathing will help you sustain effortless awareness.";
-    recId = "mindful";
-    pCo2 = tr("levelOptimal");
-    pO2 = tr("levelOptimal");
-    pNervous = tr("levelOptimal");
-    needlePct = Math.min(95, 75 + ((roundedSec - 30) / 15) * 20);
-  }
-
-  // Update Spectrum Needle
-  if (needle) needle.style.left = needlePct + "%";
-  if (specBadge) specBadge.textContent = `${roundedSec}s — ${grade.split("(")[0].trim()}`;
-
-  // Update 3 Clinical Pillars
-  if ($("pillarCo2")) $("pillarCo2").textContent = pCo2;
-  if ($("pillarO2")) $("pillarO2").textContent = pO2;
-  if ($("pillarNervous")) $("pillarNervous").textContent = pNervous;
-
-  recommendedExerciseId = recId;
-  const targetEx = exercises.find(e => e.id === recId) || exercises[0];
-
-  if (scoreGrade) scoreGrade.textContent = grade;
-  if (scoreDetail) scoreDetail.textContent = detail;
-  if (recTitle) recTitle.textContent = exName(targetEx);
-  if (recReason) recReason.textContent = exBenefit(targetEx);
-
-  lastTestResult = {
-    type: "BOLT",
-    score: roundedSec + "s",
-    grade: grade
-  };
-
-  saveTestRecord({
-    type: "BOLT",
-    score: roundedSec + "s",
-    scoreNum: roundedSec,
-    grade: grade,
-    date: new Date().toLocaleDateString(lang === "bn" ? "bn-BD" : "en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
-  });
-
-  const instructView = $("testInstructionView");
-  const resultView = $("testResultView");
-  if (instructView) instructView.classList.add("d-none");
-  if (resultView) resultView.classList.remove("d-none");
-}
-
-/**
- * Evaluates resting breath frequency (BPM):
- * @param {number} rate - Breaths per minute frequency.
- */
-function renderBpmResult(rate) {
-  const scoreNum = $("resultScoreNum");
-  const scoreGrade = $("resultScoreGrade");
-  const scoreDetail = $("resultScoreDetail");
-  const recTitle = $("recExerciseTitle");
-  const recReason = $("recExerciseReason");
-  const needle = $("spectrumNeedle");
-  const specBadge = $("spectrumScoreBadge");
-
-  // Animate score counter
-  animateScoreCounter(scoreNum, rate, " BPM");
-
-  let grade = "", detail = "", recId = "";
-  let pCo2 = "", pO2 = "", pNervous = "";
-  let needlePct = 50;
-
-  if (rate > 18) {
-    grade = lang === "bn" ? "দ্রুত গতি (উচ্চ চাপ বা উত্তেজনা)" : "Rapid Rate (Heightened Arousal / Stress)";
-    detail = lang === "bn"
-      ? "আপনার বিশ্রামের শ্বাসের হার স্বাভাবিকের চেয়ে বেশি। ধীর শ্বাসের মাধ্যমে প্যারাসিমপ্যাথেটিক সিস্টেমকে সক্রিয় করুন।"
-      : "Your breathing rate is elevated above normal resting averages (12-16 bpm). Relaxing 4-6 breathing will help slow your breath.";
-    recId = "relax46";
-    pCo2 = tr("levelLow");
-    pO2 = tr("levelFair");
-    pNervous = lang === "bn" ? "উত্তেজিত" : "Elevated";
-    needlePct = 15;
-  } else if (rate >= 12) {
-    grade = lang === "bn" ? "স্বাভাবিক ও স্বাস্থ্যকর রেট" : "Healthy Resting Breath Rate";
-    detail = lang === "bn"
-      ? "আপনার বিশ্রামের শ্বাসের হার স্বাভাবিক সীমার মধ্যে রয়েছে। বক্স ব্রিদিং অনুশীলন আপনার মনোযোগকে আরও দৃঢ় করবে।"
-      : "Your breathing frequency is well within the healthy resting average. Box breathing is great to maintain balance.";
-    recId = "box";
-    pCo2 = tr("levelGood");
-    pO2 = tr("levelGood");
-    pNervous = tr("levelGood");
-    needlePct = 65;
-  } else {
-    grade = lang === "bn" ? "অত্যন্ত শান্ত ও গভীর শ্বাস" : "Deep Calm & Low Frequency";
-    detail = lang === "bn"
-      ? "আপনার শ্বাসের ছন্দ অত্যন্ত ধীর ও শিথিল, যা গভীর মননশীলতার পরিচায়ক।"
-      : "Your respiration rate is exceptionally calm and meditative.";
-    recId = "mindful";
-    pCo2 = tr("levelOptimal");
-    pO2 = tr("levelOptimal");
-    pNervous = tr("levelOptimal");
-    needlePct = 88;
-  }
-
-  // Update Spectrum Needle
-  if (needle) needle.style.left = needlePct + "%";
-  if (specBadge) specBadge.textContent = `${rate} BPM — ${grade.split("(")[0].trim()}`;
-
-  // Update 3 Clinical Pillars
-  if ($("pillarCo2")) $("pillarCo2").textContent = pCo2;
-  if ($("pillarO2")) $("pillarO2").textContent = pO2;
-  if ($("pillarNervous")) $("pillarNervous").textContent = pNervous;
-
-  recommendedExerciseId = recId;
-  const targetEx = exercises.find(e => e.id === recId) || exercises[0];
-
-  if (scoreGrade) scoreGrade.textContent = grade;
-  if (scoreDetail) scoreDetail.textContent = detail;
-  if (recTitle) recTitle.textContent = exName(targetEx);
-  if (recReason) recReason.textContent = exBenefit(targetEx);
-
-  lastTestResult = {
-    type: "BPM",
-    score: rate + " BPM",
-    grade: grade
-  };
-
-  saveTestRecord({
-    type: "BPM",
-    score: rate + " BPM",
-    scoreNum: rate,
-    grade: grade,
-    date: new Date().toLocaleDateString(lang === "bn" ? "bn-BD" : "en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
-  });
-
-  const instructView = $("testInstructionView");
-  const resultView = $("testResultView");
-  if (instructView) instructView.classList.add("d-none");
-  if (resultView) resultView.classList.remove("d-none");
-}
-
-/* ============================================================================
- * 16. LOCAL STORAGE PERSISTENCE, ANALYTICS & HISTORY TRACKING
- * ============================================================================
- */
-
-/**
- * Persists an assessment record to browser localStorage ('bw_test_history'),
- * capping stored history at the 12 most recent test entries.
- * @param {Object} record - Assessment record payload.
- */
-function saveTestRecord(record) {
-  try {
-    let history = JSON.parse(localStorage.getItem("bw_test_history") || "[]");
-    history.unshift(record);
-    if (history.length > 12) history = history.slice(0, 12);
-    localStorage.setItem("bw_test_history", JSON.stringify(history));
-    loadTestHistory(currentHistoryFilter);
-    updateTestStats();
-  } catch (e) { }
-}
-
-/**
- * Calculates analytics from stored history: Personal Best BOLT, Average BPM, Total Tests.
- */
-function updateTestStats() {
-  try {
-    const history = JSON.parse(localStorage.getItem("bw_test_history") || "[]");
-    const totalEl = $("historyStatTotal");
-    const bestEl = $("historyStatBest");
-    const bpmEl = $("historyStatBpm");
-    const heroBest = $("statHeroBestBolt");
-    const heroGrade = $("statHeroBestGrade");
-
-    if (totalEl) totalEl.textContent = history.length;
-
-    const boltRecords = history.filter(h => h.type === "BOLT" && (h.scoreNum || h.score));
-    if (boltRecords.length) {
-      let maxSec = 0;
-      let maxGrade = "";
-      boltRecords.forEach(r => {
-        let n = r.scoreNum || parseInt(r.score, 10) || 0;
-        if (n > maxSec) {
-          maxSec = n;
-          maxGrade = r.grade || "";
-        }
-      });
-      if (bestEl) bestEl.textContent = maxSec + "s";
-      if (heroBest) heroBest.textContent = maxSec + "s";
-      if (heroGrade) heroGrade.textContent = maxGrade.split("(")[0].trim();
-    } else {
-      if (bestEl) bestEl.textContent = "--";
-      if (heroBest) heroBest.textContent = "--";
-      if (heroGrade) heroGrade.textContent = tr("noTestYet");
-    }
-
-    const bpmRecords = history.filter(h => h.type === "BPM" && (h.scoreNum || h.score));
-    if (bpmRecords.length) {
-      let sum = 0;
-      bpmRecords.forEach(r => {
-        sum += (r.scoreNum || parseInt(r.score, 10) || 0);
-      });
-      let avg = Math.round(sum / bpmRecords.length);
-      if (bpmEl) bpmEl.textContent = avg + " BPM";
-    } else {
-      if (bpmEl) bpmEl.textContent = "--";
-    }
-  } catch (e) { }
-}
-
-/**
- * Filters the history list by test type ('all' | 'BOLT' | 'BPM').
- * @param {'all'|'BOLT'|'BPM'} type
- */
-function filterTestHistory(type) {
-  currentHistoryFilter = type;
-  ["histFilterAll", "histFilterBolt", "histFilterBpm"].forEach(id => {
-    const btn = $(id);
-    if (btn) btn.classList.remove("active");
-  });
-  if (type === "all") $("histFilterAll")?.classList.add("active");
-  if (type === "BOLT") $("histFilterBolt")?.classList.add("active");
-  if (type === "BPM") $("histFilterBpm")?.classList.add("active");
-  loadTestHistory(type);
-}
-
-/**
- * Retrieves assessment records from localStorage and renders them in the history container.
- * @param {'all'|'BOLT'|'BPM'} filter
- */
-function loadTestHistory(filter = currentHistoryFilter) {
-  const container = $("testHistoryList");
-  if (!container) return;
-  try {
-    let history = JSON.parse(localStorage.getItem("bw_test_history") || "[]");
-    if (filter !== "all") {
-      history = history.filter(h => h.type === filter);
-    }
-
-    if (!history.length) {
-      container.innerHTML = `<p class="small text-muted mb-0" id="emptyHistoryMsg">${tr("noHistoryYet")}</p>`;
-      updateTestStats();
-      return;
-    }
-
-    container.innerHTML = history.map(item => {
-      const isBolt = item.type === "BOLT";
-      const icon = isBolt ? "bi-lungs text-primary" : "bi-activity text-info";
-      const badgeClass = isBolt ? "bg-primary-subtle text-primary" : "bg-info-subtle text-info";
-
-      return `
-        <div class="test-history-card-item">
-          <div class="d-flex align-items-center gap-2">
-            <div class="rounded-circle p-2 ${badgeClass} d-grid place-items-center" style="width:34px;height:34px;">
-              <i class="bi ${icon} fs-6"></i>
-            </div>
-            <div>
-              <strong class="text-dark small">${item.type}: ${item.score}</strong>
-              <div class="text-muted extra-small">${item.grade ? item.grade.split("(")[0].trim() : ""}</div>
-            </div>
-          </div>
-          <span class="badge bg-light text-secondary border extra-small">${item.date}</span>
-        </div>
-      `;
-    }).join("");
-
-    updateTestStats();
-    updateTestSoundUI();
-  } catch (e) { }
-}
-
-/**
- * Clears all saved assessment records from localStorage and re-renders the empty view.
- */
-function clearTestHistory() {
-  if (confirm(lang === "bn" ? "আপনি কি নিশ্চিতভাবে সব টেস্ট রেকর্ড মুছে ফেলতে চান?" : "Are you sure you want to clear your assessment history?")) {
-    localStorage.removeItem("bw_test_history");
-    loadTestHistory(currentHistoryFilter);
-    updateTestStats();
-  }
-}
-
-/**
- * Resets the breathing test interface to its initial state, clearing active timers
- * and restoring the instructional start view.
- */
-function resetTest() {
-  if (testRunning) stopCurrentTest();
-  testRunning = false;
-  if (testInterval) clearInterval(testInterval);
-  if (testCountInterval) clearInterval(testCountInterval);
-
-  const instructView = $("testInstructionView");
-  const resultView = $("testResultView");
-  const countBox = $("testCountdownBox");
-  const activeStage = $("testActiveStage");
-  const startBtn = $("startTestBtn");
-  const stopBtn = $("stopTestBtn");
-  const tapBpmBtn = $("tapBpmBtn");
-  const timerDisp = $("boltTimerDisplay");
-  const svgCircle = $("boltSvgProgress");
-  const badge = $("boltMilestoneBadge");
-  const text = $("boltMilestoneText");
-
-  if (instructView) instructView.classList.remove("d-none");
-  if (resultView) resultView.classList.add("d-none");
-  if (countBox) countBox.classList.add("d-none");
-  if (activeStage) activeStage.classList.add("d-none");
-  if (startBtn) startBtn.classList.remove("d-none");
-  if (stopBtn) stopBtn.classList.add("d-none");
-  if (tapBpmBtn) tapBpmBtn.classList.add("d-none");
-  if (timerDisp) timerDisp.textContent = "00.0s";
-
-  if (svgCircle) {
-    svgCircle.style.strokeDashoffset = "660";
-  }
-  if (badge && text) {
-    badge.className = "bolt-milestone-badge bg-primary bg-opacity-10 text-primary";
-    text.textContent = lang === "bn" ? "পরিমাপের জন্য প্রস্তুত" : "Ready for assessment";
-  }
-}
-
-/**
- * Launches the personalized exercise recommended by the user's latest assessment score.
- * Handles cross-page navigation if the session container is not on the current page.
- */
-function launchRecommendedExercise() {
-  selected = exercises.find(e => e.id === recommendedExerciseId) || exercises[0];
-  if (!$("session")) {
-    window.location.href = `exercises.html?exercise=${recommendedExerciseId}&action=start`;
-    return;
-  }
-  startSession();
-}
 
 /* ============================================================================
  * 17. MULTI-PAGE DEEP LINKING & APPLICATION LIFECYCLE
  * ============================================================================
  */
 
-/**
- * Background tab safety listener: Automatically pauses any running exercise session
- * when the document visibility changes to hidden (e.g. user switches tabs).
- */
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden && run && !paused) {
-    togglePause();
-    toast(lang === "bn" ? "ট্যাবটি আড়ালে যাওয়ায় অনুশীলন বিরতিতে রাখা হয়েছে।" : "Practice paused because this tab is no longer visible.");
-  }
-});
-
-/**
- * Determines the initial active screen identifier based on document body data-page attribute,
- * active .screen DOM class, or URL pathname heuristics.
- *
- * @returns {string} Initial screen ID ('home', 'library', 'test', etc.).
- */
-function getInitialScreen() {
-  const page = document.body.dataset.page;
-  if (page) return page === "exercises" ? "library" : page;
-  const activeScreen = document.querySelector(".screen.active");
-  if (activeScreen) return activeScreen.id;
-  const path = window.location.pathname.toLowerCase();
-  if (path.includes("exercise")) return "library";
-  if (path.includes("test")) return "test";
-  return "home";
-}
-
-/**
- * Parses deep-linking URL parameters (?goal=..., ?exercise=..., ?level=..., ?action=...)
- * on initial page load and routes directly to the requested exercise or category filter.
- */
-function handleUrlParams() {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has("goal")) {
-      const g = params.get("goal");
-      if (["all", "stress", "focus", "sleep", "mindful"].includes(g)) {
-        exploreGoal = g;
-        document.querySelectorAll(".goal-pill").forEach(x => {
-          const isActive = x.dataset.goal === g;
-          x.classList.toggle("btn-primary", isActive);
-          x.classList.toggle("btn-outline-primary", !isActive);
-        });
-        renderCards();
-      }
-    }
-    if (params.has("exercise")) {
-      const exId = params.get("exercise");
-      const ex = exercises.find(e => e.id === exId);
-      if (ex) {
-        selected = ex;
-        if (params.has("level")) {
-          const lvl = params.get("level");
-          if (["beginner", "intermediate", "advanced"].includes(lvl)) {
-            selectedLevel = lvl;
-            cardSelectedLevels[exId] = lvl;
-          }
-        }
-        const action = params.get("action");
-        if (action === "start") {
-          setTimeout(() => {
-            startSession();
-          }, 80);
-        } else {
-          setTimeout(() => {
-            openDetails(exId);
-          }, 50);
-        }
-      }
-    }
-    if (params.has("mode") || params.has("tab")) {
-      const mode = (params.get("mode") || params.get("tab") || "").toLowerCase();
-      if (mode === "bpm" || mode === "bolt") {
-        setTimeout(() => {
-          if (typeof switchTestTab === "function") {
-            switchTestTab(mode);
-          }
-        }, 80);
-      }
-    }
-  } catch (e) { }
-}
-
-/**
- * Smoothly scrolls to target hash anchors on page load (e.g. #safety) and updates navigation.
- */
 function handleHashOnLoad() {
   if (window.location.hash === "#safety") {
     setTimeout(() => {
@@ -3547,16 +1755,9 @@ function isTargetCurrentPage(href) {
   if (!cleanHref) return true;
   if (cleanHref === currentFile) return true;
   if (cleanHref === "index.html" && currentFile === "") return true;
-  if ((cleanHref === "breath-test.html" || cleanHref === "test.html") && (currentFile === "breath-test.html" || currentFile === "test.html")) return true;
   return false;
 }
 
-/**
- * Binds functional controls for the mobile offcanvas sidebar drawer:
- * - Real-time language selector pills (বাংলা / English)
- * - Infallible routing and smooth scrolling for all navigation and quick action links
- * - SOS emergency calm trigger routing
- */
 function initMobileSidebar() {
   document.querySelectorAll(".mobile-lang-pill").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -3574,13 +1775,11 @@ function initMobileSidebar() {
         const href = link.getAttribute("href") || "";
         const action = link.dataset.action;
 
-        // Immediately close the offcanvas
         if (typeof bootstrap !== "undefined" && bootstrap.Offcanvas) {
           const inst = bootstrap.Offcanvas.getInstance(sidebar);
           if (inst) inst.hide();
         }
 
-        // 1. SOS Emergency or Safety anchor
         if (action === "emergency-sos" || href.includes("#safety")) {
           const safetyEl = $("safety");
           if (safetyEl) {
@@ -3601,14 +1800,12 @@ function initMobileSidebar() {
           }
         }
 
-        // 2. Current Page link: scroll to top
         if (isTargetCurrentPage(href)) {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: "smooth" });
           return;
         }
 
-        // 3. Different page: explicitly route to guarantee navigation across all mobile browsers
         if (href && !href.startsWith("javascript:")) {
           e.preventDefault();
           window.location.href = href;
@@ -3623,7 +1820,7 @@ function initMobileSidebar() {
 // ----------------------------------------------------------------------------
 let currentHeroSlideIndex = 0;
 let heroSlideTimer = null;
-const HERO_SLIDE_INTERVAL = 6500; // 6.5s auto-rotation
+const HERO_SLIDE_INTERVAL = 6500;
 
 function initHeroSlider() {
   const slider = $("heroSlider");
@@ -3679,7 +1876,6 @@ function initHeroSlider() {
     }
   }
 
-  // Hook button events
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
       prevSlide();
@@ -3693,7 +1889,6 @@ function initHeroSlider() {
     });
   }
 
-  // Hook dot navigation
   dots.forEach(d => {
     d.addEventListener("click", () => {
       const target = parseInt(d.dataset.slide, 10);
@@ -3704,11 +1899,9 @@ function initHeroSlider() {
     });
   });
 
-  // Pause on hover or focus
   slider.addEventListener("mouseenter", stopAutoSlide);
   slider.addEventListener("mouseleave", startAutoSlide);
 
-  // Mobile Touch Swipe gestures
   let touchStartX = 0;
   let touchEndX = 0;
 
@@ -3734,7 +1927,6 @@ function initHeroSlider() {
     startAutoSlide();
   }, { passive: true });
 
-  // Keyboard navigation
   slider.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
       prevSlide();
@@ -3745,7 +1937,6 @@ function initHeroSlider() {
     }
   });
 
-  // Initialize first view & start timer
   showSlide(0);
   startAutoSlide();
 }
@@ -3757,21 +1948,10 @@ setLang(lang);
 initMobileSidebar();
 initHeroSlider();
 renderCards();
-const currentScreen = getInitialScreen();
-updateNavActive(currentScreen);
-if (currentScreen === "test") {
-  loadTestHistory();
-  updateTestStats();
-}
-$("testSoundToggle")?.addEventListener("click", toggleTestSound);
-updateTestSoundUI();
-handleUrlParams();
 handleHashOnLoad();
 
 /**
  * IntersectionObserver for Safety Hub scrollspy on Home screen:
- * Dynamically highlights the Safety tab in the mobile bottom drawer navigation
- * whenever the user scrolls past the 25% threshold of the #safety section.
  */
 if ("IntersectionObserver" in window) {
   const safetyObserver = new IntersectionObserver((entries) => {

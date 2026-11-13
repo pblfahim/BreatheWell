@@ -1,0 +1,208 @@
+﻿/**
+ * ============================================================================
+ * @file breath-test.css
+ * @module BreatheWell/BreathTest/Styles
+ * @description Dedicated Modular Stylesheet for Respiratory Assessment Engine.
+ *              Encapsulates styling for:
+ *                1. Respiratory assessment teaser callout banner & 3D rotating rings
+ *                2. Dual assessment mode tabs (BOLT Test & BPM Respiratory Rate)
+ *                3. Interactive BOLT countdown stopwatch and glowing aura ring
+ *                4. BPM respiratory breath tap counter box
+ *                5. Clinical score diagnostic hero & personalized recommendation cards
+ *                6. Respiratory assessment history archive log and score badges
+ *                7. Dedicated test result social sharing bar and mini buttons
+ *                8. Pulsing & breathing keyframe animations
+ * @author BreatheWell Development Team
+ * @version 1.0.0
+ * @license MIT
+ * ============================================================================
+ */
+/* ============================================================================
+ * 11. RESPIRATORY ASSESSMENT ENGINE (BOLT & BPM)
+ * ============================================================================
+ */
+.test-banner {
+  background: linear-gradient(135deg, #104e82 0%, #1769aa 55%, #2998e3 100%);
+  box-shadow: 0 16px 45px rgba(16, 78, 130, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.test-banner-visual {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+}
+
+.test-banner-visual .pulse-ring {
+  position: absolute;
+  inset: -15px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 255, 255, 0.35);
+  animation: orbit 24s linear infinite;
+}
+
+.test-badge-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: white;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: heroBreathe 5s ease-in-out infinite;
+}
+
+.test-tab-btn {
+  border-radius: 20px;
+  padding: 0.45rem 1.1rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.test-panel {
+  border: 1px solid var(--line);
+  background: white;
+  transition: box-shadow 0.3s ease;
+}
+
+.test-visual-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: var(--sky);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(23, 105, 170, 0.12);
+}
+
+.test-count-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #eaf5ff 0%, #cdeeff 100%);
+  border: 2px solid #84c5f4;
+  display: grid;
+  place-items: center;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--blue-dark);
+  animation: prepareThrob 1s ease-in-out infinite;
+  box-shadow: 0 10px 30px rgba(23, 105, 170, 0.2);
+}
+
+.bolt-meter-wrap {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 35% 28%, #ffffff 0%, #eef8ff 45%, #bfe4fa 100%);
+  box-shadow: 0 20px 60px rgba(23, 105, 170, 0.22), inset 0 0 20px rgba(255, 255, 255, 0.8);
+  position: relative;
+  user-select: none;
+}
+
+.bolt-glow-ring {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 2px solid rgba(46, 155, 229, 0.25);
+  animation: stagePulse 4s ease-in-out infinite;
+}
+
+.bolt-timer-display {
+  font-size: 2.9rem;
+  font-weight: 900;
+  color: var(--blue-dark);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+}
+
+.result-score-hero {
+  background: radial-gradient(circle at 50% 30%, #f0f8ff 0%, #e3f2fd 100%);
+  border: 1px solid #c9e3f7;
+}
+
+.result-score-number {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1.5px;
+}
+
+.personalized-recommendation {
+  background: #fbfdff;
+  border-color: #d8e9f7;
+}
+
+.test-history-item,
+.test-history-card-item {
+  border-bottom: 1px solid var(--bw-line);
+  padding: 10px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  transition: background-color 0.18s ease;
+}
+
+.test-history-card-item:hover {
+  background-color: var(--bw-surface-alt);
+  border-radius: var(--bw-radius-sm);
+}
+
+.test-history-item:last-child,
+.test-history-card-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.test-history-container {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+
+.test-share-bar {
+  background: #fbfdff;
+  border-color: #d8e9f7;
+}
+
+.share-mini-btn {
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.32rem 0.72rem;
+  font-size: 0.8rem;
+  transition: all 0.18s ease;
+}
+
+.share-mini-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* ============================================================================
+ * RESPIRATORY TEST KEYFRAME ANIMATIONS
+ * ============================================================================
+ */
+@keyframes prepareThrob {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 30px rgba(23, 105, 170, 0.2);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 14px 38px rgba(23, 105, 170, 0.35);
+  }
+}
+
+@keyframes stagePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.6;
+  }
+}
