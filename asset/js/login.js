@@ -120,7 +120,9 @@
       heroPillQuick: "১ মিনিটে প্রশান্তি",
       gentlePractice: "নরম ও স্বচ্ছন্দ",
       heroPillStress: "চাপ হ্রাস",
-      trustBadgeText: "৫০,০০০+ সুস্থ শ্বাসচর্চাকারীর আস্থা"
+      trustBadgeText: "৫০,০০০+ সুস্থ শ্বাসচর্চাকারীর আস্থা",
+      footerTag: "প্রতিটি নিঃশ্বাসে একটি প্রশান্তি",
+      footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।"
     },
     en: {
       docTitle: "BreatheWell | Log In",
@@ -218,7 +220,9 @@
       heroPillQuick: "1-Min Relief",
       gentlePractice: "Gentle & Easy",
       heroPillStress: "Stress Relief",
-      trustBadgeText: "Trusted by 50,000+ mindful breathers"
+      trustBadgeText: "Trusted by 50,000+ mindful breathers",
+      footerTag: "Peace in every breath",
+      footerDisclaimer: "For general wellness. Not a substitute for medical advice."
     }
   };
 

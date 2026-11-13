@@ -48,33 +48,25 @@
   <!-- ========================================================================
        1. GLOBAL DESKTOP NAVIGATION BAR
        ======================================================================== -->
+  <!-- ========================================================================
+       TOP NAVBAR (BreatheWell Global Navigation)
+       ======================================================================== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
-        aria-label="BreatheWell home">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html" aria-label="BreatheWell home">
         <span class="brand-mark"><i class="bi bi-wind"></i></span>
         <span>BreatheWell</span>
       </a>
       <div class="d-flex align-items-center gap-2 order-lg-3">
-        <div class="nav-auth-slot">
-          <a href="login.html" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 active"
-            aria-current="page">
-            <i class="bi bi-box-arrow-in-right"></i>
-            <span data-i18n="navLogin">লগইন</span>
-          </a>
-        </div>
         <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
       </div>
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
-          <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="navHome">হোম</a></li>
-          <li class="nav-item"><a class="nav-link" href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
-              ট্র্যাকার</a></li>
-          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html" data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link " href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a></li>
+          <li class="nav-item"><a class="nav-link " href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link " href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link " href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
         </ul>
       </div>
     </div>
@@ -507,6 +499,16 @@
       </div>
     </div>
   </main>
+
+  <!-- ========================================================================
+       FOOTER (BreatheWell Global Footer)
+       ======================================================================== -->
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+    </div>
+  </footer>
 
   <!-- ========================================================================
        3. PASSWORD RECOVERY MODAL

@@ -153,7 +153,9 @@
       memberSavedSuccess: "সদস্যের তথ্য সফলভাবে সংরক্ষিত হয়েছে!",
       memberDeletedSuccess: "সদস্য সফলভাবে মুছে ফেলা হয়েছে।",
       memberCountLabel: "জন সদস্য",
-      errMemberNameRequired: "অনুগ্রহ করে সদস্যের নাম লিখুন।"
+      errMemberNameRequired: "অনুগ্রহ করে সদস্যের নাম লিখুন।",
+      footerTag: "প্রতিটি নিঃশ্বাসে একটি প্রশান্তি",
+      footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।"
     },
     en: {
       docTitle: "BreatheWell | Member Profile",
@@ -281,7 +283,9 @@
       memberSavedSuccess: "Family member saved successfully!",
       memberDeletedSuccess: "Family member removed successfully.",
       memberCountLabel: "Members",
-      errMemberNameRequired: "Please enter member name."
+      errMemberNameRequired: "Please enter member name.",
+      footerTag: "Peace in every breath",
+      footerDisclaimer: "For general wellness. Not a substitute for medical advice."
     }
   };
 

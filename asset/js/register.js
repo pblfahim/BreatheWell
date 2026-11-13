@@ -145,7 +145,9 @@
       relOtherShort: "অন্যান্য",
       condHeart: "হৃদরোগ",
       familyAddHint: "একাধিক সদস্য (বাবা, মা, সন্তান, দাদা-দাদী) ক্রমান্বয়ে যোগ করতে পারবেন।",
-      btnAddMoreMembers: "+ আরো সদস্য যোগ করুন"
+      btnAddMoreMembers: "+ আরো সদস্য যোগ করুন",
+      footerTag: "প্রতিটি নিঃশ্বাসে একটি প্রশান্তি",
+      footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।"
     },
     en: {
       docTitle: "BreatheWell | Register",
@@ -268,7 +270,9 @@
       relOtherShort: "Other",
       condHeart: "Heart Condition",
       familyAddHint: "You can add multiple family members one after another.",
-      btnAddMoreMembers: "+ Add Another Member"
+      btnAddMoreMembers: "+ Add Another Member",
+      footerTag: "Peace in every breath",
+      footerDisclaimer: "For general wellness. Not a substitute for medical advice."
     }
   };
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ============================================================================
  * BreatheWell - Design System & Component Stylesheet
  * ============================================================================
@@ -3246,4 +3246,32 @@ main {
     min-width: 0;
   }
 }
+
+/* ============================================================================
+ * 18. UNIFIED GLOBAL FOOTER & MEDICAL DISCLAIMER
+ * ============================================================================
+ */
+footer {
+  border-top: 1px solid var(--bw-line, #e2e8f0);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  padding: 14px 0;
+  color: var(--bw-muted, #64748b);
+  font-size: 0.88rem;
+  margin-top: auto;
+  position: relative;
+  z-index: 10;
+}
+
+footer .container {
+  font-size: 0.88rem;
+}
+
+@media print {
+  footer {
+    display: none !important;
+  }
+}
+
 
