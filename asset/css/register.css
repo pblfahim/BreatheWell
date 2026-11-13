@@ -1,0 +1,980 @@
+/**
+ * ============================================================================
+ * BreatheWell - Member Registration & Onboarding Stylesheet (register.css)
+ * ============================================================================
+ * @file        asset/css/register.css
+ * @module      BreatheWell/RegisterStyle
+ * @description Dedicated styling for BreatheWell registration, progressive
+ *              onboarding, interactive live password strength meter, health goal
+ *              selection cards, family member management, and matching clean UI.
+ * @author      BreatheWell Development Team
+ * @version     1.2.0
+ * @license     MIT
+ * ============================================================================
+ */
+
+/* ----------------------------------------------------------------------------
+ * 1. REGISTRATION CENTERED WIDE LAYOUT & CONTAINER
+ * ---------------------------------------------------------------------------- */
+.reg-layout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.reg-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ----------------------------------------------------------------------------
+ * 2. REGISTRATION AUTH CARD (EXPANDED WIDTH, COMPACT VERTICAL FOOTPRINT)
+ * ---------------------------------------------------------------------------- */
+.reg-auth-card {
+  max-width: 940px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 3rem 2.25rem;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 28px;
+  box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.08), 0 4px 14px rgba(15, 23, 42, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.reg-auth-card:hover {
+  box-shadow: 0 24px 50px -10px rgba(15, 23, 42, 0.1), 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+/* Header & Social Auth Spacing */
+.reg-auth-card .auth-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.reg-auth-card .social-auth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  max-width: 440px;
+  margin: 0 auto 1.15rem;
+}
+
+.reg-auth-card .auth-divider {
+  max-width: 540px;
+  margin: 1.15rem auto 1.25rem;
+}
+
+/* ----------------------------------------------------------------------------
+ * 3. ONBOARDING STEP SECTIONS & HEADINGS
+ * ---------------------------------------------------------------------------- */
+.register-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 1.25rem 0 0.85rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1.5px solid #f1f5f9;
+}
+
+.register-section-step {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  color: #0284c7;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+/* ----------------------------------------------------------------------------
+ * 4. MULTI-COLUMN FORM ROWS & INPUTS (MINIMIZES VERTICAL SCROLLING)
+ * ---------------------------------------------------------------------------- */
+.reg-form-row {
+  display: grid;
+  gap: 1.15rem;
+  margin-bottom: 0.15rem;
+}
+
+.reg-row-3col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.reg-row-2col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.reg-form-group {
+  margin-bottom: 0.85rem;
+  position: relative;
+}
+
+.reg-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.4rem;
+}
+
+.reg-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.reg-input-icon {
+  position: absolute;
+  left: 1.15rem;
+  color: #94a3b8;
+  font-size: 1.05rem;
+  pointer-events: none;
+  transition: color 0.2s ease;
+  z-index: 3;
+}
+
+.reg-input {
+  width: 100%;
+  height: 46px;
+  padding: 0.55rem 1rem 0.55rem 2.85rem;
+  font-size: 0.92rem;
+  color: #0f172a;
+  background-color: #f1f5f9;
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reg-input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.reg-input:focus {
+  background-color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3.5px rgba(56, 189, 248, 0.18);
+  outline: none;
+}
+
+.reg-input:focus + .reg-input-icon,
+.reg-input-wrap:focus-within .reg-input-icon {
+  color: #0284c7;
+}
+
+.reg-input.has-error {
+  border-color: var(--bw-rose);
+  background-color: #fff1f2;
+}
+
+.reg-input.has-error:focus {
+  box-shadow: 0 0 0 3.5px rgba(239, 68, 68, 0.15);
+}
+
+.reg-input.has-success {
+  border-color: #10b981;
+}
+
+.reg-error-feedback {
+  display: none;
+  font-size: 0.8rem;
+  color: var(--bw-rose);
+  font-weight: 500;
+  margin-top: 0.3rem;
+  padding-left: 0.25rem;
+}
+
+.reg-error-feedback.show {
+  display: block;
+  animation: regFadeInDown 0.2s ease;
+}
+
+@keyframes regFadeInDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reg-password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 0.4rem;
+  color: #94a3b8;
+  font-size: 1.15rem;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  z-index: 3;
+}
+
+.reg-password-toggle:hover {
+  color: #0f172a;
+}
+
+/* ----------------------------------------------------------------------------
+ * 5. INTERACTIVE PASSWORD STRENGTH METER (COMPACT IN 2-COLUMN VIEW)
+ * ---------------------------------------------------------------------------- */
+.password-meter-wrap {
+  margin-top: 0.45rem;
+  margin-bottom: 0.25rem;
+}
+
+.password-meter-bar {
+  height: 5px;
+  background-color: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.3rem;
+  position: relative;
+}
+
+.password-meter-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.3s ease;
+}
+
+.password-meter-fill.weak {
+  width: 25%;
+  background-color: #ef4444;
+}
+
+.password-meter-fill.fair {
+  width: 50%;
+  background-color: #f59e0b;
+}
+
+.password-meter-fill.good {
+  width: 75%;
+  background-color: #0284c7;
+}
+
+.password-meter-fill.strong {
+  width: 100%;
+  background-color: #10b981;
+}
+
+.password-meter-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.password-meter-label {
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.password-meter-label.weak { color: #ef4444; }
+.password-meter-label.fair { color: #f59e0b; }
+.password-meter-label.good { color: #0284c7; }
+.password-meter-label.strong { color: #10b981; }
+
+.password-rules-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 0.35rem;
+}
+
+.rule-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.rule-item.valid {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.rule-item i {
+  font-size: 0.8rem;
+}
+
+/* ----------------------------------------------------------------------------
+ * 6. HEALTH & MINDFULNESS GOAL SELECTION TILES (4-COLUMN ROW ON DESKTOP)
+ * ---------------------------------------------------------------------------- */
+.health-goals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.goal-tile {
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 0.75rem 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  user-select: none;
+}
+
+.goal-tile:hover {
+  background-color: #ffffff;
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.goal-tile.active {
+  background-color: #f0f9ff;
+  border-color: #0284c7;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12);
+}
+
+.goal-tile-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.goal-tile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.goal-tile-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.1rem;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.goal-tile-sub {
+  font-size: 0.7rem;
+  color: #64748b;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.goal-tile-check {
+  font-size: 1.05rem;
+  color: #0284c7;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.goal-tile.active .goal-tile-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ----------------------------------------------------------------------------
+ * 7. FAMILY MEMBERS ONBOARDING SECTION (CLEAN, MODULAR & INTUITIVE)
+ * ---------------------------------------------------------------------------- */
+.reg-family-container {
+  margin-bottom: 1.25rem;
+}
+
+.reg-family-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.reg-family-desc {
+  font-size: 0.82rem;
+  color: #64748b;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Quick Relation Selector Shortcut Bar */
+.reg-relation-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+}
+
+.shortcuts-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-right: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-relation-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-relation-pill:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.btn-relation-pill.active-pill {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #38bdf8;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.15);
+}
+
+/* Clean Input Form Box */
+.reg-family-box {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 1.15rem 1.25rem 0.95rem;
+  margin-bottom: 0.85rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reg-family-box:focus-within {
+  border-color: #38bdf8;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.08);
+}
+
+.reg-family-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1.6fr 0.75fr;
+  gap: 0.95rem;
+  align-items: flex-end;
+}
+
+.reg-family-label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.reg-family-select {
+  cursor: pointer;
+}
+
+.reg-family-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.95rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.reg-family-hint {
+  font-size: 0.78rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+}
+
+.btn-outline-teal {
+  color: #00897b;
+  border: 1px solid #00897b;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-outline-teal:hover {
+  background-color: #00897b;
+  color: #ffffff;
+}
+
+.btn-add-reg-member {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  height: 44px;
+  padding: 0 1.35rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #0284c7;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.2);
+}
+
+.btn-add-reg-member:hover {
+  background-color: #0369a1;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.32);
+  transform: translateY(-1px);
+}
+
+.btn-add-reg-member:active {
+  transform: translateY(0);
+}
+
+/* Quick Condition Suggestion Badges */
+.reg-condition-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.reg-chip-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-right: 0.25rem;
+}
+
+.btn-condition-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.22rem 0.65rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #475569;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-condition-tag:hover {
+  background: #f0fdf4;
+  color: #15803d;
+  border-color: #86efac;
+  transform: translateY(-1px);
+}
+
+/* Added Members Display Area */
+.reg-members-list-wrapper {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 0.85rem 1.15rem;
+}
+
+.reg-members-list-header {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.reg-members-empty {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 0.65rem 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.reg-members-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 0.65rem;
+}
+
+/* Rich Member Card Component */
+.reg-member-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 0.75rem 0.95rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  animation: regFadeInDown 0.25s ease;
+  transition: all 0.2s ease;
+}
+
+.reg-member-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.reg-member-card-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.reg-member-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.reg-member-avatar.reg-rel-father { background: rgba(23, 105, 170, 0.12); color: #1769aa; }
+.reg-member-avatar.reg-rel-mother { background: rgba(147, 51, 234, 0.12); color: #9333ea; }
+.reg-member-avatar.reg-rel-spouse { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+.reg-member-avatar.reg-rel-brother { background: rgba(0, 137, 123, 0.12); color: #00897b; }
+.reg-member-avatar.reg-rel-sister { background: rgba(6, 182, 212, 0.12); color: #06b6d4; }
+.reg-member-avatar.reg-rel-son { background: rgba(245, 158, 11, 0.12); color: #d97706; }
+.reg-member-avatar.reg-rel-daughter { background: rgba(236, 72, 153, 0.12); color: #ec4899; }
+.reg-member-avatar.reg-rel-grandfather { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+.reg-member-avatar.reg-rel-grandmother { background: rgba(168, 85, 247, 0.12); color: #7e22ce; }
+.reg-member-avatar.reg-rel-father-in-law { background: rgba(71, 85, 105, 0.12); color: #334155; }
+.reg-member-avatar.reg-rel-mother-in-law { background: rgba(217, 70, 239, 0.12); color: #a21caf; }
+.reg-member-avatar.reg-rel-uncle { background: rgba(20, 184, 166, 0.12); color: #0f766e; }
+.reg-member-avatar.reg-rel-aunt { background: rgba(244, 63, 94, 0.12); color: #be123c; }
+.reg-member-avatar.reg-rel-child { background: rgba(34, 197, 94, 0.12); color: #15803d; }
+.reg-member-avatar.reg-rel-other { background: rgba(100, 116, 139, 0.12); color: #64748b; }
+
+.reg-member-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.reg-member-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.reg-member-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reg-relation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.reg-rel-father { background: rgba(23, 105, 170, 0.12); color: #1769aa; }
+.reg-rel-mother { background: rgba(147, 51, 234, 0.12); color: #9333ea; }
+.reg-rel-spouse { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+.reg-rel-brother { background: rgba(0, 137, 123, 0.12); color: #00897b; }
+.reg-rel-sister { background: rgba(6, 182, 212, 0.12); color: #06b6d4; }
+.reg-rel-son { background: rgba(245, 158, 11, 0.12); color: #d97706; }
+.reg-rel-daughter { background: rgba(236, 72, 153, 0.12); color: #ec4899; }
+.reg-rel-grandfather { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+.reg-rel-grandmother { background: rgba(168, 85, 247, 0.12); color: #7e22ce; }
+.reg-rel-father-in-law { background: rgba(71, 85, 105, 0.12); color: #334155; }
+.reg-rel-mother-in-law { background: rgba(217, 70, 239, 0.12); color: #a21caf; }
+.reg-rel-uncle { background: rgba(20, 184, 166, 0.12); color: #0f766e; }
+.reg-rel-aunt { background: rgba(244, 63, 94, 0.12); color: #be123c; }
+.reg-rel-child { background: rgba(34, 197, 94, 0.12); color: #15803d; }
+.reg-rel-other { background: rgba(100, 116, 139, 0.12); color: #64748b; }
+
+.reg-age-badge {
+  font-size: 0.72rem;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: #f1f5f9;
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+}
+
+.reg-member-health-note {
+  font-size: 0.74rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-remove-member {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.btn-remove-member:hover {
+  color: #ef4444;
+  background-color: #fee2e2;
+}
+
+/* ----------------------------------------------------------------------------
+ * 8. TERMS AGREEMENT CHECKBOX
+ * ---------------------------------------------------------------------------- */
+.reg-terms-group {
+  margin: 1.15rem 0 1.25rem;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.reg-terms-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  color: #475569;
+  cursor: pointer;
+  margin: 0;
+  user-select: none;
+}
+
+.reg-terms-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #0284c7;
+  border-radius: 4px;
+  margin-top: 0.15rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.reg-terms-link {
+  color: #0284c7;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.reg-terms-link:hover {
+  color: #0369a1;
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------------------
+ * 9. PRIMARY REGISTRATION SUBMIT BUTTON
+ * ---------------------------------------------------------------------------- */
+.reg-submit-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn-reg-submit {
+  max-width: 440px;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #0284c7;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.28);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-reg-submit:hover {
+  background-color: #0369a1;
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.38);
+  transform: translateY(-1px);
+}
+
+.btn-reg-submit:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.24);
+}
+
+.btn-reg-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.reg-btn-spinner {
+  display: inline-block;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: regSpin 0.7s linear infinite;
+}
+
+@keyframes regSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ----------------------------------------------------------------------------
+ * 10. RESPONSIVE BREAKPOINTS (FLUID ADAPTATION ACROSS ALL SCREENS)
+ * ---------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .reg-layout-container {
+    max-width: 760px;
+  }
+
+  .reg-auth-card {
+    max-width: 760px;
+    padding: 2.25rem 2rem;
+  }
+
+  .reg-row-3col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .reg-row-3col .reg-form-group:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .health-goals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .reg-family-grid {
+    grid-template-columns: 1.15fr 1.5fr 0.75fr;
+    gap: 0.85rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .reg-auth-card {
+    max-width: 100%;
+    padding: 1.75rem 1.25rem;
+    border-radius: 20px;
+  }
+
+  .reg-row-3col,
+  .reg-row-2col {
+    grid-template-columns: 1fr;
+  }
+
+  .reg-row-3col .reg-form-group:last-child {
+    grid-column: auto;
+  }
+
+  .health-goals-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reg-family-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reg-family-action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-add-reg-member {
+    width: 100%;
+  }
+
+  .btn-reg-submit {
+    max-width: 100%;
+  }
+
+  .reg-members-list {
+    grid-template-columns: 1fr;
+  }
+
+  .reg-relation-shortcuts {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.35rem;
+    scrollbar-width: none;
+  }
+
+  .reg-relation-shortcuts::-webkit-scrollbar {
+    display: none;
+  }
+}

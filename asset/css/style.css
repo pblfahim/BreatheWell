@@ -903,6 +903,10 @@ main {
   transform-style: preserve-3d;
 }
 
+/* --------------------------------------------------------------------------
+   HERO 3D BREATHING ORB & ORBIT RINGS (CENTRAL 3D GLOWING CORE)
+   -------------------------------------------------------------------------- */
+.hero-3d-breathing-wrap,
 .hero-buddy-wrap {
   position: relative;
   display: flex;
@@ -910,265 +914,257 @@ main {
   align-items: center;
   justify-content: center;
   z-index: 2;
+  width: 100%;
+}
+
+/* 3D Animated Graphics Stage */
+.visual-3d-stage {
+  position: relative;
+  width: 100%;
+  height: 330px;
+  perspective: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.hero-home-3d-stage {
+  height: 290px;
+  margin: 0;
+}
+
+.cube-3d-scene {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3D Orbit Rings */
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.orbit-ring-1 {
+  width: 275px;
+  height: 275px;
+  border: 1.5px dashed rgba(0, 137, 123, 0.42);
+  transform: rotateX(68deg) rotateY(18deg);
+  animation: orbitSpin1 18s linear infinite;
+}
+
+.orbit-ring-2 {
+  width: 225px;
+  height: 225px;
+  border: 1.5px solid rgba(23, 105, 170, 0.35);
+  transform: rotateX(72deg) rotateY(-28deg);
+  animation: orbitSpin2 14s linear infinite reverse;
+}
+
+.orbit-ring-3 {
+  width: 310px;
+  height: 310px;
+  border: 1.5px dotted rgba(6, 182, 212, 0.45);
+  transform: rotateX(55deg) rotateY(42deg);
+  animation: orbitSpin3 22s linear infinite;
+}
+
+@keyframes orbitSpin1 {
+  from {
+    transform: rotateX(68deg) rotateY(18deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(68deg) rotateY(18deg) rotateZ(360deg);
+  }
+}
+
+@keyframes orbitSpin2 {
+  from {
+    transform: rotateX(72deg) rotateY(-28deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(72deg) rotateY(-28deg) rotateZ(360deg);
+  }
+}
+
+@keyframes orbitSpin3 {
+  from {
+    transform: rotateX(55deg) rotateY(42deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(55deg) rotateY(42deg) rotateZ(360deg);
+  }
+}
+
+/* Central 3D Glowing Core Sphere */
+.core-breathing-sphere {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4dd0e1 0%, #00897b 45%, #0f4c5c 100%);
+  box-shadow: 0 0 35px rgba(0, 137, 123, 0.55), inset 0 0 25px rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: respiratoryBreathe 6s ease-in-out infinite;
+  z-index: 5;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .hero-buddy-orb {
-  width: 220px;
-  height: 220px;
-  position: relative;
-  display: grid;
-  place-items: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
 
+.core-breathing-sphere:focus-visible,
 .hero-buddy-orb:focus-visible {
   outline: 3px solid var(--blue);
   border-radius: 50%;
 }
 
-/* Pulsing Atmospheric Aura */
-.buddy-aura {
-  position: absolute;
-  inset: -25px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(14, 165, 233, 0.12) 50%, transparent 72%);
-  filter: blur(14px);
-  pointer-events: none;
-  animation: buddyAuraBreathe 6s ease-in-out infinite;
+.core-breathing-sphere:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 45px rgba(0, 137, 123, 0.7), inset 0 0 28px rgba(255, 255, 255, 0.85);
 }
 
-@keyframes buddyAuraBreathe {
-
+@keyframes respiratoryBreathe {
   0%,
   100% {
-    transform: scale(0.9);
-    opacity: 0.6;
+    transform: scale(0.92);
+    box-shadow: 0 0 25px rgba(0, 137, 123, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.5);
   }
-
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-}
-
-/* 3D Ground Shadow beneath BreatheBuddy Orb */
-.buddy-ground-shadow {
-  position: absolute;
-  bottom: -36px;
-  width: 155px;
-  height: 26px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(2, 132, 199, 0.45) 0%, rgba(14, 165, 233, 0.15) 50%, transparent 75%);
-  filter: blur(10px);
-  pointer-events: none;
-  z-index: 0;
-  animation: buddyShadowBreathe 6s ease-in-out infinite;
-}
-
-@keyframes buddyShadowBreathe {
-
-  0%,
-  100% {
-    transform: scale(0.85);
-    opacity: 0.45;
-  }
-
-  50% {
-    transform: scale(1.22);
-    opacity: 0.9;
-  }
-}
-
-/* 3D Orbiting Planetary Rings */
-.buddy-orbit {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  transform-style: preserve-3d;
-}
-
-.buddy-orbit.orbit-1 {
-  inset: -22px;
-  border: 2px dashed rgba(56, 189, 248, 0.5);
-  transform: rotateX(68deg) rotateY(-18deg);
-  animation: orbit3D1 18s linear infinite;
-}
-
-.buddy-orbit.orbit-2 {
-  inset: -46px;
-  border: 1.5px dotted rgba(14, 165, 233, 0.4);
-  transform: rotateX(62deg) rotateY(22deg);
-  animation: orbit3D2 26s linear infinite reverse;
-}
-
-@keyframes orbit3D1 {
-  from {
-    transform: rotateX(68deg) rotateY(-18deg) rotateZ(0deg);
-  }
-
-  to {
-    transform: rotateX(68deg) rotateY(-18deg) rotateZ(360deg);
-  }
-}
-
-@keyframes orbit3D2 {
-  from {
-    transform: rotateX(62deg) rotateY(22deg) rotateZ(360deg);
-  }
-
-  to {
-    transform: rotateX(62deg) rotateY(22deg) rotateZ(0deg);
-  }
-}
-
-.orbit-particle {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.orbit-particle.p1 {
-  top: 10px;
-  left: 20px;
-  width: 13px;
-  height: 13px;
-  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #38bdf8 60%, #0284c7 100%);
-  box-shadow: 0 0 14px 3px #38bdf8, 0 4px 8px rgba(2, 132, 199, 0.4);
-}
-
-.orbit-particle.p2 {
-  bottom: 12px;
-  right: 25px;
-  width: 11px;
-  height: 11px;
-  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fbbf24 60%, #d97706 100%);
-  box-shadow: 0 0 12px 2px #fbbf24, 0 3px 6px rgba(217, 119, 6, 0.4);
-}
-
-/* Main Sphere Body with Volumetric 3D Lighting */
-.buddy-sphere {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 32% 26%, #ffffff 0%, #d8f1ff 30%, #7ecaf8 70%, #0ea5e9 95%, #0284c7 100%);
-  box-shadow:
-    0 28px 75px rgba(14, 165, 233, 0.42),
-    0 12px 28px rgba(2, 132, 199, 0.28),
-    inset -16px -20px 38px rgba(3, 105, 161, 0.35),
-    inset 12px 14px 26px rgba(255, 255, 255, 0.95),
-    inset -4px -4px 12px rgba(14, 165, 233, 0.5);
-  position: relative;
-  display: grid;
-  place-items: center;
-  animation: buddyBreathe3D 6s ease-in-out infinite;
-  transform-origin: center center;
-  transform-style: preserve-3d;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.hero-buddy-orb:hover .buddy-sphere {
-  transform: scale(1.08) translateY(-6px);
-}
-
-@keyframes buddyBreathe3D {
-
-  0%,
-  100% {
-    transform: scale(0.92) translateY(0);
-    box-shadow: 0 20px 50px rgba(14, 165, 233, 0.32), inset -14px -18px 34px rgba(3, 105, 161, 0.3), inset 10px 12px 22px rgba(255, 255, 255, 0.9);
-  }
-
-  50% {
-    transform: scale(1.08) translateY(-14px);
-    box-shadow: 0 38px 90px rgba(14, 165, 233, 0.5), 0 0 30px rgba(56, 189, 248, 0.45), inset -18px -22px 42px rgba(3, 105, 161, 0.4), inset 14px 16px 28px rgba(255, 255, 255, 1);
-  }
-}
-
-.buddy-shine {
-  position: absolute;
-  top: 12%;
-  left: 18%;
-  width: 45px;
-  height: 25px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.75);
-  transform: rotate(-35deg);
-  pointer-events: none;
-}
-
-/* Cute Expressive Face */
-.buddy-face-svg {
-  position: relative;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.buddy-eye {
-  animation: eyeBlink 4.5s infinite;
-  transform-origin: center;
-}
-
-@keyframes eyeBlink {
-
-  0%,
-  93%,
-  100% {
-    transform: scaleY(1);
-  }
-
-  96% {
-    transform: scaleY(0.1);
-  }
-}
-
-.buddy-mouth {
-  animation: mouthSmile 6s ease-in-out infinite;
-  transform-origin: 50px 42px;
-}
-
-@keyframes mouthSmile {
-
-  0%,
-  100% {
-    transform: scale(0.9);
-  }
-
   50% {
     transform: scale(1.18);
+    box-shadow: 0 0 65px rgba(23, 105, 170, 0.75), inset 0 0 30px rgba(255, 255, 255, 0.9);
   }
 }
 
-/* Playful Giggle Animation on Tap */
-.hero-buddy-orb.buddy-giggle .buddy-sphere {
-  animation: buddyGiggle 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+/* Playful Bounce / Giggle Animation on Tap */
+.core-breathing-sphere.buddy-giggle {
+  animation: coreOrbGiggle 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
 }
 
-@keyframes buddyGiggle {
+@keyframes coreOrbGiggle {
   0% {
     transform: scale(1);
   }
-
   20% {
-    transform: scale(0.82, 1.18) translateY(-14px);
+    transform: scale(0.84, 1.18) translateY(-8px);
   }
-
   40% {
-    transform: scale(1.2, 0.84) translateY(8px);
+    transform: scale(1.18, 0.86) translateY(4px);
   }
-
   60% {
-    transform: scale(0.94, 1.06) translateY(-5px);
+    transform: scale(0.94, 1.06) translateY(-2px);
   }
-
   80% {
-    transform: scale(1.04, 0.97);
+    transform: scale(1.04, 0.98);
   }
-
   100% {
     transform: scale(1);
   }
 }
+
+.sphere-glow-layer {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(77, 208, 225, 0.45) 0%, transparent 70%);
+  animation: sphereGlowPulse 4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes sphereGlowPulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.sphere-inner-pulse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+}
+
+.core-lung-icon {
+  font-size: 2.85rem;
+  color: #ffffff;
+  filter: drop-shadow(0 2px 10px rgba(15, 23, 42, 0.3));
+  animation: lungIconFloat 6s ease-in-out infinite;
+}
+
+@keyframes lungIconFloat {
+  0%,
+  100% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Ripple Wave Rings */
+.sphere-wave-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 137, 123, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  animation: waveExpand 6s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+
+.sphere-wave-1 {
+  animation-delay: 0s;
+}
+.sphere-wave-2 {
+  animation-delay: 2s;
+}
+.sphere-wave-3 {
+  animation-delay: 4s;
+}
+
+@keyframes waveExpand {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+    border-color: rgba(0, 137, 123, 0.6);
+  }
+  50% {
+    opacity: 0.45;
+    border-color: rgba(23, 105, 170, 0.4);
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+    border-color: rgba(6, 182, 212, 0);
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-home-3d-stage {
+    height: 250px;
+    transform: scale(0.85);
+  }
+}
+
 
 /* Floating Inhale/Exhale Live Guide Pill */
 .hero-orb-caption {
@@ -1496,30 +1492,6 @@ main {
   color: #0f766e !important;
 }
 
-/* --------------------------------------------------------------------------
-   SLIDE 1 ENHANCED ANIMATIONS (BREATHEBUDDY)
-   -------------------------------------------------------------------------- */
-.buddy-aura.aura-outer {
-  inset: -45px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, rgba(14, 165, 233, 0.06) 55%, transparent 75%);
-  filter: blur(20px);
-  animation: buddyAuraBreatheOuter 6s ease-in-out infinite;
-  animation-delay: 0.3s;
-}
-
-@keyframes buddyAuraBreatheOuter {
-
-  0%,
-  100% {
-    transform: scale(0.85);
-    opacity: 0.4;
-  }
-
-  50% {
-    transform: scale(1.28);
-    opacity: 0.9;
-  }
-}
 
 /* --------------------------------------------------------------------------
    SLIDE 2: HEALTH VITALS CONSOLE & LIVE CLINICAL ANIMATIONS

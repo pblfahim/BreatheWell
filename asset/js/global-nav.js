@@ -49,6 +49,12 @@
       navHealthSub: "রক্তচাপ ও ডায়াবেটিস ট্র্যাকার",
       navRxSub: "ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR",
       navSafetySub: "৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা",
+      navLogin: "লগইন",
+      navRegister: "রেজিস্ট্রেশন",
+      navProfile: "প্রোফাইল",
+      navLoginSub: "আপনার অ্যাকাউন্টে প্রবেশ করুন",
+      navRegisterSub: "নতুন অ্যাকাউন্ট তৈরি করুন",
+      navProfileSub: "ব্যক্তিগত স্বাস্থ্য ড্যাশবোর্ড ও সেটিংস",
       quickToolsTitle: "দ্রুত অ্যাকশন",
       quickEmergencyLabel: "জরুরি শান্ত শ্বাস (SOS)",
       quickEmergencySub: "৪টি ধাপে তাৎক্ষণিক প্রশান্তি",
@@ -75,6 +81,12 @@
       navHealthSub: "Blood pressure & diabetes logs",
       navRxSub: "Digital prescription vault & OCR",
       navSafetySub: "3 core rules & health guide",
+      navLogin: "Login",
+      navRegister: "Register",
+      navProfile: "Profile",
+      navLoginSub: "Sign in to your account",
+      navRegisterSub: "Create a new account",
+      navProfileSub: "Personal health dashboard & settings",
       quickToolsTitle: "Quick Actions",
       quickEmergencyLabel: "Emergency Calm (SOS)",
       quickEmergencySub: "Immediate relief in 4 steps",
@@ -151,6 +163,46 @@
         })
       );
     } catch (_) { }
+
+    syncAuthSlot();
+  }
+
+  /**
+   * Synchronize Authentication Status in Top Navbar
+   */
+  function syncAuthSlot() {
+    const authSlots = document.querySelectorAll(".nav-auth-slot");
+    if (!authSlots || authSlots.length === 0) return;
+
+    let user = null;
+    try {
+      const stored = localStorage.getItem("bw_active_user");
+      if (stored) {
+        user = JSON.parse(stored);
+      }
+    } catch (_) { }
+
+    const lang = getCurrentLang();
+    const isBn = lang === "bn";
+
+    authSlots.forEach((slot) => {
+      if (user && user.name) {
+        const displayName = user.name.split(" ")[0];
+        slot.innerHTML = `
+          <a href="profile.html" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1" title="${isBn ? 'প্রোফাইল দেখুন' : 'View Profile'}">
+            <i class="bi bi-person-circle"></i>
+            <span>${displayName}</span>
+          </a>
+        `;
+      } else {
+        slot.innerHTML = `
+          <a href="login.html" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span data-i18n="navLogin">${isBn ? 'লগইন' : 'Login'}</span>
+          </a>
+        `;
+      }
+    });
   }
 
   /**
@@ -230,6 +282,12 @@
       activeKey = "health";
     } else if (filename.includes("prescription")) {
       activeKey = "rx";
+    } else if (filename.includes("login")) {
+      activeKey = "login";
+    } else if (filename.includes("register")) {
+      activeKey = "register";
+    } else if (filename.includes("profile")) {
+      activeKey = "profile";
     } else if (hash.includes("safety")) {
       activeKey = "safety";
     }
@@ -244,6 +302,9 @@
       if (activeKey === "test" && href.includes("breath-test")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
       if (activeKey === "rx" && href.includes("prescription")) match = true;
+      if (activeKey === "login" && href.includes("login")) match = true;
+      if (activeKey === "register" && href.includes("register")) match = true;
+      if (activeKey === "profile" && href.includes("profile")) match = true;
       if (activeKey === "safety" && href.includes("safety")) match = true;
 
       l.classList.toggle("active", match);
@@ -265,7 +326,7 @@
       if (activeKey === "exercises" && href.includes("exercise")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
       if (activeKey === "rx" && href.includes("prescription")) match = true;
-      if (activeKey === "test" || activeKey === "safety") {
+      if (activeKey === "test" || activeKey === "safety" || activeKey === "login" || activeKey === "register" || activeKey === "profile") {
         if (isMore) match = true;
       }
 
@@ -287,6 +348,9 @@
       if (activeKey === "test" && href.includes("breath-test")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
       if (activeKey === "rx" && href.includes("prescription")) match = true;
+      if (activeKey === "login" && href.includes("login")) match = true;
+      if (activeKey === "register" && href.includes("register")) match = true;
+      if (activeKey === "profile" && href.includes("profile")) match = true;
       if (activeKey === "safety" && href.includes("safety")) match = true;
 
       l.classList.toggle("active", match);
@@ -303,11 +367,13 @@
     document.addEventListener("DOMContentLoaded", () => {
       initLanguageControls();
       initMobileDrawerControls();
+      syncAuthSlot();
       syncActiveNavLinks();
     });
   } else {
     initLanguageControls();
     initMobileDrawerControls();
+    syncAuthSlot();
     syncActiveNavLinks();
   }
 

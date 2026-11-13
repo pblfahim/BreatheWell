@@ -1,0 +1,766 @@
+<!--
+  ============================================================================
+  BreatheWell - Member Login & Authentication (login.html)
+  ============================================================================
+  Description:
+    Secure, science-backed authentication portal for BreatheWell users. Features
+    real-time credential validation, 1-click healthcare demo login, password
+    visibility toggle, interactive password recovery modal, and seamless
+    session redirection to the user's health dashboard (profile.html).
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass for keyboard and screen-reader navigation.
+    - Global Navigation: Desktop sticky navbar with active page tracking.
+    - Auth Stage: Centered glassmorphic card with ambient mindful glow rings.
+    - Recovery Modal: Interactive simulated password reset modal dialog.
+    - Mobile Bottom Nav: Native bottom drawer for touch devices (< 992px).
+    - Mobile Sidebar: Offcanvas navigation drawer with language synchronization.
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle
+    - Bootstrap Icons 1.11.3
+    - Stylesheets: asset/css/style.css, asset/css/login.css
+    - Application Scripts: asset/js/global-nav.js, asset/js/login.js
+  ============================================================================
+-->
+<!doctype html>
+<html lang="bn">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1769aa">
+  <meta name="description" content="BreatheWell — আপনার সুস্থতা ও শ্বাসের অনুশীলন অ্যাকাউন্টে নিরাপদে লগইন করুন।">
+  <title>BreatheWell | লগইন</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <link href="asset/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/login.css">
+</head>
+
+<body class="bn" data-page="login">
+  <!-- Accessibility Skip Navigation Link -->
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল
+    কনটেন্টে যান</a>
+
+  <!-- ========================================================================
+       1. GLOBAL DESKTOP NAVIGATION BAR
+       ======================================================================== -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <span>BreatheWell</span>
+      </a>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <div class="nav-auth-slot">
+          <a href="login.html" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 active"
+            aria-current="page">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span data-i18n="navLogin">লগইন</span>
+          </a>
+        </div>
+        <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
+              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       2. MAIN AUTHENTICATION STAGE
+       ======================================================================== -->
+  <main id="main">
+    <div class="auth-page-wrapper">
+      <!-- Ambient Respiratory Aura Rings -->
+      <div class="auth-ambient-glow auth-glow-primary" aria-hidden="true"></div>
+      <div class="auth-ambient-glow auth-glow-teal" aria-hidden="true"></div>
+      <div class="auth-ambient-glow auth-glow-cyan" aria-hidden="true"></div>
+
+      <!-- Main Dual-Column Authentication Layout -->
+      <div class="login-layout-container">
+
+        <!-- ==============================================================
+             LEFT COLUMN: 3D GRAPHICS & MULTI-SCENE SLIDER
+             ============================================================== -->
+        <div class="login-visual-showcase">
+          <!-- Dynamic Hero Headline based on Active Graphic -->
+          <h2 class="visual-hero-title mb-4" id="visualHeroTitle">
+            <span id="visualHeroLine1" data-i18n="visualHeroTitle1">প্রতিটি নিঃশ্বাসে সুস্থতা,</span><br>
+            <span class="gradient-text" id="visualHeroLine2" data-i18n="visualHeroTitle2">প্রতিটি পদক্ষেপে
+              দীর্ঘায়ু</span>
+          </h2>
+
+          <!-- Multi-Slide 3D Showcase Area -->
+          <div class="login-showcase-slider" id="loginShowcaseSlider">
+            <!-- Slide 1: 3D Breathing Orb Scene (hero-art hero-3d-scene) -->
+            <div class="login-showcase-slide active" data-slide-index="0">
+              <div class="hero-art hero-3d-scene" id="heroArtWrap">
+                <div class="hero-3d-breathing-wrap">
+                  <!-- 3D Orbit Rings and Central 3D Glowing Core Orb with Breathing Animation -->
+                  <div class="visual-3d-stage hero-home-3d-stage">
+                    <div class="cube-3d-scene">
+                      <!-- 3D Orbit Rings -->
+                      <div class="orbit-ring orbit-ring-1" aria-hidden="true"></div>
+                      <div class="orbit-ring orbit-ring-2" aria-hidden="true"></div>
+                      <div class="orbit-ring orbit-ring-3" aria-hidden="true"></div>
+
+                      <!-- Central 3D Glowing Core Orb with Breathing Animation -->
+                      <div class="core-breathing-sphere hero-buddy-orb" id="heroBuddyOrb" role="button" tabindex="0"
+                        aria-label="3D Breathing Orb - Tap for a mindful breath">
+                        <div class="sphere-glow-layer"></div>
+                        <div class="sphere-inner-pulse">
+                          <i class="bi bi-lungs-fill core-lung-icon"></i>
+                        </div>
+                        <div class="sphere-wave-ring sphere-wave-1"></div>
+                        <div class="sphere-wave-ring sphere-wave-2"></div>
+                        <div class="sphere-wave-ring sphere-wave-3"></div>
+                      </div>
+
+                      <!-- Floating Playful Pills (Closer to Central 3D Scene) -->
+                      <div class="float-pill pill-joy-1"><i class="bi bi-heart-pulse-fill text-danger me-1"></i> <span
+                          data-i18n="heroPillHeart">প্রশান্ত হৃদয়</span></div>
+                      <div class="float-pill pill-joy-2"><i class="bi bi-clock-history text-primary me-1"></i> <span
+                          data-i18n="heroPillQuick">১ মিনিটে প্রশান্তি</span></div>
+                      <div class="float-pill pill-joy-3"><i class="bi bi-flower1 text-success me-1"></i> <span
+                          data-i18n="gentlePractice">নরম ও স্বচ্ছন্দ</span></div>
+                      <div class="float-pill pill-joy-4"><i class="bi bi-stars text-warning me-1"></i> <span
+                          data-i18n="heroPillStress">চাপ হ্রাস</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Live Inhale/Exhale Guide Pill -->
+                  <div class="hero-orb-caption text-center">
+                    <span class="hero-orb-guide-pill" id="heroOrbGuide" data-i18n="heroLiveBreathing">মৃদু শ্বাস
+                      নিন...</span>
+                    <div class="hero-tap-hint-text"><i class="bi bi-hand-index-thumb me-1"></i><span
+                        data-i18n="heroOrbTap">আমাকে ট্যাপ করুন!</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2: Live Vitals Console Card (Blood Pressure, Glucose, Pulse/ECG) -->
+            <div class="login-showcase-slide" data-slide-index="1">
+              <div class="hero-art hero-health-art hero-3d-scene">
+                <!-- 3D Ground Pedestal Shadow -->
+                <div class="console-ground-shadow shadow-health" aria-hidden="true"></div>
+                <!-- Glassmorphic Live Vitals Console Card -->
+                <div class="hero-vitals-console">
+                  <!-- Live Monitor Header -->
+                  <div class="vitals-console-head d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="vitals-live-beacon"></span>
+                      <span class="small fw-bold text-dark" data-i18n="heroSlide2Live">লাইভ মনিটর</span>
+                    </div>
+                    <span class="badge bg-success-subtle text-success extra-small fw-bold">AHA 2017</span>
+                  </div>
+
+                  <!-- Blood Pressure Metric Card -->
+                  <div class="vitals-metric-row mb-2">
+                    <div class="vitals-metric-icon vitals-icon-bp">
+                      <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                    <div class="vitals-metric-info">
+                      <div class="d-flex justify-content-between align-items-baseline">
+                        <span class="extra-small text-muted fw-semibold" data-i18n="heroSlide2BpLabel">রক্তচাপ
+                          (BP)</span>
+                        <span class="badge bg-success-subtle text-success extra-small"
+                          data-i18n="heroSlide2BpStatus">স্বাভাবিক</span>
+                      </div>
+                      <div class="vitals-number-wrap">
+                        <strong class="vitals-val text-dark">120 / 80</strong>
+                        <span class="extra-small text-muted ms-1">mmHg</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Blood Sugar Metric Card -->
+                  <div class="vitals-metric-row mb-2">
+                    <div class="vitals-metric-icon vitals-icon-bg">
+                      <i class="bi bi-droplet-half"></i>
+                    </div>
+                    <div class="vitals-metric-info">
+                      <div class="d-flex justify-content-between align-items-baseline">
+                        <span class="extra-small text-muted fw-semibold" data-i18n="heroSlide2BgLabel">রক্তের
+                          গ্লুকোজ</span>
+                        <span class="badge bg-success-subtle text-success extra-small"
+                          data-i18n="heroSlide2BgStatus">খাবার পূর্বে</span>
+                      </div>
+                      <div class="vitals-number-wrap">
+                        <strong class="vitals-val text-dark">5.6</strong>
+                        <span class="extra-small text-muted ms-1">mmol/L</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pulse & Mini ECG Card -->
+                  <div class="vitals-metric-row">
+                    <div class="vitals-metric-icon vitals-icon-pulse">
+                      <i class="bi bi-activity"></i>
+                    </div>
+                    <div class="vitals-metric-info">
+                      <div class="d-flex justify-content-between align-items-baseline">
+                        <span class="extra-small text-muted fw-semibold" data-i18n="heroSlide2PulseLabel">পালস
+                          রেট</span>
+                        <span class="extra-small text-success fw-bold" data-i18n="heroSlide2PulseStatus">সুষম
+                          ছন্দ</span>
+                      </div>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <strong class="vitals-val text-dark">72</strong>
+                          <span class="extra-small text-muted ms-1">BPM</span>
+                        </div>
+                        <svg class="ecg-wave-svg" viewBox="0 0 100 22" width="100" height="22" aria-hidden="true">
+                          <path class="ecg-bg-line"
+                            d="M0 11 L22 11 L26 4 L31 18 L36 6 L41 14 L46 11 L68 11 L72 4 L77 18 L82 6 L87 14 L92 11 L100 11"
+                            fill="none" stroke="rgba(16, 185, 129, 0.2)" stroke-width="2" />
+                          <path class="ecg-pulse-line"
+                            d="M0 11 L22 11 L26 4 L31 18 L36 6 L41 14 L46 11 L68 11 L72 4 L77 18 L82 6 L87 14 L92 11 L100 11"
+                            fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Floating Vitals Pills -->
+                <div class="float-pill pill-health-1"><i class="bi bi-shield-check text-success me-1"></i> <span
+                    data-i18n="heroSlide2Pill1">AHA 2017 স্ট্যান্ডার্ড</span></div>
+                <div class="float-pill pill-health-2"><i class="bi bi-graph-up-arrow text-primary me-1"></i> <span
+                    data-i18n="heroSlide2Pill2">৭-৩০ দিনের ট্রেন্ড</span></div>
+                <div class="float-pill pill-health-3"><i class="bi bi-lock-fill text-warning me-1"></i> <span
+                    data-i18n="heroSlide2Pill3">পিন লক সুরক্ষিত</span></div>
+              </div>
+            </div>
+
+            <!-- Slide 3: Digital Prescription Pad & AI OCR Scanner -->
+            <div class="login-showcase-slide" data-slide-index="2">
+              <div class="hero-art hero-rx-art hero-3d-scene">
+                <!-- 3D Ground Pedestal Shadow -->
+                <div class="console-ground-shadow shadow-rx" aria-hidden="true"></div>
+                <!-- Glassmorphic Digital Prescription Pad Console -->
+                <div class="hero-rx-console position-relative">
+                  <!-- Active Laser Scan Beam Simulation -->
+                  <div class="ocr-laser-beam" aria-hidden="true">
+                    <div class="ocr-laser-flare"></div>
+                    <div class="ocr-laser-cone"></div>
+                  </div>
+                  <div class="ocr-scan-grid" aria-hidden="true"></div>
+
+                  <!-- Hospital Header -->
+                  <div class="rx-console-head pb-2 mb-2 border-bottom">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <strong class="d-block extra-small text-dark" data-i18n="heroSlide3PadTitle">সিটি কেয়ার
+                          হাসপাতাল · ডিজিটাল প্রেসক্রিপশন</strong>
+                        <span class="extra-small text-primary fw-semibold" data-i18n="heroSlide3Doc">ডাঃ এম. এ. রহমান
+                          (MBBS, FCPS)</span>
+                      </div>
+                      <span class="badge bg-teal-subtle text-teal extra-small"><i class="bi bi-cpu-fill me-1"></i>OCR
+                        v5</span>
+                    </div>
+                  </div>
+
+                  <!-- Scanning Active Indicator -->
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="extra-small text-muted d-flex align-items-center gap-1">
+                      <span class="ocr-scan-pulse"></span>
+                      <span data-i18n="heroSlide3ScanStatus">ওসিআর স্ক্যান সক্রিয়...</span>
+                    </span>
+                    <span class="badge bg-success-subtle text-success extra-small fw-bold"
+                      data-i18n="heroSlide3Accuracy">৯৮% ওসিআর সঠিকতা</span>
+                  </div>
+
+                  <!-- Detected Medicine Rows -->
+                  <div class="rx-console-med-list">
+                    <div class="rx-console-med-item mb-2">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold small text-dark" data-i18n="heroSlide3Med1">Tab. Napa Extra 500mg</span>
+                        <span class="badge bg-light text-dark border extra-small" data-i18n="heroSlide3Dose1">১+০+১ (ভরা
+                          পেটে)</span>
+                      </div>
+                    </div>
+                    <div class="rx-console-med-item mb-2">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold small text-dark" data-i18n="heroSlide3Med2">Cap. Seclo 20mg</span>
+                        <span class="badge bg-light text-dark border extra-small" data-i18n="heroSlide3Dose2">১+০+১
+                          (খাবার পূর্বে)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Footer Signature Stamp Preview -->
+                  <div class="rx-console-footer pt-2 border-top d-flex justify-content-between align-items-center">
+                    <span class="extra-small text-muted"><i class="bi bi-calendar3 me-1"></i><span
+                        data-i18n="heroSlide3Date">আজকের প্রেসক্রিপশন</span></span>
+                    <span class="extra-small text-success fw-bold"><i class="bi bi-patch-check-fill me-1"></i><span
+                        data-i18n="heroSlide3Stamp">ডিজিটাল ভেরিফাইড</span></span>
+                  </div>
+                </div>
+
+                <!-- Floating Rx Pills -->
+                <div class="float-pill pill-rx-1"><i class="bi bi-magic text-teal me-1"></i> <span
+                    data-i18n="heroSlide3Pill1">অটো মেডিসিন ডিটেকশন</span></div>
+                <div class="float-pill pill-rx-2"><i class="bi bi-pen-fill text-primary me-1"></i> <span
+                    data-i18n="heroSlide3Pill2">ডিজিটাল সিগনেচার</span></div>
+                <div class="float-pill pill-rx-3"><i class="bi bi-whatsapp text-success me-1"></i> <span
+                    data-i18n="heroSlide3Pill3">হোয়াটসঅ্যাপে শেয়ার</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slider Controls -->
+          <div class="login-slider-controls">
+
+            <div class="login-slider-dots" role="tablist" aria-label="Visual showcase slides">
+              <button type="button" class="login-slider-dot active" data-slide="0"
+                aria-label="Slide 1: Respiratory Core" aria-selected="true"></button>
+              <button type="button" class="login-slider-dot" data-slide="1" aria-label="Slide 2: Clinical Vitals"
+                aria-selected="false"></button>
+              <button type="button" class="login-slider-dot" data-slide="2" aria-label="Slide 3: Prescription Vault"
+                aria-selected="false"></button>
+            </div>
+
+          </div>
+
+          <!-- Feature Highlights / Trust Bar -->
+          <div class="visual-features-row" id="visualFeaturesRow">
+            <div class="visual-feature-item">
+              <i class="bi bi-check2-circle text-teal"></i>
+              <span data-i18n="featureItem1">BOLT রেসপিরেটরি টেস্ট</span>
+            </div>
+            <div class="visual-feature-item">
+              <i class="bi bi-check2-circle text-teal"></i>
+              <span data-i18n="featureItem2">পরিবারের সদস্য ট্র্যাকিং</span>
+            </div>
+            <div class="visual-feature-item">
+              <i class="bi bi-check2-circle text-teal"></i>
+              <span data-i18n="featureItem3">প্রেসক্রিপশন OCR স্ক্যান</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==============================================================
+             RIGHT COLUMN: AUTHENTICATION CARD
+             ============================================================== -->
+        <div class="login-card-wrapper">
+          <!-- Auth Clean Card (Matches Reference UI) -->
+          <div class="auth-card">
+            <!-- Brand Logo & Header -->
+            <div class="auth-header">
+              <div class="auth-brand-badge">
+                <span class="auth-brand-icon"><i class="bi bi-wind"></i></span>
+                <span class="auth-brand-name">BreatheWell</span>
+              </div>
+              <p class="auth-subtitle" data-i18n="pageSubtitle">আপনার ড্যাশবোর্ডে প্রবেশ করতে লগইন করুন</p>
+            </div>
+
+            <!-- Active Session Banner (Displayed if user already has an active session) -->
+            <div class="active-session-banner d-none" id="activeSessionBanner">
+              <div class="active-session-avatar" id="activeSessionInitial">U</div>
+              <h2 class="active-session-name" id="activeSessionName">Member</h2>
+              <p class="active-session-email" id="activeSessionEmail"></p>
+              <div class="active-session-actions">
+                <button type="button" class="btn btn-primary btn-sm px-3" id="btnContinueProfile"
+                  data-i18n="btnContinueProfile">
+                  প্রোফাইলে যান
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm px-3" id="btnSwitchAccount"
+                  data-i18n="btnLogoutCurrent">
+                  অন্য অ্যাকাউন্ট / লগআউট
+                </button>
+              </div>
+            </div>
+
+            <!-- Login Form Container -->
+            <div id="loginFormContainer">
+              <!-- Form Submission Alert Box -->
+              <div class="alert alert-danger py-2 px-3 small d-none" id="loginFormAlert" role="alert"></div>
+
+              <!-- Top Social Sign-in Buttons (Matches reference UI) -->
+              <div class="social-auth-grid">
+                <button type="button" class="btn-social-auth" aria-label="Sign in with Google">
+                  <svg class="social-btn-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                    <path fill="#4285F4"
+                      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" />
+                    <path fill="#34A853"
+                      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" />
+                    <path fill="#FBBC05"
+                      d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z" />
+                    <path fill="#EA4335"
+                      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" />
+                  </svg>
+                  <span data-i18n="socialGoogle">Google</span>
+                </button>
+                <button type="button" class="btn-social-auth" aria-label="Sign in with Facebook">
+                  <svg class="social-btn-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                    <path fill="#1877F2"
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
+                  <span data-i18n="socialFacebook">Facebook</span>
+                </button>
+              </div>
+
+              <!-- Clean Divider -->
+              <div class="auth-divider">
+                <span class="auth-divider-text" data-i18n="orSignInWith">Or sign in with email</span>
+              </div>
+
+              <form id="loginForm" novalidate>
+                <!-- Email Input -->
+                <div class="auth-form-group">
+                  <label for="loginEmail" class="auth-label">
+                    <span data-i18n="labelEmail">ইমেইল</span>
+                  </label>
+                  <div class="auth-input-wrap">
+                    <i class="bi bi-envelope auth-input-icon"></i>
+                    <input type="text" id="loginEmail" class="auth-input" placeholder="jane@company.com"
+                      autocomplete="username" required>
+                  </div>
+                  <div class="auth-error-feedback" id="emailError"></div>
+                </div>
+
+                <!-- Password Input with Inline Forgot Password Link -->
+                <div class="auth-form-group">
+                  <div class="auth-label-row">
+                    <label for="loginPassword" class="auth-label mb-0">
+                      <span data-i18n="labelPassword">পাসওয়ার্ড</span>
+                    </label>
+                    <a href="#forgotPasswordModal" class="auth-link-forgot" data-bs-toggle="modal"
+                      data-i18n="forgotPassword">
+                      পাসওয়ার্ড ভুলে গেছেন?
+                    </a>
+                  </div>
+                  <div class="auth-input-wrap">
+                    <input type="password" id="loginPassword" class="auth-input auth-input-password"
+                      placeholder="আপনার পাসওয়ার্ড লিখুন" autocomplete="current-password" required>
+                    <button type="button" class="password-toggle-btn" id="btnTogglePassword"
+                      aria-label="Toggle password visibility">
+                      <i class="bi bi-eye" id="passwordToggleIcon"></i>
+                    </button>
+                  </div>
+                  <div class="auth-error-feedback" id="passwordError"></div>
+                </div>
+
+                <!-- Keep me signed in Checkbox -->
+                <div class="auth-remember-row">
+                  <label class="auth-checkbox-label" for="rememberMe">
+                    <input type="checkbox" id="rememberMe" class="auth-checkbox">
+                    <span data-i18n="rememberMe">মনে রাখুন</span>
+                  </label>
+                </div>
+
+                <!-- Primary Action Button -->
+                <button type="submit" class="btn-auth-submit" id="btnLoginSubmit">
+                  <span class="auth-btn-spinner d-none" id="btnLoginSpinner" aria-hidden="true"></span>
+                  <span id="btnLoginText" data-i18n="btnLogin">লগইন করুন</span>
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              </form>
+
+              <!-- Don't have an account? Sign up -->
+              <div class="auth-footer-callout">
+                <span data-i18n="dontHaveAccount">অ্যাকাউন্ট নেই?</span>
+                <a href="register.html" class="auth-link-register ms-1" data-i18n="registerNow">নতুন অ্যাকাউন্ট তৈরি
+                  করুন</a>
+              </div>
+
+              <!-- Sleek Quick Demo Bar (Preserves 1-click test functionality cleanly) -->
+              <div class="demo-login-quick-bar">
+                <span class="demo-quick-label"><i class="bi bi-lightning-charge-fill text-warning me-1"></i><span
+                    data-i18n="demoCardTitle">দ্রুত ডেমো লগইন</span>:</span>
+                <button type="button" class="btn-demo-quick" id="btnDemoLogin" data-i18n="btnDemoFill">
+                  ডেমো টেস্ট করুন
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Trust Badges (Underneath the white card, on page background) -->
+          <div class="auth-trust-footer">
+            <span class="trust-pill-item">
+              <i class="bi bi-shield-check text-success"></i>
+              <span data-i18n="trustSecureSignIn">Secure sign-in</span>
+            </span>
+            <span class="trust-pill-item">
+              <i class="bi bi-lock-fill text-success"></i>
+              <span data-i18n="trustSsoSupported">SSO supported</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       3. PASSWORD RECOVERY MODAL
+       ======================================================================== -->
+  <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content recovery-modal-card">
+        <div class="modal-header recovery-modal-header">
+          <h2 class="modal-title fs-5 fw-bold text-dark d-flex align-items-center gap-2" id="forgotPasswordModalLabel">
+            <i class="bi bi-key-fill text-primary"></i>
+            <span data-i18n="forgotModalTitle">পাসওয়ার্ড পুনরুদ্ধার</span>
+          </h2>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body recovery-modal-body">
+          <!-- Step 1: Input Email -->
+          <div id="forgotStep1">
+            <p class="text-muted small mb-3" data-i18n="forgotModalDesc">
+              আপনার নিবন্ধিত ইমেইল লিখুন। আমরা তাৎক্ষণিক রিকভারি কোড তৈরি করব।
+            </p>
+            <div class="alert alert-danger py-2 px-3 small d-none" id="forgotModalAlert"></div>
+            <div class="mb-3">
+              <label for="forgotEmailInput" class="form-label small fw-semibold text-secondary"
+                data-i18n="labelEmail">ইমেইল বা ইউজারনেম</label>
+              <input type="text" class="form-control" id="forgotEmailInput" placeholder="name@example.com">
+            </div>
+            <button type="button" class="btn btn-primary w-100 fw-bold py-2" id="btnSendRecoveryCode"
+              data-i18n="btnSendResetCode">
+              রিকভারি কোড পাঠান
+            </button>
+          </div>
+
+          <!-- Step 2: Enter Verification Code & New Password -->
+          <div id="forgotStep2" class="d-none">
+            <div class="alert alert-success py-2 px-3 small mb-2 d-flex align-items-center gap-2">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>সিমুলেটেড কোড তৈরি হয়েছে! নিচে কোডটি দেখে নিশ্চিত করুন:</span>
+            </div>
+            <div class="recovery-code-box">
+              <div class="small text-muted fw-bold mb-1" data-i18n="labelRecoveryCode">নিরাপত্তা কোড</div>
+              <div class="recovery-code-val" id="recoveryCodeVal">000000</div>
+            </div>
+            <div class="alert alert-danger py-2 px-3 small d-none" id="forgotModalAlertStep2"></div>
+            <div class="mb-3">
+              <label for="forgotCodeInput" class="form-label small fw-semibold text-secondary"
+                data-i18n="labelRecoveryCode">নিরাপত্তা কোড</label>
+              <input type="text" class="form-control" id="forgotCodeInput" placeholder="৬-সংখ্যার কোড লিখুন">
+            </div>
+            <div class="mb-3">
+              <label for="forgotNewPassword" class="form-label small fw-semibold text-secondary"
+                data-i18n="labelNewPassword">নতুন পাসওয়ার্ড লিখুন</label>
+              <input type="password" class="form-control" id="forgotNewPassword" placeholder="নতুন পাসওয়ার্ড">
+            </div>
+            <button type="button" class="btn btn-success w-100 fw-bold py-2" id="btnConfirmNewPassword"
+              data-i18n="btnConfirmReset">
+              পাসওয়ার্ড পরিবর্তন সম্পন্ন করুন
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       4. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="mobile-nav-items">
+      <a class="mobile-nav-link" href="index.html" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+      </a>
+      <a class="mobile-nav-link" href="health-reading.html" aria-label="Health Tracker">
+        <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
+        <span class="nav-label" data-i18n="navHealthShort">স্বাস্থ্য</span>
+      </a>
+      <a class="mobile-nav-link" href="prescriptions-volt.html" aria-label="Prescriptions">
+        <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
+        <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+      </a>
+      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
+        <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
+        <span class="nav-label" data-i18n="navMore">আরও</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       5. MOBILE SIDEBAR / APP DRAWER (< 992px)
+       ======================================================================== -->
+  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+    aria-labelledby="mobileSidebarMenuLabel">
+    <div class="offcanvas-header mobile-sidebar-header">
+      <div class="mobile-sidebar-brand">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <div>
+          <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
+          <p class="mobile-sidebar-subtitle" data-i18n="sidebarBrandSub">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mobile-sidebar-body">
+      <!-- 1. Interactive Language Selector -->
+      <div class="mobile-sidebar-lang-card">
+        <div class="mobile-sidebar-lang-info">
+          <i class="bi bi-translate text-primary"></i>
+          <span class="mobile-sidebar-lang-title" data-i18n="langSelectTitle">ভাষা পরিবর্তন</span>
+        </div>
+        <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
+          <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
+          <button type="button" class="mobile-lang-pill" data-lang="en">English</button>
+        </div>
+      </div>
+
+      <!-- 2. Main Navigation Links -->
+      <div class="mobile-sidebar-section-title" data-i18n="navPagesTitle">পেজ ও মডিউল</div>
+      <div class="mobile-sidebar-nav-list">
+        <a class="mobile-sidebar-nav-item" href="index.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHome">হোম</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHomeSub">মূল পাতা ও ফিচারসমূহ</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="exercises.html">
+          <div class="mobile-sidebar-icon-box text-success">
+            <i class="bi bi-grid-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="health-reading.html">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="prescriptions-volt.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-file-earmark-medical-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+            <span class="mobile-sidebar-sub" data-i18n="navRxSub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item active" aria-current="page" href="login.html">
+          <div class="mobile-sidebar-icon-box text-info">
+            <i class="bi bi-box-arrow-in-right"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navLogin">লগইন</span>
+            <span class="mobile-sidebar-sub">আপনার অ্যাকাউন্টে প্রবেশ করুন</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="register.html">
+          <div class="mobile-sidebar-icon-box text-warning">
+            <i class="bi bi-person-plus-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navRegister">রেজিস্ট্রেশন</span>
+            <span class="mobile-sidebar-sub">নতুন অ্যাকাউন্ট তৈরি করুন</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="profile.html">
+          <div class="mobile-sidebar-icon-box text-secondary">
+            <i class="bi bi-person-circle"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navProfile">প্রোফাইল</span>
+            <span class="mobile-sidebar-sub">ব্যক্তিগত স্বাস্থ্য ড্যাশবোর্ড ও সেটিংস</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+      </div>
+
+      <!-- 3. Quick Action Utilities -->
+      <div class="mobile-sidebar-section-title" data-i18n="quickToolsTitle">দ্রুত অ্যাকশন</div>
+      <div class="mobile-sidebar-actions-grid">
+        <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
+          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-i18n="quickEmergencyLabel">জরুরি শান্ত শ্বাস (SOS)</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickEmergencySub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
+          </div>
+        </a>
+
+        <a class="mobile-sidebar-action-card" href="breath-test.html">
+          <div class="mobile-sidebar-action-icon text-info bg-info-subtle">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-i18n="quickTestLabel">ফুসফুস পরীক্ষা</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickTestSub">BOLT ও BPM স্কোর জানুন</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Footer Disclaimer -->
+      <div class="mobile-sidebar-footer">
+        <p class="mobile-sidebar-disclaimer">
+          <i class="bi bi-info-circle me-1"></i>
+          <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       6. SYSTEM NOTIFICATION TOAST & SCRIPT INCLUDES
+       ======================================================================== -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="appToast" class="toast border-0 shadow" role="status">
+      <div class="toast-body d-flex justify-content-between align-items-center">
+        <span id="toastText"></span>
+        <button class="btn-close ms-3" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/global-nav.js"></script>
+  <script src="asset/js/login.js"></script>
+</body>
+
+</html>

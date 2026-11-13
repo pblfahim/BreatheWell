@@ -1,0 +1,930 @@
+<!--
+  ============================================================================
+  BreatheWell - Member Profile & Health Dashboard (profile.html)
+  ============================================================================
+  Description:
+    Personalized member dashboard for BreatheWell users. Features vitality
+    respiratory analytics, customizable profile identity, mindful goal targets,
+    achieved health milestones, HIPAA-compliant JSON data export, and secure
+    session management.
+
+  Architecture & Semantic Landmarks:
+    - Skip Link: Accessibility bypass for keyboard and screen-reader navigation.
+    - Global Navigation: Desktop sticky navbar with active page tracking.
+    - Profile Hero: Glassmorphic identity card with dynamic avatar customization.
+    - Metric Cards: 4-pillar vitality indicators (minutes, sessions, BOLT, streak).
+    - Tabbed Workspace: Personal information, wellness settings, achievements, and data security.
+    - Mobile Bottom Nav: Native bottom drawer for touch devices (< 992px).
+    - Mobile Sidebar: Offcanvas navigation drawer with language synchronization.
+
+  Dependencies:
+    - Bootstrap 5.3.3 CSS & JS bundle
+    - Bootstrap Icons 1.11.3
+    - Stylesheets: asset/css/style.css, asset/css/profile.css
+    - Application Scripts: asset/js/global-nav.js, asset/js/profile.js
+  ============================================================================
+-->
+<!doctype html>
+<html lang="bn">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1769aa">
+  <meta name="description"
+    content="BreatheWell — আপনার ব্যক্তিগত স্বাস্থ্য ড্যাশবোর্ড, শ্বাসের অনুশীলনের পরিসংখ্যান ও প্রোফাইল সেটিংস।">
+  <title>BreatheWell | সদস্য প্রোফাইল</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <link href="asset/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/profile.css">
+</head>
+
+<body class="bn" data-page="profile">
+  <!-- Accessibility Skip Navigation Link -->
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল
+    কনটেন্টে যান</a>
+
+  <!-- ========================================================================
+       1. GLOBAL DESKTOP NAVIGATION BAR
+       ======================================================================== -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <span>BreatheWell</span>
+      </a>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <div class="nav-auth-slot">
+          <a href="profile.html" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 active"
+            aria-current="page">
+            <i class="bi bi-person-circle"></i>
+            <span data-i18n="navProfile">প্রোফাইল</span>
+          </a>
+        </div>
+        <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-i18n="navExercises">শ্বাসের অনুশীলন</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য
+              ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       2. MAIN PROFILE DASHBOARD STAGE
+       ======================================================================== -->
+  <main id="main">
+    <div class="profile-page-wrapper">
+      <div class="container">
+        <!-- Guest Preview Alert Banner (Shown if viewing as guest/demo) -->
+        <div class="guest-preview-banner d-none" id="guestPreviewBanner">
+          <div class="guest-banner-info">
+            <div class="guest-banner-icon">
+              <i class="bi bi-info-circle-fill"></i>
+            </div>
+            <div>
+              <strong class="d-block text-dark fw-bold" data-i18n="guestBannerTitle">আপনি ডেমো প্রোফাইল মোডে
+                দেখছেন</strong>
+              <p class="guest-banner-text" data-i18n="guestBannerDesc">আপনার সমস্ত অগ্রগতি ও স্বাস্থ্য রেকর্ড নিরাপদে
+                সংরক্ষণ করতে লগইন বা রেজিস্ট্রেশন করুন।</p>
+            </div>
+          </div>
+          <div class="guest-banner-actions">
+            <a href="login.html" class="btn btn-primary btn-sm px-3 fw-bold" data-i18n="btnBannerLogin">লগইন</a>
+            <a href="register.html" class="btn btn-outline-primary btn-sm px-3 fw-bold"
+              data-i18n="btnBannerRegister">রেজিস্ট্রেশন</a>
+          </div>
+        </div>
+
+        <!-- Hero Identity Banner Card -->
+        <div class="profile-hero-card">
+          <div class="profile-hero-banner" aria-hidden="true"></div>
+          <div class="profile-hero-body">
+            <div class="profile-avatar-block">
+              <!-- Avatar Circle with Edit Trigger -->
+              <div class="profile-avatar-wrap">
+                <div class="profile-avatar-circle" id="profileAvatarCircle">
+                  <i class="bi bi-person-heart" id="profileAvatarIcon"></i>
+                  <span class="d-none" id="profileAvatarInitial">U</span>
+                </div>
+                <button type="button" class="btn-change-avatar" id="btnTriggerAvatarModal" data-bs-toggle="modal"
+                  data-bs-target="#avatarModal" title="Change Avatar" aria-label="Change Avatar">
+                  <i class="bi bi-camera-fill"></i>
+                </button>
+              </div>
+
+              <!-- Identity Details -->
+              <div class="profile-identity-info">
+                <h1 class="profile-user-name" id="profileUserName">ডা. আয়েশা রহমান</h1>
+                <div class="profile-user-email">
+                  <i class="bi bi-envelope"></i>
+                  <span id="profileUserEmail">demo@breathewell.com</span>
+                </div>
+                <div class="profile-badges-row">
+                  <span class="profile-tier-badge" id="profileTierBadge">
+                    <i class="bi bi-patch-check-fill"></i>
+                    <span data-i18n="badgeTierPro">BreatheWell প্রো সদস্য</span>
+                  </span>
+                  <span class="profile-joined-badge" id="profileJoinedDate">
+                    <i class="bi bi-calendar3"></i>
+                    <span>যুক্ত হয়েছেন: Jan 2024</span>
+                  </span>
+                  <span class="profile-joined-badge badge-family" id="profileFamilyCountBadge">
+                    <i class="bi bi-people-fill text-primary"></i>
+                    <span id="profileFamilyCountText">০ সদস্য</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="profile-header-actions">
+              <button type="button" class="btn btn-sm btn-outline-primary fw-bold" id="btnExportHeader">
+                <i class="bi bi-download me-1"></i>
+                <span data-i18n="btnExportDataHeader">ডেটা এক্সপোর্ট</span>
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger fw-bold" data-bs-toggle="modal"
+                data-bs-target="#logoutModal">
+                <i class="bi bi-box-arrow-right me-1"></i>
+                <span data-i18n="btnLogoutHeader">লগআউট</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Profile Tabs Workspace Card -->
+        <div class="profile-tabs-card">
+          <!-- Navigation Tab Pills -->
+          <div class="profile-nav-pills" role="tablist">
+            <button type="button" class="profile-nav-btn active" id="tabBtnInfo" data-tab="tabPersonalInfo" role="tab"
+              aria-selected="true" aria-controls="tabPersonalInfo">
+              <i class="bi bi-person-lines-fill"></i>
+              <span data-i18n="tabInfo">ব্যক্তিগত তথ্য</span>
+            </button>
+            <button type="button" class="profile-nav-btn" id="tabBtnFamily" data-tab="tabFamilyMembers" role="tab"
+              aria-selected="false" aria-controls="tabFamilyMembers">
+              <i class="bi bi-people-fill"></i>
+              <span data-i18n="tabFamily">পরিবার ও সদস্যবৃন্দ</span>
+            </button>
+            <button type="button" class="profile-nav-btn" id="tabBtnPrefs" data-tab="tabWellnessPrefs" role="tab"
+              aria-selected="false" aria-controls="tabWellnessPrefs">
+              <i class="bi bi-sliders"></i>
+              <span data-i18n="tabPrefs">সুস্থতা ও সেটিংস</span>
+            </button>
+            <button type="button" class="profile-nav-btn" id="tabBtnAchievements" data-tab="tabAchievements" role="tab"
+              aria-selected="false" aria-controls="tabAchievements">
+              <i class="bi bi-award-fill"></i>
+              <span data-i18n="tabAchievements">অর্জিত মাইলফলক</span>
+            </button>
+            <button type="button" class="profile-nav-btn" id="tabBtnSecurity" data-tab="tabSecurity" role="tab"
+              aria-selected="false" aria-controls="tabSecurity">
+              <i class="bi bi-shield-lock-fill"></i>
+              <span data-i18n="tabSecurity">নিরাপত্তা ও ডেটা</span>
+            </button>
+          </div>
+
+          <div class="profile-tab-content">
+            <!-- ================================================================
+                 TAB 1: PERSONAL INFORMATION
+                 ================================================================ -->
+            <div class="profile-tab-panel active" id="tabPersonalInfo" role="tabpanel" aria-labelledby="tabBtnInfo">
+              <h2 class="fs-5 fw-bold text-dark mb-4" data-i18n="secPersonalDetails">ব্যক্তিগত প্রোফাইল ও স্বাস্থ্য নোট
+              </h2>
+              <form id="profileInfoForm" novalidate>
+                <div class="profile-form-grid">
+                  <!-- Name -->
+                  <div class="profile-form-group">
+                    <label for="profileInputName" class="profile-label" data-i18n="labelName">পুরো নাম</label>
+                    <div class="profile-input-wrap">
+                      <i class="bi bi-person profile-input-icon"></i>
+                      <input type="text" id="profileInputName" class="profile-input" required>
+                    </div>
+                  </div>
+
+                  <!-- Email -->
+                  <div class="profile-form-group">
+                    <label for="profileInputEmail" class="profile-label" data-i18n="labelEmail">ইমেইল এড্রেস</label>
+                    <div class="profile-input-wrap">
+                      <i class="bi bi-envelope profile-input-icon"></i>
+                      <input type="email" id="profileInputEmail" class="profile-input" required>
+                    </div>
+                  </div>
+
+                  <!-- Phone -->
+                  <div class="profile-form-group">
+                    <label for="profileInputPhone" class="profile-label" data-i18n="labelPhone">মোবাইল নম্বর</label>
+                    <div class="profile-input-wrap">
+                      <i class="bi bi-telephone profile-input-icon"></i>
+                      <input type="tel" id="profileInputPhone" class="profile-input">
+                    </div>
+                  </div>
+
+                  <!-- Gender -->
+                  <div class="profile-form-group">
+                    <label for="profileSelectGender" class="profile-label" data-i18n="labelGender">লিঙ্গ</label>
+                    <div class="profile-input-wrap">
+                      <i class="bi bi-gender-ambiguous profile-input-icon"></i>
+                      <select id="profileSelectGender" class="profile-select">
+                        <option value="female" data-i18n="optFemale">মহিলা</option>
+                        <option value="male" data-i18n="optMale">পুরুষ</option>
+                        <option value="other" data-i18n="optOther">অন্যান্য</option>
+                        <option value="unspecified" data-i18n="optUnspecified">উল্লেখ করতে অনিচ্ছুক</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Blood Group -->
+                  <div class="profile-form-group">
+                    <label for="profileSelectBlood" class="profile-label" data-i18n="labelBloodGroup">রক্তের
+                      গ্রুপ</label>
+                    <div class="profile-input-wrap">
+                      <i class="bi bi-droplet-fill profile-input-icon text-danger"></i>
+                      <select id="profileSelectBlood" class="profile-select">
+                        <option value="A+">A+ (A Positive)</option>
+                        <option value="A-">A- (A Negative)</option>
+                        <option value="B+">B+ (B Positive)</option>
+                        <option value="B-">B- (B Negative)</option>
+                        <option value="AB+">AB+ (AB Positive)</option>
+                        <option value="AB-">AB- (AB Negative)</option>
+                        <option value="O+">O+ (O Positive)</option>
+                        <option value="O-">O- (O Negative)</option>
+                        <option value="unspecified" data-i18n="optUnspecified">উল্লেখ করতে অনিচ্ছুক</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Emergency Contact -->
+                  <div class="profile-form-group">
+                    <label for="profileInputEmergency" class="profile-label" data-i18n="labelEmergencyContact">জরুরি
+                      যোগাযোগ</label>
+                    <div class="profile-input-wrap">
+                      <i class="bi bi-heart-pulse profile-input-icon text-danger"></i>
+                      <input type="text" id="profileInputEmergency" class="profile-input"
+                        placeholder="যেমন: পিতা/সঙ্গী - +880 1700-000000">
+                    </div>
+                  </div>
+
+                  <!-- Medical Conditions / Allergies Note -->
+                  <div class="profile-form-group span-full">
+                    <label for="profileInputNotes" class="profile-label" data-i18n="labelMedicalNotes">স্বাস্থ্য অবস্থা
+                      বা অ্যালার্জি নোট</label>
+                    <div class="profile-input-wrap">
+                      <i class="bi bi-journal-medical profile-input-icon text-primary"></i>
+                      <input type="text" id="profileInputNotes" class="profile-input"
+                        placeholder="যেমন: মৃদু অ্যাজমা, সাইনাস প্রবণতা...">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="profile-form-actions">
+                  <button type="submit" class="btn btn-primary px-4 fw-bold" id="btnSaveProfile">
+                    <i class="bi bi-check2 me-1"></i>
+                    <span data-i18n="btnSaveProfile">তথ্য সংরক্ষণ করুন</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- ================================================================
+                 TAB 2: FAMILY & HOUSEHOLD MEMBERS
+                 ================================================================ -->
+            <div class="profile-tab-panel" id="tabFamilyMembers" role="tabpanel" aria-labelledby="tabBtnFamily">
+              <div class="family-tab-header">
+                <div>
+                  <h2 class="profile-card-title">
+                    <i class="bi bi-people-fill me-2 text-primary"></i>
+                    <span data-i18n="familyPanelTitle">পরিবারের সদস্য ও স্বাস্থ্য প্রোফাইল</span>
+                  </h2>
+                  <p class="profile-card-sub" data-i18n="familyPanelSub">
+                    পিতা, মাতা, জীবনসঙ্গী, ভাই ও বোনের শ্বাসচর্চা এবং প্রেসক্রিপশন একসাথে পরিচালনা করুন
+                  </p>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm fw-bold d-flex align-items-center gap-1"
+                  id="btnOpenAddMemberModal" data-bs-toggle="modal" data-bs-target="#familyMemberModal">
+                  <i class="bi bi-person-plus-fill"></i>
+                  <span data-i18n="btnAddFamilyMember">নতুন সদস্য যোগ করুন</span>
+                </button>
+              </div>
+
+              <!-- Family Members Grid -->
+              <div class="family-members-grid" id="familyMembersGrid">
+                <!-- Dynamic cards populated by profile.js -->
+              </div>
+            </div>
+
+            <!-- ================================================================
+                 TAB 3: WELLNESS SETTINGS & PREFERENCES
+                 ================================================================ -->
+            <div class="profile-tab-panel" id="tabWellnessPrefs" role="tabpanel" aria-labelledby="tabBtnPrefs">
+              <!-- Group 1: Daily Target -->
+              <div class="pref-card-group">
+                <div class="pref-group-header">
+                  <h3 class="pref-group-title" data-i18n="secDailyGoal">দৈনিক শ্বাসের অনুশীলন লক্ষ্য</h3>
+                  <p class="pref-group-sub" data-i18n="subDailyGoal">প্রতিদিন কত মিনিট মননশীল শ্বাস চর্চা করতে চান তা
+                    নির্ধারণ করুন</p>
+                </div>
+                <div class="pref-minutes-pills">
+                  <div class="pref-minute-pill" data-minutes="5">
+                    <span class="pref-pill-num">৫</span>
+                    <span class="pref-pill-unit" data-i18n="unitMins">মিনিট</span>
+                  </div>
+                  <div class="pref-minute-pill active" data-minutes="10">
+                    <span class="pref-pill-num">১০</span>
+                    <span class="pref-pill-unit" data-i18n="unitMins">মিনিট</span>
+                  </div>
+                  <div class="pref-minute-pill" data-minutes="15">
+                    <span class="pref-pill-num">১৫</span>
+                    <span class="pref-pill-unit" data-i18n="unitMins">মিনিট</span>
+                  </div>
+                  <div class="pref-minute-pill" data-minutes="20">
+                    <span class="pref-pill-num">২০</span>
+                    <span class="pref-pill-unit" data-i18n="unitMins">মিনিট</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Group 2: Audio & Feedback Settings -->
+              <div class="pref-card-group">
+                <div class="pref-group-header">
+                  <h3 class="pref-group-title" data-i18n="secAudioPrefs">শব্দ ও অডিও নির্দেশনা</h3>
+                  <p class="pref-group-sub" data-i18n="subAudioPrefs">অনুশীলন চলাকালীন ঘণ্টা ও ভয়েস প্রম্পট নিয়ন্ত্রণ
+                    করুন</p>
+                </div>
+
+                <div class="pref-switch-row">
+                  <div class="pref-switch-info">
+                    <h4 data-i18n="prefChimeTitle">শ্বাস রূপান্তর ঘণ্টা (Chime)</h4>
+                    <p data-i18n="prefChimeDesc">শ্বাস নেওয়া ও ছাড়ার ধাপে শান্ত ধাতব ঘণ্টার আওয়াজ</p>
+                  </div>
+                  <div class="form-check form-switch m-0">
+                    <input class="form-check-input fs-5" type="checkbox" id="switchPrefChime" checked>
+                  </div>
+                </div>
+
+                <div class="pref-switch-row">
+                  <div class="pref-switch-info">
+                    <h4 data-i18n="prefVoiceTitle">ভয়েস গাইডেন্স ও নির্দেশনা</h4>
+                    <p data-i18n="prefVoiceDesc">প্রতিটি ধাপ স্পষ্ট বাংলা ও ইংরেজি উচ্চারণে উচ্চারণ</p>
+                  </div>
+                  <div class="form-check form-switch m-0">
+                    <input class="form-check-input fs-5" type="checkbox" id="switchPrefVoice" checked>
+                  </div>
+                </div>
+
+                <div class="pref-switch-row">
+                  <div class="pref-switch-info">
+                    <h4 data-i18n="prefSoundTestTitle">ফুসফুস পরীক্ষা অডিও কিউ</h4>
+                    <p data-i18n="prefSoundTestDesc">BOLT এবং BPM কাউন্টারে অডিও টিক সাউন্ড</p>
+                  </div>
+                  <div class="form-check form-switch m-0">
+                    <input class="form-check-input fs-5" type="checkbox" id="switchPrefTestSound" checked>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-primary px-4 fw-bold" id="btnSavePreferences">
+                  <i class="bi bi-check2 me-1"></i>
+                  <span data-i18n="btnSavePrefs">পছন্দসমূহ আপডেট করুন</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- ================================================================
+                 TAB 3: ACHIEVEMENTS & MILESTONES
+                 ================================================================ -->
+            <div class="profile-tab-panel" id="tabAchievements" role="tabpanel" aria-labelledby="tabBtnAchievements">
+              <h2 class="fs-5 fw-bold text-dark mb-4" data-i18n="secAchievements">স্বাস্থ্য ও মননশীল মাইলফলকসমূহ</h2>
+
+              <div class="achievements-grid">
+                <!-- Badge 1: First Breath -->
+                <div class="achievement-card unlocked" id="achieveFirstBreath">
+                  <div class="achievement-medal">
+                    <i class="bi bi-wind"></i>
+                  </div>
+                  <h3 class="achievement-title" data-i18n="badgeFirstBreathTitle">প্রথম শ্বাস</h3>
+                  <p class="achievement-desc" data-i18n="badgeFirstBreathDesc">BreatheWell-এ আপনার প্রথম শ্বাসের অনুশীলন
+                    সফলভাবে সম্পন্ন করেছেন।</p>
+                  <div class="achievement-status-badge">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span data-i18n="badgeStatusUnlocked">অর্জিত হয়েছে</span>
+                  </div>
+                </div>
+
+                <!-- Badge 2: Lung Pioneer (BOLT) -->
+                <div class="achievement-card unlocked" id="achieveBolt">
+                  <div class="achievement-medal">
+                    <i class="bi bi-speedometer2"></i>
+                  </div>
+                  <h3 class="achievement-title" data-i18n="badgeBoltTitle">ফুসফুস পথিকৃৎ</h3>
+                  <p class="achievement-desc" data-i18n="badgeBoltDesc">প্রথমবারের মতো নিজের BOLT রেসপিরেটরি স্কোর
+                    নির্ণয় করেছেন।</p>
+                  <div class="achievement-status-badge">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span data-i18n="badgeStatusUnlocked">অর্জিত হয়েছে</span>
+                  </div>
+                </div>
+
+                <!-- Badge 3: 7-Day Streak -->
+                <div class="achievement-card unlocked" id="achieveStreak">
+                  <div class="achievement-medal">
+                    <i class="bi bi-fire"></i>
+                  </div>
+                  <h3 class="achievement-title" data-i18n="badgeStreakTitle">৭ দিনের স্ট্রিক</h3>
+                  <p class="achievement-desc" data-i18n="badgeStreakDesc">টানা ৭ দিন নিয়মিত শ্বাস-প্রশ্বাসের অনুশীলন
+                    অব্যাহত রেখেছেন।</p>
+                  <div class="achievement-status-badge">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span data-i18n="badgeStatusUnlocked">অর্জিত হয়েছে</span>
+                  </div>
+                </div>
+
+                <!-- Badge 4: Deep Calm Master -->
+                <div class="achievement-card unlocked" id="achieveDeepCalm">
+                  <div class="achievement-medal">
+                    <i class="bi bi-flower1"></i>
+                  </div>
+                  <h3 class="achievement-title" data-i18n="badgeDeepCalmTitle">গভীর প্রশান্তির সাধক</h3>
+                  <p class="achievement-desc" data-i18n="badgeDeepCalmDesc">একটানা ১৫ মিনিটের গভীর রিলাক্সেশন অনুশীলন
+                    সম্পন্ন করেছেন।</p>
+                  <div class="achievement-status-badge">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span data-i18n="badgeStatusUnlocked">অর্জিত হয়েছে</span>
+                  </div>
+                </div>
+
+                <!-- Badge 5: Rx Vault Keeper -->
+                <div class="achievement-card unlocked" id="achieveRxVault">
+                  <div class="achievement-medal">
+                    <i class="bi bi-file-earmark-medical-fill"></i>
+                  </div>
+                  <h3 class="achievement-title" data-i18n="badgeRxVaultTitle">ডিজিটাল স্বাস্থ্য রক্ষক</h3>
+                  <p class="achievement-desc" data-i18n="badgeRxVaultDesc">প্রেসক্রিপশন ভল্টে নিজের ব্যবস্থাপত্র সংরক্ষণ
+                    করেছেন।</p>
+                  <div class="achievement-status-badge">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span data-i18n="badgeStatusUnlocked">অর্জিত হয়েছে</span>
+                  </div>
+                </div>
+
+                <!-- Badge 6: BOLT 30+ Champion -->
+                <div class="achievement-card unlocked" id="achieveMaster">
+                  <div class="achievement-medal">
+                    <i class="bi bi-trophy-fill"></i>
+                  </div>
+                  <h3 class="achievement-title" data-i18n="badgeMasterTitle">BOLT ৩০+ চ্যাম্পিয়ন</h3>
+                  <p class="achievement-desc" data-i18n="badgeMasterDesc">উন্নত ফুসফুস সক্ষমতা ও ৩০ সেকেন্ডের অধিক BOLT
+                    অর্জন করেছেন।</p>
+                  <div class="achievement-status-badge">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span data-i18n="badgeStatusUnlocked">অর্জিত হয়েছে</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ================================================================
+                 TAB 4: SECURITY & DATA MANAGEMENT
+                 ================================================================ -->
+            <div class="profile-tab-panel" id="tabSecurity" role="tabpanel" aria-labelledby="tabBtnSecurity">
+              <h2 class="fs-5 fw-bold text-dark mb-4" data-i18n="tabSecurity">নিরাপত্তা ও ডেটা</h2>
+
+              <!-- Export Data Box -->
+              <div class="security-card-box">
+                <div class="security-box-header">
+                  <div>
+                    <h3 class="security-box-title" data-i18n="secExportData">স্বাস্থ্য ডেটা ডাউনলোড</h3>
+                    <p class="security-box-desc" data-i18n="descExportData">আপনার সমস্ত শ্বাসের সেশন, BOLT টেস্ট
+                      হিস্ট্রি ও প্রোফাইল ডেটা এনক্রিপ্ট করা JSON ফরম্যাটে ডাউনলোড করুন।</p>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm px-3 fw-bold flex-shrink-0"
+                    id="btnDownloadExport">
+                    <i class="bi bi-file-earmark-arrow-down-fill me-1"></i>
+                    <span data-i18n="btnDownloadJson">JSON ফাইল ডাউনলোড</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Reset Data Box -->
+              <div class="security-card-box">
+                <div class="security-box-header">
+                  <div>
+                    <h3 class="security-box-title text-danger" data-i18n="secClearData">অ্যাকাউন্ট ডেটা রিসেট</h3>
+                    <p class="security-box-desc" data-i18n="descClearData">আপনার সমস্ত সংরক্ষিত সেশন ও টেস্ট হিস্ট্রি
+                      মুছে ফেলবে। এটি অপরিবর্তনযোগ্য।</p>
+                  </div>
+                  <button type="button" class="btn btn-outline-danger btn-sm px-3 fw-bold flex-shrink-0"
+                    data-bs-toggle="modal" data-bs-target="#resetModal">
+                    <i class="bi bi-trash3-fill me-1"></i>
+                    <span data-i18n="btnClearData">ডেটা রিসেট করুন</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Logout Box -->
+              <div class="security-card-box">
+                <div class="security-box-header">
+                  <div>
+                    <h3 class="security-box-title" data-i18n="secSecurityLogout">অ্যাকাউন্ট থেকে প্রস্থান</h3>
+                    <p class="security-box-desc" data-i18n="descSecurityLogout">নিরাপদভাবে আপনার বর্তমান ব্রাউজার সেশন
+                      সমাপ্ত করুন।</p>
+                  </div>
+                  <button type="button" class="btn btn-outline-secondary btn-sm px-3 fw-bold flex-shrink-0"
+                    data-bs-toggle="modal" data-bs-target="#logoutModal">
+                    <i class="bi bi-box-arrow-right me-1"></i>
+                    <span data-i18n="btnLogoutHeader">লগআউট</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       3. AVATAR PICKER MODAL
+       ======================================================================== -->
+  <div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content recovery-modal-card">
+        <div class="modal-header recovery-modal-header">
+          <h2 class="modal-title fs-5 fw-bold text-dark d-flex align-items-center gap-2" id="avatarModalLabel">
+            <i class="bi bi-person-bounding-box text-primary"></i>
+            <span data-i18n="avatarModalTitle">আপনার প্রোফাইল অবতার নির্বাচন করুন</span>
+          </h2>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body recovery-modal-body">
+          <div class="avatar-grid" id="avatarPickerGrid">
+            <!-- Dynamically populated from AVATARS_CATALOG -->
+          </div>
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal"
+              data-i18n="btnCancel">বাতিল</button>
+            <button type="button" class="btn btn-primary btn-sm px-4 fw-bold" id="btnApplyAvatarSelection"
+              data-i18n="btnApplyAvatar">অবতার পরিবর্তন করুন</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       4. LOGOUT CONFIRMATION MODAL
+       ======================================================================== -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content recovery-modal-card">
+        <div class="modal-body p-4 text-center">
+          <div class="text-danger fs-1 mb-2"><i class="bi bi-box-arrow-right"></i></div>
+          <h2 class="fs-5 fw-bold text-dark mb-2" id="logoutModalLabel" data-i18n="logoutModalTitle">আপনি কি নিশ্চিত?
+          </h2>
+          <p class="small text-muted mb-4" data-i18n="logoutModalDesc">আপনি BreatheWell অ্যাকাউন্ট থেকে লগআউট করতে
+            যাচ্ছেন।</p>
+          <div class="d-flex gap-2 justify-content-center">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal"
+              data-i18n="btnCancel">বাতিল</button>
+            <button type="button" class="btn btn-danger btn-sm px-3 fw-bold" id="btnConfirmLogoutAction"
+              data-i18n="btnLogoutConfirm">লগআউট নিশ্চিত করুন</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       5. DATA RESET CONFIRMATION MODAL
+       ======================================================================== -->
+  <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content recovery-modal-card">
+        <div class="modal-body p-4 text-center">
+          <div class="text-warning fs-1 mb-2"><i class="bi bi-exclamation-triangle-fill"></i></div>
+          <h2 class="fs-5 fw-bold text-dark mb-2" id="resetModalLabel" data-i18n="resetModalTitle">ডেটা রিসেট নিশ্চিতকরণ
+          </h2>
+          <p class="small text-muted mb-4" data-i18n="resetModalDesc">সতর্কতা: আপনার সমস্ত সেশন ও টেস্ট হিস্ট্রি
+            ব্রাউজার থেকে মুছে যাবে। আপনি কি নিশ্চিত?</p>
+          <div class="d-flex gap-2 justify-content-center">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal"
+              data-i18n="btnCancel">বাতিল</button>
+            <button type="button" class="btn btn-danger btn-sm px-3 fw-bold" id="btnConfirmResetAction"
+              data-i18n="btnConfirmResetAction">হ্যাঁ, মুছে ফেলুন</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       6. FAMILY MEMBER ADD / EDIT MODAL
+       ======================================================================== -->
+  <div class="modal fade" id="familyMemberModal" tabindex="-1" aria-labelledby="familyMemberModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content recovery-modal-card">
+        <div class="modal-header recovery-modal-header">
+          <h2 class="modal-title fs-5 fw-bold text-dark d-flex align-items-center gap-2" id="familyMemberModalLabel">
+            <i class="bi bi-people-fill text-primary"></i>
+            <span id="familyMemberModalTitle" data-i18n="modalAddMemberTitle">পরিবারের সদস্য যোগ করুন</span>
+          </h2>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="familyMemberForm" novalidate>
+          <div class="modal-body recovery-modal-body">
+            <input type="hidden" id="modalMemberId" value="">
+
+            <div class="mb-3">
+              <label for="modalMemberRelation" class="form-label fw-bold small text-muted"
+                data-i18n="labelRelation">সম্পর্ক (Relation)</label>
+              <select id="modalMemberRelation" class="form-select" required>
+                <option value="father" data-i18n="relFather">পিতা / বাবা (Father)</option>
+                <option value="mother" data-i18n="relMother">মাতা / মা (Mother)</option>
+                <option value="spouse" data-i18n="relSpouse">জীবনসঙ্গী (Spouse)</option>
+                <option value="brother" data-i18n="relBrother">ভাই (Brother)</option>
+                <option value="sister" data-i18n="relSister">বোন (Sister)</option>
+                <option value="son" data-i18n="relSon">ছেলে (Son)</option>
+                <option value="daughter" data-i18n="relDaughter">মেয়ে (Daughter)</option>
+                <option value="grandfather" data-i18n="relGrandfather">দাদা / নানা (Grandfather)</option>
+                <option value="grandmother" data-i18n="relGrandmother">দাদী / নানী (Grandmother)</option>
+                <option value="father_in_law" data-i18n="relFatherInLaw">শ্বশুর (Father-in-law)</option>
+                <option value="mother_in_law" data-i18n="relMotherInLaw">শাশুড়ি (Mother-in-law)</option>
+                <option value="uncle" data-i18n="relUncle">চাচা / মামা / খালু (Uncle)</option>
+                <option value="aunt" data-i18n="relAunt">চাচী / মামী / খালা (Aunt)</option>
+                <option value="child" data-i18n="relChild">সন্তান / শিশু (Child)</option>
+                <option value="other" data-i18n="relOther">অন্যান্য (Other)</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="modalMemberName" class="form-label fw-bold small text-muted"
+                data-i18n="labelMemberName">সদস্যের পুরো নাম</label>
+              <input type="text" id="modalMemberName" class="form-control" placeholder="যেমন: মো. রফিকুল ইসলাম"
+                required>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label for="modalMemberAge" class="form-label fw-bold small text-muted"
+                  data-i18n="labelMemberAge">বয়স</label>
+                <input type="number" id="modalMemberAge" class="form-control" placeholder="যেমন: ৫৮" min="1" max="120">
+              </div>
+              <div class="col-6">
+                <label for="modalMemberGender" class="form-label fw-bold small text-muted"
+                  data-i18n="labelMemberGender">লিঙ্গ</label>
+                <select id="modalMemberGender" class="form-select">
+                  <option value="male" data-i18n="genderMale">পুরুষ</option>
+                  <option value="female" data-i18n="genderFemale">মহিলা</option>
+                  <option value="other" data-i18n="genderOther">অন্যান্য</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="modalMemberHealthNotes" class="form-label fw-bold small text-muted"
+                data-i18n="labelMemberNote">স্বাস্থ্য অবস্থা / উপসর্গ নোট (ঐচ্ছিক)</label>
+              <textarea id="modalMemberHealthNotes" class="form-control" rows="2"
+                placeholder="যেমন: অ্যাজমা, উচ্চ রক্তচাপ, ইনহেলার ব্যবহারকারী..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal"
+              data-i18n="btnCancel">বাতিল</button>
+            <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold" id="btnSaveMemberModal"
+              data-i18n="btnSaveMember">সংরক্ষণ করুন</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       7. DELETE MEMBER CONFIRMATION MODAL
+       ======================================================================== -->
+  <div class="modal fade" id="deleteMemberModal" tabindex="-1" aria-labelledby="deleteMemberModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content recovery-modal-card">
+        <div class="modal-body p-4 text-center">
+          <div class="text-danger fs-1 mb-2"><i class="bi bi-person-x-fill"></i></div>
+          <h2 class="fs-5 fw-bold text-dark mb-2" id="deleteMemberModalLabel" data-i18n="deleteMemberTitle">সদস্য মুছে
+            ফেলবেন?</h2>
+          <p class="small text-muted mb-4" data-i18n="deleteMemberDesc">এই সদস্যের প্রোফাইল ও তথ্য আপনার পরিবার তালিকা
+            থেকে মুছে ফেলা হবে।</p>
+          <div class="d-flex gap-2 justify-content-center">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal"
+              data-i18n="btnCancel">বাতিল</button>
+            <button type="button" class="btn btn-danger btn-sm px-3 fw-bold" id="btnConfirmDeleteMember"
+              data-i18n="btnConfirmDelete">হ্যাঁ, মুছুন</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       6. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="mobile-nav-items">
+      <a class="mobile-nav-link" href="index.html" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+      </a>
+      <a class="mobile-nav-link" href="health-reading.html" aria-label="Health Tracker">
+        <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
+        <span class="nav-label" data-i18n="navHealthShort">স্বাস্থ্য</span>
+      </a>
+      <a class="mobile-nav-link" href="prescriptions-volt.html" aria-label="Prescriptions">
+        <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
+        <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+      </a>
+      <button type="button" class="mobile-nav-link active" id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
+        <div class="nav-icon-wrap"><i class="bi bi-person-circle"></i></div>
+        <span class="nav-label" data-i18n="navProfile">প্রোফাইল</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       7. MOBILE SIDEBAR / APP DRAWER (< 992px)
+       ======================================================================== -->
+  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+    aria-labelledby="mobileSidebarMenuLabel">
+    <div class="offcanvas-header mobile-sidebar-header">
+      <div class="mobile-sidebar-brand">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <div>
+          <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
+          <p class="mobile-sidebar-subtitle" data-i18n="sidebarBrandSub">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mobile-sidebar-body">
+      <!-- 1. Interactive Language Selector -->
+      <div class="mobile-sidebar-lang-card">
+        <div class="mobile-sidebar-lang-info">
+          <i class="bi bi-translate text-primary"></i>
+          <span class="mobile-sidebar-lang-title" data-i18n="langSelectTitle">ভাষা পরিবর্তন</span>
+        </div>
+        <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
+          <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
+          <button type="button" class="mobile-lang-pill" data-lang="en">English</button>
+        </div>
+      </div>
+
+      <!-- 2. Main Navigation Links -->
+      <div class="mobile-sidebar-section-title" data-i18n="navPagesTitle">পেজ ও মডিউল</div>
+      <div class="mobile-sidebar-nav-list">
+        <a class="mobile-sidebar-nav-item" href="index.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHome">হোম</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHomeSub">মূল পাতা ও ফিচারসমূহ</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="exercises.html">
+          <div class="mobile-sidebar-icon-box text-success">
+            <i class="bi bi-grid-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাসের অনুশীলন</span>
+            <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="health-reading.html">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="prescriptions-volt.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-file-earmark-medical-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+            <span class="mobile-sidebar-sub" data-i18n="navRxSub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item active" aria-current="page" href="profile.html">
+          <div class="mobile-sidebar-icon-box text-secondary">
+            <i class="bi bi-person-circle"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navProfile">প্রোফাইল</span>
+            <span class="mobile-sidebar-sub">ব্যক্তিগত স্বাস্থ্য ড্যাশবোর্ড ও সেটিংস</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="login.html">
+          <div class="mobile-sidebar-icon-box text-info">
+            <i class="bi bi-box-arrow-in-right"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navLogin">লগইন</span>
+            <span class="mobile-sidebar-sub">আপনার অ্যাকাউন্টে প্রবেশ করুন</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="register.html">
+          <div class="mobile-sidebar-icon-box text-warning">
+            <i class="bi bi-person-plus-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navRegister">রেজিস্ট্রেশন</span>
+            <span class="mobile-sidebar-sub">নতুন অ্যাকাউন্ট তৈরি করুন</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+      </div>
+
+      <!-- 3. Quick Action Utilities -->
+      <div class="mobile-sidebar-section-title" data-i18n="quickToolsTitle">দ্রুত অ্যাকশন</div>
+      <div class="mobile-sidebar-actions-grid">
+        <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
+          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-i18n="quickEmergencyLabel">জরুরি শান্ত শ্বাস (SOS)</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickEmergencySub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
+          </div>
+        </a>
+
+        <a class="mobile-sidebar-action-card" href="breath-test.html">
+          <div class="mobile-sidebar-action-icon text-info bg-info-subtle">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-i18n="quickTestLabel">ফুসফুস পরীক্ষা</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickTestSub">BOLT ও BPM স্কোর জানুন</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Footer Disclaimer -->
+      <div class="mobile-sidebar-footer">
+        <p class="mobile-sidebar-disclaimer">
+          <i class="bi bi-info-circle me-1"></i>
+          <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       8. SYSTEM NOTIFICATION TOAST & SCRIPT INCLUDES
+       ======================================================================== -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="appToast" class="toast border-0 shadow" role="status">
+      <div class="toast-body d-flex justify-content-between align-items-center">
+        <span id="toastText"></span>
+        <button class="btn-close ms-3" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/global-nav.js"></script>
+  <script src="asset/js/profile.js"></script>
+</body>
+
+</html>
