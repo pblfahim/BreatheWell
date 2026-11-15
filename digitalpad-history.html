@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-dh-i18n="pageTitle">ডিজিটাল প্যাড ইতিহাস ও রেকর্ডস - BreatheWell</title>
+  <meta name="description"
+    content="BreatheWell - ডিজিটাল প্যাড ও প্রেসক্রিপশন স্টুডিও থেকে তৈরি সকল ডিজিটাল প্রেসক্রিপশনের ইতিহাস খুঁজুন, দেখুন এবং প্রিন্ট করুন।">
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+
+  <!-- CSS Dependencies -->
+  <link href="asset/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/vendor/datatables/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/digitalpad-history.css">
+</head>
+
+<body class="bn" data-page="digitalpad-history">
+  <!-- Accessibility Skip Navigation Link -->
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main" data-i18n="skip">মূল কনটেন্টে যান</a>
+
+  <!-- ========================================================================
+       1. GLOBAL DESKTOP NAVIGATION BAR
+       ======================================================================== -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index.html"
+        aria-label="BreatheWell home">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <span>BreatheWell</span>
+      </a>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a></li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="prescriptions-volt.html" data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ======================================================================
+         2. DARK GREEN TAB HEADER BAR
+         ====================================================================== -->
+    <div class="ht-hero-tab-bar">
+      <div class="container">
+        <div class="ht-hero-tabs" role="tablist" aria-label="Prescription Navigation">
+          <a href="prescriptions-volt.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">🗄️</span>
+            <span class="ht-hero-tab-text" data-dh-i18n="tabVault">প্রেসক্রিপশন ভল্ট</span>
+          </a>
+          <a href="prescription-history.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">📜</span>
+            <span class="ht-hero-tab-text" data-dh-i18n="tabHistory">প্রেসক্রিপশন ইতিহাস</span>
+          </a>
+          <a href="digitalpad-history.html" class="ht-hero-tab active text-decoration-none" aria-current="page">
+            <span class="ht-hero-tab-icon">📑</span>
+            <span class="ht-hero-tab-text" data-dh-i18n="tabDigitalPadHistory">ডিজিটাল প্যাড ইতিহাস</span>
+          </a>
+          <a href="prescription-create.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">✍️</span>
+            <span class="ht-hero-tab-text" data-dh-i18n="tabCreate">প্রেসক্রিপশন তৈরি</span>
+          </a>
+          <a href="prescription-pad.html" class="ht-hero-tab text-decoration-none">
+            <span class="ht-hero-tab-icon">📋</span>
+            <span class="ht-hero-tab-text" data-dh-i18n="tabPad">ডিজিটাল প্যাড</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         3. MAIN DIGITAL PAD ARCHIVE SECTION
+         ====================================================================== -->
+    <section id="dhMainSection" class="pt-2">
+      <div class="container">
+
+        <!-- Stats Summary Metrics Row -->
+        <div class="dh-stats-row">
+          <div class="dh-stat-card">
+            <div class="dh-stat-icon-wrap primary">
+              <i class="bi bi-file-earmark-medical-fill"></i>
+            </div>
+            <div class="dh-stat-info">
+              <span class="dh-stat-val" id="statTotalVal">0</span>
+              <span class="dh-stat-lbl" data-dh-i18n="statTotal">মোট প্রেসক্রিপশন</span>
+            </div>
+          </div>
+
+          <div class="dh-stat-card">
+            <div class="dh-stat-icon-wrap success">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="dh-stat-info">
+              <span class="dh-stat-val" id="statPatientsVal">0</span>
+              <span class="dh-stat-lbl" data-dh-i18n="statPatients">মোট রোগী</span>
+            </div>
+          </div>
+
+          <div class="dh-stat-card">
+            <div class="dh-stat-icon-wrap info">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <div class="dh-stat-info">
+              <span class="dh-stat-val" id="statTodayVal">0</span>
+              <span class="dh-stat-lbl" data-dh-i18n="statToday">আজকের রেকর্ড</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter / Search / Sort Toolbar -->
+        <div class="dh-toolbar">
+
+          <!-- Live search input -->
+          <div class="dh-search-wrap">
+            <i class="bi bi-search dh-search-icon"></i>
+            <input type="search" id="dhSearch" class="dh-search-input"
+              placeholder="রোগীর নাম, সিরিয়াল, ডাক্তার, ওষুধ বা রোগ খুঁজুন..."
+              data-dh-i18n-placeholder="searchPh" aria-label="Search digital pad prescriptions">
+          </div>
+
+          <!-- Category filter pills -->
+          <div class="dh-filter-bar" role="group" aria-label="Filter records">
+            <button type="button" class="dh-filter-pill active" data-filter="all"
+              data-dh-i18n="filterAll">সবগুলো</button>
+            <button type="button" class="dh-filter-pill" data-filter="pad"
+              data-dh-i18n="filterPad">ডিজিটাল প্যাড</button>
+            <button type="button" class="dh-filter-pill" data-filter="studio"
+              data-dh-i18n="filterStudio">স্টুডিও</button>
+            <button type="button" class="dh-filter-pill" data-filter="today"
+              data-dh-i18n="filterToday">আজকে</button>
+          </div>
+
+          <!-- Sort select -->
+          <div class="dh-sort-wrap">
+            <i class="bi bi-sort-down dh-sort-icon"></i>
+            <select id="dhSortSelect" class="dh-sort-select" aria-label="Sort prescriptions">
+              <option value="new" data-dh-i18n="sortNew">নতুন আগে</option>
+              <option value="old" data-dh-i18n="sortOld">পুরনো আগে</option>
+              <option value="patient" data-dh-i18n="sortPatient">রোগীর নাম</option>
+              <option value="doctor" data-dh-i18n="sortDoctor">ডাক্তারের নাম</option>
+            </select>
+          </div>
+
+          <!-- View Format Switcher: Grid vs Table -->
+          <div class="dh-view-toggle ms-md-auto" role="group" aria-label="View format switch">
+            <button type="button" class="btn btn-sm dh-btn-toggle active" id="btnViewGrid" data-view="grid"
+              title="কার্ড গ্রিড ভিউ">
+              <i class="bi bi-grid-3x3-gap-fill me-1"></i>
+              <span data-dh-i18n="viewGrid">কার্ড গ্রিড</span>
+            </button>
+            <button type="button" class="btn btn-sm dh-btn-toggle" id="btnViewTable" data-view="table"
+              title="ডেটা টেবিল ভিউ">
+              <i class="bi bi-table me-1"></i>
+              <span data-dh-i18n="viewTable">ডেটা টেবিল</span>
+            </button>
+          </div>
+
+        </div><!-- /dh-toolbar -->
+
+        <!-- Format A: Card Grid View — populated by dhRenderCards() -->
+        <div class="dh-gallery-view-wrap" id="dhGalleryViewWrap">
+          <div class="dh-gallery" id="dhGallery" aria-live="polite" aria-label="Digital prescription gallery"></div>
+        </div>
+
+        <!-- Format B: Data Table View — styled as health-history table -->
+        <div class="dh-table-view-wrap d-none" id="dhTableViewWrap">
+          <div class="dh-table-card">
+            <div class="dh-table-card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-table text-teal fs-5"></i>
+                <h3 class="dh-table-card-title" data-dh-i18n="tableCardTitle">ডিজিটাল প্রেসক্রিপশন ডেটা টেবিল</h3>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <button type="button"
+                  class="btn btn-sm btn-outline-success rounded-pill px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5"
+                  id="btnExportCsv">
+                  <i class="bi bi-file-earmark-spreadsheet"></i>
+                  <span data-dh-i18n="btnExportCsv">CSV এক্সপোর্ট</span>
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive p-3">
+              <table id="digitalpadHistoryTable" class="table table-hover align-middle dh-data-table w-100">
+                <thead>
+                  <tr>
+                    <th scope="col" data-dh-i18n="thDate">তারিখ ও সময়</th>
+                    <th scope="col" data-dh-i18n="thPatient">রোগী ও সিরিয়াল</th>
+                    <th scope="col" data-dh-i18n="thDoctor">ডাক্তার ও হাসপাতাল</th>
+                    <th scope="col" data-dh-i18n="thDiagnosis">রোগ ও লক্ষণ</th>
+                    <th scope="col" data-dh-i18n="thMeds">ওষুধসমূহ (Rx)</th>
+                    <th scope="col" data-dh-i18n="thVitals">ভাইটালস</th>
+                    <th scope="col" data-dh-i18n="thSource">উৎস</th>
+                    <th scope="col" class="text-end" data-dh-i18n="thAction">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="dhTableTbody">
+                  <!-- Populated dynamically via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       4. FULL CLINICAL DIGITAL PRESCRIPTION MODAL VIEWER
+       ======================================================================== -->
+  <div class="modal fade" id="dhDetailModal" tabindex="-1" aria-labelledby="dhDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 bg-transparent shadow-none">
+        <div class="modal-body p-0">
+
+          <!-- Top Action Bar -->
+          <div class="d-flex justify-content-between align-items-center bg-dark text-white px-3 py-2 rounded-top-4">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-file-earmark-medical-fill text-teal fs-5"></i>
+              <span class="fw-bold fs-6" id="dhDetailModalLabel">ডিজিটাল প্রেসক্রিপশন বিস্তারিত</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1" id="btnPrintModalPrescription" title="প্রিন্ট করুন">
+                <i class="bi bi-printer me-1"></i> প্রিন্ট
+              </button>
+              <button type="button" class="btn btn-sm btn-success rounded-pill px-3 py-1" id="btnShareModalWhatsApp" title="হোয়াটসঅ্যাপে পাঠান">
+                <i class="bi bi-whatsapp me-1"></i> হোয়াটসঅ্যাপ
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1" id="btnCopyModalText" title="প্রেসক্রিপশন কপি করুন">
+                <i class="bi bi-clipboard me-1"></i> কপি
+              </button>
+              <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          </div>
+
+          <!-- Printable Clinical Digital Pad -->
+          <div class="dh-modal-pad rounded-bottom-4">
+
+            <!-- Hospital & Doctor Letterhead -->
+            <div class="dh-pad-header">
+              <div>
+                <h3 class="dh-pad-doc-name" id="modalDocName">Dr. A. Rahman</h3>
+                <div class="dh-pad-doc-deg" id="modalDocDegrees">MBBS, FCPS (Medicine), MD (Neurology)</div>
+                <div class="dh-pad-doc-reg" id="modalDocReg">BMDC-A45892</div>
+              </div>
+              <div class="dh-pad-hosp-info">
+                <h4 class="dh-pad-hosp-name" id="modalHospitalName">City General Hospital</h4>
+                <div class="dh-pad-hosp-addr" id="modalHospitalAddress">House 12, Road 5, Dhanmondi, Dhaka</div>
+              </div>
+            </div>
+
+            <!-- Patient Information Bar -->
+            <div class="dh-pad-pat-bar">
+              <div class="dh-pad-pat-item">
+                <strong>রোগীর নাম</strong>
+                <span id="modalPatName">Rahim Uddin</span>
+              </div>
+              <div class="dh-pad-pat-item">
+                <strong>সিরিয়াল নং</strong>
+                <span id="modalSerialNo">SL-2026-001</span>
+              </div>
+              <div class="dh-pad-pat-item">
+                <strong>বয়স</strong>
+                <span id="modalPatAge">45 Years</span>
+              </div>
+              <div class="dh-pad-pat-item">
+                <strong>লিঙ্গ</strong>
+                <span id="modalPatGender">Male</span>
+              </div>
+              <div class="dh-pad-pat-item">
+                <strong>তারিখ</strong>
+                <span id="modalPrescDate">15 Nov 2026</span>
+              </div>
+            </div>
+
+            <!-- Two-Column Clinical & Rx Treatment Body -->
+            <div class="dh-pad-main">
+
+              <!-- Left Column: Clinical Complaints & Vitals -->
+              <div class="dh-pad-col-clinical">
+                <div>
+                  <div class="dh-clinical-sec-title">প্রধান লক্ষণ (C/C)</div>
+                  <div id="modalCCBox">
+                    <div class="text-muted small">None</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="dh-clinical-sec-title">শারীরিক পরীক্ষা (O/E)</div>
+                  <div id="modalVitalsBox">
+                    <div class="text-muted small">None</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="dh-clinical-sec-title">রোগ নির্ণয় (Dx)</div>
+                  <div id="modalDiagnosisBox" class="dh-clinical-item fw-bold text-teal">Clinical Consultation</div>
+                </div>
+
+                <div>
+                  <div class="dh-clinical-sec-title">পরীক্ষা-নিরীক্ষা (Inv)</div>
+                  <div id="modalInvBox" class="dh-clinical-item">Routine monitoring</div>
+                </div>
+              </div>
+
+              <!-- Right Column: Rx Medicines & Treatment -->
+              <div class="dh-pad-col-treatment">
+                <div class="dh-rx-symbol">℞</div>
+
+                <div class="table-responsive">
+                  <table class="dh-pad-med-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 32px;">#</th>
+                        <th>ওষুধের নাম</th>
+                        <th>ডোজ</th>
+                        <th>সময়কাল</th>
+                        <th>নির্দেশনা</th>
+                      </tr>
+                    </thead>
+                    <tbody id="modalMedsTbody">
+                      <!-- Filled dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Advice Box -->
+                <div class="dh-pad-advice-box">
+                  <h6>পরামর্শ ও নির্দেশনাবলী</h6>
+                  <p id="modalAdviceText">পর্যাপ্ত বিশ্রাম নিন এবং নির্দেশিত ওষুধ যথাসময়ে গ্রহণ করুন।</p>
+                </div>
+
+                <!-- Follow-up Visit -->
+                <div class="d-flex align-items-center gap-2 small text-secondary">
+                  <i class="bi bi-calendar-check text-teal"></i>
+                  <span><strong>পরবর্তী সাক্ষাৎ:</strong> <span id="modalFollowUpText">প্রয়োজনে যোগাযোগ করবেন।</span></span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Pad Footer & Doctor Signature -->
+            <div class="dh-pad-footer">
+              <div class="small text-muted">
+                <div><strong class="text-teal">BreatheWell</strong> · ডিজিটাল হেলথকেয়ার সিস্টেম</div>
+                <div style="font-size: 0.72rem;">কম্পিউটার জেনারেটেড ডিজিটাল প্রেসক্রিপশন</div>
+              </div>
+              <div class="dh-pad-sig-wrap">
+                <img id="modalSigImg" class="dh-pad-sig-img d-none" alt="Doctor Signature">
+                <div class="dh-pad-sig-line">চিকিৎসকের স্বাক্ষর</div>
+              </div>
+            </div>
+
+          </div><!-- /dh-modal-pad -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       5. GLOBAL FOOTER
+       ======================================================================== -->
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       6. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="mobile-nav-items">
+      <a class="mobile-nav-link" href="index.html" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
+      </a>
+      <a class="mobile-nav-link" href="health-reading.html" aria-label="Health Tracker">
+        <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
+        <span class="nav-label" data-i18n="navHealthShort">স্বাস্থ্য</span>
+      </a>
+      <a class="mobile-nav-link active" aria-current="page" href="prescriptions-volt.html" aria-label="Prescriptions">
+        <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
+        <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+      </a>
+      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
+        <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
+        <span class="nav-label" data-i18n="navMore">আরও</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       7. MOBILE SIDEBAR DRAWER (< 992px)
+       ======================================================================== -->
+  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+    aria-labelledby="mobileSidebarMenuLabel">
+    <div class="offcanvas-header mobile-sidebar-header">
+      <div class="mobile-sidebar-brand">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <div>
+          <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
+          <p class="mobile-sidebar-subtitle" data-i18n="sidebarBrandSub">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas"
+        aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mobile-sidebar-body">
+      <!-- 1. Interactive Language Selector -->
+      <div class="mobile-sidebar-lang-card">
+        <div class="mobile-sidebar-lang-info">
+          <i class="bi bi-translate text-primary"></i>
+          <span class="mobile-sidebar-lang-title" data-i18n="langSelectTitle">ভাষা পরিবর্তন</span>
+        </div>
+        <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
+          <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
+          <button type="button" class="mobile-lang-pill" data-lang="en">English</button>
+        </div>
+      </div>
+
+      <!-- 2. Main Navigation Links -->
+      <div class="mobile-sidebar-section-title" data-i18n="navPagesTitle">পেজ ও মডিউল</div>
+      <div class="mobile-sidebar-nav-list">
+        <a class="mobile-sidebar-nav-item" href="index.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHome">হোম</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHomeSub">মূল পাতা ও ফিচারসমূহ</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="exercises.html">
+          <div class="mobile-sidebar-icon-box text-success">
+            <i class="bi bi-grid-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
+            <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="health-reading.html">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item active" aria-current="page" href="prescriptions-volt.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-file-earmark-medical-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+            <span class="mobile-sidebar-sub" data-i18n="navRxSub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="index.html#safety">
+          <div class="mobile-sidebar-icon-box text-warning">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navSafety">নিরাপত্তা</span>
+            <span class="mobile-sidebar-sub" data-i18n="navSafetySub">৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+      </div>
+
+      <!-- 3. Quick Action Utilities -->
+      <div class="mobile-sidebar-section-title" data-i18n="quickToolsTitle">দ্রুত অ্যাকশন</div>
+      <div class="mobile-sidebar-actions-grid">
+        <a class="mobile-sidebar-action-card" href="index.html#safety" data-action="emergency-sos">
+          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-i18n="quickEmergencyLabel">জরুরি শান্ত শ্বাস (SOS)</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickEmergencySub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
+          </div>
+        </a>
+
+        <a class="mobile-sidebar-action-card" href="breath-test.html">
+          <div class="mobile-sidebar-action-icon text-info bg-info-subtle">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-i18n="quickTestLabel">ফুসফুস পরীক্ষা</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickTestSub">BOLT ও BPM স্কোর জানুন</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Footer Disclaimer -->
+      <div class="mobile-sidebar-footer">
+        <p class="mobile-sidebar-disclaimer">
+          <i class="bi bi-info-circle me-1"></i>
+          <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       8. TOAST NOTIFICATION STACK
+       ======================================================================== -->
+  <div class="rx-toast-stack" id="rxToastStack" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- ========================================================================
+       9. SCRIPTS
+       ======================================================================== -->
+  <script src="asset/vendor/jquery/jquery-3.7.1.min.js"></script>
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/vendor/datatables/dataTables.min.js"></script>
+  <script src="asset/vendor/datatables/dataTables.bootstrap5.min.js"></script>
+  <script src="asset/js/global-nav.js"></script>
+  <script src="asset/js/digitalpad-history.js"></script>
+
+</body>
+
+</html>
+

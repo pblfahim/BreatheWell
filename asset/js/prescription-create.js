@@ -134,6 +134,7 @@
       heroSub: "ডাক্তারের ব্যবস্থাপত্র তৈরি করুন, প্রিন্ট করুন এবং ভল্টে সংরক্ষণ করুন।",
       tabVault: "প্রেসক্রিপশন ভল্ট",
       tabHistory: "প্রেসক্রিপশন ইতিহাস",
+      tabDigitalPadHistory: "ডিজিটাল প্যাড ইতিহাস",
       tabCreate: "প্রেসক্রিপশন তৈরি",
       tabPad: "ডিজিটাল প্যাড",
       btnUploadOcr: "প্রেসক্রিপশন আপলোড (OCR)",
@@ -216,6 +217,7 @@
       heroSub: "Design, print, and save clinical medical prescriptions with instant PDF paper preview.",
       tabVault: "Prescription Vault",
       tabHistory: "Prescription History",
+      tabDigitalPadHistory: "Digital Pad History",
       tabCreate: "Create Prescription",
       tabPad: "Digital Pad",
       btnUploadOcr: "Upload Prescription (OCR)",
@@ -1336,9 +1338,11 @@ Drink plenty of boiled water. Take bed rest.`;
    * 9. PRESCRIPTION VAULT EXPORT, PRINT & SHARING (WHATSAPP/CLIPBOARD)
    * ============================================================================
    */
+  const DPAD_KEY = "bw_digitalpad_prescriptions";
+
   /**
    * Persists the current prescription as a structured clinical object in localStorage
-   * under the `bw_prescriptions` vault key. Compatible with prescriptions-volt.html records.
+   * under both the `bw_prescriptions` vault key and `bw_digitalpad_prescriptions` key.
    *
    * @function savePrescriptionToVault
    * @returns {void}
@@ -1346,30 +1350,51 @@ Drink plenty of boiled water. Take bed rest.`;
   function savePrescriptionToVault() {
     try {
       const all = JSON.parse(localStorage.getItem(RX_VAULT_KEY) || "[]");
+      const dpadAll = JSON.parse(localStorage.getItem(DPAD_KEY) || "[]");
       const recordId = "rx_" + Date.now() + "_" + Math.random().toString(36).substr(2, 6);
 
       const record = {
         id: recordId,
         createdAt: new Date().toISOString(),
         prescDate: rxState.patient.date || new Date().toISOString().split("T")[0],
+        date: rxState.patient.date || new Date().toISOString().split("T")[0],
         doctor: rxState.doctor.name || "Dr. A. Rahman",
+        degrees: rxState.doctor.degrees || "MBBS, FCPS (Medicine)",
         clinic: rxState.doctor.hospital || "City General Hospital",
-        patName: rxState.patient.name || "",
-        patientName: rxState.patient.name || "",
-        serialNo: rxState.patient.serial || "",
-        meds: rxState.treatment.meds.map((m) => m.name),
+        hospital: rxState.doctor.hospital || "City General Hospital",
+        doctorPhone: rxState.doctor.phone || "+880 1711-000000",
+        doctorReg: rxState.doctor.reg || "BMDC-A12345",
+        doctorAddress: rxState.doctor.address || "Dhanmondi, Dhaka",
+        patName: rxState.patient.name || "–",
+        patientName: rxState.patient.name || "–",
+        patientAge: rxState.patient.age || "–",
+        patientGender: rxState.patient.gender || "–",
+        serialNo: rxState.patient.serial || ("SL-" + Math.floor(1000 + Math.random() * 9000)),
+        meds: (rxState.treatment.meds || []).map((m) => m.name),
+        medicines: rxState.treatment.meds || [],
+        clinical: rxState.clinical || {},
+        treatment: rxState.treatment || {},
         diagnosis: rxState.treatment.dx || "Clinical Consultation",
-        refillDate: "",
+        advice: rxState.treatment.advice || "",
+        followUp: rxState.treatment.followUp || "",
+        refillDate: rxState.treatment.followUp || "",
         urgency: "normal",
-        notes: `Patient: ${rxState.patient.name || "–"} (SL: ${rxState.patient.serial || "–"}) | C/C: ${rxState.clinical.cc.join(", ")} | Vitals: BP ${rxState.clinical.oe.bp}, Pulse ${rxState.clinical.oe.pulse} | Advice: ${rxState.treatment.advice}`,
+        notes: `Patient: ${rxState.patient.name || "–"} (SL: ${rxState.patient.serial || "–"}) | C/C: ${(rxState.clinical.cc || []).join(", ")} | Vitals: BP ${rxState.clinical.oe?.bp || "–"}, Pulse ${rxState.clinical.oe?.pulse || "–"} | Advice: ${rxState.treatment.advice || "–"}`,
         files: [],
+        type: "digital_pad",
+        source: "prescription-create",
         digitalPrescriptionData: JSON.parse(JSON.stringify(rxState))
       };
 
+      // Save to general vault
       all.unshift(record);
       localStorage.setItem(RX_VAULT_KEY, JSON.stringify(all));
 
-      showToast(tr("toastSaved"), "success");
+      // Save to dedicated digital pad history storage
+      dpadAll.unshift(record);
+      localStorage.setItem(DPAD_KEY, JSON.stringify(dpadAll));
+
+      showToast(tr("toastSaved") + " · ডিজিটাল প্যাড ইতিহাসে সংরক্ষিত!", "success");
     } catch (err) {
       console.error("Save to vault error:", err);
       showToast("Error saving to vault: " + err.message, "error");

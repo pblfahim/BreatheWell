@@ -302,7 +302,7 @@
       activeKey = "test";
     } else if (filename.includes("health") || filename.includes("trend")) {
       activeKey = "health";
-    } else if (filename.includes("prescription")) {
+    } else if (filename.includes("prescription") || filename.includes("digitalpad")) {
       activeKey = "rx";
     } else if (filename.includes("login")) {
       activeKey = "login";
@@ -323,7 +323,7 @@
       if (activeKey === "exercises" && href.includes("exercise")) match = true;
       if (activeKey === "test" && href.includes("breath-test")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
-      if (activeKey === "rx" && href.includes("prescription")) match = true;
+      if (activeKey === "rx" && (href.includes("prescription") || href.includes("digitalpad"))) match = true;
       if (activeKey === "login" && href.includes("login")) match = true;
       if (activeKey === "register" && href.includes("register")) match = true;
       if (activeKey === "profile" && href.includes("profile")) match = true;
@@ -347,7 +347,7 @@
       if (activeKey === "home" && (href === "index.html" || href === "./")) match = true;
       if (activeKey === "exercises" && href.includes("exercise")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
-      if (activeKey === "rx" && href.includes("prescription")) match = true;
+      if (activeKey === "rx" && (href.includes("prescription") || href.includes("digitalpad"))) match = true;
       if (activeKey === "test" || activeKey === "safety" || activeKey === "login" || activeKey === "register" || activeKey === "profile") {
         if (isMore) match = true;
       }
@@ -369,7 +369,7 @@
       if (activeKey === "exercises" && href.includes("exercise")) match = true;
       if (activeKey === "test" && href.includes("breath-test")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
-      if (activeKey === "rx" && href.includes("prescription")) match = true;
+      if (activeKey === "rx" && (href.includes("prescription") || href.includes("digitalpad"))) match = true;
       if (activeKey === "login" && href.includes("login")) match = true;
       if (activeKey === "register" && href.includes("register")) match = true;
       if (activeKey === "profile" && href.includes("profile")) match = true;
