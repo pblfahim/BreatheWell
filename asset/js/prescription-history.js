@@ -5,7 +5,7 @@
  * @file        asset/js/prescription-history.js
  * @module      BreatheWell/PrescriptionHistory
  * @author      BreatheWell Health Informatics Team
- * @version     2.0.0
+ * @version     2.1.0
  * @license     MIT
  * @description
  *   Dedicated, robust client-side engine for prescription-history.html.
@@ -13,7 +13,7 @@
  *     1. Data Table View (styled as health-history table with DataTables 2 & CSV export)
  *     2. Gallery Card Grid View (interactive responsive cards with lightbox preview)
  *   Includes full-text search, urgency filtering, dynamic sorting, single-item deletion,
- *   storage metrics calculation, and 100% bilingual (Bengali/English) i18n.
+ *   rich digital clinical prescription sheet viewer in lightbox, and 100% bilingual (Bengali/English) i18n.
  * ============================================================================
  */
 
@@ -26,7 +26,7 @@
   const RX_KEY = "bw_prescriptions";
   const LANG_KEY = "bw_lang";
   const VIEW_KEY = "bw_rx_view_format";
-  const STORAGE_MAX_BYTES = 5 * 1024 * 1024; // 5 MB typical localStorage limit
+  const STORAGE_MAX_BYTES = 10 * 1024 * 1024; // 10 MB limit
 
   let currentLang = localStorage.getItem(LANG_KEY) || "bn";
   let currentViewFormat = localStorage.getItem(VIEW_KEY) || "grid";
@@ -37,6 +37,7 @@
   let lbRecordList = [];
   let lbRecordIndex = 0;
   let lbFileIndex = 0;
+  let lbActiveTab = "file"; // 'file' or 'clinical'
   let dataTableInstance = null;
 
   /**
@@ -90,6 +91,7 @@
       noFiles: "সংযুক্তি নেই",
       openBtn: "দেখুন",
       btnDownload: "ডাউনলোড",
+      btnPrint: "প্রিন্ট করুন",
       btnClose: "বন্ধ করুন",
       btnUploadNew: "নতুন আপলোড করুন",
       btnCreateStudio: "প্রেসক্রিপশন তৈরি",
@@ -110,7 +112,18 @@
       titleViewTable: "ডেটা টেবিল ভিউ",
       footerTag: "প্রতিটি নিঃশ্বাসে একটি প্রশান্তি",
       footerDisclaimer: "সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।",
-      sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ভল্ট"
+      sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ভল্ট",
+      digitalRxRecord: "ডিজিটাল প্রেসক্রিপশন",
+      tabDocView: "সংযুক্ত ফাইল",
+      tabRecordView: "ক্লিনিক্যাল প্রেসক্রিপশন",
+      lblVitals: "শারীরিক পরীক্ষা (Vitals)",
+      lblDx: "রোগনির্ণয় (Dx)",
+      lblCC: "প্রধান সমস্যা (C/C)",
+      lblHO: "অতীত ইতিহাস (H/O)",
+      lblInv: "ল্যাব পরীক্ষা (Inv.)",
+      lblAdvice: "পরামর্শ ও নির্দেশনা",
+      lblRefill: "পরবর্তী সাক্ষাৎ / রিফিল",
+      noClinicalData: "কোনো ক্লিনিক্যাল তথ্য রেকর্ড করা নেই।"
     },
     en: {
       navHome: "Home",
@@ -152,6 +165,7 @@
       noFiles: "No files",
       openBtn: "View",
       btnDownload: "Download",
+      btnPrint: "Print",
       btnClose: "Close",
       btnUploadNew: "Upload New",
       btnCreateStudio: "Create Prescription",
@@ -172,7 +186,18 @@
       titleViewTable: "Data Table View",
       footerTag: "A touch of serenity with every breath",
       footerDisclaimer: "For general wellness only. Not medical advice.",
-      sidebarBrandSub: "Digital Health Vault"
+      sidebarBrandSub: "Digital Health Vault",
+      digitalRxRecord: "Digital Prescription",
+      tabDocView: "Attached Files",
+      tabRecordView: "Clinical Prescription",
+      lblVitals: "Physical Exam (Vitals)",
+      lblDx: "Diagnosis (Dx)",
+      lblCC: "Chief Complaints (C/C)",
+      lblHO: "History of Illness (H/O)",
+      lblInv: "Investigations (Inv.)",
+      lblAdvice: "Advice & Instructions",
+      lblRefill: "Next Follow-up / Refill",
+      noClinicalData: "No clinical data recorded."
     }
   };
 
@@ -209,7 +234,7 @@
   }
 
   // ============================================================================
-  // 3. STORAGE & DATA ENGINE
+  // 3. STORAGE & DATA NORMALIZATION ENGINE
   // ============================================================================
   function phLoad() {
     try {
@@ -230,6 +255,89 @@
     }
   }
 
+  /**
+   * Normalizes any prescription record (from vault, pad, or create-studio)
+   * into a unified schema with 100% field availability.
+   * @param {Object} r - Raw prescription record.
+   * @returns {Object} Normalized record.
+   */
+  function phNormalizeRecord(r) {
+    if (!r) return null;
+    const dateVal = r.date || r.prescDate || (r.createdAt ? r.createdAt.split("T")[0] : "");
+    const docName = r.doctor || r.doctorName || "";
+    const docDeg = r.degrees || "";
+    const docReg = r.regNo || r.doctorReg || "";
+    const hosp = r.hospital || r.clinic || "";
+    const hospAddr = r.address || r.doctorAddress || "";
+    const hospPhone = r.phone || r.doctorPhone || "";
+    const patName = r.patientName || r.patName || "";
+    const patAge = r.patientAge || r.age || "";
+    const patSex = r.patientGender || r.sex || "";
+    const serialNo = r.serialNo || "";
+    const dx = r.diagnosis || r.treatment?.dx || "";
+    const adv = r.notes || r.advice || r.treatment?.advice || "";
+    const refill = r.refillDate || r.followUp || "";
+    const urgency = r.urgency || "normal";
+    const vitals = r.vitals || r.clinical?.oe || {};
+    const cc = Array.isArray(r.cc) ? r.cc : Array.isArray(r.clinical?.cc) ? r.clinical.cc : [];
+    const ho = Array.isArray(r.ho) ? r.ho : Array.isArray(r.clinical?.ho) ? r.clinical.ho : [];
+    const inv = Array.isArray(r.inv) ? r.inv : Array.isArray(r.clinical?.inv) ? r.clinical.inv : [];
+    const files = Array.isArray(r.files) ? r.files : [];
+
+    // Normalize medicines to array of structured objects
+    let meds = [];
+    if (Array.isArray(r.medsStructured) && r.medsStructured.length) {
+      meds = r.medsStructured.map((m) =>
+        typeof m === "string" ? { name: m, form: "Tab", dosage: "", timing: "", duration: "", note: "" } : m
+      );
+    } else if (Array.isArray(r.medicines) && r.medicines.length) {
+      meds = r.medicines.map((m) =>
+        typeof m === "string" ? { name: m, form: "Tab", dosage: "", timing: "", duration: "", note: "" } : m
+      );
+    } else if (Array.isArray(r.meds) && r.meds.length) {
+      meds = r.meds.map((m) =>
+        typeof m === "string" ? { name: m, form: "Tab", dosage: "", timing: "", duration: "", note: "" } : m
+      );
+    }
+
+    return {
+      ...r,
+      date: dateVal,
+      prescDate: dateVal,
+      doctor: docName,
+      doctorName: docName,
+      degrees: docDeg,
+      regNo: docReg,
+      doctorReg: docReg,
+      hospital: hosp,
+      clinic: hosp,
+      address: hospAddr,
+      phone: hospPhone,
+      patientName: patName,
+      patName: patName,
+      patientAge: patAge,
+      age: patAge,
+      patientGender: patSex,
+      sex: patSex,
+      serialNo: serialNo,
+      diagnosis: dx,
+      notes: adv,
+      advice: adv,
+      refillDate: refill,
+      followUp: refill,
+      urgency: urgency,
+      vitals: vitals,
+      cc: cc,
+      ho: ho,
+      inv: inv,
+      medicines: meds,
+      meds: meds.map((m) =>
+        typeof m === "string" ? m : `${m.form ? m.form + ". " : ""}${m.name} (${m.dosage || "1+0+1"})`
+      ),
+      files: files
+    };
+  }
+
   function phUpdateStorage() {
     const records = phLoad();
     const countEl = $("phStorageCount");
@@ -247,7 +355,7 @@
     }
 
     if (bytesEl) {
-      bytesEl.textContent = `${kb} KB / 5 MB (${pct}%)`;
+      bytesEl.textContent = `${kb} KB / 10 MB (${pct}%)`;
     }
 
     if (barEl) {
@@ -260,7 +368,7 @@
   // 4. FILTERING & SORTING LOGIC
   // ============================================================================
   function phGetDisplayRecords() {
-    let records = phLoad();
+    let records = phLoad().map(phNormalizeRecord).filter(Boolean);
 
     // 1. Urgency filter
     if (galleryFilter !== "all") {
@@ -269,29 +377,42 @@
 
     // 2. Search query filter
     if (gallerySearch) {
+      const q = gallerySearch.toLowerCase();
       records = records.filter((r) => {
         const doc = (r.doctor || "").toLowerCase();
+        const deg = (r.degrees || "").toLowerCase();
         const hosp = (r.hospital || "").toLowerCase();
         const pat = (r.patientName || "").toLowerCase();
+        const dx = (r.diagnosis || "").toLowerCase();
+        const notes = (r.notes || "").toLowerCase();
         const fName = (r.fileName || "").toLowerCase();
-        const meds = (r.medicines || []).map((m) => (m.name || m || "").toLowerCase()).join(" ");
-        const files = (r.files || []).map((f) => (f.name || "").toLowerCase()).join(" ");
+        const ccStr = (r.cc || []).join(" ").toLowerCase();
+        const hoStr = (r.ho || []).join(" ").toLowerCase();
+        const invStr = (r.inv || []).join(" ").toLowerCase();
+        const medsStr = (r.medicines || []).map((m) => (m.name || m || "")).join(" ").toLowerCase();
+        const filesStr = (r.files || []).map((f) => (f.name || "")).join(" ").toLowerCase();
 
         return (
-          doc.includes(gallerySearch) ||
-          hosp.includes(gallerySearch) ||
-          pat.includes(gallerySearch) ||
-          fName.includes(gallerySearch) ||
-          meds.includes(gallerySearch) ||
-          files.includes(gallerySearch)
+          doc.includes(q) ||
+          deg.includes(q) ||
+          hosp.includes(q) ||
+          pat.includes(q) ||
+          dx.includes(q) ||
+          notes.includes(q) ||
+          fName.includes(q) ||
+          ccStr.includes(q) ||
+          hoStr.includes(q) ||
+          invStr.includes(q) ||
+          medsStr.includes(q) ||
+          filesStr.includes(q)
         );
       });
     }
 
     // 3. Sorting
     records.sort((a, b) => {
-      if (gallerySort === "new") return new Date(b.date || 0) - new Date(a.date || 0);
-      if (gallerySort === "old") return new Date(a.date || 0) - new Date(b.date || 0);
+      if (gallerySort === "new") return new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0);
+      if (gallerySort === "old") return new Date(a.date || a.createdAt || 0) - new Date(b.date || b.createdAt || 0);
       if (gallerySort === "doctor") return (a.doctor || "").localeCompare(b.doctor || "");
       return 0;
     });
@@ -368,6 +489,20 @@
             ? `<span class="ph-card-med-more">${tr("moreMeds").replace("{n}", moreCount)}</span>`
             : "";
 
+        // Vitals row
+        let vitalsHtml = "";
+        const v = rec.vitals || {};
+        if (v.bp || v.pulse || v.temp || v.weight) {
+          vitalsHtml = `
+            <div class="ph-card-vitals-row">
+              ${v.bp ? `<span class="ph-card-vital-pill"><i class="bi bi-heart-pulse text-danger me-1"></i>BP ${escapeHtml(v.bp)}</span>` : ""}
+              ${v.pulse ? `<span class="ph-card-vital-pill"><i class="bi bi-activity text-teal me-1"></i>Pulse ${escapeHtml(v.pulse)}</span>` : ""}
+              ${v.temp ? `<span class="ph-card-vital-pill"><i class="bi bi-thermometer-half text-warning me-1"></i>${escapeHtml(v.temp)}°F</span>` : ""}
+              ${v.weight ? `<span class="ph-card-vital-pill"><i class="bi bi-speedometer2 text-primary me-1"></i>${escapeHtml(v.weight)}kg</span>` : ""}
+            </div>
+          `;
+        }
+
         // Thumbnail markup
         let thumbContent = "";
         if (firstFile) {
@@ -383,9 +518,10 @@
           }
         } else {
           thumbContent = `
-            <div class="ph-card-thumb-pdf" style="background:#f1f5f9;">
-              <i class="bi bi-prescription2 text-secondary"></i>
-              <span class="text-secondary">NO FILE ATTACHED</span>
+            <div class="ph-card-thumb-digital">
+              <i class="bi bi-file-earmark-medical"></i>
+              <span>${escapeHtml(tr("digitalRxRecord"))}</span>
+              ${rec.diagnosis ? `<div class="ph-digital-dx">${escapeHtml(rec.diagnosis)}</div>` : ""}
             </div>
           `;
         }
@@ -409,6 +545,7 @@
               <h3 class="ph-card-doctor" title="${escapeHtml(rec.doctor || "ডাক্তারের নাম উল্লেখ নেই")}">
                 ${escapeHtml(rec.doctor || (currentLang === "bn" ? "ডাক্তার: উল্লেখ নেই" : "Doctor: Not specified"))}
               </h3>
+              ${rec.degrees ? `<div class="text-xs text-muted mb-1 text-truncate">${escapeHtml(rec.degrees)}</div>` : ""}
               <div class="ph-card-clinic" title="${escapeHtml(rec.hospital || "")}">
                 ${escapeHtml(rec.hospital || (currentLang === "bn" ? "হাসপাতাল/ক্লিনিক নেই" : "No clinic info"))}
               </div>
@@ -418,8 +555,17 @@
                   <i class="bi bi-person text-secondary"></i>
                   <span>${escapeHtml(rec.patientName)}</span>
                   ${rec.patientAge ? `<span class="text-muted">(${escapeHtml(rec.patientAge)})</span>` : ""}
+                  ${rec.patientGender ? `<span class="badge bg-light text-muted border text-xs ms-1">${escapeHtml(rec.patientGender)}</span>` : ""}
                 </div>
               ` : ""}
+
+              ${rec.diagnosis ? `
+                <div class="my-1">
+                  <span class="badge bg-teal-subtle text-teal border border-teal-subtle text-xs">${escapeHtml(rec.diagnosis)}</span>
+                </div>
+              ` : ""}
+
+              ${vitalsHtml}
 
               ${meds.length ? `<div class="ph-card-meds">${medPreview}${moreMeds}</div>` : ""}
 
@@ -545,16 +691,23 @@
             ? `<span class="ph-card-med-more">${tr("moreMeds").replace("{n}", moreCount)}</span>`
             : "";
 
-        const timeMs = new Date(rec.date || 0).getTime() || 0;
+        const timeMs = new Date(rec.date || rec.createdAt || 0).getTime() || 0;
         const dateStr = phFmtDate(rec.date);
 
         // Attachment badge
-        let fileBadge = `<span class="text-muted small">${escapeHtml(tr("noFiles"))}</span>`;
+        let fileBadge = "";
         if (fileCount > 0) {
           fileBadge = `
             <button type="button" class="btn ph-tbl-file-badge" data-record-idx="${idx}" title="${escapeHtml(tr("openBtn"))}">
               <i class="bi ${isPdf ? "bi-file-earmark-pdf-fill text-danger" : "bi-image text-teal"}"></i>
               <span>${fileCount} ${tr("moreFiles").replace("{n}", "")}</span>
+            </button>
+          `;
+        } else {
+          fileBadge = `
+            <button type="button" class="btn ph-tbl-file-badge border-primary-subtle text-primary bg-primary-subtle" data-record-idx="${idx}" title="${escapeHtml(tr("openBtn"))}">
+              <i class="bi bi-file-earmark-medical"></i>
+              <span>${escapeHtml(tr("digitalRxRecord"))}</span>
             </button>
           `;
         }
@@ -566,16 +719,23 @@
             </td>
             <td>
               <span class="ph-tbl-doc">${escapeHtml(rec.doctor || "—")}</span>
-              <span class="ph-tbl-clinic">${escapeHtml(rec.hospital || "")}</span>
+              ${rec.degrees ? `<div class="text-xs text-muted">${escapeHtml(rec.degrees)}</div>` : ""}
+              ${rec.regNo ? `<span class="badge bg-light text-secondary border text-xs me-1">BMDC: ${escapeHtml(rec.regNo)}</span>` : ""}
+              ${rec.hospital ? `<span class="ph-tbl-clinic"><i class="bi bi-hospital me-1"></i>${escapeHtml(rec.hospital)}</span>` : ""}
             </td>
             <td>
               <span class="ph-tbl-pat">
                 <i class="bi bi-person text-secondary"></i>
                 ${escapeHtml(rec.patientName || "—")}
               </span>
-              ${rec.patientAge ? `<span class="ph-tbl-age">${escapeHtml(rec.patientAge)}</span>` : ""}
+              <div class="d-flex align-items-center gap-1 mt-1">
+                ${rec.patientAge ? `<span class="ph-tbl-age">${escapeHtml(rec.patientAge)}</span>` : ""}
+                ${rec.patientGender ? `<span class="badge bg-light text-muted border text-xs">${escapeHtml(rec.patientGender)}</span>` : ""}
+                ${rec.serialNo ? `<span class="text-xs text-muted ms-1">SL: ${escapeHtml(rec.serialNo)}</span>` : ""}
+              </div>
             </td>
             <td>
+              ${rec.diagnosis ? `<div class="mb-1"><span class="badge bg-teal-subtle text-teal border border-teal-subtle text-xs">${escapeHtml(rec.diagnosis)}</span></div>` : ""}
               <div class="ph-tbl-meds">
                 ${medPreview || '<span class="text-muted small">—</span>'}
                 ${moreMeds}
@@ -696,14 +856,27 @@
       "Date",
       "Doctor Name",
       "Degrees",
+      "BMDC Reg",
       "Hospital/Clinic",
+      "Hospital Address",
+      "Phone",
       "Patient Name",
       "Patient Age",
-      "Urgency",
+      "Patient Gender",
+      "Serial No",
+      "Blood Pressure",
+      "Pulse Rate",
+      "Temperature",
+      "Weight",
+      "Chief Complaints (C/C)",
+      "History of Illness (H/O)",
+      "Investigations (Inv.)",
+      "Diagnosis (Dx)",
       "Medicines (Rx)",
+      "Doctor Advice",
+      "Urgency",
       "Refill Date",
-      "Files Count",
-      "Notes"
+      "Files Count"
     ];
 
     const escapeCsv = (val) => {
@@ -713,8 +886,13 @@
     };
 
     const rows = records.map((r) => {
+      const v = r.vitals || {};
       const medsStr = (r.medicines || [])
-        .map((m) => (typeof m === "object" ? `${m.name || ""}${m.dosage ? ` (${m.dosage})` : ""}` : m))
+        .map((m) =>
+          typeof m === "object"
+            ? `${m.form ? m.form + ". " : ""}${m.name || ""}${m.dosage ? ` (${m.dosage})` : ""}${m.timing ? ` - ${m.timing}` : ""}${m.duration ? ` - ${m.duration}` : ""}`
+            : m
+        )
         .join("; ");
 
       return [
@@ -722,14 +900,27 @@
         escapeCsv(r.date || ""),
         escapeCsv(r.doctor || ""),
         escapeCsv(r.degrees || ""),
+        escapeCsv(r.regNo || ""),
         escapeCsv(r.hospital || ""),
+        escapeCsv(r.address || ""),
+        escapeCsv(r.phone || ""),
         escapeCsv(r.patientName || ""),
         escapeCsv(r.patientAge || ""),
-        escapeCsv(r.urgency || "normal"),
+        escapeCsv(r.patientGender || ""),
+        escapeCsv(r.serialNo || ""),
+        escapeCsv(v.bp || ""),
+        escapeCsv(v.pulse || ""),
+        escapeCsv(v.temp || ""),
+        escapeCsv(v.weight || ""),
+        escapeCsv((r.cc || []).join(", ")),
+        escapeCsv((r.ho || []).join(", ")),
+        escapeCsv((r.inv || []).join(", ")),
+        escapeCsv(r.diagnosis || ""),
         escapeCsv(medsStr),
+        escapeCsv(r.notes || r.advice || ""),
+        escapeCsv(r.urgency || "normal"),
         escapeCsv(r.refillDate || ""),
-        escapeCsv(r.files?.length || 0),
-        escapeCsv(r.notes || "")
+        escapeCsv(r.files?.length || 0)
       ].join(",");
     });
 
@@ -750,11 +941,15 @@
   }
 
   // ============================================================================
-  // 9. LIGHTBOX VIEWER
+  // 9. LIGHTBOX & CLINICAL SHEET VIEWER
   // ============================================================================
   function phOpenLightbox(recIdx, fileIdx = 0) {
     lbRecordIndex = recIdx;
     lbFileIndex = fileIdx;
+
+    const rec = lbRecordList[lbRecordIndex];
+    const files = rec?.files || [];
+    lbActiveTab = files.length > 0 ? "file" : "clinical";
 
     const lb = $("phLightbox");
     if (!lb) return;
@@ -780,66 +975,278 @@
     const strip = $("lbStrip");
     const prevBtn = $("lbPrev");
     const nextBtn = $("lbNext");
-
-    if (titleEl) titleEl.textContent = rec.doctor || "Prescription Document";
-    if (metaEl) {
-      metaEl.textContent = `${rec.patientName ? rec.patientName + " · " : ""}${phFmtDate(rec.date)} · ${rec.hospital || ""}`;
-    }
+    const dlBtn = $("lbDownload");
 
     const files = rec.files || [];
+    const isBn = currentLang === "bn";
+    const dateStr = phFmtDate(rec.date);
 
-    // Navigation buttons
-    if (prevBtn) prevBtn.style.display = files.length > 1 ? "grid" : "none";
-    if (nextBtn) nextBtn.style.display = files.length > 1 ? "grid" : "none";
+    if (titleEl) {
+      titleEl.innerHTML = `
+        <div class="d-flex align-items-center flex-wrap gap-2">
+          <span>${escapeHtml(rec.doctor || (isBn ? "প্রেসক্রিপশন বিবরণী" : "Prescription Document"))}</span>
+          ${files.length > 0 ? `
+            <div class="ph-lb-tab-group ms-2">
+              <button type="button" class="ph-lb-tab ${lbActiveTab === "file" ? "active" : ""}" id="btnLbTabFile">
+                <i class="bi bi-file-earmark-image me-1"></i>${escapeHtml(tr("tabDocView"))}
+              </button>
+              <button type="button" class="ph-lb-tab ${lbActiveTab === "clinical" ? "active" : ""}" id="btnLbTabClinical">
+                <i class="bi bi-file-earmark-text me-1"></i>${escapeHtml(tr("tabRecordView"))}
+              </button>
+            </div>
+          ` : ""}
+        </div>
+      `;
 
-    // Strip
-    if (strip) {
-      if (files.length > 1) {
-        strip.style.display = "flex";
-        strip.innerHTML = files
-          .map((f, i) => {
-            const isPdf = f.mime === "application/pdf" || (f.name || "").endsWith(".pdf");
-            const src = isPdf ? "https://cdn-icons-png.flaticon.com/512/337/337946.png" : f.data;
-            return `<img src="${src}" class="ph-lb-thumb ${i === lbFileIndex ? "active" : ""}" data-idx="${i}" alt="Attachment ${i + 1}">`;
-          })
-          .join("");
-
-        strip.querySelectorAll(".ph-lb-thumb").forEach((th) => {
-          th.addEventListener("click", () => {
-            lbFileIndex = parseInt(th.dataset.idx, 10);
-            phRenderLightboxContent();
-          });
-        });
-      } else {
-        strip.style.display = "none";
-      }
+      // Bind tab switchers
+      $("btnLbTabFile")?.addEventListener("click", () => {
+        lbActiveTab = "file";
+        phRenderLightboxContent();
+      });
+      $("btnLbTabClinical")?.addEventListener("click", () => {
+        lbActiveTab = "clinical";
+        phRenderLightboxContent();
+      });
     }
 
-    // Main Viewer
-    if (viewer) {
-      const file = files[lbFileIndex];
-      if (!file) {
-        viewer.innerHTML = `<div class="text-white text-center p-4">কোনো ফাইল সংযুক্ত নেই।</div>`;
-        return;
+    if (metaEl) {
+      metaEl.textContent = `${rec.patientName ? rec.patientName + " · " : ""}${dateStr} · ${rec.hospital || ""}`;
+    }
+
+    // --- CASE 1: Active Tab is FILE and files exist ---
+    if (lbActiveTab === "file" && files.length > 0) {
+      if (prevBtn) prevBtn.style.display = files.length > 1 ? "grid" : "none";
+      if (nextBtn) nextBtn.style.display = files.length > 1 ? "grid" : "none";
+
+      if (strip) {
+        if (files.length > 1) {
+          strip.style.display = "flex";
+          strip.innerHTML = files
+            .map((f, i) => {
+              const isPdf = f.mime === "application/pdf" || (f.name || "").endsWith(".pdf");
+              const src = isPdf ? "https://cdn-icons-png.flaticon.com/512/337/337946.png" : f.data;
+              return `<img src="${src}" class="ph-lb-thumb ${i === lbFileIndex ? "active" : ""}" data-idx="${i}" alt="Attachment ${i + 1}">`;
+            })
+            .join("");
+
+          strip.querySelectorAll(".ph-lb-thumb").forEach((th) => {
+            th.addEventListener("click", () => {
+              lbFileIndex = parseInt(th.dataset.idx, 10);
+              phRenderLightboxContent();
+            });
+          });
+        } else {
+          strip.style.display = "none";
+        }
       }
 
-      const isPdf = file.mime === "application/pdf" || (file.name || "").endsWith(".pdf");
-      if (isPdf) {
-        viewer.innerHTML = `<iframe src="${file.data}" style="width:100%;height:70vh;border:none;border-radius:6px;"></iframe>`;
-      } else {
-        viewer.innerHTML = `<img src="${file.data}" class="ph-lb-img" alt="${escapeHtml(file.name || "Prescription")}">`;
+      if (viewer) {
+        const file = files[lbFileIndex];
+        const isPdf = file?.mime === "application/pdf" || (file?.name || "").endsWith(".pdf");
+        if (isPdf) {
+          viewer.innerHTML = `<iframe src="${file.data}" class="w-100 h-100 border-0 rounded-2" style="min-height:70vh;"></iframe>`;
+        } else if (file?.data) {
+          viewer.innerHTML = `<img src="${file.data}" class="ph-lb-img" alt="${escapeHtml(file.name || "Prescription")}">`;
+        } else {
+          viewer.innerHTML = `<div class="text-white text-center p-4">${escapeHtml(tr("noFiles"))}</div>`;
+        }
       }
 
-      // Download button
-      const dlBtn = $("lbDownload");
       if (dlBtn) {
+        dlBtn.innerHTML = `<i class="bi bi-download"></i> <span>${escapeHtml(tr("btnDownload"))}</span>`;
+        const file = files[lbFileIndex];
         dlBtn.onclick = () => {
+          if (!file) return;
           const a = document.createElement("a");
           a.href = file.data;
           a.download = file.name || "prescription";
           a.click();
         };
       }
+      return;
+    }
+
+    // --- CASE 2: Active Tab is CLINICAL or NO files attached ---
+    if (prevBtn) prevBtn.style.display = "none";
+    if (nextBtn) nextBtn.style.display = "none";
+    if (strip) strip.style.display = "none";
+
+    const v = rec.vitals || {};
+    const hasVitals = v.bp || v.pulse || v.temp || v.weight;
+    const hasCC = rec.cc && rec.cc.length > 0;
+    const hasHO = rec.ho && rec.ho.length > 0;
+    const hasInv = rec.inv && rec.inv.length > 0;
+    const medsList = rec.medicines || [];
+
+    const vitalsHtml = hasVitals
+      ? `
+        <div class="mb-3">
+          <div class="ph-sheet-section-title"><i class="bi bi-heart-pulse text-danger"></i>${escapeHtml(tr("lblVitals"))}</div>
+          <div class="ph-sheet-chip-list">
+            ${v.bp ? `<span class="ph-sheet-chip"><strong>BP:</strong> ${escapeHtml(v.bp)}</span>` : ""}
+            ${v.pulse ? `<span class="ph-sheet-chip"><strong>Pulse:</strong> ${escapeHtml(v.pulse)} bpm</span>` : ""}
+            ${v.temp ? `<span class="ph-sheet-chip"><strong>Temp:</strong> ${escapeHtml(v.temp)}°F</span>` : ""}
+            ${v.weight ? `<span class="ph-sheet-chip"><strong>Weight:</strong> ${escapeHtml(v.weight)} kg</span>` : ""}
+          </div>
+        </div>
+      `
+      : "";
+
+    const ccHtml = hasCC
+      ? `
+        <div class="mb-3">
+          <div class="ph-sheet-section-title"><i class="bi bi-exclamation-circle text-warning"></i>${escapeHtml(tr("lblCC"))}</div>
+          <div class="ph-sheet-chip-list">
+            ${rec.cc.map((item) => `<span class="ph-sheet-chip">${escapeHtml(item)}</span>`).join("")}
+          </div>
+        </div>
+      `
+      : "";
+
+    const hoHtml = hasHO
+      ? `
+        <div class="mb-3">
+          <div class="ph-sheet-section-title"><i class="bi bi-clock-history text-secondary"></i>${escapeHtml(tr("lblHO"))}</div>
+          <div class="ph-sheet-chip-list">
+            ${rec.ho.map((item) => `<span class="ph-sheet-chip">${escapeHtml(item)}</span>`).join("")}
+          </div>
+        </div>
+      `
+      : "";
+
+    const invHtml = hasInv
+      ? `
+        <div class="mb-3">
+          <div class="ph-sheet-section-title"><i class="bi bi-eyedropper text-teal"></i>${escapeHtml(tr("lblInv"))}</div>
+          <div class="ph-sheet-chip-list">
+            ${rec.inv.map((item) => `<span class="ph-sheet-chip">${escapeHtml(item)}</span>`).join("")}
+          </div>
+        </div>
+      `
+      : "";
+
+    const dxHtml = rec.diagnosis
+      ? `
+        <div class="mb-3 p-2.5 bg-teal-subtle border border-teal-subtle rounded-3">
+          <div class="ph-sheet-section-title text-teal mb-1"><i class="bi bi-stethoscope"></i>${escapeHtml(tr("lblDx"))}</div>
+          <div class="fw-bold text-dark fs-6">${escapeHtml(rec.diagnosis)}</div>
+        </div>
+      `
+      : "";
+
+    const medsTableHtml = medsList.length
+      ? `
+        <div class="mb-3">
+          <div class="ph-sheet-section-title text-primary"><i class="bi bi-capsule"></i>${escapeHtml(tr("thMeds"))}</div>
+          <div class="table-responsive">
+            <table class="ph-sheet-med-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>${isBn ? "ওষুধের নাম" : "Medicine"}</th>
+                  <th>${isBn ? "ডোজ" : "Dosage"}</th>
+                  <th>${isBn ? "সময়" : "Timing"}</th>
+                  <th>${isBn ? "মেয়াদ" : "Duration"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${medsList
+                  .map((m, mIdx) => {
+                    const isObj = typeof m === "object";
+                    const name = isObj ? m.name : m;
+                    const form = isObj && m.form ? m.form : "Tab";
+                    const dosage = isObj && m.dosage ? m.dosage : "1+0+1";
+                    const timing = isObj && m.timing ? m.timing : "After meal";
+                    const duration = isObj && m.duration ? m.duration : "—";
+                    const note = isObj && m.note ? m.note : "";
+                    return `
+                      <tr>
+                        <td class="text-muted small">${mIdx + 1}</td>
+                        <td>
+                          <span class="badge bg-primary-subtle text-primary border border-primary-subtle me-1">${escapeHtml(form)}</span>
+                          <strong>${escapeHtml(name)}</strong>
+                          ${note ? `<div class="text-xs text-muted">${escapeHtml(note)}</div>` : ""}
+                        </td>
+                        <td><span class="badge bg-light text-dark border">${escapeHtml(dosage)}</span></td>
+                        <td><span class="badge bg-light text-teal border">${escapeHtml(timing)}</span></td>
+                        <td><small class="text-muted">${escapeHtml(duration)}</small></td>
+                      </tr>
+                    `;
+                  })
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `
+      : `<div class="text-muted small py-2">${escapeHtml(tr("noClinicalData"))}</div>`;
+
+    const adviceHtml = rec.notes || rec.advice
+      ? `
+        <div class="p-3 bg-light rounded-3 border mb-3">
+          <div class="ph-sheet-section-title text-secondary mb-1"><i class="bi bi-chat-left-heart"></i>${escapeHtml(tr("lblAdvice"))}</div>
+          <div class="small text-dark" style="white-space: pre-line;">${escapeHtml(rec.notes || rec.advice)}</div>
+        </div>
+      `
+      : "";
+
+    const refillInfoHtml = rec.refillDate
+      ? `
+        <div class="d-flex align-items-center justify-content-between p-2.5 bg-light rounded-3 border small">
+          <span class="fw-semibold text-secondary"><i class="bi bi-calendar-check text-teal me-1"></i>${escapeHtml(tr("lblRefill"))}:</span>
+          <span class="fw-bold text-dark">${escapeHtml(rec.refillDate)}</span>
+        </div>
+      `
+      : "";
+
+    if (viewer) {
+      viewer.innerHTML = `
+        <div class="ph-lb-rx-sheet">
+          <!-- Top Header -->
+          <div class="ph-sheet-header d-flex flex-wrap justify-content-between align-items-start border-bottom pb-3 mb-3 gap-2">
+            <div>
+              <h3 class="ph-sheet-doc-name mb-1">${escapeHtml(rec.doctor || "Dr. —")}</h3>
+              ${rec.degrees ? `<div class="text-muted small">${escapeHtml(rec.degrees)}</div>` : ""}
+              ${rec.regNo ? `<div class="text-xs text-muted mt-0.5"><span class="badge bg-light text-secondary border">BMDC Reg: ${escapeHtml(rec.regNo)}</span></div>` : ""}
+            </div>
+            <div class="text-md-end">
+              <h4 class="ph-sheet-hosp-name text-teal mb-1">${escapeHtml(rec.hospital || "Clinical Care Hospital")}</h4>
+              ${rec.address ? `<div class="text-muted small">${escapeHtml(rec.address)}</div>` : ""}
+              ${rec.phone ? `<div class="text-xs text-muted mt-0.5"><i class="bi bi-telephone me-1"></i>${escapeHtml(rec.phone)}</div>` : ""}
+            </div>
+          </div>
+
+          <!-- Patient Strip -->
+          <div class="ph-sheet-pat-strip bg-light rounded-3 p-2.5 mb-3 d-flex flex-wrap justify-content-between align-items-center gap-2 small">
+            <div><strong>${isBn ? "রোগীর নাম" : "Patient"}:</strong> ${escapeHtml(rec.patientName || "—")}</div>
+            <div><strong>${isBn ? "বয়স" : "Age"}:</strong> ${escapeHtml(rec.patientAge || "—")}</div>
+            <div><strong>${isBn ? "লিঙ্গ" : "Sex"}:</strong> ${escapeHtml(rec.patientGender || "—")}</div>
+            <div><strong>${isBn ? "তারিখ" : "Date"}:</strong> ${dateStr}</div>
+            ${rec.serialNo ? `<div><strong>SL:</strong> ${escapeHtml(rec.serialNo)}</div>` : ""}
+          </div>
+
+          <!-- Two Column Grid -->
+          <div class="row g-3">
+            <div class="col-md-4 border-end-md">
+              ${vitalsHtml}
+              ${ccHtml}
+              ${hoHtml}
+              ${invHtml}
+            </div>
+            <div class="col-md-8">
+              ${dxHtml}
+              ${medsTableHtml}
+              ${adviceHtml}
+              ${refillInfoHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    if (dlBtn) {
+      dlBtn.innerHTML = `<i class="bi bi-printer-fill"></i> <span>${escapeHtml(tr("btnPrint"))}</span>`;
+      dlBtn.onclick = () => window.print();
     }
   }
 

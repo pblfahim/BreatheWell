@@ -416,6 +416,7 @@ Urgency: Normal`;
   document.addEventListener("DOMContentLoaded", () => {
     initLanguage();
     initHeroPills();
+    initDefaultDates();
     rxHandleViewMode();
     bindUploadZone();
     bindDynamicItemInputs();
@@ -428,6 +429,19 @@ Urgency: Normal`;
     rxRenderGallery();
     rxUpdateStorage();
   });
+
+  function initDefaultDates() {
+    const dateInput = $("rxDate");
+    if (dateInput && !dateInput.value) {
+      dateInput.value = new Date().toISOString().split("T")[0];
+    }
+    const refillInput = $("rxRefill");
+    if (refillInput && !refillInput.value) {
+      const defRefill = new Date();
+      defRefill.setDate(defRefill.getDate() + 14);
+      refillInput.value = defRefill.toISOString().split("T")[0];
+    }
+  }
 
   function initHeroPills() {
     $("rxHeroBtnUpload")?.addEventListener("click", () => {
@@ -780,11 +794,11 @@ Urgency: Normal`;
       });
     });
 
-    // Add Medicine Button
-    $("btnRxAddMedicine")?.addEventListener("click", () => {
+    // Add Medicine Button & Enter Key Triggers
+    const addMedAction = () => {
       const name = $("rxMedNameInput")?.value.trim();
       if (!name) {
-        rxToast("অনুগ্রহ করে ওষুধের নাম লিখুন", "warn");
+        rxToast(currentLang === "bn" ? "অনুগ্রহ করে ওষুধের নাম লিখুন" : "Please enter medicine name", "warn");
         return;
       }
       const form = $("rxMedFormSelect")?.value || "Tab";
@@ -798,6 +812,18 @@ Urgency: Normal`;
       if ($("rxMedNoteInput")) $("rxMedNoteInput").value = "";
       renderMedicineTable();
       flashHighlight($("rxMedsTbody"));
+      $("rxMedNameInput")?.focus();
+    };
+
+    $("btnRxAddMedicine")?.addEventListener("click", addMedAction);
+
+    ["rxMedNameInput", "rxMedDosageInput", "rxMedDurationInput", "rxMedNoteInput"].forEach((id) => {
+      $(id)?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          addMedAction();
+        }
+      });
     });
   }
 
@@ -1854,29 +1880,52 @@ Urgency: Normal`;
       id: "rx_" + Date.now() + "_" + Math.random().toString(36).substr(2, 6),
       createdAt: new Date().toISOString(),
       prescDate: date,
+      date: date,
       fileName: fileName,
-      doctor,
-      degrees,
-      regNo,
-      clinic,
-      address,
-      phone,
-      patName,
-      age,
-      sex,
+      doctor: doctor,
+      doctorName: doctor,
+      degrees: degrees,
+      regNo: regNo,
+      doctorReg: regNo,
+      clinic: clinic,
+      hospital: clinic,
+      address: address,
+      doctorAddress: address,
+      phone: phone,
+      doctorPhone: phone,
+      patName: patName,
+      patientName: patName,
+      age: age,
+      patientAge: age,
+      sex: sex,
+      patientGender: sex,
+      serialNo: "SL-" + Math.floor(1000 + Math.random() * 9000),
       vitals: { bp, pulse, temp, weight },
+      clinical: {
+        cc: [...currentCC],
+        ho: [...currentHO],
+        inv: [...currentInv],
+        oe: { bp, pulse, temp, weight }
+      },
       cc: [...currentCC],
       ho: [...currentHO],
       inv: [...currentInv],
       meds: currentMeds.map((m) =>
         typeof m === "string" ? m : `${m.form ? m.form + ". " : ""}${m.name} (${m.dosage || "1+0+1"})`
       ),
+      medicines: currentMeds.map((m) =>
+        typeof m === "string" ? { name: m, dosage: "", form: "Tab", timing: "", duration: "" } : { ...m }
+      ),
       medsStructured: [...currentMeds],
-      diagnosis,
-      refillDate,
-      urgency,
-      notes,
+      diagnosis: diagnosis,
+      refillDate: refillDate,
+      followUp: refillDate,
+      urgency: urgency,
+      notes: notes,
+      advice: notes,
       files: [...pendingFiles],
+      type: pendingFiles.length > 0 ? "vault_upload" : "vault_form",
+      source: "prescriptions-volt",
     };
 
     const all = rxLoad();
@@ -1893,6 +1942,12 @@ Urgency: Normal`;
     // Reset form controls
     const form = $("rxForm");
     if (form) form.reset();
+    if ($("rxDate")) $("rxDate").value = new Date().toISOString().split("T")[0];
+    if ($("rxRefill")) {
+      const defRefill = new Date();
+      defRefill.setDate(defRefill.getDate() + 14);
+      $("rxRefill").value = defRefill.toISOString().split("T")[0];
+    }
     pendingFiles = [];
     currentMeds = [];
     currentCC = [];
@@ -1906,8 +1961,15 @@ Urgency: Normal`;
     rxUpdateStorage();
     rxRenderGallery();
 
-    rxToast(tr("toastSaved"), "success");
-    $("rxGallerySection")?.scrollIntoView({ behavior: "smooth" });
+    const isBn = currentLang === "bn";
+    rxToast(
+      isBn ? "প্রেসক্রিপশন সফলভাবে ভল্টে সংরক্ষিত হয়েছে!" : "Prescription saved to vault successfully!",
+      "success",
+      {
+        text: isBn ? "ইতিহাস দেখুন →" : "View History →",
+        href: "prescription-history.html"
+      }
+    );
   }
 
   function rxLoad() {
@@ -2297,7 +2359,7 @@ Urgency: Normal`;
   // ============================================================================
   // 13. TOAST NOTIFICATION STACK & MOBILE DRAWER NAVIGATION
   // ============================================================================
-  function rxToast(message, type = "info") {
+  function rxToast(message, type = "info", action = null) {
     let stack = $("rxToastStack");
     if (!stack) {
       stack = document.createElement("div");
@@ -2317,9 +2379,19 @@ Urgency: Normal`;
             ? "bi-x-circle-fill text-danger"
             : "bi-info-circle-fill text-info";
 
+    const contentHtml = typeof message === "string" && message.includes("<") ? message : escapeHtml(message);
+    const actionHtml = action
+      ? `<a href="${escapeHtml(action.href)}" class="btn btn-sm btn-outline-light rounded-pill px-2.5 py-0.5 text-xs fw-semibold text-nowrap">${escapeHtml(action.text)}</a>`
+      : "";
+
     toast.innerHTML = `
-      <i class="bi ${icon} fs-5"></i>
-      <span>${escapeHtml(message)}</span>
+      <div class="d-flex align-items-center justify-content-between w-100 gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi ${icon} fs-5"></i>
+          <span>${contentHtml}</span>
+        </div>
+        ${actionHtml}
+      </div>
     `;
 
     stack.appendChild(toast);
@@ -2328,7 +2400,7 @@ Urgency: Normal`;
       toast.style.transform = "translateY(15px)";
       toast.style.transition = "all 0.25s ease";
       setTimeout(() => toast.remove(), 250);
-    }, 3200);
+    }, action ? 5000 : 3200);
   }
 
   function initMobileSidebar() {

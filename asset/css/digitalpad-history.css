@@ -760,6 +760,12 @@
   align-items: flex-end;
   justify-content: space-between;
 }
+.dh-pad-med-num-col {
+  width: 32px;
+}
+.dh-pad-footer-note {
+  font-size: 0.72rem;
+}
 .dh-pad-sig-wrap {
   text-align: right;
 }
