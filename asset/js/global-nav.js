@@ -319,7 +319,7 @@
     navLinks.forEach((l) => {
       const href = (l.getAttribute("href") || "").toLowerCase();
       let match = false;
-      if (activeKey === "home" && (href === "index.html" || href === "./" || href === "/")) match = true;
+      if (activeKey === "home" && (href.includes("index") || href === "./" || href === "/")) match = true;
       if (activeKey === "exercises" && href.includes("exercise")) match = true;
       if (activeKey === "test" && href.includes("breath-test")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
@@ -344,7 +344,7 @@
       const isMore = l.id === "mobileMoreBtn";
       let match = false;
 
-      if (activeKey === "home" && (href === "index.html" || href === "./")) match = true;
+      if (activeKey === "home" && (href.includes("index") || href === "./" || href === "/")) match = true;
       if (activeKey === "exercises" && href.includes("exercise")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
       if (activeKey === "rx" && (href.includes("prescription") || href.includes("digitalpad"))) match = true;
@@ -365,7 +365,7 @@
     drawerItems.forEach((l) => {
       const href = (l.getAttribute("href") || "").toLowerCase();
       let match = false;
-      if (activeKey === "home" && (href === "index.html" || href === "./")) match = true;
+      if (activeKey === "home" && (href.includes("index") || href === "./" || href === "/")) match = true;
       if (activeKey === "exercises" && href.includes("exercise")) match = true;
       if (activeKey === "test" && href.includes("breath-test")) match = true;
       if (activeKey === "health" && (href.includes("health") || href.includes("trend"))) match = true;
