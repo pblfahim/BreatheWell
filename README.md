@@ -1,23 +1,30 @@
-# BreatheWell (ডিজিটাল শ্বাসপ্রশ্বাস ও সুস্থতা হাব)
+# BreatheWell · ডিজিটাল শ্বাসপ্রশ্বাস ও সুস্থতা হাব
 
-> **Enterprise-Grade, Privacy-First Bilingual Respiratory Wellness & Clinical Health Tracking Platform**  
-> *Engineered with Vanilla Web Standards: HTML5, CSS3, Bootstrap 5.3.3, and ES6+ JavaScript.*
+An offline-capable, client-side digital health platform combining evidence-based breathing protocols, clinical vital signs telemetry tracking, an optical character recognition (OCR) prescription vault, and an interactive digital prescription studio.
+
+Engineered with native web standards: **HTML5, CSS3, Bootstrap 5.3.3, and modern ECMAScript**.
 
 ---
 
-## 1. Executive Summary & Architecture Overview
+## Technical Highlights
 
-**BreatheWell** is an offline-capable, client-side digital health and mindful respiration web application. It combines evidence-based breathing protocols, clinical vital signs telemetry tracking, an intelligent prescription vault with dual-engine optical character recognition (OCR), and an interactive digital prescription creator studio.
+- **Client-Side Privacy:** Zero personal health information (PHI) or biometric readings leave the browser. All records reside in `localStorage`.
+- **Zero Build Step:** Runs directly in any modern browser without Webpack, Vite, or Node.js runtime requirements.
+- **Local Asset Hosting:** 100% of vendor libraries (Bootstrap, Bootstrap Icons, DataTables, Tesseract.js, PDF.js, Google Fonts) are stored locally in `asset/vendor/`. No runtime CDN dependencies.
+- **Bilingual Interface:** Full 1:1 parity between Bengali (`bn`) and English (`en`) with instantaneous language switching via reactive DOM attributes.
+- **Deterministic Code Quality:** 0 inline `<style>` and 0 inline `<script>` tags across all 16 production HTML pages.
 
-All patient biometrics, prescription scans, and exercise telemetry reside exclusively in the client's local storage (`localStorage`). **Zero bytes of personal health information (PHI) leave the user's browser.**
+---
+
+## Architecture Overview
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                                  BreatheWell Page Architecture                                    |
+|                                  BreatheWell Platform Layout                                      |
 |                                                                                                   |
 |  +--------------------+   +--------------------+   +--------------------+   +------------------+  |
-|  |     index.html     |   |   exercises.html   |   |  breath-test.html  |   | prescriptions-volt.html| |
-|  |  Home Wellness Hub |   | Guided Respiration |   |  BOLT & BPM Labs   |   | Vault & OCR Lab  |  |
+|  |     index.html     |   |   exercises.html   |   |  breath-test.html  |   | prescriptions-   |  |
+|  |  Home Wellness Hub |   | Guided Respiration |   |  BOLT & BPM Labs   |   | volt.html (Vault)|  |
 |  +--------------------+   +--------------------+   +--------------------+   +------------------+  |
 |                                                                                                   |
 |  +---------------------------------------------------------------------------------------------+  |
@@ -29,20 +36,72 @@ All patient biometrics, prescription scans, and exercise telemetry reside exclus
 |  +---------------------------------------------------------------------------------------------+  |
 |                                                                                                   |
 |  +---------------------------------------------------------------------------------------------+  |
-|  |                     prescription-create.html (Digital Rx Creator Studio)                    |  |
-|  |  - Two-Way Synchronized Editor & WYSIWYG Digital Doctor Prescription Pad                     |  |
-|  |  - Automated Clinical OCR Ingestion, Medication Builder & WhatsApp / Print Dispatch         |  |
-|  +---------------------------------------------------------------------------------------------+  |
-|  |                     prescription-pad.html (Live Dedicated Prescription Pad)                 |  |
-|  |  - Direct In-Place Real-Time Contenteditable WYSIWYG Hospital Paper Pad                    |  |
-|  |  - Pure Canvas Layout Without External Forms; Dynamic Chip Lists, Presets & 1-Click Vault   |  |
+|  |                           Clinical Prescription Studio & History Suite                      |  |
+|  |  +--------------------------+  +------------------------+  +-----------------------------+  |  |
+|  |  | prescription-create.html |  | prescription-pad.html  |  |   digitalpad-history.html   |  |  |
+|  |  | Studio Form + WYSIWYG Pad|  | Dedicated Paper Pad    |  |   Dual View Archive & Print |  |  |
+|  |  +--------------------------+  +------------------------+  +-----------------------------+  |  |
 |  +---------------------------------------------------------------------------------------------+  |
 +---------------------------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 2. Directory Layout & Module Structure
+## Table of Contents
+
+1. [Module Breakdown](#module-breakdown)
+2. [Clinical & Scientific Guidelines](#clinical--scientific-guidelines)
+3. [Repository Structure](#repository-structure)
+4. [Technology Stack](#technology-stack)
+5. [Storage Architecture](#storage-architecture)
+6. [Getting Started](#getting-started)
+7. [Engineering Standards](#engineering-standards)
+8. [Documentation Suite](#documentation-suite)
+9. [Disclaimer](#disclaimer)
+
+---
+
+## Module Breakdown
+
+### 1. Respiration Studio & Assessments
+- **Guided Respiration (`exercises.html`):** 4 clinical practices (Box Breathing 4-4-4-4, 4-7-8 Relaxing, Nadi Shodhana Pranayama, Diaphragmatic Deep Belly). Animated visual pacing powered by `requestAnimationFrame`, procedural Web Audio API tones, and Web Speech API voice prompts.
+- **Respiratory Diagnostic Lab (`breath-test.html`):** Body Oxygen Level Test (BOLT) stopwatch measuring functional breath-hold time, alongside a resting Breaths Per Minute (BPM) tap counter.
+
+### 2. Clinical Vitals Telemetry
+- **Telemetry Ingestion (`health-reading.html`):** Input forms for Blood Pressure (Systolic, Diastolic, Heart Rate) and Blood Glucose (Fasting, Postprandial, Random) with real-time spectrum gauges.
+- **Trend Analytics (`health-charts.html` / `trends-charts.html`):** Responsive SVG time-series graphs with color-coded safe-zone target bands and hover crosshairs.
+- **History & Export (`health-history.html`):** Tabular logs powered by DataTables 2, supporting RFC 4180 CSV export (with UTF-8 BOM for spreadsheet encoding) and JSON backup/restore.
+- **Simulation Suite (`health-demo.html`):** Preset clinical scenarios for rapid diagnostic verification.
+
+### 3. Prescription Vault & Digital Studio
+- **Prescription Vault (`prescriptions-volt.html`):** Client-side drag-and-drop document upload with canvas downsampling (max 1200px / 72% JPEG) and local Tesseract.js v5 OCR text extraction.
+- **Vault Archive (`prescription-history.html`):** Dual-format interface (Card Grid and DataTables 2 table) with fullscreen lightbox inspection.
+- **Prescription Studio (`prescription-create.html`):** Two-way synchronized clinical editor paired with an authentic live WYSIWYG hospital prescription pad. Includes 1-click sample pre-fill, WhatsApp formatting, and `@media print` A4 rendering.
+- **Direct Pad Editor (`prescription-pad.html`):** In-place `contenteditable` hospital paper pad with dynamic medication builders.
+- **Digital Pad History (`digitalpad-history.html`):** Dual-view clinical archive for digital prescriptions with print and share modal dialogs.
+
+### 4. Member Profile & Security
+- **Authentication (`login.html`, `register.html`):** Form validation, password strength scoring, and 1-click demo access.
+- **Dashboard (`profile.html`):** Vitality metrics, streak tracking, health settings, and one-click data export.
+
+---
+
+## Clinical & Scientific Guidelines
+
+### Blood Pressure Classification (AHA/ACC 2017)
+- **Normal:** Systolic < 120 mmHg and Diastolic < 80 mmHg
+- **Elevated:** Systolic 120–129 mmHg and Diastolic < 80 mmHg
+- **Stage 1 Hypertension:** Systolic 130–139 mmHg or Diastolic 80–89 mmHg
+- **Stage 2 Hypertension:** Systolic ≥ 140 mmHg or Diastolic ≥ 90 mmHg
+- **Hypertensive Crisis:** Systolic > 180 mmHg or Diastolic > 120 mmHg
+
+### Glycemic Standards (ADA 2024)
+- **Fasting Blood Glucose:** Normal (70–99 mg/dL), Pre-diabetes (100–125 mg/dL), Diabetes (≥ 126 mg/dL), Hypoglycemia (< 70 mg/dL).
+- **Postprandial (2h):** Normal (< 140 mg/dL), Pre-diabetes (140–199 mg/dL), Diabetes (≥ 200 mg/dL).
+
+---
+
+## Repository Structure
 
 ```text
 BreatheWell/
@@ -54,155 +113,105 @@ BreatheWell/
 ├── trends-charts.html            # Backward-compatible alias/mirror of health-charts.html
 ├── health-history.html           # High-density clinical records table powered by DataTables 2
 ├── health-demo.html              # Clinical scenario generator & LocalStorage telemetry inspector
-├── prescriptions-volt.html            # Clinical prescription vault, document gallery & OCR scanner
+├── prescriptions-volt.html       # Clinical prescription vault, document gallery & OCR scanner
+├── prescription-history.html     # Saved prescription archive in dual card/table formats
 ├── prescription-create.html      # Digital doctor prescription pad creator with live WYSIWYG
-├── prescription-pad.html         # Dedicated live WYSIWYG prescription pad with direct in-place editing
+├── prescription-pad.html         # Dedicated live WYSIWYG prescription pad with in-place editing
+├── digitalpad-history.html       # Digital pad prescription archive with dual card/table format
+├── login.html                    # Member authentication & simulated session login
+├── register.html                 # Member registration & onboarding portal
+├── profile.html                  # Member profile & health dashboard
 │
 ├── asset/
-│   ├── css/
-│   │   ├── style.css             # Core design system tokens, hero 3D carousel, breathing animation
-│   │   ├── prescriptions-volt.css     # Prescription vault gallery, drag-and-drop zone & lightbox
-│   │   ├── prescription-create.css # Studio editor layout, WYSIWYG digital pad & print styles
-│   │   ├── prescription-pad.css  # Dedicated live paper pad styles, in-place edit & print rules
-│   │   ├── health-reading.css    # Segmented entry forms, pull-up stats & live spectrum meters
-│   │   ├── health-charts.css     # SVG line chart containers, target safe bands & tooltips
-│   │   ├── health-history.css    # DataTables 2 Bootstrap 5 overrides, badges & export buttons
-│   │   ├── health-demo.css       # Clinical scenario preset cards & custom parametric panel
-│   │   └── health-tracker.css    # Monolithic health tracker design tokens (legacy fallback)
-│   │
-│   ├── js/
-│   │   ├── script.js             # Core application engine (breathing, routing, audio, TTS, i18n)
-│   │   ├── script.jt             # Byte-for-byte SHA256 mirror of script.js
-│   │   ├── prescriptions-volt.js      # Vault engine: Tesseract.js v5 OCR, PDF parser, regex extraction
-│   │   ├── prescription-create.js # Digital prescription studio engine & live pad preview
-│   │   ├── prescription-pad.js   # Live paper pad controller, in-place edit sync & clinical presets
-│   │   ├── health-reading.js     # Vitals entry controller, AHA/ADA classification & meters
-│   │   ├── health-charts.js      # Responsive SVG time-series charts, sparklines & smart insights
-│   │   ├── health-history.js     # DataTables 2 controller, RFC 4180 CSV & JSON backup exporter
-│   │   ├── health-demo.js        # Synthetic clinical test dataset generator & storage inspector
-│   │   └── health-tracker.js     # Monolithic health tracker controller (backward compatibility)
-│   │
-│   └── images/                   # Optimized vector graphics, hero illustrations & brand assets
+│   ├── css/                      # Modular stylesheets (style.css, health-*.css, prescription-*.css)
+│   ├── js/                       # Modular ES6+ controllers (global-nav.js, script.js, health-*.js)
+│   ├── image/                    # Favicon and vector brand assets
+│   └── vendor/                   # Locally hosted libraries (Bootstrap, DataTables, Tesseract, PDF.js)
 │
-├── doc/                          # Technical documentation, project charter, milestones & specs
-│   ├── FEATURE_DOCUMENTATION.md  # Detailed technical specifications for every module
-│   ├── PROJECT_CHARTER.md        # Official charter, risk matrix & development governance
-│   ├── MILESTONES.md             # Release history and roadmap milestones
-│   └── README.md                 # Documentation suite guide
-└── README.md                     # Root project documentation (this file)
+└── Agent/                        # Architectural specifications, governance & agent documentation
+    ├── constitutions/            # Architectural principles, coding standards & constraints
+    ├── doc/                      # Project charters, milestones & feature documentation
+    ├── plan/                     # Implementation roadmaps, refactoring & testing plans
+    ├── prompts/                  # Operational prompts for AI engineering workflows
+    ├── specs/                    # Functional, component, page, responsive & a11y specifications
+    └── theme-guideline/          # Design system, color tokens, typography & spacing rules
 ```
 
 ---
 
-## 3. Core Features & Scientific Guidelines
+## Technology Stack
 
-### 3.1 Guided Respiration Engine (`exercises.html` / `script.js`)
-- **Evidence-Based Practices:**
-  - *Box Breathing (4-4-4-4):* Autonomic regulation and acute stress mitigation (Navy SEAL protocol).
-  - *4-7-8 Breathing:* Parasympathetic activation and insomnia reduction (Dr. Andrew Weil).
-  - *Diaphragmatic Breathing (Deep Belly):* Vagal nerve stimulation and pulmonary efficiency.
-  - *Natural Mindful Breathing:* Unpaced somatosensory awareness and meditation.
-- **Precision Timing:** Sub-millisecond animation loop orchestrated via `window.requestAnimationFrame` synced with harmonic Web Audio chime synthesis and browser `SpeechSynthesis` audio cues.
-- **Progression System:** Beginner, Intermediate, and Advanced cadences with automated celebration confetti particle simulations.
-
-### 3.2 Respiratory Assessments Lab (`breath-test.html`)
-- **Body Oxygen Level Test (BOLT):** Measures functional breath-hold time following a normal exhalation; evaluates carbon dioxide tolerance and physiological breathing efficiency.
-- **Resting BPM Counter:** Touch/click cadence counter calculating resting respiratory rate per minute with tachypnea/bradypnea threshold indicators.
-
-### 3.3 Clinical Vital Signs Telemetry (`health-reading.html`, `health-charts.html`, `health-history.html`)
-- **Blood Pressure Diagnostic Spectrum (AHA/ACC 2017 Standard):**
-  - *Normal:* Systolic < 120 mmHg and Diastolic < 80 mmHg.
-  - *Elevated:* Systolic 120–129 mmHg and Diastolic < 80 mmHg.
-  - *Hypertension Stage 1:* Systolic 130–139 mmHg or Diastolic 80–89 mmHg.
-  - *Hypertension Stage 2:* Systolic 140–179 mmHg or Diastolic 90–119 mmHg.
-  - *Hypertensive Crisis:* Systolic ≥ 180 mmHg or Diastolic ≥ 120 mmHg.
-- **Blood Glucose Glycemic Spectrum (ADA 2024 / WHO Standard):**
-  - Multi-context categorization across *Fasting*, *Post-prandial (2h after meal)*, *Random*, and *Bedtime*.
-  - Strict classification across *Hypoglycemia*, *Normal*, *Pre-diabetes (Impaired Glucose Tolerance)*, and *Diabetes*.
-- **Interactive SVG Time-Series Analytics:**
-  - Real-time Bézier curves with interactive hover tooltips.
-  - Color-shaded clinical safe zones (green target bands) for instant compliance verification.
-  - Timeframe window filtering (7 Days, 14 Days, 30 Days, All History).
-- **Clinical Data Management:**
-  - High-density tabular views powered by **DataTables 2** with Bootstrap 5 integration.
-  - Standards-compliant RFC 4180 CSV export with UTF-8 Byte Order Mark (BOM) for seamless Microsoft Excel rendering.
-  - Full JSON database backup and restoration.
-
-### 3.4 Prescription Vault & Dual-Engine OCR (`prescriptions-volt.html`, `prescription-create.html`)
-- **Dual-Engine Text Extraction:**
-  1. *Vector PDF Extraction:* Decodes PDF stream objects (`/Tj`, `/TJ`) with character map extraction for digital vector prescriptions.
-  2. *Tesseract.js v5 OCR:* Client-side optical character recognition supporting combined Bengali + English (`ben+eng`) trained language models.
-- **Deterministic Clinical Regex Parser:** Automatically isolates:
-  - Doctor name, BMDC registration number, qualifications, and hospital/chamber details.
-  - Patient demographics (name, age, sex, date).
-  - Vitals examination (BP, pulse, temperature, weight).
-  - Chief complaints (C/C), history of illness (H/O), and recommended investigations (Inv).
-  - Structured pharmaceutical prescriptions (brand, form, strength, dosage regimen e.g. `1+0+1`, meal timing, duration).
-- **WYSIWYG Digital Doctor Prescription Pad:** Real-time two-way synchronization between input forms and an authentic clinical hospital prescription pad, complete with print layout (`@media print`) and WhatsApp sharing.
+| Component | Library / Standard | Version | Application |
+| :--- | :--- | :--- | :--- |
+| Markup | HTML5 | Living Standard | Semantic page layout, accessibility landmarks |
+| Styles | CSS3 & Custom Tokens | Living Standard | Responsive layout, design tokens, print CSS |
+| UI Framework | Bootstrap | 5.3.3 (Local) | Responsive grid, modal backdrops, offcanvas |
+| Glyphs | Bootstrap Icons | 1.11.3 (Local) | Vector iconography |
+| Scripting | Vanilla JavaScript | ES6+ | Reactive controllers, client storage management |
+| Data Tables | DataTables 2 | 2.0+ (Local) | Tabular pagination, search, sorting |
+| Table Bridge | jQuery | 3.7.1 (Local) | DataTables 2 integration bridge |
+| OCR Engine | Tesseract.js | v5 (Local) | Client-side optical character recognition |
+| Document Engine | PDF.js | 3.11+ (Local) | In-browser PDF canvas rasterization |
+| Audio Engine | Web Audio API | Native Browser | Procedural sound generation without audio files |
 
 ---
 
-## 4. Software Architecture Invariants & Standards
+## Storage Architecture
 
-Every contributor and automated tool must respect the following strict engineering invariants:
+All persistent data is stored in the browser's `localStorage` under distinct keys:
 
-1. **Zero-Inline Code Policy:**
-   - **0 inline `<style>` tags** and **0 inline `<script>` tags** across all 10 HTML pages.
-   - All styling resides in `asset/css/`; all logic resides in `asset/js/`.
-   - Dynamic templates must use utility classes (e.g. `.small`, `.text-muted`) rather than inline `style="..."` attributes.
-2. **Deterministic Script Mirroring:**
-   - `asset/js/script.js` and `asset/js/script.jt` must remain **100% byte-for-byte identical** at all times.
-   - Any modifications to application logic must be synchronized across both files with identical SHA256 hashes.
-3. **Semantic HTML Tag Balance:**
-   - Every opening container tag (`<div`, `<nav`, `<section`, `<footer`) must have a matching closing tag.
-   - Net tag difference (`open - close`) must strictly equal `0`.
-4. **Bilingual Localization Parity (i18n):**
-   - 100% dictionary key parity between Bengali (`bn`) and English (`en`) across all localization objects (`T`, `RX_T`, `CP_T`, `HR_T`, `HC_T`, `HH_T`, `HD_T`).
-   - Default language is Bengali (`bn`) with immediate client-side persistence in `localStorage`.
-5. **Industry-Standard Code Documentation:**
-   - Every file features a top-level architectural docblock detailing `@file`, `@module`, `@description`, `@author`, `@version`, `@license`, and a 10-point Table of Contents.
-   - All public and internal functions are annotated with complete JSDoc docstrings (`@function`, `@param`, `@returns`, `@throws`).
-   - Major structural milestones are separated by standardized section landmark headers.
+| Key | Contents | Format |
+| :--- | :--- | :--- |
+| `bw_vitals_records` | Blood pressure and glucose telemetry history | JSON array of measurement objects |
+| `bw_prescriptions` | Uploaded and scanned prescription records | JSON array of metadata and base64 images |
+| `bw_digitalpad_prescriptions` | Clinical prescriptions authored in studio/pad | JSON array of structured medical records |
+| `bw_bolt_history` | Body Oxygen Level Test assessment logs | JSON array of timing results |
+| `bw_user_profile` | Member session information, streak, goals | JSON user profile object |
+| `bw_lang` | Active interface language (`bn` or `en`) | Plain text string |
 
 ---
 
-## 5. Verification & Test Suite
+## Getting Started
 
-The project includes an automated PowerShell test harness that verifies all architectural invariants:
+Because BreatheWell relies on native web standards and locally hosted vendor packages, it requires no build tools or package managers.
 
-```powershell
-# Run the complete test suite from repository root:
-powershell -ExecutionPolicy Bypass -File "scratch/verify_project_suite.ps1"
-```
-
-The test harness evaluates:
-- **Zero-Inline Audit:** Verifies 0 `<style>` tags and 0 `<script>` tags across all HTML files.
-- **Semantic Tag Balance:** Confirms `div diff = 0`, `nav diff = 0`, and `footer diff = 0`.
-- **SHA256 Parity:** Validates cryptographic identity between `asset/js/script.js` and `asset/js/script.jt`.
-- **Localization Key Parity:** Verifies identical key sets between `bn` and `en` across all language dictionaries.
-
----
-
-## 6. How to Run & Deploy
-
-BreatheWell requires **zero build tools, zero server runtimes, and zero package installations**.
-
-1. Clone or download the repository to your local machine:
+1. Clone or download the repository:
    ```bash
-   git clone https://github.com/your-username/BreatheWell.git
+   git clone https://github.com/your-organization/BreatheWell.git
    cd BreatheWell
    ```
-2. Open `index.html` in any modern web browser (Google Chrome, Mozilla Firefox, Microsoft Edge, Apple Safari).
-3. **Offline Access:** The application functions completely offline for breathing exercises, vitals recording, and local prescription creation. A network connection is only needed on initial load to fetch CDN vendor libraries (Bootstrap 5.3.3, Bootstrap Icons, Google Fonts, and Tesseract.js).
+2. Open `index.html` in any modern web browser (Chrome, Firefox, Safari, Edge).
+3. The application is immediately operational and functions fully offline.
 
 ---
 
-## 7. Medical & Clinical Disclaimer
+## Engineering Standards
 
-> **IMPORTANT:** BreatheWell is a personal wellness, mindfulness, and health-tracking tool. It is **not** a certified medical device, diagnostic system, or replacement for professional clinical judgment. Users experiencing severe hypertension, hypotension, glycemic crisis, or acute respiratory distress must immediately consult a licensed physician or seek emergency medical care.
+- **Zero Inline Code Policy:** All HTML files maintain 0 inline `<style>` and 0 inline `<script>` tags.
+- **Deterministic Script Mirroring:** Byte-for-byte SHA256 equality is maintained between `asset/js/script.js` and `asset/js/script.jt`.
+- **Hero Tab Bar Consistency:** The `.ht-hero-tab-bar` strictly inherits master styles from `asset/css/style.css` across all modular suites.
+- **Accessibility:** Minimum touch targets of 44x44px, skip navigation links, and WCAG 2.1 AA color contrast compliance.
 
 ---
 
-## 8. License
+## Documentation Suite
 
-This project is licensed under the **MIT License**. See the repository header docblocks for full permissions and copyright details.
+Comprehensive specifications and governance guidelines are located in the `Agent/` directory:
+
+- **[Specifications](Agent/specs/):** Functional requirements, component specs, page specs, responsive design, accessibility.
+- **[Theme Guidelines](Agent/theme-guideline/):** Design system tokens, color palettes, typography, spacing, and styling rules.
+- **[Engineering Plans](Agent/plan/):** Implementation plans, forward roadmap, refactoring, and QA testing protocols.
+- **[Constitutions](Agent/constitutions/):** Architectural mandates, coding conventions, UI/UX laws, and constraints.
+- **[Agent Prompts](Agent/prompts/):** Context prompts for AI-assisted engineering and reviews.
+
+---
+
+## Disclaimer
+
+BreatheWell is an educational, personal health tracking, and mindful breathing tool. It is not a certified medical device and does not provide formal medical diagnoses, clinical treatment plans, or emergency triage. Users experiencing acute health symptoms or medical emergencies should contact licensed medical professionals immediately.
+
+---
+
+## License
+
+This project is distributed under the terms of the **MIT License**.
