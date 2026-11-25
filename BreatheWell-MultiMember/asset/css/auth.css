@@ -1,0 +1,117 @@
+/**
+ * @file auth.css
+ * @description Authentication & Registration Layout Styles for BreatheWell Multi-Member.
+ * Centered, high-trust medical-grade glass cards with password strength bar and demo box.
+ *
+ * TABLE OF CONTENTS:
+ *   1. Ambient Background Shell
+ *   2. Auth Card & Brand Emblem
+ *   3. Password Input Toggle & Strength Indicator
+ *   4. Demo Family Feature Showcase Box
+ */
+
+/* ==========================================================================
+   1. AMBIENT BACKGROUND SHELL
+   ========================================================================== */
+.bw-auth-shell {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(23, 105, 170, 0.10), transparent 44%),
+    radial-gradient(circle at 88% 82%, rgba(0, 137, 123, 0.12), transparent 46%),
+    var(--bw-bg);
+}
+
+/* ==========================================================================
+   2. AUTH CARD & BRAND EMBLEM
+   ========================================================================== */
+.bw-auth-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-lg);
+  box-shadow: var(--bw-shadow-lg);
+  padding: 2rem;
+}
+
+.bw-auth-card-wide {
+  max-width: 560px;
+}
+
+.bw-auth-emblem {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bw-primary-soft), var(--bw-teal-soft));
+  color: var(--bw-primary);
+  font-size: 1.7rem;
+}
+
+/* ==========================================================================
+   3. PASSWORD TOGGLE & STRENGTH METER
+   ========================================================================== */
+.bw-pass-wrap {
+  position: relative;
+}
+
+.bw-pass-wrap .form-control {
+  padding-right: 48px;
+}
+
+.bw-pass-toggle {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--bw-text-muted);
+  border-radius: var(--bw-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.bw-pass-toggle:hover {
+  background: var(--bw-surface-alt);
+  color: var(--bw-text);
+}
+
+.bw-strength-track {
+  height: 6px;
+  background: var(--bw-border);
+  border-radius: var(--bw-radius-pill);
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.bw-strength-fill {
+  height: 100%;
+  width: 0;
+  border-radius: var(--bw-radius-pill);
+  transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+.bw-strength-weak { width: 33%; background: #ef4444; }
+.bw-strength-fair { width: 66%; background: #f59e0b; }
+.bw-strength-strong { width: 100%; background: #10b981; }
+
+/* ==========================================================================
+   4. DEMO FAMILY CALLOUT BOX
+   ========================================================================== */
+.bw-demo-callout {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(23, 105, 170, 0.08));
+  border: 1px dashed rgba(0, 137, 123, 0.45);
+  border-radius: var(--bw-radius-md);
+  padding: 1rem;
+}

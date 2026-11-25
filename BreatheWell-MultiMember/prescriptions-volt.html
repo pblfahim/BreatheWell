@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <!-- ========================================================================
+       prescriptions-volt.html — Prescription Vault, Lossless OCR Scanner & Lightbox
+       ======================================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>প্রেসক্রিপশন ভল্ট ও স্ক্যানার | ব্রিদওয়েল</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/prescription-suite.css">
+</head>
+<body>
+  <a href="#main" class="bw-skip-link" data-i18n="skipToMain">মূল অংশে যান</a>
+
+  <nav class="navbar navbar-expand-lg sticky-top bw-navbar no-print" aria-label="Primary Navigation">
+    <div class="container">
+      <a class="bw-brand" href="index.html">
+        <img src="asset/image/logo.svg" alt="BreatheWell Logo">
+        <span data-i18n="brandName">ব্রিদওয়েল</span>
+        <span class="bw-brand-badge" data-i18n="brandFamilyTag">পরিবার কেয়ার</span>
+      </a>
+      <div class="collapse navbar-collapse justify-content-center">
+        <ul class="navbar-nav gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="navExercises"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="navBreathTest"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-nav-page="@vitals"><i class="bi bi-heart-pulse"></i> <span data-i18n="navVitals"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-nav-page="@rx"><i class="bi bi-file-medical"></i> <span data-i18n="navRx"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html" data-nav-page="@family"><i class="bi bi-people"></i> <span data-i18n="navFamily"></span></a></li>
+        </ul>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="bw-lang-group" role="group" aria-label="Language Switcher">
+          <button type="button" class="bw-lang-btn active" data-lang="bn">বাং</button>
+          <button type="button" class="bw-lang-btn" data-lang="en">EN</button>
+        </div>
+        <div id="bwNavMemberSlot"></div>
+        <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="Open menu"><i class="bi bi-list fs-5"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ======== MASTER PRESCRIPTION HERO TAB BAR (.ht-hero-tab-bar) ======== -->
+  <div class="ht-hero-tab-bar no-print">
+    <div class="container">
+      <div class="ht-hero-tab-scroll" role="navigation" aria-label="Prescription Suite Sub-Navigation">
+        <a href="prescriptions-volt.html" class="ht-hero-tab" data-nav-page="prescriptions-volt.html"><i class="bi bi-shield-plus"></i> <span data-i18n="subTabRxVault"></span></a>
+        <a href="prescription-history.html" class="ht-hero-tab" data-nav-page="prescription-history.html"><i class="bi bi-clock-history"></i> <span data-i18n="subTabRxHistory"></span></a>
+        <a href="prescription-create.html" class="ht-hero-tab" data-nav-page="prescription-create.html"><i class="bi bi-pencil-square"></i> <span data-i18n="subTabRxCreate"></span></a>
+        <a href="prescription-pad.html" class="ht-hero-tab" data-nav-page="prescription-pad.html"><i class="bi bi-file-earmark-medical"></i> <span data-i18n="subTabRxPad"></span></a>
+        <a href="digitalpad-history.html" class="ht-hero-tab" data-nav-page="digitalpad-history.html"><i class="bi bi-journal-medical"></i> <span data-i18n="subTabRxPadHistory"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <div id="bwContextStrip" class="bw-context-strip no-print"></div>
+
+  <main id="main" class="container py-4 bw-fade-in">
+    <header class="row align-items-center g-3 mb-4">
+      <div class="col-lg-8">
+        <h1 class="h3 fw-bold mb-1" data-i18n="heroTitle"></h1>
+        <p class="small text-muted mb-0" data-i18n="heroSub"></p>
+      </div>
+      <div class="col-lg-4 d-flex gap-2 justify-content-lg-end">
+        <div class="bw-stat-card py-2 px-3"><small class="text-muted d-block" data-i18n="statTotalRx"></small><strong id="rxStatTotal" class="h5 fw-bold tabular-nums mb-0">0</strong></div>
+        <div class="bw-stat-card py-2 px-3"><small class="text-muted d-block" data-i18n="statDueSoon"></small><strong id="rxStatDue" class="h5 fw-bold tabular-nums text-warning mb-0">0</strong></div>
+      </div>
+    </header>
+
+    <!-- Upload Scanner + Selective Focus Form -->
+    <div class="row g-4 mb-5">
+      <div class="col-lg-5">
+        <section class="bw-card p-3 p-md-4 h-100">
+          <div id="rxDropzone" class="rx-dropzone mb-3" role="button" tabindex="0">
+            <i class="bi bi-file-earmark-arrow-up fs-1 text-primary d-block mb-2"></i>
+            <strong class="d-block small mb-1" data-i18n="dropTitle"></strong>
+            <small class="text-muted d-block" data-i18n="dropSub"></small>
+            <input type="file" id="rxFileInput" accept="image/*,application/pdf" class="d-none">
+          </div>
+
+          <div id="rxOcrProgressWrap" class="mb-3 d-none">
+            <div class="progress mb-1"><div id="rxOcrProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-label="OCR Progress"></div></div>
+            <small id="rxOcrStatus" class="text-muted"></small>
+          </div>
+
+          <div id="rxUploadPreviewWrap" class="mb-3 d-none">
+            <img id="rxUploadPreviewImg" src="" alt="Uploaded Scan Preview" class="img-fluid rounded border">
+          </div>
+
+          <div class="mb-2">
+            <label for="rxRawTextInput" class="form-label small fw-semibold" data-i18n="lblRawText"></label>
+            <textarea id="rxRawTextInput" class="form-control small" rows="4"></textarea>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <button type="button" id="rxReparseBtn" class="btn btn-sm btn-bw-outline flex-fill" data-i18n="btnParseRaw"></button>
+            <button type="button" id="rxLoadSampleBtn" class="btn btn-sm btn-outline-secondary" data-i18n="btnSampleScan"></button>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-lg-7">
+        <section class="bw-card p-3 p-md-4 h-100">
+          <form id="rxVaultForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="rxDoctorInput" class="form-label small fw-semibold" data-i18n="fldDoctor"></label>
+                <input type="text" id="rxDoctorInput" class="form-control" required>
+              </div>
+              <div class="col-md-6">
+                <label for="rxSpecialtyInput" class="form-label small fw-semibold" data-i18n="fldSpecialty"></label>
+                <input type="text" id="rxSpecialtyInput" class="form-control">
+              </div>
+              <div class="col-md-6">
+                <label for="rxHospitalInput" class="form-label small fw-semibold" data-i18n="fldHospital"></label>
+                <input type="text" id="rxHospitalInput" class="form-control">
+              </div>
+              <div class="col-md-3">
+                <label for="rxDateInput" class="form-label small fw-semibold" data-i18n="fldDate"></label>
+                <input type="date" id="rxDateInput" class="form-control">
+              </div>
+              <div class="col-md-3">
+                <label for="rxRefillInput" class="form-label small fw-semibold" data-i18n="fldRefill"></label>
+                <input type="date" id="rxRefillInput" class="form-control">
+              </div>
+              <div class="col-12">
+                <label for="rxDiagnosisInput" class="form-label small fw-semibold" data-i18n="fldDiagnosis"></label>
+                <input type="text" id="rxDiagnosisInput" class="form-control">
+              </div>
+              <div class="col-12">
+                <label for="rxMedsInput" class="form-label small fw-semibold" data-i18n="fldMeds"></label>
+                <textarea id="rxMedsInput" class="form-control" rows="3"></textarea>
+              </div>
+              <div class="col-12">
+                <label for="rxNotesInput" class="form-label small fw-semibold" data-i18n="fldNotes"></label>
+                <input type="text" id="rxNotesInput" class="form-control">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-bw-primary w-100 mt-3" data-i18n="btnSaveVault"></button>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <!-- Active Member Vault Gallery -->
+    <section>
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+        <h2 class="h4 fw-bold mb-0" data-i18n="galleryTitle"></h2>
+        <div class="bw-segmented">
+          <button type="button" class="bw-seg-btn active" data-rx-filter="all" data-i18n="filterAll"></button>
+          <button type="button" class="bw-seg-btn" data-rx-filter="due" data-i18n="filterDue"></button>
+        </div>
+      </div>
+      <div class="row g-3" id="rxVaultGrid"></div>
+    </section>
+  </main>
+
+  <!-- Fullscreen Scan Lightbox -->
+  <div class="modal fade" id="rxLightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark border-0">
+        <div class="modal-header border-0"><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body text-center pt-0"><img id="rxLightboxImg" src="" alt="Full Prescription Scan" class="img-fluid rounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== MOBILE DRAWER & BOTTOM NAV ======== -->
+  <div class="offcanvas offcanvas-end bw-mobile-drawer" tabindex="-1" id="mobileSidebarMenu" aria-labelledby="drawerLabel">
+    <div class="offcanvas-header border-bottom"><h5 class="offcanvas-title fw-bold" id="drawerLabel" data-i18n="drawerDirectoryTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+    <div class="offcanvas-body">
+      <div id="bwDrawerMemberBox"></div>
+      <div class="d-grid gap-1">
+        <a href="index.html" class="bw-drawer-link" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a>
+        <a href="exercises.html" class="bw-drawer-link" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="navExercises"></span></a>
+        <a href="breath-test.html" class="bw-drawer-link" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="navBreathTest"></span></a>
+        <hr class="my-2">
+        <a href="health-reading.html" class="bw-drawer-link" data-nav-page="health-reading.html"><i class="bi bi-heart-pulse"></i> <span data-i18n="subTabVitalsEntry"></span></a>
+        <a href="health-history.html" class="bw-drawer-link" data-nav-page="health-history.html"><i class="bi bi-table"></i> <span data-i18n="subTabVitalsHistory"></span></a>
+        <a href="health-charts.html" class="bw-drawer-link" data-nav-page="health-charts.html"><i class="bi bi-graph-up"></i> <span data-i18n="subTabVitalsCharts"></span></a>
+        <a href="health-demo.html" class="bw-drawer-link" data-nav-page="health-demo.html"><i class="bi bi-database-fill-gear"></i> <span data-i18n="subTabVitalsDemo"></span></a>
+        <hr class="my-2">
+        <a href="prescriptions-volt.html" class="bw-drawer-link" data-nav-page="prescriptions-volt.html"><i class="bi bi-shield-plus"></i> <span data-i18n="subTabRxVault"></span></a>
+        <a href="prescription-history.html" class="bw-drawer-link" data-nav-page="prescription-history.html"><i class="bi bi-clock-history"></i> <span data-i18n="subTabRxHistory"></span></a>
+        <a href="prescription-create.html" class="bw-drawer-link" data-nav-page="prescription-create.html"><i class="bi bi-pencil-square"></i> <span data-i18n="subTabRxCreate"></span></a>
+        <a href="prescription-pad.html" class="bw-drawer-link" data-nav-page="prescription-pad.html"><i class="bi bi-file-earmark-medical"></i> <span data-i18n="subTabRxPad"></span></a>
+        <a href="digitalpad-history.html" class="bw-drawer-link" data-nav-page="digitalpad-history.html"><i class="bi bi-journal-medical"></i> <span data-i18n="subTabRxPadHistory"></span></a>
+        <hr class="my-2">
+        <a href="profile.html" class="bw-drawer-link" data-nav-page="profile.html"><i class="bi bi-people-fill"></i> <span data-i18n="navFamily"></span></a>
+        <a href="login.html" class="bw-drawer-link" data-nav-page="login.html"><i class="bi bi-box-arrow-in-right"></i> <span data-i18n="btnSignIn"></span></a>
+        <a href="register.html" class="bw-drawer-link" data-nav-page="register.html"><i class="bi bi-person-plus"></i> <span data-i18n="btnRegister"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <nav id="mobileBottomNav" class="bw-mobile-bottom-nav no-print" aria-label="Mobile Quick Navigation">
+    <div class="bw-mobile-bottom-nav-inner">
+      <a href="index.html" class="bw-mobile-nav-item" data-nav-page="index.html"><i class="bi bi-house-heart"></i><span data-i18n="navHome"></span></a>
+      <a href="exercises.html" class="bw-mobile-nav-item" data-nav-page="exercises.html"><i class="bi bi-wind"></i><span data-i18n="navExercises"></span></a>
+      <a href="health-reading.html" class="bw-mobile-nav-item" data-nav-page="@vitals"><i class="bi bi-heart-pulse"></i><span data-i18n="navVitals"></span></a>
+      <a href="prescriptions-volt.html" class="bw-mobile-nav-item" data-nav-page="@rx"><i class="bi bi-file-medical"></i><span data-i18n="navRx"></span></a>
+      <button type="button" class="bw-mobile-nav-item" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="Open directory"><i class="bi bi-grid"></i><span data-i18n="navMore"></span></button>
+    </div>
+  </nav>
+
+  <footer class="bw-footer no-print"><div class="container text-center"><p class="mb-1 fw-semibold" data-i18n="footerPrivacyNote"></p><p class="mb-0 small text-muted" data-i18n="footerEmergencyNote"></p></div></footer>
+  <div id="rxToastStack" class="bw-toast-stack no-print" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/vendor/pdfjs/pdf.min.js"></script>
+  <script src="asset/vendor/tesseract/tesseract.min.js"></script>
+  <script src="asset/js/bw-store.js"></script>
+  <script src="asset/js/bw-i18n.js"></script>
+  <script src="asset/js/bw-nav.js"></script>
+  <script src="asset/js/rx-pad-shared.js"></script>
+  <script src="asset/js/prescriptions-volt.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/**
+ * @file profile.css
+ * @description Multi-Member Household Directory, Vitality Telemetry & Security PIN Styles.
+ *
+ * TABLE OF CONTENTS:
+ *   1. Active Member Banner Card
+ *   2. Family Member Card Grid & Active Highlight
+ *   3. Security PIN & Backup Zone Cards
+ */
+
+/* ==========================================================================
+   1. ACTIVE MEMBER BANNER CARD
+   ========================================================================== */
+.bw-profile-hero {
+  background: linear-gradient(135deg, #0f4c3a 0%, #00897b 55%, #1769aa 100%);
+  color: #ffffff;
+  border-radius: var(--bw-radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--bw-shadow-md);
+}
+
+.bw-profile-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 4px 12px;
+  border-radius: var(--bw-radius-pill);
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   2. FAMILY MEMBER ROSTER CARDS
+   ========================================================================== */
+.bw-family-card {
+  background: var(--bw-surface);
+  border: 1.5px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  padding: 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.bw-family-card:hover {
+  border-color: var(--bw-primary);
+  box-shadow: var(--bw-shadow-md);
+  transform: translateY(-2px);
+}
+
+.bw-family-card.is-active-member {
+  border-color: var(--bw-emerald);
+  box-shadow: 0 0 0 3px var(--bw-emerald-soft);
+}
+
+.bw-family-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  background: var(--bw-surface-alt);
+  border-radius: var(--bw-radius-sm);
+  padding: 0.65rem;
+  font-size: 0.8rem;
+}
+
+/* ==========================================================================
+   3. SECURITY PIN & BACKUP ZONE
+   ========================================================================== */
+.bw-danger-zone {
+  border: 1.5px dashed rgba(220, 38, 38, 0.45);
+  background: rgba(220, 38, 38, 0.03);
+  border-radius: var(--bw-radius-md);
+  padding: 1.25rem;
+}

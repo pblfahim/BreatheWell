@@ -1,0 +1,143 @@
+/**
+ * @file prescription-suite.css
+ * @description Shared Clinical Prescription Suite Styles:
+ *   - Dropzone & Selective OCR Field Focus Highlight
+ *   - Prescription Vault Cards, Refill Badges & Image Lightbox
+ *   - Dual-Pane Creator Studio & Direct Editable WYSIWYG A4 Paper Pad (`820px`)
+ *   - Clinical A4 @media print Isolation
+ *
+ * TABLE OF CONTENTS:
+ *   1. Vault Dropzone & OCR Selective Field Focus
+ *   2. Prescription Cards & Thumbnail Previews
+ *   3. WYSIWYG A4 Paper Pad & ContentEditable Toolbar
+ *   4. A4 Clinical Print Stylesheet (@media print)
+ */
+
+/* ==========================================================================
+   1. VAULT DROPZONE & OCR SELECTIVE FOCUS HIGHLIGHT
+   ========================================================================== */
+.rx-dropzone {
+  border: 2px dashed var(--bw-border-strong);
+  border-radius: var(--bw-radius-md);
+  background: var(--bw-surface-alt);
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.rx-dropzone:hover,
+.rx-dropzone.drag-over {
+  border-color: var(--bw-primary);
+  background: var(--bw-primary-soft);
+}
+
+/* Highlight fields accurately populated by OCR scan (Rule from Prompt #9) */
+.bw-ocr-filled {
+  border-color: var(--bw-emerald) !important;
+  box-shadow: 0 0 0 3px var(--bw-emerald-soft) !important;
+  background-color: rgba(16, 185, 129, 0.03) !important;
+}
+
+/* ==========================================================================
+   2. VAULT CARDS & THUMBNAILS
+   ========================================================================== */
+.rx-vault-card {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  padding: 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.rx-thumb-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: var(--bw-radius-sm);
+  border: 1px solid var(--bw-border);
+  cursor: zoom-in;
+}
+
+/* ==========================================================================
+   3. WYSIWYG A4 PAPER PAD (820px DESKTOP) & TOOLBAR
+   ========================================================================== */
+.rx-paper-pad {
+  background: #ffffff;
+  color: #0f172a;
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid #cbd5e1;
+  border-top: 6px solid var(--bw-primary);
+  border-radius: 6px;
+  box-shadow: var(--bw-shadow-md);
+  padding: 2rem 2.25rem;
+}
+
+.rx-pad-header {
+  border-bottom: 2px solid #0f4c3a;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.rx-pad-patient-strip {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.rx-pad-symbol {
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--bw-primary-dark);
+  line-height: 1;
+}
+
+.rx-pad-editable {
+  min-height: 360px;
+  outline: none;
+}
+
+.rx-pad-editable [contenteditable="true"]:focus,
+.rx-pad-editable[contenteditable="true"]:focus {
+  outline: 2px dashed rgba(23, 105, 170, 0.35);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   4. CLINICAL A4 PRINT ISOLATION
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  .rx-paper-pad {
+    border: 0 !important;
+    border-top: 4px solid #0f4c3a !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .bw-studio-editor-col {
+    display: none !important;
+  }
+
+  .bw-studio-preview-col {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}

@@ -1,0 +1,132 @@
+/**
+ * @file home.css
+ * @description Home Hub Layout, Animated Breathing Preview Orb, Quick Member Switcher Chips,
+ * Clean Module Cards & Emergency SOS Banner Styles.
+ *
+ * TABLE OF CONTENTS:
+ *   1. Wellness Hero & Breathing Sanctuary Orb
+ *   2. Quick Family Member Switcher Strip
+ *   3. Clean Module Hub Cards & SOS Center
+ */
+
+/* ==========================================================================
+   1. WELLNESS HERO & BREATHING SANCTUARY ORB
+   ========================================================================== */
+.bw-home-hero {
+  background: linear-gradient(135deg, #0f4c3a 0%, #0d6e62 48%, #1769aa 100%);
+  color: #ffffff;
+  border-radius: var(--bw-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--bw-shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.bw-hero-orb-stage {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bw-hero-orb-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 255, 255, 0.35);
+  animation: bwSlowSpin 28s linear infinite;
+}
+
+.bw-hero-orb-core {
+  width: 122px;
+  height: 122px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #a7f3d0, #10b981 65%, #00897b 100%);
+  box-shadow: 0 0 36px rgba(16, 185, 129, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #064e3b;
+  font-weight: 700;
+  transition: transform 0.9s ease-in-out;
+}
+
+.bw-hero-orb-core.phase-inhale { transform: scale(1.18); }
+.bw-hero-orb-core.phase-hold { transform: scale(1.18); }
+.bw-hero-orb-core.phase-exhale { transform: scale(0.88); }
+
+@keyframes bwSlowSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   2. QUICK FAMILY SWITCHER CHIPS
+   ========================================================================== */
+.bw-quick-member-chip {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 5px 12px 5px 6px;
+  border-radius: var(--bw-radius-pill);
+  border: 1.5px solid var(--bw-border);
+  background: var(--bw-surface);
+  color: var(--bw-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bw-quick-member-chip:hover {
+  border-color: var(--bw-teal);
+}
+
+.bw-quick-member-chip.active {
+  background: #e9f7ed;
+  border-color: var(--bw-emerald);
+  color: #0f4c3a;
+}
+
+/* ==========================================================================
+   3. CLEAN MODULE HUB CARDS & SOS CENTER
+   ========================================================================== */
+.bw-hub-card {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--bw-shadow-sm);
+  transition: transform 0.22s var(--bw-ease-out), box-shadow 0.22s var(--bw-ease-out);
+}
+
+.bw-hub-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--bw-shadow-md);
+}
+
+.bw-hub-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.bw-sos-panel {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.06), rgba(234, 88, 12, 0.05));
+  border: 1px solid rgba(220, 38, 38, 0.24);
+  border-radius: var(--bw-radius-md);
+  padding: 1.35rem;
+}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <!-- ========================================================================
+       register.html — Household Account Registration (Primary Member Creation)
+       ======================================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>নতুন পরিবার অ্যাকাউন্ট | ব্রিদওয়েল</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/auth.css">
+</head>
+<body>
+  <a href="#main" class="bw-skip-link" data-i18n="skipToMain">মূল অংশে যান</a>
+
+  <!-- ======== TOP GLASSMORPHIC NAVBAR ======== -->
+  <nav class="navbar navbar-expand-lg sticky-top bw-navbar no-print" aria-label="Primary Navigation">
+    <div class="container">
+      <a class="bw-brand" href="index.html">
+        <img src="asset/image/logo.svg" alt="BreatheWell Logo">
+        <span data-i18n="brandName">ব্রিদওয়েল</span>
+        <span class="bw-brand-badge" data-i18n="brandFamilyTag">পরিবার কেয়ার</span>
+      </a>
+
+      <div class="collapse navbar-collapse justify-content-center">
+        <ul class="navbar-nav gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="navExercises"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="breath-test.html" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="navBreathTest"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-nav-page="@vitals"><i class="bi bi-heart-pulse"></i> <span data-i18n="navVitals"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-nav-page="@rx"><i class="bi bi-file-medical"></i> <span data-i18n="navRx"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html" data-nav-page="@family"><i class="bi bi-people"></i> <span data-i18n="navFamily"></span></a></li>
+        </ul>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="bw-lang-group" role="group" aria-label="Language Switcher">
+          <button type="button" class="bw-lang-btn active" data-lang="bn">বাং</button>
+          <button type="button" class="bw-lang-btn" data-lang="en">EN</button>
+        </div>
+        <div id="bwNavMemberSlot"></div>
+        <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="Open menu">
+          <i class="bi bi-list fs-5" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ======== REGISTRATION CARD ======== -->
+  <main id="main" class="bw-auth-shell">
+    <div class="bw-auth-card bw-auth-card-wide bw-fade-in">
+      <div class="text-center mb-4">
+        <div class="bw-auth-emblem mx-auto mb-3"><i class="bi bi-person-plus-fill" aria-hidden="true"></i></div>
+        <h1 class="h4 fw-bold mb-1" data-i18n="regHeading"></h1>
+        <p class="small text-muted mb-0" data-i18n="regSubtitle"></p>
+      </div>
+
+      <div id="regErrorAlert" class="alert alert-danger small d-none" role="alert"></div>
+
+      <form id="registerForm" novalidate>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="regName" class="form-label fw-semibold small" data-i18n="lblFullName"></label>
+            <input type="text" id="regName" class="form-control" data-i18n-placeholder="phFullName" required>
+          </div>
+          <div class="col-md-6">
+            <label for="regEmail" class="form-label fw-semibold small" data-i18n="lblEmail"></label>
+            <input type="email" id="regEmail" class="form-control" autocomplete="email" data-i18n-placeholder="phEmail" required>
+          </div>
+
+          <div class="col-md-4">
+            <label for="regAge" class="form-label fw-semibold small" data-i18n="lblAge"></label>
+            <input type="number" id="regAge" class="form-control tabular-nums" min="1" max="120" value="32">
+          </div>
+          <div class="col-md-4">
+            <label for="regGender" class="form-label fw-semibold small" data-i18n="lblGender"></label>
+            <select id="regGender" class="form-select">
+              <option value="male" data-i18n="optMale"></option>
+              <option value="female" data-i18n="optFemale"></option>
+              <option value="other" data-i18n="optOther"></option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="regBloodGroup" class="form-label fw-semibold small" data-i18n="lblBloodGroup"></label>
+            <select id="regBloodGroup" class="form-select">
+              <option value="O+">O+</option><option value="O-">O-</option>
+              <option value="A+">A+</option><option value="A-">A-</option>
+              <option value="B+">B+</option><option value="B-">B-</option>
+              <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="regPhone" class="form-label fw-semibold small" data-i18n="lblPhone"></label>
+            <input type="tel" id="regPhone" class="form-control" placeholder="+8801XXXXXXXXX">
+          </div>
+
+          <div class="col-md-6">
+            <label for="regPassword" class="form-label fw-semibold small" data-i18n="lblPassword"></label>
+            <div class="bw-pass-wrap">
+              <input type="password" id="regPassword" class="form-control" autocomplete="new-password" minlength="6" required>
+              <button type="button" class="bw-pass-toggle" id="regPassToggle" aria-label="Toggle password visibility">
+                <i class="bi bi-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="bw-strength-track"><div id="regStrengthFill" class="bw-strength-fill"></div></div>
+            <div id="regStrengthText" class="small text-muted mt-1"></div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="regConfirmPassword" class="form-label fw-semibold small" data-i18n="lblConfirmPass"></label>
+            <input type="password" id="regConfirmPassword" class="form-control" autocomplete="new-password" minlength="6" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-bw-primary w-100 mt-4" data-i18n="btnCreateAccount"></button>
+      </form>
+
+      <div class="text-center small mt-3">
+        <span class="text-muted" data-i18n="haveAccountText"></span>
+        <a href="login.html" class="fw-bold text-decoration-none ms-1" data-i18n="linkLogin"></a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ======== MOBILE SIDEBAR DRAWER & BOTTOM NAV ======== -->
+  <div class="offcanvas offcanvas-end bw-mobile-drawer" tabindex="-1" id="mobileSidebarMenu" aria-labelledby="drawerLabel">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title fw-bold" id="drawerLabel" data-i18n="drawerDirectoryTitle"></h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div id="bwDrawerMemberBox"></div>
+      <div class="d-grid gap-1">
+        <a href="index.html" class="bw-drawer-link" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a>
+        <a href="exercises.html" class="bw-drawer-link" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="navExercises"></span></a>
+        <a href="breath-test.html" class="bw-drawer-link" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="navBreathTest"></span></a>
+        <hr class="my-2">
+        <a href="health-reading.html" class="bw-drawer-link" data-nav-page="health-reading.html"><i class="bi bi-heart-pulse"></i> <span data-i18n="subTabVitalsEntry"></span></a>
+        <a href="health-history.html" class="bw-drawer-link" data-nav-page="health-history.html"><i class="bi bi-table"></i> <span data-i18n="subTabVitalsHistory"></span></a>
+        <a href="health-charts.html" class="bw-drawer-link" data-nav-page="health-charts.html"><i class="bi bi-graph-up"></i> <span data-i18n="subTabVitalsCharts"></span></a>
+        <a href="health-demo.html" class="bw-drawer-link" data-nav-page="health-demo.html"><i class="bi bi-database-fill-gear"></i> <span data-i18n="subTabVitalsDemo"></span></a>
+        <hr class="my-2">
+        <a href="prescriptions-volt.html" class="bw-drawer-link" data-nav-page="prescriptions-volt.html"><i class="bi bi-shield-plus"></i> <span data-i18n="subTabRxVault"></span></a>
+        <a href="prescription-history.html" class="bw-drawer-link" data-nav-page="prescription-history.html"><i class="bi bi-clock-history"></i> <span data-i18n="subTabRxHistory"></span></a>
+        <a href="prescription-create.html" class="bw-drawer-link" data-nav-page="prescription-create.html"><i class="bi bi-pencil-square"></i> <span data-i18n="subTabRxCreate"></span></a>
+        <a href="prescription-pad.html" class="bw-drawer-link" data-nav-page="prescription-pad.html"><i class="bi bi-file-earmark-medical"></i> <span data-i18n="subTabRxPad"></span></a>
+        <a href="digitalpad-history.html" class="bw-drawer-link" data-nav-page="digitalpad-history.html"><i class="bi bi-journal-medical"></i> <span data-i18n="subTabRxPadHistory"></span></a>
+        <hr class="my-2">
+        <a href="profile.html" class="bw-drawer-link" data-nav-page="profile.html"><i class="bi bi-people-fill"></i> <span data-i18n="navFamily"></span></a>
+        <a href="login.html" class="bw-drawer-link" data-nav-page="login.html"><i class="bi bi-box-arrow-in-right"></i> <span data-i18n="btnSignIn"></span></a>
+        <a href="register.html" class="bw-drawer-link" data-nav-page="register.html"><i class="bi bi-person-plus"></i> <span data-i18n="btnRegister"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <nav id="mobileBottomNav" class="bw-mobile-bottom-nav no-print" aria-label="Mobile Quick Navigation">
+    <div class="bw-mobile-bottom-nav-inner">
+      <a href="index.html" class="bw-mobile-nav-item" data-nav-page="index.html"><i class="bi bi-house-heart"></i><span data-i18n="navHome"></span></a>
+      <a href="exercises.html" class="bw-mobile-nav-item" data-nav-page="exercises.html"><i class="bi bi-wind"></i><span data-i18n="navExercises"></span></a>
+      <a href="health-reading.html" class="bw-mobile-nav-item" data-nav-page="@vitals"><i class="bi bi-heart-pulse"></i><span data-i18n="navVitals"></span></a>
+      <a href="prescriptions-volt.html" class="bw-mobile-nav-item" data-nav-page="@rx"><i class="bi bi-file-medical"></i><span data-i18n="navRx"></span></a>
+      <button type="button" class="bw-mobile-nav-item" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="Open directory"><i class="bi bi-grid"></i><span data-i18n="navMore"></span></button>
+    </div>
+  </nav>
+
+  <footer class="bw-footer no-print">
+    <div class="container text-center">
+      <p class="mb-1 fw-semibold" data-i18n="footerPrivacyNote"></p>
+      <p class="mb-0 small text-muted" data-i18n="footerEmergencyNote"></p>
+    </div>
+  </footer>
+  <div id="rxToastStack" class="bw-toast-stack no-print" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/bw-store.js"></script>
+  <script src="asset/js/bw-i18n.js"></script>
+  <script src="asset/js/bw-nav.js"></script>
+  <script src="asset/js/register.js"></script>
+</body>
+</html>

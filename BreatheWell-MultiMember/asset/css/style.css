@@ -1,0 +1,748 @@
+/**
+ * @file style.css
+ * @description Core Design System, Responsive Layout, Accessibility, Navigation,
+ * Multi-Member Switcher, Shared Clinical Cards & Print Rules for BreatheWell Multi-Member.
+ *
+ * TABLE OF CONTENTS:
+ *   1. Design Tokens & Typography (:root)
+ *   2. Base Reset, Skip Link & Accessibility Focus Rings
+ *   3. Top Glassmorphic Navbar & Multi-Member Switcher
+ *   4. Master Domain Hero Tab Bar (.ht-hero-tab-bar)
+ *   5. Guest Preview Banner & Member Context Header
+ *   6. Shared Surface Cards, Stat Cards & Badges
+ *   7. Buttons, Inputs & Segmented Pills (44x44px Touch Safe)
+ *   8. Mobile Bottom Navigation & Slide-Out Sidebar Drawer
+ *   9. Shared Toast Stack, Footer & Auth/PIN Modals
+ *  10. Keyframe Animations & Utility Classes
+ *  11. Responsive Media Queries
+ *  12. Print Stylesheet (@media print) & Reduced Motion
+ */
+
+/* ==========================================================================
+   1. DESIGN TOKENS & TYPOGRAPHY
+   ========================================================================== */
+:root {
+  /* Brand Palette — Triad of Mindful Health */
+  --bw-primary: #1769aa;
+  --bw-primary-dark: #104e82;
+  --bw-primary-soft: rgba(23, 105, 170, 0.12);
+  --bw-teal: #00897b;
+  --bw-teal-dark: #00695c;
+  --bw-teal-soft: rgba(0, 137, 123, 0.12);
+  --bw-emerald: #10b981;
+  --bw-emerald-soft: rgba(16, 185, 129, 0.14);
+
+  /* Master Hero Tab Bar Colors (Strictly Locked Showcase Palette) */
+  --ht-hero-tab-bg: #0f4c3a;
+  --ht-hero-tab-active-bg: #e9f7ed;
+  --ht-hero-tab-active-text: #0f4c3a;
+  --ht-hero-tab-text: #ffffff;
+
+  /* Clinical Status Semantics (AHA 2017 & ADA 2024) */
+  --bw-status-normal: #10b981;
+  --bw-status-elevated: #d97706;
+  --bw-status-stage1: #ea580c;
+  --bw-status-danger: #dc2626;
+  --bw-status-info: #0284c7;
+
+  /* Neutrals & Surfaces */
+  --bw-bg: #f4f7fb;
+  --bw-surface: #ffffff;
+  --bw-surface-alt: #f8fafc;
+  --bw-border: #e2e8f0;
+  --bw-border-strong: #cbd5e1;
+  --bw-text: #0f172a;
+  --bw-text-muted: #475569;
+  --bw-text-subtle: #64748b;
+
+  /* Typography */
+  --bw-font-sans: 'Inter', 'Noto Sans Bengali', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Radii & Elevations */
+  --bw-radius-sm: 10px;
+  --bw-radius-md: 14px;
+  --bw-radius-lg: 20px;
+  --bw-radius-pill: 999px;
+  --bw-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --bw-shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --bw-shadow-md: 0 10px 28px rgba(15, 23, 42, 0.09);
+  --bw-shadow-lg: 0 18px 42px rgba(15, 23, 42, 0.14);
+
+  /* Motion Curves */
+  --bw-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Z-Index Scale */
+  --bw-z-tabbar: 1010;
+  --bw-z-navbar: 1020;
+  --bw-z-mobilenav: 1040;
+  --bw-z-modal: 1055;
+  --bw-z-toast: 1090;
+}
+
+/* ==========================================================================
+   2. BASE RESET, SKIP LINK & ACCESSIBILITY FOCUS RINGS
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--bw-font-sans);
+  background-color: var(--bw-bg);
+  color: var(--bw-text);
+  line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Increase line-height when Bengali script is active for clean matra clearance */
+html[lang="bn"] body {
+  line-height: 1.65;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Accessible Skip-to-Content Link */
+.bw-skip-link {
+  position: fixed;
+  top: -120px;
+  left: 16px;
+  z-index: 2000;
+  background: var(--bw-primary);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: var(--bw-radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--bw-shadow-md);
+  transition: top 0.15s ease;
+}
+
+.bw-skip-link:focus {
+  top: 12px;
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Universal WCAG 2.1 AA Focus Ring */
+:focus-visible {
+  outline: 2.5px solid var(--bw-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   3. TOP GLASSMORPHIC NAVBAR & MULTI-MEMBER SWITCHER
+   ========================================================================== */
+.bw-navbar {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--bw-border);
+  z-index: var(--bw-z-navbar);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.bw-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--bw-text);
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.bw-brand img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.bw-brand-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: var(--bw-radius-pill);
+  background: var(--bw-teal-soft);
+  color: var(--bw-teal-dark);
+}
+
+.bw-navbar .nav-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--bw-text-muted);
+  padding: 0.45rem 0.78rem;
+  border-radius: var(--bw-radius-sm);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bw-navbar .nav-link:hover {
+  background: var(--bw-primary-soft);
+  color: var(--bw-primary-dark);
+}
+
+.bw-navbar .nav-link.active {
+  background: var(--bw-primary);
+  color: #ffffff;
+}
+
+/* Language Segmented Pill */
+.bw-lang-group {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-pill);
+  padding: 2px;
+}
+
+.bw-lang-btn {
+  min-width: 44px;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--bw-text-muted);
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-radius: var(--bw-radius-pill);
+  padding: 0 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bw-lang-btn.active {
+  background: var(--bw-primary);
+  color: #ffffff;
+  box-shadow: var(--bw-shadow-xs);
+}
+
+/* Active Family Member Switcher Pill */
+.bw-member-pill {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 4px 12px 4px 6px;
+  border-radius: var(--bw-radius-pill);
+  border: 1.5px solid var(--bw-border);
+  background: var(--bw-surface);
+  color: var(--bw-text);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bw-member-pill:hover {
+  border-color: var(--bw-teal);
+  box-shadow: var(--bw-shadow-xs);
+}
+
+.bw-member-name-label {
+  max-width: 120px;
+}
+
+.bw-avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--bw-primary), var(--bw-teal));
+}
+
+.bw-avatar-lg {
+  width: 52px;
+  height: 52px;
+  font-size: 1.15rem;
+}
+
+.bw-avatar-color-0 { background: linear-gradient(135deg, #1769aa, #0284c7); }
+.bw-avatar-color-1 { background: linear-gradient(135deg, #00897b, #10b981); }
+.bw-avatar-color-2 { background: linear-gradient(135deg, #7c3aed, #6366f1); }
+.bw-avatar-color-3 { background: linear-gradient(135deg, #d97706, #ea580c); }
+.bw-avatar-color-4 { background: linear-gradient(135deg, #db2777, #be185d); }
+
+.bw-member-menu {
+  min-width: 280px;
+  border-radius: var(--bw-radius-md);
+  border: 1px solid var(--bw-border);
+  box-shadow: var(--bw-shadow-lg);
+  padding: 0.5rem;
+}
+
+.bw-member-option {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  border: 0;
+  background: transparent;
+  border-radius: var(--bw-radius-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.bw-member-option:hover {
+  background: var(--bw-surface-alt);
+}
+
+.bw-member-option.active {
+  background: var(--bw-emerald-soft);
+}
+
+.bw-member-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  flex: 1;
+  min-width: 0;
+}
+
+.bw-member-meta strong {
+  font-size: 0.88rem;
+  color: var(--bw-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bw-member-meta small {
+  font-size: 0.74rem;
+  color: var(--bw-text-subtle);
+}
+
+/* ==========================================================================
+   4. MASTER DOMAIN HERO TAB BAR (.ht-hero-tab-bar)
+   ========================================================================== */
+.ht-hero-tab-bar {
+  background: var(--ht-hero-tab-bg);
+  color: var(--ht-hero-tab-text);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: var(--bw-z-tabbar);
+}
+
+.ht-hero-tab-scroll {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0.6rem 0;
+}
+
+.ht-hero-tab-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.ht-hero-tab {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.48rem 1rem;
+  border-radius: var(--bw-radius-pill);
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.87rem;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.ht-hero-tab:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.ht-hero-tab.active {
+  background: var(--ht-hero-tab-active-bg);
+  color: var(--ht-hero-tab-active-text);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   5. GUEST PREVIEW BANNER & MEMBER CONTEXT STRIP
+   ========================================================================== */
+.bw-context-strip {
+  background: linear-gradient(90deg, rgba(23, 105, 170, 0.08), rgba(0, 137, 123, 0.08));
+  border-bottom: 1px solid var(--bw-border);
+  padding: 0.55rem 0;
+  font-size: 0.86rem;
+}
+
+.bw-context-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 4px 10px;
+  border-radius: var(--bw-radius-pill);
+  background: #ffffff;
+  border: 1px solid var(--bw-border);
+  font-weight: 600;
+  color: var(--bw-text);
+}
+
+/* ==========================================================================
+   6. SHARED SURFACE CARDS, STAT CARDS & BADGES
+   ========================================================================== */
+.bw-card {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  box-shadow: var(--bw-shadow-sm);
+  transition: transform 0.22s var(--bw-ease-out), box-shadow 0.22s var(--bw-ease-out);
+}
+
+.bw-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bw-shadow-md);
+}
+
+.bw-stat-card {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  padding: 1.15rem 1.25rem;
+  box-shadow: var(--bw-shadow-xs);
+  height: 100%;
+}
+
+.bw-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--bw-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.bw-stat-icon-blue { background: var(--bw-primary-soft); color: var(--bw-primary); }
+.bw-stat-icon-teal { background: var(--bw-teal-soft); color: var(--bw-teal-dark); }
+.bw-stat-icon-emerald { background: var(--bw-emerald-soft); color: #047857; }
+.bw-stat-icon-amber { background: rgba(217, 119, 6, 0.14); color: #b45309; }
+.bw-stat-icon-red { background: rgba(220, 38, 38, 0.12); color: #b91c1c; }
+
+.bw-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 4px 10px;
+  border-radius: var(--bw-radius-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.bw-status-normal { background: rgba(16, 185, 129, 0.15); color: #065f46; }
+.bw-status-elevated { background: rgba(245, 158, 11, 0.18); color: #92400e; }
+.bw-status-stage1 { background: rgba(234, 88, 12, 0.16); color: #9a3412; }
+.bw-status-danger { background: rgba(220, 38, 38, 0.15); color: #991b1b; }
+.bw-status-info { background: rgba(2, 132, 199, 0.14); color: #075985; }
+
+/* ==========================================================================
+   7. BUTTONS, INPUTS & SEGMENTED PILLS (44x44px TOUCH SAFE)
+   ========================================================================== */
+.btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  border-radius: var(--bw-radius-sm);
+}
+
+.btn-sm {
+  min-height: 44px;
+  padding: 0.35rem 0.75rem;
+}
+
+.btn-bw-primary {
+  background: linear-gradient(135deg, var(--bw-primary), var(--bw-teal));
+  color: #ffffff;
+  border: 0;
+  box-shadow: 0 4px 14px rgba(23, 105, 170, 0.25);
+}
+
+.btn-bw-primary:hover,
+.btn-bw-primary:focus {
+  background: linear-gradient(135deg, var(--bw-primary-dark), var(--bw-teal-dark));
+  color: #ffffff;
+}
+
+.btn-bw-outline {
+  background: var(--bw-surface);
+  color: var(--bw-primary-dark);
+  border: 1.5px solid var(--bw-primary);
+}
+
+.btn-bw-outline:hover {
+  background: var(--bw-primary-soft);
+  color: var(--bw-primary-dark);
+}
+
+.form-control,
+.form-select {
+  min-height: 46px;
+  border-radius: var(--bw-radius-sm);
+  border: 1.5px solid var(--bw-border-strong);
+  font-size: 0.95rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--bw-primary);
+  box-shadow: 0 0 0 3px var(--bw-primary-soft);
+}
+
+/* Segmented Pill Control */
+.bw-segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-border);
+  padding: 4px;
+  border-radius: var(--bw-radius-md);
+}
+
+.bw-seg-btn {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--bw-text-muted);
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--bw-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bw-seg-btn.active {
+  background: var(--bw-surface);
+  color: var(--bw-primary-dark);
+  box-shadow: var(--bw-shadow-xs);
+}
+
+/* ==========================================================================
+   8. MOBILE BOTTOM NAVIGATION & SLIDE-OUT SIDEBAR DRAWER
+   ========================================================================== */
+.bw-mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--bw-border);
+  z-index: var(--bw-z-mobilenav);
+  display: none;
+  padding: 4px 6px env(safe-area-inset-bottom, 4px);
+}
+
+.bw-mobile-bottom-nav-inner {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+}
+
+.bw-mobile-nav-item {
+  min-height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--bw-text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: var(--bw-radius-sm);
+  border: 0;
+  background: transparent;
+  padding: 4px 2px;
+}
+
+.bw-mobile-nav-item i {
+  font-size: 1.15rem;
+}
+
+.bw-mobile-nav-item.active {
+  color: var(--bw-primary);
+  background: var(--bw-primary-soft);
+}
+
+.bw-mobile-drawer {
+  width: min(320px, 88vw);
+}
+
+.bw-drawer-link {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--bw-radius-sm);
+  color: var(--bw-text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.92rem;
+}
+
+.bw-drawer-link:hover {
+  background: var(--bw-surface-alt);
+}
+
+.bw-drawer-link.active {
+  background: var(--bw-primary-soft);
+  color: var(--bw-primary-dark);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   9. SHARED TOAST STACK, FOOTER & MODALS
+   ========================================================================== */
+.bw-toast-stack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: var(--bw-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: min(390px, calc(100vw - 24px));
+  pointer-events: none;
+}
+
+.bw-toast-item {
+  pointer-events: auto;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: var(--bw-radius-md);
+  padding: 0.85rem 1rem;
+  box-shadow: var(--bw-shadow-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+  animation: bwSlideUp 0.24s var(--bw-ease-out);
+}
+
+.bw-toast-item.bw-toast-success { border-left: 4px solid var(--bw-emerald); }
+.bw-toast-item.bw-toast-danger { border-left: 4px solid #ef4444; }
+.bw-toast-item.bw-toast-warning { border-left: 4px solid #f59e0b; }
+.bw-toast-item.bw-toast-info { border-left: 4px solid #38bdf8; }
+
+.bw-footer {
+  background: var(--bw-surface);
+  border-top: 1px solid var(--bw-border);
+  padding: 1.75rem 0;
+  color: var(--bw-text-muted);
+  font-size: 0.88rem;
+  margin-top: 3rem;
+}
+
+/* ==========================================================================
+   10. KEYFRAME ANIMATIONS & UTILITY CLASSES
+   ========================================================================== */
+@keyframes bwSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bwPulseSoft {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+.bw-fade-in {
+  animation: bwSlideUp 0.35s var(--bw-ease-out);
+}
+
+.bw-pulse-soft {
+  animation: bwPulseSoft 2.8s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   11. RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 991.98px) {
+  body {
+    padding-bottom: 76px;
+  }
+
+  .bw-mobile-bottom-nav {
+    display: block;
+  }
+
+  .bw-toast-stack {
+    bottom: 84px;
+    right: 12px;
+  }
+}
+
+/* ==========================================================================
+   12. PRINT STYLESHEET & REDUCED MOTION
+   ========================================================================== */
+@media print {
+  .bw-navbar,
+  .ht-hero-tab-bar,
+  .bw-context-strip,
+  .bw-mobile-bottom-nav,
+  .bw-toast-stack,
+  .bw-footer,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

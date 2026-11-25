@@ -1,0 +1,95 @@
+/**
+ * @file breath-test.css
+ * @description BOLT Oxygen Tolerance Timer, BPM Tap Counter, Spectrum Bar
+ * & Bohr Effect Science Modal Styles.
+ *
+ * TABLE OF CONTENTS:
+ *   1. Assessment Stage & SVG Progress Ring
+ *   2. Clinical Spectrum Gradient Bar & Indicator Needle
+ *   3. BPM Tap Pad & Science Insight Trigger
+ */
+
+/* ==========================================================================
+   1. ASSESSMENT STAGE & SVG RING
+   ========================================================================== */
+.bw-test-stage {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-lg);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--bw-shadow-md);
+}
+
+.bw-bolt-ring-box {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bw-bolt-ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.bw-bolt-readout {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+/* ==========================================================================
+   2. CLINICAL SPECTRUM BAR & NEEDLE
+   ========================================================================== */
+.bw-spectrum-wrap {
+  position: relative;
+  height: 16px;
+  border-radius: var(--bw-radius-pill);
+  background: linear-gradient(90deg, #dc2626 0%, #d97706 32%, #10b981 65%, #00897b 100%);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.bw-spectrum-needle {
+  position: absolute;
+  top: -5px;
+  width: 14px;
+  height: 26px;
+  border-radius: 7px;
+  background: #0f172a;
+  border: 2.5px solid #ffffff;
+  box-shadow: var(--bw-shadow-sm);
+  transform: translateX(-50%);
+  transition: left 0.4s var(--bw-ease-out);
+  left: 50%;
+}
+
+/* ==========================================================================
+   3. BPM GIANT ACCESSIBLE TAP BUTTON
+   ========================================================================== */
+.bw-bpm-tap-btn {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 4px solid rgba(23, 105, 170, 0.25);
+  background: linear-gradient(135deg, var(--bw-primary), var(--bw-teal));
+  color: #ffffff;
+  font-weight: 700;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(23, 105, 170, 0.28);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.bw-bpm-tap-btn:active {
+  transform: scale(0.95);
+}
