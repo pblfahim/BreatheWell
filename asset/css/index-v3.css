@@ -1,0 +1,1326 @@
+/**
+ * ============================================================================
+ * BreatheWell - Clinical Bento & Wellness Hub Stylesheet (index-v3.css)
+ * ============================================================================
+ * @file        asset/css/index-v3.css
+ * @module      BreatheWell/IndexV3
+ * @version     3.0.0
+ * @license     MIT
+ * @description
+ *   Modern clinical Bento workspace stylesheet for index-v3.html.
+ *   Inherits master design tokens from style.css (--bw-*) and defines
+ *   scoped (.nx-*) layout, telemetry, workbench, and safety components.
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. WORKSPACE CONTEXT & WELCOME BAND
+ * ============================================================================ */
+.nx-context-band {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid var(--bw-line);
+  padding: 1.75rem 0;
+}
+
+.nx-context-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.nx-greeting-block {
+  max-width: 680px;
+}
+
+.nx-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: var(--bw-teal-light);
+  color: #0f4c3a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid rgba(0, 137, 123, 0.2);
+}
+
+.nx-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bw-emerald);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  animation: nxPulseRing 2s infinite;
+}
+
+@keyframes nxPulseRing {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.65; }
+}
+
+.nx-hero-heading {
+  font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+  font-weight: 800;
+  color: var(--bw-ink);
+  letter-spacing: -0.025em;
+  line-height: 1.28;
+}
+
+.nx-hero-subtext {
+  font-size: 0.96rem;
+  color: var(--bw-muted);
+  line-height: 1.6;
+}
+
+.nx-context-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.nx-privacy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-line);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--bw-slate-700);
+}
+
+.nx-action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nx-action-pill.outline {
+  background: var(--bw-surface);
+  color: var(--bw-ink);
+  border: 1px solid var(--bw-line);
+}
+
+.nx-action-pill.outline:hover {
+  border-color: var(--bw-teal);
+  background: var(--bw-teal-light);
+  color: #0f4c3a;
+  transform: translateY(-1px);
+}
+
+.nx-action-pill.primary {
+  background: var(--bw-primary);
+  color: #ffffff;
+  border: 1px solid var(--bw-primary);
+  box-shadow: var(--bw-shadow-primary);
+}
+
+.nx-action-pill.primary:hover {
+  background: var(--bw-primary-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ============================================================================
+ * 2. BENTO CLINICAL COMMAND MATRIX
+ * ============================================================================ */
+.nx-bento-stage {
+  padding: 2.5rem 0 3.5rem 0;
+  background: var(--bw-bg);
+}
+
+/* Left Bento Tile: Live Breathing Studio */
+.nx-bento-breath {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  border-radius: var(--bw-radius-xl);
+  padding: 1.75rem;
+  background: linear-gradient(145deg, #0f4c3a 0%, #0d7a6f 52%, #0e7490 100%);
+  color: #ffffff;
+  box-shadow: var(--bw-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nx-breath-ambient-glow {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.nx-breath-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.nx-breath-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #ccfbf1;
+}
+
+.nx-cadence-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nx-cadence-tab {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(6px);
+}
+
+.nx-cadence-tab:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.nx-cadence-tab.active {
+  background: #ffffff;
+  color: #0f4c3a;
+  border-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+/* Central SVG Progress Ring + Breathing Orb */
+.nx-breath-stage-center {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 1.5rem 0 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nx-ring-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nx-progress-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.nx-ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 8;
+}
+
+.nx-ring-progress {
+  fill: none;
+  stroke: #5eead4;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 603.186;
+  stroke-dashoffset: 603.186;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.nx-breath-orb {
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  transition: transform 0.6s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.nx-breath-orb.phase-inhale {
+  transform: scale(1.22);
+  border-color: #99f6e4;
+  box-shadow: 0 0 36px rgba(94, 234, 212, 0.45);
+}
+
+.nx-breath-orb.phase-hold1 {
+  transform: scale(1.22);
+  border-color: #fde68a;
+}
+
+.nx-breath-orb.phase-exhale,
+.nx-breath-orb.phase-hold2 {
+  transform: scale(0.95);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.nx-phase-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.nx-phase-timer {
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.nx-cycle-meta {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ccfbf1;
+  margin-top: 2px;
+}
+
+.nx-protocol-caption {
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+/* Studio Bottom Controls */
+.nx-breath-controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.nx-breath-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nx-studio-btn.play {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 9999px;
+  border: none;
+  background: #ffffff;
+  color: #0f4c3a;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: all 0.2s ease;
+}
+
+.nx-studio-btn.play:hover {
+  transform: translateY(-1px);
+  background: #f0fdfa;
+}
+
+.nx-icon-ctrl {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nx-icon-ctrl.active {
+  background: rgba(94, 234, 212, 0.28);
+  border-color: #99f6e4;
+}
+
+.nx-icon-ctrl:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.nx-studio-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.2s ease;
+}
+
+.nx-studio-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Right Bento Tile: Live Personal Telemetry Card */
+.nx-bento-telemetry {
+  height: 100%;
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--bw-shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.nx-telemetry-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.nx-telemetry-kicker {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bw-teal);
+  display: block;
+}
+
+.nx-telemetry-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--bw-ink);
+}
+
+.nx-mini-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  background: var(--bw-primary-light);
+  color: var(--bw-primary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.nx-mini-cta:hover {
+  background: var(--bw-primary);
+  color: #ffffff;
+}
+
+/* 2x2 KPI Tiles */
+.nx-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.nx-kpi-tile {
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-lg);
+  padding: 0.9rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nx-kpi-tile:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: var(--bw-shadow-sm);
+}
+
+.nx-kpi-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nx-kpi-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.nx-kpi-icon.rose { background: var(--bw-rose-light); color: var(--bw-rose-hover); }
+.nx-kpi-icon.purple { background: var(--bw-purple-light); color: var(--bw-purple-hover); }
+.nx-kpi-icon.teal { background: var(--bw-teal-light); color: var(--bw-teal); }
+.nx-kpi-icon.emerald { background: var(--bw-emerald-light); color: var(--bw-emerald-hover); }
+
+.nx-kpi-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--bw-muted);
+}
+
+.nx-kpi-val {
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--bw-ink);
+  letter-spacing: -0.02em;
+}
+
+.nx-kpi-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.nx-kpi-status.optimal { background: var(--bw-emerald-light); color: #065f46; }
+.nx-kpi-status.warn    { background: var(--bw-amber-light); color: #92400e; }
+.nx-kpi-status.danger  { background: var(--bw-rose-light); color: #991b1b; }
+.nx-kpi-status.low     { background: var(--bw-purple-light); color: #5b21b6; }
+.nx-kpi-status.info    { background: var(--bw-primary-light); color: var(--bw-primary); }
+
+/* SVG Sparkline Card */
+.nx-sparkline-card {
+  margin-top: auto;
+  display: block;
+  text-decoration: none;
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-lg);
+  padding: 0.85rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.nx-sparkline-card:hover {
+  background: #ffffff;
+  border-color: var(--bw-primary);
+}
+
+.nx-sparkline-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--bw-ink);
+}
+
+.nx-sparkline-meta {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--bw-primary);
+}
+
+.nx-sparkline-wrap {
+  width: 100%;
+  height: 62px;
+}
+
+.nx-sparkline-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.nx-safe-band {
+  fill: rgba(16, 185, 129, 0.14);
+}
+
+.nx-spark-area {
+  fill: rgba(23, 105, 170, 0.12);
+}
+
+.nx-spark-line {
+  fill: none;
+  stroke: var(--bw-primary);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ============================================================================
+ * 3. FOUR CLINICAL SUITES WORKSPACE HUB
+ * ============================================================================ */
+.nx-suites-section {
+  padding: 4.5rem 0;
+  background: #ffffff;
+  border-top: 1px solid var(--bw-line);
+  border-bottom: 1px solid var(--bw-line);
+}
+
+.nx-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-line);
+  color: var(--bw-teal);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nx-section-title {
+  font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+  font-weight: 800;
+  color: var(--bw-ink);
+  letter-spacing: -0.02em;
+}
+
+.nx-section-subtitle {
+  font-size: 0.98rem;
+  color: var(--bw-muted);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.nx-suite-card {
+  height: 100%;
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-xl);
+  padding: 1.65rem 1.5rem;
+  box-shadow: var(--bw-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  border-top-width: 4px;
+}
+
+.nx-suite-card.teal { border-top-color: var(--bw-teal); }
+.nx-suite-card.blue { border-top-color: var(--bw-primary); }
+.nx-suite-card.emerald { border-top-color: var(--bw-emerald); }
+.nx-suite-card.purple { border-top-color: var(--bw-purple); }
+
+.nx-suite-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--bw-shadow-md);
+}
+
+.nx-suite-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.55rem;
+  margin-bottom: 1.15rem;
+}
+
+.nx-suite-icon.teal { background: var(--bw-teal-light); color: var(--bw-teal); }
+.nx-suite-icon.blue { background: var(--bw-primary-light); color: var(--bw-primary); }
+.nx-suite-icon.emerald { background: var(--bw-emerald-light); color: var(--bw-emerald-hover); }
+.nx-suite-icon.purple { background: var(--bw-purple-light); color: var(--bw-purple-hover); }
+
+.nx-suite-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--bw-ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.35;
+}
+
+.nx-suite-desc {
+  font-size: 0.87rem;
+  color: var(--bw-muted);
+  line-height: 1.6;
+  margin-bottom: 1.4rem;
+  flex: 1;
+}
+
+.nx-suite-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nx-suite-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.nx-suite-btn.primary-teal { background: var(--bw-teal); color: #ffffff; }
+.nx-suite-btn.primary-teal:hover { background: var(--bw-teal-hover); color: #ffffff; }
+
+.nx-suite-btn.primary-blue { background: var(--bw-primary); color: #ffffff; }
+.nx-suite-btn.primary-blue:hover { background: var(--bw-primary-hover); color: #ffffff; }
+
+.nx-suite-btn.primary-emerald { background: var(--bw-emerald); color: #ffffff; }
+.nx-suite-btn.primary-emerald:hover { background: var(--bw-emerald-hover); color: #ffffff; }
+
+.nx-suite-btn.primary-purple { background: var(--bw-purple); color: #ffffff; }
+.nx-suite-btn.primary-purple:hover { background: var(--bw-purple-hover); color: #ffffff; }
+
+.nx-suite-btn.ghost {
+  background: var(--bw-surface-alt);
+  color: var(--bw-slate-700);
+  border: 1px solid var(--bw-line);
+}
+
+.nx-suite-btn.ghost:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: var(--bw-ink);
+}
+
+/* ============================================================================
+ * 4. INTERACTIVE DIAGNOSTICS WORKBENCH
+ * ============================================================================ */
+.nx-workbench-section {
+  padding: 4.5rem 0;
+  background: var(--bw-bg);
+}
+
+.nx-workbench-shell {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-xl);
+  padding: 2rem;
+  box-shadow: var(--bw-shadow-md);
+}
+
+.nx-workbench-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--bw-line);
+}
+
+.nx-eyebrow-text {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bw-primary);
+  display: block;
+}
+
+.nx-workbench-heading {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--bw-ink);
+}
+
+.nx-wb-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 5px;
+  background: var(--bw-line-subtle);
+  border-radius: 9999px;
+  border: 1px solid var(--bw-line);
+}
+
+.nx-wb-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: var(--bw-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nx-wb-tab.active {
+  background: #0f4c3a;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 76, 58, 0.22);
+}
+
+/* Workbench Controls */
+.nx-wb-control-box,
+.nx-wb-result-box {
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-lg);
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.nx-submode-switch {
+  display: inline-flex;
+  background: #ffffff;
+  border: 1px solid var(--bw-line);
+  border-radius: 9999px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.nx-submode-btn {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: var(--bw-muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nx-submode-btn.active {
+  background: var(--bw-primary-light);
+  color: var(--bw-primary);
+}
+
+.nx-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.nx-preset-pill {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--bw-line);
+  background: #ffffff;
+  color: var(--bw-slate-700);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.nx-preset-pill:hover {
+  border-color: var(--bw-teal);
+}
+
+.nx-preset-pill.active {
+  background: var(--bw-teal);
+  color: #ffffff;
+  border-color: var(--bw-teal);
+}
+
+.nx-slider-well {
+  background: #ffffff;
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-md);
+  padding: 1rem 1.15rem;
+}
+
+.nx-step-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--bw-line);
+  background: var(--bw-surface-alt);
+  color: var(--bw-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nx-step-circle:hover {
+  background: var(--bw-primary);
+  color: #ffffff;
+  border-color: var(--bw-primary);
+}
+
+.nx-val-pill {
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  font-size: 0.94rem;
+  color: var(--bw-ink);
+  min-width: 96px;
+  text-align: center;
+}
+
+.nx-range {
+  width: 100%;
+  height: 8px;
+  accent-color: var(--bw-primary);
+  cursor: pointer;
+}
+
+.nx-timing-chip,
+.nx-unit-chip {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--bw-line);
+  background: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--bw-slate-700);
+  cursor: pointer;
+}
+
+.nx-timing-chip.active,
+.nx-unit-chip.active {
+  background: var(--bw-purple-light);
+  border-color: var(--bw-purple);
+  color: var(--bw-purple-hover);
+}
+
+/* Workbench Output Display */
+.nx-wb-result-box {
+  background: #ffffff;
+}
+
+.nx-result-standard {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bw-muted);
+}
+
+.nx-result-figure {
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 2.15rem;
+  font-weight: 900;
+  color: var(--bw-ink);
+  line-height: 1.1;
+}
+
+.nx-result-figure small {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--bw-muted);
+  margin-left: 4px;
+}
+
+.nx-risk-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--bw-emerald-light);
+  color: var(--bw-emerald-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+}
+
+.nx-spectrum-track {
+  position: relative;
+  height: 12px;
+  border-radius: 9999px;
+  display: flex;
+  overflow: visible;
+}
+
+.nx-seg {
+  flex: 1;
+  height: 100%;
+}
+
+.nx-seg.low { background: var(--bw-purple); border-radius: 9999px 0 0 9999px; }
+.nx-seg.normal { background: var(--bw-emerald); }
+.nx-seg.elevated { background: var(--bw-amber); }
+.nx-seg.stage1 { background: #ea580c; }
+.nx-seg.high { background: var(--bw-rose); border-radius: 0 9999px 9999px 0; }
+
+.nx-spectrum-pointer {
+  position: absolute;
+  top: -6px;
+  left: 28%;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  border: 3.5px solid var(--bw-ink);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transform: translateX(-50%);
+  transition: left 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nx-spectrum-labels {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--bw-muted);
+}
+
+.nx-status-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0.9rem 1rem;
+  border-radius: var(--bw-radius-md);
+  border: 1px solid transparent;
+}
+
+.nx-status-banner.normal { background: var(--bw-emerald-light); color: #065f46; border-color: #a7f3d0; }
+.nx-status-banner.elevated { background: var(--bw-amber-light); color: #92400e; border-color: #fde68a; }
+.nx-status-banner.high { background: var(--bw-rose-light); color: #991b1b; border-color: #fecaca; }
+.nx-status-banner.low { background: var(--bw-purple-light); color: #5b21b6; border-color: #ddd6fe; }
+
+/* Pulmonary Lab & Vault Tab Panels */
+.nx-pulmo-card,
+.nx-backup-card {
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-lg);
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.nx-stopwatch-face {
+  background: #ffffff;
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-md);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nx-stopwatch-digits {
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--bw-ink);
+}
+
+.nx-stopwatch-tier {
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: var(--bw-line-subtle);
+  color: var(--bw-slate-700);
+}
+
+.nx-storage-counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.85rem;
+}
+
+.nx-storage-item {
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ============================================================================
+ * 5. SAFETY READINESS & EMERGENCY SOS CENTER
+ * ============================================================================ */
+.nx-safety-section {
+  padding: 4rem 0 5rem 0;
+  background: #ffffff;
+  border-top: 1px solid var(--bw-line);
+}
+
+.nx-safety-card,
+.nx-sos-card {
+  height: 100%;
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-xl);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.nx-sos-card {
+  background: #fffafb;
+  border-color: #fecdd3;
+}
+
+.nx-safety-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.nx-safety-tag.safe { background: var(--bw-emerald-light); color: #065f46; }
+.nx-safety-tag.danger { background: var(--bw-rose-light); color: #991b1b; }
+
+.nx-checklist-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.nx-check-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0.55rem 0.9rem;
+  background: #ffffff;
+  border: 1px solid var(--bw-line);
+  border-radius: var(--bw-radius-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--bw-slate-800);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nx-check-row:hover {
+  border-color: var(--bw-teal);
+}
+
+.nx-precaution-bar {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.85rem 1rem;
+  background: var(--bw-amber-light);
+  border-radius: var(--bw-radius-md);
+  border: 1px solid #fde68a;
+}
+
+.nx-sos-steps {
+  padding-left: 1.25rem;
+  color: var(--bw-slate-700);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.nx-hotline-bar {
+  margin-top: auto;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #fecaca;
+  border-radius: var(--bw-radius-md);
+}
+
+.nx-hotline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 9999px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.nx-hotline-btn.emergency {
+  background: var(--bw-rose);
+  color: #ffffff;
+}
+
+.nx-hotline-btn.emergency:hover {
+  background: var(--bw-rose-hover);
+  color: #ffffff;
+}
+
+.nx-hotline-btn.health {
+  background: var(--bw-teal);
+  color: #ffffff;
+}
+
+.nx-hotline-btn.health:hover {
+  background: var(--bw-teal-hover);
+  color: #ffffff;
+}
+
+/* ============================================================================
+ * 6. TOAST NOTIFICATIONS & ACCESSIBILITY OVERRIDES
+ * ============================================================================ */
+.nx-toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1090;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 340px;
+}
+
+.nx-toast {
+  background: var(--bw-ink);
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  border-radius: var(--bw-radius-md);
+  font-size: 0.86rem;
+  font-weight: 600;
+  box-shadow: var(--bw-shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-left: 4px solid var(--bw-emerald);
+}
+
+.nx-toast.warn { border-left-color: var(--bw-amber); }
+.nx-toast.error { border-left-color: var(--bw-rose); }
+
+/* Explicit Keyboard Focus Visibility (WCAG AA) */
+.nx-cadence-tab:focus-visible,
+.nx-breath-orb:focus-visible,
+.nx-studio-btn:focus-visible,
+.nx-icon-ctrl:focus-visible,
+.nx-wb-tab:focus-visible,
+.nx-step-circle:focus-visible,
+.nx-preset-pill:focus-visible,
+.nx-suite-btn:focus-visible {
+  outline: 2px solid var(--bw-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .nx-toast-stack {
+    bottom: 84px;
+    right: 14px;
+    left: 14px;
+    max-width: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .nx-bento-breath,
+  .nx-bento-telemetry,
+  .nx-workbench-shell {
+    padding: 1.25rem;
+  }
+
+  .nx-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nx-ring-container {
+    width: 196px;
+    height: 196px;
+  }
+
+  .nx-breath-orb {
+    width: 132px;
+    height: 132px;
+  }
+}
+
+/* Reduced Motion Sensitivity */
+@media (prefers-reduced-motion: reduce) {
+  .nx-pulse-dot,
+  .nx-breath-orb,
+  .nx-ring-progress,
+  .nx-spectrum-pointer,
+  .nx-suite-card,
+  .nx-kpi-tile {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Print Fidelity */
+@media print {
+  .navbar,
+  .mobile-bottom-nav,
+  .offcanvas,
+  .nx-toast-stack,
+  .nx-breath-controls,
+  .nx-context-actions {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    padding-bottom: 0 !important;
+  }
+}

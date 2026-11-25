@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="bn">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f4c3a">
+  <meta name="description"
+    content="BreatheWell — আধুনিক ক্লিনিক্যাল বেন্টো হেলথ হাব: লাইভ শ্বাস-প্রশ্বাস গাইড, AHA/ADA ভাইটালস টেলিমেট্রি, OCR প্রেসক্রিপশন ভল্ট ও ডিজিটাল প্যাড স্টুডিও।">
+  <title data-nx-i18n="pageTitle">BreatheWell | ক্লিনিক্যাল বেন্টো ওয়েলনেস হাব</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+
+  <!-- Locally Hosted Fonts & CSS Dependencies (Zero External CDNs) -->
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/index-v3.css">
+</head>
+
+<body class="bn" data-page="home">
+  <!-- Accessibility Skip Navigation Link -->
+  <a class="visually-hidden-focusable position-absolute top-0 start-0 p-3 bg-white" href="#main"
+    data-i18n="skip">মূল কনটেন্টে যান</a>
+
+  <!-- ========================================================================
+       1. GLOBAL DESKTOP NAVIGATION BAR
+       ======================================================================== -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand border-0 bg-transparent p-0 d-flex align-items-center" href="index-v3.html"
+        aria-label="BreatheWell home">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <span>BreatheWell</span>
+      </a>
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <button class="lang-btn" id="langToggle" aria-label="Change language">English</button>
+      </div>
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav ms-auto me-lg-4 gap-lg-2">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index-v3.html"
+              data-i18n="navHome">হোম</a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-i18n="navExercises">শ্বাস ব্যায়াম</a></li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html"
+              data-i18n="navHealth">স্বাস্থ্য ট্র্যাকার</a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html"
+              data-i18n="navRx">প্রেসক্রিপশন</a></li>
+          <li class="nav-item"><a class="nav-link" href="#safety" data-i18n="navSafety">নিরাপত্তা</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ======================================================================
+         2. PERSONALIZED WORKSPACE CONTEXT HEADER BAND
+         ====================================================================== -->
+    <section class="nx-context-band" aria-label="Workspace overview">
+      <div class="container">
+        <div class="nx-context-inner">
+          <div class="nx-greeting-block">
+            <div class="nx-live-pill">
+              <span class="nx-pulse-dot" aria-hidden="true"></span>
+              <span id="nxDateDisplay" data-nx-i18n="ctxBadge">দৈনিক ক্লিনিক্যাল ও মাইন্ডফুলনেস ওয়ার্কস্পেস</span>
+            </div>
+            <h1 class="nx-hero-heading mt-2 mb-1" id="nxWelcomeHeading">
+              <span data-nx-i18n="heroGreeting">সুস্থতা ও প্রশান্তির সমন্বিত হাব</span>
+            </h1>
+            <p class="nx-hero-subtext mb-0" data-nx-i18n="heroSubtitle">
+              নির্দেশিত শ্বাসপ্রশ্বাস, AHA ২০১৭ ও ADA ২০২৪ ভাইটালস ট্র্যাকিং এবং অফলাইন প্রেসক্রিপশন স্টুডিও—সম্পূর্ণ ব্যক্তিগত ও দ্রুতগতির।
+            </p>
+          </div>
+
+          <div class="nx-context-actions">
+            <span class="nx-privacy-badge" title="Zero Cloud Tracking">
+              <i class="bi bi-shield-lock-fill text-success"></i>
+              <span data-nx-i18n="privacyPill">১০০% অফলাইন ও প্রাইভেট</span>
+            </span>
+            <a href="health-demo.html" class="nx-action-pill outline" id="nxDemoNavLink">
+              <i class="bi bi-database-fill-gear text-teal"></i>
+              <span data-nx-i18n="demoDataBtn">নমুনা ডেটা</span>
+            </a>
+            <a href="login.html" class="nx-action-pill primary" id="nxProfilePill">
+              <i class="bi bi-person-circle"></i>
+              <span id="nxProfileLabel" data-nx-i18n="accountLogin">সদস্য লগইন</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         3. BENTO CLINICAL COMMAND MATRIX (HERO STAGE)
+         ====================================================================== -->
+    <section class="nx-bento-stage">
+      <div class="container">
+        <div class="row g-4 align-items-stretch">
+
+          <!-- LEFT BENTO TILE (7 Cols): Live Interactive Respiration Studio -->
+          <div class="col-lg-7">
+            <article class="nx-bento-breath" aria-label="Interactive guided respiration pacer">
+              <div class="nx-breath-ambient-glow" aria-hidden="true"></div>
+
+              <div class="nx-breath-header">
+                <div class="nx-breath-eyebrow">
+                  <i class="bi bi-lungs-fill"></i>
+                  <span data-nx-i18n="bentoBreathEyebrow">লাইভ অটোনমিক ব্রিদিং ল্যাব</span>
+                </div>
+                <div class="nx-cadence-switcher" role="tablist" aria-label="Breathing Cadence Protocols">
+                  <button type="button" class="nx-cadence-tab active" role="tab" aria-selected="true"
+                    data-cadence="box" data-nx-i18n="cadenceBox">বক্স ৪-৪-৪-৪</button>
+                  <button type="button" class="nx-cadence-tab" role="tab" aria-selected="false"
+                    data-cadence="478" data-nx-i18n="cadence478">৪-৭-৮ স্লিপ</button>
+                  <button type="button" class="nx-cadence-tab" role="tab" aria-selected="false"
+                    data-cadence="deep" data-nx-i18n="cadenceDeep">ডিপ ৪-২-৬</button>
+                  <button type="button" class="nx-cadence-tab" role="tab" aria-selected="false"
+                    data-cadence="balance" data-nx-i18n="cadenceBalance">নাড়ী ৪-৪-৪</button>
+                </div>
+              </div>
+
+              <div class="nx-breath-stage-center">
+                <div class="nx-ring-container">
+                  <svg class="nx-progress-svg" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="nx-ring-track" cx="110" cy="110" r="96"></circle>
+                    <circle class="nx-ring-progress" id="nxRingProgress" cx="110" cy="110" r="96"></circle>
+                  </svg>
+                  <button type="button" class="nx-breath-orb" id="nxBreathOrb"
+                    aria-label="Mindful breathing sphere. Click to play or pause">
+                    <span class="nx-phase-title" id="nxPhaseLabel" data-nx-i18n="phaseReady">প্রস্তুত</span>
+                    <span class="nx-phase-timer" id="nxPhaseTimer">04s</span>
+                    <span class="nx-cycle-meta" id="nxCycleCounter">সাইকেল ০</span>
+                  </button>
+                </div>
+
+                <p class="nx-protocol-caption mt-3 mb-0" id="nxProtocolNote" data-nx-i18n="noteBox">
+                  বক্স ব্রিদিং (সমানাবৃত্তি): ৪ সেকেন্ড শ্বাস, ৪ সেকেন্ড ধরে রাখা, ৪ সেকেন্ড ত্যাগ ও ৪ সেকেন্ড বিরতি—স্নায়ুতন্ত্র শান্ত করতে কার্যকর।
+                </p>
+              </div>
+
+              <div class="nx-breath-controls">
+                <div class="nx-breath-btn-group">
+                  <button type="button" class="nx-studio-btn play" id="nxBtnBreathToggle">
+                    <i class="bi bi-play-fill" id="nxPlayIcon"></i>
+                    <span id="nxPlayText" data-nx-i18n="btnPausePlay">শুরু করুন</span>
+                  </button>
+                  <button type="button" class="nx-icon-ctrl active" id="nxBtnSound"
+                    aria-label="Toggle Web Audio chimes" aria-pressed="true" title="সাউন্ড চালু/বন্ধ">
+                    <i class="bi bi-volume-up-fill" id="nxSoundIcon"></i>
+                  </button>
+                  <button type="button" class="nx-icon-ctrl" id="nxBtnTts"
+                    aria-label="Toggle Voice Coach" aria-pressed="false" title="ভয়েস গাইড (TTS)">
+                    <i class="bi bi-megaphone" id="nxTtsIcon"></i>
+                  </button>
+                </div>
+
+                <a href="exercises.html" class="nx-studio-link">
+                  <span data-nx-i18n="openFullStudio">সম্পূর্ণ স্টুডিও</span>
+                  <i class="bi bi-arrow-up-right"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <!-- RIGHT BENTO STACK (5 Cols): Real-Time Local Telemetry Snapshot -->
+          <div class="col-lg-5">
+            <aside class="nx-bento-telemetry" aria-label="Live personal health telemetry summary">
+              <div class="nx-telemetry-head">
+                <div>
+                  <span class="nx-telemetry-kicker" data-nx-i18n="telemetryKicker">লাইভ লোকাল টেলিমেট্রি</span>
+                  <h2 class="nx-telemetry-title mb-0" data-nx-i18n="telemetryHeading">আপনার স্বাস্থ্য সারসংক্ষেপ</h2>
+                </div>
+                <a href="health-reading.html" class="nx-mini-cta" aria-label="Log new vital reading">
+                  <i class="bi bi-plus-lg"></i>
+                  <span data-nx-i18n="btnQuickLog">নতুন এন্ট্রি</span>
+                </a>
+              </div>
+
+              <!-- 2x2 Real-Time Metric Grid -->
+              <div class="nx-kpi-grid">
+                <!-- KPI 1: Blood Pressure -->
+                <a href="health-reading.html" class="nx-kpi-tile">
+                  <div class="nx-kpi-top">
+                    <span class="nx-kpi-icon rose"><i class="bi bi-heart-pulse-fill"></i></span>
+                    <span class="nx-kpi-label" data-nx-i18n="kpiBp">রক্তচাপ (BP)</span>
+                  </div>
+                  <div class="nx-kpi-val" id="nxStatBpVal">120 / 80</div>
+                  <div class="nx-kpi-status optimal" id="nxStatBpStatus">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>স্বাভাবিক (AHA)</span>
+                  </div>
+                </a>
+
+                <!-- KPI 2: Blood Glucose -->
+                <a href="health-reading.html" class="nx-kpi-tile">
+                  <div class="nx-kpi-top">
+                    <span class="nx-kpi-icon purple"><i class="bi bi-droplet-half"></i></span>
+                    <span class="nx-kpi-label" data-nx-i18n="kpiGlucose">রক্তের শর্করা</span>
+                  </div>
+                  <div class="nx-kpi-val" id="nxStatBgVal">5.2 mmol/L</div>
+                  <div class="nx-kpi-status optimal" id="nxStatBgStatus">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>স্বাভাবিক (ADA)</span>
+                  </div>
+                </a>
+
+                <!-- KPI 3: Pulmonary BOLT & BPM -->
+                <a href="breath-test.html" class="nx-kpi-tile">
+                  <div class="nx-kpi-top">
+                    <span class="nx-kpi-icon teal"><i class="bi bi-speedometer2"></i></span>
+                    <span class="nx-kpi-label" data-nx-i18n="kpiBolt">ফুসফুস (BOLT)</span>
+                  </div>
+                  <div class="nx-kpi-val" id="nxStatBoltVal">24.0s</div>
+                  <div class="nx-kpi-status optimal" id="nxStatBoltStatus">
+                    <i class="bi bi-wind"></i>
+                    <span>উত্তম ফিটনেস</span>
+                  </div>
+                </a>
+
+                <!-- KPI 4: Prescription Vault + Digital Pad Count -->
+                <a href="prescriptions-volt.html" class="nx-kpi-tile">
+                  <div class="nx-kpi-top">
+                    <span class="nx-kpi-icon emerald"><i class="bi bi-file-earmark-medical-fill"></i></span>
+                    <span class="nx-kpi-label" data-nx-i18n="kpiRx">প্রেসক্রিপশন</span>
+                  </div>
+                  <div class="nx-kpi-val" id="nxStatRxVal">0</div>
+                  <div class="nx-kpi-status info" id="nxStatRxStatus">
+                    <i class="bi bi-folder2-open"></i>
+                    <span>ভল্ট ও ডিজিটাল প্যাড</span>
+                  </div>
+                </a>
+              </div>
+
+              <!-- Dynamic SVG Blood Pressure Trend Sparkline -->
+              <a href="health-charts.html" class="nx-sparkline-card" aria-label="Open interactive SVG health charts">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="nx-sparkline-title">
+                    <i class="bi bi-graph-up-arrow text-primary me-1"></i>
+                    <span data-nx-i18n="sparkTitle">সিস্টোলিক রক্তচাপ ট্রেন্ড</span>
+                  </span>
+                  <span class="nx-sparkline-meta" id="nxSparkMeta" data-nx-i18n="sparkDemoLabel">প্রিভিউ • চার্ট দেখুন</span>
+                </div>
+                <div class="nx-sparkline-wrap" id="nxSparklineWrap">
+                  <svg class="nx-sparkline-svg" viewBox="0 0 320 68" preserveAspectRatio="none" aria-hidden="true">
+                    <rect class="nx-safe-band" x="0" y="18" width="320" height="32" rx="4"></rect>
+                    <path class="nx-spark-area" id="nxSparkArea" d=""></path>
+                    <path class="nx-spark-line" id="nxSparkLine" d=""></path>
+                  </svg>
+                </div>
+              </a>
+            </aside>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         4. FOUR CLINICAL SUITES WORKSPACE HUB
+         ====================================================================== -->
+    <section class="nx-suites-section" id="suites">
+      <div class="container">
+        <div class="nx-section-header text-center mb-5">
+          <div class="nx-eyebrow-pill">
+            <i class="bi bi-layers-fill"></i>
+            <span data-nx-i18n="suitesEyebrow">৪টি সমন্বিত ক্লিনিক্যাল স্যুট</span>
+          </div>
+          <h2 class="nx-section-title mt-2 mb-2" data-nx-i18n="suitesTitle">সকল স্বাস্থ্য ও ডায়াগনস্টিক মডিউল</h2>
+          <p class="nx-section-subtitle mb-0" data-nx-i18n="suitesDesc">
+            শ্বাসপ্রশ্বাস অনুশীলন, ভাইটালস টেলিমেট্রি, OCR প্রেসক্রিপশন ভল্ট এবং ডিজিটাল হসপিটাল প্যাডে সরাসরি প্রবেশ করুন।
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <!-- Suite 1: Respiration & Pulmonary Lab -->
+          <div class="col-md-6 col-lg-3">
+            <article class="nx-suite-card teal">
+              <div class="nx-suite-icon teal">
+                <i class="bi bi-wind"></i>
+              </div>
+              <h3 class="nx-suite-title" data-nx-i18n="suite1Title">শ্বাস ব্যায়াম ও ফুসফুস ল্যাব</h3>
+              <p class="nx-suite-desc" data-nx-i18n="suite1Desc">
+                বক্স, ৪-৭-৮ ও নাড়িশোধন শ্বাস ব্যায়াম, BOLT অক্সিজেন পরীক্ষা এবং রেস্টিং BPM কাউন্টার।
+              </p>
+              <div class="nx-suite-actions">
+                <a href="exercises.html" class="nx-suite-btn primary-teal">
+                  <span data-nx-i18n="suite1Link1">ব্যায়াম স্টুডিও</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="breath-test.html" class="nx-suite-btn ghost">
+                  <span data-nx-i18n="suite1Link2">BOLT ও BPM টেস্ট</span>
+                  <i class="bi bi-speedometer2"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Suite 2: Clinical Vitals Telemetry -->
+          <div class="col-md-6 col-lg-3">
+            <article class="nx-suite-card blue">
+              <div class="nx-suite-icon blue">
+                <i class="bi bi-heart-pulse-fill"></i>
+              </div>
+              <h3 class="nx-suite-title" data-nx-i18n="suite2Title">ক্লিনিক্যাল ভাইটালস ট্র্যাকার</h3>
+              <p class="nx-suite-desc" data-nx-i18n="suite2Desc">
+                AHA ২০১৭ রক্তচাপ ও ADA ২০২৪ ডায়াবেটিস বিশ্লেষণ, SVG চার্ট এবং DataTables ২ লগ এক্সপোর্ট।
+              </p>
+              <div class="nx-suite-actions">
+                <a href="health-reading.html" class="nx-suite-btn primary-blue">
+                  <span data-nx-i18n="suite2Link1">নতুন রিডিং লগ</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+                <div class="d-flex gap-2">
+                  <a href="health-charts.html" class="nx-suite-btn ghost flex-grow-1 justify-content-center"
+                    data-nx-i18n="suite2Link2">চার্ট</a>
+                  <a href="health-history.html" class="nx-suite-btn ghost flex-grow-1 justify-content-center"
+                    data-nx-i18n="suite2Link3">ইতিহাস</a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Suite 3: OCR Prescription Vault -->
+          <div class="col-md-6 col-lg-3">
+            <article class="nx-suite-card emerald">
+              <div class="nx-suite-icon emerald">
+                <i class="bi bi-upc-scan"></i>
+              </div>
+              <h3 class="nx-suite-title" data-nx-i18n="suite3Title">ওসিআর প্রেসক্রিপশন ভল্ট</h3>
+              <p class="nx-suite-desc" data-nx-i18n="suite3Desc">
+                ব্রাউজারে Tesseract.js ওসিআর ও PDF স্ক্যানার, ওষুধ রিফিল অ্যালার্ট এবং ডুয়াল ইতিহাস গ্যালারি।
+              </p>
+              <div class="nx-suite-actions">
+                <a href="prescriptions-volt.html" class="nx-suite-btn primary-emerald">
+                  <span data-nx-i18n="suite3Link1">ভল্ট ও OCR স্ক্যান</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="prescription-history.html" class="nx-suite-btn ghost">
+                  <span data-nx-i18n="suite3Link2">সংরক্ষিত ইতিহাস</span>
+                  <i class="bi bi-table"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Suite 4: Digital Hospital Rx Pad Studio -->
+          <div class="col-md-6 col-lg-3">
+            <article class="nx-suite-card purple">
+              <div class="nx-suite-icon purple">
+                <i class="bi bi-file-earmark-medical-fill"></i>
+              </div>
+              <h3 class="nx-suite-title" data-nx-i18n="suite4Title">ডিজিটাল প্রেসক্রিপশন স্টুডিও</h3>
+              <p class="nx-suite-desc" data-nx-i18n="suite4Desc">
+                লাইভ WYSIWYG হসপিটাল প্যাড ক্রিয়েটর, ইন-প্লেস এডিটিং, A4 প্রিন্ট ও ডিজিটাল প্যাড আর্কাইভ।
+              </p>
+              <div class="nx-suite-actions">
+                <a href="prescription-create.html" class="nx-suite-btn primary-purple">
+                  <span data-nx-i18n="suite4Link1">প্রেসক্রিপশন তৈরি</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+                <div class="d-flex gap-2">
+                  <a href="prescription-pad.html" class="nx-suite-btn ghost flex-grow-1 justify-content-center"
+                    data-nx-i18n="suite4Link2">প্যাড</a>
+                  <a href="digitalpad-history.html" class="nx-suite-btn ghost flex-grow-1 justify-content-center"
+                    data-nx-i18n="suite4Link3">আর্কাইভ</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         5. INTERACTIVE DIAGNOSTICS & QUICK TRIAGE WORKBENCH (3 TABS)
+         ====================================================================== -->
+    <section class="nx-workbench-section" id="workbench">
+      <div class="container">
+        <div class="nx-workbench-shell">
+          <!-- Workbench Header + Tabs -->
+          <div class="nx-workbench-top">
+            <div>
+              <span class="nx-eyebrow-text" data-nx-i18n="wbEyebrow">ইন্টারেক্টিভ ডায়াগনস্টিক ওয়ার্কবেঞ্চ</span>
+              <h2 class="nx-workbench-heading mb-1" data-nx-i18n="wbTitle">ক্লিনিক্যাল ট্রায়াজ, BOLT চেক ও ডেটা ভল্ট</h2>
+              <p class="small text-muted mb-0" data-nx-i18n="wbDesc">
+                সরাসরি মান যাচাই করে হেলথ ট্র্যাকারে সংরক্ষণ করুন বা তাৎক্ষণিক ফুসফুস সক্ষমতা পরিমাপ করুন।
+              </p>
+            </div>
+
+            <div class="nx-wb-tabs" role="tablist" aria-label="Diagnostic Workbench Tabs">
+              <button type="button" class="nx-wb-tab active" role="tab" aria-selected="true"
+                data-wb-target="wbPanelVitals">
+                <i class="bi bi-activity"></i>
+                <span data-nx-i18n="wbTabVitals">ভাইটালস ট্রায়াজ</span>
+              </button>
+              <button type="button" class="nx-wb-tab" role="tab" aria-selected="false"
+                data-wb-target="wbPanelPulmonary">
+                <i class="bi bi-stopwatch"></i>
+                <span data-nx-i18n="wbTabPulmonary">BOLT ও BPM চেক</span>
+              </button>
+              <button type="button" class="nx-wb-tab" role="tab" aria-selected="false"
+                data-wb-target="wbPanelVault">
+                <i class="bi bi-shield-check"></i>
+                <span data-nx-i18n="wbTabPrivacy">ডেটা ও ব্যাকআপ</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 1: Vitals Triage (BP AHA 2017 & Glucose ADA 2024 with Quick Save) -->
+          <div class="nx-wb-pane" id="wbPanelVitals" role="tabpanel">
+            <div class="row g-4 align-items-stretch">
+              <div class="col-lg-7">
+                <div class="nx-wb-control-box">
+                  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <div class="nx-submode-switch" role="group" aria-label="Vital Metric Mode">
+                      <button type="button" class="nx-submode-btn active" id="nxWbModeBp" data-mode="bp">
+                        <i class="bi bi-heart-pulse-fill text-danger me-1"></i>
+                        <span data-nx-i18n="modeBp">রক্তচাপ (AHA)</span>
+                      </button>
+                      <button type="button" class="nx-submode-btn" id="nxWbModeBg" data-mode="bg">
+                        <i class="bi bi-droplet-half text-purple me-1"></i>
+                        <span data-nx-i18n="modeBg">রক্তের শর্করা (ADA)</span>
+                      </button>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="nxWbReset">
+                      <i class="bi bi-arrow-counterclockwise me-1"></i>
+                      <span data-nx-i18n="btnReset">রিসেট</span>
+                    </button>
+                  </div>
+
+                  <!-- Quick Scenario Chips -->
+                  <div class="nx-preset-row mb-3" id="nxWbPresets"></div>
+
+                  <!-- BP Controls -->
+                  <div id="nxWbBpGroup">
+                    <div class="nx-slider-well mb-3">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label for="nxSysRange" class="fw-bold small text-dark" data-nx-i18n="lblSys">সিস্টোলিক রক্তচাপ (Systolic)</label>
+                        <div class="d-flex align-items-center gap-2">
+                          <button type="button" class="nx-step-circle" id="nxSysMinus" aria-label="Decrease systolic">
+                            <i class="bi bi-dash"></i>
+                          </button>
+                          <span class="nx-val-pill" id="nxSysReadout">120 mmHg</span>
+                          <button type="button" class="nx-step-circle" id="nxSysPlus" aria-label="Increase systolic">
+                            <i class="bi bi-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <input type="range" class="nx-range" id="nxSysRange" min="70" max="210" step="1" value="120">
+                    </div>
+
+                    <div class="nx-slider-well">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label for="nxDiaRange" class="fw-bold small text-dark" data-nx-i18n="lblDia">ডায়াস্টোলিক রক্তচাপ (Diastolic)</label>
+                        <div class="d-flex align-items-center gap-2">
+                          <button type="button" class="nx-step-circle" id="nxDiaMinus" aria-label="Decrease diastolic">
+                            <i class="bi bi-dash"></i>
+                          </button>
+                          <span class="nx-val-pill" id="nxDiaReadout">80 mmHg</span>
+                          <button type="button" class="nx-step-circle" id="nxDiaPlus" aria-label="Increase diastolic">
+                            <i class="bi bi-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <input type="range" class="nx-range" id="nxDiaRange" min="45" max="130" step="1" value="80">
+                    </div>
+                  </div>
+
+                  <!-- Glucose Controls -->
+                  <div id="nxWbBgGroup" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                      <div class="d-flex gap-2" role="group" aria-label="Meal timing context">
+                        <button type="button" class="nx-timing-chip active" data-timing="fasting"
+                          data-nx-i18n="timingFasting">খালি পেটে</button>
+                        <button type="button" class="nx-timing-chip" data-timing="postmeal"
+                          data-nx-i18n="timingPost">খাবারের ২ ঘণ্টা পর</button>
+                      </div>
+                      <div class="d-flex gap-1" role="group" aria-label="Glucose units">
+                        <button type="button" class="nx-unit-chip active" data-unit="mmol" id="nxUnitMmol">mmol/L</button>
+                        <button type="button" class="nx-unit-chip" data-unit="mgdl" id="nxUnitMgdl">mg/dL</button>
+                      </div>
+                    </div>
+
+                    <div class="nx-slider-well">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label for="nxBgRange" class="fw-bold small text-dark" data-nx-i18n="lblBg">রক্তের গ্লুকোজ</label>
+                        <div class="d-flex align-items-center gap-2">
+                          <button type="button" class="nx-step-circle" id="nxBgMinus" aria-label="Decrease glucose">
+                            <i class="bi bi-dash"></i>
+                          </button>
+                          <span class="nx-val-pill" id="nxBgReadout">5.2 mmol/L</span>
+                          <button type="button" class="nx-step-circle" id="nxBgPlus" aria-label="Increase glucose">
+                            <i class="bi bi-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <input type="range" class="nx-range" id="nxBgRange" min="2.8" max="18.0" step="0.1" value="5.2">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-5">
+                <div class="nx-wb-result-box">
+                  <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                      <span class="nx-result-standard" id="nxResultStandard">AHA 2017 ক্লিনিক্যাল মানদণ্ড</span>
+                      <div class="nx-result-figure mt-1">
+                        <span id="nxResultNum">120 / 80</span>
+                        <small id="nxResultUnit">mmHg</small>
+                      </div>
+                    </div>
+                    <div class="nx-risk-icon-badge" id="nxRiskBadgeIcon">
+                      <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                  </div>
+
+                  <!-- Spectrum Bar -->
+                  <div class="nx-spectrum-wrap mb-3">
+                    <div class="nx-spectrum-track">
+                      <span class="nx-seg low"></span>
+                      <span class="nx-seg normal"></span>
+                      <span class="nx-seg elevated"></span>
+                      <span class="nx-seg stage1"></span>
+                      <span class="nx-seg high"></span>
+                      <div class="nx-spectrum-pointer" id="nxSpectrumPin"></div>
+                    </div>
+                    <div class="d-flex justify-content-between nx-spectrum-labels mt-1">
+                      <span data-nx-i18n="tierLow">কম</span>
+                      <span data-nx-i18n="tierNormal">স্বাভাবিক</span>
+                      <span data-nx-i18n="tierElev">সামান্য বেশি</span>
+                      <span data-nx-i18n="tierHigh">উচ্চ</span>
+                    </div>
+                  </div>
+
+                  <!-- Classification Banner (Color + Icon + Text) -->
+                  <div class="nx-status-banner normal mb-3" id="nxStatusBanner" role="status" aria-live="polite">
+                    <i class="bi bi-check-circle-fill fs-5" id="nxStatusIcon"></i>
+                    <div>
+                      <strong class="d-block" id="nxStatusLabel">সর্বোত্তম ও স্বাভাবিক (Optimal)</strong>
+                      <span class="small d-block opacity-75" id="nxStatusAdvice">আদর্শ রক্তচাপ। নিয়মিত হাঁটা ও সুষম খাবার অব্যাহত রাখুন।</span>
+                    </div>
+                  </div>
+
+                  <!-- Actions: Direct Save & Deep Link -->
+                  <div class="d-flex flex-wrap gap-2 mt-auto">
+                    <button type="button" class="btn btn-primary rounded-pill px-3 py-2 fw-bold flex-grow-1"
+                      id="nxBtnQuickSaveVital">
+                      <i class="bi bi-bookmark-check-fill me-1"></i>
+                      <span data-nx-i18n="btnSaveRecord">ট্র্যাকারে সংরক্ষণ করুন</span>
+                    </button>
+                    <a href="health-reading.html" class="btn btn-outline-teal rounded-pill px-3 py-2 fw-bold"
+                      id="nxBtnOpenTrackerLink" data-nx-i18n="btnOpenFull">বিস্তারিত এন্ট্রি</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: Interactive BOLT & BPM Pulmonary Self-Check -->
+          <div class="nx-wb-pane d-none" id="wbPanelPulmonary" role="tabpanel">
+            <div class="row g-4">
+              <!-- BOLT Stopwatch -->
+              <div class="col-md-6">
+                <div class="nx-pulmo-card">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="badge bg-teal-subtle text-teal fw-bold px-3 py-1 rounded-pill">BOLT Diagnostic</span>
+                    <a href="breath-test.html" class="small fw-bold text-teal text-decoration-none"
+                      data-nx-i18n="openFullLab">সম্পূর্ণ ল্যাব →</a>
+                  </div>
+                  <h3 class="h5 fw-bold text-dark" data-nx-i18n="boltTitle">বডি অক্সিজেন লেভেল টেস্ট (BOLT)</h3>
+                  <p class="small text-muted mb-3" data-nx-i18n="boltDesc">
+                    স্বাভাবিক শ্বাস ত্যাগ করে নাক চেপে ধরুন। প্রথম শ্বাস নেওয়ার তাগিদ অনুভব করামাত্রই থামান।
+                  </p>
+
+                  <div class="nx-stopwatch-face mb-3">
+                    <span class="nx-stopwatch-digits" id="nxBoltTimer">00.0s</span>
+                    <span class="nx-stopwatch-tier" id="nxBoltTier" data-nx-i18n="boltReadyTag">প্রস্তুত</span>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-teal rounded-pill px-4 py-2 fw-bold flex-grow-1"
+                      id="nxBtnBoltToggle" data-nx-i18n="btnBoltStart">টেস্ট শুরু করুন</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-2"
+                      id="nxBtnBoltSave" disabled data-nx-i18n="btnSaveScore">সেভ</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Resting BPM Tap Counter -->
+              <div class="col-md-6">
+                <div class="nx-pulmo-card">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-1 rounded-pill">Respiratory Rate</span>
+                    <span class="small text-muted" id="nxBpmElapsed">0s</span>
+                  </div>
+                  <h3 class="h5 fw-bold text-dark" data-nx-i18n="bpmTitle">রেস্টিং BPM ট্যাপ কাউন্টার</h3>
+                  <p class="small text-muted mb-3" data-nx-i18n="bpmDesc">
+                    প্রতিটি সম্পূর্ণ শ্বাস (নেওয়া + ছাড়া) শেষে নিচের বাটনে ট্যাপ করুন। ন্যূনতম ৩ ট্যাপে হার নির্ণয় হবে।
+                  </p>
+
+                  <div class="nx-stopwatch-face mb-3">
+                    <span class="nx-stopwatch-digits" id="nxBpmRate">-- BPM</span>
+                    <span class="nx-stopwatch-tier" id="nxBpmStatus" data-nx-i18n="bpmTapCount">০ ট্যাপ</span>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-bold flex-grow-1"
+                      id="nxBtnBpmTap">
+                      <i class="bi bi-hand-index-thumb me-1"></i>
+                      <span data-nx-i18n="btnTapBreath">শ্বাস গণনা (Tap)</span>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-2"
+                      id="nxBtnBpmReset" data-nx-i18n="btnReset">রিসেট</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Privacy Vault & Data Backup Inspector -->
+          <div class="nx-wb-pane d-none" id="wbPanelVault" role="tabpanel">
+            <div class="row g-4 align-items-center">
+              <div class="col-lg-7">
+                <h3 class="h5 fw-bold text-dark mb-2" data-nx-i18n="vaultTitle">১০০% লোকাল স্টোরেজ স্বচ্ছতা ও ব্যাকআপ</h3>
+                <p class="small text-muted mb-3" data-nx-i18n="vaultDesc">
+                  আপনার কোনো স্বাস্থ্য তথ্য বা প্রেসক্রিপশন ছবি কোনো ক্লাউড সার্ভারে পাঠানো হয় না। নিচে আপনার ব্রাউজারে সংরক্ষিত মোট রেকর্ডের বিবরণ দেখুন:
+                </p>
+                <div class="nx-storage-counts">
+                  <div class="nx-storage-item">
+                    <span class="small text-muted" data-nx-i18n="storeVitals">ভাইটালস রেকর্ড</span>
+                    <strong class="fs-5 text-dark" id="nxStoreVitalsCount">0</strong>
+                  </div>
+                  <div class="nx-storage-item">
+                    <span class="small text-muted" data-nx-i18n="storeTests">BOLT / শ্বাস পরীক্ষা</span>
+                    <strong class="fs-5 text-dark" id="nxStoreTestsCount">0</strong>
+                  </div>
+                  <div class="nx-storage-item">
+                    <span class="small text-muted" data-nx-i18n="storeVault">OCR ভল্ট প্রেসক্রিপশন</span>
+                    <strong class="fs-5 text-dark" id="nxStoreVaultCount">0</strong>
+                  </div>
+                  <div class="nx-storage-item">
+                    <span class="small text-muted" data-nx-i18n="storePad">ডিজিটাল প্যাড রেকর্ড</span>
+                    <strong class="fs-5 text-dark" id="nxStorePadCount">0</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5">
+                <div class="nx-backup-card">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-file-earmark-arrow-down-fill text-success fs-4"></i>
+                    <strong class="text-dark" data-nx-i18n="backupHead">সুরক্ষিত JSON ব্যাকআপ নিন</strong>
+                  </div>
+                  <p class="small text-muted mb-3" data-nx-i18n="backupSub">
+                    আপনার সকল ভাইটালস, প্রেসক্রিপশন ও প্রোফাইল ডেটা এক ক্লিকে আপনার ডিভাইসে ডাউনলোড করুন।
+                  </p>
+                  <div class="d-flex flex-column gap-2">
+                    <button type="button" class="btn btn-success rounded-pill py-2 fw-bold" id="nxBtnExportJson">
+                      <i class="bi bi-download me-1"></i>
+                      <span data-nx-i18n="btnExportBackup">সম্পূর্ণ JSON ব্যাকআপ ডাউনলোড</span>
+                    </button>
+                    <a href="profile.html" class="btn btn-outline-primary rounded-pill py-2 fw-bold">
+                      <i class="bi bi-person-badge me-1"></i>
+                      <span data-nx-i18n="btnManageProfile">প্রোফাইল ও ডেটা ম্যানেজার</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         6. SAFETY READINESS & EMERGENCY SOS CENTER
+         ====================================================================== -->
+    <section class="nx-safety-section" id="safety">
+      <div class="container">
+        <div class="row g-4 align-items-stretch">
+
+          <!-- Left Column: Interactive Readiness Checklist & Rules -->
+          <div class="col-lg-6">
+            <article class="nx-safety-card">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <span class="nx-safety-tag safe" data-nx-i18n="safeChecklistTag">নিরাপত্তা ও প্রস্তুতি</span>
+                  <h2 class="h4 fw-bold text-dark mt-1 mb-0" data-nx-i18n="safeChecklistTitle">অনুশীলনের ৩ মূল নিয়ম ও প্রস্তুতি</h2>
+                </div>
+                <span class="badge bg-success-subtle text-success fw-bold px-3 py-2 rounded-pill"
+                  id="nxReadinessBadge">০/৪ প্রস্তুত</span>
+              </div>
+
+              <div class="nx-checklist-group mb-3" role="group" aria-label="Session readiness checklist">
+                <label class="nx-check-row">
+                  <input type="checkbox" class="form-check-input nx-readiness-cb" value="posture">
+                  <span data-nx-i18n="chk1">মেরুদণ্ড সোজা রেখে আরামদায়ক আসনে বসা</span>
+                </label>
+                <label class="nx-check-row">
+                  <input type="checkbox" class="form-check-input nx-readiness-cb" value="nasal">
+                  <span data-nx-i18n="chk2">জোর না করে নাক দিয়ে শান্ত ও স্বাভাবিক শ্বাস নেওয়া</span>
+                </label>
+                <label class="nx-check-row">
+                  <input type="checkbox" class="form-check-input nx-readiness-cb" value="stomach">
+                  <span data-nx-i18n="chk3">ভারী খাবারের অন্তত ১.৫–২ ঘণ্টা পর অনুশীলন করা</span>
+                </label>
+                <label class="nx-check-row">
+                  <input type="checkbox" class="form-check-input nx-readiness-cb" value="comfort">
+                  <span data-nx-i18n="chk4">মাথা ঘোরানো বা অস্বস্তি হলে সাথে সাথে স্বাভাবিক শ্বাসে ফেরা</span>
+                </label>
+              </div>
+
+              <div class="nx-precaution-bar">
+                <i class="bi bi-exclamation-circle-fill text-warning flex-shrink-0"></i>
+                <span class="small text-muted" data-nx-i18n="precautionNote">
+                  গর্ভাবস্থা, তীব্র হাঁপানি, সম্প্রতি অস্ত্রোপচার বা অনিয়ন্ত্রিত উচ্চ রক্তচাপে শ্বাস ধরে রাখা (Hold) পরিহার করুন।
+                </span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Right Column: Emergency SOS 4-Step Calm Protocol & Hotlines -->
+          <div class="col-lg-6">
+            <article class="nx-sos-card">
+              <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div>
+                  <span class="nx-safety-tag danger" data-nx-i18n="sosTag">জরুরি এসওএস প্রশান্তি (SOS)</span>
+                  <h2 class="h4 fw-bold text-dark mt-1 mb-0" data-nx-i18n="sosTitle">৪ ধাপে তাৎক্ষণিক উদ্বেগ নিয়ন্ত্রণ</h2>
+                </div>
+                <button type="button" class="btn btn-danger rounded-pill px-3 py-2 fw-bold" id="nxBtnStartSos">
+                  <i class="bi bi-heart-pulse me-1"></i>
+                  <span data-nx-i18n="btnSosPacer">৪-৬ SOS পেসার চালান</span>
+                </button>
+              </div>
+
+              <ol class="nx-sos-steps mb-4">
+                <li data-nx-i18n="sosStep1"><strong>১. স্থির হোন:</strong> দুই পা মেঝেতে শক্তভাবে রাখুন ও কাঁধ শিথিল করুন।</li>
+                <li data-nx-i18n="sosStep2"><strong>২. শ্বাস গ্রহণ (৪ সেকেন্ড):</strong> নাক দিয়ে ধীরে ও গভীরভাবে শ্বাস নিন।</li>
+                <li data-nx-i18n="sosStep3"><strong>৩. দীর্ঘ ত্যাগ (৬ সেকেন্ড):</strong> ঠোঁট সামান্য খুলে ধীরে শ্বাস ছাড়ুন।</li>
+                <li data-nx-i18n="sosStep4"><strong>৪. পুনরাবৃত্তি:</strong> অন্তত ৩–৫ মিনিট এই শান্ত ছন্দ বজায় রাখুন।</li>
+              </ol>
+
+              <div class="nx-hotline-bar">
+                <div class="small fw-bold text-danger mb-2" data-nx-i18n="hotlineWarn">
+                  বুকে ব্যথা, তীব্র শ্বাসকষ্ট বা রক্তচাপ ১৮০+ হলে অবিলম্বে জরুরি চিকিৎসা নিন:
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                  <a href="tel:999" class="nx-hotline-btn emergency">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span data-nx-i18n="tel999">জাতীয় জরুরি সেবা ৯৯৯</span>
+                  </a>
+                  <a href="tel:16263" class="nx-hotline-btn health">
+                    <i class="bi bi-hospital-fill"></i>
+                    <span data-nx-i18n="tel16263">স্বাস্থ্য বাতায়ন ১৬২৬৩</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       7. GLOBAL FOOTER
+       ======================================================================== -->
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+      <span><strong class="text-primary">BreatheWell</strong> · <span data-i18n="footerTag">প্রতিটি নিঃশ্বাসে একটি প্রশান্তি</span></span>
+      <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       8. MOBILE BOTTOM APP DRAWER NAVIGATION (< 992px)
+       ======================================================================== -->
+  <nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+    <div class="drawer-handle-pill" id="mobileDrawerHandle" role="button" tabindex="0"
+      aria-label="Open navigation drawer" title="ট্যাপ করে মেনু খুলুন"></div>
+    <div class="mobile-nav-items">
+      <a class="mobile-nav-link active" aria-current="page" href="index-v3.html" aria-label="Home">
+        <div class="nav-icon-wrap"><i class="bi bi-house-door-fill"></i></div>
+        <span class="nav-label" data-i18n="navHome">হোম</span>
+      </a>
+      <a class="mobile-nav-link" href="exercises.html" aria-label="Exercises">
+        <div class="nav-icon-wrap"><i class="bi bi-grid-fill"></i></div>
+        <span class="nav-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
+      </a>
+      <a class="mobile-nav-link" href="health-reading.html" aria-label="Health Tracker">
+        <div class="nav-icon-wrap"><i class="bi bi-heart-pulse-fill"></i></div>
+        <span class="nav-label" data-i18n="navHealthShort">স্বাস্থ্য</span>
+      </a>
+      <a class="mobile-nav-link" href="prescriptions-volt.html" aria-label="Prescriptions">
+        <div class="nav-icon-wrap"><i class="bi bi-file-earmark-medical-fill"></i></div>
+        <span class="nav-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+      </a>
+      <button type="button" class="mobile-nav-link" id="mobileMoreBtn" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileSidebarMenu" aria-controls="mobileSidebarMenu" aria-label="More navigation options">
+        <div class="nav-icon-wrap"><i class="bi bi-list"></i></div>
+        <span class="nav-label" data-i18n="navMore">আরও</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       9. MOBILE SIDEBAR DRAWER (< 992px)
+       ======================================================================== -->
+  <div class="offcanvas offcanvas-end mobile-sidebar-offcanvas border-0" tabindex="-1" id="mobileSidebarMenu"
+    aria-labelledby="mobileSidebarMenuLabel">
+    <div class="offcanvas-header mobile-sidebar-header">
+      <div class="mobile-sidebar-brand">
+        <span class="brand-mark"><i class="bi bi-wind"></i></span>
+        <div>
+          <h5 class="mobile-sidebar-title" id="mobileSidebarMenuLabel">BreatheWell</h5>
+          <p class="mobile-sidebar-subtitle" data-i18n="sidebarBrandSub">ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close text-reset shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mobile-sidebar-body">
+      <!-- 1. Interactive Language Selector -->
+      <div class="mobile-sidebar-lang-card">
+        <div class="mobile-sidebar-lang-info">
+          <i class="bi bi-translate text-primary"></i>
+          <span class="mobile-sidebar-lang-title" data-i18n="langSelectTitle">ভাষা পরিবর্তন</span>
+        </div>
+        <div class="mobile-sidebar-lang-pills" role="group" aria-label="Language Selector">
+          <button type="button" class="mobile-lang-pill active" data-lang="bn">বাংলা</button>
+          <button type="button" class="mobile-lang-pill" data-lang="en">English</button>
+        </div>
+      </div>
+
+      <!-- 2. Main Navigation Links -->
+      <div class="mobile-sidebar-section-title" data-i18n="navPagesTitle">পেজ ও মডিউল</div>
+      <div class="mobile-sidebar-nav-list">
+        <a class="mobile-sidebar-nav-item active" aria-current="page" href="index-v3.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-house-door-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHome">হোম</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHomeSub">মূল পাতা ও ফিচারসমূহ</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="exercises.html">
+          <div class="mobile-sidebar-icon-box text-success">
+            <i class="bi bi-grid-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navExercises">শ্বাস ব্যায়াম</span>
+            <span class="mobile-sidebar-sub" data-i18n="navExercisesSub">শ্বাস-প্রশ্বাসের ব্যায়াম ও BOLT টেস্ট</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="health-reading.html">
+          <div class="mobile-sidebar-icon-box text-danger">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navHealth">হেলথ ট্র্যাকার</span>
+            <span class="mobile-sidebar-sub" data-i18n="navHealthSub">রক্তচাপ ও ডায়াবেটিস ট্র্যাকার</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="prescriptions-volt.html">
+          <div class="mobile-sidebar-icon-box text-primary">
+            <i class="bi bi-file-earmark-medical-fill"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navRx">প্রেসক্রিপশন</span>
+            <span class="mobile-sidebar-sub" data-i18n="navRxSub">ডিজিটাল প্রেসক্রিপশন ভল্ট ও OCR</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+
+        <a class="mobile-sidebar-nav-item" href="#safety">
+          <div class="mobile-sidebar-icon-box text-warning">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <div class="mobile-sidebar-text">
+            <span class="mobile-sidebar-label" data-i18n="navSafety">নিরাপত্তা</span>
+            <span class="mobile-sidebar-sub" data-i18n="navSafetySub">৩টি মূল নিয়ম ও স্বাস্থ্য নির্দেশিকা</span>
+          </div>
+          <i class="bi bi-chevron-right mobile-sidebar-arrow"></i>
+        </a>
+      </div>
+
+      <!-- 3. Quick Action Utilities -->
+      <div class="mobile-sidebar-section-title" data-i18n="quickToolsTitle">দ্রুত অ্যাকশন</div>
+      <div class="mobile-sidebar-actions-grid">
+        <a class="mobile-sidebar-action-card" href="#safety">
+          <div class="mobile-sidebar-action-icon text-danger bg-danger-subtle">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-i18n="quickEmergencyLabel">জরুরি শান্ত শ্বাস (SOS)</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickEmergencySub">৪টি ধাপে তাৎক্ষণিক প্রশান্তি</span>
+          </div>
+        </a>
+
+        <a class="mobile-sidebar-action-card" href="breath-test.html">
+          <div class="mobile-sidebar-action-icon text-info bg-info-subtle">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="mobile-sidebar-action-text">
+            <span class="mobile-sidebar-action-title" data-i18n="quickTestLabel">ফুসফুস পরীক্ষা</span>
+            <span class="mobile-sidebar-action-sub" data-i18n="quickTestSub">BOLT ও BPM স্কোর জানুন</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Footer Disclaimer -->
+      <div class="mobile-sidebar-footer">
+        <p class="mobile-sidebar-disclaimer">
+          <i class="bi bi-info-circle me-1"></i>
+          <span data-i18n="footerDisclaimer">সাধারণ সুস্থতার জন্য। চিকিৎসার বিকল্প নয়।</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       10. TOAST NOTIFICATION STACK
+       ======================================================================== -->
+  <div class="nx-toast-stack" id="nxToastStack" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- ========================================================================
+       11. SCRIPTS (100% Local Assets)
+       ======================================================================== -->
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/global-nav.js"></script>
+  <script src="asset/js/index-v3.js"></script>
+
+</body>
+
+</html>
