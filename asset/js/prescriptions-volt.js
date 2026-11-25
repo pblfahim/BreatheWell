@@ -67,6 +67,7 @@
   let ocrEnhanceFilter = true;
   let ocrActiveSource = null;
   let currentWorkerLang = "";
+  let lastScanMeta = { source: "", confidence: null, lang: "", rotated: 0 };
 
   let lbRecordList = [];
   let lbRecordIndex = 0;
@@ -584,15 +585,17 @@ Urgency: Normal`;
         pendingFiles.push(fileObj);
         renderPreviewStrip();
 
-        // Run modern OCR on the first uploaded file
-        if (pendingFiles.length === 1) {
+        // Trigger OCR for the newly uploaded primary prescription file
+        if (i === 0) {
           ocrActiveSource = {
             type: fileObj.mime === "application/pdf" ? "pdf" : "image",
             file: f,
             dataUrl: fileObj.data,
             name: f.name,
           };
-          runModernOCR(ocrActiveSource);
+          if (!ocrBusy) {
+            runModernOCR(ocrActiveSource);
+          }
         }
       } catch (err) {
         console.error("Compression error:", err);
@@ -680,6 +683,9 @@ Urgency: Normal`;
 
       wrap.querySelector(".rx-preview-remove").addEventListener("click", () => {
         pendingFiles.splice(index, 1);
+        if (!pendingFiles.length) {
+          ocrActiveSource = null;
+        }
         renderPreviewStrip();
       });
 
@@ -863,29 +869,172 @@ Urgency: Normal`;
   }
 
   // ============================================================================
-  // 7. ADVANCED DUAL-ENGINE OCR PROCESSOR (PDF.js + Multi-Stage Canvas Preprocessing + Tesseract.js v5)
+  // 7. CLINICAL MULTI-PASS DOCUMENT SCANNER (PDF.js + Local Illumination Normalization + Tesseract.js v5)
   // ============================================================================
 
   /**
-   * Asynchronously loads an image URL, Blob URL or data URL into an Image element.
+   * Asynchronously loads an image URL, Blob URL, or data URL into an Image element.
    * @param {string} src
    * @returns {Promise<HTMLImageElement>}
    */
   function loadImageElement(src) {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.crossOrigin = "anonymous";
+      if (/^https?:/i.test(src)) {
+        img.crossOrigin = "anonymous";
+      }
       img.onload = () => resolve(img);
-      img.onerror = (e) => reject(new Error("ইমেজ লোড করতে ব্যর্থ হয়েছে"));
+      img.onerror = () => reject(new Error(currentLang === "bn" ? "ইমেজ লোড করতে ব্যর্থ হয়েছে" : "Failed to load image file"));
       img.src = src;
     });
   }
 
   /**
-   * Preprocesses image or canvas with rotation, white backfill, adaptive histogram
-   * contrast stretching, and stroke sharpening to maximize OCR text accuracy.
+   * Resolves the highest-fidelity image source (preferring raw native File over JPEG thumbnail).
+   * @param {Object|string} sourceInput
+   * @returns {Promise<HTMLImageElement|null>}
+   */
+  async function loadLosslessSourceImage(sourceInput) {
+    if (!sourceInput) return null;
+    if (typeof sourceInput === "string") {
+      return loadImageElement(sourceInput);
+    }
+    if (sourceInput.file) {
+      const objectUrl = URL.createObjectURL(sourceInput.file);
+      try {
+        return await loadImageElement(objectUrl);
+      } finally {
+        URL.revokeObjectURL(objectUrl);
+      }
+    }
+    if (sourceInput.dataUrl) {
+      return loadImageElement(sourceInput.dataUrl);
+    }
+    return null;
+  }
+
+  /**
+   * Applies fast O(W*H) 2D integral-image local illumination normalization and unsharp
+   * stroke sharpening to suppress camera shadows and brighten prescription text.
+   * @param {Uint8ClampedArray} rgba - Mutable RGBA buffer.
+   * @param {number} width
+   * @param {number} height
+   * @param {boolean} sharpen
+   */
+  function normalizeDocumentIllumination(rgba, width, height, sharpen = true) {
+    const pixelCount = width * height;
+    const gray = new Uint8Array(pixelCount);
+    for (let p = 0, i = 0; p < pixelCount; p++, i += 4) {
+      gray[p] = (rgba[i] * 77 + rgba[i + 1] * 150 + rgba[i + 2] * 29) >> 8;
+    }
+
+    // Build summed-area table with (width + 1) x (height + 1) stride for O(1) local window means
+    const stride = width + 1;
+    const integral = new Float64Array(stride * (height + 1));
+    for (let y = 0; y < height; y++) {
+      let rowSum = 0;
+      const rowOffset = y * width;
+      const intRow = (y + 1) * stride;
+      const prevIntRow = y * stride;
+      for (let x = 0; x < width; x++) {
+        rowSum += gray[rowOffset + x];
+        integral[intRow + x + 1] = integral[prevIntRow + x + 1] + rowSum;
+      }
+    }
+
+    const radius = Math.max(14, Math.min(34, Math.round(Math.min(width, height) * 0.025)));
+    const normalized = new Uint8Array(pixelCount);
+
+    for (let y = 0; y < height; y++) {
+      const y1 = Math.max(0, y - radius);
+      const y2 = Math.min(height - 1, y + radius);
+      const rTop = y1 * stride;
+      const rBot = (y2 + 1) * stride;
+      const rowOffset = y * width;
+
+      for (let x = 0; x < width; x++) {
+        const x1 = Math.max(0, x - radius);
+        const x2 = Math.min(width - 1, x + radius);
+        const area = (x2 - x1 + 1) * (y2 - y1 + 1);
+        const sum =
+          integral[rBot + x2 + 1] -
+          integral[rTop + x2 + 1] -
+          integral[rBot + x1] +
+          integral[rTop + x1];
+        const localMean = Math.max(24, sum / area);
+
+        // Divide gray pixel by local illumination envelope so paper becomes crisp white
+        const ratio = gray[rowOffset + x] / localMean;
+        let outVal;
+        if (ratio >= 0.94) {
+          outVal = 255;
+        } else if (ratio <= 0.48) {
+          outVal = 0;
+        } else {
+          const t = (ratio - 0.48) / 0.46;
+          outVal = Math.round(t * t * (3 - 2 * t) * 255); // Smoothstep contrast curve
+        }
+        normalized[rowOffset + x] = outVal;
+      }
+    }
+
+    // Optional 3x3 unsharp mask preserves thin Bengali matras, decimal points, and '+' glyphs
+    if (sharpen && width > 2 && height > 2) {
+      for (let y = 1; y < height - 1; y++) {
+        const row = y * width;
+        for (let x = 1; x < width - 1; x++) {
+          const idx = row + x;
+          const blur =
+            (normalized[idx - width] +
+              normalized[idx + width] +
+              normalized[idx - 1] +
+              normalized[idx + 1]) * 0.25;
+          const crisp = Math.max(0, Math.min(255, Math.round(normalized[idx] + (normalized[idx] - blur) * 0.45)));
+          const p = idx * 4;
+          rgba[p] = crisp;
+          rgba[p + 1] = crisp;
+          rgba[p + 2] = crisp;
+          rgba[p + 3] = 255;
+        }
+      }
+      // Borders
+      for (let x = 0; x < width; x++) {
+        [x, (height - 1) * width + x].forEach((idx) => {
+          const v = normalized[idx];
+          const p = idx * 4;
+          rgba[p] = v;
+          rgba[p + 1] = v;
+          rgba[p + 2] = v;
+          rgba[p + 3] = 255;
+        });
+      }
+      for (let y = 0; y < height; y++) {
+        [y * width, y * width + width - 1].forEach((idx) => {
+          const v = normalized[idx];
+          const p = idx * 4;
+          rgba[p] = v;
+          rgba[p + 1] = v;
+          rgba[p + 2] = v;
+          rgba[p + 3] = 255;
+        });
+      }
+    } else {
+      for (let p = 0, i = 0; p < pixelCount; p++, i += 4) {
+        const v = normalized[p];
+        rgba[i] = v;
+        rgba[i + 1] = v;
+        rgba[i + 2] = v;
+        rgba[i + 3] = 255;
+      }
+    }
+  }
+
+  /**
+   * Preprocesses image or canvas for OCR: scales to optimal ~300 DPI range (1800-2600px),
+   * rotates around center, backfills opaque white, and applies either local illumination
+   * normalization (enhance=true) or clean high-contrast grayscale (enhance=false).
    * @param {HTMLImageElement|HTMLCanvasElement} source
-   * @param {Object} options - { rotation: number, enhance: boolean }
+   * @param {Object} options - { rotation: number, enhance: boolean, sharpen: boolean }
    * @returns {HTMLCanvasElement}
    */
   function preprocessImageForOCR(source, options = {}) {
@@ -896,229 +1045,372 @@ Urgency: Normal`;
     const srcW = source.naturalWidth || source.videoWidth || source.width || 1200;
     const srcH = source.naturalHeight || source.videoHeight || source.height || 1200;
 
-    // High-resolution scaling for OCR: standardizes resolution between 1600 and 2400
     let scale = 1.0;
     const maxDim = Math.max(srcW, srcH);
-    if (maxDim < 1200) {
-      scale = Math.min(2.0, 1600 / maxDim);
-    } else if (maxDim > 2400) {
-      scale = 2400 / maxDim;
+    if (maxDim < 1800) {
+      scale = Math.min(2.6, 1900 / maxDim);
+    } else if (maxDim > 2600) {
+      scale = 2600 / maxDim;
     }
 
     const targetW = Math.round(srcW * scale);
     const targetH = Math.round(srcH * scale);
-
-    const rot = (options.rotation || 0) % 360;
+    const rot = (((options.rotation || 0) % 360) + 360) % 360;
     const isRotated90or270 = rot === 90 || rot === 270;
+
     canvas.width = isRotated90or270 ? targetH : targetW;
     canvas.height = isRotated90or270 ? targetW : targetH;
 
-    // Fill white background to avoid dark artifacts from transparent PNGs
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
     ctx.save();
     ctx.translate(canvas.width / 2, canvas.height / 2);
     ctx.rotate((rot * Math.PI) / 180);
     ctx.drawImage(source, -targetW / 2, -targetH / 2, targetW, targetH);
     ctx.restore();
 
-    // Adaptive Contrast Stretching & Sharpening Filter
-    if (options.enhance) {
-      try {
-        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imgData.data;
-        const total = data.length;
+    try {
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const rgba = imgData.data;
 
-        // Histogram calculation for percentile contrast stretching
-        const hist = new Uint32Array(256);
-        for (let i = 0; i < total; i += 4) {
-          // ITU-R BT.601 luma calculation
-          const g = (data[i] * 77 + data[i + 1] * 150 + data[i + 2] * 29) >> 8;
-          data[i] = g;
-          hist[g]++;
+      if (options.enhance !== false) {
+        normalizeDocumentIllumination(rgba, canvas.width, canvas.height, options.sharpen !== false);
+      } else {
+        // Clean grayscale conversion (safe fallback for crisp vector/screenshot documents)
+        for (let i = 0; i < rgba.length; i += 4) {
+          const g = (rgba[i] * 77 + rgba[i + 1] * 150 + rgba[i + 2] * 29) >> 8;
+          rgba[i] = g;
+          rgba[i + 1] = g;
+          rgba[i + 2] = g;
+          rgba[i + 3] = 255;
         }
-
-        const numPixels = total / 4;
-        const pLow = numPixels * 0.03;  // 3rd percentile
-        const pHigh = numPixels * 0.97; // 97th percentile
-        let count = 0;
-        let lowCut = 0;
-        let highCut = 255;
-
-        for (let g = 0; g < 256; g++) {
-          count += hist[g];
-          if (count >= pLow && lowCut === 0) lowCut = g;
-          if (count >= pHigh) {
-            highCut = g;
-            break;
-          }
-        }
-
-        if (highCut <= lowCut) {
-          lowCut = 0;
-          highCut = 255;
-        }
-
-        const range = highCut - lowCut || 1;
-
-        for (let i = 0; i < total; i += 4) {
-          let g = data[i];
-          if (g <= lowCut) {
-            g = 0;
-          } else if (g >= highCut) {
-            g = 255;
-          } else {
-            g = Math.round(((g - lowCut) / range) * 255);
-          }
-
-          // Gentle adaptive thresholding to boost ink sharpness against paper
-          if (g < 145) {
-            g = Math.max(0, g - 25);
-          } else if (g > 185) {
-            g = Math.min(255, g + 25);
-          }
-
-          data[i] = g;
-          data[i + 1] = g;
-          data[i + 2] = g;
-          data[i + 3] = 255;
-        }
-
-        ctx.putImageData(imgData, 0, 0);
-      } catch (err) {
-        console.warn("Canvas filter processing skipped (CORS or canvas error):", err);
       }
+      ctx.putImageData(imgData, 0, 0);
+    } catch (err) {
+      console.warn("Canvas image preprocessing skipped:", err);
     }
 
     return canvas;
   }
 
   /**
-   * PDF.js processing: extracts digital text layer directly if available,
-   * or renders scanned page 1 to high-DPI canvas for OCR.
+   * Reconstructs PDF text lines with horizontal column separation so side-by-side clinical
+   * notes (C/C, H/O, O/E) and right-hand Rx medication lists do not merge onto one line.
+   * @param {Object} textContent
+   * @param {number} pageWidth
+   * @returns {string}
+   */
+  function extractOrderedPdfText(textContent, pageWidth) {
+    const items = (textContent?.items || [])
+      .filter((it) => it && typeof it.str === "string" && it.str.trim().length > 0)
+      .map((it) => ({
+        str: it.str.trim(),
+        x: it.transform ? it.transform[4] : 0,
+        y: it.transform ? it.transform[5] : 0,
+        w: it.width || it.str.length * 4,
+      }));
+
+    if (!items.length) return "";
+
+    // Cluster into horizontal visual rows (PDF y grows upward -> sort descending)
+    items.sort((a, b) => b.y - a.y || a.x - b.x);
+    const rows = [];
+    for (const item of items) {
+      const lastRow = rows[rows.length - 1];
+      if (lastRow && Math.abs(lastRow.y - item.y) <= 5.5) {
+        lastRow.cells.push(item);
+      } else {
+        rows.push({ y: item.y, cells: [item] });
+      }
+    }
+
+    const gutterMin = Math.max(52, (pageWidth || 595) * 0.085);
+    const leftBlock = [];
+    const rightBlock = [];
+    const lines = [];
+
+    for (const row of rows) {
+      row.cells.sort((a, b) => a.x - b.x);
+      const chunks = [];
+      let curText = row.cells[0].str;
+      let startX = row.cells[0].x;
+      let prevEndX = row.cells[0].x + row.cells[0].w;
+
+      for (let i = 1; i < row.cells.length; i++) {
+        const cell = row.cells[i];
+        const gap = cell.x - prevEndX;
+        if (gap > gutterMin) {
+          chunks.push({ x: startX, text: curText.trim() });
+          curText = cell.str;
+          startX = cell.x;
+        } else {
+          curText += (gap > 1.5 ? " " : "") + cell.str;
+        }
+        prevEndX = Math.max(prevEndX, cell.x + cell.w);
+      }
+      if (curText.trim()) {
+        chunks.push({ x: startX, text: curText.trim() });
+      }
+
+      if (chunks.length >= 2 && (pageWidth || 595) > 200) {
+        // Two-column row: separate columns cleanly rather than concatenating left & right sections
+        leftBlock.push(chunks[0].text);
+        rightBlock.push(chunks.slice(1).map((c) => c.text).join("  "));
+      } else if (chunks.length === 1) {
+        if (leftBlock.length || rightBlock.length) {
+          lines.push(...leftBlock, ...rightBlock);
+          leftBlock.length = 0;
+          rightBlock.length = 0;
+        }
+        lines.push(chunks[0].text);
+      }
+    }
+
+    if (leftBlock.length || rightBlock.length) {
+      lines.push(...leftBlock, ...rightBlock);
+    }
+
+    return lines.join("\n").trim();
+  }
+
+  /**
+   * PDF.js processing: extracts reading-order digital text across up to 5 pages,
+   * or renders scanned pages (up to 2 pages) at high DPI (~2200px wide) for OCR.
    * @param {File} file
-   * @returns {Promise<{type: 'digital'|'canvas', text?: string, canvas?: HTMLCanvasElement}>}
+   * @returns {Promise<{type: 'digital'|'canvas', text?: string, canvases?: HTMLCanvasElement[]}>}
    */
   async function extractTextOrCanvasFromPDF(file) {
     if (!window.pdfjsLib) {
-      throw new Error("PDF.js library is not available.");
+      throw new Error(currentLang === "bn" ? "PDF.js লাইব্রেরি লোড হয়নি।" : "PDF.js library is not available.");
     }
 
     const arrayBuffer = await file.arrayBuffer();
     const loadingTask = window.pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
     const pdfDoc = await loadingTask.promise;
-    const numPages = Math.min(pdfDoc.numPages || 1, 3);
+    const totalPages = pdfDoc.numPages || 1;
+    const textPages = Math.min(totalPages, 5);
 
     let fullDigitalText = "";
-    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+    for (let pageNum = 1; pageNum <= textPages; pageNum++) {
       const page = await pdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.0 });
       const textContent = await page.getTextContent();
-      let lastY = null;
-      let pageText = "";
-
-      for (const item of textContent.items) {
-        if (!item || typeof item.str !== "string") continue;
-        const str = item.str.trim();
-        if (!str) continue;
-
-        const currentY = item.transform && item.transform[5];
-        if (lastY !== null && currentY !== undefined && Math.abs(currentY - lastY) > 8) {
-          pageText += "\n";
-        } else if (pageText.length > 0 && !pageText.endsWith(" ") && !pageText.endsWith("\n")) {
-          pageText += " ";
-        }
-        pageText += str;
-        if (currentY !== undefined) lastY = currentY;
-      }
-
-      if (pageText.trim()) {
-        fullDigitalText += (fullDigitalText ? "\n\n" : "") + pageText.trim();
+      const pageText = extractOrderedPdfText(textContent, viewport.width);
+      if (pageText) {
+        fullDigitalText += (fullDigitalText ? "\n\n" : "") + pageText;
       }
     }
 
-    const hasClinicalKeywords = /(?:Dr\.|Doctor|MBBS|FCPS|MD|Hospital|Clinic|Patient|Name|Age|Sex|Rx|Tab|Cap|Diagnosis|Date|BP|Pulse|Advice|ডাক্তার|হাসপাতাল|রোগী|ওষুধ)/i.test(
+    const readableChars = fullDigitalText.replace(/[^A-Za-z0-9\u0980-\u09FF]/g, "");
+    const hasClinicalHints = /(?:Dr|MBBS|FCPS|Hospital|Clinic|Patient|Name|Age|Rx|Tab|Cap|Syr|BP|Diagnosis|Date|Advice|ডাঃ|হাসপাতাল|রোগী|ওষুধ)/i.test(
       fullDigitalText
     );
 
-    // If digital text layer is present and has meaningful content
-    if (fullDigitalText.trim().length > 60 && hasClinicalKeywords) {
-      return { type: "digital", text: fullDigitalText.trim() };
+    if (readableChars.length >= 40 || (readableChars.length >= 18 && hasClinicalHints)) {
+      return { type: "digital", text: fullDigitalText.trim(), pagesProcessed: textPages };
     }
 
-    // Scanned or image PDF: Render first page at 2.0x scale (crisp 150-200 DPI)
-    const page = await pdfDoc.getPage(1);
-    const viewport = page.getViewport({ scale: 2.0 });
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
+    // Scanned / image-based PDF: Render up to first 2 pages at crisp ~2200px width
+    const renderCount = Math.min(totalPages, 2);
+    const canvases = [];
+    for (let p = 1; p <= renderCount; p++) {
+      const page = await pdfDoc.getPage(p);
+      const baseVp = page.getViewport({ scale: 1.0 });
+      const targetScale = Math.min(3.0, Math.max(2.0, 2200 / Math.max(400, baseVp.width)));
+      const viewport = page.getViewport({ scale: targetScale });
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = Math.round(viewport.width);
+      canvas.height = Math.round(viewport.height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    await page.render({
-      canvasContext: ctx,
-      viewport: viewport,
-    }).promise;
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      canvases.push(canvas);
+    }
 
-    return { type: "canvas", canvas: canvas };
+    return { type: "canvas", canvases };
   }
 
   /**
-   * Retrieves or initializes Tesseract.js worker with specified language.
-   * @param {string} lang
+   * Initializes or reuses the Tesseract.js v5 worker with layout-aware clinical parameters.
+   * @param {string} targetLang
    * @param {Function} onProgress
-   * @returns {Promise<Object>}
+   * @returns {Promise<{worker: Object, actualLang: string}>}
    */
-  async function getTesseractWorker(lang, onProgress) {
+  async function getTesseractWorker(targetLang, onProgress) {
     if (!window.Tesseract) {
-      throw new Error("Tesseract.js লাইব্রেরি লোড হয়নি।");
+      throw new Error(currentLang === "bn" ? "Tesseract.js লাইব্রেরি লোড হয়নি।" : "Tesseract.js library is not loaded.");
     }
 
-    const targetLang = lang || selectedOcrLang || "eng+ben";
+    const desired = targetLang || selectedOcrLang || "eng+ben";
 
-    if (ocrWorker && currentWorkerLang === targetLang) {
-      return ocrWorker;
+    if (ocrWorker && currentWorkerLang === desired) {
+      return { worker: ocrWorker, actualLang: currentWorkerLang };
     }
 
     if (ocrWorker) {
       try {
         await ocrWorker.terminate();
-      } catch (e) {
-        console.warn("Worker termination:", e);
-      }
+      } catch (_) { }
       ocrWorker = null;
     }
 
+    let usedLang = desired;
+    const workerOpts = {
+      logger: (m) => {
+        if (typeof onProgress === "function") onProgress(m);
+      },
+    };
+
     try {
-      ocrWorker = await window.Tesseract.createWorker(targetLang, 1, {
-        logger: (m) => {
-          if (typeof onProgress === "function") {
-            onProgress(m);
-          }
-        },
-      });
-      currentWorkerLang = targetLang;
-      return ocrWorker;
+      ocrWorker = await window.Tesseract.createWorker(desired, 1, workerOpts);
     } catch (err) {
-      console.warn(`Tesseract worker load failed for ${targetLang}, falling back to 'eng':`, err);
-      ocrWorker = await window.Tesseract.createWorker("eng", 1, {
-        logger: (m) => {
-          if (typeof onProgress === "function") {
-            onProgress(m);
-          }
-        },
-      });
-      currentWorkerLang = "eng";
-      return ocrWorker;
+      if (desired !== "eng") {
+        console.warn(`Tesseract pack '${desired}' unavailable, retrying 'eng':`, err);
+        usedLang = "eng";
+        ocrWorker = await window.Tesseract.createWorker("eng", 1, workerOpts);
+      } else {
+        throw err;
+      }
     }
+
+    currentWorkerLang = usedLang;
+
+    if (ocrWorker && typeof ocrWorker.setParameters === "function") {
+      try {
+        await ocrWorker.setParameters({
+          tessedit_pageseg_mode: window.Tesseract.PSM?.AUTO || "3",
+          preserve_interword_spaces: "1",
+        });
+      } catch (_) { }
+    }
+
+    return { worker: ocrWorker, actualLang: usedLang };
   }
 
   /**
-   * Main OCR orchestrator: handles PDFs, images, contrast enhancement,
-   * rotation transforms, Tesseract text extraction, and form population.
+   * Computes an objective composite score ranking OCR candidates across passes.
+   * @param {string} text
+   * @param {number} confidence
+   * @returns {number}
+   */
+  function scoreOcrCandidate(text, confidence) {
+    const cleanText = (text || "").trim();
+    if (!cleanText) return 0;
+    const readable = cleanText.match(/[A-Za-z0-9\u0980-\u09FF]/g)?.length || 0;
+    const clinicalHits = (
+      cleanText.match(
+        /\b(?:Dr|MBBS|FCPS|MD|Patient|Age|Sex|Date|BP|Pulse|Temp|Rx|Tab|Cap|Syr|Inj|Advice|Diagnosis)\b|ডাঃ|রোগী|বয়স|তারিখ/gi
+      ) || []
+    ).length;
+    const conf = typeof confidence === "number" && !isNaN(confidence) ? confidence : 0;
+    return conf + clinicalHits * 6 + Math.min(25, readable / 12);
+  }
+
+  /**
+   * Executes preprocessing + recognition for a single visual pass.
+   */
+  async function recognizeCanvasPass(worker, sourceEl, passOpts) {
+    const processedCanvas = preprocessImageForOCR(sourceEl, passOpts);
+    const result = await worker.recognize(processedCanvas);
+    const data = result?.data || {};
+    const text = (data.text || "").trim();
+    const confidence = typeof data.confidence === "number" ? Math.round(data.confidence) : 0;
+    return {
+      text,
+      confidence,
+      score: scoreOcrCandidate(text, confidence),
+      passLabel: passOpts.enhance ? "illumination-normalized" : "clean-grayscale",
+    };
+  }
+
+  /**
+   * Runs adaptive multi-pass OCR over a single image/page element, automatically falling
+   * back to an alternate grayscale pass when Pass 1 yields low confidence or sparse text.
+   */
+  async function runAdaptiveImageOcr(worker, sourceEl, label, fill) {
+    const primaryPass = await recognizeCanvasPass(worker, sourceEl, {
+      rotation: ocrRotation,
+      enhance: ocrEnhanceFilter,
+      sharpen: true,
+    });
+
+    const readableLen = primaryPass.text.replace(/[^A-Za-z0-9\u0980-\u09FF]/g, "").length;
+    if (readableLen >= 35 && primaryPass.confidence >= 55) {
+      return primaryPass;
+    }
+
+    if (label) {
+      label.textContent =
+        currentLang === "bn"
+          ? "দ্বিতীয় ধাপের সূক্ষ্ম রিকগনিশন চেষ্টা চলছে..."
+          : "Running second-pass optical verification...";
+    }
+    if (fill) fill.style.width = "88%";
+
+    const secondaryPass = await recognizeCanvasPass(worker, sourceEl, {
+      rotation: ocrRotation,
+      enhance: !ocrEnhanceFilter,
+      sharpen: false,
+    });
+
+    return secondaryPass.score > primaryPass.score ? secondaryPass : primaryPass;
+  }
+
+  /**
+   * Renders a transparent, trustworthy status banner without fabricating sample clinical data.
+   */
+  function renderOcrDiagnosticBanner(statusType, titleText, detailText, showRawBtn = true) {
+    const statusBanner = $("rxOcrStatus");
+    if (!statusBanner) return;
+
+    const palette =
+      statusType === "success"
+        ? "bg-teal bg-opacity-10 border-teal text-teal-dark"
+        : statusType === "warn"
+          ? "bg-warning bg-opacity-10 border-warning text-dark"
+          : "bg-danger bg-opacity-10 border-danger text-dark";
+
+    const icon =
+      statusType === "success"
+        ? "bi-check-circle-fill text-success"
+        : statusType === "warn"
+          ? "bi-exclamation-triangle-fill text-warning"
+          : "bi-x-octagon-fill text-danger";
+
+    statusBanner.classList.remove("d-none");
+    statusBanner.className = `rx-ocr-status d-flex align-items-center ${palette}`;
+    statusBanner.innerHTML = `
+      <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-2">
+        <div class="d-flex align-items-center">
+          <i class="bi ${icon} fs-5 me-2"></i>
+          <div>
+            <strong>${escapeHtml(titleText)}</strong>
+            ${detailText ? `<div class="text-xs text-muted">${escapeHtml(detailText)}</div>` : ""}
+          </div>
+        </div>
+        ${showRawBtn
+        ? `<button type="button" class="btn btn-sm btn-outline-teal bg-white rounded-pill px-3 py-1 text-xs fw-bold shadow-xs" id="btnOpenOcrModal">
+               <i class="bi bi-file-earmark-code me-1"></i>${escapeHtml(tr("btnViewRawOcr"))}
+             </button>`
+        : ""
+      }
+      </div>
+    `;
+    $("btnOpenOcrModal")?.addEventListener("click", openOcrReviewModal);
+  }
+
+  /**
+   * Main trustworthy scanner orchestrator: handles digital & scanned PDFs, full-res images,
+   * multi-pass adaptive OCR, real confidence scoring, and strict non-fabrication guarantees.
    * @param {Object} sourceInput
    */
   async function runModernOCR(sourceInput) {
-    if (ocrBusy) return;
+    if (!sourceInput || ocrBusy) return;
     ocrBusy = true;
 
     const statusBanner = $("rxOcrStatus");
@@ -1128,7 +1420,10 @@ Urgency: Normal`;
 
     if (progress) progress.classList.add("active");
     if (fill) fill.style.width = "15%";
-    if (label) label.textContent = "ডকুমেন্ট বিশ্লেষণ ও ফিল্টারিং চলছে...";
+    if (label) {
+      label.textContent =
+        currentLang === "bn" ? "ডকুমেন্ট বিশ্লেষণ ও অপ্টিমাইজেশন চলছে..." : "Optimizing document for clinical OCR...";
+    }
 
     if (statusBanner) {
       statusBanner.classList.remove("d-none");
@@ -1136,8 +1431,9 @@ Urgency: Normal`;
       statusBanner.innerHTML = `
         <div class="spinner-border spinner-border-sm text-teal me-2" role="status"></div>
         <div class="flex-grow-1">
-          <strong>${tr("ocrScanning")}</strong>
-          <div class="text-xs text-muted" id="ocrStepText">ডকুমেন্ট অপ্টিমাইজেশন ও ফিল্টারিং চলছে...</div>
+          <strong>${escapeHtml(tr("ocrScanning"))}</strong>
+          <div class="text-xs text-muted" id="ocrStepText">${currentLang === "bn" ? "ডকুমেন্ট বিশ্লেষণ শুরু হচ্ছে..." : "Starting optical analysis..."
+        }</div>
         </div>
       `;
     }
@@ -1146,92 +1442,132 @@ Urgency: Normal`;
 
     try {
       let recognizedText = "";
+      let scanConfidence = 0;
+      let scanSourceLabel = "";
+      let actualLang = selectedOcrLang;
 
-      // 1. PDF Handling
+      const onOcrProgress = (m) => {
+        if (m && m.status === "recognizing text") {
+          const pct = Math.round((m.progress || 0) * 100);
+          if ($("ocrStepText")) {
+            $("ocrStepText").textContent =
+              currentLang === "bn" ? `OCR প্রসেসিং: ${pct}%` : `OCR processing: ${pct}%`;
+          }
+          if (fill) fill.style.width = `${Math.min(82, 20 + Math.round(pct * 0.6))}%`;
+          if (label) label.textContent = `OCR: ${pct}%`;
+        } else if (m && m.status) {
+          if ($("ocrStepText")) {
+            $("ocrStepText").textContent =
+              currentLang === "bn" ? `ইঞ্জিন প্রস্তুত হচ্ছে (${m.status})...` : `Preparing engine (${m.status})...`;
+          }
+        }
+      };
+
+      // 1. PDF Handling (Digital Text Extraction or High-DPI Multi-Page Scanned OCR)
       if (sourceInput.type === "pdf" && sourceInput.file) {
-        if (label) label.textContent = "PDF টেক্সট লেয়ার ও পেজ রেন্ডারিং...";
+        if (label) {
+          label.textContent =
+            currentLang === "bn" ? "PDF টেক্সট লেয়ার যাচাই হচ্ছে..." : "Inspecting PDF text layer...";
+        }
         const pdfResult = await extractTextOrCanvasFromPDF(sourceInput.file);
 
         if (pdfResult.type === "digital" && pdfResult.text) {
           recognizedText = pdfResult.text;
-          if (fill) fill.style.width = "90%";
-        } else if (pdfResult.canvas) {
-          if (label) label.textContent = "স্ক্যান করা PDF অপ্টিমাইজেশন...";
-          const preprocessedCanvas = preprocessImageForOCR(pdfResult.canvas, {
-            rotation: ocrRotation,
-            enhance: ocrEnhanceFilter,
-          });
+          scanConfidence = 99;
+          scanSourceLabel =
+            currentLang === "bn" ? "PDF ডিজিটাল টেক্সট লেয়ার" : "PDF Digital Text Layer";
+          if (fill) fill.style.width = "95%";
+        } else if (pdfResult.canvases && pdfResult.canvases.length) {
+          const { worker, actualLang: resolvedLang } = await getTesseractWorker(selectedOcrLang, onOcrProgress);
+          actualLang = resolvedLang;
+          const pageTexts = [];
+          const pageConfs = [];
 
-          const worker = await getTesseractWorker(selectedOcrLang, (m) => {
-            if (m.status === "recognizing text") {
-              const pct = Math.round(m.progress * 100);
-              if ($("ocrStepText")) $("ocrStepText").textContent = `OCR প্রসেসিং: ${pct}%`;
-              if (fill) fill.style.width = `${Math.min(95, 20 + Math.round(pct * 0.75))}%`;
-              if (label) label.textContent = `টেক্সট রিকগনিশন: ${pct}%`;
+          for (let p = 0; p < pdfResult.canvases.length; p++) {
+            if ($("ocrStepText")) {
+              $("ocrStepText").textContent =
+                currentLang === "bn"
+                  ? `PDF পেজ ${p + 1}/${pdfResult.canvases.length} স্ক্যান হচ্ছে...`
+                  : `Scanning PDF page ${p + 1}/${pdfResult.canvases.length}...`;
             }
-          });
+            const res = await runAdaptiveImageOcr(worker, pdfResult.canvases[p], label, fill);
+            if (res.text) pageTexts.push(res.text);
+            if (res.confidence) pageConfs.push(res.confidence);
+          }
 
-          const { data } = await worker.recognize(preprocessedCanvas);
-          recognizedText = data && data.text ? data.text : "";
+          recognizedText = pageTexts.join("\n").trim();
+          scanConfidence = pageConfs.length
+            ? Math.round(pageConfs.reduce((a, b) => a + b, 0) / pageConfs.length)
+            : 0;
+          scanSourceLabel =
+            currentLang === "bn"
+              ? `স্ক্যানকৃত PDF (${pdfResult.canvases.length} পেজ · Tesseract ${actualLang})`
+              : `Scanned PDF (${pdfResult.canvases.length}p · Tesseract ${actualLang})`;
         }
       }
-      // 2. Image Handling
+      // 2. Lossless Image Handling
       else {
-        let imageElement = null;
-        if (sourceInput.dataUrl) {
-          imageElement = await loadImageElement(sourceInput.dataUrl);
-        } else if (sourceInput.file) {
-          const url = URL.createObjectURL(sourceInput.file);
-          imageElement = await loadImageElement(url);
-          URL.revokeObjectURL(url);
-        } else if (typeof sourceInput === "string") {
-          imageElement = await loadImageElement(sourceInput);
+        const imageElement = await loadLosslessSourceImage(sourceInput);
+        if (!imageElement) {
+          throw new Error(
+            currentLang === "bn" ? "ইমেজ সোর্স পাওয়া যায়নি।" : "No valid image source found for scanning."
+          );
         }
 
-        if (imageElement) {
-          if (label) label.textContent = "ইমেজ ফিল্টারিং ও কনট্রাস্ট অপ্টিমাইজেশন...";
-          const preprocessedCanvas = preprocessImageForOCR(imageElement, {
-            rotation: ocrRotation,
-            enhance: ocrEnhanceFilter,
-          });
-
-          const worker = await getTesseractWorker(selectedOcrLang, (m) => {
-            if (m.status === "recognizing text") {
-              const pct = Math.round(m.progress * 100);
-              if ($("ocrStepText")) $("ocrStepText").textContent = `OCR প্রসেসিং: ${pct}%`;
-              if (fill) fill.style.width = `${Math.min(95, 20 + Math.round(pct * 0.75))}%`;
-              if (label) label.textContent = `টেক্সট রিকগনিশন: ${pct}%`;
-            }
-          });
-
-          const { data } = await worker.recognize(preprocessedCanvas);
-          recognizedText = data && data.text ? data.text : "";
-        }
+        const { worker, actualLang: resolvedLang } = await getTesseractWorker(selectedOcrLang, onOcrProgress);
+        actualLang = resolvedLang;
+        const res = await runAdaptiveImageOcr(worker, imageElement, label, fill);
+        recognizedText = res.text;
+        scanConfidence = res.confidence;
+        scanSourceLabel = `Tesseract OCR (${actualLang} · ${res.passLabel})`;
       }
 
-      if (!recognizedText || recognizedText.trim().length < 15) {
-        console.warn("OCR extracted minimal text, applying sample fallback template for demonstration.");
-        recognizedText = sampleFallbackText;
+      const readableChars = (recognizedText || "").replace(/[^A-Za-z0-9\u0980-\u09FF]/g, "");
+      latestRawOcrText = (recognizedText || "").trim();
+
+      if (readableChars.length < 8) {
+        lastScanMeta = {
+          source: scanSourceLabel,
+          confidence: scanConfidence,
+          lang: actualLang,
+          rotated: ocrRotation,
+        };
+        const noTextTitle =
+          currentLang === "bn"
+            ? "ডকুমেন্ট থেকে পর্যাপ্ত পাঠযোগ্য টেক্সট পাওয়া যায়নি"
+            : "No sufficient readable text detected in uploaded file";
+        const noTextHint =
+          currentLang === "bn"
+            ? "ভুল তথ্য এড়াতে স্বয়ংক্রিয় নমুনা ডাটা যোগ করা হয়নি। অনুগ্রহ করে ছবি রোটেট করুন, হাই-কনট্রাস্ট টগল করুন অথবা ম্যানুয়ালি পূরণ করুন।"
+            : "No placeholder data was injected to protect accuracy. Try rotating the image, toggling High-Contrast, or entering details manually.";
+        renderOcrDiagnosticBanner("warn", noTextTitle, noTextHint, true);
+        rxToast(noTextTitle, "warn");
+        return;
       }
 
-      latestRawOcrText = recognizedText;
-      parseAndPopulateOCR(recognizedText);
+      lastScanMeta = {
+        source: scanSourceLabel,
+        confidence: scanConfidence,
+        lang: actualLang,
+        rotated: ocrRotation,
+      };
 
+      parseAndPopulateOCR(latestRawOcrText, { resetFirst: true, scanMeta: lastScanMeta });
     } catch (err) {
-      console.warn("OCR engine error, trying fallback:", err);
-      latestRawOcrText = sampleFallbackText;
-      parseAndPopulateOCR(sampleFallbackText);
+      console.warn("OCR scanner error (no synthetic data injected):", err);
+      const isOfflineErr = typeof navigator !== "undefined" && navigator.onLine === false;
+      const errDetail = isOfflineErr
+        ? currentLang === "bn"
+          ? "অফলাইন অবস্থায় ভাষা প্যাক লোড হয়নি। অনুগ্রহ করে অনলাইন সংযোগ নিশ্চিত করুন বা ম্যানুয়ালি পূরণ করুন।"
+          : "Offline mode cannot download Tesseract language traineddata. Connect online or enter prescription manually."
+        : err && err.message
+          ? err.message
+          : currentLang === "bn"
+            ? "ডকুমেন্ট স্ক্যান ব্যর্থ হয়েছে। অনুগ্রহ করে ম্যানুয়ালি পূরণ করুন।"
+            : "Document scanning failed. Please fill details manually.";
 
-      if (statusBanner) {
-        statusBanner.className = "rx-ocr-status d-flex align-items-center bg-warning bg-opacity-10 border-warning text-dark";
-        statusBanner.innerHTML = `
-          <i class="bi bi-exclamation-triangle-fill text-warning me-2 fs-5"></i>
-          <div class="flex-grow-1">
-            <strong>${tr("ocrError")}</strong>
-            <div class="text-xs text-muted">${escapeHtml(err.message || "ডকুমেন্ট পড়তে সমস্যা হয়েছে। নমুনা প্রেসক্রিপশন ডাটা দিয়ে ফর্ম পূরণ করা হলো।")}</div>
-          </div>
-        `;
-      }
+      renderOcrDiagnosticBanner("error", tr("ocrError"), errDetail, Boolean(latestRawOcrText));
+      rxToast(tr("ocrError"), "error");
     } finally {
       ocrBusy = false;
       $("rxUploadZone")?.classList.remove("rx-ocr-scanning");
@@ -1270,7 +1606,6 @@ Urgency: Normal`;
       ocrToolbar.classList.remove("d-none");
     }
 
-    // 1. Language selector
     const langSelect = $("rxOcrLangSelect");
     if (langSelect) {
       langSelect.value = selectedOcrLang;
@@ -1283,7 +1618,6 @@ Urgency: Normal`;
       });
     }
 
-    // 2. Rotate left (counterclockwise 90 degrees)
     $("btnRotateOcrLeft")?.addEventListener("click", () => {
       ocrRotation = (ocrRotation + 270) % 360;
       rxToast(`ছবি ঘোরানো হয়েছে: ${ocrRotation}°`, "info");
@@ -1292,7 +1626,6 @@ Urgency: Normal`;
       }
     });
 
-    // 3. Rotate right (clockwise 90 degrees)
     $("btnRotateOcrRight")?.addEventListener("click", () => {
       ocrRotation = (ocrRotation + 90) % 360;
       rxToast(`ছবি ঘোরানো হয়েছে: ${ocrRotation}°`, "info");
@@ -1301,7 +1634,6 @@ Urgency: Normal`;
       }
     });
 
-    // 4. Enhance / Contrast filter toggle
     const btnEnhance = $("btnEnhanceOcr");
     if (btnEnhance) {
       if (ocrEnhanceFilter) btnEnhance.classList.add("active");
@@ -1320,7 +1652,6 @@ Urgency: Normal`;
       });
     }
 
-    // 5. Re-run OCR button
     $("btnRerunOcr")?.addEventListener("click", () => {
       if (ocrActiveSource) {
         runModernOCR(ocrActiveSource);
@@ -1329,7 +1660,6 @@ Urgency: Normal`;
       }
     });
 
-    // 6. Copy Raw OCR Text
     $("btnCopyOcrText")?.addEventListener("click", () => {
       const textarea = $("rxRawOcrText");
       if (textarea && textarea.value) {
@@ -1350,7 +1680,6 @@ Urgency: Normal`;
       }
     });
 
-    // 7. Reparse OCR Text to Form
     $("btnReparseOcr")?.addEventListener("click", () => {
       const textarea = $("rxRawOcrText");
       const editedText = textarea ? textarea.value.trim() : "";
@@ -1359,7 +1688,11 @@ Urgency: Normal`;
         return;
       }
       latestRawOcrText = editedText;
-      parseAndPopulateOCR(editedText);
+      parseAndPopulateOCR(editedText, {
+        resetFirst: true,
+        fromModal: true,
+        scanMeta: { source: "Manual Raw Text Edit", confidence: 100, lang: selectedOcrLang, rotated: ocrRotation },
+      });
 
       const modalEl = $("rxOcrModal");
       if (modalEl && window.bootstrap && window.bootstrap.Modal) {
@@ -1371,14 +1704,14 @@ Urgency: Normal`;
   }
 
   /**
-   * Opens the Raw OCR inspection modal and populates it with extracted text.
+   * Opens the Raw OCR inspection modal populated strictly with extracted text (no fabricated data).
    */
   function openOcrReviewModal() {
     const modalEl = $("rxOcrModal");
     if (!modalEl) return;
     const textarea = $("rxRawOcrText");
     if (textarea) {
-      textarea.value = latestRawOcrText || sampleFallbackText;
+      textarea.value = latestRawOcrText || "";
     }
     if (window.bootstrap && window.bootstrap.Modal) {
       const bsModal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -1387,329 +1720,599 @@ Urgency: Normal`;
   }
 
   // ============================================================================
-  // 8. CLINICAL REGEX EXTRACTION, REVIEW MODAL & VISUAL FLASH HIGHLIGHT
+  // 8. CLINICAL NORMALIZATION, REGEX PARSER & VERIFIED EXTRACTION TELEMETRY
   // ============================================================================
-  function parseAndPopulateOCR(rawText) {
-    if (!rawText) rawText = sampleFallbackText;
+
+  /**
+   * Maps Bengali numerals (০-৯) to ASCII digits for reliable vitals, dates, and dosage schedules.
+   */
+  function bnToEnDigits(str) {
+    if (!str) return "";
+    const map = { "০": "0", "১": "1", "২": "2", "৩": "3", "৪": "4", "৫": "5", "৬": "6", "৭": "7", "৮": "8", "৯": "9" };
+    return String(str).replace(/[০-৯]/g, (d) => map[d] || d);
+  }
+
+  /**
+   * Repairs common OCR character confusions inside medication schedules (e.g. "l+O+1" -> "1+0+1").
+   */
+  function repairDosageGlyphs(token) {
+    return bnToEnDigits(token)
+      .replace(/[lI|]/g, "1")
+      .replace(/[OoD]/g, "0")
+      .replace(/\s*[+\-–/]\s*/g, "+")
+      .replace(/\+\++/g, "+")
+      .trim();
+  }
+
+  /**
+   * Parses DD/MM/YYYY (clinical standard), YYYY-MM-DD, or written months into ISO YYYY-MM-DD.
+   */
+  function parseFlexibleClinicalDate(rawText) {
+    const asciiText = bnToEnDigits(rawText);
+
+    // 1. ISO YYYY-MM-DD
+    const isoMatch = asciiText.match(/(?:Date|তারিখ)?\s*[:.-]?\s*((?:19|20)\d{2})[\/.-](\d{1,2})[\/.-](\d{1,2})\b/i);
+    if (isoMatch) {
+      const y = Number(isoMatch[1]), m = Number(isoMatch[2]), d = Number(isoMatch[3]);
+      if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+        return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+      }
+    }
+
+    // 2. DD/MM/YYYY or MM/DD/YYYY (prefer DD/MM/YYYY unless middle > 12)
+    const dmyMatch = asciiText.match(/(?:Date|তারিখ)\s*[:.-]?\s*(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/i)
+      || asciiText.match(/\b(\d{1,2})[\/.-](\d{1,2})[\/.-](20\d{2})\b/);
+    if (dmyMatch) {
+      const p1 = Number(dmyMatch[1]), p2 = Number(dmyMatch[2]);
+      let y = dmyMatch[3];
+      if (y.length === 2) y = "20" + y;
+      let day = p1, mon = p2;
+      if (p2 > 12 && p1 <= 12) {
+        mon = p1;
+        day = p2;
+      }
+      if (mon >= 1 && mon <= 12 && day >= 1 && day <= 31) {
+        return `${y}-${String(mon).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      }
+    }
+
+    // 3. Written months (e.g. "06 Nov 2026" or "25 November 2026")
+    const months = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+    const wordMatch = asciiText.match(/\b(\d{1,2})[\s,-]+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s,-]+(20\d{2})\b/i);
+    if (wordMatch) {
+      const d = Number(wordMatch[1]);
+      const m = months[wordMatch[2].slice(0, 3).toLowerCase()];
+      const y = wordMatch[3];
+      if (m && d >= 1 && d <= 31) {
+        return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+      }
+    }
+
+    return "";
+  }
+
+  const SCAN_HIGHLIGHT_IDS = [
+    "rxDoctor", "rxDegrees", "rxRegNo", "rxClinic", "rxAddress", "rxPhone",
+    "rxPatName", "rxAge", "rxSex", "rxDate", "rxUrgency", "rxRefill",
+    "rxBp", "rxPulse", "rxTemp", "rxWeight",
+    "rxCCChipContainer", "rxHOChipContainer", "rxInvChipContainer",
+    "rxDiagnosis", "rxMedsTbody", "rxNotes",
+  ];
+
+  /**
+   * Removes OCR focus highlights from all form fields and containers.
+   */
+  function clearOcrHighlights() {
+    SCAN_HIGHLIGHT_IDS.forEach((id) => {
+      const el = $(id);
+      if (el) el.classList.remove("ocr-highlight");
+    });
+  }
+
+  /**
+   * Resolves a container/display element into an actual focusable form control.
+   */
+  function resolveFocusableControl(el) {
+    if (!el) return null;
+    if (el.id === "rxCCChipContainer") return $("rxCCInput") || el;
+    if (el.id === "rxHOChipContainer") return $("rxHOInput") || el;
+    if (el.id === "rxInvChipContainer") return $("rxInvInput") || el;
+    if (el.id === "rxMedsTbody") return $("rxMedNameInput") || el;
+    return el;
+  }
+
+  /**
+   * Moves viewport scroll and keyboard focus to the first field populated by scanning.
+   */
+  function focusFirstFulfilledField(fulfilledEls, deferUntilModalHidden = false) {
+    if (!fulfilledEls || !fulfilledEls.length) return;
+    const focusEl = fulfilledEls.map(resolveFocusableControl).find((el) => el && typeof el.focus === "function");
+    if (!focusEl) return;
+
+    const applyFocus = () => {
+      try {
+        if (typeof focusEl.scrollIntoView === "function") {
+          focusEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        focusEl.focus({ preventScroll: true });
+      } catch (_) {
+        try { focusEl.focus(); } catch (__) { }
+      }
+    };
+
+    const modalEl = $("rxOcrModal");
+    if (deferUntilModalHidden && modalEl && modalEl.classList.contains("show")) {
+      modalEl.addEventListener("hidden.bs.modal", applyFocus, { once: true });
+    } else {
+      applyFocus();
+    }
+  }
+
+  /**
+   * Resets clinical form inputs & arrays prior to populating a newly scanned prescription
+   * so fields from an earlier prescription never bleed across uploads.
+   */
+  function resetExtractedFormState() {
+    clearOcrHighlights();
+    [
+      "rxDoctor", "rxDegrees", "rxRegNo", "rxClinic", "rxAddress", "rxPhone",
+      "rxPatName", "rxAge", "rxSex", "rxBp", "rxPulse", "rxTemp", "rxWeight",
+      "rxDiagnosis", "rxNotes",
+    ].forEach((id) => {
+      if ($(id)) $(id).value = "";
+    });
+    if ($("rxUrgency")) $("rxUrgency").value = "normal";
+    currentCC = [];
+    currentHO = [];
+    currentInv = [];
+    currentMeds = [];
+  }
+
+  /**
+   * Section-aware clinical entity extractor populating form fields from genuine OCR/PDF text.
+   * @param {string} rawText
+   * @param {Object} [opts] - { resetFirst: boolean, scanMeta: Object }
+   */
+  function parseAndPopulateOCR(rawText, opts = {}) {
+    if (!rawText || !rawText.trim()) {
+      renderOcrDiagnosticBanner(
+        "warn",
+        currentLang === "bn" ? "পার্স করার মতো টেক্সট পাওয়া যায়নি" : "No text available to parse",
+        currentLang === "bn" ? "অনুগ্রহ করে ফর্মের ঘরগুলো ম্যানুয়ালি পূরণ করুন।" : "Please enter prescription details manually.",
+        false
+      );
+      return;
+    }
+
+    if (opts.resetFirst) {
+      resetExtractedFormState();
+    }
+
     latestRawOcrText = rawText;
-    const lines = rawText.split("\n").map((l) => l.trim()).filter(Boolean);
+    const normalizedLines = rawText
+      .replace(/\r/g, "")
+      .split("\n")
+      .map((l) => l.replace(/\s+/g, " ").trim())
+      .filter(Boolean);
 
-    let docName = "";
-    let degrees = "";
-    let regNo = "";
-    let clinic = "";
-    let address = "";
-    let phone = "";
-    let patName = "";
-    let age = "";
-    let sex = "";
-    let date = "";
-    let bp = "";
-    let pulse = "";
-    let temp = "";
-    let weight = "";
-    let diagnosis = "";
-    let advice = "";
-    let urgency = "normal";
+    let docName = "", degrees = "", regNo = "", clinic = "", address = "", phone = "";
+    let patName = "", age = "", sex = "", date = "";
+    let bp = "", pulse = "", temp = "", weight = "";
+    let diagnosis = "", advice = "", urgency = "normal";
 
-    // 1. Doctor Name Pattern (Bengali & English, Titles, Degrees)
-    const docRegex = /(?:Dr\.|Prof\.|Doctor|Assoc\.\s*Prof\.|Asst\.\s*Prof\.|Consultant|ডাঃ|ডাক্তার|প্রফেসর)\s*([A-Za-z\u0980-\u09FF\s.]+)/i;
-    for (const line of lines) {
+    // Split inline pipe/double-tab segments softly where labels exist on one line
+    const expandedLines = [];
+    for (const ln of normalizedLines) {
+      if (/\s+\|\s+/.test(ln)) {
+        ln.split(/\s+\|\s+/).forEach((seg) => {
+          if (seg.trim()) expandedLines.push(seg.trim());
+        });
+      } else {
+        expandedLines.push(ln);
+      }
+    }
+
+    // 1. Doctor Name (stops cleanly before degrees, BMDC, pipe, or numeric metadata)
+    const docRegex = /(?:(?:Assoc\.?|Asst\.?)\s*Prof\.?\s*)?(?:Prof\.?\s*)?(?:Dr\.?|Doctor|Consultant|ডাঃ|অধ্যাপক\s*ডাঃ|ডাক্তার|প্রফেসর)\s*([A-Za-z\u0980-\u09FF.\s'-]{2,55})/i;
+    for (const line of expandedLines) {
+      if (/Signature|স্বাক্ষর/i.test(line)) continue;
       const m = line.match(docRegex);
       if (m && !docName) {
-        docName = m[0].trim();
-        break;
+        let cand = m[0]
+          .split(/(?:MBBS|FCPS|MD|MS|FRCS|MRCP|BDS|DGO|D-Card|Ph\.?D|MPH|MCPS|FACS|BMDC|Reg|Phone|Call|[,;|(\n])/i)[0]
+          .trim();
+        cand = cand.replace(/[.,:;-]+$/, "").trim();
+        if (cand.length >= 4) {
+          docName = cand;
+          break;
+        }
       }
     }
 
-    // 2. Degrees Pattern
-    const degRegex = /(?:MBBS|FCPS|MD|MS|FRCS|MRCP|BDS|DGO|D-Card|Ph\.?D|MPH|MCPS|FACS)[^\n]*/i;
-    for (const line of lines) {
+    // 2. Degrees
+    const degRegex = /\b(?:MBBS|FCPS|MD|MS|FRCS|MRCP|BDS|DGO|D-Card|Ph\.?D|MPH|MCPS|FACS|BCS(?:\s*\(Health\))?)\b[^\n|]*/i;
+    for (const line of expandedLines) {
       const m = line.match(degRegex);
       if (m && !degrees) {
-        degrees = m[0].trim();
+        degrees = m[0].split(/(?:Reg|BMDC|Chamber|Phone|Call|Tel)/i)[0].replace(/[,;:\s]+$/, "").trim();
         break;
       }
     }
 
-    // 3. Reg No Pattern
-    const regRegex = /(?:Reg(?:istration)?(?:\s*No)?|BMDC(?:\s*Reg)?|রেজিঃ(?:\s*নং)?|রেজিস্ট্রেশন)\s*[:.-]?\s*([A-Za-z0-9-]+)/i;
-    for (const line of lines) {
+    // 3. Reg No / BMDC
+    const regRegex = /(?:BMDC\s*(?:Reg(?:istration)?\s*(?:No)?)?|Reg(?:istration)?(?:\s*No)?|রেজি[\u0983:]?(?:\s*নং)?|রেজিস্ট্রেশন)\s*[\u0983:.-]?\s*([A-Za-z0-9\u0980-\u09FF-]{3,20})/i;
+    for (const line of expandedLines) {
       const m = line.match(regRegex);
       if (m && !regNo) {
-        regNo = `Reg No: ${m[1].trim()}`;
+        regNo = `Reg No: ${bnToEnDigits(m[1].trim())}`;
         break;
       }
     }
 
-    // 4. Hospital / Clinic Pattern
-    const hospRegex = /(?:Hospital|Clinic|Medical|Health\s*Care|Diagnostic|হাসপাতাল|ক্লিনিক|ডায়াগনস্টিক|মেডিকেল)[^\n]*/i;
-    for (const line of lines) {
+    // 4. Hospital / Clinic Name
+    const hospRegex = /^[^\n]*?\b(?:Hospital|Clinic|Medical\s*(?:College|Center|Centre)?|Health\s*Care|Diagnostic|Foundation|Specialized|হাসপাতাল|ক্লিনিক|ডায়াগনস্টিক|মেডিকেল)[^\n|]*/i;
+    for (const line of expandedLines) {
+      if (/(?:Dr\.|MBBS|C\/C|Dx|Rx)/i.test(line) && !/Hospital|Clinic|Medical/i.test(line.split(",")[0])) continue;
       const m = line.match(hospRegex);
       if (m && !clinic) {
-        clinic = m[0].trim();
+        clinic = m[0].split(/(?:Chamber|Phone|Call|Tel|\d{3,}-\d+)/i)[0].replace(/[,;:\s]+$/, "").trim();
         break;
       }
     }
 
-    // 5. Address Pattern
-    for (const line of lines) {
-      if (/(?:Road|Ave|Avenue|Street|Dhaka|Chittagong|Sylhet|Khulna|Rajshahi|Barisal|Rangpur|Mymensingh|Bangladesh|ঢাকা|চট্টগ্রাম|সিলেট|খুলনা|রাজশাহী)[^\n|]*/i.test(line)) {
-        const parts = line.split("|");
-        address = parts[0].trim();
-        break;
+    // 5. Address
+    for (const line of expandedLines) {
+      if (/(?:Road|Ave|Avenue|Street|Lane|Block|Sector|House|Holding|Dhanmondi|Uttara|Banani|Gulshan|Mirpur|Dhaka|Chittagong|Chattogram|Sylhet|Khulna|Rajshahi|Barisal|Rangpur|Mymensingh|Bangladesh|ঢাকা|চট্টগ্রাম|সিলেট|খুলনা|রাজশাহী)/i.test(line)) {
+        if (!/^(?:Dr\.|Patient|Name|Rx|1\.)/i.test(line)) {
+          address = line.split(/(?:Call|Phone|Tel|Mobile|মোবাইল)/i)[0].replace(/[|,:;\s]+$/, "").trim();
+          break;
+        }
       }
     }
 
-    // 6. Phone Pattern
-    const phoneMatch = rawText.match(
-      /(?:Call|Phone|Tel|মোবাইল|ফোন)?\s*[:.-]?\s*(\+?880\s*1[3-9]\d{2}[-\s]?\d{6}|01[3-9]\d{8})/i
-    );
-    if (phoneMatch) phone = phoneMatch[1].trim();
+    // 6. Phone / Helpline
+    const asciiRaw = bnToEnDigits(rawText);
+    const phoneMatch = asciiRaw.match(/(?:Call|Phone|Tel|Mobile|Helpline|মোবাইল|ফোন)?\s*[\u0983:.-]?\s*((?:\+?880[-\s]?)?0?1[3-9]\d{2}[-\s]?\d{6})/i);
+    if (phoneMatch) phone = phoneMatch[1].replace(/\s+/g, " ").trim();
 
-    // 7. Patient Name Pattern
-    const patMatch = rawText.match(/(?:Name|Patient(?:\s*Name)?|নাম|রোগীর\s*নাম)\s*[:.-]?\s*([A-Za-z\u0980-\u09FF\s.]+)/i);
-    if (patMatch) patName = patMatch[1].split(/[\n|]/)[0].trim();
+    // 7. Patient Name, Age, Sex, Date
+    const patMatch = rawText.match(/(?:Patient(?:\s*Name)?|Pt\.?\s*Name|Name|নাম|রোগীর\s*নাম)\s*[\u0983:.-]\s*([A-Za-z\u0980-\u09FF.\s'-]+)/i);
+    if (patMatch) {
+      patName = patMatch[1]
+        .split(/(?:\bAge\b|\bSex\b|\bGender\b|\bDate\b|\bবয়স\b|\bতারিখ\b|[|\n,])/i)[0]
+        .trim();
+    }
 
-    // 8. Age Pattern
-    const ageMatch = rawText.match(/(?:Age|বয়স)\s*[:.-]?\s*(\d{1,3}(?:\s*(?:Y|Yrs?|Years?|বছর|মাস|Days?|দিন))?)/i);
+    const ageMatch = asciiRaw.match(/(?:Age|বয়স)\s*[\u0983:.-]?\s*(\d{1,3}(?:\s*(?:Y(?:rs?|ears?)?|M(?:onths?|os?)?|D(?:ays?)?|বছর|মাস|দিন))?)/i);
     if (ageMatch) age = ageMatch[1].trim();
 
-    // 9. Sex / Gender Pattern
-    const sexMatch = rawText.match(/(?:Sex|Gender|লিঙ্গ)\s*[:.-]?\s*(Male|Female|Other|M|F|পুরুষ|মহিলা)/i);
+    const sexMatch = rawText.match(/(?:Sex|Gender|লিঙ্গ)\s*[\u0983:.-]?\s*(Female|Male|Other|F|M|মহিলা|পুরুষ)/i)
+      || rawText.match(/\b\d{1,3}\s*(?:Y(?:rs?|ears?)?|বছর)?\s*\/\s*(Female|Male|F|M)\b/i);
     if (sexMatch) {
       const s = sexMatch[1].trim().toUpperCase();
-      sex = s === "FEMALE" || s === "F" || s === "মহিলা" ? "F" : "M";
+      sex = s === "FEMALE" || s === "F" || s === "মহিলা" ? "F" : s === "OTHER" ? "Other" : "M";
     }
 
-    // 10. Date Pattern
-    const dateMatch = rawText.match(/(?:Date|তারিখ)\s*[:.-]?\s*(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4})/i);
-    if (dateMatch) {
-      const rawD = dateMatch[1].trim();
-      const parts = rawD.split(/[\/.-]/);
-      if (parts.length === 3) {
-        if (parts[2].length === 4) {
-          date = `${parts[2]}-${String(parts[0]).padStart(2, "0")}-${String(parts[1]).padStart(2, "0")}`;
-        } else {
-          date = new Date().toISOString().split("T")[0];
-        }
+    date = parseFlexibleClinicalDate(rawText);
+
+    // 8. Vitals with Clinical Sanity Bounds
+    const bpMatch = asciiRaw.match(/(?:BP|B\.P\.|Blood\s*Pressure|রক্তচাপ)\s*[\u0983:.-]?\s*(\d{2,3})\s*\/\s*(\d{2,3})/i);
+    if (bpMatch) {
+      const sys = Number(bpMatch[1]), dia = Number(bpMatch[2]);
+      if (sys >= 60 && sys <= 260 && dia >= 30 && dia <= 160) {
+        bp = `${sys}/${dia}`;
       }
     }
 
-    // 11. Vitals Patterns
-    const bpMatch = rawText.match(/(?:BP|B\.P\.|Blood\s*Pressure|রক্তচাপ)\s*[:.-]?\s*(\d{2,3}\s*\/\s*\d{2,3})/i);
-    if (bpMatch) bp = bpMatch[1].replace(/\s+/g, "");
-
-    const pulseMatch = rawText.match(/(?:Pulse|Heart\s*Rate|HR|পালস|নাড়ির\s*গতি)\s*[:.-]?\s*(\d{2,3})/i);
-    if (pulseMatch) pulse = pulseMatch[1].trim();
-
-    const tempMatch = rawText.match(/(?:Temp(?:erature)?|তাপমাত্রা)\s*[:.-]?\s*(\d{2,3}(?:\.\d)?)/i);
-    if (tempMatch) temp = tempMatch[1].trim();
-
-    const weightMatch = rawText.match(/(?:Weight|Wt|ওজন)\s*[:.-]?\s*(\d{2,3}(?:\.\d)?)/i);
-    if (weightMatch) weight = weightMatch[1].trim();
-
-    // 12. Chief Complaints (C/C)
-    const ccMatch = rawText.match(/(?:C\/C|Chief\s*Complaints?|উপসর্গ|সমস্যা)\s*[:.-]?\s*([^\n]+)/i);
-    if (ccMatch) {
-      currentCC = ccMatch[1].split(/[,;]/).map((s) => s.trim()).filter(Boolean);
+    const pulseMatch = asciiRaw.match(/(?:Pulse|Heart\s*Rate|HR|PR|পালস|নাড়ির\s*গতি)\s*[\u0983:.-]?\s*(\d{2,3})/i);
+    if (pulseMatch) {
+      const pv = Number(pulseMatch[1]);
+      if (pv >= 30 && pv <= 220) pulse = String(pv);
     }
 
-    // 13. History of Illness (H/O)
-    const hoMatch = rawText.match(/(?:H\/O|History\s*of|অতীত\s*ইতিহাস)\s*[:.-]?\s*([^\n]+)/i);
-    if (hoMatch) {
-      currentHO = hoMatch[1].split(/[,;]/).map((s) => s.trim()).filter(Boolean);
+    const tempMatch = asciiRaw.match(/(?:Temp(?:erature)?|তাপমাত্রা)\s*[\u0983:.-]?\s*(\d{2,3}(?:\.\d)?)/i);
+    if (tempMatch) {
+      const tv = Number(tempMatch[1]);
+      if ((tv >= 94 && tv <= 108) || (tv >= 34 && tv <= 43)) temp = String(tv);
     }
 
-    // 14. Investigations (Inv.)
-    const invMatch = rawText.match(/(?:Inv(?:\.|estigations?)?|পরীক্ষা(?:-নিরীক্ষা)?)\s*[:.-]?\s*([^\n]+)/i);
-    if (invMatch) {
-      currentInv = invMatch[1].split(/[,;]/).map((s) => s.trim()).filter(Boolean);
+    const weightMatch = asciiRaw.match(/(?:Weight|Wt|ওজন)\s*[\u0983:.-]?\s*(\d{1,3}(?:\.\d)?)/i);
+    if (weightMatch) {
+      const wv = Number(weightMatch[1]);
+      if (wv >= 1 && wv <= 250) weight = String(wv);
     }
 
-    // 15. Diagnosis (Dx) - negative lookahead prevents matching 'রোগী' (patient)
-    const dxMatch = rawText.match(/(?:Dx|Diagnosis|ডায়াগনোসিস|রোগ(?:ের\s*নাম)?(?!\s*ী|ীর))\s*[:.-]?\s*([^\n]+)/i);
-    if (dxMatch) diagnosis = dxMatch[1].replace(/^[\s/–—:-]+/, "").trim();
+    // 9. Section-State Machine across all lines (handles multi-line C/C, H/O, Inv., Dx, Rx, Advice)
+    let activeSection = "";
+    const ccItems = [], hoItems = [], invItems = [], dxLines = [], adviceLines = [], extractedMeds = [];
 
-    // 16. Doctor Advice
-    const advMatch = rawText.match(
-      /(?:Advice|পরামর্শ|উপদেশ)\s*[:.-]?\s*([\s\S]*?)(?=(?:Signature|Doctor|Date|Next|Urgency|$))/i
-    );
-    if (advMatch) {
-      const advLines = advMatch[1].split("\n").map((l) => l.trim()).filter(Boolean);
-      if (advLines.length) advice = advLines.join("\n");
-    }
+    const pushChips = (target, textStr) => {
+      textStr
+        .split(/[,;•]/)
+        .map((s) => s.replace(/^[-*:\s]+/, "").trim())
+        .filter((s) => s.length >= 2)
+        .forEach((s) => {
+          if (!target.includes(s)) target.push(s);
+        });
+    };
 
-    // 17. Structured Medications (Rx)
-    const extractedMeds = [];
-    let inRx = false;
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      if (/^(?:Rx|Treatment|চিকিৎসা|ওষুধের\s*তালিকা)\s*[:.-]?$/i.test(line)) {
-        inRx = true;
+    const formRegex = /\b(Tab\.?|Tablet|Cap\.?|Capsule|Syr\.?|Syrup|Susp\.?|Suspension|Inj\.?|Injection|Inh\.?|Inhaler|Drop|Drops|Oint\.?|Cream|Gel|Spray|Neb|Rotacap|Supp|Sachet|ORS|ট্যাব\.?|ক্যাপ\.?|সিরাপ)\b/i;
+    const drugLexiconRegex = /\b(?:Napa|Ace|Paracetamol|Tylenol|Fexo|Fexofenadine|Cetirizine|Alatrol|Seclo|Omeprazole|Esomeprazole|Sergel|Maxpro|Pantoprazole|Monas|Montelukast|Ceevit|Azith|Azithromycin|Amoxicillin|Cefixime|Ciprofloxacin|Levofloxacin|Metformin|Atorvastatin|Losartan|Amlodipine|Domperidone|Motigut|Salbutamol|Seretide|Budesonide|Prednisolone|Vitamin|Calcium|ORS)\b/i;
+    const medStrengthOrDoseRegex = /\b\d+(?:\.\d+)?\s*(?:mg|mcg|gm|g|ml|iu)\b|(?:\d|[০-৯lI])\s*[+\-–]\s*(?:\d|[০-৯Oo])\s*[+\-–]\s*(?:\d|[০-৯lI])|\b(?:OD|BD|BID|TDS|TID|QID|HS|SOS)\b/i;
+
+    const parseMedicationLine = (line) => {
+      if (/(?:Dr\.|MBBS|FCPS|Hospital|Clinic|Reg\s*No|Phone|Call|BP\s*:|Pulse\s*:|Temp\s*:|Next\s*Refill|Signature)/i.test(line)) {
+        return null;
+      }
+      const hasForm = formRegex.test(line);
+      const hasNumberPrefix = /^\d{1,2}\s*[.)\-:]/.test(line);
+      const hasDrugOrDose = drugLexiconRegex.test(line) || medStrengthOrDoseRegex.test(line);
+
+      if (!hasForm && !hasDrugOrDose && !(activeSection === "RX" && hasNumberPrefix)) {
+        return null;
+      }
+
+      let form = "Tab";
+      const fm = line.match(formRegex);
+      if (fm) {
+        const fLow = fm[1].toLowerCase().replace(".", "");
+        if (fLow.startsWith("cap") || fLow.startsWith("ক্যাপ")) form = "Cap";
+        else if (fLow.startsWith("syr") || fLow.startsWith("susp") || fLow.startsWith("সিরাপ")) form = "Syr";
+        else if (fLow.startsWith("inj")) form = "Inj";
+        else if (fLow.startsWith("drop")) form = "Drop";
+        else if (fLow.startsWith("inh") || fLow === "rotacap" || fLow === "neb") form = "Inhaler";
+        else if (fLow.startsWith("oint") || fLow === "cream" || fLow === "gel") form = "Topical";
+        else if (fLow === "spray") form = "Spray";
+        else if (fLow === "ors" || fLow === "sachet") form = "Sachet";
+        else form = "Tab";
+      }
+
+      const lineAscii = bnToEnDigits(line);
+      let dosage = "1+0+1";
+      const dosPatternMatch = lineAscii.match(
+        /([0-2lI|]\s*[+\-–]\s*[0-2OoD]\s*[+\-–]\s*[0-2lI|]|[0-2lI|]\s*[+\-–]\s*[0-2lI|]|\b(?:BD|BID|TDS|TID|QID|OD|HS|SOS)\b|\d\s*times\s*(?:a\s*day|daily)|once\s*daily|as\s*needed)/i
+      );
+      if (dosPatternMatch) {
+        const rawDos = dosPatternMatch[1];
+        if (/^(?:BD|BID)$/i.test(rawDos)) dosage = "1+0+1";
+        else if (/^(?:TDS|TID)$/i.test(rawDos)) dosage = "1+1+1";
+        else if (/^QID$/i.test(rawDos)) dosage = "1+1+1+1";
+        else if (/^(?:OD|once\s*daily)$/i.test(rawDos)) dosage = "1+0+0";
+        else if (/^HS$/i.test(rawDos)) dosage = "0+0+1";
+        else if (/^(?:SOS|as\s*needed)$/i.test(rawDos)) dosage = "As needed";
+        else dosage = repairDosageGlyphs(rawDos);
+      }
+
+      let timing = "After meal";
+      if (/(?:before\s*meal|empty\s*stomach|\bAC\b|খাওয়ার\s*আগে)/i.test(line)) {
+        timing = "Before meal";
+      } else if (/(?:after\s*meal|with\s*food|\bPC\b|খাওয়ার\s*পরে)/i.test(line)) {
+        timing = "After meal";
+      } else if (/(?:bedtime|\bHS\b|রাতে\s*শোবার\s*আগে)/i.test(line)) {
+        timing = "At bedtime";
+      } else if (/(?:as\s*needed|\bSOS\b|\bPRN\b|প্রয়োজনে)/i.test(line)) {
+        timing = "As needed";
+      }
+
+      let duration = "5 days";
+      const durMatch = lineAscii.match(
+        /(\d+\s*(?:days?|d|weeks?|wks?|months?|mos?)|continue|চলবে|১\s*সপ্তাহ|৫\s*দিন|৭\s*দিন|১০\s*দিন|১৪\s*দিন|১\s*মাস)/i
+      );
+      if (durMatch) duration = durMatch[1].trim();
+
+      let cleanName = line
+        .replace(/^\(?\d{1,2}\)?[\s.)-]+/, "")
+        .replace(/^[•*-]\s*/, "")
+        .replace(/^(?:Tab\.?|Tablet|Cap\.?|Capsule|Syr\.?|Syrup|Susp\.?|Suspension|Inj\.?|Injection|Inh\.?|Inhaler|ট্যাব\.?|ক্যাপ\.?|সিরাপ)\s+/i, "")
+        .trim();
+
+      cleanName = cleanName
+        .split(/\s*[-–—]\s*(?:[0-2০-৯lI]+\s*[+\-–]|After|Before|At bedtime|As needed|\d+\s*(?:days?|weeks?|months?)|খাওয়ার|BD|TDS|OD)/i)[0]
+        .replace(/\s+(?:[0-2০-৯lI|]\s*[+\-–]\s*[0-2০-৯OoD]\s*[+\-–]\s*[0-2০-৯lI|]|BD|BID|TDS|TID|QID|OD|HS|SOS|Before\s*meal|After\s*meal|খাওয়ার\s*(?:আগে|পরে))\b.*$/i, "")
+        .trim();
+
+      if (!cleanName || cleanName.length < 2) return null;
+      return { name: cleanName, form, dosage, timing, duration, note: "" };
+    };
+
+    for (const rawLine of expandedLines) {
+      const headerMatch = rawLine.match(
+        /^(C\/C|Chief\s*Complaints?|উপসর্গ|H\/O|History\s*of(?:\s*Illness)?|অতীত\s*ইতিহাস|Inv\.?|Investigations?|পরীক্ষা(?:-নিরীক্ষা)?|Dx|Diagnosis|ডায়াগনোসিস|Rx|Treatment|চিকিৎসা|ওষুধের\s*তালিকা|Advice|পরামর্শ|উপদেশ|O\/E(?:\s*Vitals)?|Vitals)\s*[\u0983:.-]?\s*(.*)$/i
+      );
+
+      if (headerMatch) {
+        const key = headerMatch[1].toLowerCase();
+        const rest = (headerMatch[2] || "").trim();
+
+        if (key.startsWith("c/c") || key.startsWith("chief") || key.includes("উপসর্গ")) {
+          activeSection = "CC";
+          if (rest) pushChips(ccItems, rest);
+        } else if (key.startsWith("h/o") || key.startsWith("history") || key.includes("ইতিহাস")) {
+          activeSection = "HO";
+          if (rest) pushChips(hoItems, rest);
+        } else if (key.startsWith("inv") || key.includes("পরীক্ষা")) {
+          activeSection = "INV";
+          if (rest) pushChips(invItems, rest);
+        } else if (key === "dx" || key.startsWith("diag") || key.includes("ডায়াগনোসিস")) {
+          activeSection = "DX";
+          if (rest) dxLines.push(rest);
+        } else if (key === "rx" || key.startsWith("treat") || key.includes("চিকিৎসা") || key.includes("ওষুধ")) {
+          activeSection = "RX";
+          if (rest) {
+            const med = parseMedicationLine(rest);
+            if (med) extractedMeds.push(med);
+          }
+        } else if (key.startsWith("adv") || key.includes("পরামর্শ") || key.includes("উপদেশ")) {
+          activeSection = "ADVICE";
+          if (rest) adviceLines.push(rest);
+        } else if (key.startsWith("o/e") || key.startsWith("vital")) {
+          activeSection = "OE";
+        }
         continue;
       }
-      if (/^(?:Advice|পরামর্শ|Signature|Doctor|Dr\.|Investigation|Inv\.|O\/E|C\/C|H\/O)\b/i.test(line)) {
-        inRx = false;
+
+      if (/^(?:Next\s*Refill|Refill|Follow\s*up|পরবর্তী\s*সাক্ষাৎ|Signature|Urgency)/i.test(rawLine)) {
+        activeSection = "";
+        continue;
       }
 
-      const isMedLine =
-        (inRx && /^\d+[\s.)-]/.test(line)) ||
-        /(?:Tab\.|Cap\.|Syr\.|Inj\.|Drop|Inhaler|Tablet|Capsule|Syrup|Napa|Fexo|Paracetamol|Omeprazole|Seclo|Ceevit|Monas|Azithromycin|Amoxicillin|ORS|Albuterol|Montelukast|Seretide|Salbutamol)/i.test(
-          line
-        );
-
-      if (isMedLine) {
-        let form = "Tab";
-        if (/\b(?:Cap\.|Capsule|Cap)\b/i.test(line)) form = "Cap";
-        else if (/\b(?:Syr\.|Syrup|Syr)\b/i.test(line)) form = "Syr";
-        else if (/\b(?:Inj\.|Injection|Inj)\b/i.test(line)) form = "Inj";
-        else if (/\b(?:Drop|Drops)\b/i.test(line)) form = "Drop";
-        else if (/\b(?:Inhaler)\b/i.test(line)) form = "Inhaler";
-        else if (/\b(?:Tab\.|Tablet|Tab)\b/i.test(line)) form = "Tab";
-        else if (/ORS|Sachet/i.test(line)) form = "Sachet";
-
-        let dosage = "1+0+1";
-        const dosMatch = line.match(
-          /(\d\s*\+\s*\d\s*\+\s*\d|\d\s*\+\s*\d|\d\s*times\s*(?:a\s*day|daily)?|once\s*daily|bd|tds|od|sos|as\s*needed|১\s*\+\s*০\s*\+\s*১|১\s*\+\s*১\s*\+\s*১|০\s*\+\s*০\s*\+\s*১)/i
-        );
-        if (dosMatch) {
-          dosage = dosMatch[1].replace(/\s+/g, "");
-          if (/asneeded/i.test(dosage)) dosage = "As needed";
+      if (activeSection === "CC") {
+        pushChips(ccItems, rawLine);
+      } else if (activeSection === "HO") {
+        pushChips(hoItems, rawLine);
+      } else if (activeSection === "INV") {
+        pushChips(invItems, rawLine);
+      } else if (activeSection === "DX") {
+        dxLines.push(rawLine);
+      } else if (activeSection === "ADVICE") {
+        adviceLines.push(rawLine);
+      } else {
+        const med = parseMedicationLine(rawLine);
+        if (med) {
+          activeSection = "RX";
+          extractedMeds.push(med);
         }
-
-        let timing = "After meal";
-        if (/(?:before\s*meal|খাওয়ার\s*আগে|empty\s*stomach)/i.test(line)) {
-          timing = "Before meal";
-        } else if (/(?:after\s*meal|খাওয়ার\s*পরে|with\s*food)/i.test(line)) {
-          timing = "After meal";
-        } else if (/(?:bedtime|রাতে\s*শোবার\s*আগে)/i.test(line)) {
-          timing = "At bedtime";
-        } else if (/as\s*needed|প্রয়োজনে/i.test(line)) {
-          timing = "As needed";
-        }
-
-        let duration = "5 days";
-        const durMatch = line.match(
-          /(\d+\s*(?:days?|weeks?|months?)|১\s*সপ্তাহ|৫\s*দিন|৭\s*দিন|১০\s*দিন|১৪\s*দিন|১\s*মাস)/i
-        );
-        if (durMatch) duration = durMatch[1].trim();
-
-        let cleanName = line.replace(/^\d+[\s.)-]+/, "").trim();
-        cleanName = cleanName.replace(/^(?:Tab\.|Cap\.|Syr\.|Inj\.|Tablet|Capsule|Syrup|Inhaler)\s+/i, "").trim();
-        cleanName = cleanName.split(/[-–—]\s*(?:\d\s*\+\s*\d|After|Before|As needed|for|\d+\s*days|খাওয়ার)/i)[0].trim();
-        if (!cleanName) cleanName = line.replace(/^\d+[\s.)-]+/, "").trim();
-
-        extractedMeds.push({
-          name: cleanName,
-          form: form,
-          dosage: dosage,
-          timing: timing,
-          duration: duration,
-          note: "",
-        });
       }
     }
+
+    if (ccItems.length) currentCC = ccItems;
+    if (hoItems.length) currentHO = hoItems;
+    if (invItems.length) currentInv = invItems;
+    if (dxLines.length) diagnosis = dxLines.join("; ").replace(/^[\s/–—:-]+/, "").trim();
+    if (adviceLines.length) advice = adviceLines.join("\n").trim();
 
     if (extractedMeds.length) {
       currentMeds = extractedMeds;
     }
 
-    // 18. Populate Form DOM Controls
-    if (docName && $("rxDoctor")) $("rxDoctor").value = docName;
-    if (degrees && $("rxDegrees")) $("rxDegrees").value = degrees;
-    if (regNo && $("rxRegNo")) $("rxRegNo").value = regNo;
-    if (clinic && $("rxClinic")) $("rxClinic").value = clinic;
-    if (address && $("rxAddress")) $("rxAddress").value = address;
-    if (phone && $("rxPhone")) $("rxPhone").value = phone;
-    if (patName && $("rxPatName")) $("rxPatName").value = patName;
-    if (age && $("rxAge")) $("rxAge").value = age;
-    if (sex && $("rxSex")) $("rxSex").value = sex;
-    if (date && $("rxDate")) $("rxDate").value = date;
-    if (bp && $("rxBp")) $("rxBp").value = bp;
-    if (pulse && $("rxPulse")) $("rxPulse").value = pulse;
-    if (temp && $("rxTemp")) $("rxTemp").value = temp;
-    if (weight && $("rxWeight")) $("rxWeight").value = weight;
-    if (diagnosis && $("rxDiagnosis")) $("rxDiagnosis").value = diagnosis;
-    if (advice && $("rxNotes")) $("rxNotes").value = advice;
+    if (/(?:\bUrgent\b|\bEmergency\b|\bSTAT\b|\bCrisis\b|জরুরি)/i.test(rawText)) {
+      urgency = "urgent";
+    } else if (/(?:Follow[\s-]?up|Review|Revisit|ফলো[- ]?আপ)/i.test(rawText)) {
+      urgency = "followup";
+    }
+
+    // 10. Populate Form DOM Controls safely and track only fields fulfilled by scanning
+    const fulfilledEls = [];
+    const markFilled = (el) => {
+      if (el && !fulfilledEls.includes(el)) fulfilledEls.push(el);
+    };
+
+    if (docName && $("rxDoctor")) { $("rxDoctor").value = docName; markFilled($("rxDoctor")); }
+    if (degrees && $("rxDegrees")) { $("rxDegrees").value = degrees; markFilled($("rxDegrees")); }
+    if (regNo && $("rxRegNo")) { $("rxRegNo").value = regNo; markFilled($("rxRegNo")); }
+    if (clinic && $("rxClinic")) { $("rxClinic").value = clinic; markFilled($("rxClinic")); }
+    if (address && $("rxAddress")) { $("rxAddress").value = address; markFilled($("rxAddress")); }
+    if (phone && $("rxPhone")) { $("rxPhone").value = phone; markFilled($("rxPhone")); }
+    if (patName && $("rxPatName")) { $("rxPatName").value = patName; markFilled($("rxPatName")); }
+    if (age && $("rxAge")) { $("rxAge").value = age; markFilled($("rxAge")); }
+    if (sex && $("rxSex")) { $("rxSex").value = sex; markFilled($("rxSex")); }
+    if (date && $("rxDate")) { $("rxDate").value = date; markFilled($("rxDate")); }
+    if (bp && $("rxBp")) { $("rxBp").value = bp; markFilled($("rxBp")); }
+    if (pulse && $("rxPulse")) { $("rxPulse").value = pulse; markFilled($("rxPulse")); }
+    if (temp && $("rxTemp")) { $("rxTemp").value = temp; markFilled($("rxTemp")); }
+    if (weight && $("rxWeight")) { $("rxWeight").value = weight; markFilled($("rxWeight")); }
+    if (diagnosis && $("rxDiagnosis")) { $("rxDiagnosis").value = diagnosis; markFilled($("rxDiagnosis")); }
+    if (advice && $("rxNotes")) { $("rxNotes").value = advice; markFilled($("rxNotes")); }
+    if ($("rxUrgency")) {
+      $("rxUrgency").value = urgency;
+      if (urgency !== "normal") markFilled($("rxUrgency"));
+    }
 
     // Refill Calculation
-    const refillMatch = rawText.match(
-      /(?:Next\s*Refill|Refill|Follow\s*up|পরবর্তী\s*সাক্ষাৎ)\s*[:.-]?\s*(\d{1,2})\s*(?:days?|weeks?|months?|দিন|সপ্তাহ|মাস)/i
+    const refillMatch = asciiRaw.match(
+      /(?:Next\s*Refill|Refill|Follow\s*up|পরবর্তী\s*সাক্ষাৎ)\s*[:.-]?\s*(\d{1,2})\s*(days?|weeks?|months?|দিন|সপ্তাহ|মাস)/i
     );
     if (refillMatch && $("rxRefill")) {
-      const daysAhead =
-        parseInt(refillMatch[1], 10) *
-        (refillMatch[0].includes("week") || refillMatch[0].includes("সপ্তাহ") ? 7 : refillMatch[0].includes("month") || refillMatch[0].includes("মাস") ? 30 : 1);
+      const unit = refillMatch[2].toLowerCase();
+      const mult = unit.includes("week") || unit.includes("সপ্তাহ") ? 7 : unit.includes("month") || unit.includes("মাস") ? 30 : 1;
+      const daysAhead = parseInt(refillMatch[1], 10) * mult;
       const refillD = new Date();
       refillD.setDate(refillD.getDate() + (daysAhead || 14));
       $("rxRefill").value = refillD.toISOString().split("T")[0];
+      markFilled($("rxRefill"));
     } else if ($("rxRefill") && !$("rxRefill").value) {
       const defRefill = new Date();
       defRefill.setDate(defRefill.getDate() + 14);
       $("rxRefill").value = defRefill.toISOString().split("T")[0];
     }
 
-    // Render chips and medicine table
+    if (ccItems.length) markFilled($("rxCCChipContainer"));
+    if (hoItems.length) markFilled($("rxHOChipContainer"));
+    if (invItems.length) markFilled($("rxInvChipContainer"));
+    if (extractedMeds.length) markFilled($("rxMedsTbody"));
+
     renderChips("cc");
     renderChips("ho");
     renderChips("inv");
     renderMedicineTable();
 
-    // Trigger visual highlights
-    [
-      $("rxDoctor"),
-      $("rxDegrees"),
-      $("rxRegNo"),
-      $("rxClinic"),
-      $("rxAddress"),
-      $("rxPhone"),
-      $("rxPatName"),
-      $("rxAge"),
-      $("rxSex"),
-      $("rxDate"),
-      $("rxBp"),
-      $("rxPulse"),
-      $("rxTemp"),
-      $("rxWeight"),
-      $("rxDiagnosis"),
-      $("rxNotes"),
-      $("rxCCChipContainer"),
-      $("rxHOChipContainer"),
-      $("rxInvChipContainer"),
-      $("rxMedsTbody"),
-    ].forEach((el) => flashHighlight(el));
+    // Keep persistent focus/highlight only on fields fulfilled by scanning, and focus first one
+    clearOcrHighlights();
+    fulfilledEls.forEach((el) => markScanHighlight(el));
+    focusFirstFulfilledField(fulfilledEls, Boolean(opts.fromModal));
 
-    // Update Status Banner with Review Modal button
-    const statusBanner = $("rxOcrStatus");
-    if (statusBanner) {
-      const count =
-        (docName ? 1 : 0) +
-        (patName ? 1 : 0) +
-        (bp ? 1 : 0) +
-        (diagnosis ? 1 : 0) +
-        currentMeds.length +
-        currentCC.length;
-      statusBanner.classList.remove("d-none");
-      statusBanner.className = "rx-ocr-status d-flex align-items-center bg-teal bg-opacity-10 border-teal text-teal-dark";
-      statusBanner.innerHTML = `
-        <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-2">
-          <div class="d-flex align-items-center">
-            <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
-            <div>
-              <strong>${tr("ocrSuccess")}</strong>
-              <div class="text-xs text-muted">শনাক্তকৃত তথ্য: ${count}টি (ডাক্তার, রোগী, ভাইটালস, ডায়াগনোসিস ও ওষুধ)</div>
-            </div>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-teal bg-white rounded-pill px-3 py-1 text-xs fw-bold shadow-xs" id="btnOpenOcrModal">
-            <i class="bi bi-file-earmark-code me-1"></i>${tr("btnViewRawOcr")}
-          </button>
-        </div>
-      `;
-      $("btnOpenOcrModal")?.addEventListener("click", openOcrReviewModal);
+    // Verified Status & Confidence Telemetry
+    const extractedFieldsCount =
+      (docName ? 1 : 0) + (degrees ? 1 : 0) + (clinic ? 1 : 0) + (patName ? 1 : 0) +
+      (bp ? 1 : 0) + (pulse ? 1 : 0) + (diagnosis ? 1 : 0) + currentMeds.length +
+      currentCC.length + currentHO.length + currentInv.length;
+
+    const meta = opts.scanMeta || lastScanMeta || {};
+    const confStr =
+      typeof meta.confidence === "number" && meta.confidence > 0
+        ? currentLang === "bn"
+          ? `আত্মবিশ্বাস: ${meta.confidence}%`
+          : `Confidence: ${meta.confidence}%`
+        : "";
+    const srcStr = meta.source ? `${meta.source}` : "";
+    const metaLine = [srcStr, confStr].filter(Boolean).join(" · ");
+
+    if (extractedFieldsCount === 0) {
+      const partialTitle =
+        currentLang === "bn"
+          ? "টেক্সট পড়া হয়েছে তবে স্ট্রাকচার্ড ফিল্ড শনাক্ত হয়নি"
+          : "Text extracted, but structured clinical fields were not recognized";
+      const partialSub =
+        currentLang === "bn"
+          ? `${metaLine ? metaLine + " — " : ""}স্ক্যানকৃত টেক্সট রিভিউ মডালে দেখে ফর্মে বসান বা হাত দিয়ে লিখুন।`
+          : `${metaLine ? metaLine + " — " : ""}Open raw text review to adjust labels and re-parse, or fill manually.`;
+      renderOcrDiagnosticBanner("warn", partialTitle, partialSub, true);
+      rxToast(partialTitle, "warn");
+      return;
     }
 
+    const lowConfNote =
+      typeof meta.confidence === "number" && meta.confidence > 0 && meta.confidence < 55
+        ? currentLang === "bn"
+          ? " (কম স্পষ্টতা — সংরক্ষণের আগে তথ্য যাচাই করুন)"
+          : " (Low legibility — verify before saving)"
+        : "";
+
+    const summaryText =
+      currentLang === "bn"
+        ? `শনাক্তকৃত তথ্য: ${extractedFieldsCount}টি${metaLine ? ` (${metaLine})` : ""}${lowConfNote}`
+        : `Extracted ${extractedFieldsCount} clinical item(s)${metaLine ? ` (${metaLine})` : ""}${lowConfNote}`;
+
+    renderOcrDiagnosticBanner(
+      typeof meta.confidence === "number" && meta.confidence > 0 && meta.confidence < 55 ? "warn" : "success",
+      tr("ocrSuccess"),
+      summaryText,
+      true
+    );
     rxToast(tr("ocrSuccess"), "success");
+  }
+
+  function markScanHighlight(el) {
+    if (!el) return;
+    el.classList.add("ocr-highlight");
+    if (!el.dataset.bwHighlightBound && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT")) {
+      el.dataset.bwHighlightBound = "true";
+      el.addEventListener("input", () => {
+        if (!String(el.value || "").trim()) {
+          el.classList.remove("ocr-highlight");
+        }
+      });
+    }
   }
 
   function flashHighlight(el) {
@@ -1736,7 +2339,10 @@ Urgency: Normal`;
     }
 
     setTimeout(() => {
-      parseAndPopulateOCR(sampleFallbackText);
+      parseAndPopulateOCR(sampleFallbackText, {
+        resetFirst: true,
+        scanMeta: { source: "Sample Prescription Template", confidence: 100, lang: "eng+ben", rotated: 0 },
+      });
     }, 400);
   }
 
@@ -1939,7 +2545,8 @@ Urgency: Normal`;
       if (bsModal) bsModal.hide();
     }
 
-    // Reset form controls
+    // Reset form controls and clear scan focus highlights
+    clearOcrHighlights();
     const form = $("rxForm");
     if (form) form.reset();
     if ($("rxDate")) $("rxDate").value = new Date().toISOString().split("T")[0];
