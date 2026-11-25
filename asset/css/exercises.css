@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ============================================================================
  * @file exercises.css
  * @module BreatheWell/Exercises/Styles
@@ -2119,4 +2119,357 @@ footer {
 body[data-page="exercises"]:has(#session.active) .ht-hero-tab-bar,
 body[data-page="exercises"]:has(#complete.active) .ht-hero-tab-bar {
   display: none !important;
+}
+
+/* ============================================================================
+ * 14. CONTROLS DOCK, SVG WAVEFORMS & LOTUS SANCTUM UPGRADES
+ * ============================================================================
+ */
+
+/* Controls Dock (Goal Filter Pills + Ambient Soundscape Switcher) */
+.ex-controls-dock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1rem;
+}
+
+.ex-controls-dock .explore-goals {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0 !important;
+}
+
+.goal-pill {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ex-soundscape-picker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ex-sound-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ex-sound-pills {
+  display: inline-flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  gap: 3px;
+}
+
+.ex-sound-chip {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ex-sound-chip.active {
+  background: #0f4c3a;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 76, 58, 0.25);
+}
+
+/* Geometric SVG Artwork Overlay */
+.art-geo-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.48;
+  z-index: 1;
+}
+
+.art-geo-shape {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+  animation: artOrbitRotate 32s linear infinite;
+  transform-origin: center;
+}
+
+/* Details Screen Animated SVG Waveform Preview */
+.detail-waveform-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1rem 1.15rem;
+  box-shadow: 0 6px 20px rgba(15, 60, 100, 0.04);
+}
+
+.detail-waveform-canvas-wrap {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 8px;
+  height: 112px;
+}
+
+.detail-waveform-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.detail-wave-stroke {
+  fill: none;
+  stroke: #0284c7;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.detail-wave-tracer {
+  fill: #0d9488;
+  stroke: #ffffff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(13, 148, 136, 0.75));
+}
+
+.detail-wave-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wave-legend-chip {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.detail-duration-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dur-pill {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dur-pill:hover {
+  border-color: var(--blue);
+  color: var(--blue-dark);
+}
+
+.dur-pill.active {
+  background: var(--blue);
+  color: #ffffff;
+  border-color: var(--blue);
+  box-shadow: 0 4px 12px rgba(23, 105, 170, 0.24);
+}
+
+/* Session Screen Sanctum Upgrades (Phase Track, Lotus Geometry, Equalizer) */
+.session-phase-track {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.phase-track-pill {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.phase-track-pill.active {
+  background: #0f4c3a;
+  color: #ffffff;
+  border-color: #0f4c3a;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(15, 76, 58, 0.25);
+}
+
+/* Geometric Blooming Mandala Lotus Layers */
+.breath-lotus-halo {
+  position: absolute;
+  width: 248px;
+  height: 248px;
+  pointer-events: none;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+}
+
+.lotus-layer {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid rgba(56, 189, 248, 0.28);
+  border-radius: 38% 62% 62% 38% / 62% 38% 62% 38%;
+  transition: transform var(--phase-duration, 4s) cubic-bezier(0.42, 0, 0.58, 1),
+    border-color 0.6s ease,
+    opacity 0.6s ease;
+}
+
+.lotus-layer.layer-1 {
+  animation: lotusSpinSlow 28s linear infinite;
+}
+
+.lotus-layer.layer-2 {
+  inset: 14px;
+  border-color: rgba(13, 148, 136, 0.26);
+  border-radius: 62% 38% 38% 62% / 38% 62% 38% 62%;
+  animation: lotusSpinSlow 22s linear infinite reverse;
+}
+
+@keyframes lotusSpinSlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.breath-stage.inhale .lotus-layer.layer-1 {
+  transform: scale(1.26) rotate(45deg);
+  border-color: rgba(14, 165, 233, 0.5);
+}
+
+.breath-stage.inhale .lotus-layer.layer-2 {
+  transform: scale(1.18) rotate(-45deg);
+  border-color: rgba(20, 184, 166, 0.45);
+}
+
+.breath-stage.exhale .lotus-layer.layer-1,
+.breath-stage.exhale .lotus-layer.layer-2 {
+  transform: scale(0.84);
+  opacity: 0.55;
+}
+
+/* Ambient Visualizer Equalizer Bars */
+.session-audio-bars {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 18px;
+  opacity: 0.25;
+  transition: opacity 0.3s ease;
+  z-index: 4;
+}
+
+.session-audio-bars.active {
+  opacity: 0.85;
+}
+
+.eq-bar {
+  width: 3px;
+  height: 5px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #0284c7, #0d9488);
+}
+
+.session-audio-bars.active .eq-bar {
+  animation: eqPulse 0.9s ease-in-out infinite alternate;
+}
+
+.session-audio-bars.active .eq-bar:nth-child(2) { animation-delay: 0.15s; }
+.session-audio-bars.active .eq-bar:nth-child(3) { animation-delay: 0.3s; }
+.session-audio-bars.active .eq-bar:nth-child(4) { animation-delay: 0.1s; }
+.session-audio-bars.active .eq-bar:nth-child(5) { animation-delay: 0.25s; }
+.session-audio-bars.active .eq-bar:nth-child(6) { animation-delay: 0.4s; }
+.session-audio-bars.active .eq-bar:nth-child(7) { animation-delay: 0.2s; }
+
+@keyframes eqPulse {
+  0% { height: 4px; }
+  100% { height: 17px; }
+}
+
+.session-quick-pill {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.session-quick-pill.active {
+  background: #e0f2fe;
+  color: #0369a1;
+  border-color: #bae6fd;
+}
+
+/* Completion Impact Strip */
+.complete-impact-strip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.impact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lotus-layer,
+  .eq-bar,
+  .art-geo-shape {
+    animation: none !important;
+  }
 }

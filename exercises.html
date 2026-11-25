@@ -100,72 +100,141 @@
     </div>
 
     <!-- ========================================================================
-         3. SCREEN 1: EXERCISE LIBRARY & GOAL FILTERING
+         3. SCREEN 1: EXERCISE LIBRARY, STUDIO HERO & GOAL FILTERING
          ======================================================================== -->
     <section id="library" class="screen active">
-      <div class="container">
-        <div class="page-head pb-3">
-          <h1 class="section-title mb-2" data-i18n="libraryTitle">আপনার শ্বাস ব্যায়াম বেছে নিন</h1>
+      <div class="container pb-5">
+
+        <!-- Atmospheric Graphical Hero & Live Mindful Telemetry -->
+        <div class="ex-studio-hero mb-4">
+          <div class="ex-hero-orb-deco deco-1" aria-hidden="true"></div>
+          <div class="ex-hero-orb-deco deco-2" aria-hidden="true"></div>
+
+          <div class="page-head pb-3">
+            <h1 class="section-title mb-2" data-i18n="libraryTitle">আপনার শ্বাস ব্যায়াম বেছে নিন</h1>
+          </div>
+
+          <!-- Goal Filter Pills + Ambient Soundscape Control Bar -->
+          <div class="ex-controls-dock mb-4">
+            <div class="explore-goals d-flex flex-wrap gap-2" id="exploreGoalPills">
+              <button type="button" class="btn btn-sm btn-primary goal-pill" data-goal="all" data-i18n="goalAll">সব
+                অনুশীলন
+                (৪টি)</button>
+              <button type="button" class="btn btn-sm btn-outline-primary goal-pill" data-goal="stress"
+                data-i18n="goalStress">🌿 চাপ ও
+                উদ্বেগ</button>
+              <button type="button" class="btn btn-sm btn-outline-primary goal-pill" data-goal="focus"
+                data-i18n="goalFocus">🎯 মনোযোগ ও
+                ভারসাম্য</button>
+              <button type="button" class="btn btn-sm btn-outline-primary goal-pill" data-goal="sleep"
+                data-i18n="goalSleep">🌙 ঘুম ও
+                বিশ্রাম</button>
+              <button type="button" class="btn btn-sm btn-outline-primary goal-pill" data-goal="mindful"
+                data-i18n="goalMindful">🧘 সচেতন
+                উপস্থিতি</button>
+            </div>
+
+            <div class="ex-soundscape-picker" role="group" aria-label="Ambient Soundscape Generator">
+              <span class="ex-sound-label">
+                <i class="bi bi-soundwave text-teal"></i>
+                <span data-i18n="soundscapeLabel">অ্যাম্বিয়েন্ট সাউন্ড:</span>
+              </span>
+              <div class="ex-sound-pills" id="exSoundscapePills">
+                <button type="button" class="ex-sound-chip active" data-soundscape="chimes">
+                  <i class="bi bi-music-note-beamed"></i>
+                  <span data-i18n="soundChimes">বেল</span>
+                </button>
+                <button type="button" class="ex-sound-chip" data-soundscape="rain">
+                  <i class="bi bi-cloud-drizzle-fill"></i>
+                  <span data-i18n="soundRain">বৃষ্টি</span>
+                </button>
+                <button type="button" class="ex-sound-chip" data-soundscape="drone">
+                  <i class="bi bi-vinyl-fill"></i>
+                  <span data-i18n="soundDrone">৪৩২Hz</span>
+                </button>
+                <button type="button" class="ex-sound-chip" data-soundscape="off">
+                  <i class="bi bi-volume-mute"></i>
+                  <span data-i18n="audioOff">বন্ধ</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4" id="libraryCards"></div>
         </div>
-        <!-- Quick Goal Pills -->
-        <div class="explore-goals d-flex flex-wrap gap-2 mb-4" id="exploreGoalPills">
-          <button class="btn btn-sm btn-primary goal-pill" data-goal="all" data-i18n="goalAll">সব অনুশীলন
-            (৪টি)</button>
-          <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="stress" data-i18n="goalStress">🌿 চাপ
-            ও
-            উদ্বেগ</button>
-          <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="focus" data-i18n="goalFocus">🎯 মনোযোগ
-            ও
-            ভারসাম্য</button>
-          <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="sleep" data-i18n="goalSleep">🌙 ঘুম ও
-            বিশ্রাম</button>
-          <button class="btn btn-sm btn-outline-primary goal-pill" data-goal="mindful" data-i18n="goalMindful">🧘
-            সচেতন উপস্থিতি</button>
-        </div>
-        <div class="row g-4 pb-5" id="libraryCards"></div>
-      </div>
     </section>
 
     <!-- ========================================================================
-         3. SCREEN 2: EXERCISE SCIENCE DETAILS & CADENCE LEVEL PICKER
+         4. SCREEN 2: EXERCISE SCIENCE DETAILS, WAVEFORM & CADENCE LEVEL PICKER
          ======================================================================== -->
     <section id="details" class="screen">
       <div class="container pb-5">
         <div class="page-head pb-2">
-          <div class="breadcrumb mb-2"><button class="btn btn-link p-0 text-decoration-none" onclick="go('library')"
-              data-i18n="libraryTitle">অনুশীলন</button> / <span data-i18n="detailsLabel">বিস্তারিত</span></div>
+          <div class="breadcrumb mb-2">
+            <button type="button" class="btn btn-link p-0 text-decoration-none" id="btnBackLibrary"
+              data-i18n="libraryTitle">অনুশীলন</button>
+            <span class="mx-2">/</span>
+            <span data-i18n="detailsLabel">বিস্তারিত</span>
+          </div>
         </div>
         <div class="row g-4 align-items-stretch">
-          <div class="col-lg-5">
-            <div class="detail-visual h-100">
+          <div class="col-lg-5 d-flex flex-column gap-3">
+            <div class="detail-visual flex-grow-1">
               <div class="orb">
                 <div class="orb-core"><i class="bi bi-wind"></i></div>
               </div>
             </div>
+
+            <!-- Live Animated Cadence Waveform SVG Preview -->
+            <div class="detail-waveform-card">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small fw-bold text-dark">
+                  <i class="bi bi-activity text-primary me-1"></i>
+                  <span data-i18n="waveformTitle">শ্বাস ওয়েভফর্ম কার্ভ প্রিভিউ</span>
+                </span>
+                <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 fw-bold"
+                  id="detailCycleSecs">16s</span>
+              </div>
+              <div class="detail-waveform-canvas-wrap">
+                <svg class="detail-waveform-svg" id="detailWaveformSvg" viewBox="0 0 360 110" preserveAspectRatio="none"
+                  aria-label="Animated breathing rhythm waveform">
+                  <defs>
+                    <linearGradient id="detailWaveFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.28" />
+                      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.02" />
+                    </linearGradient>
+                  </defs>
+                  <path id="detailWaveAreaPath" fill="url(#detailWaveFill)" d=""></path>
+                  <path id="detailWaveLinePath" class="detail-wave-stroke" d=""></path>
+                  <circle id="detailWaveTracer" class="detail-wave-tracer" cx="12" cy="88" r="6"></circle>
+                </svg>
+              </div>
+              <div class="detail-wave-legend mt-2" id="detailWaveLegend"></div>
+            </div>
           </div>
+
           <div class="col-lg-7">
             <div class="eyebrow mb-2" data-i18n="exerciseDetails">অনুশীলনের বিবরণ</div>
             <h1 class="section-title mb-3" id="detailTitle"></h1>
             <p class="text-secondary lh-lg" id="detailDesc"></p>
 
             <!-- Level Selector Control -->
-            <div class="level-selector-wrap mt-4 mb-3">
+            <div class="level-selector-wrap mt-3 mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <label class="form-label fw-bold mb-0" data-i18n="levelSelectLabel">অনুশীলন স্তর (লেভেল)</label>
                 <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-semibold"
                   id="detailLevelBadge">লেভেল ২ · মাঝারি</span>
               </div>
               <div class="level-pill-group" role="group" aria-label="Exercise difficulty level" id="levelButtonGroup">
-                <button type="button" class="level-pill-btn" data-level="beginner" onclick="selectLevel('beginner')">
+                <button type="button" class="level-pill-btn" data-level="beginner">
                   <span class="lvl-badge">L1</span>
                   <span class="lvl-text" data-i18n="levelBeginner">শুরুর জন্য</span>
                 </button>
-                <button type="button" class="level-pill-btn active" data-level="intermediate"
-                  onclick="selectLevel('intermediate')">
+                <button type="button" class="level-pill-btn active" data-level="intermediate">
                   <span class="lvl-badge">L2</span>
                   <span class="lvl-text" data-i18n="levelIntermediate">মাঝারি</span>
                 </button>
-                <button type="button" class="level-pill-btn" data-level="advanced" onclick="selectLevel('advanced')">
+                <button type="button" class="level-pill-btn" data-level="advanced">
                   <span class="lvl-badge">L3</span>
                   <span class="lvl-text" data-i18n="levelAdvanced">উন্নত</span>
                 </button>
@@ -175,61 +244,89 @@
 
             <h2 class="h6 fw-bold mt-4 mb-3" data-i18n="pattern">শ্বাসের প্যাটার্ন</h2>
             <div class="row g-2 mb-4" id="detailPattern"></div>
+
+            <!-- Graphical Duration Quick Pills + Accessible Selects -->
+            <div class="detail-duration-pills mb-3" id="detailDurationPills" role="group"
+              aria-label="Quick duration selector">
+              <button type="button" class="dur-pill active" data-dur="60" data-i18n="dur1MinChip">১ মিনিট</button>
+              <button type="button" class="dur-pill" data-dur="120" data-i18n="dur2Min">২ মিনিট</button>
+              <button type="button" class="dur-pill" data-dur="180" data-i18n="dur3Min">৩ মিনিট</button>
+              <button type="button" class="dur-pill" data-dur="300" data-i18n="dur5Min">৫ মিনিট</button>
+              <button type="button" class="dur-pill" data-dur="600" data-i18n="dur10Min">১০ মিনিট</button>
+            </div>
+
             <div class="row g-3 align-items-end">
-              <div class="col-sm-6"><label class="form-label fw-bold" for="durationSelect"
-                  data-i18n="sessionDuration">অনুশীলনের সময়</label><select id="durationSelect" class="form-select">
+              <div class="col-sm-6">
+                <label class="form-label fw-bold" for="durationSelect" data-i18n="sessionDuration">অনুশীলনের সময়</label>
+                <select id="durationSelect" class="form-select">
                   <option value="60" selected data-i18n="dur1Min">১ মিনিট (মিনিমাম)</option>
                   <option value="120" data-i18n="dur2Min">২ মিনিট</option>
                   <option value="180" data-i18n="dur3Min">৩ মিনিট</option>
                   <option value="300" data-i18n="dur5Min">৫ মিনিট</option>
                   <option value="600" data-i18n="dur10Min">১০ মিনিট</option>
-                </select></div>
-              <div class="col-sm-6"><label class="form-label fw-bold" for="audioSelect" data-i18n="audioGuidance">অডিও
-                  নির্দেশনা</label><select id="audioSelect" class="form-select">
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label fw-bold" for="audioSelect" data-i18n="audioGuidance">অডিও নির্দেশনা</label>
+                <select id="audioSelect" class="form-select">
                   <option value="off" data-i18n="audioOff">বন্ধ</option>
-                  <option value="on" data-i18n="audioOn">চালু (সমর্থিত ব্রাউজারে)</option>
-                </select></div>
+                  <option value="on" selected data-i18n="audioOn">চালু (সমর্থিত ব্রাউজারে)</option>
+                </select>
+              </div>
             </div>
-            <div class="safety-panel mt-4"><strong><i class="bi bi-shield-check me-2"></i><span
-                  data-i18n="beforeStart">শুরু করার আগে</span></strong>
+
+            <div class="safety-panel mt-4">
+              <strong><i class="bi bi-shield-check me-2"></i><span data-i18n="beforeStart">শুরু করার আগে</span></strong>
               <p class="mb-0 mt-2 small" data-i18n="detailSafety">স্বাভাবিকভাবে শ্বাস নিন। কোনো ধাপ অস্বস্তিকর হলে থামুন
                 এবং নিজের স্বাভাবিক শ্বাসে ফিরে যান।</p>
             </div>
-            <button class="btn btn-primary w-100 mt-4" onclick="startSession()" data-i18n="startSession">অনুশীলন শুরু
-              করুন <i class="bi bi-play-fill ms-1"></i></button>
+            <button type="button" class="btn btn-primary w-100 mt-4 btn-lg rounded-4 fw-bold" id="btnStartFromDetails"
+              data-i18n="startSession">অনুশীলন শুরু করুন <i class="bi bi-play-fill ms-1"></i></button>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ========================================================================
-         4. SCREEN 3: GUIDED BREATHING PRACTICE STAGE & CADENCE RINGS
+         5. SCREEN 3: GUIDED BREATHING SANCTUARY STAGE & CADENCE RINGS
          ======================================================================== -->
     <section id="session" class="screen">
       <div class="session-wrap">
         <div class="container">
           <div class="session-card">
             <div class="session-top">
-              <button class="btn btn-link text-decoration-none p-0" onclick="confirmStop()" data-i18n="exitSession"><i
-                  class="bi bi-arrow-left me-1"></i> বের হন</button>
-              <div class="d-flex align-items-center gap-2">
-                <span id="sessionName"></span>
-                <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 small"
-                  id="sessionLevelBadge" data-i18n="sessionLevelBadgeDefault">লেভেল ২</span>
+              <button type="button" class="btn btn-link text-decoration-none p-0 fw-semibold" id="btnExitSession"
+                data-i18n="exitSession"><i class="bi bi-arrow-left me-1"></i> বের হন</button>
+              <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
+                <span id="sessionName" class="fw-bold text-dark"></span>
+                <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 small" id="sessionLevelBadge"
+                  data-i18n="sessionLevelBadgeDefault">লেভেল ২</span>
+                <span class="badge bg-success-subtle text-success rounded-pill px-2.5 py-1 small"
+                  id="sessionCyclePill">চক্র ০</span>
               </div>
               <span class="timer" id="remainingTime">01:00</span>
             </div>
+
             <div class="session-progress mt-3">
               <div id="progressBar"></div>
             </div>
 
-            <!-- ATTRACTIVE BREATH STAGE -->
+            <!-- Live Cycle Phase Step Timeline -->
+            <div class="session-phase-track mt-3" id="sessionPhaseTrack" aria-label="Cycle phase sequence"></div>
+
+            <!-- ATTRACTIVE SANCTUM BREATH STAGE -->
             <div class="breath-stage" id="breathStage" aria-live="off">
               <!-- Dynamic Atmosphere Halo & Waves -->
               <div class="breath-aura" id="breathAura"></div>
               <div class="breath-wave wave-3"></div>
               <div class="breath-wave wave-2"></div>
               <div class="breath-wave wave-1"></div>
+
+              <!-- Animated Geometric Mandala Lotus Halo -->
+              <div class="breath-lotus-halo" aria-hidden="true">
+                <span class="lotus-layer layer-1"></span>
+                <span class="lotus-layer layer-2"></span>
+              </div>
 
               <!-- SVG Circular Phase Cadence Ring -->
               <svg class="breath-svg-track" viewBox="0 0 320 320" aria-hidden="true">
@@ -273,19 +370,43 @@
                   <div class="phase-count" id="phaseCount">৩</div>
                 </div>
               </div>
+
+              <!-- Bottom Ambient Visualizer Bars -->
+              <div class="session-audio-bars" id="sessionAudioBars" aria-hidden="true">
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+              </div>
             </div>
 
             <div class="mb-3">
-              <h2 class="h3 fw-bold mb-2" id="instructionText" data-i18n="prepare">প্রস্তুত হন</h2>
+              <h2 class="h3 fw-bold mb-1" id="instructionText" data-i18n="prepare">প্রস্তুত হন</h2>
               <p class="text-secondary mb-0" id="subInstruction" data-i18n="prepareSub">আরাম করে বসুন বা শুয়ে পড়ুন</p>
             </div>
-            <div class="d-flex justify-content-center gap-3 mt-4">
-              <button class="control-btn primary" id="pauseBtn" onclick="togglePause()" aria-label="Pause"><i
+
+            <!-- In-Session Playback & Audio Dock -->
+            <div class="d-flex justify-content-center align-items-center flex-wrap gap-2 mt-3">
+              <button type="button" class="btn session-quick-pill" id="btnSessionVoice" aria-pressed="true"
+                title="Voice guidance toggle">
+                <i class="bi bi-megaphone-fill"></i>
+                <span data-i18n="voiceLabel">ভয়েস</span>
+              </button>
+              <button type="button" class="control-btn primary" id="pauseBtn" aria-label="Pause"><i
                   class="bi bi-pause-fill"></i></button>
-              <button class="control-btn" onclick="confirmStop()" aria-label="Stop"><i
+              <button type="button" class="control-btn" id="btnStopSession" aria-label="Stop"><i
                   class="bi bi-stop-fill"></i></button>
+              <button type="button" class="btn session-quick-pill active" id="btnSessionSoundscape"
+                title="Switch ambient soundscape">
+                <i class="bi bi-music-note-beamed" id="sessionSoundIcon"></i>
+                <span id="sessionSoundLabel" data-i18n="soundChimes">বেল</span>
+              </button>
             </div>
-            <p class="small text-secondary mt-4 mb-0" data-i18n="sessionSafety">শ্বাস জোর করে নেবেন না। অস্বস্তি হলে
+
+            <p class="small text-secondary mt-3 mb-0" data-i18n="sessionSafety">শ্বাস জোর করে নেবেন না। অস্বস্তি হলে
               থামুন।</p>
           </div>
         </div>
@@ -293,7 +414,7 @@
     </section>
 
     <!-- ========================================================================
-         5. SCREEN 4: SESSION COMPLETE, CHAMPION CUP & SOCIAL SHARING
+         6. SCREEN 4: SESSION COMPLETE, CHAMPION CUP & SOCIAL SHARING
          ======================================================================== -->
     <section id="complete" class="screen">
       <div class="container py-5">
@@ -302,8 +423,8 @@
 
           <!-- ANIMATED CHAMPION CUP & CELEBRATION STAGE -->
           <div class="trophy-stage-wrap text-center mb-4">
-            <div class="trophy-stage position-relative d-inline-block" id="trophyStage" onclick="celebrateAgain()"
-              role="button" tabindex="0" aria-label="Celebration Trophy - Tap for celebration">
+            <div class="trophy-stage position-relative d-inline-block" id="trophyStage" role="button" tabindex="0"
+              aria-label="Celebration Trophy - Tap for celebration">
               <div class="trophy-aura" aria-hidden="true"></div>
               <div class="trophy-sparkle sp-1" aria-hidden="true"><i class="bi bi-star-fill"></i></div>
               <div class="trophy-sparkle sp-2" aria-hidden="true"><i class="bi bi-sparkle"></i></div>
@@ -387,7 +508,7 @@
               </div>
               <div class="mt-2">
                 <button type="button" class="btn btn-sm btn-light border shadow-sm rounded-pill tap-trophy-pill"
-                  onclick="celebrateAgain()" aria-label="Celebrate again">
+                  id="btnCelebrateAgain" aria-label="Celebrate again">
                   <i class="bi bi-magic text-warning me-1"></i> <span id="tapCupHint" data-i18n="tapCupConfetti">ট্রফিতে
                     ট্যাপ করুন!</span>
                 </button>
@@ -399,6 +520,21 @@
           <h1 class="section-title mb-3" data-i18n="completeTitle">আপনার অনুশীলন সম্পন্ন হয়েছে!</h1>
           <p class="text-secondary mb-4" data-i18n="completeDesc">এবার স্বাভাবিকভাবে শ্বাস নিন এবং কিছুক্ষণ বিশ্রাম
             করুন।</p>
+
+          <!-- Daily Impact & Streak Celebration Strip -->
+          <div class="complete-impact-strip mb-4" id="completeImpactStrip">
+            <div class="impact-pill">
+              <i class="bi bi-fire text-warning"></i>
+              <span><strong id="completeStreakNum">1</strong> <span data-i18n="daysUnit">দিন</span> <span
+                  data-i18n="streakSuffix">স্ট্রিক</span></span>
+            </div>
+            <div class="impact-pill">
+              <i class="bi bi-clock-fill text-teal"></i>
+              <span><strong id="completeTodayMins">1</strong> <span data-i18n="todayMindfulMins">মিনিট আজকের
+                  অনুশীলন</span></span>
+            </div>
+          </div>
+
           <div class="row g-3 text-start mb-4">
             <div class="col-6 col-md-4">
               <div class="info-panel">
@@ -448,19 +584,19 @@
             <p class="small text-secondary mb-3" data-i18n="moodCheckSub">আপনার অনুভূতি চিহ্নিত করে মানসিক পরিবর্তনের
               পর্যবেক্ষণ রাখুন।</p>
             <div class="mood-options d-flex justify-content-center gap-2 flex-wrap" id="moodOptions">
-              <button type="button" class="btn mood-btn" data-mood="calm" onclick="selectMood('calm', this)">
+              <button type="button" class="btn mood-btn" data-mood="calm">
                 <span class="mood-emoji">😌</span>
                 <span class="mood-label" data-i18n="moodCalm">শান্ত ও নির্ভার</span>
               </button>
-              <button type="button" class="btn mood-btn" data-mood="refreshed" onclick="selectMood('refreshed', this)">
+              <button type="button" class="btn mood-btn" data-mood="refreshed">
                 <span class="mood-emoji">⚡</span>
                 <span class="mood-label" data-i18n="moodRefreshed">সতেজ ও উদ্যমী</span>
               </button>
-              <button type="button" class="btn mood-btn" data-mood="focused" onclick="selectMood('focused', this)">
+              <button type="button" class="btn mood-btn" data-mood="focused">
                 <span class="mood-emoji">🎯</span>
                 <span class="mood-label" data-i18n="moodFocused">মনোযোগী</span>
               </button>
-              <button type="button" class="btn mood-btn" data-mood="sleepy" onclick="selectMood('sleepy', this)">
+              <button type="button" class="btn mood-btn" data-mood="sleepy">
                 <span class="mood-emoji">🌙</span>
                 <span class="mood-label" data-i18n="moodSleepy">শিথিল ও তন্দ্রাচ্ছন্ন</span>
               </button>
@@ -479,36 +615,38 @@
                 মিডিয়ায় ভাগ করে নিন।</p>
             </div>
             <div class="share-buttons-grid d-flex flex-wrap justify-content-center gap-2">
-              <button class="btn share-btn share-whatsapp" onclick="shareSession('whatsapp')"
+              <button type="button" class="btn share-btn share-whatsapp" data-share="whatsapp"
                 aria-label="Share on WhatsApp">
                 <i class="bi bi-whatsapp"></i> <span>WhatsApp</span>
               </button>
-              <button class="btn share-btn share-x" onclick="shareSession('twitter')" aria-label="Share on X">
+              <button type="button" class="btn share-btn share-x" data-share="twitter" aria-label="Share on X">
                 <i class="bi bi-twitter-x"></i> <span>X (Twitter)</span>
               </button>
-              <button class="btn share-btn share-facebook" onclick="shareSession('facebook')"
+              <button type="button" class="btn share-btn share-facebook" data-share="facebook"
                 aria-label="Share on Facebook">
                 <i class="bi bi-facebook"></i> <span>Facebook</span>
               </button>
-              <button class="btn share-btn share-linkedin" onclick="shareSession('linkedin')"
+              <button type="button" class="btn share-btn share-linkedin" data-share="linkedin"
                 aria-label="Share on LinkedIn">
                 <i class="bi bi-linkedin"></i> <span>LinkedIn</span>
               </button>
-              <button class="btn share-btn share-copy" onclick="shareSession('copy')" aria-label="Copy Link">
+              <button type="button" class="btn share-btn share-copy" data-share="copy" aria-label="Copy Link">
                 <i class="bi bi-link-45deg"></i> <span data-i18n="copyLinkBtn">লিঙ্ক কপি</span>
               </button>
-              <button class="btn share-btn share-native d-none" id="nativeShareSessionBtn"
-                onclick="shareSession('native')" aria-label="More share options">
+              <button type="button" class="btn share-btn share-native d-none" id="nativeShareSessionBtn"
+                data-share="native" aria-label="More share options">
                 <i class="bi bi-share-fill"></i> <span data-i18n="moreShareBtn">আরও শেয়ার</span>
               </button>
             </div>
           </div>
 
           <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
-            <button class="btn btn-primary" onclick="startSession()" data-i18n="practiceAgain">আবার অনুশীলন
-              করুন</button>
-            <button class="btn btn-outline-primary" onclick="go('library')" data-i18n="otherExercises">অন্য অনুশীলন
-              দেখুন</button>
+            <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-bold" id="btnPracticeAgain"
+              data-i18n="practiceAgain">আবার অনুশীলন করুন</button>
+            <button type="button" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold" id="btnOtherExercises"
+              data-i18n="otherExercises">অন্য অনুশীলন দেখুন</button>
+            <a href="breath-test.html" class="btn btn-outline-teal rounded-pill px-4 py-2 fw-bold"
+              data-i18n="postTestCta">শ্বাস পরীক্ষা করুন</a>
           </div>
         </div>
       </div>

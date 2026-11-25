@@ -3,161 +3,1218 @@
  * @file breath-test.css
  * @module BreatheWell/BreathTest/Styles
  * @description Dedicated Modular Stylesheet for Respiratory Assessment Engine.
- *              Encapsulates styling for:
- *                1. Respiratory assessment teaser callout banner & 3D rotating rings
- *                2. Dual assessment mode tabs (BOLT Test & BPM Respiratory Rate)
- *                3. Interactive BOLT countdown stopwatch and glowing aura ring
- *                4. BPM respiratory breath tap counter box
- *                5. Clinical score diagnostic hero & personalized recommendation cards
- *                6. Respiratory assessment history archive log and score badges
- *                7. Dedicated test result social sharing bar and mini buttons
- *                8. Pulsing & breathing keyframe animations
+ *              Styles:
+ *                1. Page Header, Utility Sound/Safety Dock & Telemetry KPI Grid
+ *                2. Accessible Mode Switcher Tabs (BOLT Test vs BPM Counter)
+ *                3. Illustrated 3-Step Protocol Cards & Calm Prep Pacer
+ *                4. Radar Countdown & Circular SVG Assessment Stopwatch Dial
+ *                5. Live Wave Visualizer, Milestone Zone Track & BPM Analyzer
+ *                6. Radial Result Gauge, Clinical Spectrum Needle & 3 Bio-Markers
+ *                7. Interactive SVG Trend Chart, History Log & Bohr FAQ Accordion
+ *                8. Print Summary Styles & Reduced Motion Support
  * @author BreatheWell Development Team
- * @version 1.0.0
+ * @version 2.5.0
  * @license MIT
  * ============================================================================
  */
+
 /* ============================================================================
- * 11. RESPIRATORY ASSESSMENT ENGINE (BOLT & BPM)
+ * 1. HEADER BAR, UTILITY PILLS & TELEMETRY KPI STRIP
  * ============================================================================
  */
-.test-banner {
-  background: linear-gradient(135deg, #104e82 0%, #1769aa 55%, #2998e3 100%);
-  box-shadow: 0 16px 45px rgba(16, 78, 130, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+.bt-header-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.25rem;
+  padding-top: 0.75rem;
 }
 
-.test-banner-visual {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  margin: 0 auto;
-  display: grid;
-  place-items: center;
+.bt-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  background: var(--bw-primary-light, #e8f3fb);
+  color: var(--bw-primary, #1769aa);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
 }
 
-.test-banner-visual .pulse-ring {
-  position: absolute;
-  inset: -15px;
+.bt-eyebrow-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  border: 2px dashed rgba(255, 255, 255, 0.35);
-  animation: orbit 24s linear infinite;
+  background: var(--bw-emerald, #10b981);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
+  animation: btPulseDot 2.2s ease-in-out infinite;
 }
 
-.test-badge-circle {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: white;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  animation: heroBreathe 5s ease-in-out infinite;
+.bt-utility-dock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
 }
 
-.test-tab-btn {
-  border-radius: 20px;
-  padding: 0.45rem 1.1rem;
+.bt-util-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 9999px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 0.85rem;
   font-weight: 700;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
+.bt-util-pill:hover {
+  transform: translateY(-1px);
+  border-color: var(--bw-primary, #1769aa);
+  box-shadow: 0 6px 16px rgba(23, 105, 170, 0.12);
+}
+
+.bt-util-pill:focus-visible {
+  outline: 2px solid var(--bw-primary, #1769aa);
+  outline-offset: 2px;
+}
+
+.bt-mini-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  opacity: 0.3;
+}
+
+.bt-mini-eq span {
+  width: 2.5px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bw-primary, #1769aa);
+}
+
+.bt-mini-eq.active {
+  opacity: 1;
+}
+
+.bt-mini-eq.active span {
+  animation: btMiniEq 0.85s ease-in-out infinite alternate;
+}
+
+.bt-mini-eq.active span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bt-mini-eq.active span:nth-child(3) {
+  animation-delay: 0.35s;
+}
+
+/* Telemetry KPI Strip */
+.bt-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.bt-kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.95rem 1.05rem;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line, #e2e8f0);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.bt-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(23, 105, 170, 0.09);
+  border-color: #cbd5e1;
+}
+
+.bt-kpi-icon-well {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.kpi-bolt .bt-kpi-icon-well {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.kpi-bpm .bt-kpi-icon-well {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.kpi-total .bt-kpi-icon-well {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.kpi-index .bt-kpi-icon-well {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.bt-kpi-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.bt-kpi-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted, #64748b);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bt-kpi-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.bt-kpi-sub {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bt-readiness-track {
+  width: 100%;
+  height: 5px;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  margin: 4px 0 3px;
+  overflow: hidden;
+}
+
+.bt-readiness-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #f59e0b, #10b981);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================================
+ * 2. MODE SWITCHER TABS (BOLT vs BPM)
+ * ============================================================================
+ */
+.bt-mode-switcher {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.bt-mode-tab {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 68px;
+  padding: 0.85rem 1.1rem;
+  border-radius: 18px;
+  border: 1.5px solid var(--line, #e2e8f0);
+  background: #ffffff;
+  color: #1e293b;
+  text-align: start;
+  cursor: pointer;
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bt-mode-tab:hover {
+  border-color: #93c5fd;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(23, 105, 170, 0.08);
+}
+
+.bt-mode-tab.active {
+  border-color: var(--bw-primary, #1769aa);
+  background: linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%);
+  box-shadow: 0 10px 26px rgba(23, 105, 170, 0.14);
+}
+
+.bt-mode-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: #e0f2fe;
+  color: var(--bw-primary, #1769aa);
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  transition: transform 0.24s ease, background-color 0.24s ease, color 0.24s ease;
+}
+
+.bt-mode-icon.icon-teal {
+  background: #e0f2f1;
+  color: #0f766e;
+}
+
+.bt-mode-tab.active .bt-mode-icon {
+  background: var(--bw-primary, #1769aa);
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+.bt-mode-tab.active[data-test="bpm"] .bt-mode-icon {
+  background: #0d9488;
+}
+
+.bt-mode-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.bt-mode-text strong {
+  display: block;
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.bt-mode-text small {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--muted, #64748b);
+  line-height: 1.35;
+}
+
+.bt-mode-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #fef3c7;
+  color: #92400e;
+  white-space: nowrap;
+}
+
+.bt-mode-badge.badge-teal {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+/* ============================================================================
+ * 3. MAIN ASSESSMENT PANEL & 3-STEP PROTOCOL RIBBON
+ * ============================================================================
+ */
 .test-panel {
-  border: 1px solid var(--line);
-  background: white;
+  border: 1px solid var(--line, #e2e8f0);
+  background: #ffffff;
+  box-shadow: 0 12px 34px rgba(15, 35, 65, 0.05);
   transition: box-shadow 0.3s ease;
 }
 
 .test-visual-badge {
-  width: 64px;
-  height: 64px;
-  border-radius: 20px;
-  background: var(--sky);
+  position: relative;
+  width: 68px;
+  height: 68px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #e8f4ff 0%, #d4ebff 100%);
   display: grid;
   place-items: center;
-  box-shadow: 0 8px 24px rgba(23, 105, 170, 0.12);
+  box-shadow: 0 8px 24px rgba(23, 105, 170, 0.14);
+}
+
+.bt-badge-sonar {
+  position: absolute;
+  inset: -6px;
+  border-radius: 26px;
+  border: 2px solid rgba(23, 105, 170, 0.25);
+  animation: btBadgeSonar 2.8s ease-out infinite;
+}
+
+.test-instruction-body {
+  max-width: 540px;
+  line-height: 1.65;
+}
+
+.bt-protocol-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  text-align: start;
+}
+
+.bt-step-card {
+  position: relative;
+  padding: 0.85rem 0.9rem;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.bt-step-card:hover {
+  transform: translateY(-2px);
+  border-color: #93c5fd;
+  background: #ffffff;
+}
+
+.bt-step-card.is-active {
+  background: #f0f9ff;
+  border-color: var(--bw-primary, #1769aa);
+  box-shadow: 0 6px 16px rgba(23, 105, 170, 0.12);
+}
+
+.bt-step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bw-primary-light, #e8f3fb);
+  color: var(--bw-primary, #1769aa);
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.bt-step-card.is-active .bt-step-num {
+  background: var(--bw-primary, #1769aa);
+  color: #ffffff;
+}
+
+.bt-step-title {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+
+.bt-step-desc {
+  font-size: 0.74rem;
+  color: var(--muted, #64748b);
+  line-height: 1.45;
+}
+
+/* Pre-Test Controls (Guided Prep Pacer + BPM Window Picker) */
+.bt-pre-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.bt-prep-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 15px;
+  border-radius: 9999px;
+  border: 1px dashed #93c5fd;
+  background: #f0f9ff;
+  color: #0369a1;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bt-prep-toggle-btn:hover,
+.bt-prep-toggle-btn.active {
+  background: #e0f2fe;
+  border-style: solid;
+  border-color: var(--bw-primary, #1769aa);
+}
+
+.bt-bpm-window-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px 12px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.bt-window-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.bt-win-pill {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bt-win-pill.active {
+  background: #0d9488;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25);
+}
+
+/* Guided Calm Prep Stage */
+.bt-prep-stage {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0.9rem 1.1rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f0fdfa 0%, #f0f9ff 100%);
+  border: 1px solid #bae6fd;
+}
+
+.bt-prep-orb-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bt-prep-orb {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #a5f3fc, #0284c7);
+  flex-shrink: 0;
+  transform: scale(0.85);
+  transition: transform 2s cubic-bezier(0.42, 0, 0.58, 1);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.32);
+}
+
+.bt-prep-orb.inhaling {
+  transform: scale(1.22);
+}
+
+.bt-prep-orb.exhaling {
+  transform: scale(0.76);
+}
+
+.bt-prep-bar-track {
+  height: 7px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.bt-prep-bar-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #0284c7, #10b981);
+  transition: width 0.25s linear;
+}
+
+.bt-prep-sec {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================================
+ * 4. RADAR COUNTDOWN & GRAPHICAL SVG CIRCULAR STOPWATCH STAGE
+ * ============================================================================
+ */
+.bt-countdown-radar {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: grid;
+  place-items: center;
+}
+
+.bt-radar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(23, 105, 170, 0.3);
+  animation: btRadarExpand 1.8s ease-out infinite;
+}
+
+.bt-radar-ring.r2 {
+  animation-delay: 0.9s;
 }
 
 .test-count-circle {
-  width: 90px;
-  height: 90px;
+  position: relative;
+  z-index: 2;
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
-  background: radial-gradient(circle, #eaf5ff 0%, #cdeeff 100%);
-  border: 2px solid #84c5f4;
+  background: radial-gradient(circle, #f0f9ff 0%, #bae6fd 100%);
+  border: 2px solid #38bdf8;
   display: grid;
   place-items: center;
-  font-size: 2.8rem;
+  font-size: 2.7rem;
   font-weight: 900;
-  color: var(--blue-dark);
+  color: var(--bw-primary-dark, #0d47a1);
   animation: prepareThrob 1s ease-in-out infinite;
-  box-shadow: 0 10px 30px rgba(23, 105, 170, 0.2);
+  box-shadow: 0 10px 30px rgba(23, 105, 170, 0.22);
 }
 
+.animate-pop {
+  animation: btCountPop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bt-phase-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0369a1;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.bt-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  animation: btPulseDot 1.4s ease-in-out infinite;
+}
+
+/* Circular SVG Stopwatch Dial */
 .bolt-meter-wrap {
-  width: 210px;
-  height: 210px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 35% 28%, #ffffff 0%, #eef8ff 45%, #bfe4fa 100%);
-  box-shadow: 0 20px 60px rgba(23, 105, 170, 0.22), inset 0 0 20px rgba(255, 255, 255, 0.8);
+  background: radial-gradient(circle at 35% 28%, #ffffff 0%, #eff8ff 52%, #d8eefe 100%);
+  box-shadow: 0 18px 50px rgba(23, 105, 170, 0.18), inset 0 0 24px rgba(255, 255, 255, 0.85);
   position: relative;
   user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.bolt-meter-wrap.bpm-clickable {
+  cursor: pointer;
+}
+
+.bolt-meter-wrap.bpm-clickable:hover {
+  transform: scale(1.02);
+  box-shadow: 0 22px 54px rgba(13, 148, 136, 0.25), inset 0 0 24px rgba(255, 255, 255, 0.9);
+}
+
+.bolt-meter-wrap.bpm-tap-flash {
+  transform: scale(0.97);
 }
 
 .bolt-glow-ring {
   position: absolute;
   inset: -12px;
   border-radius: 50%;
-  border: 2px solid rgba(46, 155, 229, 0.25);
-  animation: stagePulse 4s ease-in-out infinite;
+  border: 2px solid rgba(46, 155, 229, 0.28);
+  animation: stagePulse 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.bt-tap-ripple {
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  border: 3px solid rgba(16, 185, 129, 0.55);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bt-tap-ripple.ping {
+  animation: btTapRipple 0.52s ease-out;
+}
+
+.bt-ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.bt-ring-track {
+  fill: none;
+  stroke: rgba(23, 105, 170, 0.12);
+  stroke-width: 10;
+}
+
+.bt-ring-progress {
+  fill: none;
+  stroke: url(#btRingGrad);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 660;
+  stroke-dashoffset: 660;
+  transition: stroke-dashoffset 0.15s linear;
+}
+
+.bt-ring-orb {
+  fill: #0d9488;
+  stroke: #ffffff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(13, 148, 136, 0.85));
+}
+
+.bt-dial-center {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 0 18px;
 }
 
 .bolt-timer-display {
-  font-size: 2.9rem;
+  font-size: 2.85rem;
   font-weight: 900;
-  color: var(--blue-dark);
+  color: var(--bw-primary-dark, #0d47a1);
   font-variant-numeric: tabular-nums;
   letter-spacing: -1px;
+  line-height: 1.05;
 }
 
+.bt-dial-sub {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted, #64748b);
+  margin-top: 4px;
+}
+
+/* ============================================================================
+ * 5. LIVE WAVEFORM BARS, BOLT ZONE MILESTONE TRACK & BPM ANALYZER
+ * ============================================================================
+ */
+.bt-wave-bars {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 24px;
+}
+
+.bt-wave-bars span {
+  width: 4px;
+  height: 8px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #38bdf8, #1769aa);
+  animation: btWaveBarOsc 1.2s ease-in-out infinite alternate;
+}
+
+.bt-wave-bars span:nth-child(2n) {
+  animation-delay: 0.18s;
+  background: linear-gradient(180deg, #2dd4bf, #0d9488);
+}
+
+.bt-wave-bars span:nth-child(3n) {
+  animation-delay: 0.36s;
+}
+
+.bt-wave-bars.spike span {
+  animation-duration: 0.35s;
+}
+
+.bt-live-zone-track {
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.bolt-milestone-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.bt-zone-segments {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.bt-zone-seg {
+  padding: 4px 6px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 800;
+  border: 1px solid #e2e8f0;
+  transition: all 0.25s ease;
+}
+
+.bt-zone-seg.reached[data-zone="1"],
+#btZoneSeg1.reached {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fca5a5;
+}
+
+#btZoneSeg2.reached {
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #fcd34d;
+}
+
+#btZoneSeg3.reached {
+  background: #e0f2fe;
+  color: #0369a1;
+  border-color: #7dd3fc;
+}
+
+#btZoneSeg4.reached {
+  background: #d1fae5;
+  color: #047857;
+  border-color: #6ee7b7;
+}
+
+/* BPM Counter Metrics Row */
+.bt-bpm-metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.bt-bpm-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+.bt-bpm-progress-wrap {
+  max-width: 340px;
+  height: 7px;
+  margin: 0 auto;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.bt-bpm-progress-bar {
+  width: 0%;
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #0d9488, #10b981);
+  transition: width 0.35s linear;
+}
+
+.bt-key-hint {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.bt-action-btn {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.bt-tap-pulse-btn:active {
+  transform: scale(0.96);
+}
+
+/* ============================================================================
+ * 6. RESULT HERO GAUGE, SPECTRUM NEEDLE & 3 BIO-MARKER PILLARS
+ * ============================================================================
+ */
 .result-score-hero {
-  background: radial-gradient(circle at 50% 30%, #f0f8ff 0%, #e3f2fd 100%);
+  background: radial-gradient(circle at 50% 25%, #f2f9ff 0%, #e1f1fd 100%);
   border: 1px solid #c9e3f7;
+  animation: btResultReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bt-result-gauge-wrap {
+  position: relative;
+  width: 158px;
+  height: 158px;
+  display: grid;
+  place-items: center;
+}
+
+.bt-res-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.bt-res-track {
+  fill: none;
+  stroke: rgba(23, 105, 170, 0.14);
+  stroke-width: 11;
+}
+
+.bt-res-fill {
+  fill: none;
+  stroke: var(--bw-primary, #1769aa);
+  stroke-width: 11;
+  stroke-linecap: round;
+  stroke-dasharray: 477.5;
+  stroke-dashoffset: 477.5;
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.3s ease;
+}
+
+.bt-result-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
 }
 
 .result-score-number {
   font-variant-numeric: tabular-nums;
   letter-spacing: -1.5px;
+  line-height: 1;
 }
 
 .result-score-detail {
-  max-width: 480px;
-}
-
-.test-instruction-body {
   max-width: 500px;
 }
 
+.bt-delta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.bt-delta-pill.up {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.bt-delta-pill.down {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Clinical Spectrum Bar */
+.bt-spectrum-card {
+  background: #ffffff;
+}
+
+.bt-spectrum-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: 14px;
+  border-radius: 9999px;
+  overflow: visible;
+  background: #e2e8f0;
+  gap: 2px;
+}
+
+.bt-spectrum-seg.seg-low {
+  background: linear-gradient(90deg, #ef4444, #f97316);
+  border-radius: 9999px 0 0 9999px;
+}
+
+.bt-spectrum-seg.seg-mod {
+  background: linear-gradient(90deg, #f59e0b, #eab308);
+}
+
+.bt-spectrum-seg.seg-good {
+  background: linear-gradient(90deg, #38bdf8, #0284c7);
+}
+
+.bt-spectrum-seg.seg-opt {
+  background: linear-gradient(90deg, #34d399, #059669);
+  border-radius: 0 9999px 9999px 0;
+}
+
+.bt-spectrum-needle {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 6px;
+  height: 24px;
+  border-radius: 4px;
+  background: #0f172a;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+  transform: translateX(-50%);
+  transition: left 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bt-spectrum-labels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted, #64748b);
+}
+
+/* 3 Clinical Bio-Marker Cards */
+.bt-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.bt-pillar-card {
+  padding: 0.85rem 0.9rem;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.bt-pillar-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted, #64748b);
+  margin-bottom: 4px;
+}
+
+.bt-pillar-val {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.bt-pillar-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.bt-pillar-bar span {
+  display: block;
+  width: 45%;
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #0284c7, #10b981);
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .personalized-recommendation {
+  background: linear-gradient(135deg, #fbfdff 0%, #f0f9ff 100%);
+  border-color: #d8e9f7;
+}
+
+.test-share-bar {
   background: #fbfdff;
   border-color: #d8e9f7;
 }
 
+.share-mini-btn {
+  min-height: 38px;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.35rem 0.78rem;
+  font-size: 0.8rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.share-mini-btn:hover {
+  transform: translateY(-1px);
+}
+
+.bt-legend-tier {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1.5px solid transparent;
+}
+
+.bt-legend-tier.tier-active {
+  border-color: currentColor;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ============================================================================
+ * 7. RIGHT COLUMN: SVG TREND CHART, HISTORY LOG & BOHR FAQ ACCORDION
+ * ============================================================================
+ */
+.bt-chart-switch {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  gap: 2px;
+}
+
+.bt-chart-tab {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bt-chart-tab.active {
+  background: var(--bw-primary, #1769aa);
+  color: #ffffff;
+}
+
+.bt-chart-canvas-wrap {
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 10px;
+  min-height: 162px;
+}
+
+.bt-trend-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.bt-chart-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(248, 250, 252, 0.92);
+  border-radius: 14px;
+}
+
+.bt-chart-zone-chip {
+  font-size: 0.73rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.bt-chart-node {
+  cursor: pointer;
+  transition: r 0.18s ease;
+}
+
+.bt-chart-node:hover,
+.bt-chart-node:focus {
+  r: 6.5;
+  outline: none;
+}
+
+/* History Filter & Archive */
+.bt-filter-group {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  gap: 3px;
+}
+
+.bt-filter-pill {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bt-filter-pill.active {
+  background: #0f4c3a;
+  color: #ffffff;
+}
+
+.bt-best-mini-badge {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #334155;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #fefce8;
+  border: 1px solid #fef08a;
+}
+
+.test-history-container {
+  max-height: 270px;
+  overflow-y: auto;
+}
+
 .test-history-item,
 .test-history-card-item {
-  border-bottom: 1px solid var(--bw-line);
-  padding: 10px 4px;
+  border-bottom: 1px solid var(--bw-line, #e2e8f0);
+  padding: 10px 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   font-size: 0.85rem;
   transition: background-color 0.18s ease;
 }
 
 .test-history-card-item:hover {
-  background-color: var(--bw-surface-alt);
-  border-radius: var(--bw-radius-sm);
+  background-color: var(--bw-surface-alt, #f8fafc);
+  border-radius: var(--bw-radius-sm, 8px);
 }
 
 .test-history-item:last-child,
@@ -166,33 +1223,230 @@
   padding-bottom: 0;
 }
 
-.test-history-container {
-  max-height: 260px;
-  overflow-y: auto;
+.bt-history-icon-well {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
 }
 
-
-.test-share-bar {
-  background: #fbfdff;
-  border-color: #d8e9f7;
+.bt-hist-del-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
 }
 
-.share-mini-btn {
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 0.32rem 0.72rem;
-  font-size: 0.8rem;
-  transition: all 0.18s ease;
+.bt-hist-del-btn:hover {
+  color: #dc2626;
+  background: #fee2e2;
 }
 
-.share-mini-btn:hover {
-  transform: translateY(-1px);
+.extra-small {
+  font-size: 0.74rem;
+}
+
+/* Bohr Effect Diagram & Native FAQ Accordion */
+.bt-bohr-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  border: 1px solid #dbeafe;
+}
+
+.bt-bohr-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #1e293b;
+  flex: 1;
+}
+
+.bt-bohr-node i {
+  font-size: 1.05rem;
+}
+
+.bt-bohr-arrow {
+  color: #64748b;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.bt-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bt-faq-item {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  overflow: hidden;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.bt-faq-item[open] {
+  background: #ffffff;
+  border-color: #93c5fd;
+}
+
+.bt-faq-q {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  font-size: 0.81rem;
+  font-weight: 700;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.bt-faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.bt-faq-chev {
+  transition: transform 0.22s ease;
+  color: #64748b;
+}
+
+.bt-faq-item[open] .bt-faq-chev {
+  transform: rotate(180deg);
+  color: var(--bw-primary, #1769aa);
+}
+
+.bt-faq-a {
+  font-size: 0.77rem;
+  color: #475569;
+  line-height: 1.55;
+  padding: 0 12px 10px;
+  margin-bottom: 0;
+}
+
+/* Modal Science & Safety Styling */
+.bt-modal-icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bw-primary-light, #e8f3fb);
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.bt-modal-safety-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
 }
 
 /* ============================================================================
- * RESPIRATORY TEST KEYFRAME ANIMATIONS
+ * 8. KEYFRAME ANIMATIONS, RESPONSIVE BREAKPOINTS & REDUCED MOTION
  * ============================================================================
  */
+@keyframes btPulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.65;
+  }
+}
+
+@keyframes btMiniEq {
+  0% {
+    height: 4px;
+  }
+  100% {
+    height: 12px;
+  }
+}
+
+@keyframes btBadgeSonar {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+@keyframes btRadarExpand {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes btCountPop {
+  0% {
+    transform: scale(0.75);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes btTapRipple {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+}
+
+@keyframes btWaveBarOsc {
+  0% {
+    height: 6px;
+    opacity: 0.55;
+  }
+  100% {
+    height: 22px;
+    opacity: 1;
+  }
+}
+
+@keyframes btResultReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @keyframes prepareThrob {
   0%, 100% {
     transform: scale(1);
@@ -207,10 +1461,90 @@
 @keyframes stagePulse {
   0%, 100% {
     transform: scale(1);
-    opacity: 0.25;
+    opacity: 0.35;
   }
   50% {
     transform: scale(1.05);
-    opacity: 0.6;
+    opacity: 0.7;
+  }
+}
+
+/* Responsive Grids */
+@media (max-width: 991.98px) {
+  .bt-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .bt-mode-switcher,
+  .bt-protocol-grid,
+  .bt-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bolt-meter-wrap {
+    width: 215px;
+    height: 215px;
+  }
+
+  .bolt-timer-display {
+    font-size: 2.45rem;
+  }
+}
+
+@media (max-width: 479.98px) {
+  .bt-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bt-eyebrow-dot,
+  .bt-mini-eq.active span,
+  .bt-badge-sonar,
+  .bt-radar-ring,
+  .test-count-circle,
+  .bt-live-dot,
+  .bolt-glow-ring,
+  .bt-tap-ripple.ping,
+  .bt-wave-bars span {
+    animation: none !important;
+  }
+
+  .bt-kpi-card,
+  .bt-mode-tab,
+  .bt-step-card,
+  .bt-prep-orb,
+  .bt-ring-progress,
+  .bt-res-fill,
+  .bt-spectrum-needle,
+  .bt-pillar-bar span {
+    transition: none !important;
+  }
+}
+
+@media print {
+  .navbar,
+  .ht-hero-tab-bar,
+  .bt-utility-dock,
+  .bt-mode-switcher,
+  .bt-kpi-grid,
+  .bt-no-print,
+  footer,
+  .mobile-bottom-nav,
+  #mobileSidebarMenu {
+    display: none !important;
+  }
+
+  .test-panel {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .result-score-hero {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }

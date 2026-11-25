@@ -37,6 +37,7 @@ const T = {
     tabBreathTest: "শ্বাসের পরীক্ষা",
     navSafety: "নিরাপত্তা",
     navHealth: "হেলথ ট্র্যাকার",
+    navHealthShort: "স্বাস্থ্য",
     navRx: "প্রেসক্রিপশন",
     navMore: "আরও",
     sidebarBrandSub: "ডিজিটাল স্বাস্থ্য ও মাইন্ডফুলনেস",
@@ -379,7 +380,18 @@ const T = {
       "শ্বাস-প্রশ্বাস বা অন্য কোনো স্বাস্থ্যগত সমস্যা থাকলে নতুন অনুশীলন শুরুর আগে স্বাস্থ্য-পেশাজীবীর পরামর্শ নিন।"
     ],
     cycleUnit: "চক্র",
-    startOver: "আবার শুরু করুন"
+    startOver: "আবার শুরু করুন",
+    daysUnit: "দিন",
+    soundscapeLabel: "অ্যাম্বিয়েন্ট সাউন্ড:",
+    soundChimes: "বেল",
+    soundRain: "বৃষ্টি",
+    soundDrone: "৪৩২Hz",
+    waveformTitle: "শ্বাস ওয়েভফর্ম কার্ভ প্রিভিউ",
+    dur1MinChip: "১ মিনিট",
+    voiceLabel: "ভয়েস",
+    streakSuffix: "স্ট্রিক",
+    todayMindfulMins: "মিনিট আজকের অনুশীলন",
+    postTestCta: "শ্বাস পরীক্ষা করুন"
   },
   en: {
     skip: "Skip to content",
@@ -390,6 +402,7 @@ const T = {
     tabBreathTest: "Breath Test",
     navSafety: "Safety",
     navHealth: "Health Tracker",
+    navHealthShort: "Health",
     navRx: "Prescriptions",
     navMore: "More",
     sidebarBrandSub: "Digital Health & Mindfulness",
@@ -732,7 +745,18 @@ const T = {
       "If you have a respiratory or other relevant health condition, consult a healthcare professional before starting a new practice."
     ],
     cycleUnit: "cycles",
-    startOver: "Start again"
+    startOver: "Start again",
+    daysUnit: "Days",
+    soundscapeLabel: "Soundscape:",
+    soundChimes: "Chimes",
+    soundRain: "Rain",
+    soundDrone: "432Hz",
+    waveformTitle: "Live Breath Waveform Curve",
+    dur1MinChip: "1 min",
+    voiceLabel: "Voice",
+    streakSuffix: "Streak",
+    todayMindfulMins: "min practiced today",
+    postTestCta: "Test Breath Score"
   }
 };
 
@@ -1139,6 +1163,7 @@ function setLang(next) {
     updateSessionText();
     const sessionLevelBadge = $("sessionLevelBadge");
     if (sessionLevelBadge) sessionLevelBadge.textContent = getLevelLabel(run.level);
+    if (typeof renderSessionPhaseTrack === "function") renderSessionPhaseTrack();
   }
   const completeEl = $("complete");
   if (completeEl && completeEl.classList.contains("active")) {
@@ -1156,8 +1181,10 @@ function setLang(next) {
       }
     }
   }
-  initHeroBreathGuide();
-  loadTestHistory();
+  if (typeof updateCompleteImpactMetrics === "function") updateCompleteImpactMetrics();
+  if (typeof syncSessionAudioButtons === "function") syncSessionAudioButtons();
+  if (typeof initHeroBreathGuide === "function") initHeroBreathGuide();
+  if (typeof loadTestHistory === "function") loadTestHistory();
 }
 
 // Language synchronization (handled globally by global-nav.js)
@@ -1301,7 +1328,10 @@ function go(id) {
       const inst = bootstrap.Offcanvas.getInstance(mobileSidebar);
       if (inst) inst.hide();
     }
-    if (id === 'test') {
+    if (id !== "details" && typeof stopDetailWaveformAnim === "function") {
+      stopDetailWaveformAnim();
+    }
+    if (id === 'test' && typeof loadTestHistory === "function") {
       loadTestHistory();
     }
     updateNavActive(id);
@@ -1368,6 +1398,22 @@ function getLevelShortName(ex, lvlKey = "beginner") {
   if (lvlKey === "intermediate" || lvlKey === 2) return lang === "bn" ? "লেভেল ২ · ক্লাসিক" : "Level 2 · Classic";
   if (lvlKey === "advanced" || lvlKey === 3) return lang === "bn" ? "লেভেল ৩ · গভীর" : "Level 3 · Deep";
   return lang === "bn" ? "লেভেল ১" : "Level 1";
+}
+
+/**
+ * Generates decorative geometric vector artwork tailored to each breathing technique.
+ */
+function getCardGeoSvg(id) {
+  if (id === "box") {
+    return `<svg class="art-geo-svg" viewBox="0 0 160 150" aria-hidden="true"><rect class="art-geo-shape" x="40" y="35" width="80" height="80" rx="14" /></svg>`;
+  }
+  if (id === "relax46") {
+    return `<svg class="art-geo-svg" viewBox="0 0 160 150" aria-hidden="true"><circle class="art-geo-shape" cx="80" cy="75" r="46" /><circle class="art-geo-shape" cx="80" cy="75" r="32" /></svg>`;
+  }
+  if (id === "diaphragmatic") {
+    return `<svg class="art-geo-svg" viewBox="0 0 160 150" aria-hidden="true"><path class="art-geo-shape" d="M20,90 Q50,40 80,75 T140,75" /></svg>`;
+  }
+  return `<svg class="art-geo-svg" viewBox="0 0 160 150" aria-hidden="true"><polygon class="art-geo-shape" points="80,22 132,75 80,128 28,75" /></svg>`;
 }
 
 /**
@@ -1440,6 +1486,7 @@ function cardHTML(e, index = 0) {
 
       <!-- Playful Animated Micro-Stage Art Box -->
       <div class="exercise-art art-${e.id}" onclick="openDetails('${e.id}')" role="button" tabindex="0" title="${exName(e)} · ${tr("viewDetails")}">
+        ${getCardGeoSvg(e.id)}
         <div class="art-ambient-glow" aria-hidden="true"></div>
         <div class="art-pulse-ring" aria-hidden="true"></div>
         <div class="art-orbit-ring" aria-hidden="true">
@@ -1462,7 +1509,7 @@ function cardHTML(e, index = 0) {
       <!-- Card Content -->
       <div class="card-body-content d-flex flex-column flex-grow-1">
         <h3 class="card-title" onclick="openDetails('${e.id}')" role="button" tabindex="0">${exName(e)}</h3>
-                <!-- Playful Benefit Strip -->
+        <!-- Playful Benefit Strip -->
         <div class="benefit-box">
           <div class="benefit-text"><i class="bi bi-stars text-primary me-1"></i>${exBenefit(e)}</div>
           <div class="when-text"><i class="bi bi-clock-history me-1"></i><strong>${tr("whenToUse")}:</strong> ${exWhen(e)}</div>
@@ -1605,6 +1652,110 @@ function selectLevel(lvl) {
   updateLevelDetails();
 }
 
+let detailWaveRafId = null;
+
+function stopDetailWaveformAnim() {
+  if (detailWaveRafId) {
+    cancelAnimationFrame(detailWaveRafId);
+    detailWaveRafId = null;
+  }
+}
+
+/**
+ * Generates an animated SVG lung-volume waveform preview matching the active
+ * exercise level phases, complete with a smooth looping tracer dot.
+ */
+function renderDetailWaveform() {
+  const lineEl = $("detailWaveLinePath");
+  const areaEl = $("detailWaveAreaPath");
+  const tracerEl = $("detailWaveTracer");
+  const legendEl = $("detailWaveLegend");
+  const cycleSecBadge = $("detailCycleSecs");
+  if (!lineEl || !areaEl || !selected) return;
+
+  stopDetailWaveformAnim();
+  const phases = getLevelPhases(selected, selectedLevel);
+  const isNatural = phases && phases[0][0] === "natural";
+  const W = 360;
+  const topY = 20;
+  const baseY = 88;
+  const padX = 12;
+  const spanW = W - padX * 2;
+
+  let totalSec = 0;
+  let pts = [];
+
+  if (isNatural) {
+    totalSec = 5;
+    for (let i = 0; i <= 24; i++) {
+      const t = i / 24;
+      const x = padX + t * spanW;
+      const y = baseY - (baseY - topY) * (0.5 - 0.5 * Math.cos(t * Math.PI * 2));
+      pts.push({ x, y, t });
+    }
+    if (legendEl) {
+      legendEl.innerHTML = `<span class="wave-legend-chip">${lang === "bn" ? "স্বাভাবিক ছন্দ (Natural)" : "Natural Flow"}</span>`;
+    }
+  } else {
+    totalSec = phases.reduce((acc, p) => acc + p[1], 0) || 10;
+    let curY = baseY;
+    let accT = 0;
+    pts.push({ x: padX, y: curY, t: 0 });
+    phases.forEach((p) => {
+      accT += p[1];
+      const endX = padX + (accT / totalSec) * spanW;
+      if (p[0] === "inhale") curY = topY;
+      else if (p[0] === "exhale") curY = baseY;
+      else if (p[0] === "hold") curY = topY;
+      else curY = baseY;
+      pts.push({ x: endX, y: curY, t: accT / totalSec });
+    });
+    if (legendEl) {
+      legendEl.innerHTML = phases.map(p => `<span class="wave-legend-chip">${phaseName(p[0])}: ${p[1]}${lang === "bn" ? "সে" : "s"}</span>`).join("");
+    }
+  }
+
+  if (cycleSecBadge) {
+    cycleSecBadge.textContent = `${totalSec}${lang === "bn" ? " সে." : "s"}`;
+  }
+
+  const lineD = pts.map((p, idx) => `${idx === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+  const areaD = `${lineD} L${pts[pts.length - 1].x.toFixed(1)},104 L${pts[0].x.toFixed(1)},104 Z`;
+  lineEl.setAttribute("d", lineD);
+  areaEl.setAttribute("d", areaD);
+
+  const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (tracerEl && !reducedMotion && pts.length > 1) {
+    const startTs = performance.now();
+    const cycleMs = Math.max(3000, totalSec * 1000);
+    const animateTracer = (now) => {
+      const detailsSec = $("details");
+      if (!detailsSec || !detailsSec.classList.contains("active")) {
+        detailWaveRafId = null;
+        return;
+      }
+      const norm = ((now - startTs) % cycleMs) / cycleMs;
+      let seg = pts[pts.length - 1];
+      let prev = pts[0];
+      for (let i = 1; i < pts.length; i++) {
+        if (norm <= pts[i].t) {
+          prev = pts[i - 1];
+          seg = pts[i];
+          break;
+        }
+      }
+      const segSpan = Math.max(0.001, seg.t - prev.t);
+      const localT = Math.min(1, Math.max(0, (norm - prev.t) / segSpan));
+      const cx = prev.x + (seg.x - prev.x) * localT;
+      const cy = prev.y + (seg.y - prev.y) * localT;
+      tracerEl.setAttribute("cx", cx.toFixed(1));
+      tracerEl.setAttribute("cy", cy.toFixed(1));
+      detailWaveRafId = requestAnimationFrame(animateTracer);
+    };
+    detailWaveRafId = requestAnimationFrame(animateTracer);
+  }
+}
+
 /**
  * Refreshes the details screen level badge, description, and phase pattern cards.
  */
@@ -1624,7 +1775,7 @@ function updateLevelDetails() {
       patternEl.innerHTML = `<div class="col-12"><div class="pattern-step"><strong>${lang === "bn" ? "স্বাভাবিক মননশীল শ্বাস" : "Natural Mindful Breathing"}</strong><small>${lang === "bn" ? "কোনো নির্দিষ্ট সময় নির্ধারিত নয় (সহজ উপস্থিতি)" : "No forced timing (gentle awareness)"}</small></div></div>`;
     } else {
       patternEl.innerHTML = phases.map(p => `
-        <div class="col-${phases.length === 4 ? 6 : 6}">
+        <div class="col-6">
           <div class="pattern-step">
             <strong>${phaseName(p[0])}</strong>
             <small>${p[1]} ${lang === "bn" ? "সেকেন্ড" : "seconds"}</small>
@@ -1633,6 +1784,7 @@ function updateLevelDetails() {
       `).join("");
     }
   }
+  renderDetailWaveform();
 }
 
 /**
@@ -1691,6 +1843,173 @@ function showSafety() {
  * 10. GUIDED BREATHING SESSION ENGINE (Timer & requestAnimationFrame Loop)
  * ============================================================================
  */
+
+// ============================================================================
+// PROCEDURAL AMBIENT SOUNDSCAPES & PHASE AUDIO ENGINE
+// ============================================================================
+let activeSoundscape = "chimes"; // 'chimes' | 'rain' | 'drone' | 'off'
+let sharedAudioCtx = null;
+let ambientNodes = [];
+
+function getAudioCtx() {
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return null;
+  if (!sharedAudioCtx) {
+    sharedAudioCtx = new Ctx();
+  }
+  if (sharedAudioCtx.state === "suspended") {
+    sharedAudioCtx.resume().catch(() => {});
+  }
+  return sharedAudioCtx;
+}
+
+function stopAmbientLoop() {
+  ambientNodes.forEach((n) => {
+    try {
+      if (typeof n.stop === "function") n.stop();
+      if (typeof n.disconnect === "function") n.disconnect();
+    } catch (_) {}
+  });
+  ambientNodes = [];
+}
+
+function startAmbientLoop() {
+  stopAmbientLoop();
+  if (activeSoundscape !== "rain" && activeSoundscape !== "drone") return;
+  try {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    if (activeSoundscape === "rain") {
+      const len = ctx.sampleRate * 2;
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      let b0 = 0, b1 = 0, b2 = 0;
+      for (let i = 0; i < len; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.997 * b0 + white * 0.029;
+        b1 = 0.985 * b1 + white * 0.032;
+        b2 = 0.950 * b2 + white * 0.048;
+        data[i] = (b0 + b1 + b2 + white * 0.015) * 0.45;
+      }
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.loop = true;
+      const filter = ctx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.value = 680;
+      const gain = ctx.createGain();
+      gain.gain.value = 0.14;
+      src.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      src.start();
+      ambientNodes.push(src, filter, gain);
+    } else if (activeSoundscape === "drone") {
+      [216, 432].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = idx === 0 ? "sine" : "triangle";
+        osc.frequency.value = freq;
+        gain.gain.value = idx === 0 ? 0.045 : 0.02;
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        ambientNodes.push(osc, gain);
+      });
+    }
+  } catch (_) {}
+}
+
+function playPhaseBell(phaseType) {
+  if (activeSoundscape === "off") return;
+  if (activeSoundscape !== "chimes" && activeSoundscape !== "rain" && activeSoundscape !== "drone") return;
+  try {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    if (phaseType === "inhale") {
+      osc.frequency.setValueAtTime(528, now);
+      osc.frequency.exponentialRampToValueAtTime(792, now + 0.35);
+    } else if (phaseType === "hold") {
+      osc.frequency.setValueAtTime(660, now);
+    } else {
+      osc.frequency.setValueAtTime(396, now);
+      osc.frequency.exponentialRampToValueAtTime(594, now + 0.38);
+    }
+    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.exponentialRampToValueAtTime(0.0005, now + 0.9);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.95);
+  } catch (_) {}
+}
+
+function syncSessionAudioButtons() {
+  const voiceBtn = $("btnSessionVoice");
+  if (voiceBtn) {
+    voiceBtn.classList.toggle("active", audioEnabled);
+    voiceBtn.setAttribute("aria-pressed", audioEnabled ? "true" : "false");
+  }
+  const soundBtn = $("btnSessionSoundscape");
+  const soundIcon = $("sessionSoundIcon");
+  const soundLbl = $("sessionSoundLabel");
+  if (soundBtn) {
+    soundBtn.classList.toggle("active", activeSoundscape !== "off");
+  }
+  if (soundIcon) {
+    soundIcon.className = activeSoundscape === "rain"
+      ? "bi bi-cloud-drizzle-fill"
+      : activeSoundscape === "drone"
+        ? "bi bi-vinyl-fill"
+        : activeSoundscape === "off"
+          ? "bi bi-volume-mute"
+          : "bi bi-music-note-beamed";
+  }
+  if (soundLbl) {
+    const k = activeSoundscape === "rain"
+      ? "soundRain"
+      : activeSoundscape === "drone"
+        ? "soundDrone"
+        : activeSoundscape === "off"
+          ? "audioOff"
+          : "soundChimes";
+    soundLbl.setAttribute("data-i18n", k);
+    soundLbl.textContent = tr(k);
+  }
+  const bars = $("sessionAudioBars");
+  if (bars) {
+    bars.classList.toggle("active", Boolean(run && !paused && (audioEnabled || activeSoundscape !== "off")));
+  }
+  document.querySelectorAll("#exSoundscapePills .ex-sound-chip").forEach((c) => {
+    c.classList.toggle("active", c.dataset.soundscape === activeSoundscape);
+  });
+}
+
+function renderSessionPhaseTrack() {
+  const track = $("sessionPhaseTrack");
+  if (!track || !run) return;
+  const phases = run.phases || [];
+  if (phases[0] && phases[0][0] === "natural") {
+    track.innerHTML = `<span class="phase-track-pill active">${lang === "bn" ? "স্বাভাবিক প্রবাহ" : "Natural Flow"}</span>`;
+    return;
+  }
+  track.innerHTML = phases.map((p, idx) => {
+    const isAct = !run.preparing && run.phaseIndex === idx;
+    const secLabel = `${p[1]}${lang === "bn" ? "সে" : "s"}`;
+    return `<span class="phase-track-pill ${isAct ? "active" : ""}">${phaseName(p[0])} ${secLabel}</span>`;
+  }).join("");
+}
+
+function updateSessionCycleHud() {
+  const cycPill = $("sessionCyclePill");
+  if (cycPill && run) {
+    cycPill.textContent = `${tr("cycleUnit")} ${run.completedCycles}`;
+  }
+}
 
 /**
  * Initializes and starts a new guided breathing practice session.
@@ -1761,7 +2080,11 @@ function startSession() {
   const subInstruction = $("subInstruction");
   if (subInstruction) subInstruction.textContent = tr("sessionStarted");
 
+  renderSessionPhaseTrack();
+  updateSessionCycleHud();
   go("session");
+  syncSessionAudioButtons();
+  startAmbientLoop();
   speak(tr("prepare"));
   raf = requestAnimationFrame(tick);
 }
@@ -1832,6 +2155,7 @@ function tick(now) {
       if (run.phaseElapsed >= dur) {
         run.phaseElapsed %= dur;
         run.completedCycles++;
+        updateSessionCycleHud();
       }
     } else if (run.phaseElapsed >= dur) {
       run.phaseElapsed -= dur;
@@ -1839,6 +2163,7 @@ function tick(now) {
       if (run.phaseIndex >= run.phases.length) {
         run.phaseIndex = 0;
         run.completedCycles++;
+        updateSessionCycleHud();
       }
       enterPhase();
     }
@@ -1915,6 +2240,9 @@ function enterPhase() {
   if (phaseCount) {
     phaseCount.textContent = type === "natural" ? "" : dur;
   }
+
+  renderSessionPhaseTrack();
+  playPhaseBell(type);
   speak(type === "natural" ? (lang === "bn" ? "স্বাভাবিকভাবে শ্বাস নিন" : "Breathe naturally") : phaseName(type));
 }
 
@@ -1934,6 +2262,7 @@ function togglePause() {
 
   if (paused) {
     cancelAnimationFrame(raf);
+    stopAmbientLoop();
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     if (breathStage) breathStage.classList.add("paused");
     if (breathRing) breathRing.style.transitionDuration = ".1s";
@@ -1945,6 +2274,7 @@ function togglePause() {
     }
   } else {
     run.lastFrame = performance.now();
+    startAmbientLoop();
     if (breathStage) breathStage.classList.remove("paused");
     if (pauseBtn) {
       pauseBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
@@ -1957,6 +2287,7 @@ function togglePause() {
     }
     raf = requestAnimationFrame(tick);
   }
+  syncSessionAudioButtons();
 }
 
 /**
@@ -1978,9 +2309,11 @@ function confirmStop() {
  */
 function stopRun(showHome) {
   cancelAnimationFrame(raf);
+  stopAmbientLoop();
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   run = null;
   paused = false;
+  syncSessionAudioButtons();
   const breathStage = $("breathStage");
   if (breathStage) breathStage.className = "breath-stage";
   if (showHome) go("library");
@@ -2048,6 +2381,83 @@ function playCelebrationChime() {
  * ============================================================================
  */
 
+function saveCompletedSessionRecord(record) {
+  try {
+    const hist = JSON.parse(localStorage.getItem("bw_session_history") || "[]");
+    const list = Array.isArray(hist) ? hist : [];
+    list.unshift(record);
+    const trimmed = list.slice(0, 60);
+    const json = JSON.stringify(trimmed);
+    localStorage.setItem("bw_session_history", json);
+    localStorage.setItem("bw_exercises_completed", json);
+  } catch (_) {}
+}
+
+function updateLatestSessionMood(moodKey) {
+  try {
+    const hist = JSON.parse(localStorage.getItem("bw_session_history") || "[]");
+    if (Array.isArray(hist) && hist.length > 0) {
+      hist[0].mood = moodKey;
+      const json = JSON.stringify(hist);
+      localStorage.setItem("bw_session_history", json);
+      localStorage.setItem("bw_exercises_completed", json);
+    }
+  } catch (_) {}
+}
+
+function computeSessionMetrics() {
+  let list = [];
+  try {
+    const raw = localStorage.getItem("bw_session_history") || localStorage.getItem("bw_exercises_completed") || "[]";
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) list = parsed;
+  } catch (_) {}
+
+  const todayIso = new Date().toISOString().slice(0, 10);
+  let todaySec = 0;
+  let totalCycles = 0;
+  const daySet = new Set();
+
+  list.forEach((s) => {
+    const dStr = s.date ? String(s.date).slice(0, 10) : "";
+    if (dStr) daySet.add(dStr);
+    if (dStr === todayIso) todaySec += Number(s.durationSec || 60);
+    totalCycles += Number(s.cycles || 0);
+  });
+
+  // Streak calculation from today backward
+  let streak = 0;
+  const cur = new Date();
+  for (let i = 0; i < 365; i++) {
+    const key = cur.toISOString().slice(0, 10);
+    if (daySet.has(key)) {
+      streak += 1;
+    } else if (i === 0) {
+      // Allow streak ending yesterday to still show until missed
+    } else {
+      break;
+    }
+    cur.setDate(cur.getDate() - 1);
+  }
+
+  return {
+    sessions: list.length,
+    cycles: totalCycles,
+    todayMins: Math.round(todaySec / 60),
+    streak,
+    lastMood: list[0]?.mood || null
+  };
+}
+
+/**
+ * Updates the streak days and practice minutes badges in the completion screen impact strip.
+ */
+function updateCompleteImpactMetrics() {
+  const m = computeSessionMetrics();
+  if ($("completeStreakNum")) $("completeStreakNum").textContent = String(Math.max(1, m.streak));
+  if ($("completeTodayMins")) $("completeTodayMins").textContent = String(Math.max(1, m.todayMins));
+}
+
 /**
  * Handles graceful session completion when the target timer reaches zero.
  * Cancels timers, captures completed metrics into `lastCompletedSession`,
@@ -2055,6 +2465,7 @@ function playCelebrationChime() {
  */
 function completeSession() {
   cancelAnimationFrame(raf);
+  stopAmbientLoop();
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   const completed = run.completedCycles, elapsed = run.elapsed;
   const lvlName = getLevelLabel(run.level);
@@ -2066,7 +2477,20 @@ function completeSession() {
     cycles: completed,
     level: curLevel
   };
+
+  saveCompletedSessionRecord({
+    id: `sess_${Date.now()}`,
+    exerciseId: run.exercise.id,
+    exName: exName(run.exercise),
+    level: curLevel,
+    durationSec: Math.round(elapsed || run.duration || 60),
+    cycles: completed,
+    mood: null,
+    date: new Date().toISOString()
+  });
+
   renderSummary(completed, elapsed, lvlName, curLevel);
+  updateCompleteImpactMetrics();
   checkNativeShareSupport();
   resetMoodSelection();
   go("complete");
@@ -2306,6 +2730,9 @@ function selectMood(moodKey, btnEl) {
   feedback.style.animation = "none";
   void feedback.offsetWidth;
   feedback.style.animation = "moodFadeIn 0.35s ease";
+
+  updateLatestSessionMood(moodKey);
+  updateCompleteImpactMetrics();
 }
 
 
@@ -2566,10 +2993,102 @@ function initMobileSidebar() {
   }
 }
 
+function bindExercisesPageEvents() {
+  $("exSoundscapePills")?.addEventListener("click", (e) => {
+    const chip = e.target.closest(".ex-sound-chip");
+    if (!chip) return;
+    activeSoundscape = chip.dataset.soundscape || "chimes";
+    syncSessionAudioButtons();
+    if (activeSoundscape === "chimes") {
+      playPhaseBell("inhale");
+    } else if (activeSoundscape === "rain" || activeSoundscape === "drone") {
+      startAmbientLoop();
+      if (!run) {
+        setTimeout(() => { if (!run) stopAmbientLoop(); }, 2500);
+      }
+    } else {
+      stopAmbientLoop();
+    }
+  });
+
+  $("btnBackLibrary")?.addEventListener("click", () => go("library"));
+
+  $("levelButtonGroup")?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".level-pill-btn");
+    if (btn && btn.dataset.level) selectLevel(btn.dataset.level);
+  });
+
+  const durSelect = $("durationSelect");
+  const durPillsWrap = $("detailDurationPills");
+  if (durPillsWrap && durSelect) {
+    durPillsWrap.addEventListener("click", (e) => {
+      const btn = e.target.closest(".dur-pill");
+      if (!btn || !btn.dataset.dur) return;
+      durSelect.value = btn.dataset.dur;
+      durPillsWrap.querySelectorAll(".dur-pill").forEach(p => p.classList.toggle("active", p === btn));
+    });
+    durSelect.addEventListener("change", () => {
+      durPillsWrap.querySelectorAll(".dur-pill").forEach(p => p.classList.toggle("active", p.dataset.dur === durSelect.value));
+    });
+  }
+
+  $("btnStartFromDetails")?.addEventListener("click", startSession);
+  $("btnExitSession")?.addEventListener("click", confirmStop);
+  $("btnStopSession")?.addEventListener("click", confirmStop);
+  $("pauseBtn")?.addEventListener("click", togglePause);
+
+  $("btnSessionVoice")?.addEventListener("click", () => {
+    audioEnabled = !audioEnabled && "speechSynthesis" in window;
+    const audioSel = $("audioSelect");
+    if (audioSel) audioSel.value = audioEnabled ? "on" : "off";
+    syncSessionAudioButtons();
+  });
+
+  $("btnSessionSoundscape")?.addEventListener("click", () => {
+    const order = ["chimes", "rain", "drone", "off"];
+    const nextIdx = (order.indexOf(activeSoundscape) + 1) % order.length;
+    activeSoundscape = order[nextIdx];
+    syncSessionAudioButtons();
+    if (activeSoundscape === "chimes") {
+      stopAmbientLoop();
+      playPhaseBell("inhale");
+    } else if (activeSoundscape === "rain" || activeSoundscape === "drone") {
+      startAmbientLoop();
+    } else {
+      stopAmbientLoop();
+    }
+  });
+
+  $("trophyStage")?.addEventListener("click", celebrateAgain);
+  $("trophyStage")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      celebrateAgain();
+    }
+  });
+  $("btnCelebrateAgain")?.addEventListener("click", celebrateAgain);
+
+  $("moodOptions")?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".mood-btn");
+    if (btn && btn.dataset.mood) selectMood(btn.dataset.mood, btn);
+  });
+
+  document.querySelectorAll(".share-btn[data-share]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      shareSession(btn.dataset.share);
+    });
+  });
+
+  $("btnPracticeAgain")?.addEventListener("click", startSession);
+  $("btnOtherExercises")?.addEventListener("click", () => go("library"));
+}
+
 function initExercisesPage() {
   setLang(lang);
   initMobileSidebar();
   renderCards();
+  updateCompleteImpactMetrics();
+  bindExercisesPageEvents();
   handleUrlParams();
 
   // Keyboard accessibility
