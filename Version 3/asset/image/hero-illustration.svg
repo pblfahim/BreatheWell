@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320">
+  <defs>
+    <radialGradient id="heroOrb" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#c8ebff" />
+      <stop offset="100%" stop-color="#68b9ec" />
+    </radialGradient>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2e9be5" />
+      <stop offset="100%" stop-color="#1769aa" />
+    </linearGradient>
+  </defs>
+  <!-- Concentric Rings -->
+  <circle cx="160" cy="160" r="148" fill="none" stroke="#1769aa" stroke-width="1.2" stroke-opacity="0.12" stroke-dasharray="6 6"/>
+  <circle cx="160" cy="160" r="126" fill="none" stroke="#1769aa" stroke-width="1.5" stroke-opacity="0.18"/>
+  <circle cx="160" cy="160" r="102" fill="none" stroke="#1769aa" stroke-width="2" stroke-opacity="0.25"/>
+  <!-- Central Orb -->
+  <circle cx="160" cy="160" r="82" fill="url(#heroOrb)"/>
+  <circle cx="160" cy="160" r="46" fill="#ffffff" fill-opacity="0.65"/>
+  <!-- Breath / Wind Symbol in Center -->
+  <path d="M145 152 C152 152 157 147 157 143 C157 139 154 136 150 136 C145 136 142 139 142 143" fill="none" stroke="#1769aa" stroke-width="3" stroke-linecap="round"/>
+  <path d="M138 160 C154 160 166 160 172 160 C177 160 181 157 181 152 C181 147 177 144 172 144 C167 144 165 147 165 151" fill="none" stroke="#1769aa" stroke-width="3" stroke-linecap="round"/>
+  <path d="M141 168 C152 168 162 168 167 168 C172 168 175 171 175 174 C175 177 172 180 168 180 C164 180 161 177 161 174" fill="none" stroke="#1769aa" stroke-width="3" stroke-linecap="round"/>
+</svg>

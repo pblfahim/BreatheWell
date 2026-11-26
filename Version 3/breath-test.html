@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <!-- ========================================================================
+       breath-test.html — BreatheWell v3 Pulmonary Lab, BOLT/BPM, Readiness & Bohr Modal
+       ======================================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>শ্বাসের পরীক্ষা ও ফিটনেস ল্যাব | ব্রিদওয়েল v3</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/breath-test.css">
+</head>
+<body>
+  <a href="#main" class="bw-skip-link" data-i18n="skipToMain">মূল অংশে যান</a>
+
+  <nav class="navbar navbar-expand-lg sticky-top bw-navbar no-print" aria-label="Primary Navigation">
+    <div class="container">
+      <a class="bw-brand" href="index.html">
+        <span class="bw-brand-mark"><i class="bi bi-wind" aria-hidden="true"></i></span>
+        <span data-i18n="brandName"></span>
+        <span class="bw-brand-badge" data-i18n="brandFamilyTag"></span>
+      </a>
+      <div class="collapse navbar-collapse justify-content-center">
+        <ul class="navbar-nav gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-nav-page="@ex"><i class="bi bi-wind"></i> <span data-i18n="navExercises"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-nav-page="@vitals"><i class="bi bi-heart-pulse"></i> <span data-i18n="navVitals"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-nav-page="@rx"><i class="bi bi-file-medical"></i> <span data-i18n="navRx"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html" data-nav-page="@family"><i class="bi bi-people"></i> <span data-i18n="navFamily"></span></a></li>
+        </ul>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="bw-lang-group" role="group" aria-label="Language Switcher">
+          <button type="button" class="bw-lang-btn active" data-lang="bn">বাং</button>
+          <button type="button" class="bw-lang-btn" data-lang="en">EN</button>
+        </div>
+        <div id="bwNavMemberSlot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="ht-hero-tab-bar no-print">
+    <div class="container">
+      <div class="ht-hero-tabs" role="tablist">
+        <a href="exercises.html" class="ht-hero-tab" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="subTabExStudio"></span></a>
+        <a href="breath-test.html" class="ht-hero-tab" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="subTabExTest"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <div id="bwContextStrip" class="bw-context-strip no-print"></div>
+
+  <main id="main" class="container py-4 bw-fade-in">
+    <header class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+      <div>
+        <h1 class="h3 fw-bold mb-1" data-i18n="heroTitle"></h1>
+        <p class="small text-muted mb-0" data-i18n="heroSub"></p>
+      </div>
+      <button type="button" id="btOpenSafetyBtn" class="btn btn-bw-outline">
+        <i class="bi bi-lightbulb-fill text-warning"></i> <span data-i18n="btnScienceModal"></span>
+      </button>
+    </header>
+
+    <!-- 4-Card KPI Strip w/ Composite Readiness Index -->
+    <section class="row g-3 mb-4">
+      <div class="col-6 col-lg-3"><div class="bw-stat-card"><small class="text-muted fw-semibold d-block" data-i18n="kpiBestBolt"></small><strong id="btKpiBestBolt" class="h4 fw-bold tabular-nums">—</strong></div></div>
+      <div class="col-6 col-lg-3"><div class="bw-stat-card"><small class="text-muted fw-semibold d-block" data-i18n="kpiAvgBpm"></small><strong id="btKpiAvgBpm" class="h4 fw-bold tabular-nums">—</strong></div></div>
+      <div class="col-6 col-lg-3"><div class="bw-stat-card"><small class="text-muted fw-semibold d-block" data-i18n="kpiTotalTests"></small><strong id="btKpiTotal" class="h4 fw-bold tabular-nums">0</strong></div></div>
+      <div class="col-6 col-lg-3">
+        <div class="bw-stat-card">
+          <div class="d-flex justify-content-between align-items-center mb-1"><small class="text-muted fw-semibold" data-i18n="kpiReadiness"></small><strong id="btReadinessVal" class="small tabular-nums">0/100</strong></div>
+          <div class="bt-biomarker-track"><div id="btReadinessBar" class="bt-biomarker-fill"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mode Switch & Active Stage -->
+    <section class="bt-stage-card mb-4">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <div class="bw-segmented">
+          <button type="button" class="bw-seg-btn active" data-bt-mode="bolt" data-i18n="modeBolt"></button>
+          <button type="button" class="bw-seg-btn" data-bt-mode="bpm" data-i18n="modeBpm"></button>
+        </div>
+        <button type="button" id="btPrepPacerBtn" class="btn btn-sm btn-outline-primary"><i class="bi bi-wind"></i> <span data-i18n="btnPrepPacer"></span></button>
+      </div>
+
+      <div id="btPrepBox" class="alert alert-info text-center small fw-bold d-none"><span id="btPrepTxt"></span></div>
+
+      <!-- BOLT Stage -->
+      <div id="boltStagePane" class="text-center">
+        <div class="bt-dial-wrap mb-3">
+          <svg class="bt-dial-svg" viewBox="0 0 232 232" aria-hidden="true">
+            <circle cx="116" cy="116" r="102" fill="none" stroke="#e2e8f0" stroke-width="10"></circle>
+            <circle id="boltProgressCircle" cx="116" cy="116" r="102" fill="none" stroke="#00897b" stroke-width="10" stroke-linecap="round"></circle>
+          </svg>
+          <div class="bt-dial-readout"><div id="boltTimerReadout" class="display-5 fw-bold tabular-nums">0.0s</div><span class="small text-muted">BOLT</span></div>
+        </div>
+        <div class="d-flex justify-content-center gap-2">
+          <button type="button" id="boltToggleBtn" class="btn btn-bw-primary px-4"><i class="bi bi-play-fill"></i> <span data-i18n="btnStartBolt"></span></button>
+          <button type="button" id="boltResetBtn" class="btn btn-outline-secondary" data-i18n="commonCancel"></button>
+        </div>
+      </div>
+
+      <!-- BPM Stage -->
+      <div id="bpmStagePane" class="text-center d-none">
+        <div class="bw-segmented mb-3">
+          <button type="button" class="bw-seg-btn active" data-bpm-win="30">30s</button>
+          <button type="button" class="bw-seg-btn" data-bpm-win="60">60s</button>
+        </div>
+        <div class="mb-3">
+          <button type="button" id="bpmTapOrbBtn" class="bt-bpm-tap-orb">
+            <i class="bi bi-hand-index-thumb fs-2 mb-1"></i>
+            <span data-i18n="btnTapBpm"></span>
+            <span id="bpmTapCount" class="fs-3 fw-bold tabular-nums">0</span>
+          </button>
+        </div>
+        <div class="d-flex justify-content-center gap-4 mb-3">
+          <div><small class="text-muted d-block">Remaining</small><strong id="bpmRemSec" class="fs-5 tabular-nums">30s</strong></div>
+          <div><small class="text-muted d-block">Calculated</small><strong id="bpmExtrapolated" class="fs-5 tabular-nums">— BPM</strong></div>
+        </div>
+        <div class="d-flex justify-content-center gap-2">
+          <button type="button" id="bpmStartBtn" class="btn btn-bw-outline" data-i18n="btnStartBpm"></button>
+          <button type="button" id="bpmUndoTapBtn" class="btn btn-outline-secondary" data-i18n="btnUndoTap"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Diagnostic Result Screen -->
+    <section id="btResultCard" class="bw-card p-4 mb-4 d-none">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+        <h2 class="h5 fw-bold mb-0" data-i18n="resTitle"></h2>
+        <span id="btResDeltaBadge" class="badge bg-info-subtle text-info rounded-pill fs-6">Baseline</span>
+      </div>
+      <div class="h3 fw-bold tabular-nums mb-2" id="btResScoreVal">0.0s</div>
+      <div class="bt-spectrum-track mb-3" aria-hidden="true"><div id="btResNeedle" class="bt-spectrum-needle"></div></div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-4"><small class="fw-semibold" data-i18n="lblBioCo2"></small><div class="bt-biomarker-track mt-1"><div id="bioCo2Bar" class="bt-biomarker-fill"></div></div></div>
+        <div class="col-md-4"><small class="fw-semibold" data-i18n="lblBioO2"></small><div class="bt-biomarker-track mt-1"><div id="bioO2Bar" class="bt-biomarker-fill"></div></div></div>
+        <div class="col-md-4"><small class="fw-semibold" data-i18n="lblBioVagal"></small><div class="bt-biomarker-track mt-1"><div id="bioVagalBar" class="bt-biomarker-fill"></div></div></div>
+      </div>
+
+      <div class="row g-2 align-items-center">
+        <div class="col-md-6"><input type="text" id="btNoteInput" class="form-control" placeholder="Session note..."></div>
+        <div class="col-md-6 d-flex flex-wrap gap-2 justify-content-md-end">
+          <button type="button" id="btSaveResultBtn" class="btn btn-bw-primary" data-i18n="btnSaveResult"></button>
+          <a id="btLaunchRxLink" href="exercises.html" class="btn btn-bw-emerald" data-i18n="btnLaunchRxExercise"></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chart & History -->
+    <div class="row g-4">
+      <div class="col-lg-6"><div class="bw-card p-3 p-md-4 h-100"><h2 class="h5 fw-bold mb-3" data-i18n="chartTitle"></h2><div id="btHistoryChart"></div></div></div>
+      <div class="col-lg-6">
+        <div class="bw-card p-3 p-md-4 h-100">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+            <h2 class="h5 fw-bold mb-0" data-i18n="historyTitle"></h2>
+            <div class="d-flex gap-2">
+              <div class="bw-segmented">
+                <button type="button" class="bw-seg-btn active" data-bt-hfilter="all">All</button>
+                <button type="button" class="bw-seg-btn" data-bt-hfilter="bolt">BOLT</button>
+                <button type="button" class="bw-seg-btn" data-bt-hfilter="bpm">BPM</button>
+              </div>
+              <button type="button" id="btExportCsvBtn" class="btn btn-sm btn-bw-outline">CSV</button>
+            </div>
+          </div>
+          <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Date</th><th>BOLT</th><th>BPM</th><th>Note</th><th></th></tr></thead><tbody id="btHistoryBody"></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Science & Bohr Effect 3-Node Modal -->
+  <div class="modal fade" id="btScienceModal" tabindex="-1" aria-labelledby="btSciLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header"><h5 class="modal-title fw-bold" id="btSciLabel" data-i18n="scienceTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body">
+          <div class="row g-2 mb-3">
+            <div class="col-md-4"><div class="bt-bohr-node"><strong class="d-block text-primary">1. Nasal NO + CO₂</strong><span class="small text-muted">Gentle nasal pace maintains optimal arterial CO₂.</span></div></div>
+            <div class="col-md-4"><div class="bt-bohr-node"><strong class="d-block text-success">2. Bohr Right Shift</strong><span class="small text-muted">CO₂ triggers hemoglobin to unbind O₂ cleanly.</span></div></div>
+            <div class="col-md-4"><div class="bt-bohr-node"><strong class="d-block text-info">3. Cellular Energy</strong><span class="small text-muted">Brain and heart muscles receive richer oxygen delivery.</span></div></div>
+          </div>
+          <details class="border rounded p-2 mb-2"><summary class="fw-bold small">Why stop at first urge during BOLT?</summary><p class="small text-muted mb-0 mt-1">Pushing past first diaphragm tug turns the metric into willpower endurance rather than true chemoreceptor comfort sensitivity.</p></details>
+          <details class="border rounded p-2"><summary class="fw-bold small">Best time to measure?</summary><p class="small text-muted mb-0 mt-1">Seated comfortably first thing after waking up for reliable daily family tracking.</p></details>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Sidebar Drawer & Bottom Nav -->
+  <div class="offcanvas offcanvas-end bw-mobile-drawer" tabindex="-1" id="mobileSidebarMenu" aria-labelledby="drawerLabel">
+    <div class="offcanvas-header border-bottom"><h5 class="offcanvas-title fw-bold" id="drawerLabel" data-i18n="drawerDirectoryTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+    <div class="offcanvas-body">
+      <div id="bwDrawerMemberBox"></div>
+      <div class="d-grid gap-1">
+        <a href="index.html" class="bw-drawer-link" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a>
+        <a href="exercises.html" class="bw-drawer-link" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="subTabExStudio"></span></a>
+        <a href="breath-test.html" class="bw-drawer-link" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="subTabExTest"></span></a>
+        <hr class="my-2">
+        <a href="health-reading.html" class="bw-drawer-link" data-nav-page="health-reading.html"><i class="bi bi-heart-pulse"></i> <span data-i18n="subTabVitalsEntry"></span></a>
+        <a href="health-history.html" class="bw-drawer-link" data-nav-page="health-history.html"><i class="bi bi-table"></i> <span data-i18n="subTabVitalsHistory"></span></a>
+        <a href="health-charts.html" class="bw-drawer-link" data-nav-page="health-charts.html"><i class="bi bi-graph-up"></i> <span data-i18n="subTabVitalsCharts"></span></a>
+        <a href="health-demo.html" class="bw-drawer-link" data-nav-page="health-demo.html"><i class="bi bi-database-fill-gear"></i> <span data-i18n="subTabVitalsDemo"></span></a>
+        <hr class="my-2">
+        <a href="prescriptions-volt.html" class="bw-drawer-link" data-nav-page="prescriptions-volt.html"><i class="bi bi-shield-plus"></i> <span data-i18n="subTabRxVault"></span></a>
+        <a href="prescription-history.html" class="bw-drawer-link" data-nav-page="prescription-history.html"><i class="bi bi-clock-history"></i> <span data-i18n="subTabRxHistory"></span></a>
+        <a href="prescription-create.html" class="bw-drawer-link" data-nav-page="prescription-create.html"><i class="bi bi-pencil-square"></i> <span data-i18n="subTabRxCreate"></span></a>
+        <a href="prescription-pad.html" class="bw-drawer-link" data-nav-page="prescription-pad.html"><i class="bi bi-file-earmark-medical"></i> <span data-i18n="subTabRxPad"></span></a>
+        <a href="digitalpad-history.html" class="bw-drawer-link" data-nav-page="digitalpad-history.html"><i class="bi bi-journal-medical"></i> <span data-i18n="subTabRxPadHistory"></span></a>
+        <hr class="my-2">
+        <a href="profile.html" class="bw-drawer-link" data-nav-page="profile.html"><i class="bi bi-people-fill"></i> <span data-i18n="navFamily"></span></a>
+        <a href="login.html" class="bw-drawer-link" data-nav-page="login.html"><i class="bi bi-box-arrow-in-right"></i> <span data-i18n="btnSignIn"></span></a>
+        <a href="register.html" class="bw-drawer-link" data-nav-page="register.html"><i class="bi bi-person-plus"></i> <span data-i18n="btnRegister"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <nav id="mobileBottomNav" class="bw-mobile-bottom-nav no-print" aria-label="Mobile Quick Navigation">
+    <button type="button" id="mobileDrawerHandle" class="bw-drawer-handle-pill" aria-label="Open menu drawer"></button>
+    <div class="bw-mobile-bottom-nav-inner">
+      <a href="index.html" class="bw-mobile-nav-item" data-nav-page="index.html"><i class="bi bi-house-door-fill"></i><span data-i18n="navHome"></span></a>
+      <a href="exercises.html" class="bw-mobile-nav-item" data-nav-page="@ex"><i class="bi bi-grid-fill"></i><span data-i18n="navExercises"></span></a>
+      <a href="health-reading.html" class="bw-mobile-nav-item" data-nav-page="@vitals"><i class="bi bi-heart-pulse-fill"></i><span data-i18n="navVitals"></span></a>
+      <a href="prescriptions-volt.html" class="bw-mobile-nav-item" data-nav-page="@rx"><i class="bi bi-file-earmark-medical-fill"></i><span data-i18n="navRx"></span></a>
+      <button type="button" class="bw-mobile-nav-item" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="Open directory"><i class="bi bi-list"></i><span data-i18n="navMore"></span></button>
+    </div>
+  </nav>
+
+  <footer class="bw-footer no-print"><div class="container text-center"><p class="mb-1 fw-semibold" data-i18n="footerPrivacyNote"></p><p class="mb-0 small text-muted" data-i18n="footerEmergencyNote"></p></div></footer>
+  <div id="rxToastStack" class="bw-toast-stack no-print" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/bw-store.js"></script>
+  <script src="asset/js/bw-i18n.js"></script>
+  <script src="asset/js/bw-clinical.js"></script>
+  <script src="asset/js/bw-nav.js"></script>
+  <script src="asset/js/breath-test.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+/**
+ * @file health-suite.css
+ * @description Unified Clinical Vitals Telemetry Suite Styles (V1 Pull-Up Gauges + V2 Multi-Member):
+ *   - Pull-Up KPI Strip (.ht-pull-up) under .ht-hero-tab-bar
+ *   - 5-Stop Blood Pressure Gauge & 4-Stop Glucose Gauge + Clickable Presets
+ *   - Pediatric & Adult Age/Gender Clinical Benchmarks Panel
+ *   - WhatsApp Preview Box & Crisis Banner
+ *   - Interactive SVG Charts, Safe-Zone Bands & Hover Tooltips
+ *   - Demo Preset Cards, Custom Generator & Live Scoped JSON Inspector
+ *
+ * TABLE OF CONTENTS:
+ *   1. Pull-Up KPI Strip (.ht-pull-up) & Crisis Banner
+ *   2. 5-Stop BP Track & 4-Stop Glucose Track + Timing Cards
+ *   3. SVG Charts, Sparklines & Tooltip Badges
+ *   4. Demo Preset Cards & Scoped JSON Inspector
+ */
+
+/* ==========================================================================
+   1. PULL-UP KPI STRIP & CRISIS BANNER
+   ========================================================================== */
+.ht-pull-up {
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+}
+
+.bw-crisis-box {
+  border-left: 5px solid #dc2626;
+  background: rgba(220, 38, 38, 0.09);
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--bw-radius-sm);
+}
+
+/* ==========================================================================
+   2. V1 5-STOP BP TRACK, 4-STOP GLUCOSE TRACK & TIMING CARDS
+   ========================================================================== */
+.bp-track {
+  position: relative;
+  height: 16px;
+  border-radius: var(--bw-radius-pill);
+  background: linear-gradient(90deg, #7c3aed 0%, #16a34a 22%, #0284c7 48%, #f59e0b 72%, #dc2626 100%);
+  margin: 0.9rem 0 0.5rem;
+}
+
+.bg-track {
+  position: relative;
+  height: 16px;
+  border-radius: var(--bw-radius-pill);
+  background: linear-gradient(90deg, #7c3aed 0%, #16a34a 24%, #f59e0b 60%, #dc2626 100%);
+  margin: 0.9rem 0 0.5rem;
+}
+
+.bw-gauge-needle {
+  position: absolute;
+  top: -5px;
+  width: 14px;
+  height: 26px;
+  border-radius: 7px;
+  background: #0f172a;
+  border: 2.5px solid #ffffff;
+  box-shadow: var(--bw-shadow-sm);
+  transform: translateX(-50%);
+  transition: left 0.35s var(--bw-ease-out);
+}
+
+.ht-preset-chip {
+  min-height: 44px;
+  border: 1px solid var(--bw-border);
+  background: var(--bw-surface-alt);
+  color: var(--bw-text-muted);
+  border-radius: var(--bw-radius-pill);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.ht-preset-chip:hover {
+  border-color: var(--bw-primary);
+  color: var(--bw-primary-dark);
+}
+
+.ht-timing-card {
+  min-height: 54px;
+  border: 1.5px solid var(--bw-border);
+  background: var(--bw-surface-alt);
+  border-radius: var(--bw-radius-sm);
+  padding: 0.5rem 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ht-timing-card.active {
+  background: var(--bw-teal-soft);
+  border-color: var(--bw-teal);
+  color: var(--bw-teal-dark);
+}
+
+/* ==========================================================================
+   3. SVG CHARTS & TOOLTIP OVERLAYS
+   ========================================================================== */
+.hc-chart-wrap {
+  position: relative;
+}
+
+.hc-tooltip {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* ==========================================================================
+   4. DEMO PRESETS & SCOPED JSON INSPECTOR
+   ========================================================================== */
+.bw-demo-preset-card {
+  border: 1.5px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  padding: 1.2rem;
+  background: var(--bw-surface);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bw-json-inspector {
+  max-height: 360px;
+  overflow: auto;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: var(--bw-radius-sm);
+  padding: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}

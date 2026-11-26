@@ -1,0 +1,119 @@
+/**
+ * @file breath-test.css
+ * @description BOLT & BPM Pulmonary Assessment Styles (`breath-test.html`):
+ *   - 4-Card KPI Strip w/ Composite Readiness Index Gauge
+ *   - Protocol Stage, Optional 10s Calm Prep Pacer & Active Radar Dial
+ *   - Diagnostic Result View w/ Delta Pill, 4-Segment Spectrum & 3 Bio-Marker Bars
+ *   - Bohr Effect Science Flow Modal
+ *
+ * TABLE OF CONTENTS:
+ *   1. Assessment Stage & Radar Countdown Ring
+ *   2. BOLT Milestone Zone Bar & BPM Haptic Tap Target
+ *   3. Result Spectrum, Bio-Marker Pillar Bars & Bohr Flow Cards
+ */
+
+/* ==========================================================================
+   1. ASSESSMENT STAGE & RADAR RING
+   ========================================================================== */
+.bt-stage-card {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-lg);
+  padding: 1.85rem 1.5rem;
+  box-shadow: var(--bw-shadow-md);
+}
+
+.bt-dial-wrap {
+  position: relative;
+  width: 232px;
+  height: 232px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bt-dial-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.bt-dial-readout {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+/* ==========================================================================
+   2. MILESTONE TRACK, BPM TAP ORB & SPECTRUM NEEDLE
+   ========================================================================== */
+.bt-spectrum-track {
+  position: relative;
+  height: 16px;
+  border-radius: var(--bw-radius-pill);
+  background: linear-gradient(90deg, #dc2626 0%, #d97706 33%, #10b981 66%, #00897b 100%);
+  margin: 0.9rem 0 0.4rem;
+}
+
+.bt-spectrum-needle {
+  position: absolute;
+  top: -5px;
+  width: 14px;
+  height: 26px;
+  border-radius: 7px;
+  background: #0f172a;
+  border: 2.5px solid #ffffff;
+  box-shadow: var(--bw-shadow-sm);
+  transform: translateX(-50%);
+  transition: left 0.35s var(--bw-ease-out);
+  left: 20%;
+}
+
+.bt-bpm-tap-orb {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  border: 4px solid rgba(46, 155, 229, 0.28);
+  background: linear-gradient(135deg, var(--bw-sky), var(--bw-primary));
+  color: #ffffff;
+  font-weight: 700;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(23, 105, 170, 0.28);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.bt-bpm-tap-orb:active {
+  transform: scale(0.95);
+}
+
+/* ==========================================================================
+   3. BIO-MARKER PILLAR BARS & BOHR FLOW NODES
+   ========================================================================== */
+.bt-biomarker-track {
+  height: 10px;
+  background: var(--bw-border);
+  border-radius: var(--bw-radius-pill);
+  overflow: hidden;
+}
+
+.bt-biomarker-fill {
+  height: 100%;
+  border-radius: var(--bw-radius-pill);
+  background: linear-gradient(90deg, var(--bw-primary), var(--bw-emerald));
+  transition: width 0.45s var(--bw-ease-out);
+}
+
+.bt-bohr-node {
+  border: 1.5px solid var(--bw-border);
+  border-radius: var(--bw-radius-sm);
+  background: var(--bw-surface-alt);
+  padding: 0.75rem;
+  text-align: center;
+}

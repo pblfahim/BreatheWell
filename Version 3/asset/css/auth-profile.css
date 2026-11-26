@@ -1,0 +1,224 @@
+/**
+ * @file auth-profile.css
+ * @description Unified Auth (Login / Register) & Multi-Member Profile Hub Styles:
+ *   - Split-Screen Login Layout (Visual Showcase + Auth Card)
+ *   - 4-Step Register Card (Info, 4-Criterion Password Meter, Goal Tiles, Family Onboarding)
+ *   - Profile Gradient Hero, Fixed 4-KPI Vitality Grid, 5-Tab Manager, Family Roster & Achievements
+ *
+ * TABLE OF CONTENTS:
+ *   1. Auth Shell, Password Eye Toggle & 4-Bar Strength Meter
+ *   2. Register Goal Tiles & Family Member Preview Row
+ *   3. Profile Hero Banner, 4-KPI Grid & 5-Tab Surface
+ *   4. Family Roster Cards, Achievements Grid & Security Zone
+ */
+
+/* ==========================================================================
+   1. AUTH SHELL, PASSWORD TOGGLE & 4-BAR STRENGTH METER
+   ========================================================================== */
+.bw-auth-shell {
+  min-height: calc(100vh - 140px);
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bw-auth-card {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-lg);
+  box-shadow: var(--bw-shadow-lg);
+  padding: 2rem;
+}
+
+.bw-reg-card {
+  max-width: 920px;
+}
+
+.bw-auth-showcase {
+  border-radius: var(--bw-radius-lg);
+  background: linear-gradient(135deg, #0b3b2e 0%, #0f4c3a 48%, #1769aa 100%);
+  color: #ffffff;
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--bw-shadow-lg);
+}
+
+.bw-pass-wrap {
+  position: relative;
+}
+
+.bw-pass-wrap .form-control {
+  padding-right: 48px;
+}
+
+.bw-pass-toggle {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--bw-text-muted);
+  border-radius: var(--bw-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.bw-strength-bars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.bw-sbar {
+  height: 6px;
+  border-radius: 99px;
+  background: var(--bw-border);
+  transition: background-color 0.25s ease;
+}
+
+.bw-sbar.active-1 { background: #ef4444; }
+.bw-sbar.active-2 { background: #f59e0b; }
+.bw-sbar.active-3 { background: #0284c7; }
+.bw-sbar.active-4 { background: #10b981; }
+
+.bw-demo-callout {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(46, 155, 229, 0.08));
+  border: 1px dashed rgba(0, 137, 123, 0.48);
+  border-radius: var(--bw-radius-md);
+  padding: 1rem;
+}
+
+/* ==========================================================================
+   2. REGISTER GOAL TILES & STEP BADGES
+   ========================================================================== */
+.bw-step-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bw-primary);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bw-goal-tile {
+  width: 100%;
+  min-height: 54px;
+  border: 1.5px solid var(--bw-border);
+  border-radius: var(--bw-radius-sm);
+  background: var(--bw-surface-alt);
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.86rem;
+  color: var(--bw-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bw-goal-tile.active {
+  background: var(--bw-primary-soft);
+  border-color: var(--bw-primary);
+  color: var(--bw-primary-dark);
+}
+
+/* ==========================================================================
+   3. PROFILE HERO BANNER, KPI STRIP & 5-TAB PANEL
+   ========================================================================== */
+.bw-profile-hero {
+  background: linear-gradient(135deg, #0f4c3a 0%, #00897b 52%, #1769aa 100%);
+  color: #ffffff;
+  border-radius: var(--bw-radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--bw-shadow-md);
+}
+
+.bw-hero-avatar-btn {
+  position: relative;
+  border: 3px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.bw-avatar-opt-btn {
+  border: 1.5px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  background: var(--bw-surface);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.bw-avatar-opt-btn.active {
+  border-color: var(--bw-primary);
+  background: var(--bw-primary-soft);
+}
+
+/* ==========================================================================
+   4. FAMILY ROSTER CARDS, ACHIEVEMENTS & SECURITY ZONE
+   ========================================================================== */
+.bw-family-card {
+  background: var(--bw-surface);
+  border: 1.5px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  padding: 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.bw-family-card.is-active-member {
+  border-color: var(--bw-emerald);
+  box-shadow: 0 0 0 3px var(--bw-emerald-soft);
+}
+
+.bw-family-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  background: var(--bw-surface-alt);
+  border-radius: var(--bw-radius-sm);
+  padding: 0.65rem;
+  font-size: 0.8rem;
+}
+
+.bw-badge-card {
+  border: 1.5px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  padding: 1.15rem;
+  background: var(--bw-surface-alt);
+  opacity: 0.68;
+}
+
+.bw-badge-card.unlocked {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(46, 155, 229, 0.08));
+  border-color: var(--bw-emerald);
+  opacity: 1;
+}
+
+.bw-danger-zone {
+  border: 1.5px dashed rgba(220, 38, 38, 0.45);
+  background: rgba(220, 38, 38, 0.03);
+  border-radius: var(--bw-radius-md);
+  padding: 1.2rem;
+}

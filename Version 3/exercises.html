@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <!-- ========================================================================
+       exercises.html — BreatheWell v3 4-Screen Breathing Sanctuary Studio
+       ======================================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>শ্বাস-প্রশ্বাস ব্যায়াম স্টুডিও | ব্রিদওয়েল v3</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/exercises.css">
+</head>
+<body>
+  <a href="#main" class="bw-skip-link" data-i18n="skipToMain">মূল অংশে যান</a>
+
+  <nav class="navbar navbar-expand-lg sticky-top bw-navbar no-print" aria-label="Primary Navigation">
+    <div class="container">
+      <a class="bw-brand" href="index.html">
+        <span class="bw-brand-mark"><i class="bi bi-wind" aria-hidden="true"></i></span>
+        <span data-i18n="brandName"></span>
+        <span class="bw-brand-badge" data-i18n="brandFamilyTag"></span>
+      </a>
+      <div class="collapse navbar-collapse justify-content-center">
+        <ul class="navbar-nav gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-nav-page="@ex"><i class="bi bi-wind"></i> <span data-i18n="navExercises"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-nav-page="@vitals"><i class="bi bi-heart-pulse"></i> <span data-i18n="navVitals"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-nav-page="@rx"><i class="bi bi-file-medical"></i> <span data-i18n="navRx"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html" data-nav-page="@family"><i class="bi bi-people"></i> <span data-i18n="navFamily"></span></a></li>
+        </ul>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="bw-lang-group" role="group" aria-label="Language Switcher">
+          <button type="button" class="bw-lang-btn active" data-lang="bn">বাং</button>
+          <button type="button" class="bw-lang-btn" data-lang="en">EN</button>
+        </div>
+        <div id="bwNavMemberSlot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Secondary Wellness Hero Tab Bar (.ht-hero-tab-bar) -->
+  <div class="ht-hero-tab-bar no-print">
+    <div class="container">
+      <div class="ht-hero-tabs" role="tablist">
+        <a href="exercises.html" class="ht-hero-tab" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="subTabExStudio"></span></a>
+        <a href="breath-test.html" class="ht-hero-tab" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="subTabExTest"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <div id="bwContextStrip" class="bw-context-strip no-print"></div>
+
+  <main id="main" class="container py-4 bw-fade-in">
+    <!-- ======== SCREEN 1: PROTOCOL LIBRARY & RECENT MEMBER SESSIONS ======== -->
+    <section id="exLibraryScreen" class="ex-screen active">
+      <header class="ex-studio-hero mb-4">
+        <div class="row align-items-center g-3">
+          <div class="col-lg-8">
+            <h1 class="h3 fw-bold mb-1" data-i18n="heroTitle"></h1>
+            <p class="small opacity-90 mb-0" data-i18n="heroSub"></p>
+          </div>
+          <div class="col-lg-4 d-flex gap-3 justify-content-lg-end">
+            <div class="text-center"><small class="opacity-75 d-block">Streak</small><strong id="exLibStreakStat" class="fs-4 tabular-nums">0d</strong></div>
+            <div class="text-center"><small class="opacity-75 d-block">Total</small><strong id="exLibMinsStat" class="fs-4 tabular-nums">0m</strong></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="bw-card p-3 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <div class="bw-segmented">
+          <button type="button" class="bw-seg-btn active" data-ex-goal="all">All</button>
+          <button type="button" class="bw-seg-btn" data-ex-goal="stress">Stress</button>
+          <button type="button" class="bw-seg-btn" data-ex-goal="focus">Focus</button>
+          <button type="button" class="bw-seg-btn" data-ex-goal="sleep">Sleep</button>
+          <button type="button" class="bw-seg-btn" data-ex-goal="mindful">Mindful</button>
+        </div>
+        <div class="bw-segmented">
+          <button type="button" class="bw-seg-btn active" data-soundscape="chimes">Chimes</button>
+          <button type="button" class="bw-seg-btn" data-soundscape="rain">Rain</button>
+          <button type="button" class="bw-seg-btn" data-soundscape="drone">Drone</button>
+          <button type="button" class="bw-seg-btn" data-soundscape="off">Silent</button>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-5" id="exLibraryCards"></div>
+
+      <div class="bw-card p-3 p-md-4">
+        <h2 class="h5 fw-bold mb-3" data-i18n="recentTitle"></h2>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead><tr><th>Date</th><th>Protocol</th><th>Duration</th><th>Cycles</th><th>Mood</th></tr></thead>
+            <tbody id="exHistoryBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== SCREEN 2: DETAIL CONFIGURATION & WAVEFORM PREVIEW ======== -->
+    <section id="exDetailScreen" class="ex-screen">
+      <button type="button" id="detailBackBtn" class="btn btn-bw-outline mb-3"><i class="bi bi-arrow-left"></i> <span data-i18n="btnBackLibrary"></span></button>
+      <div class="bw-card p-4">
+        <h2 id="detailExTitle" class="h4 fw-bold mb-1">Protocol</h2>
+        <p id="detailExDesc" class="small text-muted mb-3"></p>
+        <div class="ex-waveform-wrap mb-3">
+          <svg id="detailWaveformSvg" viewBox="0 0 420 90" class="w-100 h-auto" aria-hidden="true"></svg>
+          <div id="detailPatternTxt" class="small text-info text-center fw-semibold mt-1"></div>
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <span class="small fw-bold d-block mb-1">Difficulty Level</span>
+            <div class="bw-segmented w-100">
+              <button type="button" class="bw-seg-btn flex-fill" data-detail-lv="1">L1</button>
+              <button type="button" class="bw-seg-btn flex-fill active" data-detail-lv="2">L2</button>
+              <button type="button" class="bw-seg-btn flex-fill" data-detail-lv="3">L3</button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <span class="small fw-bold d-block mb-1">Session Length</span>
+            <div class="bw-segmented w-100">
+              <button type="button" class="bw-seg-btn flex-fill" data-detail-dur="1">1m</button>
+              <button type="button" class="bw-seg-btn flex-fill active" data-detail-dur="2">2m</button>
+              <button type="button" class="bw-seg-btn flex-fill" data-detail-dur="5">5m</button>
+              <button type="button" class="bw-seg-btn flex-fill" data-detail-dur="10">10m</button>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-3 border-top">
+          <label class="form-check form-switch small fw-semibold"><input type="checkbox" id="detailTtsChk" class="form-check-input"> Voice Coach (TTS)</label>
+          <button type="button" id="detailStartBtn" class="btn btn-bw-primary px-4"><i class="bi bi-play-fill"></i> <span data-i18n="btnStartSession"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== SCREEN 3: IMMERSIVE ACTIVE SESSION STAGE ======== -->
+    <section id="exSessionScreen" class="ex-screen">
+      <div class="ex-session-stage ex-narrow-stage text-center mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="badge bg-light text-dark rounded-pill px-3 py-2">Cycles: <strong id="sessionCycleStat" class="tabular-nums">0</strong></span>
+          <span id="sessionRemStat" class="fs-5 fw-bold tabular-nums">2:00</span>
+        </div>
+
+        <div class="ex-mandala-stage my-3">
+          <svg class="ex-ring-svg" viewBox="0 0 280 280" aria-hidden="true">
+            <circle cx="140" cy="140" r="124" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="8"></circle>
+            <circle id="sessionRingCircle" cx="140" cy="140" r="124" fill="none" stroke="#6ee7b7" stroke-width="8" stroke-linecap="round"></circle>
+          </svg>
+          <div id="sessionLotusHalo" class="ex-lotus-halo"></div>
+          <div id="sessionBreathCore" class="ex-breath-core">
+            <span id="sessionCueText" class="fw-bold small px-2" aria-live="polite">Inhale</span>
+            <span id="sessionPhaseSec" class="fs-2 fw-bold tabular-nums">4s</span>
+          </div>
+        </div>
+
+        <div class="ex-audio-bars my-3" aria-hidden="true">
+          <span class="ex-audio-bar"></span><span class="ex-audio-bar"></span><span class="ex-audio-bar"></span>
+          <span class="ex-audio-bar"></span><span class="ex-audio-bar"></span><span class="ex-audio-bar"></span><span class="ex-audio-bar"></span>
+        </div>
+
+        <div class="d-flex justify-content-center gap-2 mt-3">
+          <button type="button" id="sessionPauseBtn" class="btn btn-light fw-bold px-4" data-i18n="btnPause"></button>
+          <button type="button" id="sessionFinishBtn" class="btn btn-outline-light px-4" data-i18n="btnExit"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== SCREEN 4: COMPLETION TROPHY, CONFETTI & MOOD LOGGING ======== -->
+    <section id="exCompleteScreen" class="ex-screen text-center">
+      <div class="bw-card ex-complete-card p-4 p-md-5 mx-auto">
+        <button type="button" id="completeTrophyBtn" class="ex-trophy-btn mx-auto mb-3" aria-label="Replay celebration trophy"><i class="bi bi-trophy-fill"></i></button>
+        <h2 class="h3 fw-bold mb-2" data-i18n="completeTitle"></h2>
+        <p class="small text-muted mb-4" data-i18n="completeSub"></p>
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+          <button type="button" class="ex-mood-pill active" data-mood="calm">Calm</button>
+          <button type="button" class="ex-mood-pill" data-mood="focused">Focused</button>
+          <button type="button" class="ex-mood-pill" data-mood="refreshed">Refreshed</button>
+          <button type="button" class="ex-mood-pill" data-mood="sleepy">Sleepy</button>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+          <button type="button" id="completeSaveBtn" class="btn btn-bw-primary px-4" data-i18n="btnSaveMoodSession"></button>
+          <button type="button" id="completeShareWaBtn" class="btn btn-success"><i class="bi bi-whatsapp"></i> Share</button>
+          <a href="breath-test.html" class="btn btn-bw-outline" data-i18n="btnGoBolt"></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <canvas id="exConfettiCanvas" class="ex-confetti-canvas d-none" aria-hidden="true"></canvas>
+
+  <div class="offcanvas offcanvas-end bw-mobile-drawer" tabindex="-1" id="mobileSidebarMenu" aria-labelledby="drawerLabel">
+    <div class="offcanvas-header border-bottom"><h5 class="offcanvas-title fw-bold" id="drawerLabel" data-i18n="drawerDirectoryTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+    <div class="offcanvas-body">
+      <div id="bwDrawerMemberBox"></div>
+      <div class="d-grid gap-1">
+        <a href="index.html" class="bw-drawer-link" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a>
+        <a href="exercises.html" class="bw-drawer-link" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="subTabExStudio"></span></a>
+        <a href="breath-test.html" class="bw-drawer-link" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="subTabExTest"></span></a>
+        <hr class="my-2">
+        <a href="health-reading.html" class="bw-drawer-link" data-nav-page="health-reading.html"><i class="bi bi-heart-pulse"></i> <span data-i18n="subTabVitalsEntry"></span></a>
+        <a href="health-history.html" class="bw-drawer-link" data-nav-page="health-history.html"><i class="bi bi-table"></i> <span data-i18n="subTabVitalsHistory"></span></a>
+        <a href="health-charts.html" class="bw-drawer-link" data-nav-page="health-charts.html"><i class="bi bi-graph-up"></i> <span data-i18n="subTabVitalsCharts"></span></a>
+        <a href="health-demo.html" class="bw-drawer-link" data-nav-page="health-demo.html"><i class="bi bi-database-fill-gear"></i> <span data-i18n="subTabVitalsDemo"></span></a>
+        <hr class="my-2">
+        <a href="prescriptions-volt.html" class="bw-drawer-link" data-nav-page="prescriptions-volt.html"><i class="bi bi-shield-plus"></i> <span data-i18n="subTabRxVault"></span></a>
+        <a href="prescription-history.html" class="bw-drawer-link" data-nav-page="prescription-history.html"><i class="bi bi-clock-history"></i> <span data-i18n="subTabRxHistory"></span></a>
+        <a href="prescription-create.html" class="bw-drawer-link" data-nav-page="prescription-create.html"><i class="bi bi-pencil-square"></i> <span data-i18n="subTabRxCreate"></span></a>
+        <a href="prescription-pad.html" class="bw-drawer-link" data-nav-page="prescription-pad.html"><i class="bi bi-file-earmark-medical"></i> <span data-i18n="subTabRxPad"></span></a>
+        <a href="digitalpad-history.html" class="bw-drawer-link" data-nav-page="digitalpad-history.html"><i class="bi bi-journal-medical"></i> <span data-i18n="subTabRxPadHistory"></span></a>
+        <hr class="my-2">
+        <a href="profile.html" class="bw-drawer-link" data-nav-page="profile.html"><i class="bi bi-people-fill"></i> <span data-i18n="navFamily"></span></a>
+        <a href="login.html" class="bw-drawer-link" data-nav-page="login.html"><i class="bi bi-box-arrow-in-right"></i> <span data-i18n="btnSignIn"></span></a>
+        <a href="register.html" class="bw-drawer-link" data-nav-page="register.html"><i class="bi bi-person-plus"></i> <span data-i18n="btnRegister"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <nav id="mobileBottomNav" class="bw-mobile-bottom-nav no-print" aria-label="Mobile Quick Navigation">
+    <button type="button" id="mobileDrawerHandle" class="bw-drawer-handle-pill" aria-label="Open menu drawer"></button>
+    <div class="bw-mobile-bottom-nav-inner">
+      <a href="index.html" class="bw-mobile-nav-item" data-nav-page="index.html"><i class="bi bi-house-door-fill"></i><span data-i18n="navHome"></span></a>
+      <a href="exercises.html" class="bw-mobile-nav-item" data-nav-page="@ex"><i class="bi bi-grid-fill"></i><span data-i18n="navExercises"></span></a>
+      <a href="health-reading.html" class="bw-mobile-nav-item" data-nav-page="@vitals"><i class="bi bi-heart-pulse-fill"></i><span data-i18n="navVitals"></span></a>
+      <a href="prescriptions-volt.html" class="bw-mobile-nav-item" data-nav-page="@rx"><i class="bi bi-file-earmark-medical-fill"></i><span data-i18n="navRx"></span></a>
+      <button type="button" class="bw-mobile-nav-item" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="Open directory"><i class="bi bi-list"></i><span data-i18n="navMore"></span></button>
+    </div>
+  </nav>
+
+  <footer class="bw-footer no-print"><div class="container text-center"><p class="mb-1 fw-semibold" data-i18n="footerPrivacyNote"></p><p class="mb-0 small text-muted" data-i18n="footerEmergencyNote"></p></div></footer>
+  <div id="rxToastStack" class="bw-toast-stack no-print" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/bw-store.js"></script>
+  <script src="asset/js/bw-i18n.js"></script>
+  <script src="asset/js/bw-nav.js"></script>
+  <script src="asset/js/exercises.js"></script>
+</body>
+</html>

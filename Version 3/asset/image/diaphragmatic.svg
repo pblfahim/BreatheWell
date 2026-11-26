@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="lungGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="55%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="diaphBgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.45" />
+    </linearGradient>
+    <filter id="lungShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#0284c7" flood-opacity="0.25" />
+    </filter>
+  </defs>
+  <!-- Ambient Soft Backdrop Circle -->
+  <circle cx="50" cy="50" r="44" fill="url(#diaphBgGlow)" />
+  <!-- Lungs & Airway Illustration -->
+  <g filter="url(#lungShadow)">
+    <!-- Trachea & Airway Stem -->
+    <path d="M50 20 L50 36" stroke="#0284c7" stroke-width="4.5" stroke-linecap="round" />
+    <!-- Bronchi Branching -->
+    <path d="M50 36 Q42 41 36 45" fill="none" stroke="#0284c7" stroke-width="3.5" stroke-linecap="round" />
+    <path d="M50 36 Q58 41 64 45" fill="none" stroke="#0284c7" stroke-width="3.5" stroke-linecap="round" />
+    <!-- Left Lung Lobe -->
+    <path d="M35 44 C25 46 20 56 22 68 C24 77 32 80 40 77 C45 75 46 68 43 54 Z"
+          fill="url(#lungGrad)" opacity="0.92" />
+    <!-- Right Lung Lobe -->
+    <path d="M65 44 C75 46 80 56 78 68 C76 77 68 80 60 77 C55 75 54 68 57 54 Z"
+          fill="url(#lungGrad)" opacity="0.92" />
+    <!-- Lower Diaphragm Expansion Arc -->
+    <path d="M26 84 Q50 93 74 84" fill="none" stroke="#0284c7" stroke-width="3.5" stroke-linecap="round" />
+  </g>
+  <!-- Gentle Breath Inflow Indicator Arrows/Dots -->
+  <circle cx="50" cy="14" r="2.5" fill="#38bdf8" />
+</svg>

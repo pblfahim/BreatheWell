@@ -1,0 +1,809 @@
+/**
+ * @file style.css
+ * @description BreatheWell Version 3 Unified Design System & Core Chrome
+ * Combines Version 1's Sky-Blue/Emerald glassmorphic elegance & `.ht-hero-tab-bar`
+ * pull-up ribbon with Version 2's accessible multi-member UI, touch-safe targets,
+ * and strict print / reduced-motion support.
+ *
+ * TABLE OF CONTENTS:
+ *   1. Design Tokens & Typography (:root)
+ *   2. Base Reset, Skip Link & WCAG 2.1 AA Focus Rings
+ *   3. Top Glassmorphic Navbar & Floating Brand Mark
+ *   4. Multi-Member Switcher Dropdown & Avatars
+ *   5. Signature Forest-Green Pull-Up Hero Tab Bar (.ht-hero-tab-bar)
+ *   6. Context / Guest Preview Strip & Pull-Up KPI Cards
+ *   7. Shared Surface Cards, Status Chips & Segmented Controls
+ *   8. Touch-Safe Buttons & Form Inputs
+ *   9. Mobile Pinned Bottom Navigation & Drawer Handle Pill
+ *  10. Mobile Offcanvas Sidebar Directory (#mobileSidebarMenu)
+ *  11. Toast Notification Stack, Footer & Keyframes
+ *  12. Responsive Breakpoints, Print Rules & Reduced Motion
+ */
+
+/* ==========================================================================
+   1. DESIGN TOKENS & TYPOGRAPHY
+   ========================================================================== */
+:root {
+  --bw-sky: #2e9be5;
+  --bw-primary: #1769aa;
+  --bw-primary-dark: #104e82;
+  --bw-primary-soft: rgba(23, 105, 170, 0.12);
+  --bw-teal: #00897b;
+  --bw-teal-dark: #00695c;
+  --bw-teal-soft: rgba(0, 137, 123, 0.12);
+  --bw-emerald: #10b981;
+  --bw-emerald-soft: rgba(16, 185, 129, 0.15);
+
+  /* Signature V1 Forest-Green Tab Ribbon */
+  --ht-hero-tab-bg: #0f4c3a;
+  --ht-hero-tab-active-bg: #e9f7ed;
+  --ht-hero-tab-active-text: #0f4c3a;
+  --bw-navbar-height: 68px;
+
+  /* Neutrals */
+  --bw-bg: #f3f7fc;
+  --bw-surface: #ffffff;
+  --bw-surface-alt: #f8fafc;
+  --bw-border: #e2e8f0;
+  --bw-border-strong: #cbd5e1;
+  --bw-text: #0f172a;
+  --bw-text-muted: #475569;
+  --bw-text-subtle: #64748b;
+
+  /* Fonts */
+  --bw-font-sans: 'Inter', 'Noto Sans Bengali', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Radii & Elevations */
+  --bw-radius-sm: 10px;
+  --bw-radius-md: 16px;
+  --bw-radius-lg: 22px;
+  --bw-radius-pill: 999px;
+  --bw-shadow-xs: 0 2px 6px rgba(15, 23, 42, 0.05);
+  --bw-shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --bw-shadow-md: 0 12px 32px rgba(15, 23, 42, 0.09);
+  --bw-shadow-lg: 0 20px 46px rgba(15, 23, 42, 0.14);
+
+  /* Transitions & Layers */
+  --bw-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --bw-z-tabbar: 1010;
+  --bw-z-navbar: 1020;
+  --bw-z-mobilenav: 1040;
+  --bw-z-modal: 1055;
+  --bw-z-drawer: 1060;
+  --bw-z-toast: 1090;
+}
+
+/* ==========================================================================
+   2. BASE RESET, SKIP LINK & WCAG 2.1 AA FOCUS RINGS
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--bw-font-sans);
+  background:
+    radial-gradient(circle at 8% 4%, rgba(46, 155, 229, 0.07), transparent 40%),
+    radial-gradient(circle at 92% 14%, rgba(16, 185, 129, 0.07), transparent 42%),
+    var(--bw-bg);
+  color: var(--bw-text);
+  line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[lang="bn"] body {
+  line-height: 1.65;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.bw-skip-link {
+  position: fixed;
+  top: -120px;
+  left: 16px;
+  z-index: 2000;
+  background: var(--bw-primary);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: var(--bw-radius-sm);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: var(--bw-shadow-md);
+  transition: top 0.15s ease;
+}
+
+.bw-skip-link:focus {
+  top: 12px;
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--bw-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   3. TOP GLASSMORPHIC NAVBAR & FLOATING BRAND MARK
+   ========================================================================== */
+.bw-navbar {
+  min-height: var(--bw-navbar-height);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  z-index: var(--bw-z-navbar);
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+}
+
+.bw-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.58rem;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--bw-text);
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.bw-brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--bw-sky), var(--bw-primary));
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  box-shadow: 0 6px 16px rgba(23, 105, 170, 0.28);
+  animation: bwBrandFloat 4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.bw-brand-badge {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--bw-radius-pill);
+  background: var(--bw-teal-soft);
+  color: var(--bw-teal-dark);
+}
+
+.bw-navbar .nav-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--bw-text-muted);
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--bw-radius-sm);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bw-navbar .nav-link:hover {
+  background: var(--bw-primary-soft);
+  color: var(--bw-primary-dark);
+}
+
+.bw-navbar .nav-link.active {
+  background: linear-gradient(135deg, var(--bw-primary), var(--bw-teal));
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(23, 105, 170, 0.22);
+}
+
+.bw-lang-group {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-pill);
+  padding: 2px;
+}
+
+.bw-lang-btn {
+  min-width: 44px;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--bw-text-muted);
+  font-weight: 700;
+  font-size: 0.78rem;
+  border-radius: var(--bw-radius-pill);
+  padding: 0 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bw-lang-btn.active {
+  background: var(--bw-primary);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   4. MULTI-MEMBER SWITCHER DROPDOWN & AVATARS
+   ========================================================================== */
+.bw-member-pill {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 4px 12px 4px 6px;
+  border-radius: var(--bw-radius-pill);
+  border: 1.5px solid var(--bw-border);
+  background: var(--bw-surface);
+  color: var(--bw-text);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bw-member-pill:hover {
+  border-color: var(--bw-teal);
+  box-shadow: var(--bw-shadow-xs);
+}
+
+.bw-member-name-label {
+  max-width: 120px;
+}
+
+.bw-avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--bw-sky), var(--bw-primary));
+}
+
+.bw-avatar-lg {
+  width: 58px;
+  height: 58px;
+  font-size: 1.3rem;
+}
+
+.bw-avatar-color-0 { background: linear-gradient(135deg, #2e9be5, #1769aa); }
+.bw-avatar-color-1 { background: linear-gradient(135deg, #00897b, #10b981); }
+.bw-avatar-color-2 { background: linear-gradient(135deg, #7c3aed, #6366f1); }
+.bw-avatar-color-3 { background: linear-gradient(135deg, #d97706, #ea580c); }
+.bw-avatar-color-4 { background: linear-gradient(135deg, #db2777, #be185d); }
+
+.bw-member-menu {
+  min-width: 290px;
+  border-radius: var(--bw-radius-md);
+  border: 1px solid var(--bw-border);
+  box-shadow: var(--bw-shadow-lg);
+  padding: 0.55rem;
+}
+
+.bw-member-option {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  border: 0;
+  background: transparent;
+  border-radius: var(--bw-radius-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.bw-member-option:hover {
+  background: var(--bw-surface-alt);
+}
+
+.bw-member-option.active {
+  background: var(--bw-emerald-soft);
+}
+
+.bw-member-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  flex: 1;
+  min-width: 0;
+}
+
+.bw-member-meta strong {
+  font-size: 0.88rem;
+  color: var(--bw-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bw-member-meta small {
+  font-size: 0.74rem;
+  color: var(--bw-text-subtle);
+}
+
+/* ==========================================================================
+   5. SIGNATURE FOREST-GREEN PULL-UP HERO TAB BAR (.ht-hero-tab-bar)
+   ========================================================================== */
+.ht-hero-tab-bar {
+  position: sticky;
+  top: var(--bw-navbar-height);
+  z-index: var(--bw-z-tabbar);
+  background: var(--ht-hero-tab-bg);
+  padding-top: 12px;
+  border-bottom: 1px solid rgba(15, 76, 58, 0.18);
+}
+
+.ht-hero-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ht-hero-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.ht-hero-tab {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.05rem;
+  border-radius: 12px 12px 0 0;
+  background: rgba(255, 255, 255, 0.92);
+  color: #374151;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.ht-hero-tab:hover {
+  background: #ffffff;
+  color: #0f4c3a;
+}
+
+.ht-hero-tab.active {
+  background: var(--ht-hero-tab-active-bg);
+  color: var(--ht-hero-tab-active-text);
+  font-weight: 800;
+}
+
+/* Hide tab bar during active session screen cleanly */
+body:has(#exSessionScreen.active) .ht-hero-tab-bar,
+body:has(#exCompleteScreen.active) .ht-hero-tab-bar {
+  display: none;
+}
+
+body:has(#exSessionScreen.active) .bw-mobile-bottom-nav {
+  transform: translateY(125%);
+}
+
+/* ==========================================================================
+   6. CONTEXT / GUEST STRIP & PULL-UP KPI CARDS
+   ========================================================================== */
+.bw-context-strip {
+  background: linear-gradient(90deg, rgba(46, 155, 229, 0.08), rgba(16, 185, 129, 0.09));
+  border-bottom: 1px solid var(--bw-border);
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.bw-context-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 4px 12px;
+  border-radius: var(--bw-radius-pill);
+  background: #ffffff;
+  border: 1px solid var(--bw-border);
+  font-weight: 600;
+  color: var(--bw-text);
+}
+
+/* ==========================================================================
+   7. SHARED GLASSMORPHIC CARDS, STATUS CHIPS & SEGMENTED PILLS
+   ========================================================================== */
+.bw-card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  box-shadow: var(--bw-shadow-sm);
+  transition: transform 0.22s var(--bw-ease-out), box-shadow 0.22s var(--bw-ease-out);
+}
+
+.bw-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bw-shadow-md);
+}
+
+.bw-stat-card {
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius-md);
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--bw-shadow-xs);
+  height: 100%;
+}
+
+.bw-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.bw-stat-icon-blue { background: var(--bw-primary-soft); color: var(--bw-primary); }
+.bw-stat-icon-teal { background: var(--bw-teal-soft); color: var(--bw-teal-dark); }
+.bw-stat-icon-emerald { background: var(--bw-emerald-soft); color: #047857; }
+.bw-stat-icon-amber { background: rgba(217, 119, 6, 0.14); color: #b45309; }
+.bw-stat-icon-red { background: rgba(220, 38, 38, 0.12); color: #b91c1c; }
+
+.bw-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 4px 10px;
+  border-radius: var(--bw-radius-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.bw-status-low { background: rgba(124, 58, 237, 0.14); color: #5b21b6; }
+.bw-status-normal { background: rgba(16, 185, 129, 0.16); color: #065f46; }
+.bw-status-elevated { background: rgba(2, 132, 199, 0.14); color: #075985; }
+.bw-status-stage1 { background: rgba(245, 158, 11, 0.18); color: #92400e; }
+.bw-status-danger { background: rgba(220, 38, 38, 0.15); color: #991b1b; }
+.bw-status-info { background: rgba(2, 132, 199, 0.14); color: #075985; }
+
+.bw-segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  background: var(--bw-surface-alt);
+  border: 1px solid var(--bw-border);
+  padding: 4px;
+  border-radius: var(--bw-radius-md);
+}
+
+.bw-seg-btn {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--bw-text-muted);
+  font-weight: 600;
+  font-size: 0.86rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--bw-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bw-seg-btn.active {
+  background: var(--bw-surface);
+  color: var(--bw-primary-dark);
+  box-shadow: var(--bw-shadow-xs);
+}
+
+/* ==========================================================================
+   8. TOUCH-SAFE BUTTONS & INPUTS
+   ========================================================================== */
+.btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  border-radius: var(--bw-radius-sm);
+}
+
+.btn-sm {
+  min-height: 44px;
+  padding: 0.35rem 0.78rem;
+}
+
+.btn-bw-primary {
+  background: linear-gradient(135deg, var(--bw-sky), var(--bw-primary));
+  color: #ffffff;
+  border: 0;
+  box-shadow: 0 6px 16px rgba(23, 105, 170, 0.24);
+}
+
+.btn-bw-primary:hover,
+.btn-bw-primary:focus {
+  background: linear-gradient(135deg, var(--bw-primary), var(--bw-primary-dark));
+  color: #ffffff;
+}
+
+.btn-bw-emerald {
+  background: linear-gradient(135deg, var(--bw-teal), var(--bw-emerald));
+  color: #ffffff;
+  border: 0;
+  box-shadow: 0 6px 16px rgba(0, 137, 123, 0.24);
+}
+
+.btn-bw-emerald:hover {
+  background: linear-gradient(135deg, var(--bw-teal-dark), var(--bw-teal));
+  color: #ffffff;
+}
+
+.btn-bw-outline {
+  background: var(--bw-surface);
+  color: var(--bw-primary-dark);
+  border: 1.5px solid var(--bw-primary);
+}
+
+.btn-bw-outline:hover {
+  background: var(--bw-primary-soft);
+  color: var(--bw-primary-dark);
+}
+
+.form-control,
+.form-select {
+  min-height: 46px;
+  border-radius: var(--bw-radius-sm);
+  border: 1.5px solid var(--bw-border-strong);
+  font-size: 0.95rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--bw-primary);
+  box-shadow: 0 0 0 3px var(--bw-primary-soft);
+}
+
+/* ==========================================================================
+   9. MOBILE BOTTOM NAV & DRAWER HANDLE PILL
+   ========================================================================== */
+.bw-mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid var(--bw-border);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -8px 26px rgba(15, 23, 42, 0.08);
+  z-index: var(--bw-z-mobilenav);
+  display: none;
+  padding: 4px 6px env(safe-area-inset-bottom, 6px);
+  transition: transform 0.28s var(--bw-ease-out);
+}
+
+.bw-drawer-handle-pill {
+  display: block;
+  width: 44px;
+  height: 5px;
+  border-radius: var(--bw-radius-pill);
+  background: var(--bw-border-strong);
+  border: 0;
+  margin: 4px auto 4px;
+  cursor: pointer;
+}
+
+.bw-mobile-bottom-nav-inner {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+}
+
+.bw-mobile-nav-item {
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--bw-text-muted);
+  font-size: 0.69rem;
+  font-weight: 600;
+  border-radius: var(--bw-radius-sm);
+  border: 0;
+  background: transparent;
+  padding: 2px;
+}
+
+.bw-mobile-nav-item i {
+  font-size: 1.12rem;
+}
+
+.bw-mobile-nav-item.active {
+  color: var(--bw-primary);
+  background: var(--bw-primary-soft);
+}
+
+/* ==========================================================================
+   10. MOBILE OFFCANVAS SIDEBAR DIRECTORY
+   ========================================================================== */
+.bw-mobile-drawer {
+  width: min(325px, 88vw);
+  z-index: var(--bw-z-drawer);
+}
+
+.bw-drawer-link {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.48rem 0.85rem;
+  border-radius: var(--bw-radius-sm);
+  color: var(--bw-text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.bw-drawer-link:hover {
+  background: var(--bw-surface-alt);
+}
+
+.bw-drawer-link.active {
+  background: var(--bw-primary-soft);
+  color: var(--bw-primary-dark);
+  font-weight: 700;
+}
+
+.bw-drawer-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.bw-drawer-tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+  padding: 0.65rem 0.45rem;
+  border-radius: var(--bw-radius-sm);
+  border: 1px solid var(--bw-border);
+  background: var(--bw-surface-alt);
+  text-decoration: none;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--bw-text);
+}
+
+/* ==========================================================================
+   11. TOAST STACK, FOOTER & KEYFRAMES
+   ========================================================================== */
+.bw-toast-stack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: var(--bw-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: min(400px, calc(100vw - 24px));
+  pointer-events: none;
+}
+
+.bw-toast-item {
+  pointer-events: auto;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: var(--bw-radius-md);
+  padding: 0.85rem 1rem;
+  box-shadow: var(--bw-shadow-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  animation: bwSlideUp 0.24s var(--bw-ease-out);
+}
+
+.bw-toast-item.bw-toast-success { border-left: 4px solid var(--bw-emerald); }
+.bw-toast-item.bw-toast-danger { border-left: 4px solid #ef4444; }
+.bw-toast-item.bw-toast-warning { border-left: 4px solid #f59e0b; }
+.bw-toast-item.bw-toast-info { border-left: 4px solid #38bdf8; }
+
+.bw-footer {
+  background: rgba(255, 255, 255, 0.9);
+  border-top: 1px solid var(--bw-border);
+  padding: 1.65rem 0;
+  color: var(--bw-text-muted);
+  font-size: 0.88rem;
+  margin-top: 3rem;
+}
+
+@keyframes bwBrandFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes bwSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bw-fade-in {
+  animation: bwSlideUp 0.35s var(--bw-ease-out);
+}
+
+/* ==========================================================================
+   12. RESPONSIVE, PRINT & REDUCED MOTION
+   ========================================================================== */
+@media (max-width: 991.98px) {
+  body {
+    padding-bottom: 84px;
+  }
+
+  .bw-mobile-bottom-nav {
+    display: block;
+  }
+
+  .bw-toast-stack {
+    bottom: 92px;
+    right: 12px;
+  }
+}
+
+@media print {
+  .bw-navbar,
+  .ht-hero-tab-bar,
+  .bw-context-strip,
+  .bw-mobile-bottom-nav,
+  .bw-toast-stack,
+  .bw-footer,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

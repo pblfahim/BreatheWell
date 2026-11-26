@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <!-- ========================================================================
+       profile.html — BreatheWell v3 Multi-Member Household & 5-Tab Hub
+       ======================================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>পরিবার ও সদস্য প্রোফাইল | ব্রিদওয়েল v3</title>
+  <link rel="icon" type="image/svg+xml" href="asset/image/favicon.svg">
+  <link rel="stylesheet" href="asset/vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="asset/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="asset/css/auth-profile.css">
+</head>
+<body>
+  <a href="#main" class="bw-skip-link" data-i18n="skipToMain">মূল অংশে যান</a>
+
+  <nav class="navbar navbar-expand-lg sticky-top bw-navbar no-print" aria-label="Primary Navigation">
+    <div class="container">
+      <a class="bw-brand" href="index.html">
+        <span class="bw-brand-mark"><i class="bi bi-wind" aria-hidden="true"></i></span>
+        <span data-i18n="brandName"></span>
+        <span class="bw-brand-badge" data-i18n="brandFamilyTag"></span>
+      </a>
+      <div class="collapse navbar-collapse justify-content-center">
+        <ul class="navbar-nav gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="exercises.html" data-nav-page="@ex"><i class="bi bi-wind"></i> <span data-i18n="navExercises"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="health-reading.html" data-nav-page="@vitals"><i class="bi bi-heart-pulse"></i> <span data-i18n="navVitals"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="prescriptions-volt.html" data-nav-page="@rx"><i class="bi bi-file-medical"></i> <span data-i18n="navRx"></span></a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html" data-nav-page="@family"><i class="bi bi-people"></i> <span data-i18n="navFamily"></span></a></li>
+        </ul>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="bw-lang-group" role="group" aria-label="Language Switcher">
+          <button type="button" class="bw-lang-btn active" data-lang="bn">বাং</button>
+          <button type="button" class="bw-lang-btn" data-lang="en">EN</button>
+        </div>
+        <div id="bwNavMemberSlot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="bwContextStrip" class="bw-context-strip no-print"></div>
+
+  <main id="main" class="container py-4 bw-fade-in">
+    <!-- Guest Gate -->
+    <section id="profileGuestView" class="bw-card p-4 p-lg-5 text-center mx-auto my-4">
+      <div class="bw-stat-icon bw-stat-icon-teal mx-auto mb-3"><i class="bi bi-people-fill fs-3"></i></div>
+      <h1 class="h3 fw-bold mb-2" data-i18n="guestHeroTitle"></h1>
+      <p class="text-muted mx-auto mb-4" data-i18n="guestHeroDesc"></p>
+      <div class="d-flex flex-wrap justify-content-center gap-2">
+        <button type="button" id="guestDemoBtn" class="btn btn-bw-emerald px-4"><i class="bi bi-stars"></i> <span data-i18n="btnDemoFamily"></span></button>
+        <a href="login.html" class="btn btn-bw-outline px-4" data-i18n="btnSignIn"></a>
+        <a href="register.html" class="btn btn-outline-secondary px-4" data-i18n="btnRegister"></a>
+      </div>
+    </section>
+
+    <!-- Authenticated Multi-Member Hub -->
+    <div id="profileAuthView" class="d-none">
+      <section class="bw-profile-hero mb-4">
+        <div class="row align-items-center g-3">
+          <div class="col-lg-8 d-flex align-items-center gap-3">
+            <button type="button" id="btnOpenAvatarModal" class="bw-hero-avatar-btn" aria-label="Change member avatar">
+              <span id="activeAvatarCircle" class="bw-avatar-circle bw-avatar-lg"><i class="bi bi-wind"></i></span>
+            </button>
+            <div>
+              <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                <h1 class="h3 fw-bold mb-0" id="activeMemberName">—</h1>
+                <span class="badge bg-light text-dark rounded-pill" id="activeMemberRelBadge">—</span>
+                <span class="badge bg-danger rounded-pill" id="activeMemberBloodBadge">O+</span>
+                <span class="badge bg-success-subtle text-success rounded-pill" id="activeMemberCountBadge">—</span>
+              </div>
+              <p class="small mb-0 opacity-90" id="activeMemberConditionsLine">—</p>
+            </div>
+          </div>
+          <div class="col-lg-4 d-flex flex-wrap justify-content-lg-end gap-2">
+            <button type="button" id="btnEditActiveMember" class="btn btn-light fw-semibold"><i class="bi bi-pencil-square"></i> <span data-i18n="btnEditActive"></span></button>
+            <button type="button" id="btnOpenAddMember" class="btn btn-warning fw-bold" data-i18n="btnAddMember"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fixed 4-KPI Vitality Grid -->
+      <section class="row g-3 mb-4" aria-label="Active Member Metrics">
+        <div class="col-6 col-lg-3"><div class="bw-stat-card"><small class="text-muted fw-semibold d-block" data-i18n="kpiMinutesLbl"></small><strong id="metricMinutesVal" class="h4 fw-bold tabular-nums">0 min</strong></div></div>
+        <div class="col-6 col-lg-3"><div class="bw-stat-card"><small class="text-muted fw-semibold d-block" data-i18n="kpiSessionsLbl"></small><strong id="metricSessionsVal" class="h4 fw-bold tabular-nums">0</strong></div></div>
+        <div class="col-6 col-lg-3"><div class="bw-stat-card"><small class="text-muted fw-semibold d-block" data-i18n="kpiBoltLbl"></small><strong id="metricBoltVal" class="h4 fw-bold tabular-nums">—</strong></div></div>
+        <div class="col-6 col-lg-3"><div class="bw-stat-card"><small class="text-muted fw-semibold d-block" data-i18n="kpiClinicalLbl"></small><strong id="metricClinicalVal" class="h5 fw-bold tabular-nums">—</strong></div></div>
+      </section>
+
+      <!-- 5-Tab Manager -->
+      <section class="bw-card p-3 p-md-4">
+        <ul class="nav nav-pills gap-2 mb-4" id="profileTabs" role="tablist">
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tabFamilyPane" type="button" role="tab" data-i18n="tabFamily"></button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabPersonalPane" type="button" role="tab" data-i18n="tabPersonal"></button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabPrefsPane" type="button" role="tab" data-i18n="tabPrefs"></button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabAchievePane" type="button" role="tab" data-i18n="tabAchievements"></button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabSecurityPane" type="button" role="tab" data-i18n="tabSecurity"></button></li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- Tab 1 (Default Open): Family Members Roster Grid -->
+          <div class="tab-pane fade show active" id="tabFamilyPane" role="tabpanel">
+            <div class="row g-3" id="familyRosterGrid"></div>
+          </div>
+
+          <!-- Tab 2: Personal Info Form -->
+          <div class="tab-pane fade" id="tabPersonalPane" role="tabpanel">
+            <form id="personalInfoForm">
+              <div class="row g-3">
+                <div class="col-md-4"><label for="pfName" class="form-label small fw-semibold" data-i18n="fldName"></label><input type="text" id="pfName" class="form-control" required></div>
+                <div class="col-md-2"><label for="pfAge" class="form-label small fw-semibold" data-i18n="fldAge"></label><input type="number" id="pfAge" class="form-control tabular-nums"></div>
+                <div class="col-md-3">
+                  <label for="pfGender" class="form-label small fw-semibold" data-i18n="fldGender"></label>
+                  <select id="pfGender" class="form-select"><option value="male" data-i18n="genderMale"></option><option value="female" data-i18n="genderFemale"></option><option value="other" data-i18n="genderOther"></option></select>
+                </div>
+                <div class="col-md-3">
+                  <label for="pfBloodGroup" class="form-label small fw-semibold" data-i18n="fldBlood"></label>
+                  <select id="pfBloodGroup" class="form-select"><option value="O+">O+</option><option value="O-">O-</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option></select>
+                </div>
+                <div class="col-md-6"><label for="pfPhone" class="form-label small fw-semibold" data-i18n="fldPhone"></label><input type="tel" id="pfPhone" class="form-control"></div>
+                <div class="col-md-6"><label for="pfEmergency" class="form-label small fw-semibold" data-i18n="fldEmergency"></label><input type="text" id="pfEmergency" class="form-control"></div>
+                <div class="col-md-6"><label for="pfAllergies" class="form-label small fw-semibold" data-i18n="fldAllergies"></label><input type="text" id="pfAllergies" class="form-control"></div>
+                <div class="col-md-6"><label for="pfConditions" class="form-label small fw-semibold" data-i18n="fldConditions"></label><input type="text" id="pfConditions" class="form-control"></div>
+                <div class="col-12"><label for="pfNotes" class="form-label small fw-semibold" data-i18n="fldNotes"></label><textarea id="pfNotes" class="form-control" rows="2"></textarea></div>
+              </div>
+              <button type="submit" class="btn btn-bw-primary mt-3" data-i18n="btnSavePersonal"></button>
+            </form>
+          </div>
+
+          <!-- Tab 3: Wellness Preferences -->
+          <div class="tab-pane fade" id="tabPrefsPane" role="tabpanel">
+            <div class="mb-3">
+              <label class="form-label small fw-bold d-block" data-i18n="prefDailyGoal"></label>
+              <div class="bw-segmented">
+                <button type="button" class="bw-seg-btn" data-pref-min="5">5 min</button>
+                <button type="button" class="bw-seg-btn active" data-pref-min="10">10 min</button>
+                <button type="button" class="bw-seg-btn" data-pref-min="15">15 min</button>
+                <button type="button" class="bw-seg-btn" data-pref-min="20">20 min</button>
+              </div>
+            </div>
+            <div class="d-grid gap-2 mb-3">
+              <label class="form-check form-switch"><input type="checkbox" id="prefChimeChk" class="form-check-input" checked> <span class="small fw-semibold" data-i18n="prefChimes"></span></label>
+              <label class="form-check form-switch"><input type="checkbox" id="prefVoiceChk" class="form-check-input"> <span class="small fw-semibold" data-i18n="prefVoice"></span></label>
+            </div>
+            <div class="mb-3">
+              <label for="prefSoundscapeSel" class="form-label small fw-semibold" data-i18n="prefSoundscape"></label>
+              <select id="prefSoundscapeSel" class="form-select w-auto">
+                <option value="chimes">Harmonic Chimes</option>
+                <option value="rain">Gentle Rain</option>
+                <option value="drone">Warm Resonance Drone</option>
+                <option value="off">Silent</option>
+              </select>
+            </div>
+            <button type="button" id="btnSavePrefs" class="btn btn-bw-primary" data-i18n="btnSavePrefs"></button>
+          </div>
+
+          <!-- Tab 4: Achievements -->
+          <div class="tab-pane fade" id="tabAchievePane" role="tabpanel">
+            <div class="row g-3" id="profileBadgesGrid"></div>
+          </div>
+
+          <!-- Tab 5: Privacy PIN & Household Backups -->
+          <div class="tab-pane fade" id="tabSecurityPane" role="tabpanel">
+            <div class="row g-4">
+              <div class="col-lg-6">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h3 class="h6 fw-bold mb-0" data-i18n="pinTitle"></h3>
+                  <span id="pinStatusBadge" class="bw-status-pill bw-status-info">—</span>
+                </div>
+                <p class="small text-muted mb-3" data-i18n="pinDesc"></p>
+                <div class="d-flex flex-wrap gap-2">
+                  <input type="password" inputmode="numeric" maxlength="4" pattern="[0-9]*" id="profilePinInput" class="form-control flex-grow-1 tabular-nums" data-i18n-placeholder="pinPlaceholder">
+                  <button type="button" id="btnSavePin" class="btn btn-bw-primary" data-i18n="btnSavePin"></button>
+                  <button type="button" id="btnRemovePin" class="btn btn-outline-danger d-none" data-i18n="btnRemovePin"></button>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <h3 class="h6 fw-bold mb-2" data-i18n="backupTitle"></h3>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <button type="button" id="btnExportAllJson" class="btn btn-bw-outline"><i class="bi bi-download"></i> <span data-i18n="btnExportAll"></span></button>
+                  <label for="importBackupInput" class="btn btn-outline-primary mb-0"><i class="bi bi-upload"></i> <span data-i18n="btnImportAll"></span></label>
+                  <input type="file" id="importBackupInput" accept="application/json" class="d-none">
+                </div>
+                <div class="bw-danger-zone d-flex justify-content-between align-items-center gap-2">
+                  <span class="small fw-semibold text-danger" data-i18n="btnResetMember"></span>
+                  <button type="button" id="btnResetActiveMember" class="btn btn-sm btn-outline-danger" data-i18n="btnResetMember"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Add / Edit Member Modal -->
+  <div class="modal fade" id="memberFormModal" tabindex="-1" aria-labelledby="memberModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header"><h5 class="modal-title fw-bold" id="memberModalTitle" data-i18n="modalMemberTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <form id="memberForm">
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-md-6"><label for="memName" class="form-label small fw-semibold" data-i18n="fldName"></label><input type="text" id="memName" class="form-control" required></div>
+              <div class="col-md-6"><label for="memRelation" class="form-label small fw-semibold" data-i18n="fldRelation"></label><select id="memRelation" class="form-select"></select></div>
+              <div class="col-md-4"><label for="memAge" class="form-label small fw-semibold" data-i18n="fldAge"></label><input type="number" id="memAge" class="form-control tabular-nums" min="0" max="125"></div>
+              <div class="col-md-4"><label for="memGender" class="form-label small fw-semibold" data-i18n="fldGender"></label><select id="memGender" class="form-select"><option value="male" data-i18n="genderMale"></option><option value="female" data-i18n="genderFemale"></option><option value="other" data-i18n="genderOther"></option></select></div>
+              <div class="col-md-4"><label for="memBloodGroup" class="form-label small fw-semibold" data-i18n="fldBlood"></label><select id="memBloodGroup" class="form-select"><option value="O+">O+</option><option value="O-">O-</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option></select></div>
+              <div class="col-md-6"><label for="memPhone" class="form-label small fw-semibold" data-i18n="fldPhone"></label><input type="tel" id="memPhone" class="form-control"></div>
+              <div class="col-md-6"><label for="memAllergies" class="form-label small fw-semibold" data-i18n="fldAllergies"></label><input type="text" id="memAllergies" class="form-control"></div>
+              <div class="col-12"><label for="memConditions" class="form-label small fw-semibold" data-i18n="fldConditions"></label><input type="text" id="memConditions" class="form-control"></div>
+              <div class="col-12"><label for="memNotes" class="form-label small fw-semibold" data-i18n="fldNotes"></label><textarea id="memNotes" class="form-control" rows="2"></textarea></div>
+              <div class="col-12" id="memSwitchWrap"><label class="form-check small fw-semibold"><input class="form-check-input" type="checkbox" id="memSwitchAfterAdd" checked> <span data-i18n="chkSwitchImmediately"></span></label></div>
+            </div>
+          </div>
+          <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button><button type="submit" class="btn btn-bw-primary" data-i18n="commonSave"></button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Avatar Picker Modal -->
+  <div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header"><h5 class="modal-title fw-bold" id="avatarModalLabel" data-i18n="modalAvatarTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body"><div class="row g-2" id="avatarPickerGrid"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-end bw-mobile-drawer" tabindex="-1" id="mobileSidebarMenu" aria-labelledby="drawerLabel">
+    <div class="offcanvas-header border-bottom"><h5 class="offcanvas-title fw-bold" id="drawerLabel" data-i18n="drawerDirectoryTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+    <div class="offcanvas-body">
+      <div id="bwDrawerMemberBox"></div>
+      <div class="d-grid gap-1">
+        <a href="index.html" class="bw-drawer-link" data-nav-page="index.html"><i class="bi bi-house-heart"></i> <span data-i18n="navHome"></span></a>
+        <a href="exercises.html" class="bw-drawer-link" data-nav-page="exercises.html"><i class="bi bi-wind"></i> <span data-i18n="subTabExStudio"></span></a>
+        <a href="breath-test.html" class="bw-drawer-link" data-nav-page="breath-test.html"><i class="bi bi-stopwatch"></i> <span data-i18n="subTabExTest"></span></a>
+        <hr class="my-2">
+        <a href="health-reading.html" class="bw-drawer-link" data-nav-page="health-reading.html"><i class="bi bi-heart-pulse"></i> <span data-i18n="subTabVitalsEntry"></span></a>
+        <a href="health-history.html" class="bw-drawer-link" data-nav-page="health-history.html"><i class="bi bi-table"></i> <span data-i18n="subTabVitalsHistory"></span></a>
+        <a href="health-charts.html" class="bw-drawer-link" data-nav-page="health-charts.html"><i class="bi bi-graph-up"></i> <span data-i18n="subTabVitalsCharts"></span></a>
+        <a href="health-demo.html" class="bw-drawer-link" data-nav-page="health-demo.html"><i class="bi bi-database-fill-gear"></i> <span data-i18n="subTabVitalsDemo"></span></a>
+        <hr class="my-2">
+        <a href="prescriptions-volt.html" class="bw-drawer-link" data-nav-page="prescriptions-volt.html"><i class="bi bi-shield-plus"></i> <span data-i18n="subTabRxVault"></span></a>
+        <a href="prescription-history.html" class="bw-drawer-link" data-nav-page="prescription-history.html"><i class="bi bi-clock-history"></i> <span data-i18n="subTabRxHistory"></span></a>
+        <a href="prescription-create.html" class="bw-drawer-link" data-nav-page="prescription-create.html"><i class="bi bi-pencil-square"></i> <span data-i18n="subTabRxCreate"></span></a>
+        <a href="prescription-pad.html" class="bw-drawer-link" data-nav-page="prescription-pad.html"><i class="bi bi-file-earmark-medical"></i> <span data-i18n="subTabRxPad"></span></a>
+        <a href="digitalpad-history.html" class="bw-drawer-link" data-nav-page="digitalpad-history.html"><i class="bi bi-journal-medical"></i> <span data-i18n="subTabRxPadHistory"></span></a>
+        <hr class="my-2">
+        <a href="profile.html" class="bw-drawer-link" data-nav-page="profile.html"><i class="bi bi-people-fill"></i> <span data-i18n="navFamily"></span></a>
+        <a href="login.html" class="bw-drawer-link" data-nav-page="login.html"><i class="bi bi-box-arrow-in-right"></i> <span data-i18n="btnSignIn"></span></a>
+        <a href="register.html" class="bw-drawer-link" data-nav-page="register.html"><i class="bi bi-person-plus"></i> <span data-i18n="btnRegister"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <nav id="mobileBottomNav" class="bw-mobile-bottom-nav no-print" aria-label="Mobile Quick Navigation">
+    <button type="button" id="mobileDrawerHandle" class="bw-drawer-handle-pill" aria-label="Open menu drawer"></button>
+    <div class="bw-mobile-bottom-nav-inner">
+      <a href="index.html" class="bw-mobile-nav-item" data-nav-page="index.html"><i class="bi bi-house-door-fill"></i><span data-i18n="navHome"></span></a>
+      <a href="exercises.html" class="bw-mobile-nav-item" data-nav-page="@ex"><i class="bi bi-grid-fill"></i><span data-i18n="navExercises"></span></a>
+      <a href="health-reading.html" class="bw-mobile-nav-item" data-nav-page="@vitals"><i class="bi bi-heart-pulse-fill"></i><span data-i18n="navVitals"></span></a>
+      <a href="prescriptions-volt.html" class="bw-mobile-nav-item" data-nav-page="@rx"><i class="bi bi-file-earmark-medical-fill"></i><span data-i18n="navRx"></span></a>
+      <button type="button" class="bw-mobile-nav-item" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebarMenu" aria-label="Open directory"><i class="bi bi-list"></i><span data-i18n="navMore"></span></button>
+    </div>
+  </nav>
+
+  <footer class="bw-footer no-print"><div class="container text-center"><p class="mb-1 fw-semibold" data-i18n="footerPrivacyNote"></p><p class="mb-0 small text-muted" data-i18n="footerEmergencyNote"></p></div></footer>
+  <div id="rxToastStack" class="bw-toast-stack no-print" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="asset/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="asset/js/bw-store.js"></script>
+  <script src="asset/js/bw-i18n.js"></script>
+  <script src="asset/js/bw-nav.js"></script>
+  <script src="asset/js/profile.js"></script>
+</body>
+</html>
